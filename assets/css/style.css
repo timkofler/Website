@@ -246,7 +246,7 @@ p { margin: 0 0 18px; }
 .footer__risk { border-top: 1px solid var(--line); padding-top: 28px; font-size: .82rem; line-height: 1.65; color: #8a8a8a; }
 .footer__risk strong { color: var(--muted); }
 .footer__bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 28px; font-family: var(--mono); font-size: .76rem; letter-spacing: .04em; }
-.footer__big { font-family: var(--display); font-weight: 700; font-size: clamp(3rem, 13.5vw, 12rem); line-height: 1.05; overflow: hidden; padding-bottom: .04em; letter-spacing: -.05em; color: transparent; -webkit-text-stroke: 1px var(--line-2); text-align: center; margin: 60px 0 0; user-select: none; }
+.footer__big { font-family: var(--display); font-weight: 700; font-size: clamp(3rem, 13.5vw, 12rem); line-height: 1.1; overflow-x: clip; overflow-y: visible; padding-bottom: .18em; letter-spacing: -.05em; color: transparent; -webkit-text-stroke: 1px var(--line-2); text-align: center; margin: 60px 0 0; user-select: none; }
 .footer__big span { -webkit-text-stroke: 1px rgba(220,247,99,.45); }
 
 /* Responsive */
