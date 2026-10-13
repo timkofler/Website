@@ -1,15 +1,17 @@
-# Veröffentlicht die Webseite per FTPS auf den ALL-INKL-Webspace.
+# Veröffentlicht die Webseite per FTPS (verschlüsselt) auf den ALL-INKL-Webspace.
 #
 # Läuft automatisch bei jeder Änderung auf "main" und kann jederzeit
 # manuell gestartet werden: GitHub → Actions → "Webseite veröffentlichen"
-# → "Run workflow" (dabei lässt sich auch ein anderer Branch wählen).
+# → "Run workflow".
 #
 # Benötigte Secrets (GitHub → Settings → Secrets and variables → Actions):
-#   FTP_SERVER      z. B. w0123456.kasserver.com (siehe KAS → FTP)
+#   FTP_SERVER      z. B. w0123456.kasserver.com
 #   FTP_USERNAME    FTP-Benutzer aus dem KAS
 #   FTP_PASSWORD    Passwort dieses FTP-Benutzers
-#   FTP_SERVER_DIR  Zielordner auf dem Webspace mit "/" am Ende,
-#                   z. B. "/" oder "/crypto-x.at/" (siehe KAS → Domains)
+#   FTP_SERVER_DIR  Zielordner auf dem Webspace, z. B. "/"
+#
+# Es werden nur Dateien hochgeladen bzw. überschrieben, auf dem Webspace wird
+# NICHTS gelöscht (Subdomain-Ordner, /logs/, /usage/ usw. bleiben unberührt).
 
 name: Webseite veröffentlichen
 
@@ -42,20 +44,28 @@ jobs:
         if: steps.check.outputs.ready == 'true'
         uses: actions/checkout@v4
 
+      - name: lftp installieren
+        if: steps.check.outputs.ready == 'true'
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
       - name: Per FTPS hochladen
         if: steps.check.outputs.ready == 'true'
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ${{ secrets.FTP_SERVER_DIR }}
-          protocol: ftps
-          # Nur geänderte Dateien werden übertragen; andere Dateien auf dem
-          # Webspace (z. B. die alte WordPress-Installation, /logs/, /usage/)
-          # werden NICHT gelöscht.
-          exclude: |
-            **/.git*
-            **/.git*/**
-            .github/**
-            README.md
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          LFTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_SERVER_DIR: ${{ secrets.FTP_SERVER_DIR }}
+        run: |
+          TARGET="${FTP_SERVER_DIR:-/}"
+          lftp -u "$FTP_USERNAME" --env-password "$FTP_SERVER" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ssl:verify-certificate yes
+          set net:max-retries 3
+          set net:reconnect-interval-base 5
+          set net:timeout 30
+          mirror --reverse --verbose --no-perms --parallel=2 \
+            --exclude '^\.git/' --exclude '^\.github/' --exclude '^README\.md$' \
+            ./ "$TARGET"
+          bye
+          EOF
