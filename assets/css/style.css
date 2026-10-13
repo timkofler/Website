@@ -43,7 +43,7 @@ a:hover { color: var(--lime-2); }
 .section { padding: 120px 0; position: relative; }
 .section--line { border-top: 1px solid var(--line); }
 
-h1, h2, h3 { font-family: var(--display); font-weight: 500; line-height: 1.08; letter-spacing: -.02em; margin: 0 0 20px; overflow-wrap: break-word; hyphens: auto; }
+h1, h2, h3 { font-family: var(--display); font-weight: 500; line-height: 1.08; letter-spacing: -.02em; margin: 0 0 20px; overflow-wrap: normal; hyphens: manual; text-wrap: balance; }
 h1 { font-size: clamp(2.4rem, 6.4vw, 5.6rem); font-weight: 600; }
 h2 { font-size: clamp(1.9rem, 4.2vw, 3.4rem); }
 h3 { font-size: 1.25rem; letter-spacing: -.01em; line-height: 1.25; }
@@ -297,6 +297,8 @@ p { margin: 0 0 18px; }
   .band__x { width: 190px; right: 50%; top: auto; bottom: 24px; transform: translateX(50%); }
   .footer__grid { grid-template-columns: 1fr; }
   .page-head { padding: 64px 0 40px; }
+  .page-head h1 { font-size: clamp(1.25rem, 6.4vw, 2.2rem); }
+  .prose h2 { font-size: clamp(1.05rem, 5.1vw, 1.4rem); }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -332,3 +334,4 @@ p { margin: 0 0 18px; }
 /* Webdesign-Bereich unter Leistungen */
 .webdesign { margin-top: 56px; scroll-margin-top: 96px; }
 .webdesign .muted + .muted { margin-top: 12px; }
+.nw { white-space: nowrap; }
