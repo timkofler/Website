@@ -151,8 +151,9 @@ p { margin: 0 0 18px; }
 .xcell .tag--live { border-color: var(--lime); color: var(--lime); }
 .xcell a.cover { position: absolute; inset: 0; }
 .xmark {
-  position: absolute; left: 50%; top: 50%; width: 132px; height: 132px; transform: translate(-50%, -50%);
-  border-radius: 50%; background: var(--bg); border: 1px solid var(--line); padding: 14px; z-index: 2; pointer-events: none;
+  position: absolute; left: 50%; top: 50%; width: 150px; height: 150px; transform: translate(-50%, -50%);
+  z-index: 2; pointer-events: none; overflow: visible;
+  filter: drop-shadow(0 0 18px rgba(0,0,0,.6));
 }
 
 /* Feature-Reihen Cockpit */
@@ -207,7 +208,7 @@ p { margin: 0 0 18px; }
 .band .btn:hover { background: #000; color: var(--lime-2); }
 .band .btn--line { background: transparent; color: var(--ink); border-color: rgba(0,0,0,.35); }
 .band .btn--line:hover { background: rgba(0,0,0,.08); color: var(--ink); }
-.band__x { position: absolute; right: -80px; top: 50%; transform: translateY(-50%); width: 520px; opacity: .12; pointer-events: none; }
+.band__x { position: absolute; right: 4%; top: 50%; transform: translateY(-50%); width: 440px; max-height: 90%; opacity: .14; pointer-events: none; }
 
 /* Unterseiten */
 .page-head { position: relative; padding: 96px 0 56px; border-bottom: 1px solid var(--line); overflow: hidden; }
@@ -292,7 +293,8 @@ p { margin: 0 0 18px; }
   .figure { padding: 24px 16px; }
   .rule, .step { padding: 28px 22px; }
   .band { padding: 80px 0; }
-  .band__x { width: 300px; right: -90px; }
+  .band { padding-bottom: 230px; }
+  .band__x { width: 190px; right: 50%; top: auto; bottom: 24px; transform: translateX(50%); }
   .footer__grid { grid-template-columns: 1fr; }
   .page-head { padding: 64px 0 40px; }
 }
