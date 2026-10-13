@@ -1,0 +1,28 @@
+# CryptoX (Crypto X Solutions)
+
+> IT-Dienstleister aus Oberndorf an der Melk, Niederösterreich (Österreich). Inhaber: Tim Kofler. Leistungen: individuell programmierte Webseiten, Softwareentwicklung, Software-Schulungen und das Risiko-Cockpit, ein Werkzeug für Risikomanagement im Futures- und Prop-Trading. Kein Finanzdienstleister: keine Anlageberatung, keine Handelssignale.
+
+- Einzugsgebiet: ganz Österreich
+- Kontakt: tk@crypto-x.at, Telefon +43 677 61773118, Telegram https://t.me/Crypto_X_Solutions
+- Adresse: Lehen 2, 3281 Oberndorf an der Melk, Österreich
+- Gewerbe: Dienstleistungen in der automatischen Datenverarbeitung und Informationstechnik; Kleinunternehmer
+
+## Leistungen
+
+- [Webseite erstellen lassen](https://crypto-x.at/webseite-erstellen-lassen/): Individuell programmierte, schnelle und mobiloptimierte Webseiten für Selbstständige und kleine Unternehmen, ohne Baukasten und ohne Tracking. Preis auf Anfrage.
+- [Prop Trading Tool](https://crypto-x.at/prop-trading-tool/): Das Risiko-Cockpit mit Tageslimit, Positionsgrößen-Rechner (MNQ, NQ, MES, ES), Checkliste und Trade-Log. Beta-Phase, Tester gesucht.
+- [Live-Demo des Risiko-Cockpits](https://crypto-x.at/cockpit/): Kostenlos, ohne Anmeldung, Daten bleiben im Browser.
+- [Softwareentwicklung und Schulungen](https://crypto-x.at/softwareentwicklung/): Individuelle Rechner, Auswertungen und Dashboards sowie technische Schulungen zur Bedienung von Trading-Software.
+
+## Wissen
+
+- [Prop Trading einfach erklärt: Challenge, Regeln und Risiken](https://crypto-x.at/wissen/prop-trading-einfach-erklaert/): Prop Trading, 13. Oktober 2026
+- [Die bekanntesten Trading-Strategien: Day Trading, Swing Trading und HODL](https://crypto-x.at/2025/01/27/die-bekanntesten-trading-strategien/): Trading, 27. Jänner 2025
+- [Kryptowährungen für Einsteiger: Ein kompletter Leitfaden](https://crypto-x.at/2025/03/19/kryptowaehrungen-fuer-einsteiger-ein-kompletter-leitfaden-fuer-den-einstieg/): Crypto, 19. März 2025
+- [Warum Kryptowährungen die Finanzwelt verändern](https://crypto-x.at/2025/03/19/warum-kryptowaehrungen-die-zukunft-der-finanzwelt-sind/): Crypto, 19. März 2025
+
+## Über
+
+- [Über mich](https://crypto-x.at/ueber-mich/): Tim Kofler, Programmierer und Prop-Trader aus Niederösterreich
+- [Impressum](https://crypto-x.at/impressum/)
+- [Datenschutz](https://crypto-x.at/datenschutz/)
