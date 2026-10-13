@@ -300,3 +300,15 @@ p { margin: 0 0 18px; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
+
+/* Beta-Bereich */
+.beta { display: grid; grid-template-columns: 1.1fr 1fr; gap: 56px; align-items: center; border: 1px solid rgba(220,247,99,.35); background: linear-gradient(180deg, var(--lime-dim), transparent 70%); border-radius: 28px; padding: 64px 56px; }
+.beta h2 { margin-bottom: 18px; }
+.beta__lists { display: grid; gap: 18px; }
+.beta__lists > div { background: var(--bg); border: 1px solid var(--line); border-radius: 18px; padding: 26px 28px; }
+.beta__lists h3 { font-size: 1.05rem; margin-bottom: 14px; }
+.beta__lists ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; color: var(--muted); }
+.beta__lists li { display: flex; gap: 12px; }
+.beta__lists li::before { content: ""; flex: none; width: 8px; height: 8px; margin-top: 9px; background: var(--lime); border-radius: 2px; transform: rotate(45deg); }
+@media (max-width: 900px) { .beta { grid-template-columns: 1fr; padding: 44px 28px; gap: 36px; } }
+@media (max-width: 680px) { .beta { padding: 36px 20px; border-radius: 22px; } }
