@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="de-AT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prop Trading Tool für Risikomanagement | CryptoX Risiko-Cockpit</title>
+  <meta name="description" content="Prop Trading Tool für Futures-Trader: Tageslimit, Positionsgrößen-Rechner für MNQ, NQ, MES und ES, Checkliste und Trade-Log. Risikomanagement im Browser, Live-Demo ohne Anmeldung.">
+  <link rel="canonical" href="https://crypto-x.at/prop-trading-tool/">
+  <meta property="og:title" content="Prop Trading Tool für Risikomanagement | CryptoX Risiko-Cockpit">
+  <meta property="og:description" content="Prop Trading Tool für Futures-Trader: Tageslimit, Positionsgrößen-Rechner für MNQ, NQ, MES und ES, Checkliste und Trade-Log. Risikomanagement im Browser, Live-Demo ohne Anmeldung.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="de_AT">
+  <meta property="og:url" content="https://crypto-x.at/prop-trading-tool/">
+  <meta property="og:image" content="https://crypto-x.at/assets/img/og.jpg">
+  <meta name="theme-color" content="#0b0b0b">
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/style.css?v=3a47739c">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "SoftwareApplication", "name": "CryptoX Risiko-Cockpit", "applicationCategory": "BusinessApplication", "operatingSystem": "Web-Browser", "url": "https://crypto-x.at/prop-trading-tool/", "author": {"@id": "https://crypto-x.at/#unternehmen"}, "description": "Risikomanagement-Werkzeug für Futures- und Prop-Trader: Tageslimit, Positionsgrößen-Rechner für MNQ, NQ, MES und ES, Checkliste und Trade-Log."}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Was ist das Risiko-Cockpit?", "acceptedAnswer": {"@type": "Answer", "text": "Ein Werkzeug im Browser, das dein Tageslimit, deine Positionsgröße, eine Checkliste vor dem Einstieg und dein Trade-Log in einer Ansicht zeigt. Es rechnet ausschließlich mit deinen eigenen Eingaben."}}, {"@type": "Question", "name": "Gibt das Tool Handelssignale oder Empfehlungen?", "acceptedAnswer": {"@type": "Answer", "text": "Nein. Das Cockpit gibt keine Signale, keine Empfehlungen und keine Prognosen. Es hilft dir nur, deine eigenen Regeln und die Regeln deines Kontos im Blick zu behalten. Die Entscheidungen triffst du selbst."}}, {"@type": "Question", "name": "Für welche Konten und Instrumente ist es gedacht?", "acceptedAnswer": {"@type": "Answer", "text": "Für Futures-Konten mit festen Regeln wie Tagesverlustlimit und Drawdown, wie sie bei Prop-Firm-Evaluierungen üblich sind. Der Rechner kennt die Punktwerte von MNQ, NQ, MES und ES."}}, {"@type": "Question", "name": "Muss ich mich anmelden oder etwas installieren?", "acceptedAnswer": {"@type": "Answer", "text": "Für die Live-Demo nicht. Sie läuft direkt im Browser, am Computer und am Handy. Beta-Tester erhalten einen eigenen Zugang zum vollen Dashboard."}}, {"@type": "Question", "name": "Wo werden meine Daten gespeichert?", "acceptedAnswer": {"@type": "Answer", "text": "In der Live-Demo nur im lokalen Speicher deines Browsers. Es wird nichts an CryptoX übertragen. Details stehen in der Datenschutzerklärung."}}, {"@type": "Question", "name": "Wie werde ich Beta-Tester?", "acceptedAnswer": {"@type": "Answer", "text": "Melde dich per E-Mail oder Telegram, am besten mit deiner Plattform und deinem Erfahrungsstand. Als Beta-Tester nutzt du das volle Dashboard und gibst Feedback, was funktioniert und was fehlt."}}]}]}</script>
+</head>
+<body>
+
+<header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__logo" aria-label="CryptoX – Startseite"><img src="/assets/img/logo.svg" alt="CryptoX" width="200" height="24"></a>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="/cockpit/" class="is-active">Live-Demo</a>
+      <a href="/#leistungen">Leistungen</a>
+      <a href="/webseite-erstellen-lassen/">Webdesign</a>
+      <a href="/#bereiche">Das X</a>
+      <a href="/wissen/">Wissen</a>
+      <a href="/ueber-mich/">Über mich</a>
+      <a href="/#beta" class="btn nav__cta">Beta testen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </nav>
+    <div style="display:flex;gap:10px;align-items:center">
+      <a href="/#beta" class="btn btn--sm header__cta">Beta testen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section class="page-head">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="container" style="position:relative">
+    <div class="crumbs"><a href="/">Start</a> / <a href="/cockpit/">Risiko-Cockpit</a> / Prop Trading Tool</div>
+    <h1>Prop Trading Tool</h1>
+    <p class="lead">Das CryptoX Risiko-Cockpit: Risikomanagement für Futures- und Prop-Trader. Tageslimit, Positionsgröße, Checkliste und Trade-Log in einer Ansicht.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:64px">
+  <div class="container">
+    <div class="btn-row" style="margin-bottom:72px">
+      <a href="/cockpit/" class="btn">Live-Demo öffnen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a href="/#beta" class="btn btn--line">Beta-Tester werden</a>
+    </div>
+
+    <div class="head">
+      <div>
+        <span class="label"><b>[01]</b> Das Problem</span>
+        <h2>Konten scheitern selten an Ideen, sondern an <span class="lime">gebrochenen Regeln.</span></h2>
+      </div>
+      <p>Eine Position zu groß, ein Trade zu viel, das Tageslimit übersehen: Bei Prop-Firm-Konten reicht ein Regelverstoß, und die Evaluierung ist vorbei. Das Risiko-Cockpit macht deine Grenzen sichtbar, bevor du sie überschreitest.</p>
+    </div>
+
+    <div class="feature">
+      <div class="feature__text">
+        <span class="label"><b>01</b> Tageslimit</span>
+        <h3>Wie viel Spielraum bleibt heute noch?</h3>
+        <p>Das Cockpit zeigt nach jedem eingetragenen Trade sofort, wie viel vom Tagesverlustlimit deines Kontos noch übrig ist, mit Warnung ab 50 % und klarem Hinweis bei 100 %.</p>
+      </div>
+      <div class="feature__shot"><img src="/assets/img/cockpit/tageslimit.webp?v=dfee6eba" alt="Tageslimit-Anzeige im Risiko-Cockpit" width="1992" height="582" loading="lazy"></div>
+    </div>
+    <div class="feature feature--flip">
+      <div class="feature__text">
+        <span class="label"><b>02</b> Positionsgröße</span>
+        <h3>Kontraktanzahl berechnen statt schätzen.</h3>
+        <p>Instrument wählen (MNQ, NQ, MES oder ES), Risiko pro Trade und Stop in Punkten eingeben. Das Cockpit rechnet die Kontraktanzahl aus und prüft sie gegen dein Rest-Limit.</p>
+      </div>
+      <div class="feature__shot"><img src="/assets/img/cockpit/rechner.webp?v=44921693" alt="Positionsgrößen-Rechner im Risiko-Cockpit" width="980" height="1090" loading="lazy"></div>
+    </div>
+    <div class="feature">
+      <div class="feature__text">
+        <span class="label"><b>03</b> Checkliste &amp; Trade-Log</span>
+        <h3>Erst prüfen, dann handeln, dann ehrlich auswerten.</h3>
+        <p>Sechs Punkte vor jedem Einstieg, danach jeder Trade mit Betrag und Notiz. Daraus entstehen Trefferquote, durchschnittlicher Gewinn und Verlust und die Erwartung pro Trade, als Grundlage für deine eigene Auswertung.</p>
+      </div>
+      <div class="feature__shot"><img src="/assets/img/cockpit/checkliste.webp?v=46ef6d53" alt="Checkliste vor dem Einstieg im Risiko-Cockpit" width="980" height="1090" loading="lazy"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--line">
+  <div class="container">
+    <div class="head">
+      <div>
+        <span class="label"><b>[02]</b> Volles Dashboard</span>
+        <h2>Für <span class="nw">Beta-Tester:</span> <span class="lime">alle Funktionen.</span></h2>
+      </div>
+      <p>Die Live-Demo zeigt die Grundfunktionen. Beta-Tester arbeiten mit dem vollen CryptoX Dashboard im eigenen Zugang.</p>
+    </div>
+    <div class="modules">
+      <div class="module"><b>Konten</b><span>Mehrere Prop-Konten nebeneinander verwalten</span></div>
+      <div class="module"><b>Kontoregeln</b><span>Die Regeln jedes Kontos hinterlegen und im Blick behalten</span></div>
+      <div class="module"><b>Journal</b><span>Trades mit Notizen zu Setup und Gefühl</span></div>
+      <div class="module"><b>Statistik &amp; Woche</b><span>Auswertungen pro Tag, Woche und Konto</span></div>
+      <div class="module"><b>News &amp; Kalender</b><span>Wirtschaftskalender mit wichtigen Terminen</span></div>
+      <div class="module"><b>Sprachansagen</b><span>Hinweise per Sprache, ohne auf den Bildschirm zu schauen</span></div>
+    </div>
+    <div class="btn-row" style="margin-top:36px">
+      <a href="mailto:tk@crypto-x.at?subject=Beta-Tester%20Risiko-Cockpit&body=Hallo%20Tim%2C%0A%0Aich%20m%C3%B6chte%20das%20Risiko-Cockpit%20testen.%0A%0AMeine%20Plattform%2FSoftware%3A%20%0AMein%20Erfahrungsstand%3A%20%0A" class="btn">Per E-Mail bewerben <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a href="https://t.me/Crypto_X_Solutions" class="btn btn--line" target="_blank" rel="noopener">Per Telegram melden</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--line">
+  <div class="container">
+    <div class="head">
+      <div>
+        <span class="label"><b>[03]</b> Häufige Fragen</span>
+        <h2>Gut zu wissen.</h2>
+      </div>
+      <p>Mehr Hintergrund zu Prop-Firmen und ihren Regeln findest du im Artikel <a href="/wissen/prop-trading-einfach-erklaert/">Prop Trading einfach erklärt</a>.</p>
+    </div>
+    <div class="faq">
+      <details class="faq__item">
+        <summary>Was ist das Risiko-Cockpit?</summary>
+        <p>Ein Werkzeug im Browser, das dein Tageslimit, deine Positionsgröße, eine Checkliste vor dem Einstieg und dein Trade-Log in einer Ansicht zeigt. Es rechnet ausschließlich mit deinen eigenen Eingaben.</p>
+      </details>
+      <details class="faq__item">
+        <summary>Gibt das Tool Handelssignale oder Empfehlungen?</summary>
+        <p>Nein. Das Cockpit gibt keine Signale, keine Empfehlungen und keine Prognosen. Es hilft dir nur, deine eigenen Regeln und die Regeln deines Kontos im Blick zu behalten. Die Entscheidungen triffst du selbst.</p>
+      </details>
+      <details class="faq__item">
+        <summary>Für welche Konten und Instrumente ist es gedacht?</summary>
+        <p>Für Futures-Konten mit festen Regeln wie Tagesverlustlimit und Drawdown, wie sie bei Prop-Firm-Evaluierungen üblich sind. Der Rechner kennt die Punktwerte von MNQ, NQ, MES und ES.</p>
+      </details>
+      <details class="faq__item">
+        <summary>Muss ich mich anmelden oder etwas installieren?</summary>
+        <p>Für die Live-Demo nicht. Sie läuft direkt im Browser, am Computer und am Handy. Beta-Tester erhalten einen eigenen Zugang zum vollen Dashboard.</p>
+      </details>
+      <details class="faq__item">
+        <summary>Wo werden meine Daten gespeichert?</summary>
+        <p>In der Live-Demo nur im lokalen Speicher deines Browsers. Es wird nichts an CryptoX übertragen. Details stehen in der <a href="/datenschutz/">Datenschutzerklärung</a>.</p>
+      </details>
+      <details class="faq__item">
+        <summary>Wie werde ich Beta-Tester?</summary>
+        <p>Melde dich per E-Mail oder Telegram, am besten mit deiner Plattform und deinem Erfahrungsstand. Als Beta-Tester nutzt du das volle Dashboard und gibst Feedback, was funktioniert und was fehlt.</p>
+      </details>
+    </div>
+    <p class="muted" style="margin-top:36px;font-size:.88rem;max-width:860px">Das Risiko-Cockpit ist ein Rechen- und Organisationswerkzeug. Es stellt keine Anlageberatung, keine Anlageempfehlung und keine Handelssignale dar. Der Handel mit Futures ist mit erheblichen Risiken verbunden.</p>
+  </div>
+</section>
+
+<section class="band">
+  <img class="band__x" src="/assets/img/hero.svg" alt="" aria-hidden="true" width="520" height="520" loading="lazy">
+  <div class="container" style="position:relative">
+    <h2>Dein nächster Trade beginnt mit einem Limit.</h2>
+    <p>Das Risiko-Cockpit ist in der Beta-Phase. Teste es, sag mir ehrlich, was fehlt, und gestalte die nächste Version mit.</p>
+    <div class="btn-row">
+      <a href="/#beta" class="btn">Beta-Tester werden <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a href="/cockpit/" class="btn btn--line">Live-Demo</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <img src="/assets/img/logo.svg" alt="Logo Crypto X Solutions" width="200" height="22" loading="lazy">
+        <p>Software, Schulungen, Webdesign und Wissen rund um Trading-Technologie und Crypto. IT-Dienstleistungen aus Niederösterreich.</p>
+      </div>
+      <div>
+        <h4>Produkt</h4>
+        <ul>
+          <li><a href="/prop-trading-tool/">Prop Trading Tool</a></li>
+          <li><a href="/cockpit/">Live-Demo</a></li>
+          <li><a href="/#beta">Beta-Tester werden</a></li>
+          <li><a href="https://feedback.crypto-x.at/">Feedback für Tester</a></li>
+          <li><a href="/softwareentwicklung/">Software &amp; Schulungen</a></li>
+          <li><a href="/webseite-erstellen-lassen/">Webseite erstellen lassen</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Wissen</h4>
+        <ul>
+          <li><a href="/wissen/prop-trading-einfach-erklaert/">Prop Trading erklärt</a></li>
+          <li><a href="/wissen/">Alle Artikel</a></li>
+          <li><a href="/ueber-mich/">Über mich</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Kontakt &amp; Rechtliches</h4>
+        <ul>
+          <li><a href="mailto:tk@crypto-x.at">tk@crypto-x.at</a></li>
+          <li><a href="https://t.me/Crypto_X_Solutions" target="_blank" rel="noopener">Telegram</a></li>
+          <li><a href="https://www.instagram.com/crypto_x_solutions/" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://x.com/Crypto_X_Soln" target="_blank" rel="noopener">X (Twitter)</a></li>
+          <li><a href="/impressum/">Impressum</a></li>
+          <li><a href="/datenschutz/">Datenschutz</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__risk">
+      <p><strong>Hinweis:</strong> Crypto X Solutions erbringt ausschließlich IT-Dienstleistungen (Softwareentwicklung, Erstellung von Webseiten und Schulungen zur Bedienung von Software) und ist kein Finanzdienstleister. Es werden keine Anlageberatung, keine Vermögensverwaltung, keine Handelssignale und keine sonstigen konzessionspflichtigen Finanz- oder Wertpapierdienstleistungen angeboten.</p>
+      <p><strong>Risikohinweis:</strong> Der Handel mit Futures, Kryptowerten und anderen gehebelten Produkten ist mit erheblichen Risiken verbunden und kann zum vollständigen Verlust des eingesetzten Kapitals führen. Auch Teilnahmegebühren für Prop-Firm-Evaluierungen können verloren gehen. Die Inhalte dieser Webseite und das Risiko-Cockpit dienen ausschließlich der allgemeinen Information und der persönlichen Organisation. Sie stellen keine Anlageberatung, keine Anlageempfehlung und keine Aufforderung zum Kauf oder Verkauf von Finanzinstrumenten oder Kryptowerten dar. Vergangene Ergebnisse sind kein verlässlicher Indikator für künftige Ergebnisse.</p>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> Crypto X Solutions · Tim Kofler · Keine Cookies · Kein Tracking</span>
+    </div>
+    <p class="footer__big" aria-hidden="true">Crypto<span>X</span></p>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js?v=73c743da"></script>
+</body>
+</html>
