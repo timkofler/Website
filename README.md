@@ -41,13 +41,13 @@ python3 -m http.server 8000
 
 Dann http://localhost:8000 öffnen. Ein Doppelklick auf die Datei funktioniert wegen der absoluten Pfade nicht.
 
-## Vor dem Livegang ersetzen
+## Vor dem Livegang (ALL-INKL)
 
-In `datenschutz/index.html`: Hosting-Anbieter, Löschfrist der Logfiles, E-Mail-Anbieter und das Datum.
+Die Seite liegt auf dem Webspace von ALL-INKL.COM (KAS). Im KAS prüfen bzw. erledigen:
 
-```
-grep -rn 'class="ph"' --include=*.html .
-```
+- **AV-Vertrag** (Auftragsverarbeitung) mit ALL-INKL abschließen. Auf ihn verweist die Datenschutzerklärung.
+- **Logfiles:** Aufbewahrung auf höchstens 7 Tage stellen bzw. prüfen und IP-Anonymisierung aktivieren, falls angeboten.
+- **SSL** (kostenloses Let's-Encrypt-Zertifikat) für crypto-x.at und www.crypto-x.at aktivieren.
 
 ## Hochladen auf den Webspace
 
