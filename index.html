@@ -3,37 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Crypto X Solutions – Krypto-Tipps, Trading, News & das neue Dashboard</title>
-  <meta name="description" content="Crypto X Solutions aus Österreich: Telegram-Community mit täglichen Krypto-News, Marktanalysen und Cointipps – und das neue Crypto X Dashboard für dein Portfolio.">
+  <title>CryptoX – Risiko-Cockpit für Prop-Trader | Trading, Tools, Education & Crypto</title>
+  <meta name="description" content="CryptoX aus Österreich: das Risiko-Cockpit für Futures-Prop-Trader mit Tageslimit, Positionsgrößen-Rechner, Checkliste und Trade-Log – plus Wissen zu Trading und Crypto.">
   <link rel="canonical" href="https://crypto-x.at/">
-  <meta property="og:title" content="Crypto X Solutions – Krypto-Tipps, Trading, News & das neue Dashboard">
-  <meta property="og:description" content="Crypto X Solutions aus Österreich: Telegram-Community mit täglichen Krypto-News, Marktanalysen und Cointipps – und das neue Crypto X Dashboard für dein Portfolio.">
+  <meta property="og:title" content="CryptoX – Risiko-Cockpit für Prop-Trader | Trading, Tools, Education & Crypto">
+  <meta property="og:description" content="CryptoX aus Österreich: das Risiko-Cockpit für Futures-Prop-Trader mit Tageslimit, Positionsgrößen-Rechner, Checkliste und Trade-Log – plus Wissen zu Trading und Crypto.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="de_AT">
   <meta property="og:url" content="https://crypto-x.at/">
-  <meta name="theme-color" content="#161616">
+  <meta property="og:image" content="https://crypto-x.at/assets/img/og.jpg">
+  <meta name="theme-color" content="#0b0b0b">
   <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="/assets/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
 
 <header class="header">
   <div class="container header__inner">
-    <a href="/" class="header__logo" aria-label="Crypto X Solutions – Startseite"><img src="/assets/img/logo.svg" alt="Crypto X Solutions" width="200" height="28"></a>
+    <a href="/" class="header__logo" aria-label="CryptoX – Startseite"><img src="/assets/img/logo.svg" alt="Crypto X Solutions" width="200" height="24"></a>
     <nav class="nav" aria-label="Hauptnavigation">
-      <a href="/" class="is-active">Home</a>
+      <a href="/cockpit/">Risiko-Cockpit</a>
+      <a href="/#bereiche">Das X</a>
+      <a href="/wissen/">Wissen</a>
       <a href="/ueber-mich/">Über mich</a>
-      <a href="/portfolio/">Cointipps</a>
-      <a href="/blog/">Blog</a>
-      <a href="/faqs/">FAQ´s</a>
-      <a href="/#dashboard">Dashboard</a>
-      <a href="https://t.me/Crypto_X_Solutions" class="btn nav__mobile-only" target="_blank" rel="noopener">Zur Telegram Gruppe</a>
+      <a href="/cockpit/" class="btn nav__cta">Cockpit öffnen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </nav>
-    <div class="header__actions">
-      <a href="https://t.me/Crypto_X_Solutions" class="icon-link" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.94 4.3a1.2 1.2 0 0 0-1.62-1.1L2.9 10.1c-1.1.45-1.08 2.02.04 2.43l4.3 1.6 1.66 5.33c.25.8 1.26 1.04 1.84.43l2.4-2.5 4.37 3.2c.72.53 1.75.13 1.92-.75L21.94 4.3ZM9.6 13.5l7.9-6.1-6.3 7.1-.3 3.2-1.3-4.2Z"/></svg></a>
-      <a href="[DASHBOARD-URL]" class="btn">Zum Dashboard</a>
-      <button class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false">☰</button>
+    <div style="display:flex;gap:10px;align-items:center">
+      <a href="/cockpit/" class="btn btn--sm header__cta">Cockpit öffnen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     </div>
   </div>
 </header>
@@ -42,324 +41,246 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="container hero__grid">
-    <div class="hero__text">
-      <h1>Starte deine <span class="hl-box">Krypto</span> Expedition mit mir!</h1>
-      <p class="hero__lead">Bist du bereit, deine Krypto-Karriere auf das nächste Level zu heben?</p>
-      <p><strong>Bei Crypto X Solutions bekommst du Zugang zu einer exklusiven Telegram-Gruppe</strong> mit täglichen Krypto-News, <strong>Insights</strong> und wertvollen <strong>Trading-Tipps</strong> – und ab sofort zum neuen <strong>Crypto X Dashboard</strong>.</p>
-      <p>Ich teile meine persönlichen <strong>Spotkäufe</strong> und meine Einschätzungen zu <strong>Ein- und Ausstiegszonen</strong>, damit du den Markt besser verstehst und eigene, fundierte Entscheidungen treffen kannst.</p>
-      <p>Ob <strong>Einsteiger</strong> oder erfahrener <strong>Krypto-Enthusiast</strong> – bei mir findest du alles, was du für deinen Weg im Krypto-Markt brauchst.</p>
-      <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:34px">
-        <a href="#dashboard" class="btn">Neues Dashboard entdecken</a>
-        <a href="#preise" class="btn btn--ghost">Mehr erfahren</a>
-      </div>
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="container hero__inner">
+    <a href="/cockpit/" class="hero__badge"><span>NEU</span> Das Risiko-Cockpit für Prop-Trader ist online</a>
+    <h1>Trade mit <em>System.</em><br>Nicht mit Gefühl.</h1>
+    <p class="lead">Das CryptoX Risiko-Cockpit behält dein Tageslimit, deine Positionsgröße und deine Regeln im Blick, damit du deine Prop-Firm-Challenge nicht an einem schlechten Tag verlierst.</p>
+    <div class="btn-row">
+      <a href="/cockpit/" class="btn">Risiko-Cockpit öffnen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a href="#so-funktionierts" class="btn btn--line">So funktioniert’s</a>
     </div>
-    <div class="hero__collage">
-      <img src="/assets/img/hero-btc.webp" alt="Bitcoin-Münze auf leuchtendem Podest" width="683" height="384" fetchpriority="high">
-      <img src="/assets/img/hero-eth.webp" alt="Ethereum-Logo auf Smartphone mit Münzen" width="683" height="384">
-      <img src="/assets/img/hero-crypto.webp" alt="Münzen mit dem Schriftzug Cryptocurrency" width="1366" height="768">
+    <p class="hero__note">Läuft im Browser · ohne Anmeldung · deine Daten bleiben auf deinem Gerät</p>
+    <div class="hero__shot">
+      <div class="window">
+        <div class="window__bar"><i></i><i></i><i></i><span>crypto-x.at/cockpit</span></div>
+        <img src="/assets/img/cockpit/hero.webp" alt="Screenshot des Risiko-Cockpits mit Tageslimit, Positionsgrößen-Rechner und Checkliste" width="2000" height="1330" fetchpriority="high">
+      </div>
     </div>
   </div>
 </section>
 
-<div class="ticker" aria-hidden="true"><div class="ticker__track"><span class="ticker__item"><b>Bitcoin</b>BTC</span><span class="ticker__item"><b>Ethereum</b>ETH</span><span class="ticker__item"><b>BNB</b>BNB</span><span class="ticker__item"><b>XRP</b>XRP</span><span class="ticker__item"><b>Solana</b>SOL</span><span class="ticker__item"><b>TRON</b>TRX</span><span class="ticker__item"><b>Dogecoin</b>DOGE</span><span class="ticker__item"><b>Chainlink</b>LINK</span><span class="ticker__item"><b>Cardano</b>ADA</span><span class="ticker__item"><b>Sui</b>SUI</span><span class="ticker__item"><b>Hedera</b>HBAR</span><span class="ticker__item"><b>Bittensor</b>TAO</span><span class="ticker__item"><b>Ethena</b>ENA</span><span class="ticker__item"><b>Ondo</b>ONDO</span><span class="ticker__item"><b>Render</b>RENDER</span><span class="ticker__item"><b>Kaspa</b>KAS</span><span class="ticker__item"><b>Bitcoin</b>BTC</span><span class="ticker__item"><b>Ethereum</b>ETH</span><span class="ticker__item"><b>BNB</b>BNB</span><span class="ticker__item"><b>XRP</b>XRP</span><span class="ticker__item"><b>Solana</b>SOL</span><span class="ticker__item"><b>TRON</b>TRX</span><span class="ticker__item"><b>Dogecoin</b>DOGE</span><span class="ticker__item"><b>Chainlink</b>LINK</span><span class="ticker__item"><b>Cardano</b>ADA</span><span class="ticker__item"><b>Sui</b>SUI</span><span class="ticker__item"><b>Hedera</b>HBAR</span><span class="ticker__item"><b>Bittensor</b>TAO</span><span class="ticker__item"><b>Ethena</b>ENA</span><span class="ticker__item"><b>Ondo</b>ONDO</span><span class="ticker__item"><b>Render</b>RENDER</span><span class="ticker__item"><b>Kaspa</b>KAS</span></div></div>
+<div class="container">
+  <div class="figures">
+    <div class="figure"><b>4</b><span>Futures-Kontrakte: MNQ, NQ, MES, ES</span></div>
+    <div class="figure"><b>6</b><span>Punkte-Checkliste vor jedem Einstieg</span></div>
+    <div class="figure"><b>100&nbsp;%</b><span>lokal: Daten bleiben in deinem Browser</span></div>
+    <div class="figure"><b>13+</b><span>Jahre Erfahrung an den Märkten</span></div>
+  </div>
+</div>
 
-<!-- DASHBOARD (NEU) -->
-<section class="section" id="dashboard">
+<!-- DAS X -->
+<section class="section" id="bereiche">
   <div class="container">
-    <div class="panel dash">
+    <div class="head">
       <div>
-        <span class="tag-new">Neu</span>
-        <h2>Das neue <span class="hl">Crypto X Dashboard</span></h2>
-        <p class="muted">Alles an einem Ort: dein Portfolio, die aktuellen Marktupdates und meine Analysen – übersichtlich in einem Dashboard statt verstreut über Börsen, Apps und Chats.</p>
-        <ul class="checklist">
-          <li><strong>Portfolio-Übersicht</strong> – alle Coins, Wallets und Börsen auf einen Blick.</li>
-          <li><strong>Live-Kurse &amp; Performance</strong> – Gewinn und Verlust pro Coin und für dein Gesamtportfolio.</li>
-          <li><strong>Marktupdates &amp; Analysen</strong> – meine wöchentlichen Updates direkt im Dashboard.</li>
-          <li><strong>Watchlist &amp; Preisalarme</strong> – verpasse keine wichtigen Marken mehr.</li>
-          <li><strong>Sicher</strong> – nur Leserechte, kein Zugriff auf deine Coins.</li>
-        </ul>
-        <div style="display:flex;gap:14px;flex-wrap:wrap">
-          <a href="[DASHBOARD-URL]" class="btn">Jetzt Dashboard öffnen</a>
-          <a href="#preise" class="btn btn--ghost">Pakete ansehen</a>
-        </div>
+        <span class="label"><b>[01]</b> Das X in CryptoX</span>
+        <h2>Krypto war der Anfang. <span class="lime">X</span> steht für alles, was dazugehört.</h2>
       </div>
-      <div class="mock" aria-hidden="true">
-        <!-- Tipp: Hier kann später ein echter Screenshot rein:
-             <img src="/assets/img/dashboard.webp" alt="Crypto X Dashboard"> -->
-        <div class="mock__bar"><i></i><i></i><i></i></div>
-        <div class="mock__row">
-          <div class="mock__tile"><small>Portfolio</small><b>€ 24.318</b><span class="up">▲ 3,2 %</span></div>
-          <div class="mock__tile"><small>BTC</small><b>€ 14.902</b><span class="up">▲ 1,8 %</span></div>
-          <div class="mock__tile"><small>ETH</small><b>€ 6.115</b><span class="down">▼ 0,6 %</span></div>
-        </div>
-        <div class="mock__chart">
-          <svg viewBox="0 0 300 120" preserveAspectRatio="none">
-            <defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#dcf763" stop-opacity=".35"/><stop offset="1" stop-color="#dcf763" stop-opacity="0"/></linearGradient></defs>
-            <path d="M0,95 L25,88 L50,92 L75,70 L100,76 L125,58 L150,64 L175,45 L200,50 L225,32 L250,38 L275,20 L300,24 L300,120 L0,120Z" fill="url(#g)"/>
-            <path d="M0,95 L25,88 L50,92 L75,70 L100,76 L125,58 L150,64 L175,45 L200,50 L225,32 L250,38 L275,20 L300,24" fill="none" stroke="#dcf763" stroke-width="2.5"/>
-          </svg>
-        </div>
-        <div class="mock__row" style="margin:12px 0 0">
-          <div class="mock__tile"><small>Solana</small><b>€ 1.840</b><span class="up">▲ 4,1 %</span></div>
-          <div class="mock__tile"><small>Watchlist</small><b>12 Coins</b></div>
-          <div class="mock__tile"><small>Alarme</small><b>3 aktiv</b></div>
-        </div>
-      </div>
+      <p>CryptoX ist mehr als Kryptowährungen. Das X steht für die Bereiche, die man braucht, um an den Märkten zu bestehen: Trading, Werkzeuge, Wissen und Crypto. Alles an einem Ort, verständlich und ohne leere Versprechen.</p>
+    </div>
+    <div class="xgrid">
+      <article class="xcell">
+        <span class="xcell__no">X / 01</span>
+        <h3>Trading<span>.</span></h3>
+        <p>Futures und Prop Trading: Challenge-Regeln verstehen, Risiko begrenzen, diszipliniert handeln. Der Fokus liegt auf dem Prozess, nicht auf dem schnellen Gewinn.</p>
+        <span class="tag">Prop Trading · Futures</span>
+        <a class="cover" href="/wissen/prop-trading-einfach-erklaert/" aria-label="Mehr über Trading"></a>
+      </article>
+      <article class="xcell">
+        <span class="xcell__no">X / 02</span>
+        <h3>Tools<span>.</span></h3>
+        <p>Werkzeuge, die im entscheidenden Moment helfen. Das erste ist das Risiko-Cockpit: Tageslimit, Positionsgröße, Checkliste und Trade-Log in einer Ansicht.</p>
+        <span class="tag tag--live">● Risiko-Cockpit live</span>
+        <a class="cover" href="/cockpit/" aria-label="Risiko-Cockpit öffnen"></a>
+      </article>
+      <article class="xcell">
+        <span class="xcell__no">X / 03</span>
+        <h3>Education<span>.</span></h3>
+        <p>Wissen ohne Fachchinesisch: Grundlagen, Risikomanagement, Strategien und Trading-Psychologie, damit du verstehst, was du tust, bevor du es tust.</p>
+        <span class="tag">Artikel · Leitfäden</span>
+        <a class="cover" href="/wissen/" aria-label="Zu den Artikeln"></a>
+      </article>
+      <article class="xcell">
+        <span class="xcell__no">X / 04</span>
+        <h3>Crypto<span>.</span></h3>
+        <p>Der Ursprung von CryptoX: Blockchain, Bitcoin, Wallets und Börsen einfach erklärt, für alle, die den digitalen Finanzmarkt verstehen wollen.</p>
+        <span class="tag">Blockchain · Wallets</span>
+        <a class="cover" href="/2025/03/19/kryptowaehrungen-fuer-einsteiger-ein-kompletter-leitfaden-fuer-den-einstieg/" aria-label="Krypto-Leitfaden lesen"></a>
+      </article>
+      <img class="xmark" src="/assets/img/hero.svg" alt="" width="132" height="132">
     </div>
   </div>
 </section>
 
-<!-- COINTIPPS -->
-<section class="section" style="padding-top:0">
+<!-- COCKPIT FEATURES -->
+<section class="section section--line" id="cockpit">
   <div class="container">
-    <div class="panel">
-      <div class="section-head">
-        <div><span class="eyebrow">Hol dir die besten Empfehlungen!</span><h2>Exklusive <span class="hl">Cointipps</span> für deinen <span class="hl">Erfolg</span></h2></div>
-        <a href="/portfolio/" class="btn">Zu den Assets</a>
-      </div>
-      <div class="grid grid--3">
-        <a class="coin-card" href="/portfolio/bitcoin/"><img src="/assets/img/coins/bitcoin.webp" alt="Bitcoin-Logo über Schachfiguren" width="683" height="384" loading="lazy"><div class="coin-card__body"><div><h3>Bitcoin (BTC)</h3><p>Warum Bitcoin die erste Wahl für Krypto-Investoren ist?</p></div><span class="arrow-dot">↗</span></div></a>
-        <a class="coin-card" href="/portfolio/ethereum-eth/"><img src="/assets/img/coins/ethereum.webp" alt="Ethereum-Logo" width="683" height="384" loading="lazy"><div class="coin-card__body"><div><h3>Ethereum (ETH)</h3><p>Plattform für die Entwicklung von Smart Contracts.</p></div><span class="arrow-dot">↗</span></div></a>
-        <a class="coin-card" href="/portfolio/solana-sol/"><img src="/assets/img/coins/solana.webp" alt="Solana-Logo" width="683" height="384" loading="lazy"><div class="coin-card__body"><div><h3>Solana (SOL)</h3><p>Eine der schnellsten Blockchains im Krypto-Markt.</p></div><span class="arrow-dot">↗</span></div></a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TOOLS -->
-<section class="section" style="padding-top:0">
-  <div class="container">
-    <div class="section-head">
-      <div><span class="eyebrow">Nützliche Tools für die Kryptowelt</span><h2><span class="hl">Krypto-Tools</span> für deinen Fortschritt</h2></div>
-      <a href="https://t.me/Crypto_X_Solutions" class="btn" target="_blank" rel="noopener">Zur Telegram Gruppe</a>
-    </div>
-    <div class="grid grid--4">
-        <a class="tool" href="https://www.tradingview.com/" target="_blank" rel="noopener nofollow"><span class="tool__icon">📈</span><span><b>Chartanalyse</b><span>Tradingview</span></span></a>
-        <a class="tool" href="https://coinmarketcap.com/" target="_blank" rel="noopener nofollow"><span class="tool__icon">📚</span><span><b>Coinlexikon</b><span>Coinmarketcap</span></span></a>
-        <a class="tool" href="https://trustwallet.com/" target="_blank" rel="noopener nofollow"><span class="tool__icon">🛡️</span><span><b>Hotwallet</b><span>Trustwallet, usw.</span></span></a>
-        <a class="tool" href="https://tangem.com/" target="_blank" rel="noopener nofollow"><span class="tool__icon">🔒</span><span><b>Coldwallet</b><span>Tangem, Ledger, ...</span></span></a>
-        <a class="tool" href="https://www.coinglass.com/" target="_blank" rel="noopener nofollow"><span class="tool__icon">💥</span><span><b>Liquidationen</b><span>Coinglass</span></span></a>
-        <a class="tool" href="https://www.dextools.io/" target="_blank" rel="noopener nofollow"><span class="tool__icon">🔎</span><span><b>Token finden</b><span>Dextools</span></span></a>
-        <a class="tool" href="https://www.mexc.com/" target="_blank" rel="noopener nofollow"><span class="tool__icon">🏦</span><span><b>Kryptobörse</b><span>Mexc, Binance, etc.</span></span></a>
-        <a class="tool" href="https://t.me/Crypto_X_Solutions" target="_blank" rel="noopener nofollow"><span class="tool__icon">📰</span><span><b>Nachrichten</b><span>X, Telegram, usw.</span></span></a>
-    </div>
-  </div>
-</section>
-
-<!-- EINSTIEG -->
-<section class="section" style="padding-top:0">
-  <div class="container">
-    <div class="panel">
-      <div class="section-head">
-        <h2>Alles, was du für deinen<br><span class="hl">Krypto-Einstieg</span> brauchst!</h2>
-      </div>
-      <div class="einstieg">
-        <div class="einstieg__visual">
-          <img class="ring" src="/assets/img/coin-ring.webp" alt="" width="1000" height="1000" loading="lazy">
-          <img class="x" src="/assets/img/hero.svg" alt="Crypto X Logo" width="375" height="375" loading="lazy">
-        </div>
-        <div class="acc">
-          <details open>
-            <summary>1. Krypto Wallets</summary>
-            <div class="acc__body">
-              <h4>Hardware-Wallets:</h4>
-              <p><strong>Tangem:</strong> Sicheres Wallet aus der Schweiz. Sehr einfach – du agierst mit NFC-Karten oder einem Ring direkt mit dem Wallet.<br>
-              <strong>Ledger Nano X:</strong> Sicheres Offline-Speichern von Coins. Etwas umständlicher, dafür sehr sicher.</p>
-              <h4>Software-Wallets:</h4>
-              <p><strong>Exodus:</strong> Einsteigerfreundlich mit integriertem Exchange.<br>
-              <strong>Trust Wallet:</strong> Ideal für mobile Nutzer mit Unterstützung für viele Coins.<br>
-              <strong>Metamask:</strong> Besonders beliebt für Ethereum und DeFi-Anwendungen.</p>
-              <p>💡 <strong>Hinweis:</strong> Du kannst Krypto nicht nur sicher speichern, sondern auch senden und empfangen – ähnlich wie mit einer Bank-App.</p>
-            </div>
-          </details>
-          <details>
-            <summary>2. Krypto-Börsen</summary>
-            <div class="acc__body">
-              <p><strong>Binance:</strong> Eine der größten Börsen mit breiter Coin-Auswahl und niedrigen Gebühren.<br>
-              <strong>Mexc:</strong> Viele Altcoins und Handelspaare, sehr niedrige Gebühren.<br>
-              <strong>Bitget:</strong> Besonders benutzerfreundlich, ideal für Einsteiger.</p>
-              <p>💡 <strong>Tipp:</strong> Bei den meisten Börsen kannst du deine Coins auf dein eigenes Wallet senden und zurücktransferieren. So behältst du die volle Kontrolle über dein Portfolio.</p>
-            </div>
-          </details>
-          <details>
-            <summary>3. Krypto-Kreditkarten</summary>
-            <div class="acc__body">
-              <p>Es gibt mittlerweile viele Krypto-Kreditkarten, mit denen du Kryptowährungen im Alltag ausgeben kannst. Aber welche ist wirklich empfehlenswert?</p>
-              <p>🤔 <strong>Mein Tipp:</strong> Ich habe bereits mehrere Karten getestet – meist gab es einen Haken: zu hohe Gebühren oder zu niedrige Limits. Meine Erfahrungen teile ich in der <a href="https://t.me/Crypto_X_Solutions" target="_blank" rel="noopener">Telegram-Gruppe</a>.</p>
-            </div>
-          </details>
-          <details>
-            <summary>4. Kryptoanalyse Tools</summary>
-            <div class="acc__body">
-              <p><strong>CoinMarketCap:</strong> Eine der bekanntesten Seiten für Kursverläufe und Marktdaten.<br>
-              <strong>TradingView:</strong> Das leistungsstärkste Tool für Chartanalyse und Marktverfolgung.<br>
-              <strong>Crypto X Dashboard:</strong> Dein Portfolio und meine Updates an einem Ort. <a href="#dashboard">Mehr erfahren</a></p>
-              <p><strong>Fazit:</strong> Mit den richtigen Wallets, Börsen und Tools bist du bestens vorbereitet, um deine Krypto-Reise zu starten. 🚀</p>
-            </div>
-          </details>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- BULLRUN -->
-<section class="section" style="padding-top:0">
-  <div class="container bullrun">
-    <div class="bullrun__text">
-      <span class="eyebrow">Lerne aus der Vergangenheit</span>
-      <h2>Sei beim nächsten <span class="hl">Krypto-Bullrun</span> dabei!</h2>
-      <p>Der Kryptomarkt bewegt sich in Zyklen. Wer die vergangenen Bullruns kennt, versteht den Markt besser – und lässt sich von Hype und Panik weniger leiten.</p>
-      <p>In meiner Telegram-Gruppe und im Dashboard bekommst du laufend Cointipps und aktuelle Marktanalysen. Gemeinsam gehen wir die nächsten Schritte in die Zukunft des Kryptomarktes.</p>
-      <a href="#preise" class="btn" style="margin-top:10px">Jetzt starten</a>
-    </div>
-    <div class="timeline">
-      <div class="timeline__item"><div class="timeline__date">2013</div><h3>Erster Bullrun</h3><p>Bitcoin stieg von etwa 13 USD auf über 1.100 USD.</p></div>
-      <div class="timeline__item"><div class="timeline__date">2017</div><h3>Zweiter Bullrun</h3><p>Bitcoin erreichte ein Allzeithoch von fast 20.000 USD, Ethereum stieg auf rund 1.400 USD.</p></div>
-      <div class="timeline__item"><div class="timeline__date">2020 – 2021</div><h3>Dritter Bullrun</h3><p>Bitcoin erreichte rund 69.000 USD, Ethereum stieg auf über 4.800 USD.</p></div>
-      <div class="timeline__item"><div class="timeline__date">2024 – 2025</div><h3>Vierter Bullrun</h3><p>Bitcoin durchbrach erstmals die Marke von 100.000 USD. Wie geht es weiter? Ich halte dich auf dem Laufenden.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ÜBER (LIME) -->
-<section class="section" style="padding-top:0">
-  <div class="container">
-    <div class="panel panel--lime about-box">
+    <div class="head">
       <div>
-        <p><strong>Ich biete innovative Krypto-Lösungen</strong>, die dich auf deinem Weg im digitalen Finanzmarkt unterstützen. Mit <strong>Marktanalysen, Cointipps</strong> und <strong>Trading-Strategien</strong> helfe ich dir, den Markt zu verstehen und eigene, fundierte Entscheidungen zu treffen.</p>
-        <p>Für Einsteiger gibt es <strong>einfache, verständliche Anleitungen und persönliche Betreuung</strong>, um sicher in die Krypto-Welt zu starten.</p>
-        <div class="stats">
-          <div class="stat"><b>51+</b><span>Cointipps und Marktanalysen</span></div>
-          <div class="stat"><b>13+</b><span>Jahre an Erfahrung</span></div>
-          <div class="stat"><b>100+</b><span>zufriedene Mitglieder</span></div>
-        </div>
+        <span class="label"><b>[02]</b> Das Risiko-Cockpit</span>
+        <h2>Eine Ansicht. Alle Regeln. <span class="lime">Kein Bauchgefühl.</span></h2>
       </div>
-      <img class="badge-round" src="/assets/img/hero.svg" alt="" width="110" height="110" loading="lazy" style="width:170px;height:170px">
+      <p>Prop-Firm-Konten scheitern selten an fehlenden Setups, sondern an gebrochenen Regeln: ein Trade zu groß, ein Rache-Trade zu viel, das Tageslimit gerissen. Das Cockpit macht diese Grenzen sichtbar, bevor es zu spät ist.</p>
     </div>
-  </div>
-</section>
 
-<!-- PREISE -->
-<section class="section" id="preise" style="padding-top:0">
-  <div class="container">
-    <div class="section-head">
-      <div><span class="eyebrow">Werde jetzt Teil unserer Krypto Community</span><h2>Wähle dein <span class="hl">Paket</span></h2></div>
+    <div class="feature">
+      <div class="feature__text">
+        <span class="label"><b>01</b> Tageslimit</span>
+        <h3>Du siehst immer, wie viel Verlust heute noch drin ist.</h3>
+        <p>Trag das Tagesverlustlimit deines Kontos ein. Nach jedem Trade rechnet das Cockpit sofort mit und zeigt farblich, wo du stehst.</p>
+        <ul>
+          <li>Restbetrag in großen Zahlen statt Kopfrechnen</li>
+          <li>Warnung ab 50 %, klares Stopp-Signal bei 100 %</li>
+          <li>Ergebnis und Anzahl der Trades des Tages auf einen Blick</li>
+        </ul>
+      </div>
+      <div class="feature__shot"><img src="/assets/img/cockpit/tageslimit.webp" alt="Tageslimit-Anzeige im Risiko-Cockpit" width="1400" height="400" loading="lazy"></div>
     </div>
-    <div class="grid grid--3">
-      <div class="price-card">
-        <span class="price-card__name">Basic Paket</span>
-        <div class="price">€ 99<small>/ pro Monat*</small></div>
-        <ul>
-          <li>Premium Telegram Gruppe</li>
-          <li>Krypto Leitfaden (PDF)</li>
-          <li>Tägliche Krypto Insider News</li>
-          <li>Persönliche Unterstützung</li>
-          <li>Wöchentliches Marktupdate</li>
-          <li>Wöchentliche Cointipps</li>
-          <li class="plus">Zugang zum Crypto X Dashboard</li>
-        </ul>
-        <a class="btn btn--block btn--plain" aria-disabled="true">Ausverkauft</a>
-      </div>
-      <div class="price-card price-card--featured">
-        <span class="price-card__name">Lifetime Paket</span>
-        <div class="price">€ 749<small>/ Einmalig</small></div>
-        <ul>
-          <li>Premium Telegram Gruppe</li>
-          <li>Krypto Leitfaden (PDF)</li>
-          <li>Tägliche Krypto Insider News</li>
-          <li>Schneller Support bei Fragen</li>
-          <li>Wöchentliche Marktupdates</li>
-          <li>Wöchentliche Cointipps</li>
-          <li class="plus">5 exklusive Cointipps</li>
-          <li class="plus">Exklusiver Portfolio Aufbau (PDF)</li>
-          <li class="plus">Trading Leitfaden (PDF)</li>
-          <li class="plus">Lebenslanger Zugang zu Updates</li>
-          <li class="plus">Zugang zum Crypto X Dashboard</li>
-        </ul>
-        <a class="btn btn--dark btn--block btn--plain" aria-disabled="true">Ausverkauft</a>
-      </div>
-      <div class="price-card">
-        <span class="price-card__name">Premium Paket</span>
-        <div class="price">€ 249<small>/ für 3 Monate**</small></div>
-        <ul>
-          <li>Premium Telegram Gruppe</li>
-          <li>Krypto Leitfaden (PDF)</li>
-          <li>Tägliche Krypto Insider News</li>
-          <li>Schneller Support bei Fragen</li>
-          <li>Wöchentliche Marktupdates</li>
-          <li>Wöchentliche Cointipps</li>
-          <li class="plus">3 exklusive Cointipps</li>
-          <li class="plus">Portfolio Aufbau (PDF)</li>
-          <li class="plus">Zugang zum Crypto X Dashboard</li>
-        </ul>
-        <a class="btn btn--block btn--plain" aria-disabled="true">Ausverkauft</a>
-      </div>
-    </div>
-    <div class="price-notes"><span>Sichere Zahlung</span><span>Keine versteckten Gebühren</span><span>*Monatlich kündbar **Alle 3 Monate kündbar</span></div>
-  </div>
-</section>
 
-<!-- BEWERTUNGEN -->
-<section class="section" style="padding-top:0">
-  <div class="container">
-    <div class="panel">
-      <div class="section-head"><div><span class="eyebrow">Kundenbewertungen</span><h2>Erfahrungen, die überzeugen:<br><span class="hl">Das sagen meine Mitglieder</span></h2></div></div>
-      <div class="reviews">
-        <article class="review">
-          <div class="review__stars" aria-label="5 von 5 Sternen">★★★★★</div>
-          <p>Dank der wertvollen Tipps und fundierten Strategien von Crypto X Solutions konnte ich mein Portfolio nicht nur erfolgreich ausbauen, sondern auch meine Krypto-Investitionen signifikant verbessern.</p><p>Die regelmäßigen Marktanalysen, Cointipps und Insider-Einblicke haben mir geholfen, informierte Entscheidungen zu treffen. <strong>Besonders beeindruckt hat mich die Unterstützung der Community und die stets hilfsbereite Betreuung.</strong></p>
-          <div class="review__author"><img src="/assets/img/team/sylvia.webp" alt="" width="44" height="44" loading="lazy"><div><b>Sylvia</b><span>Betreuerin</span></div></div>
-        </article>
-        <article class="review">
-          <div class="review__stars" aria-label="5 von 5 Sternen">★★★★★</div>
-          <p>Ich kenne den Gründer von <strong>Crypto X Solutions</strong> bereits länger und bin seitdem von seiner Kompetenz sowie Hilfestellung im Bereich Krypto und Trading mehr als begeistert.</p><p><strong>Ich bin glücklich, mit ihm Hand in Hand arbeiten zu dürfen und freue mich auf die Zukunft mit ihm!</strong></p>
-          <div class="review__author"><img src="/assets/img/hero.svg" alt="" width="44" height="44" loading="lazy"><div><b>Raphael</b><span>Trader</span></div></div>
-        </article>
-        <article class="review">
-          <div class="review__stars" aria-label="5 von 5 Sternen">★★★★★</div>
-          <p>Die Crypto X Solutions Telegram-Gruppe ist einfach erstklassig! Tim ist äußerst kompetent, freundlich und immer bereit, Fragen zu beantworten. Die Marktanalysen sind präzise und verständlich.</p><p>Besonders schätze ich die regelmäßigen Updates. Die Community ist aktiv, unterstützend und voller engagierter Mitglieder, die ihr Wissen teilen.</p>
-          <div class="review__author"><img src="/assets/img/hero.svg" alt="" width="44" height="44" loading="lazy"><div><b>Peter Aschauer</b><span>Zertifizierter Dellentechniker</span></div></div>
-        </article>
-        <article class="review">
-          <div class="review__stars" aria-label="5 von 5 Sternen">★★★★★</div>
-          <p>Seitdem ich im Kryptogeschäft tätig bin, hat mich Tim, der CEO von Crypto X Solutions, begleitet und mir zu jeder Zeit die besten Tipps und Tricks am Markt gegeben.</p><p>Heutzutage ist so etwas nicht mehr selbstverständlich und dafür bin ich mehr als dankbar! Ganz klare 5 Sterne.</p>
-          <div class="review__author"><img src="/assets/img/hero.svg" alt="" width="44" height="44" loading="lazy"><div><b>Dusty</b><span>Investor</span></div></div>
-        </article>
-        <article class="review">
-          <div class="review__stars" aria-label="5 von 5 Sternen">★★★★★</div>
-          <p>Ich arbeite schon seit geraumer Zeit mit dem Gründer von Crypto X Solutions zusammen. Seine Fachkompetenz und sein Engagement im Bereich Krypto und Trading sind außergewöhnlich – und er kann komplexe Sachverhalte verständlich erklären.</p><p>Egal ob Marktanalysen oder technisches Know-how: Er geht individuell auf meine Fragen ein und nimmt sich immer Zeit. <strong>Ich kann Crypto X Solutions uneingeschränkt weiterempfehlen!</strong></p>
-          <div class="review__author"><img src="/assets/img/hero.svg" alt="" width="44" height="44" loading="lazy"><div><b>Michael</b><span>Ingenieur-Entwickler, Trader/Investor</span></div></div>
-        </article>
+    <div class="feature feature--flip">
+      <div class="feature__text">
+        <span class="label"><b>02</b> Positionsgröße</span>
+        <h3>Die richtige Kontraktanzahl, bevor du klickst.</h3>
+        <p>Wähle MNQ, NQ, MES oder ES, gib Risiko pro Trade und Stop in Punkten ein. Das Cockpit rechnet die Kontrakte aus und prüft sie gegen dein Rest-Limit.</p>
+        <ul>
+          <li>Berücksichtigt den Punktwert jedes Kontrakts</li>
+          <li>Obergrenze für maximale Kontrakte einstellbar</li>
+          <li>Zeigt Ziel in Punkten und Dollar sowie volle Stopps bis zum Limit</li>
+        </ul>
+      </div>
+      <div class="feature__shot"><img src="/assets/img/cockpit/rechner.webp" alt="Positionsgrößen-Rechner im Risiko-Cockpit" width="1000" height="1090" loading="lazy"></div>
+    </div>
+
+    <div class="feature">
+      <div class="feature__text">
+        <span class="label"><b>03</b> Checkliste</span>
+        <h3>Sechs Fragen, die dich vor dem schlechtesten Trade bewahren.</h3>
+        <p>Stop gesetzt? Größe aus dem Rechner? Kein News-Termin? Ruhig statt auf Rache aus? Erst wenn alles abgehakt ist, steht da: <strong>Bereit</strong>. Die Häkchen setzen sich jeden Tag automatisch zurück.</p>
+      </div>
+      <div class="feature__shot"><img src="/assets/img/cockpit/checkliste.webp" alt="Checkliste vor dem Einstieg im Risiko-Cockpit" width="1000" height="1090" loading="lazy"></div>
+    </div>
+
+    <div class="feature feature--flip">
+      <div class="feature__text">
+        <span class="label"><b>04</b> Trade-Log &amp; Statistik</span>
+        <h3>Ehrliche Zahlen statt Erinnerungen.</h3>
+        <p>Jeder Trade mit Betrag und Notiz: Setup, Gefühl, Fehler. Daraus entstehen Trefferquote, durchschnittlicher Gewinn und Verlust und die Erwartung pro Trade. So erkennst du, ob dein System funktioniert.</p>
+      </div>
+      <div class="feature__shot" style="display:grid;gap:1px;background:var(--line-2)">
+        <img src="/assets/img/cockpit/tradelog.webp" alt="Trade-Log im Risiko-Cockpit" width="1400" height="486" loading="lazy">
+        <img src="/assets/img/cockpit/statistik.webp" alt="Statistik im Risiko-Cockpit" width="1400" height="176" loading="lazy">
       </div>
     </div>
   </div>
 </section>
 
-<!-- BLOG -->
-<section class="section" style="padding-top:0">
+<!-- PROP-FIRM-REGELN -->
+<section class="section section--line">
   <div class="container">
-    <div class="section-head">
-      <div><span class="eyebrow">Blog</span><h2>Aktuelle <span class="hl">Krypto-Trends</span></h2></div>
-      <a href="/blog/" class="btn">Zu allen Blogs</a>
+    <div class="head">
+      <div>
+        <span class="label"><b>[03]</b> Warum das wichtig ist</span>
+        <h2>Prop-Firmen prüfen nicht dein Talent, sondern deine <span class="lime">Disziplin</span>.</h2>
+      </div>
+      <p>Bei fast jeder Evaluierung gelten ähnliche Spielregeln. Wer eine davon bricht, verliert das Konto, egal wie gut der Rest lief.</p>
     </div>
-    <div class="grid grid--3">
-        <a class="post-card" href="/2025/03/19/warum-kryptowaehrungen-die-zukunft-der-finanzwelt-sind/">
-          <img src="/assets/img/blog-sicherheit.webp" alt="" width="640" height="360" loading="lazy">
-          <h3>Warum Kryptowährungen die Zukunft der Finanzwelt sind</h3>
-          <div class="post-card__meta"><span>19. März 2025</span><b>Weiterlesen →</b></div>
-        </a>
-        <a class="post-card" href="/2025/03/19/kryptowaehrungen-fuer-einsteiger-ein-kompletter-leitfaden-fuer-den-einstieg/">
-          <img src="/assets/img/blog-einsteiger.webp" alt="" width="640" height="360" loading="lazy">
-          <h3>Kryptowährungen für Einsteiger: Ein kompletter Leitfaden für den Einstieg</h3>
-          <div class="post-card__meta"><span>19. März 2025</span><b>Weiterlesen →</b></div>
-        </a>
-        <a class="post-card" href="/2025/01/27/the-role-of-color-psychology-in-branding-2/">
-          <img src="/assets/img/blog-trading.webp" alt="" width="640" height="360" loading="lazy">
-          <h3>Die besten Krypto-Trading-Strategien für 2025</h3>
-          <div class="post-card__meta"><span>27. Januar 2025</span><b>Weiterlesen →</b></div>
-        </a>
+    <div class="rules">
+      <div class="rule">
+        <span class="rule__k">Regel 01</span>
+        <h3>Tagesverlustlimit</h3>
+        <p>Ein fester Betrag, den du an einem Tag maximal verlieren darfst. Ein einziger überzogener Trade kann die ganze Challenge beenden. Das Cockpit zeigt dir jederzeit den Rest.</p>
+      </div>
+      <div class="rule">
+        <span class="rule__k">Regel 02</span>
+        <h3>Maximaler Drawdown</h3>
+        <p>Die Gesamtgrenze für Verluste, oft nachlaufend (trailing). Kleine, konstante Positionsgrößen schützen dich davor, sie in wenigen Trades zu erreichen.</p>
+      </div>
+      <div class="rule">
+        <span class="rule__k">Regel 03</span>
+        <h3>Konstanz</h3>
+        <p>Viele Firmen verlangen gleichmäßige Ergebnisse statt eines Glückstreffers. Eine feste Checkliste und ein ehrliches Trade-Log sind der Weg dorthin.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SO FUNKTIONIERTS -->
+<section class="section section--line" id="so-funktionierts">
+  <div class="container">
+    <div class="head">
+      <div>
+        <span class="label"><b>[04]</b> So funktioniert’s</span>
+        <h2>In drei Schritten zu deinem Handelsplan.</h2>
+      </div>
+      <p>Keine Registrierung, keine Installation: Das Cockpit läuft direkt im Browser, am Computer und am Handy.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><h3>Limit festlegen</h3><p>Trag das Tagesverlustlimit aus den Regeln deines Prop-Kontos ein. Es bleibt gespeichert, bis du es änderst.</p></div>
+      <div class="step"><h3>Trade planen</h3><p>Berechne die Positionsgröße für dein Setup und geh die Checkliste durch. Erst bei „Bereit“ gehst du in den Markt.</p></div>
+      <div class="step"><h3>Ergebnis eintragen</h3><p>Nach jedem Trade Betrag und Notiz erfassen. Limit und Statistik aktualisieren sich sofort.</p></div>
+    </div>
+    <div class="btn-row" style="margin-top:44px"><a href="/cockpit/" class="btn">Jetzt ausprobieren <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+  </div>
+</section>
+
+<!-- WISSEN -->
+<section class="section section--line">
+  <div class="container">
+    <div class="head">
+      <div>
+        <span class="label"><b>[05]</b> Education</span>
+        <h2>Verstehen, bevor du handelst.</h2>
+      </div>
+      <p><a href="/wissen/" class="btn btn--line btn--sm">Alle Artikel <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+    </div>
+    <div class="posts">
+      <a class="post" href="/wissen/prop-trading-einfach-erklaert/">
+        <img src="/assets/img/prop-trading.webp" alt="" width="800" height="500" loading="lazy">
+        <div class="post__body"><span class="post__cat">Trading</span><h3>Prop Trading einfach erklärt: Challenge, Regeln und Risiken</h3><time>13. Oktober 2026</time></div>
+      </a>
+      <a class="post" href="/2025/01/27/the-role-of-color-psychology-in-branding-2/">
+        <img src="/assets/img/blog-trading.webp" alt="" width="800" height="500" loading="lazy">
+        <div class="post__body"><span class="post__cat">Trading</span><h3>Die bekanntesten Trading-Strategien: Day Trading, Swing Trading und HODL</h3><time>27. Jänner 2025</time></div>
+      </a>
+      <a class="post" href="/2025/03/19/kryptowaehrungen-fuer-einsteiger-ein-kompletter-leitfaden-fuer-den-einstieg/">
+        <img src="/assets/img/blog-einsteiger.webp" alt="" width="800" height="500" loading="lazy">
+        <div class="post__body"><span class="post__cat">Crypto</span><h3>Kryptowährungen für Einsteiger: Ein kompletter Leitfaden</h3><time>19. März 2025</time></div>
+      </a>
+      <a class="post" href="/2025/03/19/warum-kryptowaehrungen-die-zukunft-der-finanzwelt-sind/">
+        <img src="/assets/img/blog-sicherheit.webp" alt="" width="800" height="500" loading="lazy">
+        <div class="post__body"><span class="post__cat">Crypto</span><h3>Warum Kryptowährungen die Finanzwelt verändern</h3><time>19. März 2025</time></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ÜBER -->
+<section class="section section--line">
+  <div class="container about">
+    <img src="/assets/img/team/tim.webp" alt="Tim Kofler, Gründer von CryptoX" width="576" height="720" loading="lazy">
+    <div>
+      <span class="label"><b>[06]</b> Hinter CryptoX</span>
+      <blockquote>Der Markt belohnt keine Hoffnung. Er belohnt Regeln, die man auch an schlechten Tagen einhält.</blockquote>
+      <p class="muted">Ich bin Tim Kofler, Trader und Programmierer aus Niederösterreich. Angefangen hat alles in den frühen Tagen von Bitcoin, heute handle ich vor allem Futures. Mit CryptoX baue ich die Werkzeuge und Inhalte, die ich mir selbst am Anfang gewünscht hätte.</p>
+      <div class="facts">
+        <div><b>13+</b><span>Jahre an den Märkten</span></div>
+        <div><b>Futures</b><span>Krypto · Forex · Aktien</span></div>
+        <div><b>AT</b><span>Oberndorf an der Melk</span></div>
+      </div>
+      <a href="/ueber-mich/" class="btn btn--line">Mehr über mich <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <img class="band__x" src="/assets/img/hero.svg" alt="" width="520" height="520" loading="lazy">
+  <div class="container" style="position:relative">
+    <h2>Dein nächster Trade beginnt mit einem Limit.</h2>
+    <p>Öffne das Risiko-Cockpit, trag die Regeln deines Kontos ein und handle heute mit klarem Plan.</p>
+    <div class="btn-row">
+      <a href="/cockpit/" class="btn">Risiko-Cockpit öffnen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a href="/wissen/prop-trading-einfach-erklaert/" class="btn btn--line">Erst Prop Trading verstehen</a>
     </div>
   </div>
 </section>
@@ -367,44 +288,45 @@
 </main>
 
 <footer class="footer">
-  <div class="footer__box">
-    <p class="footer__title">Dein Partner für Krypto Erfolg</p>
+  <div class="container">
     <div class="footer__grid">
       <div class="footer__brand">
-        <img src="/assets/img/hero.svg" alt="Crypto X Logo" width="110" height="110" loading="lazy">
-        <a href="https://t.me/Crypto_X_Solutions" class="icon-link" style="color:var(--ink)" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.94 4.3a1.2 1.2 0 0 0-1.62-1.1L2.9 10.1c-1.1.45-1.08 2.02.04 2.43l4.3 1.6 1.66 5.33c.25.8 1.26 1.04 1.84.43l2.4-2.5 4.37 3.2c.72.53 1.75.13 1.92-.75L21.94 4.3ZM9.6 13.5l7.9-6.1-6.3 7.1-.3 3.2-1.3-4.2Z"/></svg></a>
+        <img src="/assets/img/logo.svg" alt="Crypto X Solutions" width="200" height="22" loading="lazy">
+        <p>Trading, Tools, Education und Crypto: CryptoX hilft dir, die Märkte mit System statt mit Bauchgefühl anzugehen. Made in Austria.</p>
       </div>
       <div>
-        <h4>Mein Konto</h4>
+        <h4>Produkt</h4>
         <ul>
-          <li><a href="[DASHBOARD-URL]">Dashboard</a></li>
-          <li><a href="/#preise">Premium</a></li>
-          <li><a href="/#preise">Lifetime</a></li>
+          <li><a href="/cockpit/">Risiko-Cockpit</a></li>
+          <li><a href="/#so-funktionierts">So funktioniert’s</a></li>
+          <li><a href="/#bereiche">Das X</a></li>
         </ul>
       </div>
       <div>
-        <h4>Infos</h4>
+        <h4>Wissen</h4>
         <ul>
+          <li><a href="/wissen/prop-trading-einfach-erklaert/">Prop Trading erklärt</a></li>
+          <li><a href="/wissen/">Alle Artikel</a></li>
           <li><a href="/ueber-mich/">Über mich</a></li>
-          <li><a href="/faqs/">FAQs</a></li>
-          <li><a href="/portfolio/">Cointipps</a></li>
-          <li><a href="/blog/">Blog</a></li>
         </ul>
       </div>
       <div>
-        <h4>Rechtliches</h4>
+        <h4>Kontakt &amp; Rechtliches</h4>
         <ul>
+          <li><a href="mailto:tk@crypto-x.at">tk@crypto-x.at</a></li>
           <li><a href="/impressum/">Impressum</a></li>
           <li><a href="/datenschutz/">Datenschutz</a></li>
         </ul>
       </div>
     </div>
     <div class="footer__risk">
-      <p><strong>Risikohinweis für Kryptowährungen und Trading</strong><br>
-      Der Handel mit Kryptowährungen und anderen digitalen Assets ist mit hohen Risiken verbunden. Die Preise sind sehr volatil und können innerhalb kurzer Zeit erheblich schwanken. Es ist möglich, dass du einen Teil oder dein gesamtes investiertes Kapital verlierst. Investiere daher nur Kapital, dessen Verlust du dir leisten kannst.</p>
-      <p>Die Inhalte dieser Webseite, der Telegram-Gruppe und des Dashboards dienen ausschließlich Informations- und Bildungszwecken. Sie stellen keine Anlageberatung, keine Anlageempfehlung und keine Rechts- oder Steuerberatung dar und sind keine Aufforderung zum Kauf oder Verkauf von Kryptowerten. Alle Informationen beruhen auf persönlichen Erfahrungen und Einschätzungen; vergangene Entwicklungen sind kein verlässlicher Indikator für künftige Ergebnisse. Jede Investitionsentscheidung triffst du eigenverantwortlich.</p>
+      <p><strong>Risikohinweis:</strong> Der Handel mit Futures, Kryptowerten und anderen gehebelten Produkten ist mit erheblichen Risiken verbunden und kann zum vollständigen Verlust des eingesetzten Kapitals führen. Auch Teilnahmegebühren für Prop-Firm-Evaluierungen können verloren gehen. Die Inhalte dieser Webseite und das Risiko-Cockpit dienen ausschließlich der Information, Bildung und persönlichen Organisation. Sie stellen keine Anlageberatung, keine Anlageempfehlung und keine Handelssignale dar. Vergangene Ergebnisse sind kein verlässlicher Indikator für künftige Ergebnisse.</p>
     </div>
-    <p class="footer__copy">Copyright © <span data-year>2026</span> Crypto X Solutions by Tim Kofler. Alle Rechte vorbehalten.</p>
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> Crypto X Solutions · Tim Kofler</span>
+      <span>Keine Cookies · Kein Tracking</span>
+    </div>
+    <p class="footer__big" aria-hidden="true">CRYPTO<span>X</span></p>
   </div>
 </footer>
 

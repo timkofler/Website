@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="de-AT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Risiko-Cockpit für Prop-Trader | CryptoX</title>
+  <meta name="description" content="Werkzeug im Browser, ohne Anmeldung: Tageslimit, Positionsgrößen-Rechner für MNQ, NQ, MES und ES, Checkliste vor dem Einstieg und Trade-Log – für Futures-Prop-Trader.">
+  <link rel="canonical" href="https://crypto-x.at/cockpit/">
+  <meta property="og:title" content="Risiko-Cockpit für Prop-Trader | CryptoX">
+  <meta property="og:description" content="Werkzeug im Browser, ohne Anmeldung: Tageslimit, Positionsgrößen-Rechner für MNQ, NQ, MES und ES, Checkliste vor dem Einstieg und Trade-Log – für Futures-Prop-Trader.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="de_AT">
+  <meta property="og:url" content="https://crypto-x.at/cockpit/">
+  <meta property="og:image" content="https://crypto-x.at/assets/img/og.jpg">
+  <meta name="theme-color" content="#0b0b0b">
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/cockpit.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__logo" aria-label="CryptoX – Startseite"><img src="/assets/img/logo.svg" alt="Crypto X Solutions" width="200" height="24"></a>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="/cockpit/" class="is-active">Risiko-Cockpit</a>
+      <a href="/#bereiche">Das X</a>
+      <a href="/wissen/">Wissen</a>
+      <a href="/ueber-mich/">Über mich</a>
+      <a href="/cockpit/" class="btn nav__cta">Cockpit öffnen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </nav>
+    <div style="display:flex;gap:10px;align-items:center">
+      <a href="/cockpit/" class="btn btn--sm header__cta">Cockpit öffnen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section class="cockpit-intro">
+  <div class="container">
+    <div class="row">
+      <div>
+        <p class="eyebrow" id="today">Handelstag</p>
+        <h1>Risiko-Cockpit</h1>
+        <p class="muted" style="margin:0;max-width:640px">Tageslimit, Positionsgröße, Checkliste und Trade-Log für Futures-Prop-Trader. Deine Eingaben bleiben auf diesem Gerät.</p>
+      </div>
+      <a href="/#so-funktionierts" class="btn btn--line btn--sm">Wie funktioniert das?</a>
+    </div>
+  </div>
+</section>
+
+<div class="cockpit">
+<div class="wrap">
+  <section class="card full" aria-labelledby="h-limit" id="card-limit">
+    <div class="row">
+      <h2 id="h-limit">Tageslimit</h2>
+      <span class="pill" id="pill">Im Rahmen</span>
+    </div>
+    <div class="big">
+      <span class="num" id="remaining">$300</span>
+      <span class="unit">Verlust heute noch erlaubt</span>
+    </div>
+    <div>
+      <div class="meter" id="meter" role="progressbar" aria-label="Verbrauchtes Tageslimit" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="fill" id="fill"></div><span class="tick"></span>
+      </div>
+      <div class="meter-labels"><span>$0</span><span id="used-label">verbraucht $0</span><span id="limit-label">$300</span></div>
+    </div>
+    <dl class="kv">
+      <div><dt>Ergebnis heute</dt><dd id="pnl">$0</dd></div>
+      <div><dt>Trades heute</dt><dd id="count">0</dd></div>
+      <div>
+        <dt><label for="limit">Tageslimit ($)</label></dt>
+        <dd><input class="num" id="limit" type="number" inputmode="decimal" min="1" step="10" value="300"></dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="card" aria-labelledby="h-calc" id="card-calc">
+    <h2 id="h-calc">Positionsgröße</h2>
+    <div class="fields">
+      <label class="field wide" for="inst">Instrument
+        <select id="inst">
+          <option value="MNQ">MNQ, Micro Nasdaq ($2 pro Punkt)</option>
+          <option value="NQ">NQ, E-mini Nasdaq ($20 pro Punkt)</option>
+          <option value="MES">MES, Micro S&amp;P ($5 pro Punkt)</option>
+          <option value="ES">ES, E-mini S&amp;P ($50 pro Punkt)</option>
+        </select>
+      </label>
+      <label class="field" for="risk">Risiko pro Trade ($)
+        <input class="num" id="risk" type="number" inputmode="decimal" min="0" step="10">
+      </label>
+      <label class="field" for="stop">Stop (Punkte)
+        <input class="num" id="stop" type="number" inputmode="decimal" min="0" step="1">
+      </label>
+      <label class="field" for="rr">Ziel (Vielfaches des Risikos)
+        <input class="num" id="rr" type="number" inputmode="decimal" min="0" step="0.5">
+      </label>
+      <label class="field" for="maxlots">Max. Kontrakte
+        <input class="num" id="maxlots" type="number" inputmode="numeric" min="1" step="1">
+      </label>
+    </div>
+    <div class="result" id="result" aria-live="polite"></div>
+  </section>
+
+  <section class="card" aria-labelledby="h-check" id="card-check">
+    <div class="row">
+      <h2 id="h-check">Checkliste vor dem Einstieg</h2>
+      <span class="pill" id="check-pill">0 von 6</span>
+    </div>
+    <ul class="checks" id="checks"></ul>
+    <div><button class="ghost" id="check-reset" type="button">Häkchen zurücksetzen</button></div>
+  </section>
+
+  <section class="card full" aria-labelledby="h-trades" id="card-trades">
+    <h2 id="h-trades">Trades heute</h2>
+    <form class="trade-form" id="trade-form" autocomplete="off">
+      <label class="field amount" for="amount">Betrag ($)
+        <input class="num" id="amount" type="number" inputmode="decimal" min="0" step="any" placeholder="z. B. 120">
+      </label>
+      <label class="field memo" for="memo">Notiz (optional)
+        <input id="memo" type="text" maxlength="120" placeholder="Setup, Gefühl, Fehler">
+      </label>
+      <button class="win" type="submit" value="1">+ Gewinn</button>
+      <button class="loss" type="submit" value="-1">− Verlust</button>
+    </form>
+    <div id="form-hint" class="foot" aria-live="polite"></div>
+    <ul class="trades" id="trades"></ul>
+  </section>
+
+  <section class="card full" aria-labelledby="h-stats" id="card-stats">
+    <h2 id="h-stats">Statistik aller gespeicherten Trades</h2>
+    <dl class="kv" id="stats"></dl>
+  </section>
+
+  <p class="full foot">Die Daten bleiben nur in diesem Browser (lokaler Speicher deines Geräts) und werden nicht an CryptoX übertragen. Limit, Kontraktwerte und Regeln bitte mit den Bedingungen deines Kontos abgleichen. Das Cockpit rechnet mit deinen Eingaben und gibt keine Handelssignale.</p>
+</div>
+</div>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <img src="/assets/img/logo.svg" alt="Crypto X Solutions" width="200" height="22" loading="lazy">
+        <p>Trading, Tools, Education und Crypto: CryptoX hilft dir, die Märkte mit System statt mit Bauchgefühl anzugehen. Made in Austria.</p>
+      </div>
+      <div>
+        <h4>Produkt</h4>
+        <ul>
+          <li><a href="/cockpit/">Risiko-Cockpit</a></li>
+          <li><a href="/#so-funktionierts">So funktioniert’s</a></li>
+          <li><a href="/#bereiche">Das X</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Wissen</h4>
+        <ul>
+          <li><a href="/wissen/prop-trading-einfach-erklaert/">Prop Trading erklärt</a></li>
+          <li><a href="/wissen/">Alle Artikel</a></li>
+          <li><a href="/ueber-mich/">Über mich</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Kontakt &amp; Rechtliches</h4>
+        <ul>
+          <li><a href="mailto:tk@crypto-x.at">tk@crypto-x.at</a></li>
+          <li><a href="/impressum/">Impressum</a></li>
+          <li><a href="/datenschutz/">Datenschutz</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__risk">
+      <p><strong>Risikohinweis:</strong> Der Handel mit Futures, Kryptowerten und anderen gehebelten Produkten ist mit erheblichen Risiken verbunden und kann zum vollständigen Verlust des eingesetzten Kapitals führen. Auch Teilnahmegebühren für Prop-Firm-Evaluierungen können verloren gehen. Die Inhalte dieser Webseite und das Risiko-Cockpit dienen ausschließlich der Information, Bildung und persönlichen Organisation. Sie stellen keine Anlageberatung, keine Anlageempfehlung und keine Handelssignale dar. Vergangene Ergebnisse sind kein verlässlicher Indikator für künftige Ergebnisse.</p>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> Crypto X Solutions · Tim Kofler</span>
+      <span>Keine Cookies · Kein Tracking</span>
+    </div>
+    <p class="footer__big" aria-hidden="true">CRYPTO<span>X</span></p>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js"></script>
+<script src="/assets/js/cockpit.js"></script>
+</body>
+</html>

@@ -1,46 +1,52 @@
-# Crypto X Solutions – Webseite
+# CryptoX – Webseite
 
-Neue, statische Webseite für **crypto-x.at**. Sie ersetzt die bisherige WordPress-Seite und übernimmt deren Design (dunkel, Lime-Grün `#dcf763`, Schrift Montserrat).
+Neue, statische Webseite für **crypto-x.at**. Sie ersetzt die WordPress-Seite. Das Design ist komplett neu; von der alten Seite stammen nur die Markenfarben (Schwarz und Lime `#dcf763`) und das Logo.
 
-- Kein CMS, keine Datenbank, keine Plugins: reines HTML/CSS/JS, bearbeitet mit Claude.
-- Keine Cookies, kein Tracking, keine Google-Fonts. Die Schrift liegt lokal unter `assets/fonts/`, deshalb braucht die Seite keinen Cookie-Banner.
-- Die alten WordPress-Adressen bleiben erhalten (z. B. `/ueber-mich/`, `/faqs/`, `/portfolio/bitcoin/` und die Blog-URLs), damit Google-Rankings und bestehende Links weiter funktionieren.
+Im Mittelpunkt steht das **Risiko-Cockpit** für Futures-Prop-Trader. Es läuft direkt auf der Seite unter `/cockpit/`.
+
+Das „X“ in CryptoX steht für vier Bereiche: **Trading, Tools, Education und Crypto**.
 
 ## Struktur
 
 ```
-index.html                         Startseite (inkl. Bereich „Neues Dashboard“ und Preise)
+index.html                         Startseite
+cockpit/                           Risiko-Cockpit (das Werkzeug selbst)
+wissen/                            Artikel-Übersicht + prop-trading-einfach-erklaert/
+2025/…/                            Bestehende Artikel (alte URLs beibehalten)
 ueber-mich/                        Über mich
-portfolio/                         Cointipps-Übersicht + bitcoin/, ethereum-eth/, solana-sol/
-blog/                              Blog-Übersicht
-2025/…/                            Blog-Artikel (alte URLs beibehalten)
-faqs/                              FAQ
-impressum/                         Impressum (§ 5 ECG, § 63 GewO, § 25 MedienG)
-datenschutz/                       Datenschutzerklärung (DSGVO, DSG, TKG 2021)
+impressum/, datenschutz/           Rechtliches (Österreich)
+blog/, faqs/, portfolio/…          Weiterleitungen von alten WordPress-Adressen
+_redirects                         Echte 301-Weiterleitungen (Cloudflare Pages / Netlify)
 404.html, sitemap.xml, robots.txt
-assets/css/style.css               Design: Farben zentral unter :root
+assets/css/style.css               Design (Farben unter :root)
+assets/css/cockpit.css             Design des Cockpits
+assets/js/cockpit.js               Logik des Cockpits (rechnet nur lokal im Browser)
 assets/js/main.js                  Mobiles Menü
-assets/img/, assets/fonts/         Bilder, Logo, Schrift
+assets/fonts/                      Unbounded, Manrope, JetBrains Mono (lokal, OFL-Lizenz)
+assets/img/                        Logo, Bilder, Cockpit-Screenshots
 ```
 
-## Lokal ansehen
+## Datenschutz
 
-Wegen der absoluten Pfade (`/assets/...`) funktioniert ein einfacher Doppelklick auf eine Datei nicht. Starte stattdessen einen kleinen Server:
+- Keine Cookies, kein Tracking, keine Google-Fonts. Deshalb braucht die Seite keinen Cookie-Banner.
+- Das Cockpit speichert Eingaben nur im `localStorage` des Besuchers. Es wird nichts an einen Server übertragen.
+
+## Lokal ansehen
 
 ```
 python3 -m http.server 8000
 ```
 
-Dann im Browser http://localhost:8000 öffnen.
+Dann http://localhost:8000 öffnen. Ein Doppelklick auf die Datei funktioniert wegen der absoluten Pfade nicht.
 
 ## Vor dem Livegang ersetzen
 
-Alle Platzhalter stehen in eckigen Klammern, z. B. `[DASHBOARD-URL]`, Hosting- und Zahlungsanbieter sowie die UID-Nummer. So findest du sie:
+In `datenschutz/index.html`: Hosting-Anbieter, Löschfrist der Logfiles, E-Mail-Anbieter und das Datum.
 
 ```
-grep -rn "\[DASHBOARD\|\[Hosting\|\[Zahlungs\|\[ATU\|\[XX\]\|\[Datum\|\[z\.&nbsp;B\." --include=*.html .
+grep -rn 'class="ph"' --include=*.html .
 ```
 
 ## Hosting
 
-Die Seite läuft auf jedem statischen Hosting, z. B. Cloudflare Pages, Netlify, Vercel oder GitHub Pages. Wird der Anbieter mit diesem Repository verbunden, geht jede Änderung automatisch online. Den gewählten Anbieter in der Datenschutzerklärung (Abschnitt 3) eintragen.
+Empfohlen ist Cloudflare Pages oder Netlify: kostenlos, mit automatischer Veröffentlichung aus diesem Repository und Unterstützung für die `_redirects`-Datei.
