@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CryptoX – Risiko-Cockpit für Futures-Trader | Software, Schulungen & Wissen</title>
-  <meta name="description" content="CryptoX aus Österreich: das Risiko-Cockpit (Beta) für Futures- und Prop-Trader mit Tageslimit, Positionsgrößen-Rechner, Checkliste und Trade-Log – plus Software-Schulungen und Wissen.">
+  <title>CryptoX – Risiko-Cockpit für Futures-Trader | Software, Schulungen und Webdesign</title>
+  <meta name="description" content="CryptoX aus Österreich: das Risiko-Cockpit (Beta) für Futures- und Prop-Trader mit Tageslimit, Positionsgrößen-Rechner, 6-Punkte-Checkliste und Trade-Log – plus Software-Schulungen und individuell programmierte Webseiten.">
   <link rel="canonical" href="https://crypto-x.at/">
-  <meta property="og:title" content="CryptoX – Risiko-Cockpit für Futures-Trader | Software, Schulungen & Wissen">
-  <meta property="og:description" content="CryptoX aus Österreich: das Risiko-Cockpit (Beta) für Futures- und Prop-Trader mit Tageslimit, Positionsgrößen-Rechner, Checkliste und Trade-Log – plus Software-Schulungen und Wissen.">
+  <meta property="og:title" content="CryptoX – Risiko-Cockpit für Futures-Trader | Software, Schulungen und Webdesign">
+  <meta property="og:description" content="CryptoX aus Österreich: das Risiko-Cockpit (Beta) für Futures- und Prop-Trader mit Tageslimit, Positionsgrößen-Rechner, 6-Punkte-Checkliste und Trade-Log – plus Software-Schulungen und individuell programmierte Webseiten.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="de_AT">
   <meta property="og:url" content="https://crypto-x.at/">
@@ -22,17 +22,18 @@
 
 <header class="header">
   <div class="container header__inner">
-    <a href="/" class="header__logo" aria-label="CryptoX – Startseite"><img src="/assets/img/logo.svg" alt="Crypto X Solutions" width="200" height="24"></a>
+    <a href="/" class="header__logo" aria-label="CryptoX – Startseite"><img src="/assets/img/logo.svg" alt="CryptoX" width="200" height="24"></a>
     <nav class="nav" aria-label="Hauptnavigation">
       <a href="/cockpit/">Live-Demo</a>
       <a href="/#leistungen">Leistungen</a>
+      <a href="/#webdesign">Webdesign</a>
       <a href="/#bereiche">Das X</a>
       <a href="/wissen/">Wissen</a>
       <a href="/ueber-mich/">Über mich</a>
-      <a href="/cockpit/" class="btn nav__cta">Beta testen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a href="/#beta" class="btn nav__cta">Beta testen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </nav>
     <div style="display:flex;gap:10px;align-items:center">
-      <a href="/cockpit/" class="btn btn--sm header__cta">Beta testen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a href="/#beta" class="btn btn--sm header__cta">Beta testen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       <button class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     </div>
   </div>
@@ -49,7 +50,7 @@
     <p class="lead">Das CryptoX Risiko-Cockpit macht dein Tageslimit, deine Positionsgröße und deine eigenen Regeln in einer Ansicht sichtbar. Gebaut für Futures-Trader, die mit Prop-Firm-Konten arbeiten.</p>
     <div class="btn-row">
       <a href="#beta" class="btn">Beta-Tester werden <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <a href="/cockpit/" class="btn btn--line">Live-Demo ansehen</a>
+      <a href="/cockpit/" class="btn btn--line">Live-Demo</a>
     </div>
     <p class="hero__note">Live-Demo ohne Anmeldung · Beta-Tester erhalten einen eigenen Zugang mit allen Funktionen</p>
     <div class="hero__shot">
@@ -113,7 +114,15 @@
       <div class="feature__text">
         <span class="label"><b>03</b> Checkliste</span>
         <h3>Sechs Fragen vor jedem Einstieg.</h3>
-        <p>Stop gesetzt? Größe aus dem Rechner? Kein wichtiger Termin? Ruhig statt auf Rache aus? Erst wenn alles abgehakt ist, steht da: <strong>Bereit</strong>. Die Häkchen setzen sich jeden Tag automatisch zurück.</p>
+        <p>Erst wenn alle sechs Punkte abgehakt sind, steht da: <strong>Bereit</strong>. Die Häkchen setzen sich jeden Tag automatisch zurück. Das sind die Punkte der Demo, im vollen Dashboard trägst du deine eigenen Regeln ein:</p>
+        <ul>
+          <li>Stop ist gesetzt, bevor ich einsteige</li>
+          <li>Größe stammt aus dem Rechner, ich erhöhe nicht gegen die Position</li>
+          <li>Einstieg am Low nur bei bestätigtem Long-Trend</li>
+          <li>Kein High-Impact-Termin in den nächsten 15 Minuten</li>
+          <li>Ruhig, kein Rache-Trade nach einem Verlust</li>
+          <li>Das Tageslimit ist noch nicht erreicht</li>
+        </ul>
       </div>
       <div class="feature__shot"><img src="/assets/img/cockpit/checkliste.webp" alt="Checkliste vor dem Einstieg im Risiko-Cockpit" width="1000" height="1090" loading="lazy"></div>
     </div>
@@ -198,9 +207,9 @@
     <div class="head">
       <div>
         <span class="label"><b>[04]</b> Leistungen</span>
-        <h2>Software &amp; Schulungen für <span class="lime">Trading-Technologie</span>.</h2>
+        <h2>Software, Schulungen und <span class="lime">Webseiten</span>.</h2>
       </div>
-      <p>Crypto X Solutions ist ein IT-Dienstleister. Ich entwickle Software und zeige Unternehmen und Einzelpersonen, wie sie Trading-Software technisch einrichten und sicher bedienen.</p>
+      <p>Ich bin IT-Dienstleister. Ich entwickle Software, erstelle Webseiten und zeige Unternehmen und Einzelpersonen, wie sie Trading-Software technisch einrichten und sicher bedienen.</p>
     </div>
     <div class="rules">
       <div class="rule">
@@ -220,6 +229,36 @@
       </div>
     </div>
     <p class="muted" style="margin-top:28px;font-size:.92rem;max-width:860px">Die Schulungen sind rein technischer Natur und betreffen die Bedienung von Software. Es werden keine Anlage- oder Handelsempfehlungen gegeben und keine Finanzdienstleistungen erbracht. <a href="mailto:tk@crypto-x.at?subject=Anfrage%20Software-Schulung">Anfrage per E-Mail</a></p>
+
+    <div class="beta webdesign" id="webdesign">
+      <div>
+        <span class="label"><b>Neu</b> Webdesign / Homepages</span>
+        <h2>Deine Webseite. <span class="lime">Individuell programmiert.</span></h2>
+        <p class="muted">Ich erstelle moderne, schnelle Webseiten für Selbstständige und kleine Unternehmen. Jede Seite wird individuell programmiert, statt aus einem Baukasten oder einem fertigen Wix- oder WordPress-Template zu entstehen.</p>
+        <p class="muted">Die beste Referenz ist diese Seite: <strong>crypto-x.at</strong> ist genau so entstanden.</p>
+        <div class="btn-row" style="margin-top:28px">
+          <a href="mailto:tk@crypto-x.at?subject=Anfrage%20Webseite" class="btn">Webseite anfragen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+      <div class="beta__lists">
+        <div>
+          <h3>Das ist dabei</h3>
+          <ul>
+            <li>Individuell programmiert, kein Baukasten</li>
+            <li>Schnelle Ladezeiten</li>
+            <li>Für Handy, Tablet und Computer optimiert</li>
+            <li>Ohne Tracking</li>
+            <li>Grundgerüst für Impressum und Datenschutzerklärung (Vorlage, ersetzt keine Rechtsberatung)</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Preis</h3>
+          <ul>
+            <li>Auf Anfrage, abhängig von Umfang und Wünschen</li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -228,7 +267,7 @@
   <div class="container">
     <div class="head">
       <div>
-        <span class="label"><b>[05]</b> Das X in CryptoX</span>
+        <span class="label"><b>[05]</b> Das X in <span class="brand">CryptoX</span></span>
         <h2>Crypto war der Anfang. <span class="lime">X</span> steht für alles, was dazugehört.</h2>
       </div>
       <p>CryptoX ist mehr als Kryptowährungen. Das X steht für die Bereiche, die rund um die Märkte zusammengehören: Trading-Technologie, Werkzeuge, Wissen und Crypto. Alles an einem Ort, verständlich und ohne leere Versprechen.</p>
@@ -239,30 +278,30 @@
         <h3>Trading<span>.</span></h3>
         <p>Trading-Software und Plattformen verstehen: Einrichtung, Bedienung und die Regeln von Prop-Firm-Konten, technisch erklärt.</p>
         <span class="tag">Plattformen · Prop-Konten</span>
-        <a class="cover" href="/wissen/prop-trading-einfach-erklaert/" aria-label="Mehr über Trading"></a>
+        <a class="cover" href="/wissen/prop-trading-einfach-erklaert/"><span class="sr-only">Trading: Prop Trading einfach erklärt</span></a>
       </article>
       <article class="xcell">
         <span class="xcell__no">X / 02</span>
         <h3>Tools<span>.</span></h3>
         <p>Werkzeuge, die im Alltag helfen. Das erste ist das Risiko-Cockpit: Tageslimit, Positionsgröße, Checkliste und Trade-Log in einer Ansicht.</p>
         <span class="tag tag--live">● Beta · Tester gesucht</span>
-        <a class="cover" href="/cockpit/" aria-label="Risiko-Cockpit öffnen"></a>
+        <a class="cover" href="/cockpit/"><span class="sr-only">Tools: Risiko-Cockpit als Live-Demo öffnen</span></a>
       </article>
       <article class="xcell">
         <span class="xcell__no">X / 03</span>
         <h3>Education<span>.</span></h3>
         <p>Wissen ohne Fachchinesisch: Grundlagen, Begriffe und Hintergründe, damit du verstehst, wie die Werkzeuge und Märkte funktionieren.</p>
         <span class="tag">Artikel · Leitfäden</span>
-        <a class="cover" href="/wissen/" aria-label="Zu den Artikeln"></a>
+        <a class="cover" href="/wissen/"><span class="sr-only">Education: Zu allen Artikeln</span></a>
       </article>
       <article class="xcell">
         <span class="xcell__no">X / 04</span>
         <h3>Crypto<span>.</span></h3>
         <p>Der Ursprung von CryptoX: Blockchain, Bitcoin, Wallets und Börsen einfach erklärt, für alle, die den digitalen Finanzmarkt verstehen wollen.</p>
         <span class="tag">Blockchain · Wallets</span>
-        <a class="cover" href="/2025/03/19/kryptowaehrungen-fuer-einsteiger-ein-kompletter-leitfaden-fuer-den-einstieg/" aria-label="Krypto-Leitfaden lesen"></a>
+        <a class="cover" href="/2025/03/19/kryptowaehrungen-fuer-einsteiger-ein-kompletter-leitfaden-fuer-den-einstieg/"><span class="sr-only">Crypto: Leitfaden für Einsteiger lesen</span></a>
       </article>
-      <img class="xmark" src="/assets/img/hero.svg" alt="" width="132" height="132">
+      <img class="xmark" src="/assets/img/hero.svg" alt="X-Logo von CryptoX" width="132" height="132">
     </div>
   </div>
 </section>
@@ -297,19 +336,19 @@
     </div>
     <div class="posts">
       <a class="post" href="/wissen/prop-trading-einfach-erklaert/">
-        <img src="/assets/img/prop-trading.webp" alt="" width="800" height="500" loading="lazy">
-        <div class="post__body"><span class="post__cat">Trading</span><h3>Prop Trading einfach erklärt: Challenge, Regeln und Risiken</h3><time>13. Oktober 2026</time></div>
+        <img src="/assets/img/prop-trading.webp" alt="Titelbild zum Artikel: Prop Trading einfach erklärt: Challenge, Regeln und Risiken" width="800" height="500" loading="lazy">
+        <div class="post__body"><span class="post__cat">Prop Trading</span><h3>Prop Trading einfach erklärt: Challenge, Regeln und Risiken</h3><time>13. Oktober 2026</time></div>
       </a>
-      <a class="post" href="/2025/01/27/the-role-of-color-psychology-in-branding-2/">
-        <img src="/assets/img/blog-trading.webp" alt="" width="800" height="500" loading="lazy">
+      <a class="post" href="/2025/01/27/die-bekanntesten-trading-strategien/">
+        <img src="/assets/img/trading-strategien.webp" alt="Titelbild zum Artikel: Die bekanntesten Trading-Strategien: Day Trading, Swing Trading und HODL" width="800" height="500" loading="lazy">
         <div class="post__body"><span class="post__cat">Trading</span><h3>Die bekanntesten Trading-Strategien: Day Trading, Swing Trading und HODL</h3><time>27. Jänner 2025</time></div>
       </a>
       <a class="post" href="/2025/03/19/kryptowaehrungen-fuer-einsteiger-ein-kompletter-leitfaden-fuer-den-einstieg/">
-        <img src="/assets/img/blog-einsteiger.webp" alt="" width="800" height="500" loading="lazy">
+        <img src="/assets/img/krypto-einsteiger.webp" alt="Titelbild zum Artikel: Kryptowährungen für Einsteiger: Ein kompletter Leitfaden" width="800" height="500" loading="lazy">
         <div class="post__body"><span class="post__cat">Crypto</span><h3>Kryptowährungen für Einsteiger: Ein kompletter Leitfaden</h3><time>19. März 2025</time></div>
       </a>
       <a class="post" href="/2025/03/19/warum-kryptowaehrungen-die-zukunft-der-finanzwelt-sind/">
-        <img src="/assets/img/blog-sicherheit.webp" alt="" width="800" height="500" loading="lazy">
+        <img src="/assets/img/krypto-netzwerk.webp" alt="Titelbild zum Artikel: Warum Kryptowährungen die Finanzwelt verändern" width="800" height="500" loading="lazy">
         <div class="post__body"><span class="post__cat">Crypto</span><h3>Warum Kryptowährungen die Finanzwelt verändern</h3><time>19. März 2025</time></div>
       </a>
     </div>
@@ -319,14 +358,14 @@
 <!-- ÜBER -->
 <section class="section section--line">
   <div class="container about">
-    <img src="/assets/img/team/tim.webp" alt="Tim Kofler, Gründer von CryptoX" width="576" height="720" loading="lazy">
+    <img src="/assets/img/team/tim-portrait.webp" alt="Tim Kofler, Gründer von CryptoX" width="576" height="720" loading="lazy">
     <div>
-      <span class="label"><b>[08]</b> Hinter CryptoX</span>
+      <span class="label"><b>[08]</b> Hinter <span class="brand">CryptoX</span></span>
       <blockquote>Ich baue die Werkzeuge, die ich mir selbst am Anfang gewünscht hätte.</blockquote>
-      <p class="muted">Ich bin Tim Kofler, Programmierer aus Niederösterreich und selbst als Prop-Trader im Futures-Bereich aktiv. Angefangen hat alles in den frühen Tagen von Bitcoin. Mit Crypto X Solutions entwickle ich Software für Trader und zeige anderen, wie sie Trading-Software richtig einrichten und bedienen.</p>
+      <p class="muted">Ich bin Tim Kofler, Programmierer aus Niederösterreich und selbst als Prop-Trader im Futures-Bereich aktiv. Angefangen hat alles in den frühen Tagen von Bitcoin. Mit CryptoX entwickle ich Software für Trader, erstelle Webseiten und zeige anderen, wie sie Trading-Software richtig einrichten und bedienen.</p>
       <div class="facts">
         <div><b>13+</b><span>Jahre Märkte &amp; Software</span></div>
-        <div><b>IT</b><span>Software &amp; Schulungen</span></div>
+        <div><b>IT</b><span>Software, Schulungen &amp; Web</span></div>
         <div><b>AT</b><span>Oberndorf an der Melk</span></div>
       </div>
       <div class="btn-row">
@@ -338,13 +377,13 @@
 </section>
 
 <section class="band">
-  <img class="band__x" src="/assets/img/hero.svg" alt="" width="520" height="520" loading="lazy">
+  <img class="band__x" src="/assets/img/hero.svg" alt="" aria-hidden="true" width="520" height="520" loading="lazy">
   <div class="container" style="position:relative">
     <h2>Dein nächster Trade beginnt mit einem Limit.</h2>
     <p>Das Risiko-Cockpit ist in der Beta-Phase. Teste es, sag mir ehrlich, was fehlt, und gestalte die nächste Version mit.</p>
     <div class="btn-row">
       <a href="/#beta" class="btn">Beta-Tester werden <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <a href="/cockpit/" class="btn btn--line">Live-Demo ansehen</a>
+      <a href="/cockpit/" class="btn btn--line">Live-Demo</a>
     </div>
   </div>
 </section>
@@ -355,8 +394,8 @@
   <div class="container">
     <div class="footer__grid">
       <div class="footer__brand">
-        <img src="/assets/img/logo.svg" alt="Crypto X Solutions" width="200" height="22" loading="lazy">
-        <p>Software, Schulungen und Wissen rund um Trading-Technologie und Crypto. IT-Dienstleistungen aus Niederösterreich.</p>
+        <img src="/assets/img/logo.svg" alt="Logo Crypto X Solutions" width="200" height="22" loading="lazy">
+        <p>Software, Schulungen, Webdesign und Wissen rund um Trading-Technologie und Crypto. IT-Dienstleistungen aus Niederösterreich.</p>
       </div>
       <div>
         <h4>Produkt</h4>
@@ -365,6 +404,7 @@
           <li><a href="/#beta">Beta-Tester werden</a></li>
           <li><a href="https://feedback.crypto-x.at/">Feedback für Tester</a></li>
           <li><a href="/#leistungen">Software-Schulungen</a></li>
+          <li><a href="/#webdesign">Webdesign</a></li>
         </ul>
       </div>
       <div>
@@ -386,14 +426,13 @@
       </div>
     </div>
     <div class="footer__risk">
-      <p><strong>Hinweis:</strong> Crypto X Solutions erbringt ausschließlich IT-Dienstleistungen (Softwareentwicklung und Schulungen zur Bedienung von Software) und ist kein Finanzdienstleister. Es werden keine Anlageberatung, keine Vermögensverwaltung, keine Handelssignale und keine sonstigen konzessionspflichtigen Finanz- oder Wertpapierdienstleistungen angeboten.</p>
+      <p><strong>Hinweis:</strong> Crypto X Solutions erbringt ausschließlich IT-Dienstleistungen (Softwareentwicklung, Erstellung von Webseiten und Schulungen zur Bedienung von Software) und ist kein Finanzdienstleister. Es werden keine Anlageberatung, keine Vermögensverwaltung, keine Handelssignale und keine sonstigen konzessionspflichtigen Finanz- oder Wertpapierdienstleistungen angeboten.</p>
       <p><strong>Risikohinweis:</strong> Der Handel mit Futures, Kryptowerten und anderen gehebelten Produkten ist mit erheblichen Risiken verbunden und kann zum vollständigen Verlust des eingesetzten Kapitals führen. Auch Teilnahmegebühren für Prop-Firm-Evaluierungen können verloren gehen. Die Inhalte dieser Webseite und das Risiko-Cockpit dienen ausschließlich der allgemeinen Information und der persönlichen Organisation. Sie stellen keine Anlageberatung, keine Anlageempfehlung und keine Aufforderung zum Kauf oder Verkauf von Finanzinstrumenten oder Kryptowerten dar. Vergangene Ergebnisse sind kein verlässlicher Indikator für künftige Ergebnisse.</p>
     </div>
     <div class="footer__bottom">
-      <span>© <span data-year>2026</span> Crypto X Solutions · Tim Kofler</span>
-      <span>Keine Cookies · Kein Tracking</span>
+      <span>© <span data-year>2026</span> Crypto X Solutions · Tim Kofler · Keine Cookies · Kein Tracking</span>
     </div>
-    <p class="footer__big" aria-hidden="true">CRYPTO<span>X</span></p>
+    <p class="footer__big" aria-hidden="true">Crypto<span>X</span></p>
   </div>
 </footer>
 

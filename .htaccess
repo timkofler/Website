@@ -44,6 +44,8 @@ Options -Indexes
   RewriteRule ^3-exklusive-cointipps/?$ https://crypto-x.at/ [R=301,L]
   RewriteCond %{HTTP_HOST} ^crypto-x\.at$ [NC]
   RewriteRule ^5-exklusive-cointipps/?$ https://crypto-x.at/ [R=301,L]
+  RewriteCond %{HTTP_HOST} ^crypto-x\.at$ [NC]
+  RewriteRule ^2025/01/27/the-role-of-color-psychology-in-branding-2/?$ https://crypto-x.at/2025/01/27/die-bekanntesten-trading-strategien/ [R=301,L]
 </IfModule>
 
 # --- Nur für die Hauptdomain: Fehlerseite, Sicherheits-Header, Cache ---
