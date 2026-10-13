@@ -1,0 +1,61 @@
+# Veröffentlicht die Webseite per FTPS auf den ALL-INKL-Webspace.
+#
+# Läuft automatisch bei jeder Änderung auf "main" und kann jederzeit
+# manuell gestartet werden: GitHub → Actions → "Webseite veröffentlichen"
+# → "Run workflow" (dabei lässt sich auch ein anderer Branch wählen).
+#
+# Benötigte Secrets (GitHub → Settings → Secrets and variables → Actions):
+#   FTP_SERVER      z. B. w0123456.kasserver.com (siehe KAS → FTP)
+#   FTP_USERNAME    FTP-Benutzer aus dem KAS
+#   FTP_PASSWORD    Passwort dieses FTP-Benutzers
+#   FTP_SERVER_DIR  Zielordner auf dem Webspace mit "/" am Ende,
+#                   z. B. "/" oder "/crypto-x.at/" (siehe KAS → Domains)
+
+name: Webseite veröffentlichen
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prüfen, ob die FTP-Zugangsdaten hinterlegt sind
+        id: check
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+        run: |
+          if [ -z "$FTP_SERVER" ]; then
+            echo "::warning::Keine FTP-Zugangsdaten hinterlegt – es wurde nichts veröffentlicht."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Code holen
+        if: steps.check.outputs.ready == 'true'
+        uses: actions/checkout@v4
+
+      - name: Per FTPS hochladen
+        if: steps.check.outputs.ready == 'true'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          protocol: ftps
+          # Nur geänderte Dateien werden übertragen; andere Dateien auf dem
+          # Webspace (z. B. die alte WordPress-Installation, /logs/, /usage/)
+          # werden NICHT gelöscht.
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            README.md

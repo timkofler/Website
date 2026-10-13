@@ -55,3 +55,12 @@ Die Seite liegt auf dem Webspace von ALL-INKL.COM (KAS). Im KAS prüfen bzw. erl
 2. Den Inhalt dieses Ordners per FTP/SFTP in das Hauptverzeichnis des Webspace laden. Die versteckte Datei `.htaccess` muss mit, die Ordner `.git` und `README.md` nicht.
 3. Prüfen, dass HTTPS (SSL-Zertifikat) beim Anbieter aktiv ist, dann https://crypto-x.at/ aufrufen.
 4. WordPress-Dateien und die Datenbank erst löschen, wenn die neue Seite läuft.
+
+## Automatisch veröffentlichen (GitHub Actions)
+
+`.github/workflows/deploy.yml` lädt die Seite per FTPS auf den ALL-INKL-Webspace. Es werden nur geänderte Dateien übertragen, nichts wird gelöscht.
+
+- **Automatisch** bei jeder Änderung auf `main`
+- **Manuell** über GitHub → Actions → „Webseite veröffentlichen“ → „Run workflow“
+
+Einmalig die vier Secrets unter GitHub → Settings → Secrets and variables → Actions anlegen: `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`, `FTP_SERVER_DIR`. Die Werte stehen im KAS unter „FTP“ und „Domains“. Ohne Secrets läuft der Workflow durch, veröffentlicht aber nichts.
