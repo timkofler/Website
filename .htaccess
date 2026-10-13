@@ -6,8 +6,6 @@
 # www.crypto-x.at, die Subdomains bleiben unberührt.
 
 Options -Indexes
-# index.html hat Vorrang (u. a. vor einer alten index.php), andere Ordner funktionieren weiter
-DirectoryIndex index.html index.htm index.php
 
 # Interne Datei der automatischen Veröffentlichung nicht ausliefern
 <Files ".ftp-deploy-sync-state.json">
@@ -50,6 +48,9 @@ DirectoryIndex index.html index.htm index.php
 
 # --- Nur für die Hauptdomain: Fehlerseite, Sicherheits-Header, Cache ---
 <If "%{HTTP_HOST} =~ /^(www\.)?crypto-x\.at$/i">
+  # Auf der Hauptdomain hat index.html Vorrang (vor alter index.php/index.htm).
+  # Die Subdomains behalten die Standard-Reihenfolge des Servers.
+  DirectoryIndex index.html
   ErrorDocument 404 /404.html
   <IfModule mod_headers.c>
     Header always set Strict-Transport-Security "max-age=31536000"
