@@ -10,7 +10,7 @@
 ## Leistungen
 
 - [Webseite erstellen lassen](https://crypto-x.at/webseite-erstellen-lassen/): Individuell programmierte, schnelle und mobiloptimierte Webseiten für Selbstständige und kleine Unternehmen, ohne Baukasten und ohne Tracking. Preis auf Anfrage.
-- [Prop Trading Tool](https://crypto-x.at/prop-trading-tool/): Das Risiko-Cockpit mit Tageslimit, Positionsgrößen-Rechner (MNQ, NQ, MES, ES), Checkliste und Trade-Log. Beta-Phase, Tester gesucht.
+- [CryptoX Dashboard / Prop Trading Tool](https://crypto-x.at/prop-trading-tool/): Dashboard für Prop-Firm-Trader (Beta, Tester gesucht). Rechnet für beliebig viele Konten (Challenge, Funded, Live) Trailing- oder statischen Drawdown, Daily Loss Limit, eigenes Tageslimit, Konsistenzregel, Mindest-Handelstage, Gewinnziel, Frist und Auszahlung mit und warnt vor Regelverstößen. Ein Trade lässt sich auf mehreren Konten gleichzeitig eintragen. Dazu Statistik, Wochenübersicht, Journal mit CSV-Export, mehrere frei konfigurierbare Checklisten, eigene Instrumente, Trading-Sessions, Wirtschaftskalender, übersetzte Schlagzeilen und Sprachansagen. Läuft im Browser, am Handy als App installierbar. Kein Broker-Anschluss, führt keine Trades aus, keine Anlageberatung.
 - [Live-Demo des Risiko-Cockpits](https://crypto-x.at/cockpit/): Kostenlos, ohne Anmeldung, Daten bleiben im Browser.
 - [Softwareentwicklung und Schulungen](https://crypto-x.at/softwareentwicklung/): Individuelle Rechner, Auswertungen und Dashboards sowie technische Schulungen zur Bedienung von Trading-Software.
 
