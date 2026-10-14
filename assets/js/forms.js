@@ -4,9 +4,25 @@
   var forms = document.querySelectorAll("form[data-cx-form]");
   if (!forms.length || !window.fetch || !window.FormData) return;
 
+  // Herkunft merken (z. B. Google-Anzeige), ganz ohne Cookies: nur aus der aktuellen Adresse.
+  var q = new URLSearchParams(location.search), src = "";
+  if (q.get("gclid") || q.get("gbraid") || q.get("wbraid")) src = "Google-Anzeige" + (q.get("gclid") ? " (gclid " + q.get("gclid").slice(0, 60) + ")" : "");
+  else if (q.get("utm_source")) src = q.get("utm_source").slice(0, 40) + (q.get("utm_campaign") ? " / " + q.get("utm_campaign").slice(0, 40) : "");
+  else if (document.referrer && document.referrer.indexOf(location.host) === -1) { try { src = new URL(document.referrer).host; } catch (e) {} }
+
+  // Paket-Buttons wählen das passende Paket im Formular vor.
+  document.querySelectorAll("[data-paket]").forEach(function (a) {
+    a.addEventListener("click", function () {
+      var sel = document.querySelector('select[name="paket"]');
+      if (sel) sel.value = a.getAttribute("data-paket");
+    });
+  });
+
   forms.forEach(function (form) {
     var ts = form.querySelector('input[name="ts"]');
     if (ts) ts.value = String(Date.now());
+    var qf = form.querySelector('input[name="quelle"]');
+    if (qf) qf.value = src || "direkt";
     var status = form.querySelector(".form__status");
     var button = form.querySelector('button[type="submit"]');
 

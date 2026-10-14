@@ -32,6 +32,10 @@ if ($form === 'newsletter') {
     cx_respond(true, 'Fast geschafft! Bitte bestätige deine Anmeldung über den Link in der E-Mail, die wir dir gerade geschickt haben.', '/newsletter/danke/');
 }
 
+if ($form === 'webseite') {
+    cx_webseite($c, $email, $name, $fallback);
+}
+
 if ($form !== 'beta') {
     cx_respond(false, 'Ungültige Anfrage.');
 }
@@ -89,3 +93,54 @@ if ($newsletter) {
 }
 
 cx_respond(true, 'Danke! Deine Bewerbung ist angekommen.', '/beta/danke/');
+
+// ---------------- Webseiten-Anfrage ----------------
+function cx_webseite(array $c, string $email, string $name, string $fallback): void
+{
+    $f = [
+        'Name' => $name,
+        'E-Mail' => $email,
+        'Telefon' => preg_replace('/[^0-9+\/ ()-]/', '', cx_field('telefon', 40)) ?? '',
+        'Unternehmen / Branche' => cx_field('firma', 120),
+        'Paket' => cx_field('paket', 40),
+        'Bisherige Webseite' => cx_field('url', 200),
+        'Domain vorhanden' => cx_field('domain', 20),
+        'Zeitrahmen' => cx_field('zeit', 40),
+        'Nachricht' => cx_field('nachricht', 3000),
+        'Gefunden über' => cx_field('quelle', 120),
+    ];
+    if ($name === '') {
+        cx_respond(false, 'Bitte gib deinen Namen an.');
+    }
+    if (cx_field('datenschutz', 5) !== 'ja') {
+        cx_respond(false, 'Bitte bestätige, dass du die Datenschutzerklärung gelesen hast.');
+    }
+
+    $saved = cx_contact($email, $name, [(int) ($c['list_webdesign'] ?? 0)], [
+        'WEB_PAKET' => $f['Paket'], 'WEB_QUELLE' => $f['Gefunden über'],
+    ]);
+
+    $rows = '';
+    foreach ($f as $k => $v) {
+        $rows .= '<tr><td style="padding:6px 12px 6px 0;color:#a1a1a1;vertical-align:top;white-space:nowrap">' . cx_h($k)
+            . '</td><td style="padding:6px 0;color:#f4f4f0">' . nl2br(cx_h($v !== '' ? $v : '–')) . '</td></tr>';
+    }
+    $notify = (string) ($c['notify_email'] ?? 'tk@crypto-x.at');
+    $toTim = cx_mail($notify, 'Tim', 'Neue Webseiten-Anfrage: ' . $name . ($f['Paket'] !== '' ? ' (' . $f['Paket'] . ')' : ''),
+        cx_mail_layout('Neue Webseiten-Anfrage', '<table role="presentation" cellpadding="0" cellspacing="0" style="font-size:15px">' . $rows . '</table>'
+            . '<p style="margin:18px 0 0;font-size:14px;color:#a1a1a1">Mit „Antworten“ schreibst du direkt an die Person.</p>'),
+        $email);
+
+    if (!$saved && !$toTim) {
+        cx_respond(false, 'Deine Anfrage konnte gerade nicht übermittelt werden. ' . $fallback);
+    }
+
+    $inner = '<p style="margin:0 0 14px">Hallo ' . cx_h($name) . ',</p>'
+        . '<p style="margin:0 0 14px">danke für deine Anfrage! Ich sehe mir deine Angaben an und melde mich innerhalb von zwei Werktagen persönlich bei dir, per E-Mail oder telefonisch, wenn du eine Nummer angegeben hast.</p>'
+        . '<p style="margin:0 0 14px">Gemeinsam klären wir dann, was deine Seite können soll, und du bekommst ein unverbindliches Angebot.</p>'
+        . '<p style="margin:0 0 4px">Viele Grüße<br>Tim</p>';
+    cx_mail($email, $name, 'Deine Anfrage für eine Webseite', cx_mail_layout('Danke für deine Anfrage', $inner), $notify);
+
+    cx_respond(true, 'Danke! Deine Anfrage ist angekommen.', '/webseite-erstellen-lassen/danke/');
+}
+
