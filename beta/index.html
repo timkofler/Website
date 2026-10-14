@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="de-AT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Beta-Tester werden – CryptoX Dashboard testen | CryptoX</title>
+  <meta name="description" content="Bewirb dich als Beta-Tester für das CryptoX Dashboard: eigener Zugang, alle Funktionen, direkter Draht zum Entwickler.">
+  <link rel="canonical" href="https://crypto-x.at/beta/">
+  <meta property="og:title" content="Beta-Tester werden – CryptoX Dashboard testen | CryptoX">
+  <meta property="og:description" content="Bewirb dich als Beta-Tester für das CryptoX Dashboard: eigener Zugang, alle Funktionen, direkter Draht zum Entwickler.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="de_AT">
+  <meta property="og:url" content="https://crypto-x.at/beta/">
+  <meta property="og:image" content="https://crypto-x.at/assets/img/og.jpg">
+  <meta name="theme-color" content="#0b0b0b">
+  <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/style.css?v=3a829198">
+</head>
+<body>
+
+<header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__logo" aria-label="CryptoX – Startseite"><img src="/assets/img/logo.svg" alt="CryptoX" width="200" height="24"></a>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="/cockpit/">Live-Demo</a>
+      <a href="/#leistungen">Leistungen</a>
+      <a href="/webseite-erstellen-lassen/">Webdesign</a>
+      <a href="/#bereiche">Das X</a>
+      <a href="/wissen/">Wissen</a>
+      <a href="/ueber-mich/">Über mich</a>
+      <a href="/beta/" class="btn nav__cta">Beta testen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </nav>
+    <div style="display:flex;gap:10px;align-items:center">
+      <a href="/beta/" class="btn btn--sm header__cta">Beta testen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <button class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section class="page-head">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="container" style="position:relative">
+    <div class="crumbs"><a href="/">Start</a> / <a href="/#beta">Beta</a> / Bewerbung</div>
+    <h1><span class="nw">Beta-Tester</span> werden</h1>
+    <p class="lead">Teste das CryptoX Dashboard mit eigenem Zugang und gestalte die nächste Version mit. Das Formular dauert eine Minute.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:56px">
+  <div class="container form-wrap">
+    <form class="form" action="/api/anmelden.php" method="post" data-cx-form>
+      <input type="hidden" name="form" value="beta"><div class="form__hp" aria-hidden="true"><label>Webseite<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div><input type="hidden" name="ts" value="">
+      <div class="form__row">
+        <label class="form__field"><span>Vorname</span><input type="text" name="name" required maxlength="80" autocomplete="given-name"></label>
+        <label class="form__field"><span>E-Mail</span><input type="email" name="email" required maxlength="254" autocomplete="email" inputmode="email"></label>
+      </div>
+      <div class="form__row">
+        <label class="form__field"><span>Wie viele Prop-Konten hast du?</span>
+          <select name="konten" required>
+            <option value="">Bitte wählen</option><option>1</option><option>2–3</option><option>4–10</option><option>mehr als 10</option><option>noch keines</option>
+          </select></label>
+        <label class="form__field"><span>Erfahrung</span>
+          <select name="erfahrung" required>
+            <option value="">Bitte wählen</option><option>Einsteiger</option><option>1–2 Jahre</option><option>mehr als 2 Jahre</option>
+          </select></label>
+      </div>
+      <label class="form__field"><span>Plattform / Software <em>(optional)</em></span><input type="text" name="plattform" maxlength="120" placeholder="z. B. NinjaTrader, Tradovate, Rithmic, TradingView"></label>
+      <label class="form__field"><span>Was erhoffst du dir vom Dashboard? <em>(optional)</em></span><textarea name="nachricht" rows="4" maxlength="2000"></textarea></label>
+      <label class="form__check"><input type="checkbox" name="datenschutz" value="ja" required><span>Ich habe die <a href="/datenschutz/#ds-11">Datenschutzerklärung</a> gelesen. Meine Angaben werden zur Bearbeitung der Bewerbung gespeichert und bei Brevo verarbeitet.</span></label>
+      <label class="form__check"><input type="checkbox" name="newsletter" value="ja"><span><strong>Optional:</strong> Ich möchte zusätzlich den CryptoX Newsletter erhalten (neue Funktionen, Software-Tipps, Artikel). Abmeldung jederzeit möglich.</span></label>
+      <button class="btn" type="submit">Bewerbung absenden <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <p class="form__status" role="status" aria-live="polite" hidden></p>
+      <p class="form__alt">Lieber anders? Schreib mir an <a href="mailto:tk@crypto-x.at">tk@crypto-x.at</a> oder auf <a href="https://t.me/Crypto_X_Solutions" target="_blank" rel="noopener">Telegram</a>.</p>
+    </form>
+    <aside class="form-aside">
+      <h2>So läuft's ab</h2>
+      <ol class="form-steps">
+        <li><b>Bewerben</b><span>Du schickst das Formular ab und bekommst sofort eine Bestätigung per E-Mail.</span></li>
+        <li><b>Zugang</b><span>Ich melde mich persönlich und richte dir eine eigene Installation ein, getrennt von allen anderen.</span></li>
+        <li><b>Testen</b><span>Du nutzt das Dashboard ein paar Wochen im Alltag.</span></li>
+        <li><b>Feedback</b><span>Kurz und ehrlich über das Feedback-Formular. Deine Wünsche fließen in die nächste Version ein.</span></li>
+      </ol>
+      <p class="note-legal">Das CryptoX Dashboard ist Software zur Organisation und Kontrolle deiner eigenen Kontoregeln. Keine Handelssignale, keine Anlageberatung.</p>
+    </aside>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <img src="/assets/img/logo.svg" alt="Logo Crypto X Solutions" width="200" height="22" loading="lazy">
+        <p>Software, Schulungen, Webdesign und Wissen rund um Trading-Technologie und Crypto. IT-Dienstleistungen aus Niederösterreich.</p>
+      </div>
+      <div>
+        <h3>Produkt</h3>
+        <ul>
+          <li><a href="/prop-trading-tool/">Prop Trading Tool</a></li>
+          <li><a href="/cockpit/">Live-Demo</a></li>
+          <li><a href="/beta/">Beta-Tester werden</a></li>
+          <li><a href="https://feedback.crypto-x.at/">Feedback für Tester</a></li>
+          <li><a href="/softwareentwicklung/">Software &amp; Schulungen</a></li>
+          <li><a href="/webseite-erstellen-lassen/">Webseite erstellen lassen</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Wissen</h3>
+        <ul>
+          <li><a href="/wissen/prop-trading-einfach-erklaert/">Prop Trading erklärt</a></li>
+          <li><a href="/wissen/">Alle Artikel</a></li>
+          <li><a href="/ueber-mich/">Über mich</a></li>
+          <li><a href="/newsletter/">Newsletter</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Kontakt &amp; Rechtliches</h3>
+        <ul>
+          <li><a href="mailto:tk@crypto-x.at">tk@crypto-x.at</a></li><li><a href="tel:+4367761773118">+43 677 61773118</a></li>
+          <li><a href="https://t.me/Crypto_X_Solutions" target="_blank" rel="noopener">Telegram</a></li>
+          <li><a href="https://www.instagram.com/crypto_x_solutions/" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://x.com/Crypto_X_Soln" target="_blank" rel="noopener">X (Twitter)</a></li>
+          <li><a href="/impressum/">Impressum</a></li>
+          <li><a href="/datenschutz/">Datenschutz</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__risk">
+      <p><strong>Hinweis:</strong> Crypto X Solutions erbringt ausschließlich IT-Dienstleistungen (Softwareentwicklung, Erstellung von Webseiten und Schulungen zur Bedienung von Software) und ist kein Finanzdienstleister. Es werden keine Anlageberatung, keine Vermögensverwaltung, keine Handelssignale und keine sonstigen konzessionspflichtigen Finanz- oder Wertpapierdienstleistungen angeboten.</p>
+      <p><strong>Risikohinweis:</strong> Der Handel mit Futures, Kryptowerten und anderen gehebelten Produkten ist mit erheblichen Risiken verbunden und kann zum vollständigen Verlust des eingesetzten Kapitals führen. Auch Teilnahmegebühren für Prop-Firm-Evaluierungen können verloren gehen. Die Inhalte dieser Webseite, das CryptoX Dashboard und das Risiko-Cockpit dienen ausschließlich der allgemeinen Information und der persönlichen Organisation. Sie stellen keine Anlageberatung, keine Anlageempfehlung und keine Aufforderung zum Kauf oder Verkauf von Finanzinstrumenten oder Kryptowerten dar. Vergangene Ergebnisse sind kein verlässlicher Indikator für künftige Ergebnisse.</p>
+    </div>
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> Crypto X Solutions · Tim Kofler · Keine Cookies · Kein Tracking</span>
+    </div>
+    <p class="footer__big" aria-hidden="true">Crypto<span>X</span></p>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js?v=5b686c25"></script>
+<script src="/assets/js/forms.js?v=8d469d97"></script>
+</body>
+</html>

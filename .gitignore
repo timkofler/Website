@@ -1,0 +1,4 @@
+
+# Server-Konfiguration der Formulare (API-Schlüssel) und Laufzeitdaten
+api/_data/*
+!api/_data/.htaccess
