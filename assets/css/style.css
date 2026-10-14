@@ -363,3 +363,94 @@ p { margin: 0 0 18px; }
 
 /* Links im Fließtext nicht nur über die Farbe erkennbar machen */
 main p a:not(.btn), main li a:not(.btn), .faq__item p a, .glance dd a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+/* ===== Dashboard-Bereiche: Glas-Optik und Bewegung (angelehnt an das CryptoX Dashboard) ===== */
+.glass { background: rgba(22,22,22,.62); border: 1px solid rgba(255,255,255,.08); border-radius: 18px; box-shadow: 0 30px 80px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.04); -webkit-backdrop-filter: blur(14px) saturate(1.15); backdrop-filter: blur(14px) saturate(1.15); overflow: hidden; }
+.glass img { display: block; width: 100%; height: auto; }
+
+/* Hero: Fenster + schwebendes Handy */
+.hero__shot .window.glass { border-radius: 18px 18px 0 0; border-bottom: 0; }
+.hero__phone { position: absolute; right: -3%; bottom: 3%; width: 210px; z-index: 3; animation: float 7s ease-in-out infinite; }
+@keyframes float { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-14px) rotate(-1deg); } }
+
+/* Handy-Rahmen */
+.phone { position: relative; border-radius: 34px; padding: 8px; background: #0e0e0e; border: 1px solid #2c2c2c; box-shadow: 0 30px 70px rgba(0,0,0,.6), 0 0 0 1px rgba(220,247,99,.06); }
+.phone img { display: block; width: 100%; height: auto; border-radius: 27px; }
+
+/* Weicher grüner Schimmer im Hintergrund */
+.section--glow { overflow: hidden; border-top: 1px solid var(--line); }
+.section--glow::before { content: ""; position: absolute; width: 900px; height: 900px; left: 50%; top: 10%; margin-left: -450px; border-radius: 50%; background: radial-gradient(closest-side, rgba(220,247,99,.10), transparent 70%); pointer-events: none; animation: drift 22s ease-in-out infinite alternate; }
+.section--glow > .container { position: relative; }
+@keyframes drift { from { transform: translate(-18%, -6%); } to { transform: translate(18%, 8%); } }
+
+/* Funktions-Tour */
+.tour__tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 36px; }
+.tour__tab { position: relative; overflow: hidden; font: 600 .95rem var(--body); color: var(--muted); background: var(--surface); border: 1px solid var(--line-2); border-radius: 999px; padding: 10px 18px; cursor: pointer; transition: color .2s, background .2s, border-color .2s; }
+.tour__tab:hover { color: var(--text); border-color: #4a4a4a; }
+.tour__tab[aria-selected="true"] { color: var(--ink); background: var(--lime); border-color: var(--lime); }
+.tour__tab:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
+.tour__tab::after { content: ""; position: absolute; left: 0; bottom: 0; height: 3px; width: 0; background: rgba(11,11,11,.35); }
+.tour.is-playing .tour__tab[aria-selected="true"]::after { animation: tourbar var(--tour-ms, 7000ms) linear forwards; }
+@keyframes tourbar { to { width: 100%; } }
+.tour__panel { display: grid; grid-template-columns: .85fr 1.5fr; gap: 48px; align-items: center; }
+.tour__panel + .tour__panel { margin-top: 56px; }
+.js .tour__panel + .tour__panel { margin-top: 0; }
+.js .tour__panel:not(.is-active) { display: none; }
+.js .tour__panel.is-active { animation: tourin .55s cubic-bezier(.2,.7,.2,1); }
+@keyframes tourin { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.tour__text h3 { font-size: clamp(1.4rem, 2.4vw, 2rem); margin: 16px 0 14px; }
+.tour__text p { color: var(--muted); margin: 0; }
+.tour__shot { transition: transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s; }
+.tour__shot:hover { transform: translateY(-4px); box-shadow: 0 40px 100px rgba(0,0,0,.55), 0 0 0 1px rgba(220,247,99,.18); }
+
+/* Liste mit Rauten */
+.ticks { list-style: none; padding: 0; margin: 22px 0 0; display: grid; gap: 11px; }
+.ticks li { display: flex; gap: 12px; }
+.ticks li::before { content: ""; flex: none; width: 8px; height: 8px; margin-top: 10px; background: var(--lime); border-radius: 2px; transform: rotate(45deg); }
+
+.note-legal { margin: 40px 0 0; max-width: 900px; font-size: .86rem; color: var(--muted); border-left: 2px solid var(--lime); padding-left: 16px; }
+
+/* Handy-Bereich */
+.mobile { display: grid; grid-template-columns: 1fr 1.25fr; gap: 56px; align-items: center; }
+.mobile__phones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: start; }
+.mobile__phones > div:nth-child(2) { margin-top: 48px; }
+.mobile__phones > div:nth-child(3) { margin-top: 96px; }
+
+/* Module: leichte Bewegung beim Überfahren */
+.module { transition: background .25s, transform .25s; }
+.module:hover { background: var(--bg-2); }
+.module:hover b::before { transform: rotate(135deg); }
+.module b::before { transition: transform .35s; }
+
+.planned { margin-top: 28px; border: 1px dashed var(--line-2); border-radius: 20px; padding: 24px 28px; }
+.planned p { margin: 12px 0 0; color: var(--muted); }
+
+/* Einblenden beim Scrollen (nur Elemente unterhalb des sichtbaren Bereichs) */
+.reveal-wait { opacity: 0; transform: translateY(26px); }
+.reveal-in { opacity: 1; transform: none; transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0ms); }
+
+@media (max-width: 1100px) {
+  .hero__phone { width: 170px; right: 2%; }
+}
+@media (max-width: 900px) {
+  .tour__panel { grid-template-columns: 1fr; gap: 28px; }
+  .tour__shot { order: -1; }
+  .mobile { grid-template-columns: 1fr; gap: 40px; }
+}
+@media (max-width: 680px) {
+  .tour__tabs { flex-wrap: nowrap; overflow-x: auto; margin: 0 -16px 28px; padding: 0 16px 6px; scrollbar-width: none; }
+  .tour__tabs::-webkit-scrollbar { display: none; }
+  .tour__tab { flex: none; }
+  .hero__phone { width: 104px; right: 8px; bottom: 6%; }
+  .phone { border-radius: 22px; padding: 5px; }
+  .phone img { border-radius: 18px; }
+  .mobile__phones { gap: 10px; }
+  .mobile__phones > div:nth-child(2) { margin-top: 24px; }
+  .mobile__phones > div:nth-child(3) { margin-top: 48px; }
+  .glass { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(22,22,22,.92); }
+  .section--glow::before { width: 600px; height: 600px; margin-left: -300px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__phone, .section--glow::before { animation: none; }
+  .reveal-wait { opacity: 1; transform: none; }
+}

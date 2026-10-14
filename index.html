@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CryptoX – Risiko-Cockpit für Futures-Trader | Software, Schulungen und Webdesign</title>
-  <meta name="description" content="CryptoX aus Österreich: das Risiko-Cockpit (Beta) für Futures- und Prop-Trader mit Tageslimit, Positionsgrößen-Rechner, 6-Punkte-Checkliste und Trade-Log – plus Software-Schulungen und individuell programmierte Webseiten.">
+  <title>CryptoX – Dashboard für Prop-Firm-Trader | Software, Schulungen und Webdesign</title>
+  <meta name="description" content="CryptoX aus Österreich: das Dashboard (Beta) für Prop-Firm-Trader. Drawdown, Tageslimit, Konsistenz, Handelstage und Auszahlung für beliebig viele Konten automatisch im Blick – plus Software-Schulungen und individuell programmierte Webseiten.">
   <link rel="canonical" href="https://crypto-x.at/">
-  <meta property="og:title" content="CryptoX – Risiko-Cockpit für Futures-Trader | Software, Schulungen und Webdesign">
-  <meta property="og:description" content="CryptoX aus Österreich: das Risiko-Cockpit (Beta) für Futures- und Prop-Trader mit Tageslimit, Positionsgrößen-Rechner, 6-Punkte-Checkliste und Trade-Log – plus Software-Schulungen und individuell programmierte Webseiten.">
+  <meta property="og:title" content="CryptoX – Dashboard für Prop-Firm-Trader | Software, Schulungen und Webdesign">
+  <meta property="og:description" content="CryptoX aus Österreich: das Dashboard (Beta) für Prop-Firm-Trader. Drawdown, Tageslimit, Konsistenz, Handelstage und Auszahlung für beliebig viele Konten automatisch im Blick – plus Software-Schulungen und individuell programmierte Webseiten.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="de_AT">
   <meta property="og:url" content="https://crypto-x.at/">
@@ -16,7 +16,7 @@
   <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/style.css?v=a07b000c">
+  <link rel="stylesheet" href="/assets/css/style.css?v=f554091e">
   <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "ProfessionalService", "@id": "https://crypto-x.at/#unternehmen", "name": "Crypto X Solutions", "alternateName": "CryptoX", "url": "https://crypto-x.at/", "image": "https://crypto-x.at/assets/img/og.jpg", "logo": "https://crypto-x.at/assets/img/og.jpg", "email": "tk@crypto-x.at", "telephone": "+4367761773118", "address": {"@type": "PostalAddress", "streetAddress": "Lehen 2", "postalCode": "3281", "addressLocality": "Oberndorf an der Melk", "addressRegion": "Niederösterreich", "addressCountry": "AT"}, "areaServed": {"@type": "Country", "name": "Österreich"}, "founder": {"@id": "https://crypto-x.at/#tim"}, "description": "IT-Dienstleister aus Niederösterreich: Webseiten-Erstellung, Softwareentwicklung, Software-Schulungen und das Risiko-Cockpit für Prop-Trader.", "knowsAbout": ["Webseiten-Erstellung", "Webdesign", "Softwareentwicklung", "Prop Trading Tool", "Risikomanagement", "Trading-Software"], "sameAs": ["https://www.instagram.com/crypto_x_solutions/", "https://x.com/Crypto_X_Soln", "https://t.me/Crypto_X_Solutions"], "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Leistungen", "itemListElement": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Webseiten-Erstellung", "description": "Individuell programmierte, schnelle und mobiloptimierte Webseiten für Selbstständige und kleine Unternehmen.", "areaServed": "AT"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Softwareentwicklung", "description": "Individuelle Softwarelösungen wie Rechner, Auswertungen und Dashboards.", "areaServed": "AT"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Software-Schulungen", "description": "Schulungen zur technischen Einrichtung und Bedienung von Trading-Software.", "areaServed": "AT"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Risiko-Cockpit", "description": "Werkzeug für Risikomanagement im Futures- und Prop-Trading: Tageslimit, Positionsgröße, Checkliste und Trade-Log.", "areaServed": "AT"}}]}}, {"@type": "Person", "@id": "https://crypto-x.at/#tim", "name": "Tim Kofler", "jobTitle": "Softwareentwickler", "url": "https://crypto-x.at/ueber-mich/", "image": "https://crypto-x.at/assets/img/team/tim-portrait.webp", "worksFor": {"@id": "https://crypto-x.at/#unternehmen"}, "sameAs": ["https://www.instagram.com/crypto_x_solutions/", "https://x.com/Crypto_X_Soln", "https://t.me/Crypto_X_Solutions"]}, {"@type": "WebSite", "@id": "https://crypto-x.at/#website", "url": "https://crypto-x.at/", "name": "CryptoX", "inLanguage": "de-AT", "publisher": {"@id": "https://crypto-x.at/#unternehmen"}}]}</script>
 </head>
 <body>
@@ -48,120 +48,172 @@
   <div class="container hero__inner">
     <a href="#beta" class="hero__badge"><span>BETA</span> Tester für das CryptoX Dashboard gesucht</a>
     <h1>Trade mit <em>System.</em><br>Nicht mit Gefühl.</h1>
-    <p class="lead">Das CryptoX Risiko-Cockpit macht dein Tageslimit, deine Positionsgröße und deine eigenen Regeln in einer Ansicht sichtbar. Gebaut für Futures-Trader, die mit Prop-Firm-Konten arbeiten.</p>
+    <p class="lead">Ein Dashboard für Prop-Firm-Trader: alle Konten, alle Regeln, ein Blick. Das CryptoX Dashboard rechnet für jedes Konto Drawdown, Tageslimit, Konsistenzregel, Handelstage und Auszahlung mit und warnt rechtzeitig, bevor eine Regel bricht.</p>
     <div class="btn-row">
       <a href="#beta" class="btn">Beta-Tester werden <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       <a href="/cockpit/" class="btn btn--line">Live-Demo</a>
     </div>
-    <p class="hero__note">Live-Demo ohne Anmeldung · Beta-Tester erhalten einen eigenen Zugang mit allen Funktionen</p>
-    <div class="hero__shot">
-      <div class="window">
-        <div class="window__bar"><i></i><i></i><i></i><span>crypto-x.at/cockpit · Live-Demo</span></div>
-        <img src="/assets/img/cockpit/hero.webp?v=06501fc4" alt="Screenshot des Risiko-Cockpits mit Tageslimit, Positionsgrößen-Rechner und Checkliste" width="2000" height="1347" fetchpriority="high">
+    <p class="hero__note">Am PC und am Handy · Konten, Regeln, Checklisten und Instrumente frei einstellbar · <a href="#dashboard">Alle Funktionen ansehen</a></p>
+    <div class="hero__shot reveal">
+      <div class="window glass">
+        <div class="window__bar"><i></i><i></i><i></i><span>CryptoX Dashboard · Demo-Daten</span></div>
+        <img src="/assets/img/dashboard/heute-1600.webp?v=f98479b8" srcset="/assets/img/dashboard/heute-960.webp?v=8f605e22 960w, /assets/img/dashboard/heute-1600.webp?v=f98479b8 1600w" sizes="(max-width: 1100px) 100vw, 1100px" alt="Tagesüberblick des CryptoX Dashboards mit Ergebnis aller Konten, Warnungen und Trading-Sessions" width="1600" height="830" fetchpriority="high">
       </div>
+      <div class="hero__phone"><div class="phone"><img src="/assets/img/dashboard/handy-trade-600.webp?v=30f633b7" srcset="/assets/img/dashboard/handy-trade-300.webp?v=2899c89a 300w, /assets/img/dashboard/handy-trade-600.webp?v=30f633b7 600w" sizes="260px" alt="Trade am Smartphone eintragen" width="600" height="1333"></div></div>
     </div>
   </div>
 </section>
 
 <div class="container">
   <div class="figures">
-    <div class="figure"><b>4</b><span>Futures-Kontrakte: MNQ, NQ, MES, ES</span></div>
-    <div class="figure"><b>6</b><span>Punkte-Checkliste vor jedem Einstieg</span></div>
-    <div class="figure"><b>100&nbsp;%</b><span>lokal: Daten bleiben in deinem Browser</span></div>
-    <div class="figure"><b>13+</b><span>Jahre Erfahrung mit Märkten &amp; Software</span></div>
+    <div class="figure reveal"><b data-count="8">8</b><span>Kontoregeln automatisch gerechnet</span></div>
+    <div class="figure reveal"><b>1&nbsp;→&nbsp;alle</b><span>Ein Trade, beliebig viele Konten</span></div>
+    <div class="figure reveal"><b data-count="13" data-suffix="+">13+</b><span>Instrumente, eigene beliebig ergänzbar</span></div>
+    <div class="figure reveal"><b>0</b><span>Tracking, keine Weitergabe an Dritte</span></div>
   </div>
 </div>
 
-<!-- COCKPIT FEATURES -->
-<section class="section" id="cockpit">
+<!-- DASHBOARD-TOUR -->
+<section class="section section--glow" id="dashboard">
   <div class="container">
     <div class="head">
       <div>
-        <span class="label"><b>[01]</b> Das Risiko-Cockpit</span>
-        <h2>Eine Ansicht. Deine Regeln. <span class="lime">Kein Bauchgefühl.</span></h2>
+        <span class="label"><b>[01]</b> Das Dashboard</span>
+        <h2>Nie wieder ein Konto wegen einer <span class="lime">übersehenen Regel</span> verlieren.</h2>
       </div>
-      <p>Viele Trading-Konten scheitern nicht an fehlenden Ideen, sondern an gebrochenen eigenen Regeln: eine Position zu groß, ein Trade zu viel, das Tageslimit überschritten. Das Cockpit macht diese Grenzen sichtbar. Die Entscheidungen triffst du selbst. <a href="/prop-trading-tool/">Mehr zum Prop Trading Tool</a></p>
+      <p>Viele Prop-Konten scheitern nicht an fehlenden Ideen, sondern an einer Regel, die im Eifer übersehen wurde. Das Dashboard behält jede Grenze für dich im Blick. Die Entscheidungen triffst du selbst.</p>
     </div>
-
-    <div class="feature">
-      <div class="feature__text">
-        <span class="label"><b>01</b> Tageslimit</span>
-        <h3>Du siehst immer, wie viel Spielraum heute noch bleibt.</h3>
-        <p>Trag das Tagesverlustlimit deines Kontos ein. Nach jedem eingetragenen Trade rechnet das Cockpit sofort mit und zeigt farblich, wo du stehst.</p>
-        <ul>
-          <li>Restbetrag in großen Zahlen statt Kopfrechnen</li>
-          <li>Warnung ab 50 %, klarer Hinweis bei 100 %</li>
-          <li>Ergebnis und Anzahl der Trades des Tages auf einen Blick</li>
-        </ul>
+    <div class="tour" data-tour>
+      <div class="tour__tabs" role="tablist" aria-label="Bereiche des Dashboards">
+        <button class="tour__tab" type="button" role="tab" id="tab-heute" aria-controls="panel-heute" aria-selected="true">Heute</button>
+        <button class="tour__tab" type="button" role="tab" id="tab-konten" aria-controls="panel-konten" aria-selected="false" tabindex="-1">Konten</button>
+        <button class="tour__tab" type="button" role="tab" id="tab-regeln" aria-controls="panel-regeln" aria-selected="false" tabindex="-1">Kontoregeln</button>
+        <button class="tour__tab" type="button" role="tab" id="tab-trade" aria-controls="panel-trade" aria-selected="false" tabindex="-1">Trade eintragen</button>
+        <button class="tour__tab" type="button" role="tab" id="tab-statistik" aria-controls="panel-statistik" aria-selected="false" tabindex="-1">Statistik</button>
+        <button class="tour__tab" type="button" role="tab" id="tab-checkliste" aria-controls="panel-checkliste" aria-selected="false" tabindex="-1">Checkliste</button>
       </div>
-      <div class="feature__shot"><img src="/assets/img/cockpit/tageslimit.webp?v=dfee6eba" alt="Tageslimit-Anzeige im Risiko-Cockpit" width="1992" height="582" loading="lazy"></div>
+      <div class="tour__panel is-active" role="tabpanel" id="panel-heute" aria-labelledby="tab-heute">
+        <div class="tour__text">
+          <span class="label"><b>01</b> Heute</span>
+          <h3>Der Tag auf einen Blick.</h3>
+          <p>Ergebnis aller Konten, Konten im Rahmen oder mit Warnung, Fortschritt der Checkliste und die Trading-Sessions von Tokyo bis NY Close, automatisch an die Zeitumstellung angepasst.</p>
+          <ul class="ticks"><li>Kacheln für Funded/Live, Challenges und alle Konten</li><li>Rückblick auf jeden früheren Handelstag</li><li>Wirtschaftskalender, übersetzte Schlagzeilen und Fed-Countdown</li><li>Begrüßung und Warnungen auf Wunsch vorgelesen</li></ul>
+        </div>
+        <div class="tour__shot glass"><img src="/assets/img/dashboard/heute-1600.webp?v=f98479b8" srcset="/assets/img/dashboard/heute-960.webp?v=8f605e22 960w, /assets/img/dashboard/heute-1600.webp?v=f98479b8 1600w" sizes="(max-width: 900px) 100vw, 760px" alt="Tagesüberblick mit Ergebnis aller Konten und Trading-Sessions" width="1600" height="830" loading="lazy" decoding="async"></div>
+      </div>
+      <div class="tour__panel" role="tabpanel" id="panel-konten" aria-labelledby="tab-konten">
+        <div class="tour__text">
+          <span class="label"><b>02</b> Konten</span>
+          <h3>Jede Regel, jedes Konto, eine Ampel.</h3>
+          <p>Eine Karte pro Konto mit Kontostand, Fortschritt und Puffer bis zu jeder Grenze. Warnungen stehen im Klartext da, bevor eine Regel bricht.</p>
+          <ul class="ticks"><li>Beliebig viele Konten: Challenge, Funded oder Live</li><li>Messbalken für Tageslimit, Daily und Max Drawdown</li><li>Warnung wie „Nur noch $180 bis zur Drawdown-Grenze“</li><li>Kontostand anpassen, wenn du nicht jeden Trade einträgst</li></ul>
+        </div>
+        <div class="tour__shot glass"><img src="/assets/img/dashboard/konten-1600.webp?v=e9aa9c13" srcset="/assets/img/dashboard/konten-960.webp?v=ae97ad49 960w, /assets/img/dashboard/konten-1600.webp?v=e9aa9c13 1600w" sizes="(max-width: 900px) 100vw, 760px" alt="Prop-Firm-Konten mit Drawdown, Tageslimit und Fortschritt" width="1600" height="1006" loading="lazy" decoding="async"></div>
+      </div>
+      <div class="tour__panel" role="tabpanel" id="panel-regeln" aria-labelledby="tab-regeln">
+        <div class="tour__text">
+          <span class="label"><b>03</b> Kontoregeln</span>
+          <h3>Die Regeln deiner Firma, frei einstellbar.</h3>
+          <p>Du hinterlegst für jedes Konto die Regeln, die wirklich gelten. Das Dashboard rechnet sie bei jedem Trade automatisch mit.</p>
+          <ul class="ticks"><li>Trailing Drawdown (EOD) mit optionalem Lock oder statisch</li><li>Daily Loss Limit der Firma und eigenes Tageslimit</li><li>Konsistenzregel, Mindest-Handelstage, Gewinnziel und Frist</li><li>Auszahlungsrechner für Funded- und Live-Konten</li></ul>
+        </div>
+        <div class="tour__shot glass"><img src="/assets/img/dashboard/regeln-1600.webp?v=0ea13e23" srcset="/assets/img/dashboard/regeln-960.webp?v=7fefca23 960w, /assets/img/dashboard/regeln-1600.webp?v=0ea13e23 1600w" sizes="(max-width: 900px) 100vw, 760px" alt="Regeln eines Kontos einstellen" width="1600" height="1000" loading="lazy" decoding="async"></div>
+      </div>
+      <div class="tour__panel" role="tabpanel" id="panel-trade" aria-labelledby="tab-trade">
+        <div class="tour__text">
+          <span class="label"><b>04</b> Trade eintragen</span>
+          <h3>Einmal eintragen, auf allen Konten richtig.</h3>
+          <p>Konten anhaken, Kontrakte pro Konto wählen, fertig. Punkte, Ergebnis und Session rechnet das Dashboard selbst aus, jeder Wert lässt sich überschreiben.</p>
+          <ul class="ticks"><li>Ein Trade auf beliebig vielen Konten gleichzeitig</li><li>Netto-Ergebnis live über alle gewählten Konten</li><li>13 Instrumente vorinstalliert, eigene beliebig ergänzbar</li><li>Import von Trades als JSON-Datei mit Duplikat-Erkennung</li></ul>
+        </div>
+        <div class="tour__shot glass"><img src="/assets/img/dashboard/trade-1600.webp?v=24fc31db" srcset="/assets/img/dashboard/trade-960.webp?v=90048451 960w, /assets/img/dashboard/trade-1600.webp?v=24fc31db 1600w" sizes="(max-width: 900px) 100vw, 760px" alt="Trade auf mehreren Konten gleichzeitig eintragen" width="1600" height="1000" loading="lazy" decoding="async"></div>
+      </div>
+      <div class="tour__panel" role="tabpanel" id="panel-statistik" aria-labelledby="tab-statistik">
+        <div class="tour__text">
+          <span class="label"><b>05</b> Statistik</span>
+          <h3>Was wirklich funktioniert.</h3>
+          <p>Kennzahlen pro Konto, für alle Challenges oder alle Funded-Konten, für jeden Zeitraum. Dazu Wochenübersicht und ein Journal mit CSV-Export.</p>
+          <ul class="ticks"><li>Trefferquote, Profitfaktor und Erwartungswert pro Trade</li><li>P&amp;L-Kalender als Heatmap mit Wochensumme</li><li>Auswertung nach Entry-Typ, Haltedauer und Session</li><li>Derselbe Trade auf mehreren Konten zählt nur einmal</li></ul>
+        </div>
+        <div class="tour__shot glass"><img src="/assets/img/dashboard/statistik-1600.webp?v=3347d251" srcset="/assets/img/dashboard/statistik-960.webp?v=a8933a0b 960w, /assets/img/dashboard/statistik-1600.webp?v=3347d251 1600w" sizes="(max-width: 900px) 100vw, 760px" alt="Trading-Statistik mit Trefferquote, Profitfaktor und P&amp;L-Kalender" width="1600" height="1000" loading="lazy" decoding="async"></div>
+      </div>
+      <div class="tour__panel" role="tabpanel" id="panel-checkliste" aria-labelledby="tab-checkliste">
+        <div class="tour__text">
+          <span class="label"><b>06</b> Checkliste</span>
+          <h3>Deine Regeln vor jedem Trade.</h3>
+          <p>Mehrere Checklisten, zum Beispiel eine pro Markt. Punkte legst du selbst an, benennst sie um, sortierst oder löschst sie.</p>
+          <ul class="ticks"><li>Eigene Punkte und Auswahlfelder wie Trend Woche/Tag/H4</li><li>News und Termine des Tages, eigener Zustand, Notizen</li><li>Farbe zeigt den Fortschritt, speichert automatisch</li><li>Verlauf: Plan eingehalten oder Checkliste unvollständig</li></ul>
+        </div>
+        <div class="tour__shot glass"><img src="/assets/img/dashboard/checkliste-1600.webp?v=e17dcc1a" srcset="/assets/img/dashboard/checkliste-960.webp?v=6e3bcff3 960w, /assets/img/dashboard/checkliste-1600.webp?v=e17dcc1a 1600w" sizes="(max-width: 900px) 100vw, 760px" alt="Checkliste vor dem Trade mit Verlauf" width="1600" height="1006" loading="lazy" decoding="async"></div>
+      </div>
     </div>
+    <p class="note-legal">Bilder aus einer Demo-Installation mit erfundenen Daten. Firmennamen in den Bildern sind Beispiel-Bezeichnungen der Demo-Konten, es besteht keine Partnerschaft. Das Dashboard ist ein Werkzeug zur Selbstkontrolle, <strong>keine Anlageberatung und keine Handelsplattform</strong>: Es führt keine Trades aus und verbindet sich mit keinem Broker.</p>
+  </div>
+</section>
 
-    <div class="feature feature--flip">
-      <div class="feature__text">
-        <span class="label"><b>02</b> Positionsgröße</span>
-        <h3>Die Kontraktanzahl, berechnet statt geschätzt.</h3>
-        <p>Wähle MNQ, NQ, MES oder ES und gib dein gewünschtes Risiko pro Trade und den Stop in Punkten ein. Das Cockpit rechnet die Kontraktanzahl aus und prüft sie gegen dein Rest-Limit.</p>
-        <ul>
-          <li>Berücksichtigt den Punktwert jedes Kontrakts</li>
-          <li>Obergrenze für maximale Kontrakte einstellbar</li>
-          <li>Zeigt Ziel in Punkten und Dollar sowie volle Stopps bis zum Limit</li>
-        </ul>
-      </div>
-      <div class="feature__shot"><img src="/assets/img/cockpit/rechner.webp?v=44921693" alt="Positionsgrößen-Rechner im Risiko-Cockpit" width="980" height="1090" loading="lazy"></div>
+<!-- HANDY -->
+<section class="section section--line">
+  <div class="container mobile">
+    <div class="mobile__text reveal">
+      <span class="label"><b>[02]</b> Am Handy</span>
+      <h2>Für das Handy gebaut. <span class="lime">Als App installierbar.</span></h2>
+      <p class="muted">Kompakter Kopf, schwebender „+ Trade“-Knopf und Fenster als Blatt von unten mit großen Knöpfen. Auf dem Startbildschirm installiert, öffnet sich das Dashboard im Vollbild wie eine App.</p>
+      <ul class="ticks">
+        <li>Hell oder dunkel, mit eigenem Namen und Logo</li>
+        <li>Weiche Animationen, die „Bewegung reduzieren“ berücksichtigen</li>
+        <li>Bedienbar mit Tastatur und Screenreader</li>
+      </ul>
     </div>
-
-    <div class="feature">
-      <div class="feature__text">
-        <span class="label"><b>03</b> Checkliste</span>
-        <h3>Sechs Fragen vor jedem Einstieg.</h3>
-        <p>Erst wenn alle sechs Punkte abgehakt sind, steht da: <strong>Bereit</strong>. Die Häkchen setzen sich jeden Tag automatisch zurück. Das sind die Punkte der Demo, im vollen Dashboard trägst du deine eigenen Regeln ein:</p>
-        <ul>
-          <li>Stop ist gesetzt, bevor ich einsteige</li>
-          <li>Größe stammt aus dem Rechner, ich erhöhe nicht gegen die Position</li>
-          <li>Einstieg am Low nur bei bestätigtem Long-Trend</li>
-          <li>Kein High-Impact-Termin in den nächsten 15 Minuten</li>
-          <li>Ruhig, kein Rache-Trade nach einem Verlust</li>
-          <li>Das Tageslimit ist noch nicht erreicht</li>
-        </ul>
-      </div>
-      <div class="feature__shot"><img src="/assets/img/cockpit/checkliste.webp?v=46ef6d53" alt="Checkliste vor dem Einstieg im Risiko-Cockpit" width="980" height="1090" loading="lazy"></div>
-    </div>
-
-    <div class="feature feature--flip">
-      <div class="feature__text">
-        <span class="label"><b>04</b> Trade-Log &amp; Statistik</span>
-        <h3>Ehrliche Zahlen statt Erinnerungen.</h3>
-        <p>Jeder Trade mit Betrag und Notiz: Setup, Gefühl, Fehler. Daraus berechnet das Cockpit Trefferquote, durchschnittlichen Gewinn und Verlust und die Erwartung pro Trade, als Grundlage für deine eigene Auswertung.</p>
-      </div>
-      <div class="feature__shot" style="display:grid;gap:1px;background:var(--line-2)">
-        <img src="/assets/img/cockpit/tradelog.webp?v=754f62a1" alt="Trade-Log im Risiko-Cockpit" width="1992" height="706" loading="lazy">
-        <img src="/assets/img/cockpit/statistik.webp?v=758daffa" alt="Statistik im Risiko-Cockpit" width="1992" height="256" loading="lazy">
-      </div>
+    <div class="mobile__phones">
+      <div class="reveal"><div class="phone"><img src="/assets/img/dashboard/handy-heute-600.webp?v=f0038aba" srcset="/assets/img/dashboard/handy-heute-300.webp?v=5e0bfaf2 300w, /assets/img/dashboard/handy-heute-600.webp?v=f0038aba 600w" sizes="260px" alt="Tagesüberblick am Smartphone" width="600" height="1333" loading="lazy" decoding="async"></div></div>
+      <div class="reveal"><div class="phone"><img src="/assets/img/dashboard/handy-checkliste-600.webp?v=aa0e7ce4" srcset="/assets/img/dashboard/handy-checkliste-300.webp?v=06558ab9 300w, /assets/img/dashboard/handy-checkliste-600.webp?v=aa0e7ce4 600w" sizes="260px" alt="Checkliste am Smartphone" width="600" height="1333" loading="lazy" decoding="async"></div></div>
+      <div class="reveal"><div class="phone"><img src="/assets/img/dashboard/handy-statistik-600.webp?v=1ddd5401" srcset="/assets/img/dashboard/handy-statistik-300.webp?v=e6ed986a 300w, /assets/img/dashboard/handy-statistik-600.webp?v=1ddd5401 600w" sizes="260px" alt="Statistik am Smartphone" width="600" height="1333" loading="lazy" decoding="async"></div></div>
     </div>
   </div>
 </section>
 
-<!-- VOLLES DASHBOARD -->
+<!-- ALLES DRIN -->
 <section class="section section--line">
   <div class="container">
     <div class="head">
       <div>
-        <span class="label"><b>[02]</b> Für Beta-Tester</span>
-        <h2>Die Demo ist nur der Anfang. <span class="lime">Das volle Dashboard</span> kann mehr.</h2>
+        <span class="label"><b>[03]</b> Alles drin</span>
+        <h2>Alles drin. <span class="lime">Alles anpassbar.</span></h2>
       </div>
-      <p>Die Live-Demo zeigt die Grundfunktionen. Beta-Tester arbeiten mit dem vollen CryptoX Dashboard, im eigenen Zugang und mit ihren eigenen Kontoregeln.</p>
+      <p>Konten, Regeln, Checklisten, Instrumente, Entry-Typen und Handelstage stellst du selbst ein. Das Dashboard passt sich deinem Trading an, nicht umgekehrt.</p>
     </div>
     <div class="modules">
-      <div class="module"><b>Heute</b><span>Tageslimit, Ergebnis und Status auf einen Blick</span></div>
-      <div class="module"><b>Konten</b><span>Mehrere Prop-Konten nebeneinander verwalten</span></div>
-      <div class="module"><b>Kontoregeln</b><span>Die Regeln jedes Kontos hinterlegen und im Blick behalten</span></div>
-      <div class="module"><b>Journal</b><span>Trades eintragen, mit Notizen zu Setup und Gefühl</span></div>
-      <div class="module"><b>Statistik &amp; Woche</b><span>Auswertungen pro Tag, Woche und Konto</span></div>
-      <div class="module"><b>Checkliste</b><span>Deine eigenen Regeln vor jedem Einstieg</span></div>
-      <div class="module"><b>Chart</b><span>Kursansicht direkt im Dashboard</span></div>
-      <div class="module"><b>News &amp; Kalender</b><span>Wirtschaftskalender mit wichtigen Terminen</span></div>
-      <div class="module"><b>Sprachansagen</b><span>Hinweise per Sprache, ohne auf den Bildschirm zu schauen</span></div>
+      <div class="module reveal"><b>Regel-Engine</b><span>Trailing (EOD) oder statischer Drawdown, Daily Loss, Konsistenz, Handelstage, Gewinnziel, Frist</span></div>
+      <div class="module reveal"><b>Beliebig viele Konten</b><span>Challenge, Funded und Live, mit Status aktiv, bestanden, gescheitert oder archiviert</span></div>
+      <div class="module reveal"><b>Auszahlungsrechner</b><span>Auszahlbarer Betrag und Tage bis zur nächsten Auszahlung je Konto</span></div>
+      <div class="module reveal"><b>Eigene Instrumente</b><span>Futures, FX, Gold, Krypto oder Aktien mit eigenem Punktwert</span></div>
+      <div class="module reveal"><b>Journal &amp; Woche</b><span>Alle Trades mit Notiz und Bewertung, Wochentabelle, Export als CSV für Excel</span></div>
+      <div class="module reveal"><b>Mehrere Checklisten</b><span>Eine pro Markt, Punkte frei anlegen, sortieren und auswerten</span></div>
+      <div class="module reveal"><b>Sessions &amp; Termine</b><span>Trading-Sessions mit Zeitumstellung, Wirtschaftskalender und Fed-Countdown</span></div>
+      <div class="module reveal"><b>Schlagzeilen auf Deutsch</b><span>Live übersetzt, wichtige Meldungen und eigene Stichwörter rot markiert</span></div>
+      <div class="module reveal"><b>Sprachansagen</b><span>Warnungen werden vorgelesen, sobald ein Konto in den gelben oder roten Bereich rutscht</span></div>
+      <div class="module reveal"><b>Chart im Dashboard</b><span>Nasdaq, S&amp;P 500, Dow, Gold, BTC und ETH direkt eingebettet</span></div>
+      <div class="module reveal"><b>Eigene Installation</b><span>Jeder Tester startet leer, mit eigenem Namen, Logo und Passwort</span></div>
+      <div class="module reveal"><b>Sicher &amp; gesichert</b><span>Passwortschutz mit Sperre, nur HTTPS, tägliche Sicherung für 30 Tage</span></div>
+    </div>
+    <div class="planned reveal">
+      <span class="label"><b>Geplant</b> Ideen für die nächsten Versionen</span>
+      <p>Direkter Import aus Tradovate, NinjaTrader, Rithmic oder MT5 · Screenshots zu jedem Trade · Benachrichtigung aufs Handy, per Telegram oder Discord · Positionsgrößen-Rechner · Equity-Kurve mit Drawdown-Grenze · englische Oberfläche. Als Beta-Tester entscheidest du mit, was zuerst kommt.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE-DEMO -->
+<section class="section section--line">
+  <div class="container">
+    <div class="feature">
+      <div class="feature__text reveal">
+        <span class="label"><b>[04]</b> Live-Demo</span>
+        <h3>Die Grundidee sofort ausprobieren.</h3>
+        <p>Ohne Anmeldung, direkt im Browser: Tageslimit, Positionsgrößen-Rechner für MNQ, NQ, MES und ES, eine Checkliste vor dem Einstieg und ein Trade-Log. Die Eingaben bleiben auf deinem Gerät. Das volle Dashboard bekommen Beta-Tester im eigenen Zugang.</p>
+        <div class="btn-row" style="margin-top:24px"><a href="/cockpit/" class="btn btn--line">Live-Demo öffnen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+      </div>
+      <div class="feature__shot reveal"><img src="/assets/img/cockpit/hero.webp?v=06501fc4" alt="Screenshot der Live-Demo mit Tageslimit, Positionsgrößen-Rechner und Checkliste" width="2000" height="1347" loading="lazy" decoding="async"></div>
     </div>
   </div>
 </section>
@@ -171,11 +223,11 @@
   <div class="container">
     <div class="beta">
       <div>
-        <span class="label"><b>[03]</b> Beta-Phase</span>
-        <h2>Teste das Cockpit. <span class="lime">Gestalte es mit.</span></h2>
+        <span class="label"><b>[05]</b> Beta-Phase</span>
+        <h2>Teste das Dashboard. <span class="lime">Gestalte es mit.</span></h2>
         <p class="muted">Das CryptoX Dashboard wird gerade mit echten Nutzern weiterentwickelt. Als Beta-Tester bekommst du einen <strong>eigenen, persönlichen Zugang</strong> mit allen Funktionen, verwendest ihn im Alltag und sagst mir ehrlich, was funktioniert und was fehlt.</p>
         <div class="btn-row" style="margin-top:28px">
-          <a href="mailto:tk@crypto-x.at?subject=Beta-Tester%20Risiko-Cockpit&body=Hallo%20Tim%2C%0A%0Aich%20m%C3%B6chte%20das%20Risiko-Cockpit%20testen.%0A%0AMeine%20Plattform%2FSoftware%3A%20%0AMein%20Erfahrungsstand%3A%20%0A" class="btn">Per E-Mail bewerben <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a href="mailto:tk@crypto-x.at?subject=Beta-Tester%20CryptoX%20Dashboard&body=Hallo%20Tim%2C%0A%0Aich%20m%C3%B6chte%20das%20CryptoX%20Dashboard%20testen.%0A%0AAnzahl%20meiner%20Prop-Konten%3A%20%0AMeine%20Plattform%2FSoftware%3A%20%0AMein%20Erfahrungsstand%3A%20%0A" class="btn">Per E-Mail bewerben <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           <a href="https://t.me/Crypto_X_Solutions" class="btn btn--line" target="_blank" rel="noopener">Per Telegram melden</a>
         </div>
       </div>
@@ -183,7 +235,8 @@
         <div>
           <h3>Das bekommst du</h3>
           <ul>
-            <li>Eigener Zugang zum vollen Dashboard</li>
+            <li>Eigene Installation des vollen Dashboards, alles konfigurierbar</li>
+            <li>Deine Daten getrennt von allen anderen Testern</li>
             <li>Früher Zugang zu neuen Funktionen</li>
             <li>Direkter Draht zum Entwickler</li>
             <li>Deine Wünsche fließen in die nächste Version ein</li>
@@ -192,7 +245,7 @@
         <div>
           <h3>Das wünsche ich mir</h3>
           <ul>
-            <li>Das Cockpit ein paar Wochen nutzen</li>
+            <li>Das Dashboard ein paar Wochen im Alltag nutzen</li>
             <li>Kurzes, ehrliches Feedback über das <a href="https://feedback.crypto-x.at/">Feedback-Formular</a> (ca. 3 Minuten)</li>
             <li>Ideen für Funktionen, die dir fehlen</li>
           </ul>
@@ -207,7 +260,7 @@
   <div class="container">
     <div class="head">
       <div>
-        <span class="label"><b>[04]</b> Leistungen</span>
+        <span class="label"><b>[06]</b> Leistungen</span>
         <h2>Software, Schulungen und <span class="lime">Webseiten</span>.</h2>
       </div>
       <p>Ich bin IT-Dienstleister. Ich entwickle Software, erstelle Webseiten und zeige Unternehmen und Einzelpersonen, wie sie Trading-Software technisch einrichten und sicher bedienen.</p>
@@ -269,7 +322,7 @@
   <div class="container">
     <div class="head">
       <div>
-        <span class="label"><b>[05]</b> Das X in <span class="brand">CryptoX</span></span>
+        <span class="label"><b>[07]</b> Das X in <span class="brand">CryptoX</span></span>
         <h2>Crypto war der Anfang. <span class="lime">X</span> steht für alles, was dazugehört.</h2>
       </div>
       <p>CryptoX ist mehr als Kryptowährungen. Das X steht für die Bereiche, die rund um die Märkte zusammengehören: Trading-Technologie, Werkzeuge, Wissen und Crypto. Alles an einem Ort, verständlich und ohne leere Versprechen.</p>
@@ -313,15 +366,15 @@
   <div class="container">
     <div class="head">
       <div>
-        <span class="label"><b>[06]</b> So funktioniert’s</span>
-        <h2>In drei Schritten zum eigenen Handelsplan.</h2>
+        <span class="label"><b>[08]</b> So funktioniert’s</span>
+        <h2>In drei Schritten startklar.</h2>
       </div>
-      <p>Keine Registrierung, keine Installation: Das Cockpit läuft direkt im Browser, am Computer und am Handy.</p>
+      <p>Nichts zu installieren: Das Dashboard läuft im Browser, am Computer und am Handy.</p>
     </div>
     <div class="steps">
-      <div class="step"><h3>Limit festlegen</h3><p>Trag das Tagesverlustlimit aus den Regeln deines Kontos ein. Es bleibt gespeichert, bis du es änderst.</p></div>
-      <div class="step"><h3>Trade planen</h3><p>Berechne die Positionsgröße für dein Setup und geh deine Checkliste durch.</p></div>
-      <div class="step"><h3>Ergebnis eintragen</h3><p>Nach jedem Trade Betrag und Notiz erfassen. Limit und Statistik aktualisieren sich sofort.</p></div>
+      <div class="step reveal"><h3>Zugang erhalten</h3><p>Als Beta-Tester bekommst du eine eigene Installation mit eigenem Passwort. Die Einrichtung dauert rund eine Minute.</p></div>
+      <div class="step reveal"><h3>Konten &amp; Regeln anlegen</h3><p>Trag deine Prop-Konten mit den Regeln deiner Firma ein, dazu deine Instrumente und deine Checkliste.</p></div>
+      <div class="step reveal"><h3>Trades eintragen</h3><p>Jeden Trade einmal eintragen, auf allen gewählten Konten. Regeln, Warnungen und Statistik rechnen automatisch mit.</p></div>
     </div>
   </div>
 </section>
@@ -331,7 +384,7 @@
   <div class="container">
     <div class="head">
       <div>
-        <span class="label"><b>[07]</b> Education</span>
+        <span class="label"><b>[09]</b> Education</span>
         <h2>Verstehen, bevor du loslegst.</h2>
       </div>
       <p><a href="/wissen/" class="btn btn--line btn--sm">Alle Artikel <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
@@ -362,7 +415,7 @@
   <div class="container about">
     <img src="/assets/img/team/tim-portrait.webp" alt="Tim Kofler, Gründer von CryptoX" width="576" height="720" loading="lazy">
     <div>
-      <span class="label"><b>[08]</b> Hinter <span class="brand">CryptoX</span></span>
+      <span class="label"><b>[10]</b> Hinter <span class="brand">CryptoX</span></span>
       <blockquote>Ich baue die Werkzeuge, die ich mir selbst am Anfang gewünscht hätte.</blockquote>
       <p class="muted">Ich bin Tim Kofler, Programmierer aus Niederösterreich und selbst als Prop-Trader im Futures-Bereich aktiv. Angefangen hat alles in den frühen Tagen von Bitcoin. Mit CryptoX entwickle ich Software für Trader, erstelle Webseiten und zeige anderen, wie sie Trading-Software richtig einrichten und bedienen.</p>
       <div class="facts">
@@ -441,6 +494,6 @@
   </div>
 </footer>
 
-<script src="/assets/js/main.js?v=73c743da"></script>
+<script src="/assets/js/main.js?v=5b686c25"></script>
 </body>
 </html>
