@@ -459,3 +459,61 @@ main p a:not(.btn), main li a:not(.btn), .faq__item p a, .glance dd a { text-dec
 @media (min-width: 681px) {
   .xgrid .xcell:nth-child(2), .xgrid .xcell:nth-child(4) { padding-left: 92px; }
 }
+
+/* ---------- Formulare (Beta-Bewerbung, Newsletter) ---------- */
+.form-wrap { display: grid; grid-template-columns: 1.35fr 1fr; gap: 56px; align-items: start; }
+.form { display: grid; gap: 18px; border: 1px solid var(--line-2); background: var(--bg-2); border-radius: 22px; padding: 36px; }
+.form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.form__field { display: grid; gap: 7px; font-size: .95rem; }
+.form__field > span { color: var(--text); font-weight: 600; }
+.form__field em { color: var(--muted); font-style: normal; font-weight: 400; }
+.form input[type=text], .form input[type=email], .form input[type=tel], .form select, .form textarea {
+  width: 100%; font: inherit; font-size: 16px; color: var(--text); background: var(--surface);
+  border: 1px solid var(--line-2); border-radius: 12px; padding: 12px 14px; transition: border-color .2s, box-shadow .2s;
+}
+.form textarea { resize: vertical; min-height: 110px; }
+.form select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--lime) 50%), linear-gradient(135deg, var(--lime) 50%, transparent 50%); background-position: calc(100% - 20px) 52%, calc(100% - 15px) 52%; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 40px; }
+.form input:focus, .form select:focus, .form textarea:focus { outline: none; border-color: var(--lime); box-shadow: 0 0 0 3px var(--lime-dim); }
+.form ::placeholder { color: #6f6f6f; }
+.form__check { display: grid; grid-template-columns: 22px 1fr; gap: 12px; align-items: start; font-size: .92rem; color: var(--muted); line-height: 1.55; cursor: pointer; }
+.form__check input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--lime); cursor: pointer; }
+.form .btn { justify-self: start; margin-top: 6px; }
+.form .btn:disabled { opacity: .6; cursor: wait; }
+.form__status { margin: 0; padding: 12px 16px; border-radius: 12px; font-size: .95rem; }
+.form__status.is-error { background: rgba(255,122,122,.1); border: 1px solid rgba(255,122,122,.4); color: #ffb3b3; }
+.form__status.is-ok { background: var(--lime-dim); border: 1px solid rgba(220,247,99,.4); color: var(--lime-2); }
+.form__alt { margin: 0; font-size: .9rem; color: var(--muted); }
+.form__hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.form-aside h2 { font-size: 1.35rem; margin: 0 0 20px; }
+.form-steps { list-style: none; counter-reset: s; margin: 0 0 24px; padding: 0; display: grid; gap: 18px; }
+.form-steps li { counter-increment: s; display: grid; grid-template-columns: 40px 1fr; column-gap: 14px; }
+.form-steps li::before { content: counter(s, decimal-leading-zero); grid-row: span 2; font-family: var(--mono); font-size: .85rem; color: var(--ink); background: var(--lime); border-radius: 10px; height: 34px; display: grid; place-items: center; }
+.form-steps b { font-family: var(--display); font-weight: 600; font-size: 1rem; }
+.form-steps span { color: var(--muted); font-size: .95rem; }
+.newsletter-box { display: grid; grid-template-columns: 1fr 1.3fr; gap: 40px; align-items: center; }
+.newsletter-box .form { background: var(--surface); }
+.thanks { padding: 120px 0 100px; }
+@media (max-width: 900px) { .form-wrap, .newsletter-box { grid-template-columns: 1fr; gap: 36px; } }
+@media (max-width: 680px) { .form { padding: 24px 18px; border-radius: 18px; } .form__row { grid-template-columns: 1fr; } .form .btn { justify-self: stretch; justify-content: center; } .thanks { padding: 80px 0 64px; } }
+
+/* ---------- Webdesign-Pakete ---------- */
+.pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: stretch; }
+.price { position: relative; display: flex; flex-direction: column; border: 1px solid var(--line-2); background: var(--bg-2); border-radius: 22px; padding: 32px 28px; }
+.price h3 { font-family: var(--display); font-size: 1.3rem; margin: 0; }
+.price__amount { font-family: var(--display); font-size: 2.4rem; font-weight: 700; line-height: 1.1; margin: 14px 0 10px; color: var(--text); }
+.price__amount small { font-family: var(--body); font-size: 1rem; font-weight: 500; color: var(--muted); margin-right: 4px; }
+.price__lead { color: var(--muted); font-size: .97rem; margin: 0 0 20px; }
+.price .ticks { margin: 0 0 22px; flex: 1; }
+.price__note { font-size: .88rem; color: var(--muted); border-top: 1px dashed var(--line-2); padding-top: 14px; margin: 0 0 20px; }
+.price .btn { align-self: flex-start; }
+.price__tag { position: absolute; top: -13px; left: 24px; font-family: var(--mono); font-size: .75rem; letter-spacing: .03em; padding: 4px 11px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line-2); color: var(--text); }
+.price--hi { border-color: rgba(220,247,99,.55); background: linear-gradient(180deg, var(--lime-dim), var(--bg-2) 60%); }
+.price--hi .price__tag { background: var(--lime); color: var(--ink); border-color: var(--lime); }
+.price--ref .price__amount { color: var(--lime); }
+.care { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-top: 22px; border: 1px solid var(--line-2); border-radius: 18px; padding: 22px 28px; }
+.care h3 { font-family: var(--display); font-size: 1.1rem; margin: 0 0 6px; }
+.care p { margin: 0; color: var(--muted); font-size: .95rem; }
+@media (max-width: 1000px) { .pricing { grid-template-columns: 1fr; max-width: 560px; } }
+@media (max-width: 680px) { .price { padding: 28px 20px; } .care { flex-direction: column; align-items: flex-start; padding: 20px; } }
+.price .ticks { align-content: start; }
+@media (max-width: 900px) { #anfrage .form-aside { order: -1; } }

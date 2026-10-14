@@ -11,12 +11,17 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="de_AT">
   <meta property="og:url" content="https://crypto-x.at/prop-trading-tool/">
-  <meta property="og:image" content="https://crypto-x.at/assets/img/og.jpg">
+  <meta property="og:site_name" content="CryptoX">
+  <meta property="og:image" content="https://crypto-x.at/assets/img/og-cryptox.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="CryptoX – Das Dashboard für Prop-Firm-Trader">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#0b0b0b">
   <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/style.css?v=0aba7302">
+  <link rel="stylesheet" href="/assets/css/style.css?v=798d63a1">
   <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "SoftwareApplication", "name": "CryptoX Risiko-Cockpit", "applicationCategory": "BusinessApplication", "operatingSystem": "Web-Browser", "url": "https://crypto-x.at/prop-trading-tool/", "author": {"@id": "https://crypto-x.at/#unternehmen"}, "description": "Dashboard für Prop-Firm-Trader: rechnet für beliebig viele Konten Drawdown (EOD oder statisch), Tageslimit, Konsistenzregel, Mindest-Handelstage, Gewinnziel und Auszahlung mit, mit Trading-Journal, Statistik, Checklisten und Wirtschaftskalender. Live-Demo mit Tageslimit, Positionsgrößen-Rechner, Checkliste und Trade-Log."}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Was ist das Risiko-Cockpit?", "acceptedAnswer": {"@type": "Answer", "text": "Ein Werkzeug im Browser, das dein Tageslimit, deine Positionsgröße, eine Checkliste vor dem Einstieg und dein Trade-Log in einer Ansicht zeigt. Es rechnet ausschließlich mit deinen eigenen Eingaben."}}, {"@type": "Question", "name": "Gibt das Tool Handelssignale oder Empfehlungen?", "acceptedAnswer": {"@type": "Answer", "text": "Nein. Das Cockpit gibt keine Signale, keine Empfehlungen und keine Prognosen. Es hilft dir nur, deine eigenen Regeln und die Regeln deines Kontos im Blick zu behalten. Die Entscheidungen triffst du selbst."}}, {"@type": "Question", "name": "Für welche Konten und Instrumente ist es gedacht?", "acceptedAnswer": {"@type": "Answer", "text": "Für Futures-Konten mit festen Regeln wie Tagesverlustlimit und Drawdown, wie sie bei Prop-Firm-Evaluierungen üblich sind. Der Rechner kennt die Punktwerte von MNQ, NQ, MES und ES."}}, {"@type": "Question", "name": "Muss ich mich anmelden oder etwas installieren?", "acceptedAnswer": {"@type": "Answer", "text": "Für die Live-Demo nicht. Sie läuft direkt im Browser, am Computer und am Handy. Beta-Tester erhalten einen eigenen Zugang zum vollen Dashboard."}}, {"@type": "Question", "name": "Wo werden meine Daten gespeichert?", "acceptedAnswer": {"@type": "Answer", "text": "In der Live-Demo nur im lokalen Speicher deines Browsers. Es wird nichts an CryptoX übertragen. Details stehen in der Datenschutzerklärung."}}, {"@type": "Question", "name": "Wie werde ich Beta-Tester?", "acceptedAnswer": {"@type": "Answer", "text": "Melde dich per E-Mail oder Telegram, am besten mit deiner Plattform und deinem Erfahrungsstand. Als Beta-Tester nutzt du das volle Dashboard und gibst Feedback, was funktioniert und was fehlt."}}]}]}</script>
 </head>
 <body>
@@ -31,10 +36,10 @@
       <a href="/#bereiche">Das X</a>
       <a href="/wissen/">Wissen</a>
       <a href="/ueber-mich/">Über mich</a>
-      <a href="/#beta" class="btn nav__cta">Beta testen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a href="/beta/" class="btn nav__cta">Beta testen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </nav>
     <div style="display:flex;gap:10px;align-items:center">
-      <a href="/#beta" class="btn btn--sm header__cta">Beta testen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a href="/beta/" class="btn btn--sm header__cta">Beta testen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       <button class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     </div>
   </div>
@@ -67,7 +72,7 @@
 
     <div class="btn-row" style="margin-bottom:72px">
       <a href="/cockpit/" class="btn">Live-Demo öffnen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <a href="/#beta" class="btn btn--line">Beta-Tester werden</a>
+      <a href="/beta/" class="btn btn--line">Beta-Tester werden</a>
     </div>
 
     <div class="head">
@@ -125,7 +130,7 @@
     </div>
     <p class="note-legal">Bild aus einer Demo-Installation mit erfundenen Daten, Firmennamen sind Beispiel-Bezeichnungen. Das Dashboard ist ein Werkzeug zur Selbstkontrolle, keine Anlageberatung und keine Handelsplattform: Es führt keine Trades aus und verbindet sich mit keinem Broker.</p>
     <div class="btn-row" style="margin-top:36px">
-      <a href="mailto:tk@crypto-x.at?subject=Beta-Tester%20CryptoX%20Dashboard&body=Hallo%20Tim%2C%0A%0Aich%20m%C3%B6chte%20das%20CryptoX%20Dashboard%20testen.%0A%0AAnzahl%20meiner%20Prop-Konten%3A%20%0AMeine%20Plattform%2FSoftware%3A%20%0AMein%20Erfahrungsstand%3A%20%0A" class="btn">Per E-Mail bewerben <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a href="/beta/" class="btn">Jetzt bewerben <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       <a href="https://t.me/Crypto_X_Solutions" class="btn btn--line" target="_blank" rel="noopener">Per Telegram melden</a>
     </div>
   </div>
@@ -174,9 +179,9 @@
   <img class="band__x" src="/assets/img/hero.svg" alt="" aria-hidden="true" width="520" height="520" loading="lazy">
   <div class="container" style="position:relative">
     <h2>Dein nächster Trade beginnt mit einem Limit.</h2>
-    <p>Das Risiko-Cockpit ist in der Beta-Phase. Teste es, sag mir ehrlich, was fehlt, und gestalte die nächste Version mit.</p>
+    <p>Das CryptoX Dashboard ist in der Beta-Phase. Teste es, sag mir ehrlich, was fehlt, und gestalte die nächste Version mit.</p>
     <div class="btn-row">
-      <a href="/#beta" class="btn">Beta-Tester werden <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a href="/beta/" class="btn">Beta-Tester werden <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       <a href="/cockpit/" class="btn btn--line">Live-Demo</a>
     </div>
   </div>
@@ -196,7 +201,7 @@
         <ul>
           <li><a href="/prop-trading-tool/">Prop Trading Tool</a></li>
           <li><a href="/cockpit/">Live-Demo</a></li>
-          <li><a href="/#beta">Beta-Tester werden</a></li>
+          <li><a href="/beta/">Beta-Tester werden</a></li>
           <li><a href="https://feedback.crypto-x.at/">Feedback für Tester</a></li>
           <li><a href="/softwareentwicklung/">Software &amp; Schulungen</a></li>
           <li><a href="/webseite-erstellen-lassen/">Webseite erstellen lassen</a></li>
@@ -208,6 +213,7 @@
           <li><a href="/wissen/prop-trading-einfach-erklaert/">Prop Trading erklärt</a></li>
           <li><a href="/wissen/">Alle Artikel</a></li>
           <li><a href="/ueber-mich/">Über mich</a></li>
+          <li><a href="/newsletter/">Newsletter</a></li>
         </ul>
       </div>
       <div>
@@ -224,7 +230,7 @@
     </div>
     <div class="footer__risk">
       <p><strong>Hinweis:</strong> Crypto X Solutions erbringt ausschließlich IT-Dienstleistungen (Softwareentwicklung, Erstellung von Webseiten und Schulungen zur Bedienung von Software) und ist kein Finanzdienstleister. Es werden keine Anlageberatung, keine Vermögensverwaltung, keine Handelssignale und keine sonstigen konzessionspflichtigen Finanz- oder Wertpapierdienstleistungen angeboten.</p>
-      <p><strong>Risikohinweis:</strong> Der Handel mit Futures, Kryptowerten und anderen gehebelten Produkten ist mit erheblichen Risiken verbunden und kann zum vollständigen Verlust des eingesetzten Kapitals führen. Auch Teilnahmegebühren für Prop-Firm-Evaluierungen können verloren gehen. Die Inhalte dieser Webseite und das Risiko-Cockpit dienen ausschließlich der allgemeinen Information und der persönlichen Organisation. Sie stellen keine Anlageberatung, keine Anlageempfehlung und keine Aufforderung zum Kauf oder Verkauf von Finanzinstrumenten oder Kryptowerten dar. Vergangene Ergebnisse sind kein verlässlicher Indikator für künftige Ergebnisse.</p>
+      <p><strong>Risikohinweis:</strong> Der Handel mit Futures, Kryptowerten und anderen gehebelten Produkten ist mit erheblichen Risiken verbunden und kann zum vollständigen Verlust des eingesetzten Kapitals führen. Auch Teilnahmegebühren für Prop-Firm-Evaluierungen können verloren gehen. Die Inhalte dieser Webseite, das CryptoX Dashboard und das Risiko-Cockpit dienen ausschließlich der allgemeinen Information und der persönlichen Organisation. Sie stellen keine Anlageberatung, keine Anlageempfehlung und keine Aufforderung zum Kauf oder Verkauf von Finanzinstrumenten oder Kryptowerten dar. Vergangene Ergebnisse sind kein verlässlicher Indikator für künftige Ergebnisse.</p>
     </div>
     <div class="footer__bottom">
       <span>© <span data-year>2026</span> Crypto X Solutions · Tim Kofler · Keine Cookies · Kein Tracking</span>
