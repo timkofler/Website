@@ -151,7 +151,7 @@ p { margin: 0 0 18px; }
 .xcell .tag--live { border-color: var(--lime); color: var(--lime); }
 .xcell a.cover { position: absolute; inset: 0; }
 .xmark {
-  position: absolute; left: 50%; top: 50%; width: 150px; height: 150px; transform: translate(-50%, -50%);
+  position: absolute; left: 50%; top: 50%; width: 116px; height: 116px; transform: translate(-50%, -50%);
   z-index: 2; pointer-events: none;
   filter: drop-shadow(0 0 18px rgba(0,0,0,.6));
 }
@@ -453,4 +453,9 @@ main p a:not(.btn), main li a:not(.btn), .faq__item p a, .glance dd a { text-dec
 @media (prefers-reduced-motion: reduce) {
   .hero__phone, .section--glow::before { animation: none; }
   .reveal-wait { opacity: 1; transform: none; }
+}
+
+/* Das X: rechte Kacheln etwas vom Logo in der Mitte wegrücken */
+@media (min-width: 681px) {
+  .xgrid .xcell:nth-child(2), .xgrid .xcell:nth-child(4) { padding-left: 92px; }
 }
