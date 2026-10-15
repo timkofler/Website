@@ -11,10 +11,10 @@ return [
     // Liste für Webseiten-Anfragen in Brevo (Kontakte → Listen)
     'list_webdesign'   => 0,
     // Absender in Brevo bestätigt
-    'sender_email'     => 'tk@crypto-x.at',
+    'sender_email'     => 'office@tim-kofler.at',
     'sender_name'      => 'Tim Kofler – Webdesign',
     // Hierhin gehen neue Anfragen
-    'notify_email'     => 'tk@crypto-x.at',
+    'notify_email'     => 'office@tim-kofler.at',
     // Auftritt in Seiten-Mails: Name, Logo und Adresse
     'site'             => 'https://tim-kofler.at',
     'name'             => 'Tim Kofler – Webdesign',
