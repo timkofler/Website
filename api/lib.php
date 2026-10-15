@@ -33,6 +33,7 @@ function cx_brand(): array
         'name' => (string) ($c['name'] ?? 'CryptoX'),
         'wordmark' => (string) ($c['wordmark_html'] ?? 'Crypto<span style="color:#dcf763">X</span>'),
         'footer' => (string) ($c['footer_name'] ?? 'Crypto X Solutions · Tim Kofler'),
+        'accent' => (string) ($c['accent'] ?? '#dcf763'),
     ];
 }
 
@@ -258,7 +259,8 @@ HTML;
 
 function cx_button(string $href, string $label): string
 {
-    return '<p style="margin:26px 0"><a href="' . cx_h($href) . '" style="display:inline-block;background:#dcf763;color:#0b0b0b;font-weight:bold;text-decoration:none;padding:13px 22px;border-radius:999px">' . cx_h($label) . '</a></p>';
+    $accent = cx_h(cx_brand()['accent']);
+    return '<p style="margin:26px 0"><a href="' . cx_h($href) . '" style="display:inline-block;background:' . $accent . ';color:#0b0b0b;font-weight:bold;text-decoration:none;padding:13px 22px;border-radius:999px">' . cx_h($label) . '</a></p>';
 }
 
 // Signierter Bestätigungslink für das Double-Opt-in (7 Tage gültig).
