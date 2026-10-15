@@ -1,6 +1,6 @@
 # CryptoX (Crypto X Solutions)
 
-> IT-Dienstleister aus Oberndorf an der Melk, Niederösterreich (Österreich). Inhaber: Tim Kofler. Leistungen: individuell programmierte Webseiten, Softwareentwicklung, Software-Schulungen und das Risiko-Cockpit, ein Werkzeug für Risikomanagement im Futures- und Prop-Trading. Kein Finanzdienstleister: keine Anlageberatung, keine Handelssignale.
+> IT-Dienstleister aus Oberndorf an der Melk, Niederösterreich (Österreich). Inhaber: Tim Kofler. Leistungen: Softwareentwicklung, Software-Schulungen und das Risiko-Cockpit, ein Werkzeug für Risikomanagement im Futures- und Prop-Trading. Kein Finanzdienstleister: keine Anlageberatung, keine Handelssignale.
 
 - Einzugsgebiet: ganz Österreich
 - Kontakt: tk@crypto-x.at, Telefon +43 677 61773118, Telegram https://t.me/Crypto_X_Solutions
@@ -9,7 +9,6 @@
 
 ## Leistungen
 
-- [Webseite erstellen lassen](https://crypto-x.at/webseite-erstellen-lassen/): Individuell programmierte, schnelle und mobiloptimierte Webseiten für Selbstständige und kleine Unternehmen, ohne Baukasten und ohne Tracking. Pakete: Start ab 590 €, Business ab 1.190 €, Betreuung ab 29 € im Monat, Referenzkunden ab 290 € (Kleinunternehmer, keine USt.). Anfrage per Formular.
 - [CryptoX Dashboard / Prop Trading Tool](https://crypto-x.at/prop-trading-tool/): Dashboard für Prop-Firm-Trader (Beta, Tester gesucht). Rechnet für beliebig viele Konten (Challenge, Funded, Live) Trailing- oder statischen Drawdown, Daily Loss Limit, eigenes Tageslimit, Konsistenzregel, Mindest-Handelstage, Gewinnziel, Frist und Auszahlung mit und warnt vor Regelverstößen. Ein Trade lässt sich auf mehreren Konten gleichzeitig eintragen. Dazu Statistik, Wochenübersicht, Journal mit CSV-Export, mehrere frei konfigurierbare Checklisten, eigene Instrumente, Trading-Sessions, Wirtschaftskalender, übersetzte Schlagzeilen und Sprachansagen. Läuft im Browser, am Handy als App installierbar. Kein Broker-Anschluss, führt keine Trades aus, keine Anlageberatung.
 - [Beta-Tester werden](https://crypto-x.at/beta/): Bewerbung für einen eigenen, kostenlosen Testzugang zum CryptoX Dashboard.
 - [Newsletter](https://crypto-x.at/newsletter/): Updates zum CryptoX Dashboard, Software-Tipps und neue Artikel (Double-Opt-in).
@@ -26,5 +25,6 @@
 ## Über
 
 - [Über mich](https://crypto-x.at/ueber-mich/): Tim Kofler, Programmierer und Prop-Trader aus Niederösterreich
+- [Webdesign von Tim Kofler](https://tim-kofler.at/): Webseiten für Selbstständige und kleine Unternehmen. Eigenes, separates Angebot.
 - [Impressum](https://crypto-x.at/impressum/)
 - [Datenschutz](https://crypto-x.at/datenschutz/)

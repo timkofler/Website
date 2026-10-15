@@ -141,6 +141,6 @@ function cx_webseite(array $c, string $email, string $name, string $fallback): v
         . '<p style="margin:0 0 4px">Viele Grüße<br>Tim</p>';
     cx_mail($email, $name, 'Deine Anfrage für eine Webseite', cx_mail_layout('Danke für deine Anfrage', $inner), $notify);
 
-    cx_respond(true, 'Danke! Deine Anfrage ist angekommen.', '/webseite-erstellen-lassen/danke/');
+    cx_respond(true, 'Danke! Deine Anfrage ist angekommen.', (string) ($c['weiter_webseite'] ?? '/webseite-erstellen-lassen/danke/'));
 }
 

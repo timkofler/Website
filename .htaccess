@@ -47,9 +47,11 @@ Options -Indexes
   RewriteCond %{HTTP_HOST} ^crypto-x\.at$ [NC]
   RewriteRule ^2025/01/27/the-role-of-color-psychology-in-branding-2/?$ https://crypto-x.at/2025/01/27/die-bekanntesten-trading-strategien/ [R=301,L]
   RewriteCond %{HTTP_HOST} ^crypto-x\.at$ [NC]
-  RewriteRule ^referenz/?$ https://crypto-x.at/webseite-erstellen-lassen/?utm_source=instagram&utm_campaign=referenzkunde#pakete [R=302,L,NE]
+  RewriteRule ^referenz/?$ https://tim-kofler.at/?utm_source=instagram&utm_campaign=referenzkunde#pakete [R=302,L,NE]
   RewriteCond %{HTTP_HOST} ^crypto-x\.at$ [NC]
-  RewriteRule ^webseite/?$ https://crypto-x.at/webseite-erstellen-lassen/?utm_source=instagram&utm_campaign=webdesign#anfrage [R=302,L,NE]
+  RewriteRule ^webseite/?$ https://tim-kofler.at/?utm_source=instagram&utm_campaign=webdesign#anfrage [R=302,L,NE]
+  RewriteCond %{HTTP_HOST} ^crypto-x\.at$ [NC]
+  RewriteRule ^webseite-erstellen-lassen(/.*)?$ https://tim-kofler.at/ [R=301,L]
 </IfModule>
 
 # --- Nur für die Hauptdomain: Fehlerseite, Sicherheits-Header, Cache ---

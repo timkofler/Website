@@ -1,0 +1,45 @@
+# Tim Kofler – Webdesign (Apache 2.4, ALL-INKL)
+Options -Indexes
+<Files ".ftp-deploy-sync-state.json">
+  Require all denied
+</Files>
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^www\.tim-kofler\.at$ [NC]
+  RewriteRule ^ https://tim-kofler.at%{REQUEST_URI} [R=301,L]
+  RewriteCond %{HTTP_HOST} ^tim-kofler\.at$ [NC]
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^ https://tim-kofler.at%{REQUEST_URI} [R=301,L]
+</IfModule>
+<If "%{HTTP_HOST} =~ /^(www\.)?tim-kofler\.at$/i">
+  DirectoryIndex index.html
+  ErrorDocument 404 /404.html
+  <IfModule mod_headers.c>
+    Header always set Strict-Transport-Security "max-age=31536000"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+  </IfModule>
+  <IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 hour"
+    ExpiresByType text/html "access plus 0 seconds"
+    ExpiresByType text/css "access plus 7 days"
+    ExpiresByType application/javascript "access plus 7 days"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType image/webp "access plus 30 days"
+    ExpiresByType image/svg+xml "access plus 30 days"
+    ExpiresByType image/jpeg "access plus 30 days"
+  </IfModule>
+</If>
+AddDefaultCharset UTF-8
+<IfModule mod_mime.c>
+  AddType font/woff2 .woff2
+  AddType image/webp .webp
+</IfModule>
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml application/json text/plain
+</IfModule>
