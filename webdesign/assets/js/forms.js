@@ -25,6 +25,8 @@
     if (qf) qf.value = src || "direkt";
     var status = form.querySelector(".form__status");
     var button = form.querySelector('button[type="submit"]');
+    var mailLink = form.querySelector('a[href^="mailto:"]');
+    var mail = mailLink ? mailLink.textContent : "tk@crypto-x.at";
 
     function show(msg, ok) {
       if (!status) return;
@@ -53,7 +55,7 @@
           button.innerHTML = label;
         })
         .catch(function () {
-          show("Verbindung fehlgeschlagen. Bitte versuche es noch einmal oder schreib an tk@crypto-x.at.", false);
+          show("Verbindung fehlgeschlagen. Bitte versuche es noch einmal oder schreib an " + mail + ".", false);
           button.disabled = false;
           button.innerHTML = label;
         });

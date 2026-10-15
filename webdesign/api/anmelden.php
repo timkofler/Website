@@ -8,7 +8,7 @@ require __DIR__ . '/lib.php';
 header('X-Robots-Tag: noindex');
 cx_guard();
 
-$fallback = 'Bitte schreib mir direkt an tk@crypto-x.at, ich melde mich bei dir.';
+$fallback = 'Bitte schreib mir direkt an ' . (string) (cx_config()['sender_email'] ?? 'tk@crypto-x.at') . ', ich melde mich bei dir.';
 if (!cx_ready()) {
     cx_respond(false, 'Das Formular wird gerade eingerichtet. ' . $fallback);
 }

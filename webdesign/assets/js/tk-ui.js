@@ -120,7 +120,7 @@
   var LINKS = {
     pakete: ["Zu den Paketen", "/#pakete"], anfrage: ["Anfrage stellen", "/#anfrage"], ablauf: ["Zum Ablauf", "/#ablauf"],
     email: ["Landingpages & E-Mail", "/#email"], beispiele: ["Beispiele ansehen", "/#beispiele"],
-    mail: ["E-Mail schreiben", "mailto:tk@crypto-x.at"], tel: ["Anrufen", "tel:+4367761773118"]
+    mail: ["E-Mail schreiben", "mailto:office@tim-kofler.at"], tel: ["Anrufen", "tel:+4367761773118"]
   };
   var ANSWERS = {
     preis: { q: "Was kostet eine Webseite?", a: "Die Pakete im Überblick:\n• Referenzkunde ab 290 € (einfache Seite, nur wenige Plätze)\n• Start ab 590 € (bis zu 3 Unterseiten)\n• Business ab 1.190 € (bis zu 8 Unterseiten)\n• Betreuung ab 29 € im Monat\nAlle Preise sind Endpreise, als Kleinunternehmer ohne Umsatzsteuer.", links: ["pakete", "anfrage"] },
@@ -131,7 +131,7 @@
     hosting: { q: "Domain & Hosting?", a: "Domain und Webspace laufen auf deinen Namen, bei einem Anbieter deiner Wahl. Das kostet je nach Anbieter etwa 5 bis 10 € im Monat. Ich helfe dir bei Auswahl und Einrichtung, die Seite gehört dir.", links: ["anfrage"] },
     google: { q: "Werde ich bei Google gefunden?", a: "Jede Seite bekommt saubere Grundlagen: schnelle Ladezeit, gute Titel und Beschreibungen, Sitemap, strukturierte Daten und die Anmeldung bei Google. Einen bestimmten Platz kann niemand seriös versprechen, aber die Basis stimmt.", links: ["pakete"] },
     baukasten: { q: "Warum kein Baukasten?", a: "Eine programmierte Seite lädt nur, was sie braucht. Sie ist schneller, sicherer, braucht keine Plugin-Updates und das Design gibt es so nur einmal.", links: ["beispiele"] },
-    kontakt: { q: "Persönlich anfragen", a: "Gerne! Am schnellsten über das Anfrageformular. Oder direkt per E-Mail an tk@crypto-x.at bzw. unter +43 677 61773118.", links: ["anfrage", "mail", "tel"] }
+    kontakt: { q: "Persönlich anfragen", a: "Gerne! Am schnellsten über das Anfrageformular. Oder direkt per E-Mail an office@tim-kofler.at bzw. unter +43 677 61773118.", links: ["anfrage", "mail", "tel"] }
   };
   var CHIPS = ["preis", "dauer", "referenz", "email", "ablauf", "kontakt"];
   var KEYWORDS = [
