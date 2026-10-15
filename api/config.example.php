@@ -11,7 +11,6 @@ return [
     // IDs der Listen aus Brevo → Kontakte → Listen
     'list_beta'       => 0,
     'list_newsletter' => 0,
-    'list_webdesign'  => 0,
     // In Brevo bestätigte Absenderadresse
     'sender_email'    => 'tk@crypto-x.at',
     'sender_name'     => 'CryptoX',
