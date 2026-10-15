@@ -18,3 +18,80 @@
 .tk-logo img { height: 36px; width: auto; display: block; }
 .tk-logo--foot { margin: 0 0 14px; }
 .tk-logo--foot img { height: 44px; width: auto; }
+
+/* ---------- Effekte ---------- */
+/* Bewegtes Punktfeld im Kopfbereich */
+.tk-hero { padding: 150px 0 130px; }
+.tk-field { position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity 1.2s ease; }
+.tk-field.is-on { opacity: 1; }
+.tk-hero .container { z-index: 1; }
+.tk-hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 140px; background: linear-gradient(transparent, var(--bg)); pointer-events: none; z-index: 0; }
+
+/* Silberglanz in Überschriften */
+h1 .lime, h2 .lime, h3 .lime {
+  background: linear-gradient(100deg, #ffffff 0%, #9b9b9b 45%, #ffffff 70%, #bdbdbd 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.tk-hero h1 .lime {
+  background: linear-gradient(100deg, #8c8c8c 0%, #ffffff 20%, #8c8c8c 40%, #d9d9d9 60%, #ffffff 80%, #8c8c8c 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: tk-sheen 7s linear infinite;
+}
+@keyframes tk-sheen { from { background-position: 100% 0; } to { background-position: -150% 0; } }
+
+/* Lichtkegel auf Karten */
+.tk-spot { position: relative; isolation: isolate; }
+.tk-spot::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -1; pointer-events: none;
+  background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.08), transparent 60%);
+  opacity: 0; transition: opacity .35s ease;
+}
+.tk-spot:hover::before { opacity: 1; }
+.price, .step, .care { transition: border-color .3s ease, transform .3s ease; }
+.price:hover, .step:hover { border-color: #4a4a4a; transform: translateY(-3px); }
+
+/* Umlaufender Lichtrand um das Business-Paket */
+@property --tk-ang { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+.price--hi {
+  border: 2px solid transparent;
+  background:
+    linear-gradient(180deg, #171717, var(--bg-2)) padding-box,
+    conic-gradient(from var(--tk-ang), #2f2f2f 0%, #ffffff 9%, #9a9a9a 16%, #2f2f2f 28%, #2f2f2f 50%, #cfcfcf 59%, #2f2f2f 70%, #2f2f2f 100%) border-box;
+  box-shadow: 0 0 60px rgba(255,255,255,.05);
+  animation: tk-spin 5s linear infinite;
+}
+.price--hi:hover { border-color: transparent; }
+@keyframes tk-spin { to { --tk-ang: 360deg; } }
+
+/* Primär-Buttons mit Glanz */
+.btn:not(.btn--line) { position: relative; overflow: hidden; }
+.btn:not(.btn--line)::after {
+  content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.65), transparent);
+  transform: skewX(-20deg); transition: left .6s ease;
+}
+.btn:not(.btn--line):hover::after { left: 120%; }
+.btn:not(.btn--line):hover { box-shadow: 0 10px 30px rgba(255,255,255,.12); }
+
+/* Laufband mit Stärken */
+.tk-marquee { overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 18px 0; background: var(--bg);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+.tk-marquee__track { display: flex; width: max-content; animation: tk-marquee 38s linear infinite; }
+.tk-marquee span { font-family: var(--display); font-weight: 600; font-size: clamp(1rem, 2.2vw, 1.5rem); color: #cfcfcf; white-space: nowrap; padding: 0 28px; display: inline-flex; align-items: center; gap: 56px; }
+.tk-marquee span::after { content: ""; width: 9px; height: 9px; background: #6b6b6b; transform: rotate(45deg); display: inline-block; }
+@keyframes tk-marquee { to { transform: translateX(-50%); } }
+
+@media (max-width: 680px) { .tk-hero { padding: 96px 0 80px; } }
+@media (prefers-reduced-motion: reduce) {
+  .tk-hero h1 .lime, .price--hi, .tk-marquee__track { animation: none; }
+  .btn:not(.btn--line)::after { display: none; }
+  .price:hover, .step:hover { transform: none; }
+}
+
+/* Links im Fließtext unterstreichen (Grau allein reicht als Unterscheidung nicht) */
+p a:not(.btn), li a:not(.btn), .form__check a, .faq a {
+  text-decoration: underline; text-decoration-color: rgba(255,255,255,.45); text-underline-offset: 3px;
+}
+p a:not(.btn):hover, li a:not(.btn):hover, .form__check a:hover { text-decoration-color: currentColor; }
+.footer ul a, .nav a { text-decoration: none; }
