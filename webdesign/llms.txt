@@ -3,13 +3,15 @@
 > Webdesign aus Oberndorf an der Melk, Niederösterreich: individuell programmierte, schnelle und mobiloptimierte Webseiten für Selbstständige und kleine Unternehmen in ganz Österreich. Inhaber: Tim Kofler (Einzelunternehmer), Gewerbe für Datenverarbeitung und Informationstechnik. Keine Finanzdienstleistung.
 
 - Einzugsgebiet: ganz Österreich
-- Kontakt: tk@crypto-x.at, Telefon +43 677 61773118
+- Kontakt: [('Landingpage', 'Eine Seite, ein Ziel', 'Für Aktionen, Google-Anzeigen oder neue Angebote. Klar aufgebaut, schnell und mit Anfrage- oder Anmeldeformular.'), ('Newsletter', 'Anmeldung mit Double-Opt-in', 'Direkt auf deiner Seite, mit Einwilligungsnachweis. Du schreibst, Brevo verschickt.'), ('Automatisch', 'E-Mails, die von selbst laufen', 'Bestätigung, Willkommensserie oder Erinnerung: E-Mails, die zur richtigen Zeit rausgehen.'), ('Formulare', 'Anfragen direkt ins Postfach', 'Formulare, die Anfragen in dein Postfach und deine Kontaktliste bringen, inklusive Spamschutz.'), ('Datenschutz', 'Sauber nach DSGVO', 'Brevo ist ein E-Mail-Dienst aus der EU. Formulare ohne Cookies, Abmeldung mit einem Klick.'), ('Einrichtung', 'Ich richte alles ein', 'Brevo-Konto, Listen, Vorlagen im Design deiner Seite und eine kurze Einschulung, damit du selbst loslegen kannst.')], Telefon +43 677 61773118
 - Adresse: Lehen 2, 3281 Oberndorf an der Melk, Österreich
 
 ## Leistungen und Preise
 
 - [Webseite erstellen lassen](https://tim-kofler.at/#leistungen): Individuell programmierte Webseiten ohne Baukasten, schnell, mobiloptimiert, ohne Tracking.
 - [Pakete und Preise](https://tim-kofler.at/#pakete): Referenzkunde ab 290 € (Einführungspreis, begrenzt), Start ab 590 €, Business ab 1.190 €, Betreuung ab 29 € im Monat. Alle Preise Endpreise, Kleinunternehmer ohne Umsatzsteuer. Domain und Webspace nicht enthalten.
+- [Landingpages und E-Mail-Marketing](https://tim-kofler.at/#email): Landingpages für Aktionen und Anzeigen, Newsletter mit Double-Opt-in, automatische E-Mails über Brevo (EU). Preis nach Umfang.
+- [Beispiel-Designs](https://tim-kofler.at/#beispiele): Entwürfe für Friseur, Café, Autowerkstatt und Heilmasseur (erfundene Beispiele, keine Kundenprojekte).
 - [Ablauf](https://tim-kofler.at/#ablauf): Gespräch, Entwurf, Umsetzung, Online-Schaltung.
 - [Referenz](https://tim-kofler.at/#referenz): crypto-x.at, selbst programmiert, Lighthouse 100 am Computer, 97–99 am Handy.
 - [Anfrage](https://tim-kofler.at/#anfrage): unverbindliches Anfrageformular.
