@@ -17,9 +17,20 @@ $c = cx_config();
 $form = cx_field('form', 20);
 $email = cx_email(cx_field('email', 254));
 $name = str_replace(['<', '>', '"'], '', cx_field('name', 80));
+// Keine Links oder Domains im Namen: er steht in der Bestätigungsmail an die angegebene Adresse.
+if (preg_match('~https?:|www\.|[/@]|\w\.[a-z]{2,}\b~i', $name)) {
+    cx_respond(false, 'Bitte gib nur deinen Namen an, ohne Links oder Adressen.');
+}
 
 if ($email === '') {
     cx_respond(false, 'Bitte gib eine gültige E-Mail-Adresse ein.');
+}
+
+// Nur Formulare annehmen, deren Liste in der config.php dieses Webspace steht
+// (tim-kofler.at kennt nur list_webdesign, crypto-x.at nur Beta und Newsletter).
+$lists = ['newsletter' => 'list_newsletter', 'beta' => 'list_beta', 'webseite' => 'list_webdesign'];
+if (!isset($lists[$form]) || !array_key_exists($lists[$form], $c)) {
+    cx_respond(false, 'Ungültige Anfrage.');
 }
 
 if ($form === 'newsletter') {
