@@ -12,3 +12,9 @@
 .tk-ref__shot:hover img { transform: scale(1.02); }
 @media (max-width: 900px) { .tk-ref { grid-template-columns: 1fr; gap: 36px; } }
 @media (max-width: 680px) { .tk-hero { padding: 80px 0 64px; } }
+
+/* Logo */
+.tk-logo { display: inline-flex; align-items: center; text-decoration: none; }
+.tk-logo img { height: 36px; width: auto; display: block; }
+.tk-logo--foot { margin: 0 0 14px; }
+.tk-logo--foot img { height: 44px; width: auto; }

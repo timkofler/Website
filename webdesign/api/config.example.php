@@ -24,4 +24,6 @@ return [
     'origins'          => ['https://tim-kofler.at', 'https://www.tim-kofler.at'],
     // Seite nach dem Absenden
     'weiter_webseite'  => '/danke/',
+    // Akzentfarbe (Schwarz-Weiß mit Grau) für Buttons in Mails
+    'accent'           => '#d9d9d9',
 ];
