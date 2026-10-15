@@ -1,0 +1,72 @@
+# Veröffentlicht die Webseite tim-kofler.at (Ordner webdesign/) per FTPS auf den ALL-INKL-Webspace.
+#
+# Läuft automatisch bei Änderungen am Ordner "webdesign/" auf "main" und kann manuell gestartet werden:
+# GitHub → Actions → "Webseite tim-kofler.at veröffentlichen" → "Run workflow".
+#
+# Benötigte Secrets (GitHub → Settings → Secrets and variables → Actions):
+#   FTP_SERVER          wie bei crypto-x.at (derselbe Server)
+#   FTP_USERNAME        wie bei crypto-x.at (derselbe Benutzer, falls er Zugriff auf den Ordner hat)
+#   FTP_PASSWORD        wie bei crypto-x.at
+#   FTP_SERVER_DIR_TK   Zielordner von tim-kofler.at auf dem Webspace, z. B. "/tim-kofler.at/"
+#
+# Es werden nur Dateien hochgeladen bzw. überschrieben, auf dem Webspace wird NICHTS gelöscht.
+# api/_data/config.php (mit den Zugangsdaten) liegt NICHT im Repo und wird nie überschrieben.
+
+name: Webseite tim-kofler.at veröffentlichen
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "webdesign/**"
+      - ".github/workflows/deploy-tim-kofler.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-tim-kofler
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Prüfen, ob die Zugangsdaten hinterlegt sind
+        id: check
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_SERVER_DIR_TK: ${{ secrets.FTP_SERVER_DIR_TK }}
+        run: |
+          if [ -z "$FTP_SERVER" ] || [ -z "$FTP_SERVER_DIR_TK" ]; then
+            echo "::warning::FTP_SERVER oder FTP_SERVER_DIR_TK fehlt – tim-kofler.at wurde nicht veröffentlicht."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Code holen
+        if: steps.check.outputs.ready == 'true'
+        uses: actions/checkout@v4
+
+      - name: lftp installieren
+        if: steps.check.outputs.ready == 'true'
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      - name: Per FTPS hochladen
+        if: steps.check.outputs.ready == 'true'
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          LFTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_SERVER_DIR_TK: ${{ secrets.FTP_SERVER_DIR_TK }}
+        run: |
+          lftp -u "$FTP_USERNAME" --env-password "$FTP_SERVER" <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ssl:verify-certificate yes
+          set net:max-retries 3
+          set net:reconnect-interval-base 5
+          set net:timeout 30
+          mirror --reverse --verbose --no-perms --parallel=2 \
+            ./webdesign/ "$FTP_SERVER_DIR_TK"
+          bye
+          EOF

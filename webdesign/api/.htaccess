@@ -1,0 +1,9 @@
+# Nur die beiden Endpunkte sind von außen erreichbar.
+Options -Indexes
+<FilesMatch "^(lib\.php|config\.example\.php)$">
+  Require all denied
+</FilesMatch>
+<IfModule mod_headers.c>
+  Header always set Cache-Control "no-store"
+  Header always set X-Robots-Tag "noindex"
+</IfModule>

@@ -1,0 +1,33 @@
+<?php
+// CryptoX – Bestätigungslink aus der Newsletter-Mail (Double-Opt-in).
+
+declare(strict_types=1);
+
+require __DIR__ . '/lib.php';
+
+header('X-Robots-Tag: noindex');
+
+if (!cx_ready()) {
+    cx_page('Gerade nicht verfügbar', 'Die Bestätigung ist im Moment nicht möglich. Bitte versuche es später noch einmal.', 503);
+}
+
+$data = cx_token_read((string) ($_GET['t'] ?? ''));
+if ($data === null) {
+    cx_page('Link ungültig oder abgelaufen', 'Dieser Bestätigungslink ist ungültig oder älter als 7 Tage. Melde dich einfach noch einmal unter crypto-x.at/newsletter/ an.');
+}
+
+$email = cx_email((string) $data['e']);
+if ($email === '') {
+    cx_page('Link ungültig', 'Dieser Bestätigungslink ist ungültig.');
+}
+
+$c = cx_config();
+$ok = cx_contact($email, (string) ($data['n'] ?? ''), [(int) ($c['list_newsletter'] ?? 0)], [
+    'OPTIN_DATUM' => date('Y-m-d'),
+], ['emailBlacklisted' => false]); // neue, ausdrückliche Einwilligung hebt eine frühere Abmeldung auf
+if (!$ok) {
+    cx_page('Das hat nicht geklappt', 'Deine Anmeldung konnte gerade nicht gespeichert werden. Bitte klick den Link später noch einmal an.', 502);
+}
+
+cx_consent_log('optin_bestaetigt_' . preg_replace('/[^a-z]/', '', (string) ($data['s'] ?? '')), $email);
+header('Location: /newsletter/bestaetigt/', true, 303);

@@ -1,0 +1,6 @@
+# Suchmaschinen und KI-Suchdienste dürfen diese Seite lesen.
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://tim-kofler.at/sitemap.xml

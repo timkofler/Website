@@ -24,6 +24,18 @@ function cx_ready(): bool
     return !empty($c['brevo_api_key']) && !empty($c['secret']) && strlen((string) $c['secret']) >= 32;
 }
 
+// Name, Logo und Adresse für Seite und Mails. Standard ist crypto-x.at, tim-kofler.at setzt eigene Werte in der config.php.
+function cx_brand(): array
+{
+    $c = cx_config();
+    return [
+        'site' => (string) ($c['site'] ?? CX_SITE),
+        'name' => (string) ($c['name'] ?? 'CryptoX'),
+        'wordmark' => (string) ($c['wordmark_html'] ?? 'Crypto<span style="color:#dcf763">X</span>'),
+        'footer' => (string) ($c['footer_name'] ?? 'Crypto X Solutions · Tim Kofler'),
+    ];
+}
+
 function cx_wants_json(): bool
 {
     return stripos($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json') !== false;
@@ -53,9 +65,10 @@ function cx_page(string $title, string $message, int $code = 400): void
     header('Cache-Control: no-store');
     $t = cx_h($title);
     $m = cx_h($message);
+    $name = cx_h(cx_brand()['name']);
     echo <<<HTML
 <!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex"><title>{$t} | CryptoX</title><link rel="stylesheet" href="/assets/css/style.css"></head>
+<meta name="robots" content="noindex"><title>{$t} | {$name}</title><link rel="stylesheet" href="/assets/css/style.css"></head>
 <body><main><section class="section"><div class="container prose" style="max-width:640px">
 <h1>{$t}</h1><p>{$m}</p><p><a class="btn" href="/">Zur Startseite</a></p></div></section></main></body></html>
 HTML;
@@ -93,7 +106,8 @@ function cx_guard(): void
         cx_page('Nicht erlaubt', 'Diese Adresse nimmt nur Formulare entgegen.', 405);
     }
     $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-    if ($origin !== '' && !in_array($origin, [CX_SITE, 'https://www.crypto-x.at'], true)) {
+    $origins = (array) (cx_config()['origins'] ?? [CX_SITE, 'https://www.crypto-x.at']);
+    if ($origin !== '' && !in_array($origin, $origins, true)) {
         cx_respond(false, 'Ungültige Anfrage.');
     }
     // Feld "website" ist für Menschen unsichtbar, Bots füllen es gerne aus.
@@ -222,20 +236,21 @@ function cx_mail(string $to, string $toName, string $subject, string $html, stri
 function cx_mail_layout(string $title, string $inner): string
 {
     $t = cx_h($title);
+    $b = cx_brand();
     return <<<HTML
 <!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{$t}</title></head>
 <body style="margin:0;padding:0;background:#0b0b0b">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0b0b0b;padding:32px 12px">
 <tr><td align="center">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#151515;border:1px solid #262626;border-radius:16px">
-<tr><td style="padding:28px 32px 8px;font-family:Arial,Helvetica,sans-serif;font-size:22px;font-weight:bold;color:#f4f4f0">Crypto<span style="color:#dcf763">X</span></td></tr>
+<tr><td style="padding:28px 32px 8px;font-family:Arial,Helvetica,sans-serif;font-size:22px;font-weight:bold;color:#f4f4f0">{$b['wordmark']}</td></tr>
 <tr><td style="padding:8px 32px 28px;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.6;color:#e6e6e2">
 <h1 style="margin:12px 0 16px;font-size:22px;line-height:1.3;color:#f4f4f0">{$t}</h1>
 {$inner}
 </td></tr>
 <tr><td style="padding:18px 32px 26px;border-top:1px solid #262626;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#8a8a8a">
-Crypto X Solutions · Tim Kofler · Lehen 2, 3281 Oberndorf an der Melk, Österreich<br>
-<a href="https://crypto-x.at/impressum/" style="color:#8a8a8a">Impressum</a> · <a href="https://crypto-x.at/datenschutz/" style="color:#8a8a8a">Datenschutz</a>
+{$b['footer']} · Lehen 2, 3281 Oberndorf an der Melk, Österreich<br>
+<a href="{$b['site']}/impressum/" style="color:#8a8a8a">Impressum</a> · <a href="{$b['site']}/datenschutz/" style="color:#8a8a8a">Datenschutz</a>
 </td></tr>
 </table></td></tr></table></body></html>
 HTML;
