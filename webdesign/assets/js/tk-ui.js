@@ -79,7 +79,9 @@
     items.forEach(function (it, i) {
       it.addEventListener("click", function (e) {
         if (moved) { e.preventDefault(); return; }
-        if (i !== idx && !e.target.closest("a")) go(i);
+        if (e.target.closest("a")) return;
+        if (i !== idx) go(i);
+        else if (it.getAttribute("data-href")) window.location.href = it.getAttribute("data-href");
       });
     });
     // Waagrechtes Scrollen am Trackpad
@@ -116,10 +118,24 @@
     measure(); x = -idx * step; apply();
   }
 
+  // ---------------- Vorschau-Videos (Beispielseiten) ----------------
+  // Spielen stumm in Schleife, solange sie sichtbar sind; bei "weniger Bewegung" bleibt das Standbild.
+  var pv = document.querySelectorAll("video[data-tkplay]");
+  if (pv.length && !reduce && "IntersectionObserver" in window && !(navigator.connection && navigator.connection.saveData)) {
+    var po = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        var vd = e.target;
+        if (e.isIntersecting) { vd.muted = true; if (vd.preload === "none") vd.preload = "auto"; vd.play().catch(function () {}); }
+        else vd.pause();
+      });
+    }, { threshold: 0.35 });
+    pv.forEach(function (vd) { po.observe(vd); });
+  }
+
   // ---------------- Antwort-Assistent ----------------
   var LINKS = {
     pakete: ["Zu den Paketen", "/#pakete"], anfrage: ["Anfrage stellen", "/#anfrage"], ablauf: ["Zum Ablauf", "/#ablauf"],
-    email: ["Landingpages & E-Mail", "/#email"], beispiele: ["Beispiele ansehen", "/#beispiele"],
+    email: ["Landingpages & E-Mail", "/#email"], beispiele: ["Beispielseiten ansehen", "/beispiele/"],
     mail: ["E-Mail schreiben", "mailto:office@tim-kofler.at"], tel: ["Anrufen", "tel:+4367761773118"]
   };
   var ANSWERS = {
@@ -131,13 +147,15 @@
     hosting: { q: "Domain & Hosting?", a: "Domain und Webspace laufen auf deinen Namen, bei einem Anbieter deiner Wahl. Das kostet je nach Anbieter etwa 5 bis 10 € im Monat. Ich helfe dir bei Auswahl und Einrichtung, die Seite gehört dir.", links: ["anfrage"] },
     google: { q: "Werde ich bei Google gefunden?", a: "Jede Seite bekommt saubere Grundlagen: schnelle Ladezeit, gute Titel und Beschreibungen, Sitemap, strukturierte Daten und die Anmeldung bei Google. Einen bestimmten Platz kann niemand seriös versprechen, aber die Basis stimmt.", links: ["pakete"] },
     baukasten: { q: "Warum kein Baukasten?", a: "Eine programmierte Seite lädt nur, was sie braucht. Sie ist schneller, sicherer, braucht keine Plugin-Updates und das Design gibt es so nur einmal.", links: ["beispiele"] },
+    beispiele: { q: "Gibt es Beispiele?", a: "Ja, sieben komplette Beispielseiten: Friseur, Café, Autowerkstatt, Gasthaus, Bäckerei, Tischlerei und Heilmasseurin. Alle mit Videos, eigenen Animationen und Funktionen wie Online-Buchung, live im Browser zum Ausprobieren.", links: ["beispiele", "anfrage"] },
     kontakt: { q: "Persönlich anfragen", a: "Gerne! Am schnellsten über das Anfrageformular. Oder direkt per E-Mail an office@tim-kofler.at bzw. unter +43 677 61773118.", links: ["anfrage", "mail", "tel"] }
   };
-  var CHIPS = ["preis", "dauer", "referenz", "email", "ablauf", "kontakt"];
+  var CHIPS = ["preis", "beispiele", "dauer", "referenz", "email", "ablauf", "kontakt"];
   var KEYWORDS = [
     ["preis", /(preis|kost|euro|€|teuer|günstig|guenstig|budget|angebot)/],
     ["dauer", /(dauer|lange|wann|zeit|schnell fertig|bis wann)/],
     ["referenz", /(referenz|290)/],
+    ["beispiele", /(beispiel|muster|vorlage|zeig|portfolio|arbeiten)/],
     ["email", /(landing|newsletter|mail|brevo|marketing|automati)/],
     ["ablauf", /(ablauf|prozess|schritt|vorgehen|wie läuft|wie laeuft)/],
     ["hosting", /(domain|hosting|webspace|server|all-?inkl)/],

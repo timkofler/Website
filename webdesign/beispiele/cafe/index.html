@@ -1,0 +1,583 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Café Mühlbach – Beispiel-Entwurf | tim-kofler.at</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Beispiel-Entwurf einer Webseite für ein Kaffeehaus von Tim Kofler – Webdesign. Erfundener Betrieb.">
+<link rel="icon" href="/assets/img/tk-badge.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/beispiele/_shared/demo.css">
+<style>
+@font-face{font-family:"Fraunces";src:url(/beispiele/_shared/fonts/fraunces.woff2) format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Outfit";src:url(/beispiele/_shared/fonts/outfit.woff2) format("woff2");font-weight:100 900;font-display:swap}
+:root{--cream:#f6efe4;--cream2:#efe3d1;--paper:#fffaf2;--line:#e3d3bc;--brown:#3b2a20;--brown2:#2a1d15;--copper:#b5652f;--copper-d:#9a5222;--muted:#6f5848;--ok:#2f7a4b;--bar:45px;
+--serif:"Fraunces",Georgia,"Times New Roman",serif;--sans:"Outfit",system-ui,-apple-system,"Segoe UI",sans-serif}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:120px}
+body{margin:0;background:var(--cream);color:var(--brown);font:400 17px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,video,svg{max-width:100%}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--copper);outline-offset:3px;border-radius:6px}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.04;margin:0;letter-spacing:-.01em}
+p{margin:0}
+.wrap{width:min(1200px,100% - 40px);margin-inline:auto}
+.kicker{font:700 12.5px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--copper);display:inline-flex;align-items:center;gap:12px}
+.kicker::before{content:"";width:28px;height:1.5px;background:currentColor}
+.h2{font-size:clamp(36px,5.2vw,64px);margin-top:16px}
+.h2 em{font-style:normal;color:var(--copper)}
+.lead{color:var(--muted);font-size:18px;max-width:52ch;margin-top:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border-radius:999px;font:600 16px/1 var(--sans);text-decoration:none;border:0;cursor:pointer;transition:transform .25s,background .25s,box-shadow .25s}
+.btn--copper{background:var(--copper);color:#fff;box-shadow:0 10px 30px -12px rgba(181,101,47,.8)}
+.btn--copper:hover{background:var(--copper-d);transform:translateY(-2px)}
+.btn--ghost{background:rgba(246,239,228,.12);color:var(--cream);border:1.5px solid rgba(246,239,228,.45);backdrop-filter:blur(6px)}
+.btn--ghost:hover{background:rgba(246,239,228,.24)}
+.btn svg{width:18px;height:18px;transition:transform .25s}
+.btn:hover svg{transform:translateX(3px)}
+
+/* Navigation */
+.nav{position:sticky;top:var(--bar);z-index:50;transition:background .35s,box-shadow .35s}
+.nav__in{display:flex;align-items:center;justify-content:space-between;gap:20px;height:72px}
+.nav.is-solid{background:rgba(246,239,228,.92);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line)}
+.logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font:600 24px/1 var(--serif);color:var(--cream);transition:color .35s}
+.logo span{color:var(--copper)}
+.logo svg{width:34px;height:34px}
+.nav.is-solid .logo{color:var(--brown)}
+.nav__links{display:flex;align-items:center;gap:6px;list-style:none;margin:0;padding:0}
+.nav__links a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:999px;text-decoration:none;font-weight:500;font-size:15.5px;color:var(--cream);transition:background .25s,color .35s}
+.nav.is-solid .nav__links a{color:var(--brown)}
+.nav__links a:hover{background:rgba(181,101,47,.16)}
+.nav__links .nav__cta{background:var(--copper);color:#fff!important;margin-left:8px;padding:0 20px}
+.nav__links .nav__cta:hover{background:var(--copper-d)}
+.burger{display:none;width:48px;height:48px;border-radius:50%;border:1.5px solid rgba(246,239,228,.5);background:transparent;color:var(--cream);cursor:pointer;place-items:center}
+.nav.is-solid .burger{color:var(--brown);border-color:var(--line)}
+.burger span{display:block;width:20px;height:2px;background:currentColor;position:relative;transition:background .2s}
+.burger span::before,.burger span::after{content:"";position:absolute;left:0;width:20px;height:2px;background:currentColor;transition:transform .3s}
+.burger span::before{top:-6px}.burger span::after{top:6px}
+.burger[aria-expanded=true] span{background:transparent}
+.burger[aria-expanded=true] span::before{transform:translateY(6px) rotate(45deg)}
+.burger[aria-expanded=true] span::after{transform:translateY(-6px) rotate(-45deg)}
+@media (max-width:900px){
+  .burger{display:grid}
+  .nav__links{position:absolute;left:12px;right:12px;top:76px;flex-direction:column;align-items:stretch;gap:2px;padding:12px;background:var(--paper);border-radius:22px;box-shadow:0 30px 60px -20px rgba(59,42,32,.45);opacity:0;transform:translateY(-10px) scale(.98);pointer-events:none;visibility:hidden;transition:opacity .25s,transform .25s,visibility 0s .25s}
+  .nav__links.is-open{opacity:1;transform:none;pointer-events:auto;visibility:visible;transition:opacity .25s,transform .25s}
+  .nav__links a{color:var(--brown)!important;font-size:18px;min-height:52px;padding:0 18px}
+  .nav__links .nav__cta{margin:6px 0 0;justify-content:center}
+}
+
+/* Hero */
+.hero{position:relative;margin-top:-72px;min-height:calc(100svh - var(--bar));display:flex;align-items:flex-end;color:var(--cream);overflow:hidden;background:var(--brown2)}
+.hero__media{position:absolute;inset:0}
+.hero__media video{transform:scale(1.08);transform-origin:50% 60%;will-change:transform}
+.hero__media::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(32,21,14,.88) 0%,rgba(32,21,14,.55) 45%,rgba(32,21,14,.1) 100%),linear-gradient(0deg,rgba(32,21,14,.85) 0%,rgba(32,21,14,0) 45%)}
+.hero__in{position:relative;padding:150px 0 64px;width:min(1200px,100% - 40px);margin-inline:auto}
+.chip{display:inline-flex;align-items:center;gap:10px;padding:9px 16px;border-radius:999px;background:rgba(246,239,228,.12);border:1px solid rgba(246,239,228,.25);font-size:14px;font-weight:500;backdrop-filter:blur(8px)}
+.dot{width:9px;height:9px;border-radius:50%;background:#9a9a9a;flex:none}
+.is-open-now .dot{background:#5fd08a;box-shadow:0 0 0 0 rgba(95,208,138,.6);animation:pulse 2s infinite}
+.is-closed-now .dot{background:#e0805a}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(95,208,138,0)}100%{box-shadow:0 0 0 0 rgba(95,208,138,0)}}
+.hero h1{font-size:clamp(52px,9vw,128px);margin-top:24px;max-width:11ch;font-weight:500}
+.hero h1 em{font-style:normal;color:#e7a16b;display:block}
+.hero__lead{font-size:clamp(17px,1.6vw,20px);color:#ead9c4;max-width:44ch;margin-top:22px}
+.hero__btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.hero__stats{display:grid;grid-template-columns:repeat(3,auto);gap:clamp(22px,5vw,64px);margin-top:56px;padding-top:26px;border-top:1px solid rgba(246,239,228,.2);width:max-content;max-width:100%}
+.hero__stats b{display:block;font:500 clamp(34px,4vw,48px)/1 var(--serif);color:#fff}
+.hero__stats span{font-size:14px;color:#cdb9a3}
+.scrollcue{position:absolute;right:max(20px,calc((100% - 1200px)/2));bottom:64px;width:78px;height:78px;display:grid;place-items:center}
+.scrollcue svg{position:absolute;inset:0;animation:spin 16s linear infinite}
+.scrollcue i{width:2px;height:22px;background:var(--cream);border-radius:2px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (max-width:700px){.scrollcue{display:none}.hero__stats{grid-template-columns:repeat(3,1fr);width:100%;gap:14px}.hero__in{padding-bottom:44px}}
+
+/* Intro marquee */
+.marquee{background:var(--copper);color:#fff;overflow:hidden;padding:16px 0;border-block:1px solid var(--copper-d)}
+.marquee__track{display:flex;gap:42px;width:max-content;animation:mq 34s linear infinite;font:500 22px/1 var(--serif)}
+.marquee__track span{display:inline-flex;align-items:center;gap:42px;white-space:nowrap}
+.marquee__track span::after{content:"✦";font-size:14px;opacity:.75}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+section{position:relative}
+.sec{padding:clamp(80px,11vw,140px) 0}
+
+/* Speisekarte */
+.menu__head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:28px}
+.tabs{display:inline-flex;gap:6px;padding:6px;background:var(--cream2);border-radius:999px;border:1px solid var(--line);position:relative}
+.tab{position:relative;z-index:1;min-height:48px;padding:0 22px;border:0;border-radius:999px;background:transparent;font:600 16px/1 var(--sans);color:var(--muted);cursor:pointer;transition:color .3s}
+.tab[aria-selected=true]{color:var(--cream)}
+.tabs__pill{position:absolute;z-index:0;top:6px;left:0;height:48px;border-radius:999px;background:var(--brown);transition:transform .45s cubic-bezier(.3,1.3,.5,1),width .45s cubic-bezier(.3,1.3,.5,1)}
+.menu__body{display:grid;grid-template-columns:1.4fr 1fr;gap:clamp(30px,5vw,72px);margin-top:48px;align-items:start}
+.panel[hidden]{display:none}
+.panel ul{list-style:none;margin:0;padding:0}
+.item{display:grid;grid-template-columns:1fr auto;gap:2px 18px;padding:20px 0;border-bottom:1px dashed var(--line)}
+.panel.is-anim .item{animation:itemIn .55s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i) * 60ms)}
+@keyframes itemIn{from{opacity:0;transform:translateY(14px)}}
+.item h3{font-size:23px;font-weight:600;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.item .tag{font:600 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--copper);border:1px solid currentColor;padding:5px 8px;border-radius:999px}
+.item p{grid-column:1;color:var(--muted);font-size:15.5px}
+.item .price{grid-row:1/3;grid-column:2;align-self:center;font:500 25px/1 var(--serif);color:var(--copper)}
+.item .price small{font-size:15px;margin-right:2px}
+.menu__aside{position:sticky;top:140px;border-radius:30px;overflow:hidden;background:var(--brown);color:var(--cream);padding:34px;min-height:440px;display:flex;flex-direction:column;justify-content:flex-end;isolation:isolate}
+.menu__aside img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.menu__aside::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(42,29,21,.15),rgba(42,29,21,.92) 70%)}
+.menu__aside h3{font-size:34px;margin-top:10px}
+.menu__aside p{color:#e3cfb8;margin-top:10px;font-size:16px}
+.menu__aside .kicker{color:#e7a16b}
+.menu__note{margin-top:22px;color:var(--muted);font-size:14px}
+@media (max-width:900px){.menu__body{grid-template-columns:1fr}.menu__aside{position:relative;top:0;min-height:340px}}
+@media (max-width:480px){.tabs{width:100%}.tab{flex:1;padding:0 8px;font-size:15px}.item h3{font-size:20px}.item .price{font-size:22px}}
+
+/* Pour section */
+.pour{background:radial-gradient(70% 60% at 70% 50%,#5a3a26 0%,var(--brown2) 70%);color:var(--cream);overflow:hidden}
+.pour::before{content:"";position:absolute;inset:0;background:radial-gradient(40% 35% at 70% 55%,rgba(231,161,107,.22),transparent 70%);pointer-events:none}
+.pour__grid{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(30px,5vw,80px);align-items:center;position:relative}
+.pour .kicker{color:#e7a16b}
+.pour .h2 em{color:#e7a16b}
+.pour .lead{color:#d8c3ab}
+.steps{list-style:none;margin:36px 0 0;padding:0;display:grid;gap:4px;counter-reset:st}
+.step{display:grid;grid-template-columns:52px 1fr;gap:4px 16px;padding:14px 16px;border-radius:18px;transition:background .4s,opacity .4s;opacity:.5}
+.step.is-on{background:rgba(246,239,228,.08);opacity:1}
+.step.is-done{opacity:.85}
+.step__n{grid-row:1/3;width:52px;height:52px;border-radius:50%;border:1.5px solid rgba(231,161,107,.5);display:grid;place-items:center;font:500 20px/1 var(--serif);color:#e7a16b;transition:background .4s,color .4s}
+.step.is-on .step__n,.step.is-done .step__n{background:#e7a16b;color:var(--brown2);border-color:#e7a16b}
+.step b{font:600 20px/1.2 var(--serif);align-self:end}
+.step span{font-size:15px;color:#cdb39a}
+.pour__stage{position:relative;margin-inline:auto;width:100%;max-width:520px}
+.pour__svgbox{aspect-ratio:4/5;position:relative}
+#pourSvg{width:100%;height:100%;display:block;cursor:pointer;overflow:visible}
+.pour__hud{position:absolute;left:0;top:8%;display:grid;gap:6px;font:500 14px/1.2 var(--sans);color:#cdb39a}
+.pour__hud b{font:500 34px/1 var(--serif);color:var(--cream);font-variant-numeric:tabular-nums}
+.pour__hud small{letter-spacing:.16em;text-transform:uppercase;font-size:11.5px}
+.replay{display:flex;justify-content:center;margin-top:18px}
+.replay .btn{backdrop-filter:none}
+.replay .btn{min-height:48px;padding:0 20px;font-size:15px}
+.steam path{opacity:0}
+.is-steaming .steam path{animation:steam 3.6s ease-in-out infinite}
+.is-steaming .steam path:nth-child(2){animation-delay:1.1s}
+.is-steaming .steam path:nth-child(3){animation-delay:2.2s}
+@keyframes steam{0%{opacity:0;transform:translateY(16px) scaleY(.8)}35%{opacity:.75}100%{opacity:0;transform:translateY(-46px) scaleY(1.15)}}
+.steam path{transform-box:fill-box;transform-origin:50% 100%}
+@media (max-width:900px){.pour__grid{grid-template-columns:1fr}.pour__stage{max-width:460px;order:-1}.steps{margin-top:26px}}
+
+/* Barista */
+.barista__grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(30px,6vw,96px);align-items:center}
+.vframe{position:relative;border-radius:200px 200px 32px 32px;overflow:hidden;aspect-ratio:4/5;box-shadow:0 40px 80px -40px rgba(59,42,32,.6);background:var(--brown)}
+.vframe video{position:absolute;inset:0}
+.vframe__tag{position:absolute;left:20px;bottom:20px;background:var(--paper);color:var(--brown);border-radius:999px;padding:10px 16px;font-size:14px;font-weight:600;display:flex;gap:8px;align-items:center}
+.vwrap{position:relative}
+.vbadge{position:absolute;right:-18px;top:14%;width:130px;height:130px;border-radius:50%;background:var(--copper);color:#fff;display:grid;place-items:center;text-align:center;font:500 15px/1.15 var(--serif);transform:rotate(8deg);box-shadow:0 20px 40px -20px rgba(0,0,0,.5)}
+.vbadge b{display:block;font-size:40px}
+.facts{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:34px}
+.fact{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:22px;transition:transform .3s,box-shadow .3s}
+.fact:hover{transform:translateY(-4px);box-shadow:0 20px 40px -24px rgba(59,42,32,.4)}
+.fact b{font:500 34px/1 var(--serif);color:var(--copper)}
+.fact span{display:block;margin-top:8px;color:var(--muted);font-size:15px}
+.quote{margin-top:30px;padding-left:22px;border-left:3px solid var(--copper);font:400 21px/1.45 var(--serif);color:var(--brown)}
+.quote cite{display:block;margin-top:8px;font:500 14px/1 var(--sans);color:var(--muted);font-style:normal}
+@media (max-width:900px){.barista__grid{grid-template-columns:1fr}.vwrap{max-width:460px;width:100%;margin-inline:auto}.vbadge{right:-6px;width:110px;height:110px}.vbadge b{font-size:32px}}
+
+/* Events */
+.events{background:var(--cream2);border-block:1px solid var(--line)}
+.ev{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:18px;margin-top:48px}
+.card{border-radius:30px;padding:30px;position:relative;overflow:hidden;min-height:330px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.card:hover{transform:translateY(-6px) rotate(-.4deg)}
+.card--dark{background:var(--brown);color:var(--cream)}
+.card--copper{background:var(--copper);color:#fff}
+.card--light{background:var(--paper);border:1px solid var(--line)}
+.card__date{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:72px;height:78px;border-radius:18px;background:rgba(255,255,255,.12);font:500 32px/1 var(--serif)}
+.card--light .card__date{background:var(--cream2);color:var(--copper)}
+.card__date small{font:600 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;margin-top:6px}
+.card h3{font-size:30px;margin-top:22px}
+.card p{margin-top:10px;opacity:.85;font-size:15.5px}
+.card__foot{display:flex;justify-content:space-between;align-items:center;margin-top:24px;padding-top:18px;border-top:1px solid rgba(255,255,255,.2);font-weight:600}
+.card--light .card__foot{border-color:var(--line)}
+.card__foot b{font:500 26px/1 var(--serif)}
+.card__deco{position:absolute;right:-30px;top:-30px;width:180px;height:180px;opacity:.14}
+@media (max-width:900px){.ev{grid-template-columns:1fr}.card{min-height:0}}
+
+/* Zeiten + Anfahrt */
+.info{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:48px}
+.hours{background:var(--paper);border:1px solid var(--line);border-radius:30px;padding:clamp(24px,4vw,40px)}
+.status{display:flex;align-items:center;gap:12px;font-weight:600;font-size:18px}
+.status .dot{width:12px;height:12px}
+.is-open-now.status{color:var(--ok)}
+.is-closed-now.status{color:#a4482a}
+.status small{display:block;font-weight:400;color:var(--muted);font-size:15px}
+.hours table{width:100%;border-collapse:collapse;margin-top:22px;font-size:17px}
+.hours td{padding:14px 12px;border-bottom:1px solid var(--line)}
+.hours td:last-child{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.hours tr:last-child td{border-bottom:0}
+.hours tr.is-today td{background:var(--cream2)}
+.hours tr.is-today td:first-child{border-radius:12px 0 0 12px;font-weight:700}
+.hours tr.is-today td:last-child{border-radius:0 12px 12px 0;color:var(--copper)}
+.hours tr.is-today td:first-child::after{content:"Heute";margin-left:10px;font:700 10.5px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;background:var(--copper);color:#fff;padding:4px 7px;border-radius:999px;vertical-align:2px}
+.hours__note{margin-top:18px;font-size:14.5px;color:var(--muted)}
+.map{border-radius:30px;overflow:hidden;background:#e9dcc6;position:relative;min-height:420px;border:1px solid var(--line)}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.map__card{position:absolute;left:18px;right:18px;bottom:18px;background:var(--paper);border-radius:22px;padding:20px 22px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;box-shadow:0 20px 40px -20px rgba(59,42,32,.4)}
+.map__card b{font:600 22px/1.2 var(--serif)}
+.map__card p{color:var(--muted);font-size:15px}
+.map__card .btn{min-height:46px;padding:0 18px;font-size:15px}
+.pin{transform-box:fill-box;transform-origin:50% 100%;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px)}}
+.pinpulse{transform-box:fill-box;transform-origin:50% 50%;animation:pp 2.4s ease-out infinite}
+@keyframes pp{from{transform:scale(.4);opacity:.7}to{transform:scale(2.2);opacity:0}}
+@media (max-width:900px){.info{grid-template-columns:1fr}}
+
+/* Reservieren */
+.res{background:var(--brown);color:var(--cream);border-radius:clamp(0px,3vw,40px);margin-inline:clamp(0px,2vw,24px);overflow:hidden}
+.res__grid{display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(30px,6vw,90px);align-items:start}
+.res .kicker{color:#e7a16b}.res .h2 em{color:#e7a16b}.res .lead{color:#d8c3ab}
+.res__list{list-style:none;padding:0;margin:30px 0 0;display:grid;gap:12px;color:#e3cfb8}
+.res__list li{display:flex;gap:12px;align-items:center}
+.res__list svg{width:22px;height:22px;flex:none;color:#e7a16b}
+form{background:var(--paper);color:var(--brown);border-radius:28px;padding:clamp(22px,4vw,38px);display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{display:grid;gap:7px}
+.field--full{grid-column:1/-1}
+label,.lbl{font-size:14px;font-weight:600}
+input,select,textarea{width:100%;min-height:52px;border:1.5px solid var(--line);border-radius:14px;background:#fff;padding:12px 14px;font:400 16px/1.3 var(--sans);color:var(--brown);transition:border-color .2s,box-shadow .2s}
+textarea{min-height:96px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--copper);box-shadow:0 0 0 4px rgba(181,101,47,.18)}
+.persons{display:flex;align-items:center;gap:6px;border:1.5px solid var(--line);border-radius:14px;background:#fff;padding:3px}
+.persons button{width:46px;height:46px;border-radius:11px;border:0;background:var(--cream2);color:var(--brown);font:600 22px/1 var(--sans);cursor:pointer}
+.persons button:hover{background:var(--line)}
+.persons output{flex:1;text-align:center;font:600 18px/1 var(--sans)}
+.times{display:flex;flex-wrap:wrap;gap:8px}
+.times label{position:relative}
+.times input{position:absolute;opacity:0;width:1px;height:1px;min-height:0}
+.times span{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid var(--line);font-weight:500;cursor:pointer;transition:all .2s}
+.times input:checked+span{background:var(--brown);border-color:var(--brown);color:var(--cream)}
+.times input:focus-visible+span{outline:3px solid var(--copper);outline-offset:2px}
+form .btn{grid-column:1/-1;width:100%;margin-top:4px}
+.form-msg{grid-column:1/-1;background:#e8f2ea;color:#1f5a35;border-radius:14px;padding:14px 16px;font-size:15.5px;display:none}
+.form-msg.is-on{display:block;animation:itemIn .4s both}
+@media (max-width:900px){.res__grid{grid-template-columns:1fr}}
+@media (max-width:520px){form{grid-template-columns:1fr}}
+
+/* Footer */
+footer{padding:80px 0 40px;color:var(--muted);font-size:15px}
+.foot__grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:30px;padding-bottom:40px;border-bottom:1px solid var(--line)}
+.foot__big{font:500 clamp(40px,7vw,88px)/1 var(--serif);color:var(--brown)}
+.foot__big span{color:var(--copper)}
+footer h3{font:700 12.5px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--copper);margin-bottom:14px}
+footer p+p{margin-top:4px}
+.foot__legal{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding-top:24px;font-size:14px}
+.foot__legal strong{color:var(--brown)}
+@media (max-width:800px){.foot__grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.is-steaming .steam path{animation:none!important;opacity:.55}.marquee__track{animation:none}.hero__media video{transform:none}html{scroll-behavior:auto}}
+</style></head><body>
+<div class="tk-demo-bar"><a href="/#beispiele"><img src="/beispiele/_shared/tk-logo.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
+<span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musteradresse</span>
+<a class="tk-demo-bar__cta" href="/#anfrage">So eine Seite anfragen</a></div>
+
+<header class="nav" id="nav">
+  <div class="wrap nav__in">
+    <a class="logo" href="#top" aria-label="Café Mühlbach – zum Seitenanfang">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#b5652f"/><path d="M11 17h15v4.5c0 4.5-3.4 7.5-7.5 7.5S11 26 11 21.5Z" fill="#f6efe4"/><path d="M26 18.5c3.6 0 3.6 6 0 6" stroke="#f6efe4" stroke-width="2" fill="none"/><path d="M15 9c-1.4 1.6 1.4 2.4 0 4.5M19.5 9c-1.4 1.6 1.4 2.4 0 4.5" stroke="#f6efe4" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>
+      Café <span>Mühlbach</span></a>
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="menu" aria-label="Menü öffnen"><span></span></button>
+    <ul class="nav__links" id="menu">
+      <li><a href="#karte">Speisekarte</a></li>
+      <li><a href="#melange">Melange</a></li>
+      <li><a href="#barista">Barista</a></li>
+      <li><a href="#brunch">Brunch &amp; Events</a></li>
+      <li><a href="#zeiten">Öffnungszeiten</a></li>
+      <li><a class="nav__cta" href="#reservieren">Tisch reservieren</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero__media">
+    <video class="tk-video" id="heroVideo" data-autoplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/cafe-pour-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/cafe-pour.mp4" type="video/mp4"></video>
+  </div>
+  <div class="hero__in">
+    <p class="chip js-status" data-reveal><span class="dot"></span><span class="js-status-text">Öffnungszeiten werden geladen …</span></p>
+    <h1 id="hero-title" data-reveal style="--d:.1s">Guter Kaffee. <em>Gute Zeit.</em></h1>
+    <p class="hero__lead" data-reveal style="--d:.2s">Hausgeröstete Bohnen, Mehlspeisen aus der eigenen Backstube und Frühstück bis 14 Uhr – mitten am Musterplatz.</p>
+    <div class="hero__btns" data-reveal style="--d:.3s">
+      <a class="btn btn--copper" href="#reservieren">Tisch reservieren <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn btn--ghost" href="#karte">Speisekarte ansehen</a>
+    </div>
+    <div class="hero__stats" data-reveal style="--d:.4s">
+      <div><b data-count="14">14</b><span>Kaffeespezialitäten</span></div>
+      <div><b data-count="9">9</b><span>Mehlspeisen täglich</span></div>
+      <div><b data-count="40">40</b><span>Plätze im Gastgarten</span></div>
+    </div>
+  </div>
+  <a class="scrollcue" href="#karte" aria-label="Weiter zur Speisekarte">
+    <svg viewBox="0 0 100 100" aria-hidden="true"><defs><path id="circ" d="M50 50m-38 0a38 38 0 1 1 76 0a38 38 0 1 1-76 0"/></defs><text font-size="10.5" letter-spacing="3.2" fill="#f6efe4" font-family="Outfit, sans-serif"><textPath href="#circ">FRISCH GERÖSTET · SEIT 2009 · </textPath></text></svg><i></i></a>
+</section>
+
+<div class="marquee" aria-hidden="true"><div class="marquee__track">
+  <span>Wiener Melange</span><span>Hausgemachter Apfelstrudel</span><span>Sonntags-Brunch</span><span>Eigene Röstung</span><span>Gastgarten am Musterplatz</span><span>Torten auf Bestellung</span>
+  <span>Wiener Melange</span><span>Hausgemachter Apfelstrudel</span><span>Sonntags-Brunch</span><span>Eigene Röstung</span><span>Gastgarten am Musterplatz</span><span>Torten auf Bestellung</span>
+</div></div>
+
+<section class="sec" id="karte" aria-labelledby="karte-title">
+  <div class="wrap">
+    <div class="menu__head">
+      <div><p class="kicker" data-reveal>Speisekarte</p><h2 class="h2" id="karte-title" data-reveal style="--d:.08s">Heute <em>bei uns</em></h2></div>
+      <div class="tabs" role="tablist" aria-label="Speisekarte" data-reveal style="--d:.15s">
+        <span class="tabs__pill" aria-hidden="true"></span>
+        <button class="tab" role="tab" id="t-kaffee" aria-controls="p-kaffee" aria-selected="true">Kaffee</button>
+        <button class="tab" role="tab" id="t-fruehstueck" aria-controls="p-fruehstueck" aria-selected="false" tabindex="-1">Frühstück</button>
+        <button class="tab" role="tab" id="t-mehlspeisen" aria-controls="p-mehlspeisen" aria-selected="false" tabindex="-1">Mehlspeisen</button>
+      </div>
+    </div>
+    <div class="menu__body">
+      <div>
+        <div class="panel" id="p-kaffee" role="tabpanel" aria-labelledby="t-kaffee" tabindex="0"><ul>
+          <li class="item" style="--i:0"><h3>Wiener Melange <span class="tag">Klassiker</span></h3><p>Espresso, heiße Milch und feiner Milchschaum</p><span class="price"><small>€</small>3,90</span></li>
+          <li class="item" style="--i:1"><h3>Kleiner Brauner</h3><p>Mokka mit einem Schuss Obers, extra serviert</p><span class="price"><small>€</small>2,90</span></li>
+          <li class="item" style="--i:2"><h3>Einspänner</h3><p>Doppelter Mokka im Glas mit Schlagobers-Haube</p><span class="price"><small>€</small>4,60</span></li>
+          <li class="item" style="--i:3"><h3>Verlängerter</h3><p>Espresso mit heißem Wasser, mild und rund</p><span class="price"><small>€</small>3,40</span></li>
+          <li class="item" style="--i:4"><h3>Flat White <span class="tag">Hafer +0,40</span></h3><p>Doppelter Ristretto, samtige Mikroschaum-Milch</p><span class="price"><small>€</small>4,40</span></li>
+          <li class="item" style="--i:5"><h3>Mühlbach-Röstung, Filter</h3><p>Handgebrüht aus der Karaffe – Röstung der Woche</p><span class="price"><small>€</small>4,20</span></li>
+        </ul></div>
+        <div class="panel" id="p-fruehstueck" role="tabpanel" aria-labelledby="t-fruehstueck" tabindex="0" hidden><ul>
+          <li class="item" style="--i:0"><h3>Wiener Frühstück</h3><p>Kaisersemmel, Butter, Marillenmarmelade, weiches Ei, Melange</p><span class="price"><small>€</small>9,80</span></li>
+          <li class="item" style="--i:1"><h3>Mühlbach-Frühstück <span class="tag">Für zwei</span></h3><p>Gebäckkorb, Schinken, Bergkäse, Aufstriche, Obst, zwei Heißgetränke</p><span class="price"><small>€</small>26,50</span></li>
+          <li class="item" style="--i:2"><h3>Eierspeis vom Freilandei</h3><p>Mit Schnittlauch und Bauernbrot, wahlweise mit Speck</p><span class="price"><small>€</small>8,40</span></li>
+          <li class="item" style="--i:3"><h3>Avocado-Brot</h3><p>Sauerteigbrot, Avocado, pochiertes Ei, Kresse, Chili</p><span class="price"><small>€</small>11,20</span></li>
+          <li class="item" style="--i:4"><h3>Bircher Müsli</h3><p>Über Nacht eingeweicht, Joghurt, Apfel, Nüsse, Honig</p><span class="price"><small>€</small>7,60</span></li>
+          <li class="item" style="--i:5"><h3>Frisch gepresster Orangensaft</h3><p>0,25 l</p><span class="price"><small>€</small>4,50</span></li>
+        </ul></div>
+        <div class="panel" id="p-mehlspeisen" role="tabpanel" aria-labelledby="t-mehlspeisen" tabindex="0" hidden><ul>
+          <li class="item" style="--i:0"><h3>Apfelstrudel <span class="tag">Hausgemacht</span></h3><p>Warm, mit Vanillesauce oder Schlagobers</p><span class="price"><small>€</small>4,90</span></li>
+          <li class="item" style="--i:1"><h3>Topfenstrudel</h3><p>Flaumig, mit Rosinen, Staubzucker obenauf</p><span class="price"><small>€</small>4,60</span></li>
+          <li class="item" style="--i:2"><h3>Sachertorte</h3><p>Nach Hausrezept, Marillenmarmelade, Schlagobers</p><span class="price"><small>€</small>5,20</span></li>
+          <li class="item" style="--i:3"><h3>Esterházy-Schnitte</h3><p>Nussbaiser, Buttercreme, das typische Streifenmuster</p><span class="price"><small>€</small>4,90</span></li>
+          <li class="item" style="--i:4"><h3>Kardinalschnitte</h3><p>Biskuit, Baiser, Kaffee-Obers-Creme</p><span class="price"><small>€</small>4,80</span></li>
+          <li class="item" style="--i:5"><h3>Kaiserschmarrn</h3><p>Mit Zwetschkenröster – braucht ca. 15 Minuten</p><span class="price"><small>€</small>10,90</span></li>
+        </ul></div>
+        <p class="menu__note">Alle Preise in Euro inkl. MwSt. · Allergen-Informationen gibt es bei unserem Team.</p>
+      </div>
+      <aside class="menu__aside" data-reveal style="--d:.1s">
+        <img src="/beispiele/_shared/media/cafe-latte-poster.jpg" alt="Barista gießt Milchschaum in eine Tasse Espresso" width="1280" height="720" loading="lazy">
+        <p class="kicker">Empfehlung des Hauses</p>
+        <h3>Melange &amp; Apfelstrudel</h3>
+        <p>Unser Lieblingspaar am Nachmittag – um <strong>7,90 €</strong> statt 8,80 €, täglich von 14 bis 17 Uhr.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="sec pour" id="melange" aria-labelledby="melange-title">
+  <div class="wrap pour__grid">
+    <div>
+      <p class="kicker" data-reveal>Handwerk in der Tasse</p>
+      <h2 class="h2" id="melange-title" data-reveal style="--d:.08s">So entsteht <em>Ihre Melange</em></h2>
+      <p class="lead" data-reveal style="--d:.15s">Achtzehn Gramm frisch gemahlene Bohnen, fünfundzwanzig Sekunden Geduld und Milch, die nie heißer als 65 Grad wird. Sehen Sie selbst – tippen Sie auf die Tasse für eine neue.</p>
+      <ol class="steps" id="pourSteps">
+        <li class="step"><span class="step__n">1</span><b>Extraktion</b><span>9 bar, 93 °C, rund 25 Sekunden</span></li>
+        <li class="step"><span class="step__n">2</span><b>Die Crema</b><span>Haselnussbraun, dicht und fein</span></li>
+        <li class="step"><span class="step__n">3</span><b>Milchschaum</b><span>Seidig aufgeschäumt, mit ruhiger Hand gegossen</span></li>
+        <li class="step"><span class="step__n">4</span><b>Servieren</b><span>Mit einem Glas Wasser – wie es sich gehört</span></li>
+      </ol>
+    </div>
+    <div class="pour__stage" id="pourStage">
+      <div class="pour__hud" aria-hidden="true"><small>Extraktion</small><b id="pourTime">00,0 s</b></div>
+      <div class="pour__svgbox"><svg id="pourSvg" viewBox="0 0 400 500" role="img" aria-labelledby="pourTitle">
+        <title id="pourTitle">Animation: Espresso fließt in eine Tasse, die Crema bildet sich, Milchschaum wird eingegossen und Dampf steigt auf</title>
+        <defs>
+          <linearGradient id="gStream" x1="0" x2="1"><stop offset="0" stop-color="#3a1f0f"/><stop offset=".45" stop-color="#8a4f26"/><stop offset=".6" stop-color="#b0703c"/><stop offset="1" stop-color="#3a1f0f"/></linearGradient>
+          <linearGradient id="gMilk" x1="0" x2="1"><stop offset="0" stop-color="#e9dccb"/><stop offset=".5" stop-color="#fffaf2"/><stop offset="1" stop-color="#e2d3bf"/></linearGradient>
+          <radialGradient id="gCoffee" cx=".5" cy=".4" r=".7"><stop offset="0" stop-color="#4b2814"/><stop offset="1" stop-color="#1e0f07"/></radialGradient>
+          <radialGradient id="gCrema" cx=".48" cy=".42" r=".62"><stop offset="0" stop-color="#d79a5e"/><stop offset=".55" stop-color="#b06d36"/><stop offset="1" stop-color="#7a4220"/></radialGradient>
+          <linearGradient id="gCup" x1="0" x2="1"><stop offset="0" stop-color="#d9cfc2"/><stop offset=".25" stop-color="#fffdf9"/><stop offset=".55" stop-color="#f6f0e8"/><stop offset="1" stop-color="#c9bcac"/></linearGradient>
+          <linearGradient id="gInner" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfc3b4"/><stop offset="1" stop-color="#f3ece2"/></linearGradient>
+          <linearGradient id="gChrome" x1="0" x2="1"><stop offset="0" stop-color="#6d6762"/><stop offset=".3" stop-color="#e6e1dc"/><stop offset=".55" stop-color="#9c958f"/><stop offset="1" stop-color="#4d4844"/></linearGradient>
+          <radialGradient id="gShadow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#000" stop-opacity=".45"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+          <clipPath id="clipRim"><ellipse cx="200" cy="262" rx="103" ry="19"/></clipPath>
+        </defs>
+        <!-- Siebträger -->
+        <g>
+          <rect x="128" y="0" width="144" height="34" rx="6" fill="url(#gChrome)"/>
+          <rect x="140" y="34" width="120" height="22" rx="5" fill="#2b2622"/>
+          <path d="M150 56h100l-10 18h-80z" fill="url(#gChrome)"/>
+          <path d="M260 44 L392 58 L392 72 L258 64z" fill="#1d1916"/>
+          <rect x="190" y="74" width="20" height="12" rx="3" fill="url(#gChrome)"/>
+        </g>
+        <!-- Untertasse und Schatten -->
+        <ellipse cx="200" cy="452" rx="185" ry="30" fill="url(#gShadow)"/>
+        <ellipse cx="200" cy="438" rx="160" ry="30" fill="#e8ddd0"/>
+        <ellipse cx="200" cy="432" rx="160" ry="28" fill="#fbf7f1"/>
+        <ellipse cx="200" cy="430" rx="92" ry="15" fill="#e6dccf"/>
+        <!-- Henkel -->
+        <path d="M296 296c58-6 62 70 4 84" fill="none" stroke="#e7ddd0" stroke-width="20" stroke-linecap="round"/>
+        <path d="M296 296c58-6 62 70 4 84" fill="none" stroke="#fffdf9" stroke-width="11" stroke-linecap="round"/>
+        <!-- Innenwand -->
+        <ellipse cx="200" cy="262" rx="103" ry="19" fill="url(#gInner)"/>
+        <!-- Flüssigkeit (in der Öffnung beschnitten) -->
+        <g clip-path="url(#clipRim)">
+          <g id="liquid" opacity="0">
+            <g id="wob">
+              <ellipse cx="0" cy="0" rx="104" ry="20" fill="url(#gCoffee)"/>
+              <ellipse id="crema" cx="0" cy="0" rx="104" ry="20" fill="url(#gCrema)" opacity="0"/>
+              <g id="specks" opacity="0" fill="#e4b07a"><circle cx="-40" cy="-4" r="2.2"/><circle cx="28" cy="5" r="1.6"/><circle cx="55" cy="-6" r="2"/><circle cx="-62" cy="6" r="1.4"/><circle cx="-12" cy="9" r="1.8"/><circle cx="8" cy="-10" r="1.3"/></g>
+              <g id="foam" opacity="0"><ellipse cx="0" cy="0" rx="58" ry="11" fill="#f4e6d2"/><ellipse cx="0" cy="0" rx="42" ry="8" fill="#fff8ee"/></g>
+              <g id="heart" opacity="0"><path d="M0 9 C-14 2 -30 -3 -26 -9 C-22 -14 -8 -12 0 -4 C8 -12 22 -14 26 -9 C30 -3 14 2 0 9Z" fill="#fffaf3" stroke="#e9cfae" stroke-width="1"/><path d="M0 -4 L0 10" stroke="#c98a55" stroke-width="1.4" stroke-linecap="round"/></g>
+              <ellipse id="shine" cx="-30" cy="-8" rx="26" ry="3" fill="#fff" opacity=".12"/>
+            </g>
+            <g id="ripples" fill="none" stroke="#e1a874" stroke-width="1.6"><ellipse cx="0" cy="0" rx="30" ry="6"/><ellipse cx="0" cy="0" rx="30" ry="6"/><ellipse cx="0" cy="0" rx="30" ry="6"/></g>
+          </g>
+        </g>
+        <!-- Strahlen -->
+        <g id="stream"><rect x="-5" y="0" width="10" height="1" fill="url(#gStream)"/></g>
+        <g id="drops" fill="#6b3a1c" opacity="0"><circle cx="0" cy="0" r="3"/><circle cx="1" cy="40" r="2.2"/><circle cx="-1" cy="80" r="2.6"/></g>
+        <g id="milk"><rect x="-4" y="0" width="8" height="1" fill="url(#gMilk)"/></g>
+        <g id="jug" opacity="0"><path d="M0 0 L16 -10 L20 -58 L78 -58 L84 22 C85 40 74 48 58 48 L38 48 C24 48 18 38 18 26 L14 -4Z" fill="url(#gChrome)"/><path d="M80 -40 C108 -40 110 14 82 16" fill="none" stroke="#5d5752" stroke-width="7" stroke-linecap="round"/><path d="M28 -50 L30 36" stroke="#fff" stroke-width="4" opacity=".35" stroke-linecap="round"/></g>
+        <!-- Tassenkörper vorne -->
+        <path d="M94 262 A106 21 0 0 0 306 262 L298 330 C292 392 252 414 200 414 C148 414 108 392 102 330 Z" fill="url(#gCup)"/>
+        <path d="M118 300 C120 360 140 392 176 404" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".7"/>
+        <ellipse cx="200" cy="262" rx="106" ry="21" fill="none" stroke="#efe7dc" stroke-width="4"/>
+        <ellipse cx="200" cy="262" rx="108" ry="22.5" fill="none" stroke="#c6b8a7" stroke-width="1"/>
+        <path d="M120 360 Q200 380 280 360" fill="none" stroke="#b5652f" stroke-width="2.5" opacity=".55"/>
+        <!-- Dampf -->
+        <g class="steam" fill="none" stroke="#f6efe4" stroke-width="5" stroke-linecap="round">
+          <path d="M165 238 c-14 -18 14 -28 0 -48 c-10 -14 6 -22 2 -32"/>
+          <path d="M200 232 c-14 -18 14 -30 0 -52 c-10 -14 6 -24 2 -34"/>
+          <path d="M235 238 c-14 -18 14 -28 0 -48 c-10 -14 6 -22 2 -32"/>
+        </g>
+      </svg></div>
+      <div class="replay"><button class="btn btn--ghost" id="pourReplay" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Noch eine Tasse</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="barista" aria-labelledby="barista-title">
+  <div class="wrap barista__grid">
+    <div class="vwrap" data-reveal>
+      <div class="vframe">
+        <video class="tk-video" data-autoplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/cafe-latte-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/cafe-latte.mp4" type="video/mp4"></video>
+        <span class="vframe__tag"><span class="dot" style="background:#b5652f"></span>Latte Art, live an der Bar</span>
+      </div>
+      <div class="vbadge" aria-hidden="true"><div><b>3</b>Barista-<br>Diplome</div></div>
+    </div>
+    <div>
+      <p class="kicker" data-reveal>Unsere Barista</p>
+      <h2 class="h2" id="barista-title" data-reveal style="--d:.08s">Mit Ruhe, Gefühl <em>und Milchschaum.</em></h2>
+      <p class="lead" data-reveal style="--d:.15s">Hinter der Bar steht ein kleines Team, das Kaffee ernst nimmt – sich selbst aber nicht. Wir rösten jeden Dienstag in kleinen Mengen und stellen die Mühle jeden Morgen neu ein, bis der Espresso schmeckt, wie er soll.</p>
+      <div class="facts">
+        <div class="fact" data-reveal style="--d:.1s"><b data-count="18" data-suffix=" g">18 g</b><span>Kaffee pro doppeltem Espresso</span></div>
+        <div class="fact" data-reveal style="--d:.18s"><b data-count="65" data-suffix=" °C">65 °C</b><span>maximal für perfekten Milchschaum</span></div>
+        <div class="fact" data-reveal style="--d:.26s"><b data-count="4">4</b><span>Herkünfte, selbst geröstet</span></div>
+        <div class="fact" data-reveal style="--d:.34s"><b data-count="2009">2009</b><span>seit diesem Jahr am Musterplatz</span></div>
+      </div>
+      <blockquote class="quote" data-reveal style="--d:.2s">„Ein guter Kaffee braucht keine Eile. Nur Aufmerksamkeit.“<cite>Lena M., Barista (Beispiel-Zitat)</cite></blockquote>
+    </div>
+  </div>
+</section>
+
+<section class="sec events" id="brunch" aria-labelledby="brunch-title">
+  <div class="wrap">
+    <p class="kicker" data-reveal>Brunch &amp; Events</p>
+    <h2 class="h2" id="brunch-title" data-reveal style="--d:.08s">Mehr als <em>ein Café</em></h2>
+    <div class="ev">
+      <article class="card card--dark" data-reveal style="--d:.05s">
+        <svg class="card__deco" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="#f6efe4" stroke-width="3"/><circle cx="50" cy="50" r="30" fill="none" stroke="#f6efe4" stroke-width="3"/></svg>
+        <div><span class="card__date">So<small>jede Woche</small></span>
+        <h3>Sonntags-Brunch</h3>
+        <p>Buffet mit Eierspeisen, Bauernbrot, Käse aus dem Mostviertel, Lachs, Obst und Mehlspeisen. Heißgetränke und Säfte inklusive. 9 bis 13 Uhr, nur mit Reservierung.</p></div>
+        <div class="card__foot"><span>pro Person</span><b>26,90 €</b></div>
+      </article>
+      <article class="card card--copper" data-reveal style="--d:.12s">
+        <div><span class="card__date">6<small>Nov.</small></span>
+        <h3>Kaffee-Verkostung</h3>
+        <p>Vier Bohnen, vier Röstgrade – mit unserer Röstmeisterin. Jeden ersten Freitag im Monat, 18 Uhr.</p></div>
+        <div class="card__foot"><span>inkl. Kostproben</span><b>19 €</b></div>
+      </article>
+      <article class="card card--light" data-reveal style="--d:.19s">
+        <div><span class="card__date">48<small>Std. vorher</small></span>
+        <h3>Torten auf Bestellung</h3>
+        <p>Geburtstag, Taufe, Firmenfeier: Sachertorte, Malakoff oder Ihre Wunschtorte, auf Wunsch mit Beschriftung.</p></div>
+        <div class="card__foot"><span>ab 16 Stück</span><b>ab 42 €</b></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="zeiten" aria-labelledby="zeiten-title">
+  <div class="wrap">
+    <p class="kicker" data-reveal>Öffnungszeiten &amp; Anfahrt</p>
+    <h2 class="h2" id="zeiten-title" data-reveal style="--d:.08s">Wir freuen uns <em>auf Sie</em></h2>
+    <div class="info">
+      <div class="hours" data-reveal style="--d:.05s">
+        <p class="status js-status"><span class="dot"></span><span><span class="js-status-text">Wird berechnet …</span><small class="js-status-sub">nach österreichischer Zeit</small></span></p>
+        <table id="hoursTable"><caption class="sr" style="position:absolute;left:-9999px">Öffnungszeiten</caption><tbody>
+          <tr data-day="1"><td>Montag</td><td>7:30 – 18:00</td></tr>
+          <tr data-day="2"><td>Dienstag</td><td>7:30 – 18:00</td></tr>
+          <tr data-day="3"><td>Mittwoch</td><td>7:30 – 18:00</td></tr>
+          <tr data-day="4"><td>Donnerstag</td><td>7:30 – 18:00</td></tr>
+          <tr data-day="5"><td>Freitag</td><td>7:30 – 19:00</td></tr>
+          <tr data-day="6"><td>Samstag</td><td>8:00 – 17:00</td></tr>
+          <tr data-day="0"><td>Sonntag &amp; Feiertag</td><td>9:00 – 14:00</td></tr>
+        </tbody></table>
+        <p class="hours__note">Küche bis eine Stunde vor Schluss. Am 24. Dezember bis 12 Uhr geöffnet.</p>
+      </div>
+      <div class="map" data-reveal style="--d:.12s">
+        <svg viewBox="0 0 600 460" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="600" height="460" fill="#ebdfcb"/>
+          <path d="M-20 330 C120 300 200 360 330 320 S520 250 640 280 L640 360 C520 330 440 400 330 400 S120 380 -20 410Z" fill="#cfe0d9"/>
+          <path d="M-20 360 C120 330 200 390 330 350 S520 280 640 310" fill="none" stroke="#b7d0c6" stroke-width="3"/>
+          <g fill="#e2d3bb"><rect x="40" y="40" width="120" height="90" rx="10"/><rect x="40" y="160" width="120" height="100" rx="10"/><rect x="410" y="40" width="150" height="80" rx="10"/><rect x="430" y="150" width="130" height="80" rx="10"/><rect x="190" y="30" width="80" height="60" rx="10"/></g>
+          <rect x="300" y="120" width="90" height="70" rx="10" fill="#cfdcb9"/>
+          <g fill="none" stroke="#fffaf2" stroke-linecap="round"><path d="M0 145 H600" stroke-width="18"/><path d="M180 0 V460" stroke-width="16"/><path d="M395 0 C385 120 410 220 380 460" stroke-width="12"/><path d="M180 270 L395 230" stroke-width="10"/></g>
+          <g font-family="Outfit, sans-serif" font-size="13" fill="#8b7462" font-weight="600"><text x="200" y="139">HAUPTSTRASSE</text><text x="410" y="108" transform="rotate(-86 410 108)">MÜHLGASSE</text><text x="430" y="300">Mühlbach</text></g>
+          <circle cx="282" cy="200" r="54" fill="#d7c4a5"/>
+          <text x="282" y="268" text-anchor="middle" font-family="Outfit, sans-serif" font-size="12" fill="#6f5848" font-weight="600">MUSTERPLATZ</text>
+          <circle class="pinpulse" cx="282" cy="190" r="16" fill="#b5652f"/>
+          <g class="pin"><path d="M282 196 c-18 -20 -24 -30 -24 -42 a24 24 0 0 1 48 0 c0 12 -6 22 -24 42z" fill="#b5652f"/><circle cx="282" cy="154" r="9" fill="#fffaf2"/></g>
+          <g><rect x="196" y="160" width="26" height="26" rx="6" fill="#3b2a20"/><text x="209" y="178" text-anchor="middle" font-family="Outfit, sans-serif" font-size="14" font-weight="700" fill="#fff">P</text></g>
+          <g><rect x="340" y="200" width="26" height="26" rx="13" fill="#2f7a4b"/><text x="353" y="218" text-anchor="middle" font-family="Outfit, sans-serif" font-size="12" font-weight="700" fill="#fff">H</text></g>
+        </svg>
+        <div class="map__card"><div><b>Café Mühlbach</b><p>Musterplatz 3, 3280 Musterort<br>Parkplätze am Platz · Bushaltestelle 2 Min.</p></div><a class="btn btn--copper" href="#reservieren">Tisch sichern</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec res" id="reservieren" aria-labelledby="res-title">
+  <div class="wrap res__grid">
+    <div>
+      <p class="kicker" data-reveal>Reservierung</p>
+      <h2 class="h2" id="res-title" data-reveal style="--d:.08s">Ihr Tisch <em>wartet schon.</em></h2>
+      <p class="lead" data-reveal style="--d:.15s">Für Frühstück, Brunch oder den Kaffee am Nachmittag. Wir bestätigen Ihre Reservierung innerhalb weniger Stunden per SMS.</p>
+      <ul class="res__list" data-reveal style="--d:.2s">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Gastgarten von April bis Oktober</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Kinderhochstühle und Spielecke</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Barrierefreier Eingang</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Gruppen ab 10 Personen bitte telefonisch</li>
+      </ul>
+    </div>
+    <form id="resForm" novalidate data-reveal style="--d:.1s">
+      <div class="field"><label for="r-date">Datum</label><input type="date" id="r-date" name="datum" required></div>
+      <div class="field"><span class="lbl" id="pers-l">Personen</span><div class="persons" role="group" aria-labelledby="pers-l"><button type="button" data-step="-1" aria-label="Eine Person weniger">−</button><output id="r-persons" aria-live="polite">2</output><button type="button" data-step="1" aria-label="Eine Person mehr">+</button></div></div>
+      <fieldset class="field field--full" style="border:0;padding:0;margin:0"><legend class="lbl" style="margin-bottom:7px">Uhrzeit</legend>
+        <div class="times">
+          <label><input type="radio" name="zeit" value="08:30"><span>8:30</span></label>
+          <label><input type="radio" name="zeit" value="10:00" checked><span>10:00</span></label>
+          <label><input type="radio" name="zeit" value="11:30"><span>11:30</span></label>
+          <label><input type="radio" name="zeit" value="13:00"><span>13:00</span></label>
+          <label><input type="radio" name="zeit" value="15:00"><span>15:00</span></label>
+          <label><input type="radio" name="zeit" value="16:30"><span>16:30</span></label>
+        </div></fieldset>
+      <div class="field"><label for="r-name">Name</label><input id="r-name" name="name" autocomplete="name" placeholder="Vor- und Nachname"></div>
+      <div class="field"><label for="r-tel">Telefon</label><input id="r-tel" name="tel" type="tel" autocomplete="tel" placeholder="0664 …"></div>
+      <div class="field field--full"><label for="r-note">Anmerkung</label><textarea id="r-note" name="anmerkung" placeholder="z. B. Gastgarten, Geburtstag, Hochstuhl"></textarea></div>
+      <button class="btn btn--copper" type="submit">Reservierung anfragen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <p class="form-msg" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot__grid">
+      <div><p class="foot__big">Café <span>Mühlbach</span></p><p style="margin-top:14px">Kaffeehaus &amp; Rösterei am Musterplatz</p></div>
+      <div><h3>Besuch</h3><p>Musterplatz 3</p><p>3280 Musterort</p><p>Tel. 01234 567 89</p></div>
+      <div><h3>Seiten</h3><p><a href="#karte">Speisekarte</a></p><p><a href="#brunch">Brunch &amp; Events</a></p><p><a href="#reservieren">Reservieren</a></p></div>
+    </div>
+    <div class="foot__legal"><span>© 2026 Café Mühlbach · Musterplatz 3, 3280 Musterort</span><strong>Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb</strong></div>
+  </div>
+</footer>
+
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/cafe/app.js" defer></script></body></html>

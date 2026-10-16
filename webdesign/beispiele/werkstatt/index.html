@@ -1,0 +1,567 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KFZ Steiner – Beispiel-Entwurf | tim-kofler.at</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Beispiel-Entwurf einer Webseite für eine KFZ-Werkstatt von Tim Kofler – Webdesign. Erfundener Betrieb.">
+<link rel="icon" href="/assets/img/tk-badge.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/beispiele/_shared/demo.css">
+<link rel="preload" href="/beispiele/_shared/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Unbounded";src:url(/beispiele/_shared/fonts/unbounded.woff2) format("woff2");font-weight:200 900;font-display:swap}
+@font-face{font-family:"Inter";src:url(/beispiele/_shared/fonts/inter.woff2) format("woff2");font-weight:100 900;font-display:swap}
+:root{--bg:#0f1113;--bg2:#13161a;--panel:#171a1e;--line:#262a30;--y:#ffb81c;--y2:#ffcc55;--txt:#f2f2f0;--mut:#a3a9b0;--dim:#6e757d;
+  --disp:"Unbounded","Archivo Black","Arial Black",system-ui,sans-serif;--sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--bar:45px;--r:18px}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--bar) + 76px)}
+body{margin:0;background:var(--bg);color:var(--txt);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,svg,video{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3{font-family:var(--disp);font-weight:800;letter-spacing:-.02em;line-height:1.05;margin:0}
+p{margin:0}
+:focus-visible{outline:3px solid var(--y);outline-offset:3px;border-radius:6px}
+.wrap{width:min(1240px,100% - 32px);margin-inline:auto}
+.k{font:700 12px/1.2 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--y);display:inline-flex;align-items:center;gap:10px}
+.k::before{content:"";width:22px;height:2px;background:currentColor}
+.h2{font-size:clamp(30px,4.6vw,58px);margin-top:16px}
+.lead{color:var(--mut);font-size:clamp(16px,1.4vw,18px);max-width:58ch;margin-top:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border-radius:14px;font:800 15px/1 var(--sans);text-decoration:none;border:0;cursor:pointer;transition:transform .25s,background .25s,box-shadow .25s}
+.btn--y{background:var(--y);color:#111;box-shadow:0 10px 30px -10px rgba(255,184,28,.6)}
+.btn--y:hover{transform:translateY(-2px);background:var(--y2)}
+.btn--o{background:rgba(255,255,255,.04);color:var(--txt);border:1.5px solid #3a4048;backdrop-filter:blur(6px)}
+.btn--o:hover{border-color:var(--y);color:var(--y)}
+.btn svg{width:18px;height:18px}
+
+/* Navigation */
+.nav{position:sticky;top:var(--bar);z-index:900;background:rgba(15,17,19,.82);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:20px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font:900 19px/1 var(--disp);letter-spacing:-.01em}
+.logo i{width:34px;height:34px;border-radius:9px;background:var(--y);display:grid;place-items:center;color:#111;font-style:normal}
+.logo i svg{width:22px;height:22px}
+.logo span{color:var(--y)}
+.nav__links{display:flex;gap:4px;align-items:center}
+.nav__links a{text-decoration:none;color:#c9ced4;font-weight:600;font-size:15px;padding:12px 14px;border-radius:10px;transition:color .2s,background .2s}
+.nav__links a:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav__cta{display:flex;align-items:center;gap:10px}
+.nav__cta .btn{min-height:44px;padding:0 18px;font-size:14px}
+.burger{display:none;width:48px;height:48px;border-radius:12px;border:1.5px solid #343a41;background:transparent;color:var(--txt);cursor:pointer;place-items:center}
+.burger span,.burger span::before,.burger span::after{display:block;width:20px;height:2px;background:currentColor;border-radius:2px;transition:transform .3s,background .3s;position:relative}
+.burger span::before,.burger span::after{content:"";position:absolute;left:0}
+.burger span::before{top:-6px}.burger span::after{top:6px}
+.burger[aria-expanded="true"] span{background:transparent}
+.burger[aria-expanded="true"] span::before{transform:translateY(6px) rotate(45deg)}
+.burger[aria-expanded="true"] span::after{transform:translateY(-6px) rotate(-45deg)}
+.mpanel{position:fixed;inset:calc(var(--bar) + 68px) 0 auto 0;background:#121518;border-bottom:1px solid var(--line);padding:12px 16px 22px;transform:translateY(-12px);opacity:0;visibility:hidden;transition:opacity .3s,transform .3s,visibility 0s .3s;z-index:899}
+.mpanel.open{opacity:1;transform:none;visibility:visible;transition:opacity .3s,transform .3s}
+.mpanel a{display:flex;align-items:center;justify-content:space-between;min-height:54px;text-decoration:none;font:700 19px/1 var(--disp);border-bottom:1px solid var(--line)}
+.mpanel a::after{content:"→";color:var(--y);font-family:var(--sans)}
+.mpanel .btn{width:100%;margin-top:16px}
+@media (max-width:960px){.nav__links{display:none}.burger{display:grid}.nav__cta .btn--o{display:none}}
+@media (max-width:480px){.nav__cta .btn--y{display:none}}
+
+/* Hero */
+.hero{position:relative;min-height:min(92vh,880px);display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}
+.hero__media{position:absolute;inset:0;z-index:-2}
+.hero__media::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,17,19,.94) 0%,rgba(15,17,19,.72) 42%,rgba(15,17,19,.2) 100%),linear-gradient(0deg,var(--bg) 0%,rgba(15,17,19,0) 40%)}
+.hero__grid{position:absolute;inset:0;z-index:-1;opacity:.12;background-image:linear-gradient(rgba(255,255,255,.4) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.4) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(90deg,#000,transparent 60%)}
+.hero__in{padding:120px 0 64px}
+.status{display:inline-flex;align-items:center;gap:10px;padding:8px 14px 8px 10px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);font-size:14px;font-weight:600;backdrop-filter:blur(8px)}
+.status b{width:10px;height:10px;border-radius:50%;background:#3ddc84;box-shadow:0 0 0 0 rgba(61,220,132,.6);animation:ping 2s infinite}
+.status.closed b{background:#ff6b5a;animation:none}
+@keyframes ping{70%{box-shadow:0 0 0 10px rgba(61,220,132,0)}100%{box-shadow:0 0 0 0 rgba(61,220,132,0)}}
+.hero h1{font-size:clamp(44px,8.2vw,112px);margin:24px 0 22px;max-width:11ch}
+.hero h1 em{font-style:normal;color:var(--y);position:relative;white-space:nowrap}
+.hero h1 em::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:.1em;background:var(--y);transform-origin:left;transform:scaleX(0);animation:line 1s .9s cubic-bezier(.7,0,.2,1) forwards}
+@keyframes line{to{transform:scaleX(1)}}
+.hero p.lead{color:#c3c8ce;max-width:46ch}
+.hero__btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.hero__facts{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:44px;color:#c3c8ce;font-size:14px;font-weight:600}
+.hero__facts span{display:flex;align-items:center;gap:8px}
+.hero__facts svg{width:18px;height:18px;color:var(--y)}
+.hazard{height:12px;background:repeating-linear-gradient(-45deg,var(--y) 0 16px,#111 16px 32px)}
+
+/* Marquee */
+.season{background:var(--y);color:#111;overflow:hidden;border-block:3px solid #111}
+.marquee{display:flex;width:max-content;animation:mq 34s linear infinite}
+.marquee span{display:flex;align-items:center;gap:22px;padding:15px 11px;font:800 15px/1 var(--disp);letter-spacing:.01em;white-space:nowrap;text-transform:uppercase}
+.marquee span i{width:10px;height:10px;background:#111;transform:rotate(45deg);display:inline-block}
+@keyframes mq{to{transform:translateX(-50%)}}
+.season:hover .marquee{animation-play-state:paused}
+
+/* Leistungen */
+.sec{padding:clamp(80px,10vw,140px) 0}
+.sec__head{display:flex;justify-content:space-between;align-items:end;gap:30px;flex-wrap:wrap}
+.svc{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:52px}
+.card{position:relative;background:linear-gradient(180deg,#191c21,#141619);border:1px solid var(--line);border-radius:var(--r);padding:28px 26px 26px;overflow:hidden;transition:border-color .35s,transform .35s}
+.card::before{content:"";position:absolute;inset:auto -40% -60% auto;width:240px;height:240px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,184,28,.18),transparent);opacity:0;transition:opacity .4s}
+.card:hover{border-color:rgba(255,184,28,.55);transform:translateY(-4px)}
+.card:hover::before{opacity:1}
+.card__ic{width:54px;height:54px;border-radius:14px;background:rgba(255,184,28,.12);color:var(--y);display:grid;place-items:center}
+.card__ic svg{width:28px;height:28px;transition:transform .6s cubic-bezier(.3,1.5,.5,1)}
+.card:hover .card__ic svg{transform:rotate(-18deg) scale(1.08)}
+.card:hover .card__ic svg.spin{transform:rotate(120deg)}
+.card h3{font-size:21px;margin-top:22px}
+.card p{color:var(--mut);font-size:15px;margin-top:10px;line-height:1.55}
+.card ul{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:6px;font-size:14px;color:#c9ced4}
+.card li{display:flex;gap:8px}.card li::before{content:"";width:6px;height:6px;margin-top:8px;background:var(--y);transform:rotate(45deg);flex:none}
+.price{display:flex;align-items:baseline;justify-content:space-between;margin-top:22px;padding-top:18px;border-top:1px dashed #30353c}
+.price small{color:var(--dim);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+.price b{font:800 24px/1 var(--disp);color:var(--txt)}
+.price b span{font-size:14px;color:var(--y);margin-right:4px}
+.tag57{position:absolute;top:22px;right:22px;font:800 11px/1 var(--sans);letter-spacing:.1em;background:var(--y);color:#111;padding:6px 8px;border-radius:6px}
+@media (max-width:1000px){.svc{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:620px){.svc{grid-template-columns:1fr}}
+
+/* Reifenwechsel */
+.tire{background:radial-gradient(1200px 600px at 70% 30%,#1b1f24 0%,var(--bg) 60%);position:relative;overflow:hidden}
+.wc{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;margin-top:48px}
+.stage{position:relative;aspect-ratio:780/290;border-radius:24px;overflow:hidden;background:radial-gradient(60% 70% at 55% 45%,#262b31 0%,#14171a 55%,#0c0e10 100%);border:1px solid var(--line)}
+.stage__floor{position:absolute;left:0;right:0;top:76.8%;bottom:0;background:linear-gradient(180deg,#1b1f23,#0e1012);border-top:1px solid #353b42}
+.stage__floor::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 79px,rgba(255,255,255,.035) 79px 80px)}
+.stage__floor::after{content:"";position:absolute;left:6%;right:22%;top:18%;height:5px;background:repeating-linear-gradient(90deg,var(--y) 0 26px,transparent 26px 52px);opacity:.55}
+.stage__lamp{position:absolute;left:30%;top:-30%;width:60%;height:90%;background:radial-gradient(closest-side,rgba(255,236,190,.09),transparent);pointer-events:none}
+.car-box{position:absolute;left:3%;width:80%;top:12%;aspect-ratio:780/261}
+.car-shadow{position:absolute;left:1%;right:4%;top:84%;height:16%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.85),transparent);transition:opacity .8s}
+.car-img,.car-ov{position:absolute;left:0;top:0;width:100%;height:100%;transform-origin:21.8% 90%}
+.car-img{mix-blend-mode:lighten}
+.car-ov{overflow:visible}
+.car-ov g,.lens g,.gauge g,.jack g{transform-box:fill-box;transform-origin:center}
+.jack{position:absolute;left:46.4%;width:15%;top:77.1%;transform:translateY(-100%);overflow:visible;opacity:0}
+.callout{position:absolute;z-index:3;background:rgba(15,17,19,.92);border:1px solid #3a4048;border-left:3px solid var(--y);border-radius:10px;padding:9px 12px;font-size:13px;line-height:1.35;color:#d8dce0;opacity:0;transform:translateY(8px);pointer-events:none;max-width:210px}
+.callout b{display:block;font:800 13px/1.2 var(--disp);color:#fff;margin-bottom:2px}
+.callout--old{right:2%;top:7%}
+.callout--new{right:2%;top:7%}
+.callout--old b{color:#ff8f6b}
+.done{position:absolute;left:50%;top:30%;z-index:4;display:flex;align-items:center;gap:14px;background:rgba(15,17,19,.94);border:1.5px solid var(--y);border-radius:18px;padding:14px 22px 14px 14px;opacity:0;transform:translate(-50%,-40%) scale(.9);box-shadow:0 20px 60px -10px rgba(0,0,0,.8),0 0 40px -10px rgba(255,184,28,.5);white-space:nowrap}
+.done svg{width:46px;height:46px;flex:none}
+.done b{display:block;font:800 18px/1.15 var(--disp)}
+.done span{color:var(--mut);font-size:13px}
+.done .ck-c{stroke-dasharray:1;stroke-dashoffset:1}
+.done .ck-p{stroke-dasharray:1;stroke-dashoffset:1}
+.done.on .ck-c{transition:stroke-dashoffset .6s ease;stroke-dashoffset:0}
+.done.on .ck-p{transition:stroke-dashoffset .4s .45s ease;stroke-dashoffset:0}
+.stage__hud{position:absolute;left:18px;bottom:14px;right:18px;display:flex;justify-content:space-between;align-items:center;gap:12px;font:600 12px/1 var(--sans);color:var(--dim);letter-spacing:.12em;text-transform:uppercase}
+.stage__hud b{color:var(--y)}
+.panel{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,2fr) 250px;gap:22px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:20px 24px}
+.panel__end{display:grid;gap:12px}
+.lensrow{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:center}
+.lens{width:100%;aspect-ratio:1;border-radius:50%;background:#090a0b;box-shadow:inset 0 0 0 2px #2c3138,0 0 0 6px #121417,0 0 0 7px #2c3138}
+.gaugebox{text-align:center}
+.gauge{width:100%}
+.gauge__val{font:800 22px/1 var(--disp);margin-top:-4px}
+.gauge__val small{font:600 12px var(--sans);color:var(--mut);margin-left:4px}
+.klick{display:inline-block;margin-top:8px;font:900 12px/1 var(--disp);letter-spacing:.08em;color:#111;background:var(--y);padding:5px 8px;border-radius:6px;opacity:0;transform:scale(.6)}
+.bolts{display:flex;gap:6px;justify-content:center;margin-top:10px}
+.bolts i{width:12px;height:12px;border-radius:3px;border:1.5px solid #4a515a;transform:rotate(45deg);transition:background .2s,border-color .2s}
+.bolts i.on{background:var(--y);border-color:var(--y)}
+.timer{display:flex;align-items:baseline;justify-content:space-between;padding:12px 14px;border-radius:14px;background:#0f1215;border:1px solid var(--line)}
+.timer small{color:var(--mut);font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.timer b{font:800 30px/1 var(--disp);color:var(--y);font-variant-numeric:tabular-nums}
+.timer b span{font-size:14px;color:var(--mut);margin-left:6px}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;counter-reset:s;align-content:start}
+.steps li{counter-increment:s;display:flex;align-items:center;gap:12px;padding:8px 10px;border-radius:10px;font-size:14px;font-weight:600;color:var(--dim);transition:color .3s,background .3s}
+.steps li::before{content:counter(s);width:26px;height:26px;flex:none;border-radius:8px;display:grid;place-items:center;font:800 12px/1 var(--disp);border:1.5px solid #353b42;transition:all .3s}
+.steps li.act{color:#fff;background:rgba(255,184,28,.08)}
+.steps li.act::before{border-color:var(--y);color:var(--y)}
+.steps li.ok{color:#c9ced4}
+.steps li.ok::before{content:"✓";background:var(--y);border-color:var(--y);color:#111}
+.replay{width:100%}
+.replay svg{transition:transform .5s}
+.replay:hover svg{transform:rotate(-200deg)}
+@media (max-width:1100px){.panel{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.panel__end{grid-column:1/-1;grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}}
+@media (max-width:700px){.panel{grid-template-columns:1fr;padding:16px}.panel__end{grid-template-columns:1fr}.steps li{font-size:13px;padding:7px 8px}.stage{aspect-ratio:780/330}.car-box{top:8%;left:-4%;width:100%}.stage__floor{top:79%}.jack{top:79.3%;left:50.2%;width:18.75%}.callout span{display:none}.stage__hud{display:none}.callout{font-size:12px;max-width:180px;padding:7px 10px}.callout--old,.callout--new{left:12px;right:auto;top:10px}.done{padding:10px 12px 10px 10px;gap:10px;white-space:normal;width:calc(100% - 24px);top:34%}.done svg{width:36px;height:36px}.done b{font-size:14px}.done span{font-size:12px}.stage__hud{font-size:10px;bottom:10px}}
+.seasonbox{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:16px;margin-top:22px}
+.sb{border-radius:var(--r);padding:26px;border:1px solid var(--line);background:var(--panel)}
+.sb--y{background:var(--y);color:#111;border-color:var(--y);position:relative;overflow:hidden}
+.sb--y::after{content:"";position:absolute;right:-30px;top:-30px;width:150px;height:150px;opacity:.14;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M12 2v20M3.3 7l17.4 10M20.7 7 3.3 17M9 4l3 2 3-2M9 20l3-2 3 2'/%3E%3C/svg%3E") center/contain no-repeat;animation:rot 30s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+.sb h3{font-size:22px}
+.sb p{margin-top:10px;font-size:15px;color:var(--mut)}
+.sb--y p{color:#2a2410}
+.sb .big{font:800 44px/1 var(--disp);margin-top:12px;display:block}
+.sb .big small{font-size:15px;font-weight:700;margin-left:6px}
+@media (max-width:900px){.seasonbox{grid-template-columns:1fr}}
+
+/* Werkstatt / Zahlen */
+.about{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(30px,5vw,80px);align-items:center}
+.about__ph{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:716/560}
+.about__ph img{width:100%;height:100%;object-fit:cover;transform:scale(1.08);transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.about__ph.is-in img{transform:scale(1)}
+.about__ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(15,17,19,.85))}
+.about__badge{position:absolute;left:20px;bottom:20px;z-index:1;display:flex;align-items:center;gap:12px}
+.about__badge b{font:900 15px/1.2 var(--disp)}
+.about__badge i{width:56px;height:56px;border-radius:50%;background:var(--y);color:#111;display:grid;place-items:center;font:900 12px/1 var(--disp);font-style:normal;text-align:center}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:36px}
+.stat{padding:22px;border-radius:var(--r);background:var(--panel);border:1px solid var(--line)}
+.stat b{display:block;font:800 clamp(34px,4vw,50px)/1 var(--disp);color:var(--y);font-variant-numeric:tabular-nums}
+.stat small{display:block;color:var(--mut);font-size:14px;margin-top:8px}
+@media (max-width:900px){.about{grid-template-columns:1fr}}
+
+/* Ablauf */
+.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:56px;position:relative}
+.road{position:absolute;left:8%;right:8%;top:38px;height:4px;background:repeating-linear-gradient(90deg,#3a4048 0 18px,transparent 18px 32px)}
+.road i{position:absolute;left:0;top:-15px;width:46px;height:30px;color:var(--y);transform:translateX(-20px);transition:transform 2.6s cubic-bezier(.5,0,.2,1) .3s}
+.flow.is-in .road i{transform:translateX(calc(84vw * .9 - 20px))}
+.fs{position:relative;padding:0 6px}
+.fs__n{width:80px;height:80px;border-radius:22px;background:var(--bg);border:2px solid var(--y);display:grid;place-items:center;font:900 26px/1 var(--disp);color:var(--y);position:relative;z-index:1}
+.fs h3{font-size:22px;margin-top:24px}
+.fs p{color:var(--mut);margin-top:10px;font-size:15px;max-width:34ch}
+@media (min-width:1240px){.flow.is-in .road i{transform:translateX(calc(1240px * .84 - 26px))}}
+@media (max-width:800px){.flow{grid-template-columns:1fr;gap:34px}.road{left:38px;right:auto;top:20px;bottom:20px;width:4px;height:auto;background:repeating-linear-gradient(180deg,#3a4048 0 18px,transparent 18px 32px)}.road i{display:none}.fs{display:grid;grid-template-columns:80px 1fr;gap:0 20px;align-items:start}.fs__n{grid-row:span 2}.fs h3{margin-top:8px}.fs p{grid-column:2}}
+
+/* Termin */
+.book{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(30px,5vw,70px);background:var(--y);color:#111;border-radius:30px;padding:clamp(28px,5vw,64px);position:relative;overflow:hidden}
+.book::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(-45deg,rgba(0,0,0,.04) 0 2px,transparent 2px 14px)}
+.book>*{position:relative}
+.book .k{color:#111}
+.book .h2{color:#111}
+.book .lead{color:#3a3115}
+.book__list{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:12px;font-weight:600}
+.book__list li{display:flex;gap:12px;align-items:center}
+.book__list svg{width:22px;height:22px;flex:none}
+form{display:grid;gap:14px;background:#0f1113;color:var(--txt);border-radius:22px;padding:clamp(20px,3vw,32px)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label{display:grid;gap:7px;font-size:13px;font-weight:700;color:#c9ced4;letter-spacing:.02em}
+input,select,textarea{width:100%;min-height:52px;border-radius:12px;border:1.5px solid #30363d;background:#171a1e;color:var(--txt);font:500 16px var(--sans);padding:0 14px;transition:border-color .2s}
+textarea{padding:12px 14px;min-height:90px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--y)}
+input[type=date]{color-scheme:dark}
+.plate{display:flex;align-items:stretch;border-radius:10px;overflow:hidden;background:#fff;border:2.5px solid #111;box-shadow:0 0 0 1.5px #3a3f45;position:relative}
+.plate::before,.plate::after{content:"";position:absolute;left:44px;right:0;height:5px;background:linear-gradient(180deg,#d4002a 0 33%,#fff 33% 66%,#d4002a 66%)}
+.plate::before{top:0}.plate::after{bottom:0}
+.plate span{width:44px;background:#003da5;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:6px;font:800 16px/1 var(--sans)}
+.plate span::before{content:"";width:18px;height:18px;margin-bottom:auto;margin-top:7px;border-radius:50%;border:2px dotted #ffd300}
+.plate input{border:0;background:#fff;color:#111;font:800 26px/1 "Unbounded",var(--disp);letter-spacing:.06em;text-transform:uppercase;min-height:62px;text-align:center;border-radius:0}
+.plate input::placeholder{color:#b3b3b3}
+.plate:focus-within{box-shadow:0 0 0 3px var(--y)}
+.form-note{font-size:12px;color:var(--dim)}
+.msg{display:none;padding:14px 16px;border-radius:12px;background:rgba(255,184,28,.12);border:1px solid rgba(255,184,28,.5);color:#ffe2a3;font-size:14px;font-weight:600}
+.msg.show{display:block;animation:pop .4s}
+@keyframes pop{from{opacity:0;transform:translateY(6px)}}
+@media (max-width:900px){.book{grid-template-columns:1fr}}
+@media (max-width:480px){.row2{grid-template-columns:1fr}}
+
+/* Anfahrt */
+.visit{display:grid;grid-template-columns:1.3fr 1fr;gap:16px}
+.map{position:relative;border-radius:24px;overflow:hidden;border:1px solid var(--line);background:#15181b;min-height:380px}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{transform-box:fill-box;transform-origin:50% 100%;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-6px)}}
+.pulse{transform-box:fill-box;transform-origin:center;animation:pul 2.4s ease-out infinite}
+@keyframes pul{from{transform:scale(.3);opacity:.9}to{transform:scale(2.2);opacity:0}}
+.info{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:clamp(22px,3vw,34px);display:flex;flex-direction:column;gap:22px}
+.info h3{font-size:24px}
+.info address{font-style:normal;color:#c9ced4;font-size:16px}
+.hours{width:100%;border-collapse:collapse;font-size:15px}
+.hours td{padding:9px 0;border-bottom:1px solid var(--line);color:#c9ced4}
+.hours td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.hours tr.today td{color:var(--y);font-weight:700}
+.hours tr.today td:first-child::after{content:" · heute";font-weight:500;font-size:13px}
+.info .btn{align-self:flex-start}
+@media (max-width:900px){.visit{grid-template-columns:1fr}.map{min-height:300px}}
+
+/* Footer */
+footer{border-top:1px solid var(--line);margin-top:clamp(80px,10vw,130px);padding:56px 0 40px;color:var(--mut);font-size:14px}
+.foot{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:30px}
+.foot h4{font:800 13px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--txt);margin:0 0 14px}
+.foot a{text-decoration:none}.foot a:hover{color:var(--y)}
+.demo-note{margin-top:44px;padding-top:22px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:13px;color:var(--dim)}
+.demo-note strong{color:var(--y);font-weight:700}
+@media (max-width:760px){.foot{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.marquee{animation:none}.hero h1 em::after{animation:none;transform:none}}
+</style></head><body>
+<div class="tk-demo-bar"><a href="/#beispiele"><img src="/beispiele/_shared/tk-logo.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
+<span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musteradresse</span>
+<a class="tk-demo-bar__cta" href="/#anfrage">So eine Seite anfragen</a></div>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="KFZ Steiner – zum Seitenanfang"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3.5 17.3a1.8 1.8 0 0 0 2.6 2.6l5.8-5.8a4 4 0 0 0 5.2-5.4l-2.5 2.5-2.3-.4-.4-2.3z"/></svg></i>KFZ<span>·</span>STEINER</a>
+    <nav class="nav__links" aria-label="Hauptnavigation">
+      <a href="#leistungen">Leistungen</a><a href="#reifen">Reifenwechsel</a><a href="#werkstatt">Werkstatt</a><a href="#ablauf">Ablauf</a><a href="#anfahrt">Anfahrt</a>
+    </nav>
+    <div class="nav__cta">
+      <a class="btn btn--o" href="tel:+430001234567"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2"/></svg>Anrufen</a>
+      <a class="btn btn--y" href="#termin">Termin anfragen</a>
+      <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="mpanel" aria-label="Menü öffnen"><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mpanel" id="mpanel">
+  <a href="#leistungen">Leistungen</a><a href="#reifen">Reifenwechsel</a><a href="#werkstatt">Werkstatt</a><a href="#ablauf">Ablauf</a><a href="#termin">Online-Termin</a><a href="#anfahrt">Anfahrt</a>
+  <a class="btn btn--y" href="tel:+430001234567">Jetzt anrufen</a>
+</div>
+
+<main id="top">
+<section class="hero">
+  <div class="hero__media"><video class="tk-video" data-autoplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/werkstatt-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/werkstatt.mp4" type="video/mp4"></video></div>
+  <div class="hero__grid" aria-hidden="true"></div>
+  <div class="hero__in wrap">
+    <p class="status" id="status" data-reveal><b></b><span>Mo – Fr 7:30 – 17:00</span></p>
+    <h1 data-reveal style="--d:.08s">Ihr Auto in <em>besten</em> Händen.</h1>
+    <p class="lead" data-reveal style="--d:.16s">Meisterbetrieb in Musterort: Service, Pickerl, Reifen und Reparatur für alle Marken. Ehrliche Beratung, faire Fixpreise und ein Termin meist schon innerhalb von 48 Stunden.</p>
+    <div class="hero__btns" data-reveal style="--d:.24s">
+      <a class="btn btn--y" href="#termin">Online-Termin anfragen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn btn--o" href="#reifen">Reifenwechsel ansehen</a>
+    </div>
+    <div class="hero__facts" data-reveal style="--d:.32s">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="m5 12 4 4 10-10"/></svg>Pickerl-Prüfstelle §57a</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="m5 12 4 4 10-10"/></svg>Alle Marken, auch Elektro &amp; Hybrid</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="m5 12 4 4 10-10"/></svg>Ersatzwagen auf Anfrage</span>
+    </div>
+  </div>
+</section>
+<div class="hazard" aria-hidden="true"></div>
+
+<section class="sec" id="leistungen" aria-labelledby="l-h">
+  <div class="wrap">
+    <div class="sec__head">
+      <div><p class="k" data-reveal>Leistungen &amp; Preise</p><h2 class="h2" id="l-h" data-reveal style="--d:.06s">Alles aus einer Hand.</h2></div>
+      <p class="lead" data-reveal style="--d:.12s">Fixpreise inkl. 20 % MwSt. für gängige Mittelklasse-PKW. Vor jeder Reparatur bekommen Sie einen verbindlichen Kostenvoranschlag – ohne Überraschungen.</p>
+    </div>
+    <div class="svc">
+      <article class="card" data-reveal>
+        <div class="card__ic"><svg class="spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M2.5 12h3M18.5 12h3M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1"/></svg></div>
+        <h3>Service &amp; Inspektion</h3>
+        <p>Nach Herstellervorgabe – die Garantie bleibt erhalten. Mit digitalem Serviceheft.</p>
+        <ul><li>Öl &amp; Filter, Flüssigkeiten</li><li>Bremsen- und Sichtprüfung</li></ul>
+        <div class="price"><small>Kleines Service</small><b><span>ab €</span>189</b></div>
+      </article>
+      <article class="card" data-reveal style="--d:.06s">
+        <span class="tag57">§57a</span>
+        <div class="card__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg></div>
+        <h3>Pickerl-Überprüfung</h3>
+        <p>Wiederkehrende Begutachtung direkt bei uns – meist während Sie einen Kaffee trinken.</p>
+        <ul><li>Ohne lange Wartezeit</li><li>Kleine Mängel gleich behoben</li></ul>
+        <div class="price"><small>PKW</small><b><span>ab €</span>59</b></div>
+      </article>
+      <article class="card" data-reveal style="--d:.12s">
+        <div class="card__ic"><svg class="spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v5M12 16v5M3 12h5M16 12h5"/></svg></div>
+        <h3>Reifen &amp; Einlagerung</h3>
+        <p>Wechsel, Wuchten, RDKS-Check – und Ihre Reifen überwintern sauber bei uns im Hotel.</p>
+        <ul><li>Radwechsel inkl. Wuchten</li><li>Einlagerung inkl. Wäsche</li></ul>
+        <div class="price"><small>Radwechsel</small><b><span>ab €</span>39</b></div>
+      </article>
+      <article class="card" data-reveal>
+        <div class="card__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M7 13l2.5-3 2.5 2 2-3 3 4M8 21h8M12 17v4"/></svg></div>
+        <h3>Diagnose</h3>
+        <p>Fehlerspeicher auslesen, Kontrollleuchte deuten, Ursache finden – nicht raten.</p>
+        <ul><li>Alle Marken, OBD &amp; Hersteller-Software</li><li>Bei Reparatur angerechnet</li></ul>
+        <div class="price"><small>Kurztest</small><b><span>ab €</span>49</b></div>
+      </article>
+      <article class="card" data-reveal style="--d:.06s">
+        <div class="card__ic"><svg class="spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M12 2v20M3.3 7l17.4 10M20.7 7 3.3 17M9 4l3 2 3-2M9 20l3-2 3 2M4.5 10.5l.8 3.5-3 1M19.5 13.5l-.8-3.5 3-1"/></svg></div>
+        <h3>Klimaservice</h3>
+        <p>Absaugen, Dichtheit prüfen, neu befüllen, Desinfektion – damit es im Sommer wieder kühlt.</p>
+        <ul><li>R134a &amp; R1234yf</li><li>Pollenfilter inklusive</li></ul>
+        <div class="price"><small>Komplett</small><b><span>ab €</span>119</b></div>
+      </article>
+      <article class="card" data-reveal style="--d:.12s">
+        <div class="card__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15l2-5c.4-1 1.3-1.6 2.3-1.6h9.4c1 0 1.9.6 2.3 1.6l2 5v3h-3M6 18H3v-3h18"/><circle cx="7.5" cy="18" r="1.8"/><circle cx="16.5" cy="18" r="1.8"/><path d="M11 3l1 3 2-2"/></svg></div>
+        <h3>Unfallreparatur</h3>
+        <p>Karosserie, Lack und Abwicklung mit Ihrer Versicherung – wir kümmern uns um den Papierkram.</p>
+        <ul><li>Direktabrechnung mit Versicherung</li><li>Ersatzwagen nach Verfügbarkeit</li></ul>
+        <div class="price"><small>Kostenvoranschlag</small><b><span>€</span>0</b></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<div class="season" aria-label="Reifen-Saison">
+  <div class="marquee" aria-hidden="true">
+    <span>Reifen-Saison <i></i> Winterreifen ab 1. November <i></i> Radwechsel ab € 39 <i></i> Einlagerung ab € 69 / Saison <i></i> Pickerl §57a ohne Wartezeit <i></i></span>
+    <span>Reifen-Saison <i></i> Winterreifen ab 1. November <i></i> Radwechsel ab € 39 <i></i> Einlagerung ab € 69 / Saison <i></i> Pickerl §57a ohne Wartezeit <i></i></span>
+  </div>
+  <p class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Reifen-Saison: Winterreifen ab 1. November, Radwechsel ab 39 Euro, Einlagerung ab 69 Euro pro Saison, Pickerl §57a ohne Wartezeit.</p>
+</div>
+
+<section class="sec tire" id="reifen" aria-labelledby="r-h">
+  <div class="wrap">
+    <div class="sec__head">
+      <div><p class="k" data-reveal>Reifenwechsel in 25 Minuten</p><h2 class="h2" id="r-h" data-reveal style="--d:.06s">Sommer runter.<br>Winter drauf.</h2></div>
+      <p class="lead" data-reveal style="--d:.12s">So läuft ein Radwechsel bei uns ab: aufbocken, Radschrauben lösen, Profil prüfen, Winterrad montieren und mit dem Drehmomentschlüssel über Kreuz auf exakt 120 Nm anziehen. Fertig, bevor der Kaffee kalt ist.</p>
+    </div>
+
+    <div class="wc" id="wc">
+      <div class="stage" id="stage">
+        <div class="stage__lamp" aria-hidden="true"></div>
+        <div class="stage__floor" aria-hidden="true"></div>
+        <div class="car-box">
+          <div class="car-shadow" id="carShadow"></div>
+          <img class="car-img" id="carImg" src="/beispiele/_shared/media/car.jpg" alt="Sportwagen in Seitenansicht – das hintere Rad wird gewechselt" width="780" height="261" loading="lazy">
+          <svg class="car-ov" id="carOv" viewBox="0 0 780 261" aria-hidden="true"></svg>
+        </div>
+        <svg class="jack" id="jack" viewBox="0 -20 160 90" aria-hidden="true">
+          <path d="M44 50 6 18" stroke="#8b939c" stroke-width="5" stroke-linecap="round"/><path d="M12 23 4 16" stroke="#e33" stroke-width="7" stroke-linecap="round"/>
+          <g id="jackLift"><g transform="translate(0 -17)"><path d="M70 69 116 26" stroke="#c08a10" stroke-width="9" stroke-linecap="round"/><rect x="118" y="25" width="14" height="30" rx="2" fill="#a77708"/><rect x="110" y="19" width="30" height="8" rx="3" fill="#ffb81c"/><rect x="114" y="16" width="22" height="4" rx="1.5" fill="#2a2e33"/></g></g>
+          <path d="M40 48h108l6 8H36z" fill="#ffb81c"/><rect x="36" y="54" width="118" height="6" rx="2" fill="#d99a10"/>
+          <circle cx="50" cy="63" r="6.5" fill="#1d2024" stroke="#555c64" stroke-width="2"/><circle cx="140" cy="63" r="6.5" fill="#1d2024" stroke="#555c64" stroke-width="2"/>
+          <text x="80" y="54.5" font-family="Inter,sans-serif" font-size="5.5" font-weight="800" fill="#111">2 t</text>
+        </svg>
+        <div class="callout callout--old" id="coOld"><b>Sommerreifen · 2,1 mm</b><span>Profil unter 4 mm – nicht mehr wintertauglich. Ab in die Einlagerung.</span></div>
+        <div class="callout callout--new" id="coNew"><b>Winterreifen · 8 mm</b><span>225/45 R18 · Schneeflocken-Symbol · Lamellenprofil für Matsch und Eis.</span></div>
+        <div class="done" id="done" role="status" aria-live="polite">
+          <svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle class="ck-c" cx="24" cy="24" r="21" stroke="#ffb81c" stroke-width="3" pathLength="1" transform="rotate(-90 24 24)"/><path class="ck-p" d="M14 25l7 7 13-15" stroke="#ffb81c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg>
+          <div><b>Reifenwechsel erledigt – 25 Minuten</b><span>Alle 5 Schrauben mit 120 Nm angezogen</span></div>
+        </div>
+        <div class="stage__hud" aria-hidden="true"><span>Halle 2 · Platz 3</span><span>Hinterachse rechts · <b id="hudState">bereit</b></span></div>
+      </div>
+
+      <div class="panel">
+        <div class="lensrow">
+          <svg class="lens" id="lens" viewBox="-75 -75 150 150" role="img" aria-label="Detailansicht der Radnabe"></svg>
+          <div class="gaugebox">
+            <svg class="gauge" id="gauge" viewBox="0 0 120 84" aria-hidden="true"></svg>
+            <div class="gauge__val"><span id="nm">0</span><small>Nm</small></div>
+            <span class="klick" id="klick">KLICK</span>
+            <div class="bolts" id="boltDots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+        </div>
+        
+        <ol class="steps" id="steps">
+          <li>Aufbocken</li><li>Schrauben lösen</li><li>Sommerrad ab</li><li>Winterrad drauf</li><li>120 Nm über Kreuz</li><li>Ablassen &amp; prüfen</li>
+        </ol>
+        <div class="panel__end"><div class="timer"><small>Werkstatt-Uhr</small><b><span id="min">0</span><span>min</span></b></div>
+        <button class="btn btn--o replay" id="replay" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.5-5.8M4 4v4h4"/></svg>Nochmal ansehen</button></div>
+      </div>
+    </div>
+
+    <div class="seasonbox">
+      <div class="sb sb--y" data-reveal>
+        <p class="k" style="color:#111">Reifen-Saison</p>
+        <h3 style="margin-top:12px">Winterreifen-Pflicht ab 1. November</h3>
+        <span class="big" id="countdown">–<small>Tage</small></span>
+        <p>Situative Winterausrüstungspflicht von 1. 11. bis 15. 4. Jetzt Wechseltermin sichern, bevor der erste Schnee alle gleichzeitig herschickt.</p>
+      </div>
+      <div class="sb" data-reveal style="--d:.06s">
+        <h3>Reifenhotel</h3>
+        <p>Ihre Räder werden gewaschen, auf Profil und Schäden geprüft und trocken eingelagert. Beim Termin liegen sie schon bereit.</p>
+        <span class="big">€ 69<small>/ Saison</small></span>
+      </div>
+      <div class="sb" data-reveal style="--d:.12s">
+        <h3>Pickerl gleich mit</h3>
+        <p>Ist Ihr Pickerl (§57a) fällig? Wir erledigen die Begutachtung beim selben Termin – die Toleranzfrist von 4 Monaten nutzen wir für Sie.</p>
+        <span class="big">€ 59<small>PKW</small></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="werkstatt" aria-labelledby="w-h">
+  <div class="wrap about">
+    <div class="about__ph" data-reveal>
+      <img src="/beispiele/_shared/media/werkstatt-foto.jpg" alt="Mechaniker montiert einen Bremssattel an einem aufgebockten Auto" width="716" height="440" loading="lazy">
+      <div class="about__badge"><i>seit<br>1998</i><b>Meisterbetrieb<br>in zweiter Generation</b></div>
+    </div>
+    <div>
+      <p class="k" data-reveal>Die Werkstatt</p>
+      <h2 class="h2" id="w-h" data-reveal style="--d:.06s">Moderne Technik. Echte Handarbeit.</h2>
+      <p class="lead" data-reveal style="--d:.12s">Drei Hebebühnen, ein eigener Pickerl-Prüfplatz und ein Team, das Ihr Auto beim Namen kennt. Wir erklären, was wirklich nötig ist – und was noch ein Jahr warten kann.</p>
+      <div class="stats">
+        <div class="stat" data-reveal><b data-count="28">28</b><small>Jahre Meisterbetrieb</small></div>
+        <div class="stat" data-reveal style="--d:.06s"><b data-count="3200" data-suffix="+">3200+</b><small>Autos pro Jahr</small></div>
+        <div class="stat" data-reveal style="--d:.12s"><b data-count="48" data-suffix=" h">48 h</b><small>bis zum freien Termin</small></div>
+        <div class="stat" data-reveal style="--d:.18s"><b data-count="6">6</b><small>Meister &amp; Mechatroniker</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="ablauf" aria-labelledby="a-h" style="padding-top:0">
+  <div class="wrap">
+    <p class="k" data-reveal>Ablauf</p>
+    <h2 class="h2" id="a-h" data-reveal style="--d:.06s">In 3 Schritten wieder auf der Straße.</h2>
+    <div class="flow" data-reveal>
+      <div class="road" aria-hidden="true"><i><svg viewBox="0 0 46 30" fill="currentColor"><path d="M4 20l3-8c.6-1.5 2-2.5 3.6-2.5h18c1.4 0 2.6.7 3.3 1.9L36 17l6 1.5c1.3.3 2 1.3 2 2.5v3H2v-3c0-.6.8-1 2-1z"/><circle cx="12" cy="24" r="4" fill="#0f1113" stroke="currentColor" stroke-width="2"/><circle cx="34" cy="24" r="4" fill="#0f1113" stroke="currentColor" stroke-width="2"/></svg></i></div>
+      <div class="fs"><div class="fs__n">01</div><h3>Termin anfragen</h3><p>Online in einer Minute oder per Telefon. Wir melden uns noch am selben Werktag mit Ihrem Fixtermin.</p></div>
+      <div class="fs"><div class="fs__n">02</div><h3>Auto bringen</h3><p>Zur vereinbarten Zeit – oder früh morgens über unsere Schlüsselbox. Vor jeder Zusatzarbeit rufen wir Sie an.</p></div>
+      <div class="fs"><div class="fs__n">03</div><h3>Abholen &amp; fahren</h3><p>Transparente Rechnung, Altteile auf Wunsch zum Anschauen und eine kurze Erklärung, was gemacht wurde.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="termin" aria-labelledby="t-h">
+  <div class="wrap">
+    <div class="book" data-reveal>
+      <div>
+        <p class="k">Online-Termin</p>
+        <h2 class="h2" id="t-h">In 1 Minute angefragt.</h2>
+        <p class="lead">Kennzeichen, gewünschte Leistung und Wunschtermin – den Rest klären wir telefonisch. Rückmeldung am selben Werktag.</p>
+        <ul class="book__list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 4 4 10-10"/></svg>Fixpreis vorab, kein Kleingedrucktes</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 4 4 10-10"/></svg>Ersatzwagen oder Hol- &amp; Bringservice</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 4 4 10-10"/></svg>Schlüsselbox für Frühbringer</li>
+        </ul>
+      </div>
+      <form id="bookForm" novalidate>
+        <label for="kz">Kennzeichen
+          <span class="plate"><span>A</span><input id="kz" name="kz" placeholder="MU 123 AB" maxlength="10" autocomplete="off" required></span>
+        </label>
+        <div class="row2">
+          <label for="lst">Leistung
+            <select id="lst" name="lst"><option>Reifenwechsel</option><option>Pickerl §57a</option><option>Service</option><option>Diagnose</option><option>Klimaservice</option><option>Unfallreparatur</option></select>
+          </label>
+          <label for="dt">Wunschtermin
+            <input id="dt" name="dt" type="date">
+          </label>
+        </div>
+        <div class="row2">
+          <label for="nm2">Name<input id="nm2" name="name" autocomplete="name" placeholder="Vor- und Nachname"></label>
+          <label for="tel">Telefon<input id="tel" name="tel" type="tel" autocomplete="tel" placeholder="0660 …"></label>
+        </div>
+        <button class="btn btn--y" type="submit">Termin anfragen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <p class="msg" id="msg" role="status">Das ist ein Beispiel – auf der echten Seite käme Ihre Anfrage jetzt direkt beim Betrieb an.</p>
+        <p class="form-note">Ihre Daten werden nur zur Terminvereinbarung verwendet.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="anfahrt" aria-labelledby="v-h">
+  <div class="wrap">
+    <p class="k" data-reveal>Anfahrt</p>
+    <h2 class="h2" id="v-h" data-reveal style="--d:.06s">Direkt an der Bundesstraße.</h2>
+    <div class="visit" style="margin-top:44px">
+      <div class="map" data-reveal>
+        <svg viewBox="0 0 700 420" preserveAspectRatio="xMaxYMid slice" role="img" aria-label="Lageplan: KFZ Steiner am Werkstattweg, nahe Bundesstraße und Bahnhof Musterort">
+          <rect width="700" height="420" fill="#15181b"/>
+          <g fill="#1b1f23"><rect x="40" y="40" width="130" height="90" rx="6"/><rect x="200" y="30" width="90" height="110" rx="6"/><rect x="40" y="250" width="160" height="120" rx="6"/><rect x="470" y="40" width="190" height="80" rx="6"/><rect x="510" y="280" width="150" height="110" rx="6"/><rect x="230" y="280" width="110" height="100" rx="6"/></g>
+          <path d="M-10 330C120 300 180 380 330 360S560 260 720 300" stroke="#1d3140" stroke-width="22" fill="none"/>
+          <path d="M-10 190H720" stroke="#2c3238" stroke-width="30"/>
+          <path d="M-10 190H720" stroke="#ffb81c" stroke-width="2" stroke-dasharray="18 14" opacity=".55"/>
+          <path d="M400 -10V430" stroke="#262b31" stroke-width="16"/>
+          <path d="M400 190C400 240 450 250 470 250H700" stroke="#262b31" stroke-width="14" fill="none"/>
+          <path d="M120 190V430M320 0v190" stroke="#22272c" stroke-width="10"/>
+          <path d="M-10 160L720 150" stroke="#3a4048" stroke-width="3" stroke-dasharray="2 8"/>
+          <g font-family="Inter,sans-serif" font-size="13" font-weight="600" fill="#7d858e">
+            <text x="236" y="180">B1 · Bundesstraße</text><text x="412" y="80" transform="rotate(90 412 80)">Musterstraße</text><text x="520" y="242">Werkstattweg</text><text x="236" y="140" fill="#5e666f">Bahnhof Musterort · 4 min</text><text x="250" y="390" fill="#4b6a80">Musterbach</text>
+          </g>
+          <rect x="474" y="200" width="70" height="40" rx="6" fill="#2a2410" stroke="#ffb81c" stroke-width="1.5"/>
+          <text x="509" y="225" font-family="Inter,sans-serif" font-size="11" font-weight="800" fill="#ffb81c" text-anchor="middle">P · 6</text>
+          <circle class="pulse" cx="590" cy="250" r="16" fill="#ffb81c" opacity=".6"/>
+          <g class="pin"><path d="M590 250c-14-18-22-29-22-40a22 22 0 0 1 44 0c0 11-8 22-22 40z" fill="#ffb81c"/><circle cx="590" cy="210" r="8" fill="#111"/></g>
+          <g font-family="Unbounded,sans-serif" font-size="14" font-weight="800" fill="#f2f2f0"><text x="618" y="206">KFZ</text><text x="618" y="224">STEINER</text></g>
+        </svg>
+      </div>
+      <div class="info" data-reveal style="--d:.08s">
+        <div><h3>KFZ Steiner</h3><address style="margin-top:10px">Werkstattweg 5<br>3280 Musterort</address></div>
+        <table class="hours" id="hours"><caption style="text-align:left;font-weight:700;color:var(--txt);padding-bottom:8px">Öffnungszeiten</caption>
+          <tr data-d="1"><td>Montag</td><td>7:30 – 17:00</td></tr><tr data-d="2"><td>Dienstag</td><td>7:30 – 17:00</td></tr><tr data-d="3"><td>Mittwoch</td><td>7:30 – 17:00</td></tr><tr data-d="4"><td>Donnerstag</td><td>7:30 – 17:00</td></tr><tr data-d="5"><td>Freitag</td><td>7:30 – 17:00</td></tr><tr data-d="6"><td>Samstag &amp; Sonntag</td><td>geschlossen</td></tr>
+        </table>
+        <p style="color:var(--mut);font-size:14px">6 Kundenparkplätze direkt vor der Halle · Schlüsselbox rund um die Uhr · 4 Gehminuten vom Bahnhof</p>
+        <a class="btn btn--y" href="tel:+430001234567">+43 000 123 45 67</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div><a class="logo" href="#top"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3.5 17.3a1.8 1.8 0 0 0 2.6 2.6l5.8-5.8a4 4 0 0 0 5.2-5.4l-2.5 2.5-2.3-.4-.4-2.3z"/></svg></i>KFZ<span>·</span>STEINER</a><p style="margin-top:16px;max-width:36ch">Meisterbetrieb für Service, Pickerl §57a, Reifen und Reparatur – alle Marken.</p></div>
+      <div><h4>Kontakt</h4>KFZ Steiner<br>Werkstattweg 5, 3280 Musterort<br><a href="tel:+430001234567">+43 000 123 45 67</a></div>
+      <div><h4>Öffnungszeiten</h4>Mo – Fr 7:30 – 17:00<br>Sa, So &amp; Feiertag geschlossen</div>
+    </div>
+    <div class="demo-note"><span><strong>Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb</strong></span><span>Musteradresse, keine echten Kontaktdaten</span></div>
+  </div>
+</footer>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/werkstatt/app.js" defer></script></body></html>
