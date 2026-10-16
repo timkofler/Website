@@ -488,7 +488,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <link rel="icon" href="/assets/img/tk-badge.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/css/style.css">
   <link rel="stylesheet" href="/assets/css/tk.css">
-  <link rel="stylesheet" href="/assets/css/portal.css">
+  <link rel="stylesheet" href="/assets/css/portal.css?v=a450b2be">
 </head>
 <body class="kp">
 <header class="header">

@@ -54,3 +54,4 @@
 .kp-foot { padding: 28px 0; }
 .kp-foot .footer__bottom { margin: 0; padding-top: 0; padding-bottom: 0; border: 0; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; }
 @media (max-width: 900px) { .kp-grid, .kp-grid--even { grid-template-columns: 1fr; gap: 36px; } .kp-main { padding: 48px 0 72px; } }
+.kp-user { color: var(--hot, #ff5a1f); font-family: var(--mono); font-size: 1.05em; }
