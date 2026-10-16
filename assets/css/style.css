@@ -86,6 +86,7 @@ p { margin: 0 0 18px; }
 .header__logo { display: inline-flex; }
 .header__logo img { height: 48px; width: 48px; transition: transform .4s cubic-bezier(.2,.7,.2,1); }
 .header__logo:hover img { transform: rotate(-8deg) scale(1.06); }
+@media (max-width: 1100px) { .header__logo img { height: 64px; width: 64px; } }
 .nav { display: flex; align-items: center; gap: 6px; }
 .nav a { color: var(--muted); font-weight: 600; font-size: .95rem; padding: 8px 14px; border-radius: 999px; white-space: nowrap; }
 .nav a:hover, .nav a.is-active { color: var(--text); background: var(--surface-2); }
