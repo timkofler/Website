@@ -2,5 +2,6 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /kunden/
 
 Sitemap: https://tim-kofler.at/sitemap.xml

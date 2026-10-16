@@ -1,0 +1,515 @@
+<?php
+// Tim Kofler – Kundenportal: Konten, Anmeldung, Uploads und Benachrichtigung.
+// Wird nur per include von /kunden/ und /kunden/admin/ geladen.
+// Alle Daten liegen unter api/_data/kunden/ und sind per .htaccess für Besucher gesperrt.
+
+declare(strict_types=1);
+
+require_once __DIR__ . '/lib.php';
+
+const KP_DIR = CX_DATA . '/kunden';
+const KP_IDLE = 7200;          // Abmeldung nach 2 Stunden ohne Aktivität
+const KP_FAILS = 5;            // Fehlversuche ...
+const KP_FAIL_WINDOW = 900;    // ... innerhalb von 15 Minuten, danach Sperre bis das Fenster abläuft
+const KP_MAX_FILES = 50;       // Dateien pro Upload-Durchgang
+
+// Erlaubte Dateiendungen und die dazu passenden Inhaltstypen (geprüft wird der Inhalt, nicht nur die Endung).
+const KP_TYPES = [
+    'jpg' => ['image/jpeg'], 'jpeg' => ['image/jpeg'], 'png' => ['image/png'], 'webp' => ['image/webp'],
+    'gif' => ['image/gif'], 'heic' => ['image/heic', 'image/heif', 'application/octet-stream'],
+    'heif' => ['image/heic', 'image/heif', 'application/octet-stream'],
+    'svg' => ['image/svg+xml', 'text/xml', 'application/xml', 'text/plain', 'text/html'],
+    'pdf' => ['application/pdf'], 'txt' => ['text/plain'],
+    'docx' => ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/zip', 'application/octet-stream'],
+    'xlsx' => ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/zip', 'application/octet-stream'],
+    'pptx' => ['application/vnd.openxmlformats-officedocument.presentationml.presentation', 'application/zip', 'application/octet-stream'],
+    'zip' => ['application/zip', 'application/x-zip-compressed'],
+    'mp4' => ['video/mp4'], 'mov' => ['video/quicktime'],
+];
+// Diese Typen darf der Admin-Bereich als Vorschau direkt im Browser zeigen.
+const KP_PREVIEW = ['jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'png' => 'image/png', 'webp' => 'image/webp', 'gif' => 'image/gif'];
+
+// ---------------- Allgemeines ----------------
+
+function kp_headers(): void
+{
+    header('X-Robots-Tag: noindex, nofollow');
+    header('Cache-Control: no-store');
+    header('Referrer-Policy: same-origin');
+}
+
+function kp_session(): void
+{
+    if (session_status() === PHP_SESSION_ACTIVE) {
+        return;
+    }
+    // Eigener Speicherort für Sitzungen, damit sie nicht im gemeinsamen Temp-Ordner des Servers liegen.
+    $dir = KP_DIR . '/sitzungen';
+    if (is_dir($dir) || @mkdir($dir, 0700, true)) {
+        session_save_path($dir);
+    }
+    ini_set('session.use_strict_mode', '1');
+    ini_set('session.use_only_cookies', '1');
+    ini_set('session.gc_maxlifetime', (string) KP_IDLE);
+    session_name('tk_portal');
+    session_set_cookie_params(['lifetime' => 0, 'path' => '/kunden/', 'secure' => true, 'httponly' => true, 'samesite' => 'Lax']);
+    session_start();
+    $now = time();
+    if (isset($_SESSION['seen']) && $now - (int) $_SESSION['seen'] > KP_IDLE) {
+        $_SESSION = [];
+        session_regenerate_id(true);
+        $_SESSION['flash'] = ['ok' => false, 'text' => 'Du wurdest nach längerer Pause abgemeldet. Bitte melde dich neu an.'];
+    }
+    $_SESSION['seen'] = $now;
+    if (empty($_SESSION['csrf'])) {
+        $_SESSION['csrf'] = bin2hex(random_bytes(32));
+    }
+}
+
+function kp_csrf_field(): string
+{
+    return '<input type="hidden" name="csrf" value="' . cx_h((string) $_SESSION['csrf']) . '">';
+}
+
+// Jede Aktion: nur POST, nur von dieser Seite, mit gültigem Formular-Schlüssel.
+function kp_post_ok(): bool
+{
+    if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+        return false;
+    }
+    $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+    $origins = (array) (cx_config()['origins'] ?? ['https://tim-kofler.at', 'https://www.tim-kofler.at']);
+    if ($origin !== '' && !in_array($origin, $origins, true)) {
+        return false;
+    }
+    $token = $_POST['csrf'] ?? '';
+    return is_string($token) && !empty($_SESSION['csrf']) && hash_equals((string) $_SESSION['csrf'], $token);
+}
+
+function kp_flash(bool $ok, string $text): void
+{
+    $_SESSION['flash'] = ['ok' => $ok, 'text' => $text];
+}
+
+function kp_take_flash(): string
+{
+    $f = $_SESSION['flash'] ?? null;
+    unset($_SESSION['flash']);
+    if (!is_array($f)) {
+        return '';
+    }
+    return '<p class="form__status ' . ($f['ok'] ? 'is-ok' : 'is-error') . '" role="status">' . nl2br(cx_h((string) $f['text'])) . '</p>';
+}
+
+function kp_redirect(string $to): void
+{
+    header('Location: ' . $to, true, 303);
+    exit;
+}
+
+function kp_ip_hash(): string
+{
+    return substr(hash('sha256', (string) (cx_config()['secret'] ?? 'tk') . ($_SERVER['REMOTE_ADDR'] ?? '')), 0, 32);
+}
+
+function kp_read_json(string $file): array
+{
+    if (!is_file($file)) {
+        return [];
+    }
+    $data = json_decode((string) file_get_contents($file), true);
+    return is_array($data) ? $data : [];
+}
+
+// Schreiben über eine Zwischendatei, damit nie eine halbe Datei entsteht.
+function kp_write_json(string $file, array $data): bool
+{
+    $dir = dirname($file);
+    if (!is_dir($dir) && !@mkdir($dir, 0700, true)) {
+        return false;
+    }
+    $tmp = $file . '.' . bin2hex(random_bytes(4)) . '.tmp';
+    $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    if ($json === false || @file_put_contents($tmp, $json, LOCK_EX) === false) {
+        return false;
+    }
+    return @rename($tmp, $file);
+}
+
+function kp_text(string $name, int $max = 200): string
+{
+    return str_replace(['<', '>'], '', cx_field($name, $max));
+}
+
+function kp_bytes(int $b): string
+{
+    if ($b >= 1048576) {
+        return number_format($b / 1048576, 1, ',', '.') . ' MB';
+    }
+    return number_format(max(1, (int) ceil($b / 1024)), 0, ',', '.') . ' KB';
+}
+
+function kp_ini_bytes(string $key): int
+{
+    $v = trim((string) ini_get($key));
+    if ($v === '' || $v === '0' || $v === '-1') {
+        return PHP_INT_MAX;
+    }
+    $n = (int) $v;
+    switch (strtolower(substr($v, -1))) {
+        case 'g': return $n * 1073741824;
+        case 'm': return $n * 1048576;
+        case 'k': return $n * 1024;
+    }
+    return $n;
+}
+
+// Größte erlaubte Datei: Wert aus der config.php, aber nie mehr, als PHP auf dem Server zulässt.
+function kp_max_file(): int
+{
+    $cfg = (int) (cx_config()['upload_max_mb'] ?? 50) * 1048576;
+    return min($cfg, kp_ini_bytes('upload_max_filesize'), kp_ini_bytes('post_max_size'));
+}
+
+function kp_max_post(): int
+{
+    return kp_ini_bytes('post_max_size');
+}
+
+function kp_portal_url(string $path = '/kunden/'): string
+{
+    return rtrim(cx_brand()['site'], '/') . $path;
+}
+
+// ---------------- Konten ----------------
+
+function kp_accounts(): array
+{
+    return kp_read_json(KP_DIR . '/konten.json');
+}
+
+function kp_save_accounts(array $a): bool
+{
+    ksort($a);
+    return kp_write_json(KP_DIR . '/konten.json', $a);
+}
+
+function kp_valid_user(string $u): bool
+{
+    return (bool) preg_match('/^[a-z0-9](?:[a-z0-9-]{1,38}[a-z0-9])$/', $u);
+}
+
+function kp_account(string $u): ?array
+{
+    if (!kp_valid_user($u)) {
+        return null;
+    }
+    $a = kp_accounts();
+    return isset($a[$u]) && is_array($a[$u]) ? $a[$u] : null;
+}
+
+// Gut lesbares Zufallspasswort ohne verwechselbare Zeichen, z. B. "k7mq-x4tr-9bhw".
+function kp_new_password(): string
+{
+    $chars = 'abcdefghjkmnpqrstuvwxyz23456789';
+    $out = '';
+    for ($i = 0; $i < 12; $i++) {
+        $out .= $chars[random_int(0, strlen($chars) - 1)];
+        if ($i === 3 || $i === 7) {
+            $out .= '-';
+        }
+    }
+    return $out;
+}
+
+// ---------------- Schutz vor Passwort-Raten ----------------
+
+function kp_fail_file(string $key): string
+{
+    return KP_DIR . '/sperre/' . hash('sha256', (string) (cx_config()['secret'] ?? 'tk') . $key) . '.json';
+}
+
+function kp_fails(string $key): array
+{
+    $now = time();
+    return array_values(array_filter(kp_read_json(kp_fail_file($key)), static fn($t) => is_int($t) && $t > $now - KP_FAIL_WINDOW));
+}
+
+function kp_blocked(array $keys): bool
+{
+    foreach ($keys as $k) {
+        if (count(kp_fails($k)) >= KP_FAILS) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function kp_fail(array $keys): void
+{
+    foreach ($keys as $k) {
+        $f = kp_fails($k);
+        $f[] = time();
+        kp_write_json(kp_fail_file($k), $f);
+    }
+    // Ein Rest an Wartezeit macht automatisches Raten zusätzlich langsam.
+    usleep(random_int(300000, 700000));
+}
+
+function kp_fail_reset(string $key): void
+{
+    @unlink(kp_fail_file($key));
+}
+
+// ---------------- Uploads ----------------
+
+function kp_user_dir(string $u): string
+{
+    return KP_DIR . '/' . $u;
+}
+
+function kp_valid_batch(string $e): bool
+{
+    return (bool) preg_match('/^\d{8}-\d{6}-[a-f0-9]{4}$/', $e);
+}
+
+// Alle Upload-Durchgänge eines Kunden, neueste zuerst.
+function kp_batches(string $u): array
+{
+    $out = [];
+    foreach (glob(kp_user_dir($u) . '/*/eingang.json') ?: [] as $f) {
+        $id = basename(dirname($f));
+        if (kp_valid_batch($id)) {
+            $out[$id] = kp_read_json($f) + ['id' => $id];
+        }
+    }
+    krsort($out);
+    return $out;
+}
+
+function kp_used_bytes(string $u): int
+{
+    $sum = 0;
+    foreach (kp_batches($u) as $b) {
+        foreach ((array) ($b['dateien'] ?? []) as $d) {
+            $sum += (int) ($d['bytes'] ?? 0);
+        }
+    }
+    return $sum;
+}
+
+// Dateiname für die Ablage: Umlaute ersetzt, nur einfache Zeichen, Endung klein.
+function kp_safe_name(string $original, string $ext, int $n): string
+{
+    $base = pathinfo($original, PATHINFO_FILENAME);
+    $base = strtr($base, ['ä' => 'ae', 'ö' => 'oe', 'ü' => 'ue', 'Ä' => 'Ae', 'Ö' => 'Oe', 'Ü' => 'Ue', 'ß' => 'ss']);
+    $base = preg_replace('/[^A-Za-z0-9._-]+/', '-', $base) ?? '';
+    $base = trim(substr(trim($base, '.-_'), 0, 70), '.-_');
+    return sprintf('%02d-%s.%s', $n, $base !== '' ? $base : 'datei', $ext);
+}
+
+// $_FILES['dateien'] in eine einfache Liste umbauen.
+function kp_uploaded(string $field): array
+{
+    $f = $_FILES[$field] ?? null;
+    if (!is_array($f) || !isset($f['name'])) {
+        return [];
+    }
+    if (!is_array($f['name'])) {
+        $f = array_map(static fn($v) => [$v], $f);
+    }
+    $out = [];
+    foreach ($f['name'] as $i => $name) {
+        if ((int) ($f['error'][$i] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) {
+            continue;
+        }
+        $out[] = [
+            'name' => (string) $name,
+            'tmp' => (string) ($f['tmp_name'][$i] ?? ''),
+            'size' => (int) ($f['size'][$i] ?? 0),
+            'error' => (int) ($f['error'][$i] ?? UPLOAD_ERR_NO_FILE),
+        ];
+    }
+    return $out;
+}
+
+function kp_check_type(string $tmp, string $ext): bool
+{
+    if (!isset(KP_TYPES[$ext])) {
+        return false;
+    }
+    if (!class_exists('finfo')) {
+        return true;
+    }
+    $mime = (string) (new finfo(FILEINFO_MIME_TYPE))->file($tmp);
+    if (!in_array($mime, KP_TYPES[$ext], true)) {
+        return false;
+    }
+    // SVG ist Text: nur annehmen, wenn wirklich ein <svg> darin steckt.
+    if ($ext === 'svg') {
+        $head = (string) file_get_contents($tmp, false, null, 0, 4096);
+        return stripos($head, '<svg') !== false;
+    }
+    return true;
+}
+
+// Prüft und speichert einen Upload-Durchgang. Gibt [ok, Meldung] zurück.
+function kp_store_upload(string $u, array $acc, string $site, string $msg, array $files): array
+{
+    if (!$files) {
+        return [false, 'Bitte wähle mindestens eine Datei aus.'];
+    }
+    if (count($files) > KP_MAX_FILES) {
+        return [false, 'Bitte lade höchstens ' . KP_MAX_FILES . ' Dateien auf einmal hoch. Den Rest kannst du gleich danach schicken.'];
+    }
+    $max = kp_max_file();
+    $quota = (int) round((float) (cx_config()['kunde_max_gb'] ?? 2) * 1073741824);
+    $used = kp_used_bytes($u);
+    $errors = [];
+    $ok = [];
+    $total = 0;
+    foreach ($files as $f) {
+        $label = '„' . $f['name'] . '“';
+        if ($f['error'] === UPLOAD_ERR_INI_SIZE || $f['error'] === UPLOAD_ERR_FORM_SIZE || $f['size'] > $max) {
+            $errors[] = $label . ' ist zu groß (höchstens ' . kp_bytes($max) . ' pro Datei).';
+            continue;
+        }
+        if ($f['error'] !== UPLOAD_ERR_OK || !is_uploaded_file($f['tmp'])) {
+            $errors[] = $label . ' konnte nicht übertragen werden.';
+            continue;
+        }
+        $ext = strtolower(pathinfo($f['name'], PATHINFO_EXTENSION));
+        if (!kp_check_type($f['tmp'], $ext)) {
+            $errors[] = $label . ' hat ein Format, das ich hier nicht annehmen kann.';
+            continue;
+        }
+        $total += $f['size'];
+        $ok[] = $f + ['ext' => $ext];
+    }
+    if ($errors) {
+        return [false, "Es wurde noch nichts gespeichert:\n" . implode("\n", $errors)];
+    }
+    if ($used + $total > $quota) {
+        return [false, 'Dein Speicherplatz im Portal ist voll. Bitte melde dich kurz bei mir, dann mache ich Platz.'];
+    }
+
+    $id = date('Ymd-His') . '-' . bin2hex(random_bytes(2));
+    $dir = kp_user_dir($u) . '/' . $id;
+    if (!@mkdir($dir, 0700, true)) {
+        cx_log('Kundenportal: Ordner ' . $dir . ' konnte nicht angelegt werden');
+        return [false, 'Die Dateien konnten gerade nicht gespeichert werden. Bitte versuche es später noch einmal.'];
+    }
+    $saved = [];
+    foreach ($ok as $i => $f) {
+        $name = kp_safe_name($f['name'], $f['ext'], $i + 1);
+        if (!move_uploaded_file($f['tmp'], $dir . '/' . $name)) {
+            cx_log('Kundenportal: ' . $name . ' konnte nicht verschoben werden');
+            continue;
+        }
+        @chmod($dir . '/' . $name, 0600);
+        $saved[] = ['datei' => $name, 'original' => mb_substr($f['name'], 0, 200), 'bytes' => $f['size']];
+    }
+    if (!$saved) {
+        @rmdir($dir);
+        return [false, 'Die Dateien konnten gerade nicht gespeichert werden. Bitte versuche es später noch einmal.'];
+    }
+    $batch = ['zeit' => date('c'), 'webseite' => $site, 'nachricht' => $msg, 'dateien' => $saved];
+    kp_write_json($dir . '/eingang.json', $batch);
+    kp_notify($u, $acc, $batch + ['id' => $id]);
+    $n = count($saved);
+    return [true, 'Danke! ' . $n . ($n === 1 ? ' Datei ist' : ' Dateien sind') . ' angekommen. Tim wurde benachrichtigt.'];
+}
+
+// Benachrichtigung an Tim (und eine kurze Bestätigung an den Kunden, falls eine E-Mail hinterlegt ist).
+function kp_notify(string $u, array $acc, array $batch): void
+{
+    $c = cx_config();
+    if (empty($c['brevo_api_key'])) {
+        cx_log('Kundenportal: Upload von ' . $u . ' ohne Benachrichtigung (kein Brevo-Schlüssel)');
+        return;
+    }
+    $who = trim((string) ($acc['firma'] ?? '')) !== '' ? $acc['firma'] . ' (' . ($acc['name'] ?? $u) . ')' : (string) ($acc['name'] ?? $u);
+    $bytes = array_sum(array_map(static fn($d) => (int) $d['bytes'], $batch['dateien']));
+    $n = count($batch['dateien']);
+    $rows = '';
+    foreach ([
+        'Kunde' => $who, 'Benutzername' => $u, 'Webseite' => (string) $batch['webseite'],
+        'Dateien' => $n . ' (' . kp_bytes($bytes) . ')', 'Nachricht' => (string) $batch['nachricht'],
+    ] as $k => $v) {
+        $rows .= '<tr><td style="padding:6px 12px 6px 0;color:#a1a1a1;vertical-align:top;white-space:nowrap">' . cx_h($k)
+            . '</td><td style="padding:6px 0;color:#f4f4f0">' . nl2br(cx_h($v !== '' ? $v : '–')) . '</td></tr>';
+    }
+    $list = '';
+    foreach ($batch['dateien'] as $d) {
+        $list .= '<li>' . cx_h((string) $d['original']) . ' <span style="color:#8a8a8a">(' . kp_bytes((int) $d['bytes']) . ')</span></li>';
+    }
+    $inner = '<table role="presentation" cellpadding="0" cellspacing="0" style="font-size:15px">' . $rows . '</table>'
+        . '<ul style="margin:16px 0 0;padding-left:20px;font-size:14px;color:#e6e6e2">' . $list . '</ul>'
+        . cx_button(kp_portal_url('/kunden/admin/?k=' . rawurlencode($u)), 'Im Kundenportal ansehen');
+    $notify = (string) ($c['notify_email'] ?? 'office@tim-kofler.at');
+    $email = (string) ($acc['email'] ?? '');
+    if (!cx_mail($notify, 'Tim', 'Neue Dateien von ' . $who . ': ' . $batch['webseite'], cx_mail_layout('Neue Dateien im Kundenportal', $inner), $email)) {
+        cx_log('Kundenportal: Benachrichtigung zu ' . $u . '/' . $batch['id'] . ' nicht verschickt');
+    }
+    if ($email !== '') {
+        $hi = '<p style="margin:0 0 14px">Hallo ' . cx_h((string) ($acc['name'] ?? '')) . ',</p>'
+            . '<p style="margin:0 0 14px">danke, deine ' . $n . ($n === 1 ? ' Datei für ' : ' Dateien für ') . cx_h((string) $batch['webseite']) . ' ' . ($n === 1 ? 'ist' : 'sind') . ' bei mir angekommen. Ich sehe sie mir an und melde mich, sobald es weitergeht.</p>'
+            . '<p style="margin:0 0 4px">Viele Grüße<br>Tim</p>';
+        cx_mail($email, (string) ($acc['name'] ?? ''), 'Deine Dateien sind angekommen', cx_mail_layout('Dateien angekommen', $hi), $notify);
+    }
+}
+
+function kp_delete_dir(string $dir): void
+{
+    foreach (glob($dir . '/{,.}[!.,!..]*', GLOB_BRACE) ?: [] as $f) {
+        is_dir($f) ? kp_delete_dir($f) : @unlink($f);
+    }
+    @rmdir($dir);
+}
+
+// ---------------- Seitenrahmen ----------------
+
+function kp_page(string $title, string $body, string $nav = ''): void
+{
+    $t = cx_h($title);
+    header('Content-Type: text/html; charset=utf-8');
+    echo <<<HTML
+<!DOCTYPE html>
+<html lang="de-AT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{$t} | Tim Kofler – Kundenportal</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0b0b0b">
+  <link rel="icon" href="/assets/img/tk-badge.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/tk.css">
+  <link rel="stylesheet" href="/assets/css/portal.css">
+</head>
+<body class="kp">
+<header class="header">
+  <div class="container header__inner">
+    <a href="/" class="tk-logo" aria-label="Tim Kofler Webdesign – Startseite"><img src="/assets/img/tk-logo.svg" alt="Tim Kofler Webdesign" width="71" height="36"></a>
+    <div class="kp-nav">{$nav}</div>
+  </div>
+</header>
+<main>
+<section class="section kp-main">
+  <div class="container">
+{$body}
+  </div>
+</section>
+</main>
+<footer class="footer kp-foot">
+  <div class="container footer__bottom">
+    <span>© Tim Kofler · Kundenportal · Nach der Anmeldung wird ein technisch notwendiges Sitzungs-Cookie gesetzt.</span>
+    <span><a href="/impressum/">Impressum</a> · <a href="/datenschutz/#kundenportal">Datenschutz</a></span>
+  </div>
+</footer>
+<script src="/assets/js/portal.js"></script>
+</body>
+</html>
+HTML;
+    exit;
+}

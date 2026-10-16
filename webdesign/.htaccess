@@ -15,7 +15,7 @@ Options -Indexes
   RewriteRule ^brief/?$ /?utm_source=brief&utm_campaign=referenzkunde#pakete [R=302,NE,L]
 </IfModule>
 <If "%{HTTP_HOST} =~ /^(www\.)?tim-kofler\.at$/i">
-  DirectoryIndex index.html
+  DirectoryIndex index.html index.php
   ErrorDocument 404 /404.html
   <IfModule mod_headers.c>
     Header always set Strict-Transport-Security "max-age=31536000"

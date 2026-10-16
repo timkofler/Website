@@ -1,0 +1,51 @@
+/* Kundenportal (/kunden/) – ergänzt style.css und tk.css */
+.kp-main { padding: 72px 0 96px; }
+.kp-nav { display: flex; gap: 10px; align-items: center; }
+.kp-nav form { margin: 0; }
+.kp-narrow { max-width: 560px; }
+.kp-narrow .lead { margin-bottom: 28px; }
+.kp-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 56px; align-items: start; }
+.kp-grid--even { grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 48px; }
+.kp-grid aside h2, .kp-main h2 { font-size: 1.2rem; margin: 32px 0 16px; }
+.kp-grid aside h2:first-child { margin-top: 0; }
+.form--small { padding: 26px; gap: 14px; }
+.form--small h2 { margin: 0 0 4px; }
+.form--small form { margin: 0; }
+.form input[type=password], .form input[type=file] {
+  width: 100%; font: inherit; font-size: 16px; color: var(--text); background: var(--surface);
+  border: 1px solid var(--line-2); border-radius: 12px; padding: 12px 14px;
+}
+.form input[type=file] { padding: 10px; cursor: pointer; }
+.form input[type=file]::file-selector-button { font: inherit; font-weight: 600; margin-right: 12px; padding: 8px 14px; border-radius: 999px; border: 0; background: var(--lime); color: var(--ink); cursor: pointer; }
+.kp-hint { margin: -8px 0 0; font-size: .85rem; color: var(--muted); }
+.kp-progress { position: relative; height: 34px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line-2); overflow: hidden; }
+.kp-progress__bar { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--lime-dim); transition: width .2s; }
+.kp-progress__text { position: relative; display: block; text-align: center; line-height: 32px; font-size: .88rem; font-family: var(--mono); }
+.kp-batch { border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; margin: 0 0 10px; background: var(--bg-2); font-size: .93rem; }
+.kp-batch summary { cursor: pointer; }
+.kp-batch ul { margin: 10px 0 0; padding-left: 18px; color: var(--muted); }
+.kp-batch em { font-style: normal; color: #777; font-size: .85em; }
+.kp-batch--open { padding: 18px 20px; margin-bottom: 16px; }
+.kp-batch--open h3 { font-size: 1rem; margin: 0 0 10px; }
+.kp-msg { margin: 0 0 14px; padding: 10px 14px; border-left: 3px solid var(--line-2); color: var(--text); }
+.kp-files { list-style: none; padding: 0 !important; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.kp-file a { display: grid; gap: 6px; color: var(--text); font-size: .82rem; word-break: break-word; }
+.kp-file img, .kp-file__ext { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); }
+.kp-file__ext { display: grid; place-items: center; font-family: var(--mono); color: var(--muted); }
+.kp-file em { display: block; }
+.kp-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 14px; }
+.kp-actions form { display: flex; gap: 10px; align-items: center; margin: 0; }
+.kp-confirm { font-size: .85rem; color: var(--muted); display: flex; gap: 6px; align-items: center; }
+.kp-danger { border-top: 1px dashed var(--line-2); padding-top: 14px; display: grid; gap: 10px; }
+.kp-secret { border: 1px solid rgba(255,193,99,.45); background: rgba(255,193,99,.08); border-radius: 14px; padding: 16px 20px; margin: 0 0 24px; }
+.kp-secret p { margin: 0 0 10px; }
+.kp-secret pre, .kp-secret code[data-kp-copy] { display: block; white-space: pre-wrap; word-break: break-all; font-family: var(--mono); font-size: .9rem; background: var(--surface); border-radius: 10px; padding: 12px 14px; margin: 0 0 12px; user-select: all; }
+.kp-table { overflow-x: auto; margin: 0 0 40px; }
+.kp-table table { width: 100%; border-collapse: collapse; font-size: .93rem; }
+.kp-table th, .kp-table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.kp-table th { color: var(--muted); font-weight: 600; }
+.kp-new { max-width: 760px; }
+.kp-new h2 { margin: 0; }
+.kp-foot { padding: 28px 0; }
+.kp-foot .footer__bottom { margin: 0; padding-top: 0; padding-bottom: 0; border: 0; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; }
+@media (max-width: 900px) { .kp-grid, .kp-grid--even { grid-template-columns: 1fr; gap: 36px; } .kp-main { padding: 48px 0 72px; } }

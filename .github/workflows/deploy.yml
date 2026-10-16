@@ -65,7 +65,7 @@ jobs:
           set net:reconnect-interval-base 5
           set net:timeout 30
           mirror --reverse --verbose --no-perms --parallel=2 \
-            --exclude '^\.git/' --exclude '^\.github/' --exclude '^README\.md$' --exclude '^DESIGN\.md$' --exclude '^\.gitignore$' --exclude '^webdesign/' \
+            --exclude '^\.git/' --exclude '^\.github/' --exclude '^README\.md$' --exclude '^DESIGN\.md$' --exclude '^\.gitignore$' --exclude '^webdesign/' --exclude '^kunden/' \
             ./ "$TARGET"
           bye
           EOF
