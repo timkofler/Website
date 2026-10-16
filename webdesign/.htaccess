@@ -3,6 +3,9 @@ Options -Indexes
 <Files ".ftp-deploy-sync-state.json">
   Require all denied
 </Files>
+<Files ".user.ini">
+  Require all denied
+</Files>
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteCond %{HTTP_HOST} ^www\.tim-kofler\.at$ [NC]
