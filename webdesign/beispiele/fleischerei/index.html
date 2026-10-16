@@ -120,8 +120,9 @@ background:linear-gradient(135deg,#8a5a34,#5d3a20 40%,#7b4f2d 60%,#4f311b);box-s
 .day li i{flex:1;border-bottom:2px dotted rgba(236,235,228,.3);min-width:16px;transform:translateY(-5px)}
 .day li b{font-weight:700;color:#fff;white-space:nowrap}
 .day li s{color:#c78f8f;font-size:18px;margin-right:4px}
-.day .ring{position:absolute;inset:-6px -10px -8px -10px;width:calc(100% + 20px);height:calc(100% + 14px);pointer-events:none;overflow:visible;display:none}
-.day .ring path{fill:none;stroke:#f3d77e;stroke-width:3;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.6s cubic-bezier(.6,.1,.2,1) .3s}
+.day .ring{position:absolute;pointer-events:none;overflow:visible;display:none;max-width:none;height:auto}
+.day .ring path{fill:none;stroke:#f6dc86;stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.5s cubic-bezier(.6,.1,.2,1) .3s}
+.day .ring path.r2{stroke-width:2;opacity:.55;transition-delay:.55s}
 .day.is-today .ring{display:block}
 .board.drawn .day.is-today .ring path{stroke-dashoffset:0}
 .day .tag{position:absolute;top:-22px;right:4px;font:700 26px/1 var(--ch);color:#f3d77e;transform:rotate(-8deg);display:none}
@@ -272,6 +273,8 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
 .chk em{font-style:normal;color:var(--gold2);margin-left:auto;font-weight:500;white-space:nowrap}
 .est{background:#f6ecdf;color:var(--ink);border-radius:4px;padding:clamp(22px,3vw,34px);position:relative;box-shadow:0 40px 70px -40px rgba(0,0,0,.8)}
 .est::before{content:"";position:absolute;inset:8px;border:1px solid var(--line);border-radius:2px;pointer-events:none}
+.live-mini{display:none;margin:14px 0 0;font-size:15px;color:var(--mu)}.live-mini b{color:#f3d77e;font-size:19px;margin:0 6px}.live-mini a{color:inherit}
+@media (max-width:980px){.live-mini{display:block}}
 .est svg{width:100%;height:auto;display:block;max-width:360px;margin:0 auto}
 .est .it{opacity:0;transform:scale(.6);transform-box:fill-box;transform-origin:center;transition:opacity .4s,transform .5s cubic-bezier(.2,.8,.2,1.3)}
 .est.s1 .l1,.est.s2 .l1,.est.s2 .l2,.est.s3 .it{opacity:1;transform:none}
@@ -651,6 +654,7 @@ fieldset{border:0;margin:0;padding:0;min-width:0}
             <input type="range" id="ppl-r" min="4" max="120" step="1" value="20">
             <div class="stp"><button type="button" id="ppl-m" aria-label="Eine Person weniger">−</button><output id="ppl-o" for="ppl-r" aria-live="polite">20</output><button type="button" id="ppl-p" aria-label="Eine Person mehr">+</button></div>
           </div>
+          <p class="live-mini">Geschätzt: <b id="est-mini">ca. 238 €</b> <a href="#est">Details ↓</a></p>
         </div>
         <div class="extras">
           <label class="chk"><input type="checkbox" name="x" value="brot" data-pp="1.20">Gebäckkorb mit Semmeln &amp; Bauernbrot<em>+1,20 €/P.</em></label>
