@@ -4,7 +4,7 @@
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // Lichtkegel, der dem Zeiger über Karten folgt
-  document.querySelectorAll(".rule, .price, .step, .care, .tk-ref__shot").forEach(function (el) {
+  document.querySelectorAll(".rule, .price, .step, .care, .tk-ref__shot, .tk-app").forEach(function (el) {
     el.classList.add("tk-spot");
     el.addEventListener("pointermove", function (e) {
       var r = el.getBoundingClientRect();
@@ -45,28 +45,31 @@
     var R = W < 600 ? 120 : 170, R2 = R * R, i, j;
     if (pw > 0.01) {
       var g = ctx.createRadialGradient(px, py, 0, px, py, R * 1.5);
-      g.addColorStop(0, "rgba(255,255,255," + (0.07 * pw).toFixed(3) + ")");
-      g.addColorStop(1, "rgba(255,255,255,0)");
+      g.addColorStop(0, "rgba(255,110,40," + (0.16 * pw).toFixed(3) + ")");
+      g.addColorStop(1, "rgba(255,110,40,0)");
       ctx.fillStyle = g;
       ctx.fillRect(px - R * 1.5, py - R * 1.5, R * 3, R * 3);
     }
     // Welle nur je Spalte und Zeile berechnen (statt für jeden Punkt)
     for (i = 0; i < cols.length; i++) sx[i] = Math.sin(cols[i] * 0.011 + t * 0.0009);
     for (j = 0; j < rows.length; j++) cy[j] = Math.cos(rows[j] * 0.014 + t * 0.0007);
+    var hotOn = false;
     ctx.fillStyle = "#f0f0f0";
     for (j = 0; j < rows.length; j++) {
       var y = rows[j], cj = cy[j], near = pw > 0.01 && Math.abs(y - py) < R;
       for (i = 0; i < cols.length; i++) {
         var x = cols[i], w = sx[i] * cj;
-        var ox = w * 3, oy = ox, a = 0.08 + (w + 1) * 0.06, s = 1.6;
+        var ox = w * 3, oy = ox, a = 0.08 + (w + 1) * 0.06, s = 1.6, hot = false;
         if (near) {
           var dx = x - px, dy = y - py, d2 = dx * dx + dy * dy;
           if (d2 < R2) {
             var d = Math.sqrt(d2) || 1, f = (1 - d / R) * pw;
             ox += dx / d * f * 20; oy += dy / d * f * 20;
-            a += f * 0.8; s += f * 2;
+            a += f * 0.8; s += f * 2; hot = f > 0.12;
           }
         }
+        // Punkte nahe am Zeiger leuchten in der Signalfarbe
+        if (hot !== hotOn) { hotOn = hot; ctx.fillStyle = hot ? "#ff7a2a" : "#f0f0f0"; }
         ctx.globalAlpha = a > 1 ? 1 : a;
         ctx.fillRect(x + ox - s / 2, y + oy - s / 2, s, s);
       }
