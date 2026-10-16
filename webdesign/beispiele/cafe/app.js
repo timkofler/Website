@@ -138,7 +138,7 @@
   function render(t) {
     // Füllstand: Espresso 0 → 1, Milch hebt auf 1,12
     var L = eio(seg(t, 500, 4300)) + 0.12 * eout(seg(t, 5400, 7400));
-    var sy = 300 - 32 * L, sc = 0.74 + 0.24 * L;
+    var sy = 277 - 17 * L, sc = 0.52 + 0.46 * L;   // Spiegel liegt immer sichtbar in der Tassenöffnung
     liquid.setAttribute("opacity", t > 560 ? 1 : 0);
     liquid.setAttribute("transform", "translate(200 " + sy.toFixed(2) + ") scale(" + sc.toFixed(3) + ")");
 

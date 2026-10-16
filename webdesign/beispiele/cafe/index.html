@@ -179,9 +179,9 @@ section{position:relative}
 .card--dark{background:var(--brown);color:var(--cream)}
 .card--copper{background:var(--copper);color:#fff}
 .card--light{background:var(--paper);border:1px solid var(--line)}
-.card__date{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:72px;height:78px;border-radius:18px;background:rgba(255,255,255,.12);font:500 32px/1 var(--serif)}
+.card__date{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;min-width:76px;min-height:78px;padding:10px 12px;box-sizing:border-box;text-align:center;border-radius:18px;background:rgba(255,255,255,.12);font:500 32px/1 var(--serif)}
 .card--light .card__date{background:var(--cream2);color:var(--copper)}
-.card__date small{font:600 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;margin-top:6px}
+.card__date small{font:600 10.5px/1.25 var(--sans);letter-spacing:.08em;text-transform:uppercase;margin-top:6px;max-width:10ch}
 .card h3{font-size:30px;margin-top:22px}
 .card p{margin-top:10px;opacity:.85;font-size:15.5px}
 .card__foot{display:flex;justify-content:space-between;align-items:center;margin-top:24px;padding-top:18px;border-top:1px solid rgba(255,255,255,.2);font-weight:600}
@@ -382,7 +382,7 @@ footer p+p{margin-top:4px}
           <radialGradient id="gCoffee" cx=".5" cy=".4" r=".7"><stop offset="0" stop-color="#4b2814"/><stop offset="1" stop-color="#1e0f07"/></radialGradient>
           <radialGradient id="gCrema" cx=".48" cy=".42" r=".62"><stop offset="0" stop-color="#d79a5e"/><stop offset=".55" stop-color="#b06d36"/><stop offset="1" stop-color="#7a4220"/></radialGradient>
           <linearGradient id="gCup" x1="0" x2="1"><stop offset="0" stop-color="#d9cfc2"/><stop offset=".25" stop-color="#fffdf9"/><stop offset=".55" stop-color="#f6f0e8"/><stop offset="1" stop-color="#c9bcac"/></linearGradient>
-          <linearGradient id="gInner" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfc3b4"/><stop offset="1" stop-color="#f3ece2"/></linearGradient>
+          <linearGradient id="gInner" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b8a998"/><stop offset=".55" stop-color="#d9cdbd"/><stop offset="1" stop-color="#8f7f6e"/></linearGradient>
           <linearGradient id="gChrome" x1="0" x2="1"><stop offset="0" stop-color="#6d6762"/><stop offset=".3" stop-color="#e6e1dc"/><stop offset=".55" stop-color="#9c958f"/><stop offset="1" stop-color="#4d4844"/></linearGradient>
           <radialGradient id="gShadow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#000" stop-opacity=".45"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
           <clipPath id="clipRim"><ellipse cx="200" cy="262" rx="103" ry="19"/></clipPath>

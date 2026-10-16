@@ -45,8 +45,9 @@
     };
 
     root.addEventListener("pointerdown", function (e) {
+      moved = false;   // sonst blockiert ein früheres Ziehen den nächsten Tipp auf einen Link
       if (e.button !== 0 || e.target.closest("a, button")) return;
-      dragging = true; moved = false;
+      dragging = true;
       startX = lastX = e.clientX; startPos = x; lastT = performance.now(); vel = 0;
       target = null;
       root.classList.add("is-drag");
