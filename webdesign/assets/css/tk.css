@@ -352,3 +352,8 @@ h1 .lime, h2 .lime, h3 .lime { background: var(--hot-grad); -webkit-background-c
   .tk-dash, .tk-dash:hover { transform: none; }
   .tk-float { transition: opacity .2s; transform: none; }
 }
+
+/* Empfehlungsbonus */
+.tk-bonus { margin-top: 0; }
+.tk-bonus .form-steps { margin: 0; }
+.tk-bonus .tk-host__price small { margin-left: 4px; }
