@@ -186,7 +186,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     }
 
     if ($action === 'kunde_loeschen') {
-        if (cx_field('sicher', 40) !== $k) {
+        if (strtolower(cx_field('sicher', 40)) !== $k) {
             kp_flash(false, 'Zum Löschen bitte den Benutzernamen genau eintippen.');
             kp_redirect($back);
         }
@@ -317,7 +317,7 @@ if ($k !== '' && isset($all[$k])) {
     <form method="post" action="{$form}">{$csrf}<input type="hidden" name="aktion" value="passwort"><button class="btn btn--line" type="submit">Neues Passwort erzeugen</button></form>
     <form method="post" action="{$form}">{$csrf}<input type="hidden" name="aktion" value="sperren"><button class="btn btn--line" type="submit">{$lock}</button></form>
     <form method="post" action="{$form}" class="kp-danger">{$csrf}<input type="hidden" name="aktion" value="kunde_loeschen">
-      <label class="form__field"><span>Kunde und alle Dateien löschen</span><input type="text" name="sicher" placeholder="Benutzername zur Bestätigung" autocomplete="off"></label>
+      <label class="form__field"><span>Kunde und alle Dateien löschen: zur Bestätigung <b>{$hk}</b> eintippen</span><input type="text" name="sicher" required placeholder="{$hk}" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false"></label>
       <button class="btn btn--line" type="submit">Endgültig löschen</button></form>
   </div>
 </div>
