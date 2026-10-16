@@ -160,6 +160,7 @@ CryptoX ist ein IT-Dienstleister aus Niederösterreich (Software, Software-Schul
 
 - Einblenden beim Scrollen (`.reveal`): nur für Elemente unterhalb des sichtbaren Bereichs beim Laden, 26px Weg, 0,7s, gestaffelt bis 400ms. Wird nach dem Laden vorbereitet, damit der erste Bildaufbau nicht leidet.
 - Schwebendes Handy (7s), wandernder Schimmer (22s), Hover: leichtes Anheben von Screenshots, Pfeil im Button.
+- Effekte aus `assets/css/fx.css` und `assets/js/fx.js` (an tim-kofler.at angelehnt, in Lime): bewegtes Punktfeld in Hero und Seitenkopf, wandernder Glanz auf dem Hero-Wort, Lichtkegel auf Karten, leicht geneigter Hero-Screenshot, Glanz über Primär-Buttons, Laufband auf der Startseite, Lesefortschritt oben.
 - `prefers-reduced-motion: reduce`: keine Animationen, keine Autoplay-Tour, alles sofort sichtbar.
 - Nur `transform` und `opacity` animieren.
 
