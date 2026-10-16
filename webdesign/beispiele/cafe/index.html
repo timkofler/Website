@@ -419,6 +419,9 @@ footer p+p{margin-top:4px}
             <g id="ripples" fill="none" stroke="#e1a874" stroke-width="1.6"><ellipse cx="0" cy="0" rx="30" ry="6"/><ellipse cx="0" cy="0" rx="30" ry="6"/><ellipse cx="0" cy="0" rx="30" ry="6"/></g>
           </g>
         </g>
+        <!-- hinterer Tassenrand: liegt hinter Strahl und Tropfen -->
+        <path d="M94 262 A106 21 0 0 1 306 262" fill="none" stroke="#efe7dc" stroke-width="4"/>
+        <path d="M92 262 A108 22.5 0 0 1 308 262" fill="none" stroke="#c6b8a7" stroke-width="1"/>
         <!-- Strahlen -->
         <g id="stream"><rect x="-5" y="0" width="10" height="1" fill="url(#gStream)"/></g>
         <g id="drops" fill="#6b3a1c" opacity="0"><circle cx="0" cy="0" r="3"/><circle cx="1" cy="40" r="2.2"/><circle cx="-1" cy="80" r="2.6"/></g>
@@ -427,8 +430,9 @@ footer p+p{margin-top:4px}
         <!-- Tassenkörper vorne -->
         <path d="M94 262 A106 21 0 0 0 306 262 L298 330 C292 392 252 414 200 414 C148 414 108 392 102 330 Z" fill="url(#gCup)"/>
         <path d="M118 300 C120 360 140 392 176 404" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".7"/>
-        <ellipse cx="200" cy="262" rx="106" ry="21" fill="none" stroke="#efe7dc" stroke-width="4"/>
-        <ellipse cx="200" cy="262" rx="108" ry="22.5" fill="none" stroke="#c6b8a7" stroke-width="1"/>
+        <!-- vorderer Tassenrand: verdeckt Strahl und Kaffeespiegel -->
+        <path d="M94 262 A106 21 0 0 0 306 262" fill="none" stroke="#efe7dc" stroke-width="4"/>
+        <path d="M92 262 A108 22.5 0 0 0 308 262" fill="none" stroke="#c6b8a7" stroke-width="1"/>
         <path d="M120 360 Q200 380 280 360" fill="none" stroke="#b5652f" stroke-width="2.5" opacity=".55"/>
         <!-- Dampf -->
         <g class="steam" fill="none" stroke="#f6efe4" stroke-width="5" stroke-linecap="round">
