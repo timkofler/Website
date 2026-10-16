@@ -23,6 +23,9 @@
     if (ts) ts.value = String(Date.now());
     var qf = form.querySelector('input[name="quelle"]');
     if (qf) qf.value = src || "direkt";
+    // Empfehlungslink wie /?empfohlen=Maria%20Muster#anfrage trägt den Namen gleich ein.
+    var ef = form.querySelector('input[name="empfohlen"]');
+    if (ef && q.get("empfohlen") && !ef.value) ef.value = q.get("empfohlen").slice(0, 120);
     var status = form.querySelector(".form__status");
     var button = form.querySelector('button[type="submit"]');
     var mailLink = form.querySelector('a[href^="mailto:"]');

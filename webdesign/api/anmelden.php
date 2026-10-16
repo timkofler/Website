@@ -118,6 +118,7 @@ function cx_webseite(array $c, string $email, string $name, string $fallback): v
         'Domain vorhanden' => cx_field('domain', 20),
         'Zeitrahmen' => cx_field('zeit', 40),
         'Nachricht' => cx_field('nachricht', 3000),
+        'Empfohlen von' => cx_field('empfohlen', 120),
         'Gefunden über' => cx_field('quelle', 120),
     ];
     if ($name === '') {
@@ -137,7 +138,8 @@ function cx_webseite(array $c, string $email, string $name, string $fallback): v
             . '</td><td style="padding:6px 0;color:#f4f4f0">' . nl2br(cx_h($v !== '' ? $v : '–')) . '</td></tr>';
     }
     $notify = (string) ($c['notify_email'] ?? 'tk@crypto-x.at');
-    $toTim = cx_mail($notify, 'Tim', 'Neue Webseiten-Anfrage: ' . $name . ($f['Paket'] !== '' ? ' (' . $f['Paket'] . ')' : ''),
+    $toTim = cx_mail($notify, 'Tim', 'Neue Webseiten-Anfrage: ' . $name . ($f['Paket'] !== '' ? ' (' . $f['Paket'] . ')' : '')
+        . ($f['Empfohlen von'] !== '' ? ' – Empfehlung von ' . $f['Empfohlen von'] : ''),
         cx_mail_layout('Neue Webseiten-Anfrage', '<table role="presentation" cellpadding="0" cellspacing="0" style="font-size:15px">' . $rows . '</table>'
             . '<p style="margin:18px 0 0;font-size:14px;color:#a1a1a1">Mit „Antworten“ schreibst du direkt an die Person.</p>'),
         $email);

@@ -16,6 +16,7 @@
 - [Ablauf](https://tim-kofler.at/#ablauf): Gespräch, Entwurf, Umsetzung, Online-Schaltung.
 - [Referenz](https://tim-kofler.at/#referenz): crypto-x.at, selbst programmiert, Lighthouse 100 am Computer, 97–99 am Handy.
 - [Anfrage](https://tim-kofler.at/#anfrage): unverbindliches Anfrageformular.
+- [Empfehlungsbonus](https://tim-kofler.at/#empfehlen): 50 € für jeden vermittelten Neukunden (Auftrag ab 290 €), ausgezahlt nach Bezahlung der ersten Rechnung. Der Name der empfehlenden Person wird bei der Anfrage angegeben.
 
 ## Über
 
