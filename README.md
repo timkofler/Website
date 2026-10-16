@@ -80,4 +80,4 @@ kunden/                            Pro Kunde ein Ordner im Repo, Vorlage in kund
 
 - Konten und hochgeladene Dateien liegen nur auf dem Webspace unter `api/_data/kunden/` (für Besucher gesperrt, nicht im Repo). Passwörter nur als Hash.
 - Einrichten: `tim-kofler.at/kunden/admin/` aufrufen, Admin-Passwort wählen, den angezeigten Hash als `admin_password_hash` in `api/_data/config.php` auf dem Webspace eintragen (siehe `config.example.php`).
-- Im KAS die PHP-Werte `upload_max_filesize` (z. B. 50M) und `post_max_size` (z. B. 200M) prüfen. Das Portal zeigt den Kunden automatisch die tatsächlich erlaubte Größe.
+- Im KAS die PHP-Werte `upload_max_filesize` (z. B. 200M) und `post_max_size` (z. B. 1024M), dazu `max_execution_time`/`max_input_time` (z. B. 600) prüfen. Das Portal zeigt den Kunden automatisch die tatsächlich erlaubte Größe.

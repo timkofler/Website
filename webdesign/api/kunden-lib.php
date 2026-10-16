@@ -11,7 +11,7 @@ const KP_DIR = CX_DATA . '/kunden';
 const KP_IDLE = 7200;          // Abmeldung nach 2 Stunden ohne Aktivität
 const KP_FAILS = 5;            // Fehlversuche ...
 const KP_FAIL_WINDOW = 900;    // ... innerhalb von 15 Minuten, danach Sperre bis das Fenster abläuft
-const KP_MAX_FILES = 50;       // Dateien pro Upload-Durchgang
+const KP_MAX_FILES = 100;       // Dateien pro Upload-Durchgang
 
 // Erlaubte Dateiendungen und die dazu passenden Inhaltstypen (geprüft wird der Inhalt, nicht nur die Endung).
 const KP_TYPES = [
@@ -143,8 +143,11 @@ function kp_text(string $name, int $max = 200): string
 
 function kp_bytes(int $b): string
 {
+    if ($b >= 1073741824) {
+        return rtrim(rtrim(number_format($b / 1073741824, 1, ',', '.'), '0'), ',') . ' GB';
+    }
     if ($b >= 1048576) {
-        return number_format($b / 1048576, 1, ',', '.') . ' MB';
+        return number_format($b / 1048576, $b >= 10485760 ? 0 : 1, ',', '.') . ' MB';
     }
     return number_format(max(1, (int) ceil($b / 1024)), 0, ',', '.') . ' KB';
 }
@@ -167,7 +170,7 @@ function kp_ini_bytes(string $key): int
 // Größte erlaubte Datei: Wert aus der config.php, aber nie mehr, als PHP auf dem Server zulässt.
 function kp_max_file(): int
 {
-    $cfg = (int) (cx_config()['upload_max_mb'] ?? 50) * 1048576;
+    $cfg = (int) (cx_config()['upload_max_mb'] ?? 200) * 1048576;
     return min($cfg, kp_ini_bytes('upload_max_filesize'), kp_ini_bytes('post_max_size'));
 }
 
@@ -363,7 +366,7 @@ function kp_store_upload(string $u, array $acc, string $site, string $msg, array
         return [false, 'Bitte lade höchstens ' . KP_MAX_FILES . ' Dateien auf einmal hoch. Den Rest kannst du gleich danach schicken.'];
     }
     $max = kp_max_file();
-    $quota = (int) round((float) (cx_config()['kunde_max_gb'] ?? 2) * 1073741824);
+    $quota = (int) round((float) (cx_config()['kunde_max_gb'] ?? 10) * 1073741824);
     $used = kp_used_bytes($u);
     $errors = [];
     $ok = [];

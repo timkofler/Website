@@ -1,7 +1,11 @@
 // Kundenportal: Fortschrittsanzeige beim Hochladen und Kopieren der Zugangsdaten.
 // Ohne JavaScript funktioniert alles genauso, nur ohne Fortschrittsbalken.
 (function () {
-  function size(b) { return b >= 1048576 ? (b / 1048576).toFixed(1).replace('.', ',') + ' MB' : Math.ceil(b / 1024) + ' KB'; }
+  function size(b) {
+    if (b >= 1073741824) return (b / 1073741824).toFixed(1).replace('.0', '').replace('.', ',') + ' GB';
+    if (b >= 1048576) return (b / 1048576).toFixed(b >= 10485760 ? 0 : 1).replace('.', ',') + ' MB';
+    return Math.ceil(b / 1024) + ' KB';
+  }
 
   var form = document.querySelector('[data-kp-upload]');
   if (form && window.FormData && window.XMLHttpRequest) {
@@ -20,7 +24,8 @@
       input.setCustomValidity(msg);
       return files.length ? files.length + (files.length === 1 ? ' Datei' : ' Dateien') + ', ' + size(total) : '';
     }
-    input.addEventListener('change', function () { check(); input.reportValidity(); });
+    var info = form.querySelector('.kp-pick__info');
+    input.addEventListener('change', function () { var t = check(); if (info) info.textContent = t || 'Keine Datei ausgewählt'; input.reportValidity(); });
 
     form.addEventListener('submit', function (ev) {
       check();

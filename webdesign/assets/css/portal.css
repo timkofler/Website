@@ -17,6 +17,11 @@
 }
 .form input[type=file] { padding: 10px; cursor: pointer; }
 .form input[type=file]::file-selector-button { font: inherit; font-weight: 600; margin-right: 12px; padding: 8px 14px; border-radius: 999px; border: 0; background: var(--lime); color: var(--ink); cursor: pointer; }
+.kp-pick { position: relative; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 10px; border: 1px dashed var(--line-2); border-radius: 12px; background: var(--surface); cursor: pointer; }
+.kp-pick:hover, .kp-pick:focus-within { border-color: var(--lime); }
+.kp-pick input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.kp-pick b { font-weight: 600; padding: 8px 16px; border-radius: 999px; background: var(--lime); color: var(--ink); }
+.kp-pick__info { color: var(--muted); font-size: .92rem; }
 .kp-hint { margin: -8px 0 0; font-size: .85rem; color: var(--muted); }
 .kp-progress { position: relative; height: 34px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line-2); overflow: hidden; }
 .kp-progress__bar { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--lime-dim); transition: width .2s; }

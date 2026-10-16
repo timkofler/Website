@@ -177,7 +177,8 @@ kp_page('Dateien hochladen', <<<HTML
       <input type="hidden" name="aktion" value="hochladen">
       {$flash}
       <label class="form__field"><span>Für welche Webseite?</span><input type="text" name="webseite" required maxlength="200" value="{$site}" placeholder="z. B. baeckerei-muster.at"></label>
-      <label class="form__field"><span>Dateien</span><input type="file" name="dateien[]" multiple required accept="{$accept}"></label>
+      <div class="form__field"><span>Dateien</span>
+        <label class="kp-pick"><input type="file" name="dateien[]" multiple required accept="{$accept}"><b>Dateien auswählen</b><span class="kp-pick__info">Keine Datei ausgewählt</span></label></div>
       <p class="kp-hint">{$types}. {$limit}</p>
       <label class="form__field"><span>Nachricht an Tim <em>(optional)</em></span><textarea name="nachricht" rows="4" maxlength="3000" placeholder="z. B. Das Foto mit dem Team bitte auf die Startseite, die Preise gelten ab Jänner."></textarea></label>
       <label class="form__check"><input type="checkbox" name="rechte" value="ja" required><span>Ich darf diese Bilder und Texte für meine Webseite verwenden (z. B. selbst fotografiert oder mit Erlaubnis der Fotografin bzw. des Fotografen).</span></label>
