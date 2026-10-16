@@ -1,0 +1,475 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tischlerei Holzwerk Brandl – Beispiel-Entwurf | tim-kofler.at</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Beispiel-Entwurf einer Webseite für eine Tischlerei von Tim Kofler – Webdesign. Erfundener Betrieb.">
+<link rel="icon" href="/assets/img/tk-badge.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/beispiele/_shared/demo.css">
+<link rel="preload" href="/beispiele/_shared/fonts/cormorant-600.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Cormorant";src:url(/beispiele/_shared/fonts/cormorant-600.woff2) format("woff2");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:"Cormorant";src:url(/beispiele/_shared/fonts/cormorant-italic.woff2) format("woff2");font-weight:600;font-style:italic;font-display:swap}
+@font-face{font-family:"Bricolage";src:url(/beispiele/_shared/fonts/bricolage.woff2) format("woff2");font-weight:200 800;font-display:swap}
+:root{--paper:#f6f0e6;--cream:#eee3d1;--walnut:#3a2619;--walnut2:#2a1b11;--oak:#b97f45;--oak2:#d9b07c;--ink:#2b1e14;--mut:#6c5847;--line:rgba(58,38,25,.16);--brass:#b8873b;
+  --serif:"Cormorant","Cormorant Garamond",Georgia,"Times New Roman",serif;--sans:"Bricolage",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--bar:45px;
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.0022 .1' numOctaves='3' seed='8' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .36 0 0 0 0 .22 0 0 0 0 .11 0 0 0 1.7 -.66'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  --grainL:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.0022 .1' numOctaves='3' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .95 0 0 0 0 .8 0 0 0 0 .6 0 0 0 1.7 -.7'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E")}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--bar) + 80px)}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.65 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,svg,video{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1;margin:0;letter-spacing:-.01em}
+h1 em,h2 em,h3 em{font-style:italic;color:var(--oak)}
+p{margin:0}
+:focus-visible{outline:2.5px solid var(--oak);outline-offset:3px;border-radius:6px}
+.wrap{width:min(1240px,100% - 32px);margin-inline:auto}
+.grain{position:relative;isolation:isolate}
+.grain::before{content:"";position:absolute;inset:0;z-index:-1;background-image:var(--grain);background-size:1600px 400px;opacity:.09;pointer-events:none}
+.k{font:600 12px/1.2 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--oak);display:inline-flex;align-items:center;gap:12px}
+.k::before{content:"";width:28px;height:1px;background:currentColor}
+.h2{font-size:clamp(42px,6vw,84px);margin-top:18px}
+.lead{color:var(--mut);font-size:clamp(17px,1.4vw,19px);max-width:56ch;margin-top:22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border-radius:999px;font:600 16px/1 var(--sans);text-decoration:none;border:0;cursor:pointer;transition:transform .3s,background .3s,color .3s,box-shadow .3s}
+.btn--d{background:var(--walnut);color:var(--paper)}
+.btn--d:hover{background:#4c3322;transform:translateY(-2px);box-shadow:0 12px 30px -12px rgba(58,38,25,.6)}
+.btn--l{border:1.5px solid rgba(58,38,25,.35);color:var(--ink);background:transparent}
+.btn--l:hover{border-color:var(--walnut);background:rgba(58,38,25,.05)}
+.btn svg{width:18px;height:18px;transition:transform .3s}
+.btn:hover svg{transform:translateX(4px)}
+
+/* Nav */
+.nav{position:sticky;top:var(--bar);z-index:900;background:rgba(246,240,230,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:74px;gap:20px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;line-height:1}
+.logo svg{width:40px;height:40px;flex:none}
+.logo b{display:block;font:600 24px/1 var(--serif)}
+.logo small{display:block;font:600 10px/1 var(--sans);letter-spacing:.26em;text-transform:uppercase;color:var(--mut);margin-top:5px}
+.nav__links{display:flex;gap:2px}
+.nav__links a{text-decoration:none;font-weight:500;font-size:15px;padding:12px 14px;border-radius:999px;color:#4a3a2c;transition:background .2s,color .2s}
+.nav__links a:hover{background:rgba(58,38,25,.07);color:var(--ink)}
+.nav .btn{min-height:46px;padding:0 20px;font-size:15px}
+.burger{display:none;width:48px;height:48px;border-radius:999px;border:1.5px solid rgba(58,38,25,.3);background:transparent;cursor:pointer;place-items:center;color:var(--ink)}
+.burger span,.burger span::before,.burger span::after{display:block;width:18px;height:1.8px;background:currentColor;position:relative;transition:transform .3s,background .3s}
+.burger span::before,.burger span::after{content:"";position:absolute;left:0}
+.burger span::before{top:-6px}.burger span::after{top:6px}
+.burger[aria-expanded="true"] span{background:transparent}
+.burger[aria-expanded="true"] span::before{transform:translateY(6px) rotate(45deg)}
+.burger[aria-expanded="true"] span::after{transform:translateY(-6px) rotate(-45deg)}
+.mpanel{position:fixed;inset:calc(var(--bar) + 74px) 0 auto 0;z-index:899;background:var(--paper);border-bottom:1px solid var(--line);padding:8px 16px 24px;opacity:0;visibility:hidden;transform:translateY(-10px);transition:opacity .3s,transform .3s,visibility 0s .3s;box-shadow:0 30px 40px -30px rgba(58,38,25,.4)}
+.mpanel.open{opacity:1;visibility:visible;transform:none;transition:opacity .3s,transform .3s}
+.mpanel a:not(.btn){display:flex;align-items:center;justify-content:space-between;min-height:56px;border-bottom:1px solid var(--line);text-decoration:none;font:600 26px/1 var(--serif)}
+.mpanel a:not(.btn)::after{content:"→";font:400 18px var(--sans);color:var(--oak)}
+.mpanel .btn{width:100%;margin-top:18px}
+@media (max-width:980px){.nav__links{display:none}.burger{display:grid}}
+@media (max-width:520px){.nav .btn--d{display:none}}
+
+/* Hero */
+.hero{padding:clamp(40px,6vw,80px) 0 clamp(60px,8vw,110px)}
+.hero .wrap{display:grid;grid-template-columns:1.08fr .92fr;gap:clamp(30px,5vw,80px);align-items:center}
+.hero h1{font-size:clamp(64px,10vw,150px);margin:22px 0 0;letter-spacing:-.025em;line-height:.9}
+.hero h1 span{display:block}
+.hero .lead{max-width:44ch}
+.hero__btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
+.hero__facts{display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:12px 36px;margin-top:48px;padding-top:26px;border-top:1px solid var(--line)}
+.hero__facts b{display:block;font:600 34px/1 var(--serif)}
+.hero__facts small{color:var(--mut);font-size:14px}
+.arch{position:relative;aspect-ratio:4/5;border-radius:999px 999px 28px 28px;overflow:hidden;box-shadow:0 40px 80px -40px rgba(42,27,17,.7);background:#2a1b11}
+.arch::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 10px rgba(246,240,230,.12);pointer-events:none}
+.heroimg{position:relative}
+.badge{position:absolute;left:-46px;bottom:56px;width:150px;height:150px;border-radius:50%;background:var(--walnut);color:var(--paper);display:grid;place-items:center;box-shadow:0 20px 40px -20px rgba(0,0,0,.6)}
+.badge svg{position:absolute;inset:0;width:100%;height:100%;animation:spin 26s linear infinite}
+.badge b{font:600 italic 38px/1 var(--serif);color:var(--oak2)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr}.arch{aspect-ratio:1/1;border-radius:999px 999px 24px 24px}.badge{left:auto;right:12px;bottom:-30px;width:118px;height:118px}.badge b{font-size:30px}.hero__facts{grid-template-columns:repeat(3,1fr);gap:12px}.hero__facts b{font-size:28px}}
+
+/* Leistungen */
+.sec{padding:clamp(80px,10vw,150px) 0}
+.svc{margin-top:56px;border-top:1px solid var(--line)}
+.row{position:relative;display:grid;grid-template-columns:80px 1.1fr 1.6fr 170px 40px;gap:24px;align-items:center;padding:30px 12px;border-bottom:1px solid var(--line);overflow:hidden;isolation:isolate}
+.row::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#e8d7bd,#efe2cc);transform:scaleX(0);transform-origin:left;transition:transform .6s cubic-bezier(.7,0,.2,1)}
+.row::after{content:"";position:absolute;inset:0;z-index:-1;background-image:var(--grain);background-size:1600px 400px;opacity:0;transition:opacity .6s}
+.row:hover::before{transform:scaleX(1)}
+.row:hover::after{opacity:.22}
+.row__n{font:600 italic 34px/1 var(--serif);color:var(--oak)}
+.row h3{font-size:clamp(30px,3vw,40px);transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.row:hover h3{transform:translateX(8px)}
+.row p{color:var(--mut);font-size:16px}
+.row .row__p{font:600 26px/1.1 var(--serif);color:var(--ink)}
+.row__p{font:600 24px/1.1 var(--serif);text-align:right}
+.row__p small{display:block;font:500 12px/1.4 var(--sans);color:var(--mut);letter-spacing:.08em;text-transform:uppercase}
+.row__a{width:40px;height:40px;border-radius:50%;border:1.5px solid rgba(58,38,25,.3);display:grid;place-items:center;transition:background .3s,border-color .3s,transform .4s}
+.row__a svg{width:16px;height:16px}
+.row:hover .row__a{background:var(--walnut);border-color:var(--walnut);color:var(--paper);transform:rotate(-45deg)}
+.shav{position:absolute;right:230px;top:50%;width:70px;height:70px;margin-top:-35px;pointer-events:none;opacity:0;transform:translateX(-30px) rotate(-40deg) scale(.6);transition:opacity .4s,transform .7s cubic-bezier(.2,.7,.2,1)}
+.shav path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .8s ease .1s}
+.row:hover .shav{opacity:1;transform:none}
+.row:hover .shav path{stroke-dashoffset:0}
+@media (max-width:900px){.row{grid-template-columns:52px 1fr 40px;gap:6px 16px;padding:24px 4px}.row p{grid-column:2/4}.row__p{grid-column:2/4;text-align:left;margin-top:6px}.row__a{grid-row:1;grid-column:3}.shav{display:none}.row__n{font-size:28px}}
+
+/* Holzarten */
+.woods{background:var(--walnut2);color:#f3e9da}
+.woods.grain::before{background-image:var(--grainL);opacity:.07}
+.woods .k{color:var(--oak2)}
+.woods .lead{color:#cdbba6}
+.woods h2 em{color:var(--oak2)}
+.wsel{display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(30px,5vw,80px);align-items:center;margin-top:56px}
+.swatch{position:relative;aspect-ratio:3/2;border-radius:26px;overflow:hidden;box-shadow:0 40px 80px -30px rgba(0,0,0,.7),inset 0 0 0 1px rgba(255,255,255,.08)}
+.swatch .sw{position:absolute;inset:0;width:100%;height:100%;opacity:0;transform:scale(1.06);transition:opacity .8s ease,transform 1.4s cubic-bezier(.2,.7,.2,1)}
+.swatch .sw.on{opacity:1;transform:none}
+.swatch__tag{position:absolute;left:18px;bottom:18px;z-index:2;background:rgba(42,27,17,.78);backdrop-filter:blur(8px);color:#f3e9da;border-radius:999px;padding:9px 16px;font-size:14px;font-weight:500}
+.tabs{display:flex;flex-wrap:wrap;gap:8px}
+.tab{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 18px 0 8px;border-radius:999px;border:1.5px solid rgba(243,233,218,.22);background:transparent;color:#f3e9da;font:500 16px var(--sans);cursor:pointer;transition:background .3s,border-color .3s,color .3s}
+.tab i{width:32px;height:32px;border-radius:50%;box-shadow:inset 0 0 0 2px rgba(255,255,255,.25)}
+.tab:hover{border-color:rgba(243,233,218,.6)}
+.tab[aria-pressed="true"]{background:#f3e9da;color:var(--walnut2);border-color:#f3e9da}
+.wname{font:600 italic clamp(56px,7vw,96px)/1 var(--serif);margin-top:30px;color:var(--oak2)}
+.wname small{display:block;font:500 13px/1.2 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:#a99580;font-style:normal;margin-top:10px}
+.wdesc{margin-top:18px;color:#ddcdb9;font-size:17px;max-width:46ch;min-height:5.2em}
+.wprops{display:grid;gap:14px;margin-top:26px}
+.wp{display:grid;grid-template-columns:90px 1fr 96px;gap:14px;align-items:center;font-size:14px;color:#cdbba6}
+.wp div{height:6px;border-radius:6px;background:rgba(243,233,218,.12);overflow:hidden}
+.wp div i{display:block;height:100%;background:linear-gradient(90deg,var(--oak),var(--oak2));transform-origin:left;transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+.wp b{text-align:right;font-weight:600;color:#f3e9da}
+.wuse{margin-top:22px;font-size:15px;color:#cdbba6}
+.wuse b{color:#f3e9da;font-weight:600}
+@media (max-width:900px){.wsel{grid-template-columns:1fr}.wp{grid-template-columns:70px 1fr 86px}}
+
+/* Fertigung (sticky) */
+.build{position:relative;height:330vh;background:var(--cream)}
+.build::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(58,38,25,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(58,38,25,.06) 1px,transparent 1px);background-size:32px 32px}
+.build__in{position:sticky;top:calc(var(--bar) + 74px);height:calc(100vh - var(--bar) - 74px);min-height:520px;display:grid;grid-template-columns:.8fr 1.6fr;gap:40px;align-items:center;z-index:1}
+.build h2{font-size:clamp(40px,5vw,72px);margin-top:16px}
+.bsteps{list-style:none;margin:30px 0 0;padding:0;display:grid;gap:4px}
+.bsteps li{display:grid;grid-template-columns:38px 1fr;gap:12px;align-items:baseline;padding:8px 0;color:rgba(43,30,20,.38);transition:color .4s}
+.bsteps li b{font:600 italic 22px/1 var(--serif)}
+.bsteps li span{font-size:16px;font-weight:500}
+.bsteps li small{grid-column:2;font-size:14px;color:var(--mut);max-height:0;overflow:hidden;opacity:0;transition:max-height .5s,opacity .5s}
+.bsteps li.on{color:var(--ink)}
+.bsteps li.on b{color:var(--oak)}
+.bsteps li.on small{max-height:60px;opacity:1}
+.bprog{height:2px;background:var(--line);margin-top:22px;border-radius:2px;overflow:hidden}
+.bprog i{display:block;height:100%;background:var(--oak);transform:scaleX(0);transform-origin:left}
+.bart{position:relative;height:100%;display:flex;align-items:center}
+.bart svg{width:100%;height:auto;max-height:100%;overflow:visible}
+.pt{will-change:transform,opacity}
+.dl{fill:none;stroke:#7a5228;stroke-width:1.2;stroke-dasharray:1;stroke-dashoffset:1}
+.dl--thin{stroke-width:.9}
+.dt{font:600 italic 20px var(--serif);fill:var(--walnut);opacity:0}
+.dt--s{font:500 13px var(--sans);font-style:normal;fill:var(--mut)}
+.dd{fill:var(--oak);opacity:0}
+.stamp{position:absolute;right:2%;top:4%;width:clamp(120px,14vw,170px);aspect-ratio:1;opacity:0;transform:scale(1.6) rotate(-30deg);transition:opacity .5s,transform .7s cubic-bezier(.2,1.4,.4,1)}
+.stamp.on{opacity:1;transform:rotate(-12deg)}
+.stamp svg{width:100%;height:100%}
+@media (max-width:900px){.build{height:300vh}.build__in{grid-template-columns:1fr;grid-template-rows:auto 1fr;gap:6px;align-content:start;padding-top:18px}.build h2{font-size:34px;margin-top:8px}.build .k{font-size:11px}.bsteps{margin-top:10px;grid-template-columns:repeat(5,1fr);gap:4px}.bsteps li{grid-template-columns:1fr;text-align:center;padding:6px 0;gap:2px}.bsteps li span{font-size:11px;line-height:1.2}.bsteps li small{display:none}.bsteps li b{font-size:20px}.bprog{margin-top:8px}.bart{align-items:center}.stamp{width:96px;top:auto;bottom:4%}.dt{font-size:28px}.lab{display:none}.build .lead{display:none}}
+
+/* Über uns */
+.about{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,6vw,90px);align-items:center}
+.about__ph{position:relative}
+.about__ph img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:28px}
+.about__ph figcaption{position:absolute;right:-20px;bottom:40px;background:var(--paper);border-radius:18px;padding:18px 22px;box-shadow:0 30px 50px -25px rgba(42,27,17,.5);max-width:230px;font-size:14px;color:var(--mut)}
+.about__ph figcaption b{display:block;font:600 italic 26px/1.1 var(--serif);color:var(--ink);margin-bottom:4px}
+.quote{font:600 italic clamp(26px,2.6vw,34px)/1.25 var(--serif);margin-top:30px;padding-left:22px;border-left:2px solid var(--oak);color:var(--walnut)}
+.quote small{display:block;font:500 14px var(--sans);font-style:normal;color:var(--mut);margin-top:10px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:28px 20px;margin-top:40px}
+.stats b{display:block;font:600 clamp(48px,5vw,68px)/1 var(--serif);color:var(--walnut);font-variant-numeric:lining-nums}
+.stats small{color:var(--mut);font-size:15px}
+@media (max-width:900px){.about{grid-template-columns:1fr}.about__ph figcaption{right:12px;bottom:-24px}}
+
+/* Galerie */
+.gal{display:grid;grid-template-columns:1.5fr 1fr 1fr;grid-template-rows:300px 300px;gap:16px;margin-top:56px}
+.gal button{position:relative;padding:0;border:0;border-radius:22px;overflow:hidden;cursor:zoom-in;background:#2a1b11}
+.gal button:nth-child(1){grid-row:span 2}
+.gal button:nth-child(2){grid-row:span 2}
+.gal img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s cubic-bezier(.2,.7,.2,1),opacity .4s}
+.gal button:hover img{transform:scale(1.06)}
+.gal span{position:absolute;left:14px;right:14px;bottom:14px;background:rgba(246,240,230,.92);color:var(--ink);border-radius:14px;padding:10px 14px;font-size:14px;text-align:left;transform:translateY(8px);opacity:.92;transition:transform .4s,opacity .4s}
+.gal span b{display:block;font:600 20px/1.1 var(--serif)}
+.gal button:hover span{transform:none;opacity:1}
+@media (max-width:900px){.gal{grid-template-columns:1fr 1fr;grid-template-rows:260px 200px 200px}.gal button:nth-child(1){grid-column:span 2;grid-row:auto}.gal button:nth-child(2){grid-row:span 2}}
+@media (max-width:520px){.gal{grid-template-columns:1fr;grid-template-rows:none;grid-auto-rows:240px}.gal button:nth-child(n){grid-column:auto;grid-row:auto}}
+dialog.lb{border:0;padding:0;background:transparent;max-width:min(1100px,94vw);max-height:92vh;overflow:visible;color:#f3e9da}
+dialog.lb::backdrop{background:rgba(26,16,9,.88);backdrop-filter:blur(4px)}
+.lb img{max-width:100%;max-height:78vh;border-radius:16px;margin:0 auto;object-fit:contain}
+.lb p{text-align:center;margin-top:14px;font:600 italic 22px var(--serif)}
+.lb__btn{position:absolute;top:50%;width:52px;height:52px;margin-top:-40px;border-radius:50%;border:0;background:rgba(246,240,230,.92);color:var(--ink);font-size:22px;cursor:pointer}
+.lb__prev{left:-22px}.lb__next{right:-22px}
+.lb__close{position:absolute;right:-10px;top:-18px;width:48px;height:48px;border-radius:50%;border:0;background:var(--paper);color:var(--ink);font-size:24px;cursor:pointer}
+@media (max-width:700px){.lb__prev{left:6px}.lb__next{right:6px}.lb__close{right:6px;top:6px}}
+
+/* Ablauf */
+.steps4{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:64px;position:relative}
+.steps4::before{content:"";position:absolute;left:0;right:0;top:44px;height:1px;background:var(--oak);transform:scaleX(0);transform-origin:left;transition:transform 1.8s cubic-bezier(.6,0,.2,1) .2s}
+.steps4.is-in::before{transform:scaleX(1)}
+.st4 i{display:grid;place-items:center;width:88px;height:88px;border-radius:50%;background:var(--paper);border:1px solid var(--oak);font:600 italic 40px/1 var(--serif);color:var(--oak);position:relative;font-style:normal}
+.st4 i em{font-style:italic}
+.st4 h3{font-size:34px;margin-top:26px}
+.st4 p{color:var(--mut);font-size:16px;margin-top:10px}
+.st4 small{display:inline-block;justify-self:start;margin-top:14px;font-size:13px;font-weight:600;letter-spacing:.06em;color:var(--walnut);background:rgba(185,127,69,.14);padding:5px 12px;border-radius:999px}
+@media (max-width:900px){.steps4{grid-template-columns:1fr 1fr;gap:40px 20px}.steps4::before{display:none}}
+@media (max-width:520px){.steps4{grid-template-columns:1fr}.st4{display:grid;grid-template-columns:88px 1fr;gap:0 18px}.st4 i{grid-row:span 3}.st4 h3{margin-top:4px}}
+
+/* Kontakt */
+.contact{background:var(--walnut);color:#f3e9da;border-radius:36px;padding:clamp(28px,5vw,70px);display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(30px,5vw,70px);overflow:hidden}
+.contact.grain::before{background-image:var(--grainL);opacity:.08;border-radius:inherit}
+.contact .k{color:var(--oak2)}
+.contact h2 em{color:var(--oak2)}
+.contact .lead{color:#d6c4ae}
+.cinfo{margin-top:34px;display:grid;gap:18px;font-size:16px}
+.cinfo div{display:grid;grid-template-columns:120px 1fr;gap:12px;padding-bottom:16px;border-bottom:1px solid rgba(243,233,218,.14)}
+.cinfo dt,.cinfo span{color:#b8a48d;font-size:13px;letter-spacing:.14em;text-transform:uppercase;padding-top:3px}
+form{display:grid;gap:16px;background:var(--paper);color:var(--ink);border-radius:26px;padding:clamp(22px,3vw,36px)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+label{display:grid;gap:7px;font-size:14px;font-weight:600}
+input,select,textarea{width:100%;min-height:52px;border:1.5px solid rgba(58,38,25,.22);border-radius:14px;background:#fffdf9;color:var(--ink);font:400 16px var(--sans);padding:0 16px;transition:border-color .2s,box-shadow .2s}
+textarea{padding:14px 16px;min-height:120px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--oak);box-shadow:0 0 0 4px rgba(185,127,69,.18)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;border:0;padding:0;margin:0}
+.chips legend{font-size:14px;font-weight:600;margin-bottom:8px;padding:0}
+.chips label{display:inline-flex;font-weight:500}
+.chips input{position:absolute;opacity:0;width:1px;height:1px}
+.chips span{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid rgba(58,38,25,.22);cursor:pointer;transition:all .2s;font-size:15px}
+.chips input:checked+span{background:var(--walnut);color:var(--paper);border-color:var(--walnut)}
+.chips input:focus-visible+span{outline:2.5px solid var(--oak);outline-offset:2px}
+.msg{display:none;padding:14px 16px;border-radius:14px;background:#f1e3cc;border:1px solid var(--oak);font-size:15px;font-weight:500}
+.msg.show{display:block;animation:pop .4s}
+@keyframes pop{from{opacity:0;transform:translateY(6px)}}
+@media (max-width:900px){.contact{grid-template-columns:1fr}}
+@media (max-width:520px){.row2{grid-template-columns:1fr}.cinfo div{grid-template-columns:1fr;gap:2px}}
+
+footer{padding:70px 0 40px;border-top:1px solid var(--line);font-size:15px;color:var(--mut)}
+.foot{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:30px}
+.foot h4{margin:0 0 14px;font:600 12px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--ink)}
+.foot a{text-decoration:none}.foot a:hover{color:var(--oak)}
+.demo-note{margin-top:46px;padding-top:22px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:14px}
+.demo-note strong{color:var(--walnut)}
+@media (max-width:760px){.foot{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.badge svg{animation:none}.build{height:auto}.build__in{position:relative;top:0;height:auto;padding:90px 0}.bart{flex-direction:column}.stamp{position:relative;right:auto;top:auto;bottom:auto;align-self:flex-end}}
+.build{overflow-x:clip}
+</style></head><body>
+<div class="tk-demo-bar"><a href="/#beispiele"><img src="/beispiele/_shared/tk-logo.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
+<span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musteradresse</span>
+<a class="tk-demo-bar__cta" href="/#anfrage">So eine Seite anfragen</a></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Holzwerk Brandl – zum Seitenanfang">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#3a2619"/><g fill="none" stroke="#d9b07c" stroke-width="1.3"><ellipse cx="20" cy="21" rx="12" ry="11"/><ellipse cx="19.5" cy="21.5" rx="8" ry="7.4"/><ellipse cx="19" cy="22" rx="4.2" ry="3.8"/></g><circle cx="18.8" cy="22" r="1.4" fill="#d9b07c"/></svg>
+      <span><b>Holzwerk Brandl</b><small>Tischlerei · seit 1987</small></span>
+    </a>
+    <nav class="nav__links" aria-label="Hauptnavigation"><a href="#leistungen">Leistungen</a><a href="#holz">Holzarten</a><a href="#fertigung">Fertigung</a><a href="#referenzen">Referenzen</a><a href="#ablauf">Ablauf</a></nav>
+    <div style="display:flex;gap:10px;align-items:center">
+      <a class="btn btn--d" href="#kontakt">Projekt anfragen</a>
+      <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="mpanel" aria-label="Menü öffnen"><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mpanel" id="mpanel"><a href="#leistungen">Leistungen</a><a href="#holz">Holzarten</a><a href="#fertigung">Fertigung</a><a href="#referenzen">Referenzen</a><a href="#ablauf">Ablauf</a><a href="#kontakt">Kontakt</a><a class="btn btn--d" href="#kontakt">Projekt anfragen</a></div>
+
+<main id="top">
+<section class="hero grain">
+  <div class="wrap">
+    <div>
+      <p class="k" data-reveal>Tischlerei in Musterdorf · seit 1987</p>
+      <h1 data-reveal style="--d:.08s"><span>Holz,</span><span>das <em>bleibt.</em></span></h1>
+      <p class="lead" data-reveal style="--d:.16s">Möbel nach Maß, Küchen und Innenausbau aus heimischem Massivholz – geplant mit Ihnen, gefertigt in unserer Werkstatt, montiert von denselben Händen.</p>
+      <div class="hero__btns" data-reveal style="--d:.24s">
+        <a class="btn btn--d" href="#kontakt">Beratungstermin vereinbaren <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn--l" href="#fertigung">So entsteht ein Möbel</a>
+      </div>
+      <div class="hero__facts" data-reveal style="--d:.32s">
+        <div><b>1987</b><small>gegründet</small></div>
+        <div><b>9</b><small>Tischler:innen</small></div>
+        <div><b>100 %</b><small>Holz aus Österreich</small></div>
+      </div>
+    </div>
+    <div class="heroimg" data-reveal style="--d:.15s">
+      <div class="arch"><video class="tk-video" data-autoplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/tischlerei-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/tischlerei.mp4" type="video/mp4"></video></div>
+      <div class="badge" aria-hidden="true">
+        <svg viewBox="0 0 150 150"><defs><path id="bc" d="M75 75m-56 0a56 56 0 1 1 112 0a56 56 0 1 1-112 0"/></defs><text font-family="Bricolage,sans-serif" font-size="11.5" font-weight="600" letter-spacing="3.2" fill="#d9b07c"><textPath href="#bc">HANDGEMACHT · MUSTERDORF · SEIT 1987 ·</textPath></text></svg>
+        <b>B</b>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="leistungen" aria-labelledby="l-h" style="padding-top:clamp(40px,6vw,80px)">
+  <div class="wrap">
+    <p class="k" data-reveal>Leistungen</p>
+    <h2 class="h2" id="l-h" data-reveal style="--d:.06s">Was wir für Sie <em>bauen.</em></h2>
+    <div class="svc">
+      <div class="row" data-reveal><span class="row__n">01</span><h3>Möbel nach Maß</h3><p>Sideboards, Esstische, Bücherwände, Betten – auf den Zentimeter für Ihren Raum geplant.</p><p class="row__p"><small>ab</small>€ 1.800</p><span class="row__a" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><svg class="shav" viewBox="0 0 70 70" aria-hidden="true"><path d="M6 60C20 58 40 50 50 36c8-11 4-24-6-24s-14 10-8 17 16 4 15-5" fill="none" stroke="#c9945a" stroke-width="5" stroke-linecap="round" pathLength="1"/></svg></div>
+      <div class="row" data-reveal><span class="row__n">02</span><h3>Küchen</h3><p>Massivholz- und Furnierküchen mit Markengeräten, durchdachtem Stauraum und Arbeitsplatten nach Wahl.</p><p class="row__p"><small>ab</small>€ 14.000</p><span class="row__a" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><svg class="shav" viewBox="0 0 70 70" aria-hidden="true"><path d="M6 60C20 58 40 50 50 36c8-11 4-24-6-24s-14 10-8 17 16 4 15-5" fill="none" stroke="#c9945a" stroke-width="5" stroke-linecap="round" pathLength="1"/></svg></div>
+      <div class="row" data-reveal><span class="row__n">03</span><h3>Innenausbau</h3><p>Wandverkleidungen, Einbauschränke unter der Dachschräge, Bäder und ganze Wohnungen aus einer Hand.</p><p class="row__p"><small>nach</small>Aufmaß</p><span class="row__a" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><svg class="shav" viewBox="0 0 70 70" aria-hidden="true"><path d="M6 60C20 58 40 50 50 36c8-11 4-24-6-24s-14 10-8 17 16 4 15-5" fill="none" stroke="#c9945a" stroke-width="5" stroke-linecap="round" pathLength="1"/></svg></div>
+      <div class="row" data-reveal><span class="row__n">04</span><h3>Türen &amp; Stiegen</h3><p>Innentüren, Haustüren und Holzstiegen – von der geraden Treppe bis zur gewendelten Eichenstiege.</p><p class="row__p"><small>Türen ab</small>€ 890</p><span class="row__a" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><svg class="shav" viewBox="0 0 70 70" aria-hidden="true"><path d="M6 60C20 58 40 50 50 36c8-11 4-24-6-24s-14 10-8 17 16 4 15-5" fill="none" stroke="#c9945a" stroke-width="5" stroke-linecap="round" pathLength="1"/></svg></div>
+      <div class="row" data-reveal><span class="row__n">05</span><h3>Reparatur</h3><p>Omas Kommode, die wackelnde Stiege, ein neuer Tischplatten-Schliff – wir richten, was es wert ist.</p><p class="row__p"><small>pro Stunde</small>€ 68</p><span class="row__a" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><svg class="shav" viewBox="0 0 70 70" aria-hidden="true"><path d="M6 60C20 58 40 50 50 36c8-11 4-24-6-24s-14 10-8 17 16 4 15-5" fill="none" stroke="#c9945a" stroke-width="5" stroke-linecap="round" pathLength="1"/></svg></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec woods grain" id="holz" aria-labelledby="h-h">
+  <div class="wrap">
+    <p class="k" data-reveal>Holzarten</p>
+    <h2 class="h2" id="h-h" data-reveal style="--d:.06s">Jedes Holz hat <em>Charakter.</em></h2>
+    <p class="lead" data-reveal style="--d:.12s">Wir verarbeiten fast ausschließlich heimische Hölzer aus nachhaltiger Forstwirtschaft. Wählen Sie eine Holzart – und sehen Sie Maserung, Farbe und Eigenschaften.</p>
+    <div class="wsel">
+      <div class="swatch" data-reveal>
+        <svg class="sw on" data-w="eiche" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><filter id="feiche" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.004 0.04" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="46" xChannelSelector="R" yChannelSelector="G"/></filter><filter id="peiche"><feTurbulence type="fractalNoise" baseFrequency="0.9 0.03" numOctaves="2" seed="10"/><feColorMatrix values="0 0 0 0 .18  0 0 0 0 .1  0 0 0 0 .05  0 0 0 -2.2 1.25"/></filter><linearGradient id="geiche" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".18"/></linearGradient></defs><rect width="600" height="400" fill="#c9a26e"/><g filter="url(#feiche)"><rect x="-40" y="-40.0" width="680" height="3.3" fill="#b58a55" opacity="0.85"/><rect x="-40" y="-28.5" width="680" height="5.9" fill="#b58a55" opacity="0.49"/><rect x="-40" y="-17.1" width="680" height="9.0" fill="#9a6e3c" opacity="0.61"/><rect x="-40" y="1.9" width="680" height="2.6" fill="#9a6e3c" opacity="0.56"/><rect x="-40" y="7.7" width="680" height="7.3" fill="#9a6e3c" opacity="0.37"/><rect x="-40" y="26.6" width="680" height="7.7" fill="#9a6e3c" opacity="0.75"/><rect x="-40" y="47.0" width="680" height="6.9" fill="#dcbb8a" opacity="0.57"/><rect x="-40" y="65.6" width="680" height="4.8" fill="#dcbb8a" opacity="0.83"/><rect x="-40" y="74.6" width="680" height="2.5" fill="#9a6e3c" opacity="0.59"/><rect x="-40" y="87.0" width="680" height="3.8" fill="#b58a55" opacity="0.67"/><rect x="-40" y="99.6" width="680" height="4.6" fill="#b58a55" opacity="0.73"/><rect x="-40" y="117.4" width="680" height="7.9" fill="#dcbb8a" opacity="0.72"/><rect x="-40" y="130.1" width="680" height="8.0" fill="#dcbb8a" opacity="0.85"/><rect x="-40" y="147.3" width="680" height="6.9" fill="#9a6e3c" opacity="0.50"/><rect x="-40" y="158.5" width="680" height="5.1" fill="#b58a55" opacity="0.40"/><rect x="-40" y="175.5" width="680" height="4.6" fill="#b58a55" opacity="0.58"/><rect x="-40" y="187.6" width="680" height="2.4" fill="#a97c48" opacity="0.56"/><rect x="-40" y="199.4" width="680" height="5.6" fill="#dcbb8a" opacity="0.50"/><rect x="-40" y="210.7" width="680" height="1.8" fill="#a97c48" opacity="0.68"/><rect x="-40" y="215.8" width="680" height="3.0" fill="#9a6e3c" opacity="0.49"/><rect x="-40" y="229.3" width="680" height="8.8" fill="#b58a55" opacity="0.88"/><rect x="-40" y="251.1" width="680" height="4.3" fill="#9a6e3c" opacity="0.56"/><rect x="-40" y="267.9" width="680" height="6.6" fill="#9a6e3c" opacity="0.50"/><rect x="-40" y="284.5" width="680" height="6.9" fill="#dcbb8a" opacity="0.59"/><rect x="-40" y="297.2" width="680" height="3.8" fill="#b58a55" opacity="0.89"/><rect x="-40" y="307.5" width="680" height="4.3" fill="#a97c48" opacity="0.38"/><rect x="-40" y="321.7" width="680" height="5.0" fill="#b58a55" opacity="0.68"/><rect x="-40" y="332.7" width="680" height="5.2" fill="#9a6e3c" opacity="0.36"/><rect x="-40" y="345.0" width="680" height="6.2" fill="#9a6e3c" opacity="0.53"/><rect x="-40" y="358.2" width="680" height="3.8" fill="#9a6e3c" opacity="0.50"/><rect x="-40" y="373.7" width="680" height="2.3" fill="#dcbb8a" opacity="0.88"/><rect x="-40" y="386.5" width="680" height="2.5" fill="#9a6e3c" opacity="0.79"/><rect x="-40" y="394.6" width="680" height="2.9" fill="#9a6e3c" opacity="0.40"/><rect x="-40" y="407.1" width="680" height="8.6" fill="#a97c48" opacity="0.59"/><rect x="-40" y="428.2" width="680" height="2.8" fill="#9a6e3c" opacity="0.47"/><rect x="162" y="315" width="9" height="2.9" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="189" y="334" width="21" height="2.8" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="204" y="331" width="10" height="2.4" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="354" y="169" width="19" height="2.8" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="279" y="254" width="14" height="2.4" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="21" y="165" width="12" height="2.2" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="500" y="249" width="19" height="2.3" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="591" y="287" width="9" height="2.2" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="452" y="299" width="29" height="2.3" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="534" y="345" width="27" height="3.0" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="72" y="98" width="9" height="2.7" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="307" y="79" width="27" height="2.1" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="30" y="192" width="11" height="2.3" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="143" y="8" width="20" height="1.6" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="548" y="45" width="11" height="3.0" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="325" y="325" width="9" height="1.8" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="73" y="355" width="11" height="1.9" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="164" y="356" width="11" height="2.9" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="293" y="228" width="17" height="2.6" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="149" y="247" width="19" height="1.6" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="194" y="328" width="27" height="2.7" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="28" y="20" width="19" height="1.5" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="428" y="206" width="19" height="1.7" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="43" y="154" width="17" height="2.0" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="159" y="395" width="17" height="1.7" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="2" y="289" width="25" height="2.4" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="26" y="184" width="22" height="2.3" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="382" y="17" width="28" height="1.6" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="376" y="304" width="15" height="2.9" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="251" y="7" width="13" height="1.9" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="354" y="321" width="13" height="1.7" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="17" y="130" width="29" height="2.3" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="522" y="49" width="23" height="2.9" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="439" y="340" width="20" height="2.1" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="65" y="127" width="20" height="2.7" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="430" y="189" width="13" height="2.1" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="316" y="226" width="23" height="2.1" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="492" y="137" width="27" height="1.5" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="69" y="193" width="23" height="1.9" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="180" y="36" width="30" height="2.3" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="317" y="95" width="20" height="1.6" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="332" y="220" width="27" height="1.8" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="46" y="399" width="22" height="2.2" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="420" y="377" width="14" height="2.4" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="563" y="223" width="29" height="2.1" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="141" y="372" width="27" height="3.0" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="249" y="227" width="21" height="2.9" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="411" y="62" width="17" height="2.8" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="98" y="199" width="19" height="2.5" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="570" y="235" width="27" height="1.7" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="451" y="59" width="19" height="2.9" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="511" y="215" width="25" height="2.5" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="513" y="238" width="21" height="3.0" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="534" y="123" width="14" height="2.7" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="120" y="228" width="13" height="2.2" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="518" y="167" width="23" height="2.6" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="123" y="232" width="28" height="2.5" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="17" y="397" width="10" height="2.9" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="470" y="353" width="9" height="2.9" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="535" y="259" width="25" height="1.6" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="130" y="102" width="28" height="2.7" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="82" y="249" width="23" height="1.6" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="560" y="68" width="9" height="1.8" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="55" y="320" width="11" height="1.9" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="548" y="14" width="18" height="2.6" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="202" y="12" width="15" height="2.1" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="47" y="258" width="24" height="2.2" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="75" y="128" width="27" height="1.6" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="260" y="175" width="20" height="1.9" rx="1.5" fill="#dcbb8a" opacity=".55"/><rect x="317" y="280" width="23" height="2.1" rx="1.5" fill="#dcbb8a" opacity=".55"/></g><rect width="600" height="400" filter="url(#peiche)" opacity="0.18"/><rect width="600" height="400" fill="url(#geiche)"/></svg><svg class="sw" data-w="nuss" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><filter id="fnuss" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.005 0.035" numOctaves="2" seed="11" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="60" xChannelSelector="R" yChannelSelector="G"/></filter><filter id="pnuss"><feTurbulence type="fractalNoise" baseFrequency="0.9 0.03" numOctaves="2" seed="18"/><feColorMatrix values="0 0 0 0 .18  0 0 0 0 .1  0 0 0 0 .05  0 0 0 -2.2 1.25"/></filter><linearGradient id="gnuss" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".18"/></linearGradient></defs><rect width="600" height="400" fill="#6a4429"/><g filter="url(#fnuss)"><rect x="-40" y="-40.0" width="680" height="4.9" fill="#3d2414" opacity="0.60"/><rect x="-40" y="-22.7" width="680" height="2.9" fill="#8c5c38" opacity="0.61"/><rect x="-40" y="-10.0" width="680" height="2.9" fill="#4a2c19" opacity="0.40"/><rect x="-40" y="4.8" width="680" height="6.7" fill="#3d2414" opacity="0.88"/><rect x="-40" y="21.7" width="680" height="6.1" fill="#4a2c19" opacity="0.81"/><rect x="-40" y="31.5" width="680" height="1.8" fill="#8c5c38" opacity="0.68"/><rect x="-40" y="44.8" width="680" height="3.9" fill="#4a2c19" opacity="0.64"/><rect x="-40" y="58.8" width="680" height="5.2" fill="#3d2414" opacity="0.71"/><rect x="-40" y="71.5" width="680" height="5.6" fill="#8c5c38" opacity="0.40"/><rect x="-40" y="83.0" width="680" height="7.2" fill="#4a2c19" opacity="0.39"/><rect x="-40" y="101.6" width="680" height="4.5" fill="#8c5c38" opacity="0.56"/><rect x="-40" y="119.6" width="680" height="7.9" fill="#4a2c19" opacity="0.86"/><rect x="-40" y="131.0" width="680" height="4.3" fill="#3d2414" opacity="0.39"/><rect x="-40" y="145.3" width="680" height="7.3" fill="#4a2c19" opacity="0.52"/><rect x="-40" y="155.8" width="680" height="4.6" fill="#8c5c38" opacity="0.42"/><rect x="-40" y="171.1" width="680" height="1.6" fill="#3d2414" opacity="0.45"/><rect x="-40" y="181.9" width="680" height="4.9" fill="#573420" opacity="0.77"/><rect x="-40" y="194.3" width="680" height="4.4" fill="#4a2c19" opacity="0.35"/><rect x="-40" y="211.2" width="680" height="8.8" fill="#4a2c19" opacity="0.47"/><rect x="-40" y="227.4" width="680" height="7.9" fill="#4a2c19" opacity="0.37"/><rect x="-40" y="239.9" width="680" height="4.8" fill="#573420" opacity="0.53"/><rect x="-40" y="251.0" width="680" height="2.1" fill="#573420" opacity="0.70"/><rect x="-40" y="256.2" width="680" height="4.3" fill="#4a2c19" opacity="0.88"/><rect x="-40" y="268.8" width="680" height="5.8" fill="#8c5c38" opacity="0.45"/><rect x="-40" y="279.3" width="680" height="8.3" fill="#8c5c38" opacity="0.49"/><rect x="-40" y="292.7" width="680" height="7.0" fill="#8c5c38" opacity="0.46"/><rect x="-40" y="313.2" width="680" height="8.1" fill="#3d2414" opacity="0.38"/><rect x="-40" y="325.5" width="680" height="5.3" fill="#573420" opacity="0.74"/><rect x="-40" y="336.7" width="680" height="7.7" fill="#3d2414" opacity="0.64"/><rect x="-40" y="357.6" width="680" height="8.8" fill="#3d2414" opacity="0.66"/><rect x="-40" y="378.8" width="680" height="6.1" fill="#4a2c19" opacity="0.76"/><rect x="-40" y="388.6" width="680" height="4.6" fill="#4a2c19" opacity="0.45"/><rect x="-40" y="400.3" width="680" height="5.8" fill="#3d2414" opacity="0.43"/><rect x="-40" y="414.0" width="680" height="4.0" fill="#573420" opacity="0.67"/><rect x="-40" y="422.5" width="680" height="1.8" fill="#3d2414" opacity="0.74"/><rect x="-40" y="437.9" width="680" height="1.7" fill="#3d2414" opacity="0.39"/></g><rect width="600" height="400" filter="url(#pnuss)" opacity="0.12"/><rect width="600" height="400" fill="url(#gnuss)"/></svg><svg class="sw" data-w="laerche" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><filter id="flaerche" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.003 0.05" numOctaves="2" seed="5" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="38" xChannelSelector="R" yChannelSelector="G"/></filter><filter id="plaerche"><feTurbulence type="fractalNoise" baseFrequency="0.9 0.03" numOctaves="2" seed="12"/><feColorMatrix values="0 0 0 0 .18  0 0 0 0 .1  0 0 0 0 .05  0 0 0 -2.2 1.25"/></filter><linearGradient id="glaerche" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".18"/></linearGradient></defs><rect width="600" height="400" fill="#d18e57"/><g filter="url(#flaerche)"><rect x="-40" y="-40.0" width="680" height="6.2" fill="#99491f" opacity="0.87"/><rect x="-40" y="-22.7" width="680" height="8.4" fill="#b6683a" opacity="0.78"/><rect x="-40" y="-8.5" width="680" height="1.9" fill="#b6683a" opacity="0.61"/><rect x="-40" y="-0.9" width="680" height="5.6" fill="#a95a2c" opacity="0.75"/><rect x="-40" y="12.1" width="680" height="2.9" fill="#e6ad7a" opacity="0.56"/><rect x="-40" y="26.4" width="680" height="2.0" fill="#b6683a" opacity="0.42"/><rect x="-40" y="31.4" width="680" height="8.0" fill="#a95a2c" opacity="0.88"/><rect x="-40" y="44.3" width="680" height="2.7" fill="#a95a2c" opacity="0.65"/><rect x="-40" y="57.5" width="680" height="3.0" fill="#e6ad7a" opacity="0.73"/><rect x="-40" y="74.2" width="680" height="8.2" fill="#b6683a" opacity="0.58"/><rect x="-40" y="95.7" width="680" height="3.5" fill="#99491f" opacity="0.67"/><rect x="-40" y="108.7" width="680" height="6.8" fill="#b6683a" opacity="0.80"/><rect x="-40" y="123.8" width="680" height="3.9" fill="#99491f" opacity="0.45"/><rect x="-40" y="133.5" width="680" height="8.5" fill="#e6ad7a" opacity="0.55"/><rect x="-40" y="149.5" width="680" height="5.6" fill="#b6683a" opacity="0.67"/><rect x="-40" y="158.2" width="680" height="1.9" fill="#a95a2c" opacity="0.42"/><rect x="-40" y="165.8" width="680" height="7.6" fill="#99491f" opacity="0.55"/><rect x="-40" y="182.2" width="680" height="7.3" fill="#99491f" opacity="0.78"/><rect x="-40" y="196.5" width="680" height="3.7" fill="#a95a2c" opacity="0.46"/><rect x="-40" y="208.9" width="680" height="4.2" fill="#b6683a" opacity="0.86"/><rect x="-40" y="222.1" width="680" height="3.8" fill="#a95a2c" opacity="0.79"/><rect x="-40" y="235.8" width="680" height="6.9" fill="#b6683a" opacity="0.44"/><rect x="-40" y="246.3" width="680" height="8.9" fill="#b6683a" opacity="0.37"/><rect x="-40" y="266.3" width="680" height="4.1" fill="#99491f" opacity="0.58"/><rect x="-40" y="274.0" width="680" height="8.4" fill="#b6683a" opacity="0.53"/><rect x="-40" y="287.7" width="680" height="8.9" fill="#a95a2c" opacity="0.70"/><rect x="-40" y="308.2" width="680" height="2.3" fill="#a95a2c" opacity="0.38"/><rect x="-40" y="318.1" width="680" height="2.6" fill="#e6ad7a" opacity="0.69"/><rect x="-40" y="325.5" width="680" height="5.4" fill="#e6ad7a" opacity="0.73"/><rect x="-40" y="337.5" width="680" height="3.6" fill="#a95a2c" opacity="0.41"/><rect x="-40" y="353.1" width="680" height="5.5" fill="#b6683a" opacity="0.83"/><rect x="-40" y="363.5" width="680" height="5.2" fill="#99491f" opacity="0.83"/><rect x="-40" y="375.7" width="680" height="7.4" fill="#e6ad7a" opacity="0.73"/><rect x="-40" y="393.4" width="680" height="7.2" fill="#99491f" opacity="0.72"/><rect x="-40" y="412.8" width="680" height="3.5" fill="#e6ad7a" opacity="0.74"/><rect x="-40" y="429.8" width="680" height="4.1" fill="#a95a2c" opacity="0.61"/></g><rect width="600" height="400" filter="url(#plaerche)" opacity="0.18"/><rect width="600" height="400" fill="url(#glaerche)"/></svg><svg class="sw" data-w="zirbe" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><filter id="fzirbe" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.004 0.04" numOctaves="2" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="36" xChannelSelector="R" yChannelSelector="G"/></filter><filter id="pzirbe"><feTurbulence type="fractalNoise" baseFrequency="0.9 0.03" numOctaves="2" seed="16"/><feColorMatrix values="0 0 0 0 .18  0 0 0 0 .1  0 0 0 0 .05  0 0 0 -2.2 1.25"/></filter><linearGradient id="gzirbe" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".18"/></linearGradient></defs><rect width="600" height="400" fill="#e8cb98"/><g filter="url(#fzirbe)"><rect x="-40" y="-40.0" width="680" height="5.0" fill="#cfa66c" opacity="0.45"/><rect x="-40" y="-24.6" width="680" height="4.0" fill="#c09257" opacity="0.39"/><rect x="-40" y="-11.4" width="680" height="6.1" fill="#d8b47e" opacity="0.44"/><rect x="-40" y="8.1" width="680" height="8.6" fill="#cfa66c" opacity="0.48"/><rect x="-40" y="20.9" width="680" height="5.3" fill="#f2dcb3" opacity="0.67"/><rect x="-40" y="37.8" width="680" height="4.4" fill="#cfa66c" opacity="0.86"/><rect x="-40" y="47.4" width="680" height="3.2" fill="#f2dcb3" opacity="0.84"/><rect x="-40" y="62.1" width="680" height="8.3" fill="#d8b47e" opacity="0.80"/><rect x="-40" y="75.6" width="680" height="8.1" fill="#f2dcb3" opacity="0.38"/><rect x="-40" y="90.9" width="680" height="5.2" fill="#d8b47e" opacity="0.75"/><rect x="-40" y="108.5" width="680" height="8.7" fill="#c09257" opacity="0.46"/><rect x="-40" y="129.6" width="680" height="4.0" fill="#f2dcb3" opacity="0.42"/><rect x="-40" y="146.6" width="680" height="5.3" fill="#c09257" opacity="0.86"/><rect x="-40" y="159.5" width="680" height="4.5" fill="#cfa66c" opacity="0.74"/><rect x="-40" y="168.6" width="680" height="8.5" fill="#cfa66c" opacity="0.38"/><rect x="-40" y="186.2" width="680" height="6.0" fill="#d8b47e" opacity="0.76"/><rect x="-40" y="201.6" width="680" height="1.8" fill="#f2dcb3" opacity="0.57"/><rect x="-40" y="216.3" width="680" height="2.7" fill="#c09257" opacity="0.55"/><rect x="-40" y="229.5" width="680" height="5.9" fill="#f2dcb3" opacity="0.40"/><rect x="-40" y="242.2" width="680" height="8.0" fill="#d8b47e" opacity="0.47"/><rect x="-40" y="255.4" width="680" height="8.6" fill="#d8b47e" opacity="0.79"/><rect x="-40" y="270.6" width="680" height="4.8" fill="#d8b47e" opacity="0.50"/><rect x="-40" y="287.3" width="680" height="3.8" fill="#c09257" opacity="0.78"/><rect x="-40" y="294.4" width="680" height="7.4" fill="#f2dcb3" opacity="0.62"/><rect x="-40" y="312.6" width="680" height="3.4" fill="#d8b47e" opacity="0.71"/><rect x="-40" y="320.0" width="680" height="7.2" fill="#c09257" opacity="0.55"/><rect x="-40" y="337.5" width="680" height="2.8" fill="#f2dcb3" opacity="0.49"/><rect x="-40" y="343.9" width="680" height="8.8" fill="#cfa66c" opacity="0.89"/><rect x="-40" y="362.3" width="680" height="1.6" fill="#cfa66c" opacity="0.78"/><rect x="-40" y="370.2" width="680" height="1.6" fill="#f2dcb3" opacity="0.51"/><rect x="-40" y="380.1" width="680" height="3.6" fill="#f2dcb3" opacity="0.76"/><rect x="-40" y="389.9" width="680" height="2.4" fill="#cfa66c" opacity="0.74"/><rect x="-40" y="403.7" width="680" height="4.4" fill="#f2dcb3" opacity="0.44"/><rect x="-40" y="418.9" width="680" height="7.3" fill="#f2dcb3" opacity="0.62"/><rect x="-40" y="430.3" width="680" height="1.9" fill="#cfa66c" opacity="0.79"/><ellipse cx="178" cy="270" rx="69" ry="34.5" fill="none" stroke="#cfa66c" stroke-width="4.3" opacity=".55"/><ellipse cx="178" cy="270" rx="60" ry="30.0" fill="none" stroke="#cfa66c" stroke-width="3.9" opacity=".55"/><ellipse cx="178" cy="270" rx="51" ry="25.5" fill="none" stroke="#cfa66c" stroke-width="3.5" opacity=".55"/><ellipse cx="178" cy="270" rx="42" ry="21.0" fill="none" stroke="#cfa66c" stroke-width="3.1" opacity=".55"/><ellipse cx="178" cy="270" rx="33" ry="16.5" fill="none" stroke="#cfa66c" stroke-width="2.7" opacity=".55"/><ellipse cx="178" cy="270" rx="24" ry="12.0" fill="none" stroke="#cfa66c" stroke-width="2.3" opacity=".55"/><ellipse cx="178" cy="270" rx="15" ry="7.5" fill="none" stroke="#cfa66c" stroke-width="1.9" opacity=".55"/><ellipse cx="178" cy="270" rx="9" ry="6" fill="#5a3a1c"/><ellipse cx="429" cy="129" rx="69" ry="34.5" fill="none" stroke="#cfa66c" stroke-width="4.3" opacity=".55"/><ellipse cx="429" cy="129" rx="60" ry="30.0" fill="none" stroke="#cfa66c" stroke-width="3.9" opacity=".55"/><ellipse cx="429" cy="129" rx="51" ry="25.5" fill="none" stroke="#cfa66c" stroke-width="3.5" opacity=".55"/><ellipse cx="429" cy="129" rx="42" ry="21.0" fill="none" stroke="#cfa66c" stroke-width="3.1" opacity=".55"/><ellipse cx="429" cy="129" rx="33" ry="16.5" fill="none" stroke="#cfa66c" stroke-width="2.7" opacity=".55"/><ellipse cx="429" cy="129" rx="24" ry="12.0" fill="none" stroke="#cfa66c" stroke-width="2.3" opacity=".55"/><ellipse cx="429" cy="129" rx="15" ry="7.5" fill="none" stroke="#cfa66c" stroke-width="1.9" opacity=".55"/><ellipse cx="429" cy="129" rx="9" ry="6" fill="#5a3a1c"/><ellipse cx="291" cy="222" rx="69" ry="34.5" fill="none" stroke="#cfa66c" stroke-width="4.3" opacity=".55"/><ellipse cx="291" cy="222" rx="60" ry="30.0" fill="none" stroke="#cfa66c" stroke-width="3.9" opacity=".55"/><ellipse cx="291" cy="222" rx="51" ry="25.5" fill="none" stroke="#cfa66c" stroke-width="3.5" opacity=".55"/><ellipse cx="291" cy="222" rx="42" ry="21.0" fill="none" stroke="#cfa66c" stroke-width="3.1" opacity=".55"/><ellipse cx="291" cy="222" rx="33" ry="16.5" fill="none" stroke="#cfa66c" stroke-width="2.7" opacity=".55"/><ellipse cx="291" cy="222" rx="24" ry="12.0" fill="none" stroke="#cfa66c" stroke-width="2.3" opacity=".55"/><ellipse cx="291" cy="222" rx="15" ry="7.5" fill="none" stroke="#cfa66c" stroke-width="1.9" opacity=".55"/><ellipse cx="291" cy="222" rx="9" ry="6" fill="#5a3a1c"/></g><rect width="600" height="400" filter="url(#pzirbe)" opacity="0.1"/><rect width="600" height="400" fill="url(#gzirbe)"/></svg>
+        <span class="swatch__tag" id="wtag">Eiche · geölt</span>
+      </div>
+      <div data-reveal style="--d:.1s">
+        <div class="tabs" role="group" aria-label="Holzart wählen">
+          <button class="tab" type="button" data-w="eiche" aria-pressed="true"><i style="background:#c9a26e"></i>Eiche</button>
+          <button class="tab" type="button" data-w="nuss" aria-pressed="false"><i style="background:#6a4429"></i>Nuss</button>
+          <button class="tab" type="button" data-w="laerche" aria-pressed="false"><i style="background:#d18e57"></i>Lärche</button>
+          <button class="tab" type="button" data-w="zirbe" aria-pressed="false"><i style="background:#e8cb98"></i>Zirbe</button>
+        </div>
+        <div aria-live="polite">
+          <p class="wname" id="wname">Eiche<small id="wlat">Quercus robur · heimisch</small></p>
+          <p class="wdesc" id="wdesc">Hart, zäh und langlebig – der Klassiker für Esstische, Stiegen und Böden. Markante Poren, lebendige Maserung, und mit den Jahren wird sie goldener.</p>
+        </div>
+        <div class="wprops">
+          <div class="wp"><span>Härte</span><div><i id="wp1" style="transform:scaleX(.8)"></i></div><b id="wv1">hart</b></div>
+          <div class="wp"><span>Dichte</span><div><i id="wp2" style="transform:scaleX(.78)"></i></div><b id="wv2">690 kg/m³</b></div>
+          <div class="wp"><span>Farbton</span><div><i id="wp3" style="transform:scaleX(.55)"></i></div><b id="wv3">mittel</b></div>
+        </div>
+        <p class="wuse"><b>Ideal für:</b> <span id="wuse">Esstische, Stiegen, Böden, Fronten</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="build" id="fertigung" aria-labelledby="b-h">
+  <div class="wrap build__in">
+    <div class="btext">
+      <p class="k">Vom Brett zum Möbel</p>
+      <h2 id="b-h">Ein Sideboard <em>entsteht.</em></h2>
+      <p class="lead" style="font-size:16px">Scrollen Sie – und sehen Sie, wie aus einzelnen Brettern ein Möbelstück wird. Jede Verbindung gezapft, gedübelt oder verleimt, nichts von der Stange.</p>
+      <ol class="bsteps" id="bsteps">
+        <li><b>1</b><span>Korpus</span><small>Seiten, Boden und Rückwand aus Eiche – verdübelt und verleimt.</small></li>
+        <li><b>2</b><span>Deckplatte</span><small>Zwischenwände, Einlegeböden und 3 cm massive Deckplatte.</small></li>
+        <li><b>3</b><span>Fronten</span><small>Türen und Laden aus Nuss, Messinggriffe von Hand gesetzt.</small></li>
+        <li><b>4</b><span>Füße</span><small>Konische Füße aus Eiche, 16 cm – genug Luft für den Saugroboter.</small></li>
+        <li><b>5</b><span>Fertig</span><small>Geölt, vermessen, abgenommen: maßgefertigt in Musterdorf.</small></li>
+      </ol>
+      <div class="bprog"><i id="bprog"></i></div>
+    </div>
+    <div class="bart">
+      <svg id="sideboard" viewBox="20 115 790 400" role="img" aria-label="Explosionszeichnung eines Sideboards aus Eiche und Nuss, 180 × 78 × 45 cm, das sich beim Scrollen zusammensetzt">
+        <defs><pattern id="grH" width="300" height="40" patternUnits="userSpaceOnUse"><polyline points="0,-4.0 10,-3.7 20,-3.0 30,-1.9 40,-0.6 50,0.8 60,2.1 70,3.3 80,4.1 90,4.6 100,4.7 110,4.4 120,3.6 130,2.5 140,1.2 150,-0.1 160,-1.5 170,-2.6 180,-3.5 190,-4.0 200,-4.0 210,-3.6 220,-2.8 230,-1.7 240,-0.4 250,0.9 260,2.3 270,3.4 280,4.2 290,4.7 300,4.7" fill="none" stroke="#3a2412" stroke-opacity="0.15" stroke-width="1.0"/><polyline points="0,8.5 10,9.2 20,9.7 30,10.1 40,10.3 50,10.3 60,10.1 70,9.7 80,9.1 90,8.4 100,7.6 110,6.7 120,5.8 130,4.9 140,4.0 150,3.3 160,2.7 170,2.3 180,2.1 190,2.0 200,2.2 210,2.6 220,3.1 230,3.8 240,4.6 250,5.5 260,6.4 270,7.3 280,8.2 290,8.9 300,9.5" fill="none" stroke="#3a2412" stroke-opacity="0.20" stroke-width="1.0"/><polyline points="0,11.3 10,10.8 20,10.3 30,10.0 40,9.9 50,10.1 60,10.5 70,11.0 80,11.5 90,11.8 100,11.9 110,11.8 120,11.4 130,10.9 140,10.4 150,10.1 160,9.9 170,10.0 180,10.4 190,10.9 200,11.4 210,11.8 220,11.9 230,11.8 240,11.5 250,11.0 260,10.5 270,10.1 280,9.9 290,10.0 300,10.3" fill="none" stroke="#3a2412" stroke-opacity="0.11" stroke-width="1.5"/><polyline points="0,15.9 10,16.4 20,16.7 30,16.9 40,16.8 50,16.5 60,16.1 70,15.7 80,15.2 90,14.8 100,14.6 110,14.6 120,14.9 130,15.2 140,15.7 150,16.2 160,16.6 170,16.8 180,16.8 190,16.7 200,16.3 210,15.9 220,15.4 230,15.0 240,14.7 250,14.6 260,14.8 270,15.1 280,15.5 290,16.0 300,16.4" fill="none" stroke="#3a2412" stroke-opacity="0.21" stroke-width="0.9"/><polyline points="0,18.8 10,19.6 20,20.3 30,20.7 40,21.0 50,21.0 60,20.8 70,20.4 80,19.7 90,19.0 100,18.2 110,17.4 120,16.7 130,16.1 140,15.8 150,15.7 160,15.8 170,16.1 180,16.7 190,17.4 200,18.2 210,19.0 220,19.8 230,20.4 240,20.8 250,21.0 260,21.0 270,20.7 280,20.3 290,19.6 300,18.8" fill="none" stroke="#3a2412" stroke-opacity="0.14" stroke-width="1.0"/><polyline points="0,24.7 10,24.7 20,24.4 30,23.9 40,23.2 50,22.4 60,21.7 70,21.2 80,20.9 90,21.0 100,21.3 110,21.9 120,22.7 130,23.4 140,24.1 150,24.6 160,24.8 170,24.7 180,24.2 190,23.6 200,22.9 210,22.1 220,21.5 230,21.1 240,20.9 250,21.1 260,21.5 270,22.2 280,23.0 290,23.7 300,24.3" fill="none" stroke="#3a2412" stroke-opacity="0.12" stroke-width="0.5"/><polyline points="0,26.4 10,25.9 20,25.7 30,25.7 40,26.0 50,26.6 60,27.3 70,28.1 80,29.1 90,30.0 100,30.8 110,31.4 120,31.9 130,32.1 140,32.1 150,31.8 160,31.2 170,30.5 180,29.6 190,28.7 200,27.8 210,27.0 220,26.3 230,25.9 240,25.7 250,25.8 260,26.1 270,26.6 280,27.4 290,28.2 300,29.2" fill="none" stroke="#3a2412" stroke-opacity="0.22" stroke-width="1.4"/><polyline points="0,29.1 10,29.2 20,29.9 30,30.9 40,32.1 50,33.1 60,33.7 70,33.7 80,33.2 90,32.2 100,31.0 110,30.0 120,29.3 130,29.1 140,29.6 150,30.5 160,31.6 170,32.7 180,33.5 190,33.8 200,33.4 210,32.6 220,31.5 230,30.3 240,29.5 250,29.1 260,29.3 270,30.1 280,31.2 290,32.3 300,33.3" fill="none" stroke="#3a2412" stroke-opacity="0.21" stroke-width="1.0"/><polyline points="0,41.2 10,40.4 20,38.9 30,37.3 40,35.7 50,34.6 60,34.1 70,34.4 80,35.3 90,36.8 100,38.4 110,39.9 120,41.0 130,41.4 140,41.1 150,40.1 160,38.6 170,37.0 180,35.5 190,34.4 200,34.1 210,34.5 220,35.6 230,37.1 240,38.7 250,40.2 260,41.2 270,41.4 280,41.0 290,39.8 300,38.3" fill="none" stroke="#3a2412" stroke-opacity="0.20" stroke-width="1.4"/></pattern><pattern id="grV" width="300" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(90)"><polyline points="0,4.2 10,5.3 20,6.1 30,6.8 40,7.2 50,7.3 60,7.2 70,6.8 80,6.1 90,5.2 100,4.1 110,3.0 120,1.8 130,0.7 140,-0.3 150,-1.2 160,-1.8 170,-2.2 180,-2.2 190,-2.0 200,-1.6 210,-0.8 220,0.1 230,1.2 240,2.3 250,3.5 260,4.6 270,5.6 280,6.4 290,7.0 300,7.3" fill="none" stroke="#3a2412" stroke-opacity="0.20" stroke-width="1.3"/><polyline points="0,4.9 10,4.2 20,4.0 30,4.3 40,4.9 50,5.9 60,6.9 70,7.8 80,8.3 90,8.4 100,8.1 110,7.3 120,6.4 130,5.4 140,4.5 150,4.1 160,4.1 170,4.5 180,5.3 190,6.3 200,7.3 210,8.1 220,8.4 230,8.3 240,7.8 250,6.9 260,5.9 270,5.0 280,4.3 290,4.0 300,4.2" fill="none" stroke="#3a2412" stroke-opacity="0.16" stroke-width="0.7"/><polyline points="0,7.5 10,7.7 20,8.8 30,10.4 40,11.8 50,12.6 60,12.4 70,11.3 80,9.7 90,8.3 100,7.5 110,7.7 120,8.8 130,10.3 140,11.8 150,12.6 160,12.4 170,11.3 180,9.8 190,8.3 200,7.5 210,7.7 220,8.7 230,10.3 240,11.7 250,12.5 260,12.4 270,11.4 280,9.9 290,8.4 300,7.5" fill="none" stroke="#3a2412" stroke-opacity="0.21" stroke-width="1.1"/><polyline points="0,15.0 10,15.4 20,15.8 30,16.1 40,16.4 50,16.5 60,16.6 70,16.6 80,16.4 90,16.2 100,15.9 110,15.5 120,15.1 130,14.6 140,14.2 150,13.7 160,13.3 170,13.0 180,12.7 190,12.5 200,12.5 210,12.5 220,12.6 230,12.8 240,13.1 250,13.5 260,13.9 270,14.3 280,14.8 290,15.2 300,15.6" fill="none" stroke="#3a2412" stroke-opacity="0.15" stroke-width="0.9"/><polyline points="0,18.1 10,16.2 20,14.8 30,14.2 40,14.5 50,15.6 60,17.4 70,19.4 80,21.3 90,22.7 100,23.3 110,23.1 120,22.1 130,20.4 140,18.4 150,16.5 160,15.0 170,14.3 180,14.4 190,15.4 200,17.1 210,19.1 220,21.0 230,22.5 240,23.3 250,23.2 260,22.3 270,20.6 280,18.7 290,16.7 300,15.2" fill="none" stroke="#3a2412" stroke-opacity="0.11" stroke-width="0.5"/><polyline points="0,23.0 10,22.1 20,21.6 30,21.6 40,22.3 50,23.2 60,24.1 70,24.6 80,24.5 90,23.9 100,23.0 110,22.1 120,21.6 130,21.6 140,22.2 150,23.2 160,24.1 170,24.6 180,24.5 190,23.9 200,23.0 210,22.1 220,21.6 230,21.6 240,22.2 250,23.2 260,24.0 270,24.6 280,24.5 290,24.0 300,23.0" fill="none" stroke="#3a2412" stroke-opacity="0.17" stroke-width="0.7"/><polyline points="0,24.9 10,25.4 20,27.1 30,29.4 40,31.7 50,33.1 60,33.1 70,31.7 80,29.5 90,27.1 100,25.4 110,24.9 120,25.8 130,27.8 140,30.2 150,32.3 160,33.2 170,32.8 180,31.0 190,28.7 200,26.4 210,25.0 220,25.0 230,26.4 240,28.6 250,31.0 260,32.7 270,33.2 280,32.3 290,30.3 300,27.9" fill="none" stroke="#3a2412" stroke-opacity="0.19" stroke-width="1.4"/><polyline points="0,30.9 10,32.2 20,33.6 30,34.8 40,35.8 50,36.5 60,36.9 70,36.9 80,36.6 90,35.9 100,34.9 110,33.7 120,32.4 130,31.0 140,29.7 150,28.6 160,27.8 170,27.3 180,27.1 190,27.4 200,27.9 210,28.8 220,30.0 230,31.3 240,32.6 250,33.9 260,35.1 270,36.1 280,36.7 290,37.0 300,36.9" fill="none" stroke="#3a2412" stroke-opacity="0.19" stroke-width="1.3"/><polyline points="0,37.0 10,35.2 20,34.0 30,33.7 40,34.5 50,36.1 60,37.9 70,39.4 80,39.9 90,39.4 100,38.0 110,36.1 120,34.5 130,33.7 140,34.0 150,35.2 160,37.0 170,38.7 180,39.7 190,39.8 200,38.8 210,37.1 220,35.3 230,34.0 240,33.7 250,34.4 260,36.0 270,37.8 280,39.3 290,39.9 300,39.4" fill="none" stroke="#3a2412" stroke-opacity="0.15" stroke-width="1.4"/></pattern><radialGradient id="flr"><stop offset="0" stop-color="#3a2618" stop-opacity=".35"/><stop offset="1" stop-color="#3a2618" stop-opacity="0"/></radialGradient></defs><ellipse class="pt sb-shadow" data-a=".6" data-b=".75" data-dx="0" data-dy="0" data-r="0" cx="378.6" cy="435.5" rx="330" ry="34" fill="url(#flr)"/><g class="pt" data-a="0.62" data-b="0.7" data-dx="0" data-dy="200" data-r="0"><polygon points="657.4,419.5 661.3,417.2 661.3,369.2 657.4,371.5" fill="#93653a"/><polygon points="657.4,419.5 661.3,417.2 661.3,369.2 657.4,371.5" fill="url(#grV)" opacity=".7"/><polygon points="648.4,371.5 657.4,371.5 661.3,369.2 652.3,369.2" fill="#cfa06b"/><polygon points="648.4,371.5 657.4,371.5 661.3,369.2 652.3,369.2" fill="url(#grH)" opacity=".55"/><polygon points="648.4,419.5 657.4,419.5 657.4,371.5 648.4,371.5" fill="#b48450"/><polygon points="648.4,419.5 657.4,419.5 657.4,371.5 648.4,371.5" fill="url(#grV)"/><polygon points="648.4,419.5 657.4,419.5 661.3,417.2 661.3,369.2 652.3,369.2 648.4,371.5" fill="none" stroke="#6a4520" stroke-width=".8" stroke-linejoin="round"/></g><g class="pt" data-a="0.6" data-b="0.68" data-dx="0" data-dy="200" data-r="0"><polygon points="150.4,419.5 154.3,417.2 154.3,369.2 150.4,371.5" fill="#93653a"/><polygon points="150.4,419.5 154.3,417.2 154.3,369.2 150.4,371.5" fill="url(#grV)" opacity=".7"/><polygon points="141.4,371.5 150.4,371.5 154.3,369.2 145.3,369.2" fill="#cfa06b"/><polygon points="141.4,371.5 150.4,371.5 154.3,369.2 145.3,369.2" fill="url(#grH)" opacity=".55"/><polygon points="141.4,419.5 150.4,419.5 150.4,371.5 141.4,371.5" fill="#b48450"/><polygon points="141.4,419.5 150.4,419.5 150.4,371.5 141.4,371.5" fill="url(#grV)"/><polygon points="141.4,419.5 150.4,419.5 154.3,417.2 154.3,369.2 145.3,369.2 141.4,371.5" fill="none" stroke="#6a4520" stroke-width=".8" stroke-linejoin="round"/></g><g class="pt" data-a="0.02" data-b="0.14" data-dx="170" data-dy="-150" data-r="0"><polygon points="143.2,188.5 671.2,188.5 672.5,187.8 144.5,187.8" fill="#e6cfa8"/><polygon points="143.2,188.5 671.2,188.5 672.5,187.8 144.5,187.8" fill="url(#grH)" opacity=".55"/><polygon points="143.2,361.0 671.2,361.0 671.2,188.5 143.2,188.5" fill="#d9bf95"/><polygon points="143.2,361.0 671.2,361.0 671.2,188.5 143.2,188.5" fill="url(#grH)"/><polygon points="143.2,361.0 671.2,361.0 672.5,360.2 672.5,187.8 144.5,187.8 143.2,188.5" fill="none" stroke="#8d6f47" stroke-width=".8" stroke-linejoin="round"/></g><g class="pt" data-a="0.06" data-b="0.18" data-dx="0" data-dy="190" data-r="0"><polygon points="620.0,400.0 677.2,367.0 677.2,361.0 620.0,394.0" fill="#a6773f"/><polygon points="620.0,400.0 677.2,367.0 677.2,361.0 620.0,394.0" fill="url(#grV)" opacity=".7"/><polygon points="80.0,394.0 620.0,394.0 677.2,361.0 137.2,361.0" fill="#e0b984"/><polygon points="80.0,394.0 620.0,394.0 677.2,361.0 137.2,361.0" fill="url(#grH)" opacity=".55"/><polygon points="80.0,400.0 620.0,400.0 620.0,394.0 80.0,394.0" fill="#c99a62"/><polygon points="80.0,400.0 620.0,400.0 620.0,394.0 80.0,394.0" fill="url(#grH)"/><polygon points="80.0,400.0 620.0,400.0 677.2,367.0 677.2,361.0 137.2,361.0 80.0,394.0" fill="none" stroke="#7a5228" stroke-width=".8" stroke-linejoin="round"/></g><g class="pt" data-a="0.1" data-b="0.24" data-dx="-260" data-dy="-20" data-r="-10"><polygon points="86.0,394.0 144.5,360.2 144.5,187.8 86.0,221.5" fill="#a6773f"/><polygon points="86.0,394.0 144.5,360.2 144.5,187.8 86.0,221.5" fill="url(#grV)" opacity=".7"/><polygon points="80.0,221.5 86.0,221.5 144.5,187.8 138.5,187.8" fill="#e0b984"/><polygon points="80.0,221.5 86.0,221.5 144.5,187.8 138.5,187.8" fill="url(#grH)" opacity=".55"/><polygon points="80.0,394.0 86.0,394.0 86.0,221.5 80.0,221.5" fill="#c99a62"/><polygon points="80.0,394.0 86.0,394.0 86.0,221.5 80.0,221.5" fill="url(#grV)"/><polygon points="80.0,394.0 86.0,394.0 144.5,360.2 144.5,187.8 138.5,187.8 80.0,221.5" fill="none" stroke="#7a5228" stroke-width=".8" stroke-linejoin="round"/></g><g class="pt" data-a="0.18" data-b="0.3" data-dx="0" data-dy="-230" data-r="0"><polygon points="263.0,394.0 320.2,361.0 320.2,188.5 263.0,221.5" fill="#a6773f"/><polygon points="263.0,394.0 320.2,361.0 320.2,188.5 263.0,221.5" fill="url(#grV)" opacity=".7"/><polygon points="257.0,221.5 263.0,221.5 320.2,188.5 314.2,188.5" fill="#e0b984"/><polygon points="257.0,221.5 263.0,221.5 320.2,188.5 314.2,188.5" fill="url(#grH)" opacity=".55"/><polygon points="257.0,394.0 263.0,394.0 263.0,221.5 257.0,221.5" fill="#c99a62"/><polygon points="257.0,394.0 263.0,394.0 263.0,221.5 257.0,221.5" fill="url(#grV)"/><polygon points="257.0,394.0 263.0,394.0 320.2,361.0 320.2,188.5 314.2,188.5 257.0,221.5" fill="none" stroke="#7a5228" stroke-width=".8" stroke-linejoin="round"/></g><g class="pt" data-a="0.21" data-b="0.33" data-dx="0" data-dy="-230" data-r="0"><polygon points="443.0,394.0 500.2,361.0 500.2,188.5 443.0,221.5" fill="#a6773f"/><polygon points="443.0,394.0 500.2,361.0 500.2,188.5 443.0,221.5" fill="url(#grV)" opacity=".7"/><polygon points="437.0,221.5 443.0,221.5 500.2,188.5 494.2,188.5" fill="#e0b984"/><polygon points="437.0,221.5 443.0,221.5 500.2,188.5 494.2,188.5" fill="url(#grH)" opacity=".55"/><polygon points="437.0,394.0 443.0,394.0 443.0,221.5 437.0,221.5" fill="#c99a62"/><polygon points="437.0,394.0 443.0,394.0 443.0,221.5 437.0,221.5" fill="url(#grV)"/><polygon points="437.0,394.0 443.0,394.0 500.2,361.0 500.2,188.5 494.2,188.5 437.0,221.5" fill="none" stroke="#7a5228" stroke-width=".8" stroke-linejoin="round"/></g><g class="pt" data-a="0.26" data-b="0.38" data-dx="-200" data-dy="0" data-r="0"><polygon points="258.3,312.2 314.2,280.0 314.2,274.0 258.3,306.2" fill="#a6773f"/><polygon points="258.3,312.2 314.2,280.0 314.2,274.0 258.3,306.2" fill="url(#grV)" opacity=".7"/><polygon points="87.3,306.2 258.3,306.2 314.2,274.0 143.2,274.0" fill="#e0b984"/><polygon points="87.3,306.2 258.3,306.2 314.2,274.0 143.2,274.0" fill="url(#grH)" opacity=".55"/><polygon points="87.3,312.2 258.3,312.2 258.3,306.2 87.3,306.2" fill="#c99a62"/><polygon points="87.3,312.2 258.3,312.2 258.3,306.2 87.3,306.2" fill="url(#grH)"/><polygon points="87.3,312.2 258.3,312.2 314.2,280.0 314.2,274.0 143.2,274.0 87.3,306.2" fill="none" stroke="#7a5228" stroke-width=".8" stroke-linejoin="round"/></g><g class="pt" data-a="0.28" data-b="0.4" data-dx="220" data-dy="0" data-r="0"><polygon points="615.3,312.2 671.2,280.0 671.2,274.0 615.3,306.2" fill="#a6773f"/><polygon points="615.3,312.2 671.2,280.0 671.2,274.0 615.3,306.2" fill="url(#grV)" opacity=".7"/><polygon points="444.3,306.2 615.3,306.2 671.2,274.0 500.2,274.0" fill="#e0b984"/><polygon points="444.3,306.2 615.3,306.2 671.2,274.0 500.2,274.0" fill="url(#grH)" opacity=".55"/><polygon points="444.3,312.2 615.3,312.2 615.3,306.2 444.3,306.2" fill="#c99a62"/><polygon points="444.3,312.2 615.3,312.2 615.3,306.2 444.3,306.2" fill="url(#grH)"/><polygon points="444.3,312.2 615.3,312.2 671.2,280.0 671.2,274.0 500.2,274.0 444.3,306.2" fill="none" stroke="#7a5228" stroke-width=".8" stroke-linejoin="round"/></g><g class="pt" data-a="0.14" data-b="0.27" data-dx="280" data-dy="-10" data-r="10"><polygon points="620.0,394.0 678.5,360.2 678.5,187.8 620.0,221.5" fill="#a6773f"/><polygon points="620.0,394.0 678.5,360.2 678.5,187.8 620.0,221.5" fill="url(#grV)" opacity=".7"/><polygon points="614.0,221.5 620.0,221.5 678.5,187.8 672.5,187.8" fill="#e0b984"/><polygon points="614.0,221.5 620.0,221.5 678.5,187.8 672.5,187.8" fill="url(#grH)" opacity=".55"/><polygon points="614.0,394.0 620.0,394.0 620.0,221.5 614.0,221.5" fill="#c99a62"/><polygon points="614.0,394.0 620.0,394.0 620.0,221.5 614.0,221.5" fill="url(#grV)"/><polygon points="614.0,394.0 620.0,394.0 678.5,360.2 678.5,187.8 672.5,187.8 614.0,221.5" fill="none" stroke="#7a5228" stroke-width=".8" stroke-linejoin="round"/></g><g class="pt" data-a="0.34" data-b="0.47" data-dx="0" data-dy="-260" data-r="-3"><polygon points="619.8,223.4 682.1,187.4 682.1,178.4 619.8,214.4" fill="#a6773f"/><polygon points="619.8,223.4 682.1,187.4 682.1,178.4 619.8,214.4" fill="url(#grV)" opacity=".7"/><polygon points="73.8,214.4 619.8,214.4 682.1,178.4 136.1,178.4" fill="#e0b984"/><polygon points="73.8,214.4 619.8,214.4 682.1,178.4 136.1,178.4" fill="url(#grH)" opacity=".55"/><polygon points="73.8,223.4 619.8,223.4 619.8,214.4 73.8,214.4" fill="#c99a62"/><polygon points="73.8,223.4 619.8,223.4 619.8,214.4 73.8,214.4" fill="url(#grH)"/><polygon points="73.8,223.4 619.8,223.4 682.1,187.4 682.1,178.4 136.1,178.4 73.8,214.4" fill="none" stroke="#7a5228" stroke-width=".8" stroke-linejoin="round"/></g><g class="pt" data-a="0.66" data-b="0.74" data-dx="0" data-dy="200" data-r="0"><polygon points="613.2,445.0 617.1,442.8 617.1,394.8 613.2,397.0" fill="#93653a"/><polygon points="613.2,445.0 617.1,442.8 617.1,394.8 613.2,397.0" fill="url(#grV)" opacity=".7"/><polygon points="604.2,397.0 613.2,397.0 617.1,394.8 608.1,394.8" fill="#cfa06b"/><polygon points="604.2,397.0 613.2,397.0 617.1,394.8 608.1,394.8" fill="url(#grH)" opacity=".55"/><polygon points="604.2,445.0 613.2,445.0 613.2,397.0 604.2,397.0" fill="#b48450"/><polygon points="604.2,445.0 613.2,445.0 613.2,397.0 604.2,397.0" fill="url(#grV)"/><polygon points="604.2,445.0 613.2,445.0 617.1,442.8 617.1,394.8 608.1,394.8 604.2,397.0" fill="none" stroke="#6a4520" stroke-width=".8" stroke-linejoin="round"/></g><g class="pt" data-a="0.64" data-b="0.72" data-dx="0" data-dy="200" data-r="0"><polygon points="106.2,445.0 110.1,442.8 110.1,394.8 106.2,397.0" fill="#93653a"/><polygon points="106.2,445.0 110.1,442.8 110.1,394.8 106.2,397.0" fill="url(#grV)" opacity=".7"/><polygon points="97.2,397.0 106.2,397.0 110.1,394.8 101.1,394.8" fill="#cfa06b"/><polygon points="97.2,397.0 106.2,397.0 110.1,394.8 101.1,394.8" fill="url(#grH)" opacity=".55"/><polygon points="97.2,445.0 106.2,445.0 106.2,397.0 97.2,397.0" fill="#b48450"/><polygon points="97.2,445.0 106.2,445.0 106.2,397.0 97.2,397.0" fill="url(#grV)"/><polygon points="97.2,445.0 106.2,445.0 110.1,442.8 110.1,394.8 101.1,394.8 97.2,397.0" fill="none" stroke="#6a4520" stroke-width=".8" stroke-linejoin="round"/></g><g class="pt" data-a="0.46" data-b="0.58" data-dx="-140" data-dy="120" data-r="-4"><polygon points="256.2,393.7 258.8,392.2 258.8,222.4 256.2,223.9" fill="#54331f"/><polygon points="256.2,393.7 258.8,392.2 258.8,222.4 256.2,223.9" fill="url(#grV)" opacity=".7"/><polygon points="78.6,223.9 256.2,223.9 258.8,222.4 81.2,222.4" fill="#87583a"/><polygon points="78.6,223.9 256.2,223.9 258.8,222.4 81.2,222.4" fill="url(#grH)" opacity=".55"/><polygon points="78.6,393.7 256.2,393.7 256.2,223.9 78.6,223.9" fill="#6c4329"/><polygon points="78.6,393.7 256.2,393.7 256.2,223.9 78.6,223.9" fill="url(#grH)"/><polygon points="78.6,393.7 256.2,393.7 258.8,392.2 258.8,222.4 81.2,222.4 78.6,223.9" fill="none" stroke="#2e1a0e" stroke-width=".8" stroke-linejoin="round"/><line x1="242.3" y1="329.6" x2="242.3" y2="287.6" stroke="#d8b25c" stroke-width="3.2" stroke-linecap="round"/><line x1="243.3" y1="329.6" x2="243.3" y2="287.6" stroke="#8a6a26" stroke-width="1" stroke-linecap="round"/></g><g class="pt" data-a="0.5" data-b="0.61" data-dx="0" data-dy="150" data-r="0"><polygon points="436.2,307.9 438.8,306.4 438.8,222.4 436.2,223.9" fill="#54331f"/><polygon points="436.2,307.9 438.8,306.4 438.8,222.4 436.2,223.9" fill="url(#grV)" opacity=".7"/><polygon points="258.6,223.9 436.2,223.9 438.8,222.4 261.2,222.4" fill="#87583a"/><polygon points="258.6,223.9 436.2,223.9 438.8,222.4 261.2,222.4" fill="url(#grH)" opacity=".55"/><polygon points="258.6,307.9 436.2,307.9 436.2,223.9 258.6,223.9" fill="#6c4329"/><polygon points="258.6,307.9 436.2,307.9 436.2,223.9 258.6,223.9" fill="url(#grH)"/><polygon points="258.6,307.9 436.2,307.9 438.8,306.4 438.8,222.4 261.2,222.4 258.6,223.9" fill="none" stroke="#2e1a0e" stroke-width=".8" stroke-linejoin="round"/><line x1="317.3" y1="245.6" x2="377.3" y2="245.6" stroke="#d8b25c" stroke-width="3.2" stroke-linecap="round"/><line x1="317.3" y1="246.6" x2="377.3" y2="246.6" stroke="#8a6a26" stroke-width="1" stroke-linecap="round"/></g><g class="pt" data-a="0.53" data-b="0.64" data-dx="0" data-dy="170" data-r="0"><polygon points="436.2,393.7 438.8,392.2 438.8,307.6 436.2,309.1" fill="#54331f"/><polygon points="436.2,393.7 438.8,392.2 438.8,307.6 436.2,309.1" fill="url(#grV)" opacity=".7"/><polygon points="258.6,309.1 436.2,309.1 438.8,307.6 261.2,307.6" fill="#87583a"/><polygon points="258.6,309.1 436.2,309.1 438.8,307.6 261.2,307.6" fill="url(#grH)" opacity=".55"/><polygon points="258.6,393.7 436.2,393.7 436.2,309.1 258.6,309.1" fill="#6c4329"/><polygon points="258.6,393.7 436.2,393.7 436.2,309.1 258.6,309.1" fill="url(#grH)"/><polygon points="258.6,393.7 436.2,393.7 438.8,392.2 438.8,307.6 261.2,307.6 258.6,309.1" fill="none" stroke="#2e1a0e" stroke-width=".8" stroke-linejoin="round"/><line x1="317.3" y1="329.6" x2="377.3" y2="329.6" stroke="#d8b25c" stroke-width="3.2" stroke-linecap="round"/><line x1="317.3" y1="330.6" x2="377.3" y2="330.6" stroke="#8a6a26" stroke-width="1" stroke-linecap="round"/></g><g class="pt" data-a="0.56" data-b="0.67" data-dx="140" data-dy="120" data-r="4"><polygon points="616.2,393.7 618.8,392.2 618.8,222.4 616.2,223.9" fill="#54331f"/><polygon points="616.2,393.7 618.8,392.2 618.8,222.4 616.2,223.9" fill="url(#grV)" opacity=".7"/><polygon points="438.6,223.9 616.2,223.9 618.8,222.4 441.2,222.4" fill="#87583a"/><polygon points="438.6,223.9 616.2,223.9 618.8,222.4 441.2,222.4" fill="url(#grH)" opacity=".55"/><polygon points="438.6,393.7 616.2,393.7 616.2,223.9 438.6,223.9" fill="#6c4329"/><polygon points="438.6,393.7 616.2,393.7 616.2,223.9 438.6,223.9" fill="url(#grH)"/><polygon points="438.6,393.7 616.2,393.7 618.8,392.2 618.8,222.4 441.2,222.4 438.6,223.9" fill="none" stroke="#2e1a0e" stroke-width=".8" stroke-linejoin="round"/><line x1="452.3" y1="329.6" x2="452.3" y2="287.6" stroke="#d8b25c" stroke-width="3.2" stroke-linecap="round"/><line x1="453.3" y1="329.6" x2="453.3" y2="287.6" stroke="#8a6a26" stroke-width="1" stroke-linecap="round"/></g><g class="dim" data-a=".76"><path class="dl" pathLength="1" d="M80.0,478.0H620.0"/><path class="dl" pathLength="1" d="M80.0,456.0V486.0M620.0,456.0V486.0"/><text class="dt" x="350.0" y="504.0" text-anchor="middle">180 cm</text></g><g class="dim" data-a=".81"><path class="dl" pathLength="1" d="M46.0,448.0V214.4"/><path class="dl" pathLength="1" d="M38.0,448.0H74.0M38.0,214.4H67.8"/><text class="dt" x="32.0" y="331.2" text-anchor="middle" transform="rotate(-90 32.0 331.2)">78 cm</text></g><g class="dim" data-a=".86"><path class="dl" pathLength="1" d="M633.8,204.4L696.1,168.4"/><path class="dl" pathLength="1" d="M623.8,211.4L639.8,200.4M686.1,175.4L702.1,164.4"/><text class="dt" x="710.95" y="186.4" text-anchor="middle">45 cm</text></g><g class="dim lab" data-a="0.84"><path class="dl dl--thin" pathLength="1" d="M196.0,202.0L236.0,140.0"/><circle class="dd" cx="196.0" cy="202.0" r="3"/><text class="dt dt--s" x="242.0" y="144.0" text-anchor="start">Deckplatte Eiche massiv</text></g><g class="dim lab" data-a="0.86"><path class="dl dl--thin" pathLength="1" d="M527.4,281.5L690,291.5"/><circle class="dd" cx="527.4" cy="281.5" r="3"/><text class="dt dt--s" x="696" y="295.5" text-anchor="start">Nuss-Fronten</text></g><g class="dim lab" data-a="0.88"><path class="dl dl--thin" pathLength="1" d="M614.5,426.2L690,448.2"/><circle class="dd" cx="614.5" cy="426.2" r="3"/><text class="dt dt--s" x="696" y="452.2" text-anchor="start">Füße Eiche · 16 cm</text></g>
+      </svg>
+      <div class="stamp" id="stamp" aria-hidden="true">
+        <svg viewBox="0 0 160 160"><defs><path id="st" d="M80 80m-58 0a58 58 0 1 1 116 0a58 58 0 1 1-116 0"/></defs>
+          <circle cx="80" cy="80" r="76" fill="#3a2619"/><circle cx="80" cy="80" r="70" fill="none" stroke="#d9b07c" stroke-width="1"/><circle cx="80" cy="80" r="44" fill="none" stroke="#d9b07c" stroke-width="1"/>
+          <text font-family="Bricolage,sans-serif" font-size="10.5" font-weight="600" letter-spacing="2.6" fill="#d9b07c"><textPath href="#st">MASSGEFERTIGT · IN · MUSTERDORF ·</textPath></text>
+          <text x="80" y="78" text-anchor="middle" font-family="Cormorant,serif" font-style="italic" font-size="30" font-weight="600" fill="#f3e9da">Brandl</text>
+          <text x="80" y="98" text-anchor="middle" font-family="Bricolage,sans-serif" font-size="9" font-weight="600" letter-spacing="2" fill="#d9b07c">№ 0412</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="ueber" aria-labelledby="u-h">
+  <div class="wrap about">
+    <figure class="about__ph" style="margin:0" data-reveal>
+      <img src="/beispiele/tischlerei/holz-detail.jpg" alt="Nahaufnahme einer geölten Eichenoberfläche mit ausgeprägten Poren" width="1100" height="825" loading="lazy">
+      <figcaption><b>Handgeölt</b>Wir ölen statt zu lackieren – so bleibt das Holz offenporig, fühlbar und reparierbar.</figcaption>
+    </figure>
+    <div>
+      <p class="k" data-reveal>Über uns</p>
+      <h2 class="h2" id="u-h" data-reveal style="--d:.06s">Zweite Generation, <em>gleiche Werkbank.</em></h2>
+      <p class="lead" data-reveal style="--d:.12s">1987 hat Josef Brandl die Werkstatt am Sägeweg gegründet. Heute führt seine Tochter den Betrieb – mit CNC und 3D-Planung, aber genauso viel Handarbeit wie damals.</p>
+      <p class="quote" data-reveal style="--d:.18s">„Ein gutes Möbel überlebt drei Umzüge und zwei Generationen.“<small>Beispiel-Zitat · Inhaberin, Meisterin im Tischlerhandwerk</small></p>
+      <div class="stats">
+        <div data-reveal><b data-count="38">38</b><small>Jahre Erfahrung</small></div>
+        <div data-reveal style="--d:.06s"><b data-count="1200" data-suffix="+">1200+</b><small>Projekte im Mostviertel</small></div>
+        <div data-reveal style="--d:.12s"><b data-count="9">9</b><small>Tischler:innen &amp; Lehrlinge</small></div>
+        <div data-reveal style="--d:.18s"><b data-count="80" data-suffix=" km">80 km</b><small>max. Weg unseres Holzes</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="referenzen" aria-labelledby="g-h" style="padding-top:0">
+  <div class="wrap">
+    <p class="k" data-reveal>Referenzen</p>
+    <h2 class="h2" id="g-h" data-reveal style="--d:.06s">Aus unserer <em>Werkstatt.</em></h2>
+    <div class="gal" id="gal">
+      <button type="button" data-reveal data-full="/beispiele/tischlerei/kueche.jpg" data-cap="Landhausküche mit Kochinsel – Ahorn und Granit"><img src="/beispiele/tischlerei/kueche.jpg" alt="Helle Landhausküche aus Holz mit großer Kochinsel und Steinplatte" width="1024" height="683" loading="lazy"><span><b>Landhausküche</b>Musterdorf · 2024</span></button>
+      <button type="button" data-reveal style="--d:.06s" data-full="/beispiele/tischlerei/stiege.jpg" data-cap="Gewendelte Stiege in geräucherter Eiche"><img src="/beispiele/tischlerei/stiege.jpg" alt="Gewendelte Holzstiege von oben mit geschwungenem Handlauf" width="1024" height="722" loading="lazy"><span><b>Wendelstiege</b>Eiche geräuchert</span></button>
+      <button type="button" data-reveal style="--d:.12s" data-full="/beispiele/tischlerei/werkstatt.jpg" data-cap="Unsere Hobel – manches geht nur von Hand"><img src="/beispiele/tischlerei/werkstatt.jpg" alt="Alte Holzhobel auf einer Hobelbank im Gegenlicht" width="1024" height="685" loading="lazy"><span><b>Werkstatt</b>Handwerkszeug</span></button>
+      <button type="button" data-reveal style="--d:.18s" data-full="/beispiele/_shared/media/tischlerei-poster.jpg" data-cap="Zapfenloch mit dem Stemmeisen – echte Holzverbindung"><img src="/beispiele/_shared/media/tischlerei-poster.jpg" alt="Hände stemmen mit einem Stemmeisen ein Zapfenloch in ein Holzstück" width="1280" height="720" loading="lazy"><span><b>Holzverbindung</b>gestemmt, nicht geschraubt</span></button>
+    </div>
+  </div>
+</section>
+<dialog class="lb" id="lb" aria-label="Bildansicht">
+  <img id="lbImg" src="data:," alt="">
+  <p id="lbCap"></p>
+  <button class="lb__btn lb__prev" id="lbPrev" type="button" aria-label="Vorheriges Bild">←</button>
+  <button class="lb__btn lb__next" id="lbNext" type="button" aria-label="Nächstes Bild">→</button>
+  <button class="lb__close" id="lbClose" type="button" aria-label="Schließen">×</button>
+</dialog>
+
+<section class="sec grain" id="ablauf" aria-labelledby="a-h" style="background:var(--cream)">
+  <div class="wrap">
+    <p class="k" data-reveal>Ablauf</p>
+    <h2 class="h2" id="a-h" data-reveal style="--d:.06s">In vier Schritten zu <em>Ihrem Möbel.</em></h2>
+    <div class="steps4" data-reveal>
+      <div class="st4"><i><em>1</em></i><h3>Beratung</h3><p>Wir kommen zu Ihnen, messen auf und hören zu: Wie leben Sie, was soll das Möbel können?</p><small>kostenlos · vor Ort</small></div>
+      <div class="st4"><i><em>2</em></i><h3>Planung</h3><p>3D-Entwurf, Holzmuster zum Angreifen und ein verbindliches Angebot mit Fixpreis.</p><small>1–2 Wochen</small></div>
+      <div class="st4"><i><em>3</em></i><h3>Fertigung</h3><p>In unserer Werkstatt am Sägeweg – auf Wunsch schauen Sie zwischendurch vorbei.</p><small>4–8 Wochen</small></div>
+      <div class="st4"><i><em>4</em></i><h3>Montage</h3><p>Wir bauen ein, richten aus, räumen auf. Und kommen auch in zehn Jahren noch nachjustieren.</p><small>meist 1 Tag</small></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="kontakt" aria-labelledby="c-h">
+  <div class="wrap">
+    <div class="contact grain" data-reveal>
+      <div>
+        <p class="k">Kontakt &amp; Anfrage</p>
+        <h2 class="h2" id="c-h">Erzählen Sie uns von <em>Ihrem Projekt.</em></h2>
+        <p class="lead">Ein paar Sätze und grobe Maße reichen. Wir melden uns innerhalb von zwei Werktagen für einen Beratungstermin.</p>
+        <dl class="cinfo">
+          <div><dt>Werkstatt</dt><dd style="margin:0">Tischlerei Holzwerk Brandl<br>Sägeweg 12, 3281 Musterdorf</dd></div>
+          <div><dt>Telefon</dt><dd style="margin:0"><a href="tel:+430007654321">+43 000 765 43 21</a></dd></div>
+          <div><dt>Geöffnet</dt><dd style="margin:0">Mo – Do 7:00 – 16:30<br>Fr 7:00 – 12:00 · Schauraum nach Vereinbarung</dd></div>
+        </dl>
+      </div>
+      <form id="form" novalidate>
+        <fieldset class="chips"><legend>Worum geht es?</legend>
+          <label><input type="radio" name="art" value="moebel" checked><span>Möbel nach Maß</span></label>
+          <label><input type="radio" name="art" value="kueche"><span>Küche</span></label>
+          <label><input type="radio" name="art" value="ausbau"><span>Innenausbau</span></label>
+          <label><input type="radio" name="art" value="tuer"><span>Türen &amp; Stiegen</span></label>
+          <label><input type="radio" name="art" value="rep"><span>Reparatur</span></label>
+        </fieldset>
+        <div class="row2">
+          <label for="n">Name<input id="n" name="name" autocomplete="name" placeholder="Vor- und Nachname"></label>
+          <label for="e">E-Mail<input id="e" name="email" type="email" autocomplete="email" placeholder="name@beispiel.at"></label>
+        </div>
+        <div class="row2">
+          <label for="t">Telefon<input id="t" name="tel" type="tel" autocomplete="tel" placeholder="optional"></label>
+          <label for="h">Lieblingsholz<select id="h" name="holz"><option>Noch offen</option><option>Eiche</option><option>Nuss</option><option>Lärche</option><option>Zirbe</option></select></label>
+        </div>
+        <label for="m">Ihre Idee<textarea id="m" name="msg" placeholder="z. B. Sideboard für die Nische im Wohnzimmer, ca. 180 × 45 cm, Eiche geölt …"></textarea></label>
+        <button class="btn btn--d" type="submit">Anfrage senden <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <p class="msg" id="msg" role="status">Das ist ein Beispiel – auf der echten Seite käme Ihre Anfrage jetzt direkt beim Betrieb an.</p>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div><a class="logo" href="#top"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#3a2619"/><g fill="none" stroke="#d9b07c" stroke-width="1.3"><ellipse cx="20" cy="21" rx="12" ry="11"/><ellipse cx="19.5" cy="21.5" rx="8" ry="7.4"/><ellipse cx="19" cy="22" rx="4.2" ry="3.8"/></g><circle cx="18.8" cy="22" r="1.4" fill="#d9b07c"/></svg><span><b>Holzwerk Brandl</b><small>Tischlerei · seit 1987</small></span></a>
+        <p style="margin-top:16px;max-width:36ch">Möbel nach Maß, Küchen, Innenausbau, Türen &amp; Stiegen – aus heimischem Holz.</p></div>
+      <div><h4>Adresse</h4>Tischlerei Holzwerk Brandl<br>Sägeweg 12, 3281 Musterdorf<br><a href="tel:+430007654321">+43 000 765 43 21</a></div>
+      <div><h4>Werkstatt</h4>Mo – Do 7:00 – 16:30<br>Fr 7:00 – 12:00<br>Schauraum nach Vereinbarung</div>
+    </div>
+    <div class="demo-note"><strong>Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb</strong><span>Musteradresse, keine echten Kontaktdaten · Fotos: CC0 (rawpixel, WordPress Photo Directory)</span></div>
+  </div>
+</footer>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/tischlerei/app.js" defer></script></body></html>

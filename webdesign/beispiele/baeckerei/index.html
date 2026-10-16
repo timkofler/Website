@@ -1,0 +1,517 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bäckerei Kornfeld – Beispiel-Entwurf | tim-kofler.at</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Beispiel-Entwurf einer Webseite für eine Bäckerei von Tim Kofler – Webdesign. Erfundener Betrieb.">
+<link rel="icon" href="/assets/img/tk-badge.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/beispiele/_shared/demo.css">
+<style>
+@font-face{font-family:"Libre Caslon";src:url(/beispiele/_shared/fonts/caslon-400.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Libre Caslon";src:url(/beispiele/_shared/fonts/caslon-700.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Inter";src:url(/beispiele/_shared/fonts/inter.woff2) format("woff2");font-weight:100 900;font-display:swap}
+:root{--bg:#1b1611;--bg2:#221b15;--card:#2a221a;--line:#3b3027;--line2:#4d3f33;--cream:#f5ecdf;--muted:#b3a391;--gold:#e3a94f;--gold2:#f0c47e;--crust:#a8622a;--green:#86d06f;--bar:45px;
+--serif:"Libre Caslon","Iowan Old Style",Georgia,serif;--sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:120px}
+body{margin:0;background:var(--bg);color:var(--cream);font:400 16.5px/1.65 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+img,video,svg{max-width:100%}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:4px}
+h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.05;margin:0}
+p{margin:0}
+.wrap{width:min(1240px,100% - 40px);margin-inline:auto}
+.eyebrow{font:600 12px/1.4 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--gold);display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px}
+.eyebrow b{font:400 14px/1 var(--serif);letter-spacing:0;color:var(--muted)}
+.h2{font-size:clamp(38px,5.6vw,76px);margin-top:18px;letter-spacing:-.015em}
+.h2 i{color:var(--gold);font-style:italic}
+.lead{color:var(--muted);font-size:18px;max-width:50ch;margin-top:20px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border-radius:6px;font:600 15.5px/1 var(--sans);text-decoration:none;border:0;cursor:pointer;letter-spacing:.01em;transition:transform .25s,background .25s,color .25s}
+.btn--gold{background:var(--gold);color:#1b1611}
+.btn--gold:hover{background:var(--gold2);transform:translateY(-2px)}
+.btn--line{color:var(--cream);border:1px solid var(--line2);background:transparent}
+.btn--line:hover{border-color:var(--gold);color:var(--gold)}
+.btn svg{width:18px;height:18px}
+.sec{padding:clamp(80px,11vw,150px) 0;position:relative}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--line2),transparent)}
+
+/* Nav */
+.nav{position:sticky;top:var(--bar);z-index:60;background:rgba(27,22,17,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav__in{height:70px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{display:flex;align-items:baseline;gap:10px;text-decoration:none}
+.logo b{font:700 26px/1 var(--serif);letter-spacing:-.01em}
+.logo b span{color:var(--gold)}
+.logo small{font:600 10.5px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.links{display:flex;align-items:center;gap:4px;list-style:none;margin:0;padding:0}
+.links a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;text-decoration:none;font-size:15px;color:var(--cream);position:relative}
+.links a::after{content:"";position:absolute;left:14px;right:14px;bottom:9px;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.links a:hover::after{transform:scaleX(1)}
+.links .cta{background:var(--gold);color:#1b1611;border-radius:6px;font-weight:600;margin-left:10px;padding:0 18px}
+.links .cta::after{display:none}
+.burger{display:none;min-height:46px;padding:0 14px;gap:10px;align-items:center;background:transparent;border:1px solid var(--line2);border-radius:6px;color:var(--cream);font:600 14px/1 var(--sans);cursor:pointer}
+.burger i{display:block;width:18px;height:10px;border-block:2px solid currentColor;transition:transform .3s}
+.burger[aria-expanded=true] i{transform:rotate(90deg)}
+@media (max-width:440px){.logo small{display:none}}
+@media (max-width:960px){
+  .burger{display:inline-flex}
+  .links{position:absolute;left:0;right:0;top:70px;height:calc(100svh - var(--bar) - 70px);overflow-y:auto;flex-direction:column;align-items:stretch;padding:24px 20px;background:var(--bg);gap:0;clip-path:inset(0 0 100% 0);visibility:hidden;transition:clip-path .45s cubic-bezier(.7,0,.2,1),visibility 0s .45s}
+  .links.is-open{clip-path:inset(0);visibility:visible;transition:clip-path .45s cubic-bezier(.7,0,.2,1)}
+  .links a{display:flex;font:400 32px/1 var(--serif);min-height:64px;border-bottom:1px solid var(--line);padding:0 4px}
+  .links a::after{display:none}
+  .links .cta{margin:22px 0 0;justify-content:center;font:600 17px/1 var(--sans);border-bottom:0}
+}
+
+/* Hero */
+.hero{padding:clamp(40px,6vw,80px) 0 clamp(50px,6vw,90px);position:relative;overflow:hidden}
+.hero__grid{display:grid;grid-template-columns:1.3fr .9fr;gap:clamp(30px,5vw,80px);align-items:end}
+.hero h1{font-size:clamp(48px,6.2vw,96px);letter-spacing:-.025em;line-height:.95;margin-top:26px}
+.hero h1 i{display:block;color:var(--gold);font-style:italic;font-weight:400}
+.hero h1 .ln{display:block;overflow:hidden;padding-bottom:.06em}
+.hero h1 .ln > span{display:block;transform:translateY(105%);transition:transform 1.1s cubic-bezier(.2,.8,.2,1)}
+.is-loaded .hero h1 .ln > span{transform:none}
+.hero h1 .ln:nth-child(2) > span{transition-delay:.12s}
+.hero__lead{color:var(--muted);font-size:clamp(17px,1.5vw,19.5px);max-width:42ch;margin-top:28px}
+.hero__btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.hero__media{position:relative}
+.hero__video{position:relative;aspect-ratio:4/5;border-radius:220px 220px 8px 8px;overflow:hidden;background:#000}
+.hero__video::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(27,22,17,0) 55%,rgba(27,22,17,.75))}
+.hero__live{position:absolute;left:18px;bottom:18px;z-index:2;display:flex;align-items:center;gap:10px;font-size:13.5px;font-weight:600;background:rgba(27,22,17,.75);backdrop-filter:blur(8px);border:1px solid var(--line2);padding:9px 14px;border-radius:999px}
+.rec{width:9px;height:9px;border-radius:50%;background:#ff5a4a;animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.25}}
+.stamp{position:absolute;left:-46px;top:12%;width:132px;height:132px;z-index:3;color:var(--gold)}
+.stamp svg{width:100%;height:100%;animation:spin 22s linear infinite}
+.stamp b{position:absolute;inset:0;display:grid;place-items:center;font:700 26px/1 var(--serif);color:var(--cream)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero__photo{position:absolute;right:-28px;bottom:-34px;width:42%;aspect-ratio:1;border-radius:8px;overflow:hidden;border:6px solid var(--bg);box-shadow:0 30px 60px -20px #000;z-index:2}
+.hero__photo img{width:100%;height:100%;object-fit:cover;display:block}
+@media (max-width:900px){.hero__grid{grid-template-columns:1fr}.hero__media{max-width:440px;width:calc(100% - 30px);margin:20px auto 0}.stamp{left:-22px;width:104px;height:104px}.stamp b{font-size:21px}.hero__photo{right:-18px}}
+
+/* Frisch aus dem Ofen */
+.fresh{background:var(--bg2);border-block:1px solid var(--line)}
+.fresh__in{display:grid;grid-template-columns:auto 1fr auto;gap:clamp(20px,4vw,56px);align-items:center;padding:30px 0}
+.fresh__live{display:flex;align-items:center;gap:16px}
+.pulse{position:relative;width:18px;height:18px;flex:none}
+.pulse::before,.pulse::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--green)}
+.pulse::after{animation:ring 2s ease-out infinite}
+.is-off .pulse::before,.is-off .pulse::after{background:#c9874f}
+.is-off .pulse::after{animation:none}
+@keyframes ring{from{transform:scale(1);opacity:.7}to{transform:scale(3);opacity:0}}
+.fresh__live small{display:block;font:600 11.5px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.fresh__live b{display:block;font:400 clamp(22px,2.4vw,30px)/1.15 var(--serif);margin-top:6px}
+.fresh__live em{font-style:normal;color:var(--muted);font-family:var(--sans);font-size:14.5px}
+.timeline{position:relative;display:flex;justify-content:space-between;gap:6px;padding-top:30px}
+.timeline::before{content:"";position:absolute;left:6px;right:6px;top:36px;height:2px;background:var(--line2)}
+.timeline__fill{position:absolute;left:6px;top:36px;height:2px;background:var(--gold);width:calc(100% - 12px);transform-origin:left;transform:scaleX(0);transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.tl{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12px;color:var(--muted);min-width:0}
+.tl i{width:14px;height:14px;border-radius:50%;background:var(--bg2);border:2px solid var(--line2);position:relative;z-index:1;transition:all .4s}
+.tl.is-past i{background:var(--gold);border-color:var(--gold)}
+.tl.is-next i{border-color:var(--gold);box-shadow:0 0 0 5px rgba(227,169,79,.2)}
+.tl span{white-space:nowrap;font-variant-numeric:tabular-nums}
+.tl em{position:absolute;bottom:calc(100% + 2px);font-style:normal;white-space:nowrap;color:var(--cream);font-size:12px;opacity:0;transform:translateY(4px);transition:all .25s;pointer-events:none}
+.tl:hover em,.tl.is-next em{opacity:1;transform:none}
+.fresh__next{text-align:right;min-width:190px}
+.fresh__next small{display:block;font-size:13px;color:var(--muted)}
+.fresh__next b{font:400 34px/1.1 var(--serif);color:var(--gold);font-variant-numeric:tabular-nums}
+@media (max-width:960px){.fresh__in{grid-template-columns:1fr;gap:18px}.fresh__next{text-align:left}.timeline{overflow:hidden}.tl:nth-child(even):not(.is-next){display:none}.tl em{display:none}}
+
+/* Sortiment */
+.sort__head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:28px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--line2);background:transparent;color:var(--cream);font:500 15px/1 var(--sans);cursor:pointer;transition:all .25s}
+.chip:hover{border-color:var(--gold)}
+.chip[aria-pressed=true]{background:var(--cream);color:var(--bg);border-color:var(--cream)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:46px}
+.prod{background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;transition:transform .45s cubic-bezier(.2,.7,.2,1),border-color .3s,opacity .35s}
+.prod:hover{transform:translateY(-6px);border-color:var(--line2)}
+.prod.is-hidden{display:none}
+.prod__img{aspect-ratio:34/30;overflow:hidden;position:relative;background:#2f261e}
+.prod__img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.prod:hover .prod__img img{transform:scale(1.07)}
+.prod__img svg{position:absolute;inset:0;margin:auto;width:70%;height:70%}
+.prod__badge{position:absolute;left:12px;top:12px;background:var(--gold);color:#1b1611;font:700 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;padding:6px 9px;border-radius:4px}
+.prod__body{padding:18px 18px 20px;display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:baseline}
+.prod h3{font-size:22px}
+.prod p{grid-column:1/-1;color:var(--muted);font-size:14px}
+.prod .price{font:400 22px/1 var(--serif);color:var(--gold)}
+.prod--wide{grid-column:span 2}
+.prod--wide .prod__img{aspect-ratio:auto;flex:1;min-height:220px}
+@media (max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.grid{gap:12px}.prod__body{padding:14px;grid-template-columns:1fr}.prod h3{font-size:18px}.prod .price{font-size:19px}.prod p{font-size:13px}.prod--wide{grid-column:1/-1}}
+
+/* Backgeschichte (Scroll) */
+.story{position:relative;height:540vh;background:radial-gradient(60% 50% at 65% 50%,#2c2118 0,var(--bg) 70%)}
+.story__sticky{position:sticky;top:calc(var(--bar) + 70px);height:calc(100svh - var(--bar) - 70px);overflow:hidden;display:flex;align-items:center}
+.story__grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(20px,5vw,80px);align-items:center;width:min(1240px,100% - 40px);margin-inline:auto}
+.story__steps{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:0}
+.sstep{display:grid;grid-template-columns:44px 1fr;gap:0 16px;padding:12px 0;border-top:1px solid var(--line);opacity:.38;transition:opacity .4s}
+.sstep:last-child{border-bottom:1px solid var(--line)}
+.sstep.is-on{opacity:1}
+.sstep.is-done{opacity:.7}
+.sstep__n{font:400 26px/1.2 var(--serif);color:var(--gold);font-variant-numeric:oldstyle-nums}
+.sstep h3{font-size:24px;line-height:1.25}
+.sstep p{color:var(--muted);font-size:15px;max-height:0;overflow:hidden;opacity:0;transition:max-height .5s,opacity .5s}
+.sstep.is-on p{max-height:90px;opacity:1}
+.story__bar{height:3px;background:var(--line);margin-top:22px;border-radius:3px;overflow:hidden}
+.story__bar i{display:block;height:100%;background:var(--gold);transform-origin:left;transform:scaleX(0)}
+.story__stage{position:relative;aspect-ratio:6/5;width:100%;max-height:calc(100svh - var(--bar) - 190px)}
+.story__stage svg{width:100%;height:100%;display:block;overflow:visible}
+.story__hud{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:10px}
+.story__label{text-align:right}
+.story__label small{display:block;font:600 11.5px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.story__label b{display:block;font:400 clamp(28px,3.4vw,46px)/1.1 var(--serif);color:var(--gold);margin-top:6px}
+.story__readout{display:flex;gap:18px;white-space:nowrap;font-size:13px;color:var(--muted)}
+.story__readout b{display:block;font:400 clamp(19px,2vw,24px)/1 var(--serif);color:var(--cream);font-variant-numeric:tabular-nums;margin-bottom:4px}
+.story__hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);transition:opacity .4s}
+.steamw path{opacity:0}
+.is-steam .steamw path{animation:wisp 3.4s ease-in-out infinite}
+.is-steam .steamw path:nth-child(2){animation-delay:1.1s}.is-steam .steamw path:nth-child(3){animation-delay:2.2s}
+.steamw path{transform-box:fill-box;transform-origin:50% 100%}
+@keyframes wisp{0%{opacity:0;transform:translateY(14px)}40%{opacity:.6}100%{opacity:0;transform:translateY(-50px) scaleY(1.2)}}
+@media (max-width:900px){
+  .story__sticky{align-items:center}
+  .story__grid{grid-template-columns:1fr;gap:0}
+  .story__text{order:2}
+  .story__text .h2,.story__text .eyebrow,.story__text .lead{display:none}
+  .story__steps{margin-top:6px}
+  .sstep{display:none;border:0!important;padding:4px 0}
+  .sstep.is-on{display:grid}
+  .story__stage{max-height:54svh;aspect-ratio:6/5;margin-inline:auto}
+  .story__stage{max-height:46svh}
+  .story__label b{font-size:28px}
+  .story__mhead{display:block!important;margin-bottom:6px}
+}
+.story__mhead{display:none}
+.story__mhead h2{font-size:30px}
+/* Reduzierte Bewegung: statisch, alle Schritte sichtbar */
+.story.is-static{height:auto;padding:100px 0}
+.story.is-static .story__sticky{position:relative;top:0;height:auto}
+.story.is-static .sstep{display:grid!important;opacity:1}
+.story.is-static .sstep p{max-height:none;opacity:1}
+.story.is-static .story__hint{display:none}
+.story.is-static .story__text .h2,.story.is-static .story__text .eyebrow{display:block}
+.story.is-static .story__mhead{display:none!important}
+.story.is-static .story__text{order:0}
+.story.is-static .steamw path{opacity:.5;animation:none}
+
+/* Backstube */
+.oven{position:relative}
+.oven__frame{position:relative;border-radius:8px;overflow:hidden;aspect-ratio:21/9;min-height:360px;background:#000}
+.oven__frame::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(27,22,17,.92),rgba(27,22,17,.35) 55%,rgba(27,22,17,0))}
+.oven__text{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:center;padding:clamp(24px,5vw,72px);max-width:780px}
+.oven__text .lead{color:#d6c7b4}
+.oven__text .h2{font-size:clamp(34px,4.2vw,58px)}
+.nums{display:grid;grid-template-columns:repeat(4,1fr);margin-top:28px;border-top:1px solid var(--line)}
+.num{padding:30px 22px 0;border-left:1px solid var(--line)}
+.num:first-child{border-left:0;padding-left:0}
+.num b{display:block;font:400 clamp(44px,5vw,68px)/1 var(--serif);color:var(--gold)}
+.num span{display:block;color:var(--muted);font-size:14.5px;margin-top:10px}
+@media (max-width:800px){.oven__frame{aspect-ratio:auto;min-height:520px}.oven__frame::after{background:linear-gradient(0deg,rgba(27,22,17,.95) 30%,rgba(27,22,17,.2))}.oven__text{justify-content:flex-end}.nums{grid-template-columns:1fr 1fr}.num{padding:22px 16px 18px}.num:nth-child(3){border-left:0;padding-left:0}}
+
+/* Vorbestellung */
+.order{background:var(--cream);color:#1b1611}
+.order .eyebrow{color:#9b6118}.order .eyebrow b{color:#6d5a47}
+.order .h2 i{color:#a8622a}
+.order .lead{color:#5d4c3c}
+.order__grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(30px,6vw,90px);align-items:start}
+.how{list-style:none;padding:0;margin:34px 0 0;display:grid;gap:18px;counter-reset:h}
+.how li{display:grid;grid-template-columns:46px 1fr;gap:14px;align-items:start;color:#4b3c2f}
+.how li::before{counter-increment:h;content:counter(h);width:46px;height:46px;border-radius:50%;border:1px solid #c9b394;display:grid;place-items:center;font:400 20px/1 var(--serif);color:#a8622a}
+.how b{display:block;color:#1b1611}
+form{background:#fffaf2;border:1px solid #e3d4bd;border-radius:8px;padding:clamp(20px,4vw,36px);display:grid;gap:16px;box-shadow:0 30px 60px -40px rgba(27,22,17,.5)}
+.plist{display:grid;gap:0}
+.prow{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:14px;padding:10px 0;border-bottom:1px dashed #e3d4bd}
+.prow b{font:400 19px/1.2 var(--serif)}
+.prow small{display:block;color:#7a6753;font-size:13.5px}
+.prow .pp{font-variant-numeric:tabular-nums;color:#7a6753;font-size:14px;min-width:54px;text-align:right}
+.qty{display:flex;align-items:center;border:1px solid #e3d4bd;border-radius:6px;background:#fff}
+.qty button{width:44px;height:44px;border:0;background:transparent;font:500 20px/1 var(--sans);color:#1b1611;cursor:pointer;border-radius:6px}
+.qty button:hover{background:#f3e9da}
+.qty output{min-width:28px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.total{display:flex;justify-content:space-between;align-items:baseline;padding-top:4px}
+.total span{color:#7a6753;font-size:14px}
+.total b{font:400 32px/1 var(--serif);color:#a8622a;font-variant-numeric:tabular-nums}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:grid;gap:6px}
+label{font-size:13.5px;font-weight:600;color:#3b2f24}
+input,select{width:100%;min-height:50px;border:1px solid #d9c7ad;border-radius:6px;background:#fff;padding:10px 14px;font:400 16px/1.3 var(--sans);color:#1b1611}
+input:focus,select:focus{outline:none;border-color:#a8622a;box-shadow:0 0 0 4px rgba(168,98,42,.18)}
+form .btn{width:100%;background:#1b1611;color:var(--gold)}
+form .btn:hover{background:#2e251c}
+.form-msg{display:none;background:#e9f3e4;color:#25521b;border-radius:6px;padding:14px 16px;font-size:15px}
+.form-msg.is-on{display:block}
+@media (max-width:900px){.order__grid{grid-template-columns:1fr}}
+@media (max-width:480px){.two{grid-template-columns:1fr}.prow{grid-template-columns:1fr auto}.prow .pp{display:none}}
+
+/* Filiale */
+.shop{display:grid;grid-template-columns:1fr 1.15fr;gap:18px;margin-top:46px}
+.hours{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:clamp(22px,4vw,40px)}
+.openst{display:inline-flex;align-items:center;gap:10px;font-weight:600;padding:8px 14px;border-radius:999px;background:rgba(134,208,111,.12);color:var(--green);font-size:14.5px}
+.openst.is-off{background:rgba(201,135,79,.14);color:#e6a372}
+.openst i{width:9px;height:9px;border-radius:50%;background:currentColor}
+.hrow{display:flex;justify-content:space-between;gap:12px;padding:15px 0;border-bottom:1px solid var(--line);font-size:16.5px}
+.hrow:last-of-type{border-bottom:0}
+.hrow b{font-weight:600;font-variant-numeric:tabular-nums}
+.hrow.is-today{color:var(--gold)}
+.hrow.is-today span::after{content:" · heute";color:var(--muted);font-size:14px}
+.hours__tbl{margin-top:16px}
+.contact{margin-top:20px;padding-top:20px;border-top:1px solid var(--line);display:grid;gap:6px;color:var(--muted);font-size:15px}
+.contact b{color:var(--cream);font:400 22px/1.2 var(--serif)}
+.map{position:relative;border-radius:8px;overflow:hidden;border:1px solid var(--line);min-height:440px;background:#231c16}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.map__tag{position:absolute;left:18px;top:18px;background:var(--bg);border:1px solid var(--line2);border-radius:6px;padding:14px 16px;max-width:280px}
+.map__tag b{font:400 20px/1.2 var(--serif);display:block}
+.map__tag span{color:var(--muted);font-size:14px}
+.mpin{transform-box:fill-box;transform-origin:50% 100%;animation:drop 2.6s ease-in-out infinite}
+@keyframes drop{50%{transform:translateY(-7px)}}
+@media (max-width:900px){.shop{grid-template-columns:1fr}.map{min-height:360px}}
+
+footer{border-top:1px solid var(--line);padding:70px 0 34px;color:var(--muted);font-size:15px}
+.fgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:30px}
+.fbig{font:700 clamp(48px,8vw,110px)/.9 var(--serif);color:var(--cream);letter-spacing:-.02em}
+.fbig span{color:var(--gold)}
+footer h3{font:600 12px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.flegal{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin-top:50px;padding-top:22px;border-top:1px solid var(--line);font-size:14px}
+.flegal strong{color:var(--cream)}
+@media (max-width:800px){.fgrid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.hero h1 .ln > span{transform:none;transition:none}html{scroll-behavior:auto}}
+</style></head><body>
+<div class="tk-demo-bar"><a href="/#beispiele"><img src="/beispiele/_shared/tk-logo.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
+<span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musteradresse</span>
+<a class="tk-demo-bar__cta" href="/#anfrage">So eine Seite anfragen</a></div>
+
+<header class="nav">
+  <div class="wrap nav__in">
+    <a class="logo" href="#top" aria-label="Bäckerei Kornfeld – zum Seitenanfang"><b>Kornfeld<span>.</span></b><small>Bäckerei seit 1962</small></a>
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="links"><i aria-hidden="true"></i><span>Menü</span></button>
+    <ul class="links" id="links">
+      <li><a href="#ofen">Frisch</a></li>
+      <li><a href="#sortiment">Sortiment</a></li>
+      <li><a href="#handwerk">Handwerk</a></li>
+      <li><a href="#backstube">Backstube</a></li>
+      <li><a href="#filiale">Filiale</a></li>
+      <li><a class="cta" href="#vorbestellen">Vorbestellen</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero__grid">
+    <div>
+      <p class="eyebrow" data-reveal>Hauptstraße 8 · Musterort <b>— seit 1962</b></p>
+      <h1 id="hero-title"><span class="ln"><span>Ehrliches Brot.</span></span><span class="ln"><span><i>Jeden Morgen frisch.</i></span></span></h1>
+      <p class="hero__lead" data-reveal style="--d:.3s">Natursauerteig, Getreide aus dem Mostviertel und vor allem: Zeit. Unsere Teige ruhen bis zu 48 Stunden, bevor sie um vier Uhr früh in den Ofen kommen.</p>
+      <div class="hero__btns" data-reveal style="--d:.4s">
+        <a class="btn btn--gold" href="#vorbestellen">Brot vorbestellen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn--line" href="#handwerk">Wie eine Semmel entsteht</a>
+      </div>
+    </div>
+    <div class="hero__media" data-reveal style="--d:.15s">
+      <div class="hero__video">
+        <video class="tk-video" data-autoplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/baeckerei-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/baeckerei.mp4" type="video/mp4"></video>
+        <span class="hero__live"><span class="rec"></span>Backstube · 4:30 Uhr</span>
+      </div>
+      <div class="stamp" aria-hidden="true"><svg viewBox="0 0 100 100"><defs><path id="sc" d="M50 50m-40 0a40 40 0 1 1 80 0a40 40 0 1 1-80 0"/></defs><circle cx="50" cy="50" r="49" fill="#1b1611" stroke="currentColor" stroke-width="1"/><text font-size="9.4" letter-spacing="2.6" fill="currentColor" font-family="Inter, sans-serif" font-weight="600"><textPath href="#sc">HANDWERKSBÄCKEREI · DREI GENERATIONEN · </textPath></text></svg><b>1962</b></div>
+      <div class="hero__photo"><img src="/beispiele/_shared/media/brot-hero.jpg" alt="Frisch gebackene Vollkornstangen mit Körnerkruste" width="716" height="1000"></div>
+    </div>
+  </div>
+</section>
+
+<section class="fresh" id="ofen" aria-label="Frisch aus dem Ofen">
+  <div class="wrap fresh__in" id="freshBox">
+    <div class="fresh__live"><span class="pulse" aria-hidden="true"></span><div><small>Frisch aus dem Ofen</small><b id="freshNow">Wird berechnet …</b><em id="freshSub">nach österreichischer Zeit</em></div></div>
+    <div class="timeline" id="timeline" aria-hidden="true"><span class="timeline__fill"></span></div>
+    <div class="fresh__next" aria-live="polite"><small id="nextLabel">Nächstes Blech</small><b id="nextIn">–</b></div>
+  </div>
+</section>
+
+<section class="sec" id="sortiment" aria-labelledby="sort-title">
+  <div class="wrap">
+    <div class="sort__head">
+      <div><p class="eyebrow" data-reveal>Sortiment <b>— heute in der Theke</b></p><h2 class="h2" id="sort-title" data-reveal style="--d:.08s">Gebacken, <i>nicht aufgebacken.</i></h2></div>
+      <div class="chips" role="group" aria-label="Sortiment filtern" data-reveal style="--d:.15s">
+        <button class="chip" aria-pressed="true" data-f="alle">Alles</button>
+        <button class="chip" aria-pressed="false" data-f="brot">Brot</button>
+        <button class="chip" aria-pressed="false" data-f="gebaeck">Gebäck</button>
+        <button class="chip" aria-pressed="false" data-f="suess">Süßes</button>
+      </div>
+    </div>
+    <div class="grid" id="grid">
+      <article class="prod" data-cat="brot" data-reveal><div class="prod__img"><img src="/beispiele/_shared/media/laib.jpg" alt="Bauernbrotlaibe im Holzregal" width="340" height="300" loading="lazy"><span class="prod__badge">Sauerteig</span></div><div class="prod__body"><h3>Bauernbrot</h3><span class="price">4,90</span><p>1 kg · Roggen-Weizen, 24 h Teigführung</p></div></article>
+      <article class="prod" data-cat="gebaeck" data-reveal style="--d:.06s"><div class="prod__img"><img src="/beispiele/_shared/media/brezel.jpg" alt="Laugenbrezel auf einem Teller" width="340" height="300" loading="lazy"></div><div class="prod__body"><h3>Laugenbrezel</h3><span class="price">1,40</span><p>Mit grobem Salz, außen knusprig</p></div></article>
+      <article class="prod" data-cat="suess" data-reveal style="--d:.12s"><div class="prod__img"><img src="/beispiele/_shared/media/croissant.jpg" alt="Buttercroissants auf einer Etagere" width="340" height="300" loading="lazy"></div><div class="prod__body"><h3>Buttercroissant</h3><span class="price">1,80</span><p>Mit österreichischer Teebutter, 27 Schichten</p></div></article>
+      <article class="prod" data-cat="brot" data-reveal style="--d:.18s"><div class="prod__img"><img src="/beispiele/_shared/media/baguette.jpg" alt="Goldbraune Baguettes" width="340" height="300" loading="lazy"></div><div class="prod__body"><h3>Baguette</h3><span class="price">2,20</span><p>Lange Teigruhe, offene Krume</p></div></article>
+      <article class="prod" data-cat="gebaeck" data-reveal><div class="prod__img"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><radialGradient id="mini" cx=".42" cy=".38" r=".7"><stop offset="0" stop-color="#eaa957"/><stop offset=".6" stop-color="#c47a32"/><stop offset="1" stop-color="#8c4c1c"/></radialGradient></defs><ellipse cx="100" cy="168" rx="70" ry="10" fill="#000" opacity=".3"/><circle cx="100" cy="100" r="68" fill="url(#mini)"/><g fill="none" stroke="#f3d39a" stroke-width="5" stroke-linecap="round"><path d="M104 88 Q130 70 150 92"/><path d="M110 104 Q130 130 112 152"/><path d="M96 110 Q78 140 56 128"/><path d="M88 96 Q60 90 54 68"/><path d="M98 86 Q94 58 116 42"/></g></svg><span class="prod__badge">Klassiker</span></div><div class="prod__body"><h3>Kaisersemmel</h3><span class="price">0,55</span><p>Handgeschlagen, wie bei uns seit 1962</p></div></article>
+      <article class="prod" data-cat="gebaeck" data-reveal style="--d:.06s"><div class="prod__img"><svg viewBox="0 0 200 200" aria-hidden="true"><defs><linearGradient id="ks" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b67a3e"/><stop offset="1" stop-color="#6e4120"/></linearGradient></defs><ellipse cx="100" cy="150" rx="78" ry="9" fill="#000" opacity=".3"/><path d="M28 120 C40 70 160 70 172 120 C150 140 50 140 28 120Z" fill="url(#ks)"/><g fill="#e8d3a8"><circle cx="70" cy="100" r="2.4"/><circle cx="90" cy="92" r="2"/><circle cx="110" cy="96" r="2.4"/><circle cx="130" cy="104" r="2"/><circle cx="82" cy="112" r="2"/><circle cx="120" cy="114" r="2.2"/><circle cx="100" cy="106" r="1.8"/><circle cx="148" cy="112" r="1.8"/><circle cx="56" cy="114" r="1.8"/></g></svg></div><div class="prod__body"><h3>Kornspitz</h3><span class="price">0,95</span><p>Mehrkorn, mit Sesam und Leinsamen</p></div></article>
+      <article class="prod prod--wide" data-cat="suess" data-reveal style="--d:.12s"><div class="prod__img"><img src="/beispiele/_shared/media/theke.jpg" alt="Vitrine mit Plunder- und Blätterteiggebäck" width="716" height="420" loading="lazy"><span class="prod__badge">Ab 6 Uhr</span></div><div class="prod__body"><h3>Plunder &amp; Golatschen</h3><span class="price">ab 1,90</span><p>Topfengolatsche, Nussschnecke, Marillenplunder und Faschingskrapfen in der Saison</p></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="story" id="handwerk" aria-labelledby="story-title">
+  <div class="story__sticky">
+    <div class="story__grid">
+      <div class="story__text">
+        <p class="eyebrow">Handwerk <b>— in fünf Schritten</b></p>
+        <h2 class="h2" id="story-title">Wie eine <i>Kaisersemmel</i> entsteht</h2>
+        <ol class="story__steps" id="sSteps">
+          <li class="sstep"><span class="sstep__n">1</span><div><h3>Kneten</h3><p>Mehl, Wasser, Salz, ein wenig Germ und Malz – zwölf Minuten, bis der Teig glatt und elastisch ist.</p></div></li>
+          <li class="sstep"><span class="sstep__n">2</span><div><h3>Formen</h3><p>Abgewogen auf 60 Gramm und rund geschliffen. Dann ruht jede Semmel unter einem Leinentuch.</p></div></li>
+          <li class="sstep"><span class="sstep__n">3</span><div><h3>Einschneiden</h3><p>Das typische Kaisermuster: fünf Schnitte, die sich wie ein Stern um die Mitte drehen.</p></div></li>
+          <li class="sstep"><span class="sstep__n">4</span><div><h3>Backen</h3><p>18 Minuten bei 230 °C mit Dampf. Die Semmel geht auf, die Kruste wird goldbraun und splittert.</p></div></li>
+          <li class="sstep"><span class="sstep__n">5</span><div><h3>Fertig</h3><p>Ein Hauch Mehl, ein kurzer Moment zum Ausdampfen – und ab in die Theke. Um 0,55 €.</p></div></li>
+        </ol>
+        <div class="story__bar" aria-hidden="true"><i id="sBar"></i></div>
+      </div>
+      <div>
+        <div class="story__mhead"><p class="eyebrow">Handwerk <b>— scrollen</b></p><h2>Wie eine <i style="color:var(--gold)">Kaisersemmel</i> entsteht</h2></div>
+        <div class="story__hud" aria-hidden="true"><div class="story__readout"><div><b id="sTemp">22 °C</b>Temperatur</div><div><b id="sTime">0 Min.</b>Zeit</div></div><div class="story__label"><small id="sKicker">Schritt 1 von 5</small><b id="sName">Kneten</b></div></div>
+        <div class="story__stage" id="sStage">
+          <svg id="semmel" viewBox="0 0 600 500" role="img" aria-labelledby="semmelT">
+            <title id="semmelT">Animation: Ein Teigling wird geknetet, rund geformt, im Kaisermuster eingeschnitten, im Ofen goldbraun gebacken und mit Mehl bestäubt</title>
+            <defs>
+              <radialGradient id="dough" cx=".42" cy=".36" r=".72">
+                <stop id="dS0" offset="0" stop-color="#f6ead2"/><stop id="dS1" offset=".62" stop-color="#ecdcbc"/><stop id="dS2" offset="1" stop-color="#d9c39b"/>
+              </radialGradient>
+              <radialGradient id="glow" cx=".5" cy=".55" r=".5"><stop offset="0" stop-color="#ff9a3c" stop-opacity=".75"/><stop offset=".5" stop-color="#e2611c" stop-opacity=".28"/><stop offset="1" stop-color="#e2611c" stop-opacity="0"/></radialGradient>
+              <linearGradient id="board" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#8a5f3a"/><stop offset="1" stop-color="#5e3d22"/></linearGradient>
+              <radialGradient id="hl" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+              <radialGradient id="shadow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#000" stop-opacity=".55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+              <linearGradient id="tray" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#5b5550"/><stop offset="1" stop-color="#2d2926"/></linearGradient>
+            </defs>
+            <!-- Brett mit Mehl -->
+            <g id="boardG">
+              <rect x="40" y="96" width="520" height="380" rx="26" fill="url(#board)"/>
+              <g stroke="#6e4a2b" stroke-width="2" opacity=".6" fill="none"><path d="M60 170 C200 160 380 186 540 168"/><path d="M60 270 C220 280 380 256 540 274"/><path d="M60 380 C200 370 400 392 540 378"/></g>
+              <g fill="#f3e9d8" opacity=".55"><ellipse cx="190" cy="390" rx="90" ry="22"/><ellipse cx="430" cy="170" rx="70" ry="16"/><ellipse cx="300" cy="300" rx="170" ry="120" opacity=".35"/></g>
+            </g>
+            <!-- Ofen -->
+            <clipPath id="ovenClip"><rect x="20" y="40" width="560" height="440" rx="18"/></clipPath>
+            <g id="ovenG" opacity="0" clip-path="url(#ovenClip)">
+              <rect x="20" y="40" width="560" height="440" rx="18" fill="#140d08"/>
+              <g id="rods" stroke-linecap="round" stroke-width="7">
+                <path d="M60 80 H540" stroke="#ff7a2a"/><path d="M60 440 H540" stroke="#ff7a2a"/>
+              </g>
+              <circle id="glowC" cx="300" cy="290" r="300" fill="url(#glow)"/>
+              <rect x="70" y="390" width="460" height="20" rx="4" fill="url(#tray)"/>
+              <g stroke="#3a332d" stroke-width="2"><path d="M60 120 H540"/><path d="M60 410 H540"/></g>
+            </g>
+            <!-- Schatten -->
+            <ellipse id="shd" cx="300" cy="392" rx="150" ry="24" fill="url(#shadow)"/>
+            <!-- Teigling / Semmel -->
+            <g id="roll" transform="translate(300 280)">
+              <path id="doughP" fill="url(#dough)" d=""/>
+              <g id="flourOn" fill="#fff" opacity=".5"><circle cx="-40" cy="-30" r="3"/><circle cx="20" cy="-50" r="2.5"/><circle cx="50" cy="10" r="2"/><circle cx="-20" cy="30" r="2.6"/><circle cx="-60" cy="10" r="2"/><circle cx="30" cy="45" r="2.2"/><circle cx="0" cy="-10" r="1.8"/></g>
+              <g id="cuts" fill="none" stroke-linecap="round"></g>
+              <ellipse id="hlE" cx="-36" cy="-44" rx="54" ry="36" fill="url(#hl)" opacity=".5"/>
+            </g>
+            <g id="dust" fill="#fbf4e6"></g>
+            <g class="steamw" fill="none" stroke="#f5ecdf" stroke-width="5" stroke-linecap="round">
+              <path d="M255 150 c-12 -16 12 -26 0 -44 c-9 -12 5 -20 2 -30"/><path d="M300 140 c-12 -16 12 -28 0 -48 c-9 -12 5 -22 2 -32"/><path d="M345 150 c-12 -16 12 -26 0 -44 c-9 -12 5 -20 2 -30"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="story__hint" id="sHint" aria-hidden="true">Weiter scrollen ↓</p>
+</section>
+
+<section class="sec oven" id="backstube" aria-labelledby="oven-title">
+  <div class="wrap">
+    <div class="oven__frame" data-reveal>
+      <video class="tk-video" data-autoplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/baeckerei-ofen-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/baeckerei-ofen.mp4" type="video/mp4"></video>
+      <div class="oven__text">
+        <p class="eyebrow">Die Backstube <b>— hinter der Theke</b></p>
+        <h2 class="h2" id="oven-title">Drei Generationen, <i>ein Ofen-Rhythmus.</i></h2>
+        <p class="lead">Großvater Franz hat 1962 mit einem Holzofen begonnen. Heute backt seine Enkelin Theresa mit dem gleichen Sauerteig – der ist so alt wie die Bäckerei.</p>
+      </div>
+    </div>
+    <div class="nums">
+      <div class="num" data-reveal><b data-count="1962">1962</b><span>gegründet von Franz Kornfeld</span></div>
+      <div class="num" data-reveal style="--d:.08s"><b data-count="48" data-suffix=" h">48 h</b><span>Teigruhe für unser Bauernbrot</span></div>
+      <div class="num" data-reveal style="--d:.16s"><b data-count="9">9</b><span>Bleche jeden Morgen, ab 4 Uhr</span></div>
+      <div class="num" data-reveal style="--d:.24s"><b data-count="30" data-suffix=" km">30 km</b><span>bis zur Mühle, die unser Mehl mahlt</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec order" id="vorbestellen" aria-labelledby="order-title">
+  <div class="wrap order__grid">
+    <div>
+      <p class="eyebrow" data-reveal>Vorbestellung <b>— bis 16 Uhr für morgen</b></p>
+      <h2 class="h2" id="order-title" data-reveal style="--d:.08s">Heute bestellen, <i>morgen abholen.</i></h2>
+      <p class="lead" data-reveal style="--d:.15s">Ihr Sackerl liegt mit Namen bereit – auch am Wochenende, auch wenn die Theke schon leer ist.</p>
+      <ol class="how" data-reveal style="--d:.2s">
+        <li><span><b>Auswählen</b>Stückzahl je Gebäck festlegen.</span></li>
+        <li><span><b>Tag &amp; Uhrzeit wählen</b>Ab 5:30 Uhr, Samstag ab 6 Uhr.</span></li>
+        <li><span><b>Abholen &amp; zahlen</b>Bar oder mit Karte direkt in der Filiale.</span></li>
+      </ol>
+    </div>
+    <form id="orderForm" novalidate data-reveal style="--d:.1s">
+      <div class="plist" id="plist">
+        <div class="prow" data-price="0.55"><div><b>Kaisersemmel</b><small>60 g, handgeschlagen</small></div><span class="pp">0,55 €</span><div class="qty"><button type="button" data-d="-1" aria-label="Kaisersemmel: eins weniger">−</button><output aria-label="Anzahl Kaisersemmel">6</output><button type="button" data-d="1" aria-label="Kaisersemmel: eins mehr">+</button></div></div>
+        <div class="prow" data-price="0.95"><div><b>Kornspitz</b><small>Mehrkorn</small></div><span class="pp">0,95 €</span><div class="qty"><button type="button" data-d="-1" aria-label="Kornspitz: eins weniger">−</button><output aria-label="Anzahl Kornspitz">2</output><button type="button" data-d="1" aria-label="Kornspitz: eins mehr">+</button></div></div>
+        <div class="prow" data-price="4.90"><div><b>Bauernbrot</b><small>1 kg, auf Wunsch geschnitten</small></div><span class="pp">4,90 €</span><div class="qty"><button type="button" data-d="-1" aria-label="Bauernbrot: eins weniger">−</button><output aria-label="Anzahl Bauernbrot">1</output><button type="button" data-d="1" aria-label="Bauernbrot: eins mehr">+</button></div></div>
+        <div class="prow" data-price="1.80"><div><b>Buttercroissant</b><small>mit Teebutter</small></div><span class="pp">1,80 €</span><div class="qty"><button type="button" data-d="-1" aria-label="Buttercroissant: eins weniger">−</button><output aria-label="Anzahl Buttercroissant">0</output><button type="button" data-d="1" aria-label="Buttercroissant: eins mehr">+</button></div></div>
+        <div class="prow" data-price="1.40"><div><b>Laugenbrezel</b><small>mit Salz</small></div><span class="pp">1,40 €</span><div class="qty"><button type="button" data-d="-1" aria-label="Laugenbrezel: eins weniger">−</button><output aria-label="Anzahl Laugenbrezel">0</output><button type="button" data-d="1" aria-label="Laugenbrezel: eins mehr">+</button></div></div>
+      </div>
+      <div class="total"><span id="cnt">9 Stück</span><b id="sum" aria-live="polite">10,10 €</b></div>
+      <div class="two">
+        <div class="field"><label for="o-date">Abholung am</label><input type="date" id="o-date" name="datum"></div>
+        <div class="field"><label for="o-time">Uhrzeit</label><select id="o-time" name="zeit"><option>5:30 – 7:00</option><option selected>7:00 – 9:00</option><option>9:00 – 11:00</option><option>11:00 – 14:00</option><option>14:00 – 18:00</option></select></div>
+      </div>
+      <div class="two">
+        <div class="field"><label for="o-name">Name</label><input id="o-name" name="name" autocomplete="name" placeholder="Für das Sackerl"></div>
+        <div class="field"><label for="o-tel">Telefon</label><input id="o-tel" type="tel" name="tel" autocomplete="tel" placeholder="0676 …"></div>
+      </div>
+      <button class="btn" type="submit">Bestellung senden <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <p class="form-msg" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<section class="sec" id="filiale" aria-labelledby="fil-title">
+  <div class="wrap">
+    <p class="eyebrow" data-reveal>Filiale &amp; Öffnungszeiten <b>— mitten im Ort</b></p>
+    <h2 class="h2" id="fil-title" data-reveal style="--d:.08s">Der Duft zeigt <i>den Weg.</i></h2>
+    <div class="shop">
+      <div class="hours" data-reveal>
+        <p class="openst" id="openSt"><i aria-hidden="true"></i><span>Wird berechnet …</span></p>
+        <div class="hours__tbl" id="hoursTbl">
+          <div class="hrow" data-days="1,2,3,4,5"><span>Montag – Freitag</span><b>5:30 – 18:00</b></div>
+          <div class="hrow" data-days="6"><span>Samstag</span><b>6:00 – 12:00</b></div>
+          <div class="hrow" data-days="0"><span>Sonntag &amp; Feiertag</span><b>7:00 – 11:00</b></div>
+        </div>
+        <div class="contact"><b>Bäckerei Kornfeld</b><span>Hauptstraße 8, 3280 Musterort</span><span>Tel. 01234 890 12 · Parkplätze im Hof</span></div>
+      </div>
+      <div class="map" data-reveal style="--d:.1s">
+        <svg viewBox="0 0 640 460" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="640" height="460" fill="#231c16"/>
+          <g fill="#2c241c"><rect x="30" y="30" width="160" height="110" rx="6"/><rect x="30" y="190" width="120" height="120" rx="6"/><rect x="250" y="30" width="140" height="110" rx="6"/><rect x="450" y="30" width="160" height="80" rx="6"/><rect x="450" y="250" width="160" height="170" rx="6"/><rect x="200" y="330" width="190" height="100" rx="6"/></g>
+          <rect x="250" y="190" width="140" height="90" rx="6" fill="#2f3a26"/>
+          <g fill="none" stroke="#3d3228" stroke-linecap="round"><path d="M0 165 H640" stroke-width="26"/><path d="M220 0 V460" stroke-width="18"/><path d="M420 0 C430 140 400 300 430 460" stroke-width="14"/><path d="M0 312 C100 300 160 318 220 310" stroke-width="10"/></g>
+          <path d="M0 165 H640" stroke="#4d4033" stroke-width="1.5" stroke-dasharray="10 12"/>
+          <g font-family="Inter, sans-serif" font-size="12" font-weight="600" fill="#8f7e6c" letter-spacing="2"><text x="40" y="160">HAUPTSTRASSE</text><text x="236" y="420" transform="rotate(-90 236 420)">KIRCHENGASSE</text><text x="268" y="240">PFARRWIESE</text></g>
+          <g transform="translate(470 140)"><rect width="30" height="30" rx="6" fill="#3a5a8a"/><text x="15" y="21" text-anchor="middle" font-family="Inter, sans-serif" font-size="16" font-weight="700" fill="#fff">P</text></g>
+          <circle cx="330" cy="166" r="26" fill="#e3a94f" opacity=".18"/>
+          <g class="mpin"><path d="M330 168 c-20 -22 -26 -32 -26 -46 a26 26 0 0 1 52 0 c0 14 -6 24 -26 46z" fill="#e3a94f"/><circle cx="330" cy="122" r="10" fill="#1b1611"/></g>
+        </svg>
+        <div class="map__tag"><b>Hauptstraße 8</b><span>3280 Musterort · gegenüber der Pfarrwiese</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div><p class="fbig">Kornfeld<span>.</span></p><p style="margin-top:16px">Handwerksbäckerei seit 1962</p></div>
+      <div><h3>Filiale</h3><p>Hauptstraße 8<br>3280 Musterort<br>Tel. 01234 890 12</p></div>
+      <div><h3>Seite</h3><p><a href="#sortiment">Sortiment</a><br><a href="#handwerk">Handwerk</a><br><a href="#vorbestellen">Vorbestellen</a></p></div>
+    </div>
+    <div class="flegal"><span>© 2026 Bäckerei Kornfeld · Hauptstraße 8, 3280 Musterort</span><strong>Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb</strong></div>
+  </div>
+</footer>
+
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/baeckerei/app.js" defer></script></body></html>

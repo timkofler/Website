@@ -1,0 +1,473 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Praxis Sonnfeld – Beispiel-Entwurf | tim-kofler.at</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Beispiel-Entwurf einer Webseite für eine Heilmassage-Praxis von Tim Kofler – Webdesign. Erfundener Betrieb.">
+<meta name="theme-color" content="#eef2ec">
+<link rel="icon" href="/assets/img/tk-badge.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/beispiele/_shared/demo.css">
+<style>
+@font-face{font-family:"Fraunces";src:url(/beispiele/_shared/fonts/fraunces.woff2) format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Manrope";src:url(/beispiele/_shared/fonts/manrope.woff2) format("woff2");font-weight:200 800;font-display:swap}
+:root{--bg:#eef2ec;--bg2:#e4ebe2;--paper:#f8faf6;--ink:#22302a;--mu:#56675d;--sage:#7c9a86;--sage2:#5f7d69;--deep:#2f4639;--sand:#efe7da;--warm:#e3a86b;--line:#d5dfd3;
+--hd:"Fraunces",Georgia,"Times New Roman",serif;--bd:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;--bar:42px}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:120px}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.65 var(--bd);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,svg,video{max-width:100%}
+a{color:inherit}
+h1,h2,h3{font-family:var(--hd);font-weight:400;line-height:1.08;margin:0;letter-spacing:-.01em}
+p{margin:0}
+:focus-visible{outline:2.5px solid var(--sage2);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.kick{font:700 12px/1 var(--bd);letter-spacing:.22em;text-transform:uppercase;color:var(--sage2)}
+.h2{font-size:clamp(34px,4.8vw,58px);margin-top:14px}
+.h2 em,h1 em{font-style:italic;color:var(--sage2);font-weight:300}
+.lead{color:var(--mu);font-size:17px;max-width:560px;margin-top:18px}
+.sec{padding:clamp(80px,10vw,130px) 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border-radius:999px;border:0;background:var(--ink);color:var(--paper);font:700 15px/1 var(--bd);text-decoration:none;cursor:pointer;transition:transform .35s cubic-bezier(.2,.7,.2,1),background .3s,box-shadow .3s}
+.btn:hover{transform:translateY(-2px);background:var(--deep);box-shadow:0 16px 30px -18px rgba(34,48,42,.6)}
+.btn.soft{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px rgba(34,48,42,.25)}
+.btn.soft:hover{background:rgba(124,154,134,.12)}
+.btn.light{background:var(--paper);color:var(--ink)}
+.btn.light:hover{background:#fff}
+
+/* Navigation */
+.nav{position:sticky;top:var(--bar);z-index:900;transition:background .4s,box-shadow .4s}
+.nav.is-solid{background:rgba(238,242,236,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:76px}
+.logo{display:inline-flex;align-items:center;gap:12px;text-decoration:none;font:400 22px/1 var(--hd)}
+.logo svg{width:34px;height:34px}
+.nav ul{display:flex;gap:2px;list-style:none;margin:0;padding:0}
+.nav ul a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:999px;text-decoration:none;font-weight:600;font-size:15px;color:var(--mu);transition:background .25s,color .25s}
+.nav ul a:hover{background:rgba(124,154,134,.14);color:var(--ink)}
+.nav .btn{min-height:44px;padding:0 20px;font-size:14px}
+.burger{display:none;min-height:46px;padding:0 18px;border-radius:999px;border:1.5px solid rgba(34,48,42,.2);background:transparent;font:700 14px/1 var(--bd);color:var(--ink);cursor:pointer;align-items:center;gap:10px}
+.burger i{display:block;width:16px;height:8px;border-top:2px solid currentColor;border-bottom:2px solid currentColor;transition:transform .3s}
+.burger[aria-expanded="true"] i{transform:rotate(90deg)}
+.panel{position:fixed;left:12px;right:12px;top:calc(var(--bar) + 84px);background:var(--paper);border-radius:28px;padding:18px;box-shadow:0 30px 60px -20px rgba(34,48,42,.35);display:grid;gap:4px;opacity:0;visibility:hidden;transform:translateY(-10px) scale(.98);transform-origin:top right;transition:opacity .3s,transform .3s,visibility 0s .3s;z-index:899}
+.panel.is-open{opacity:1;visibility:visible;transform:none;transition:opacity .3s,transform .3s}
+.panel a{display:flex;align-items:center;min-height:52px;padding:0 14px;border-radius:16px;text-decoration:none;font:400 22px/1 var(--hd)}
+.panel a:hover{background:var(--bg)}
+.panel .btn{font:700 16px/1 var(--bd);margin-top:8px;justify-content:center}
+@media (max-width:900px){.nav ul,.nav .wrap>.btn{display:none}.burger{display:inline-flex}}
+
+/* Hero */
+.hero{padding:clamp(30px,5vw,70px) 0 clamp(60px,8vw,100px);position:relative;overflow:hidden}
+.hero__grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(30px,5vw,70px);align-items:center}
+.hero h1{font-size:clamp(50px,7.4vw,104px);line-height:.98;letter-spacing:-.025em;margin-top:18px}
+.hero h1 .w{display:inline-block;opacity:0;transform:translateY(30px);filter:blur(8px);animation:inw 1.4s cubic-bezier(.2,.7,.2,1) forwards}
+.hero h1 .w:nth-child(2){animation-delay:.15s}.hero h1 .w:nth-child(4){animation-delay:.3s}
+@keyframes inw{to{opacity:1;transform:none;filter:none}}
+.hero .lead{font-size:18px}
+.hero__cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.hero__arch{position:relative;aspect-ratio:4/5;border-radius:999px 999px 36px 36px;overflow:hidden;background:#cfdcd2;box-shadow:0 40px 80px -40px rgba(34,48,42,.5)}
+.hero__arch video{position:absolute;inset:0}
+.hero__arch::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(34,48,42,.55));pointer-events:none}
+.hero__card{position:absolute;left:-30px;bottom:40px;background:var(--paper);border-radius:22px;padding:16px 20px 16px 16px;display:flex;gap:14px;align-items:center;box-shadow:0 24px 50px -24px rgba(34,48,42,.45);animation:floaty 7s ease-in-out infinite}
+.hero__card i{width:46px;height:46px;border-radius:50%;background:var(--sage);display:grid;place-items:center;color:#fff;font:italic 400 20px/1 var(--hd)}
+.hero__card b{display:block;font:500 17px/1.2 var(--hd)}
+.hero__card small{color:var(--mu);font-size:13px}
+@keyframes floaty{50%{transform:translateY(-10px)}}
+.hero__leaf{position:absolute;pointer-events:none;opacity:.5;animation:drift 18s ease-in-out infinite}
+@keyframes drift{50%{transform:translate(20px,-24px) rotate(12deg)}}
+.trust{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:40px;color:var(--mu);font-size:14px;font-weight:600}
+.trust span{display:inline-flex;align-items:center;gap:8px}
+.trust svg{width:18px;height:18px;color:var(--sage2)}
+@media (max-width:860px){.hero__grid{grid-template-columns:1fr}.hero__arch{max-width:420px;width:100%;justify-self:center;aspect-ratio:4/4.4}.hero__card{left:12px;bottom:16px}}
+
+/* Behandlungen */
+.treat{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:50px}
+.tcard{background:var(--paper);border-radius:28px;padding:30px;position:relative;overflow:hidden;transition:transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .5s}
+.tcard:hover{transform:translateY(-6px);box-shadow:0 30px 50px -30px rgba(34,48,42,.35)}
+.tcard::before{content:"";position:absolute;right:-60px;top:-60px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(124,154,134,.22),transparent 70%);transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.tcard:hover::before{transform:scale(1.6)}
+.tcard__ic{width:54px;height:54px;border-radius:18px;background:var(--bg);display:grid;place-items:center;color:var(--sage2)}
+.tcard__ic svg{width:28px;height:28px}
+.tcard h3{font-size:30px;margin-top:22px}
+.tcard p{color:var(--mu);margin-top:10px;font-size:15px;max-width:440px}
+.prices{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.price{display:inline-flex;align-items:baseline;gap:10px;padding:10px 16px;border-radius:999px;background:var(--bg);font-weight:600;font-size:14px}
+.price b{font:500 20px/1 var(--hd);color:var(--deep)}
+.tcard .note{display:inline-block;margin-top:16px;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--sage2);text-transform:uppercase}
+@media (max-width:760px){.treat{grid-template-columns:1fr}.tcard{padding:24px}}
+
+/* Körperkarte */
+.map{background:var(--deep);color:#eef2ec;border-radius:44px;margin:0 clamp(10px,2vw,24px);padding:clamp(56px,8vw,110px) 0;position:relative;overflow:hidden}
+.map .kick{color:#a9c4b0}.map .h2 em{color:#a9c4b0}.map .lead{color:#bccbc0}
+.map__grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(30px,5vw,70px);align-items:center;margin-top:44px}
+.body{position:relative;max-width:340px;width:100%;justify-self:center}
+.body svg{width:100%;height:auto;display:block;overflow:visible}
+.zone{fill:#4b6656;stroke:#7c9a86;stroke-width:1.5;cursor:pointer;transition:fill .35s}
+.zone:hover{fill:#5f7d69}
+.zone[aria-pressed="true"]{fill:#e3a86b;stroke:#f6d2a8}
+.zone:focus{outline:none}
+.zone:focus-visible{stroke:#fff;stroke-width:3}
+.passive{fill:#3d5446}
+.glow{fill:url(#mp-glow);opacity:0;transition:opacity .5s;pointer-events:none}
+.glow.on{opacity:1;animation:breathe 2.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes breathe{50%{transform:scale(1.25)}}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{min-height:46px;padding:0 20px;border-radius:999px;border:1.5px solid rgba(238,242,236,.25);background:transparent;color:#eef2ec;font:700 15px/1 var(--bd);cursor:pointer;transition:all .25s}
+.chips button:hover{border-color:#e3a86b}
+.chips button[aria-pressed="true"]{background:#e3a86b;border-color:#e3a86b;color:#22302a}
+.info{margin-top:26px;background:rgba(238,242,236,.06);border:1px solid rgba(238,242,236,.12);border-radius:28px;padding:clamp(22px,3vw,34px);min-height:300px}
+.info h3{font-size:clamp(30px,3.4vw,42px)}
+.info>p{color:#bccbc0;margin-top:10px}
+.info ul{list-style:none;padding:0;margin:20px 0 0;display:grid;gap:10px}
+.info li{display:flex;justify-content:space-between;gap:16px;padding:14px 18px;border-radius:18px;background:rgba(238,242,236,.07);align-items:center}
+.info li b{font-weight:700}.info li small{display:block;color:#a9bdb0;font-size:13px;font-weight:500}
+.info li span{font:500 20px/1 var(--hd);color:#f2cfa4;white-space:nowrap}
+.info .btn{margin-top:22px}
+.info.swap{animation:sw .5s cubic-bezier(.2,.7,.2,1)}
+@keyframes sw{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (max-width:860px){.map__grid{grid-template-columns:1fr}.body{max-width:260px}}
+
+/* Massage-Szene & Atmung */
+.calm__grid{display:grid;grid-template-columns:1.35fr .65fr;gap:20px;margin-top:50px}
+.scene{position:relative;border-radius:36px;overflow:hidden;background:linear-gradient(180deg,#2c3a33 0%,#1f2a25 100%);aspect-ratio:800/470}
+.scene svg{position:absolute;inset:0;width:100%;height:100%}
+.scene__cap{position:absolute;left:22px;bottom:20px;color:#cfdcd2;font:700 12px/1 var(--bd);letter-spacing:.2em;text-transform:uppercase;display:flex;gap:8px;align-items:center}
+.scene__cap i{width:8px;height:8px;border-radius:50%;background:#e3a86b;animation:soft 2.4s ease-in-out infinite}
+@keyframes soft{50%{opacity:.3}}
+.flame{transform-box:fill-box;transform-origin:50% 100%;animation:flick 1.8s ease-in-out infinite}
+@keyframes flick{0%,100%{transform:scale(1,1) rotate(-1deg)}25%{transform:scale(.94,1.06) rotate(2deg)}50%{transform:scale(1.04,.96) rotate(-2deg)}75%{transform:scale(.97,1.04) rotate(1deg)}}
+.halo{transform-box:fill-box;transform-origin:center;animation:halo 3.6s ease-in-out infinite}
+@keyframes halo{50%{transform:scale(1.12);opacity:.75}}
+.smoke{transform-box:fill-box;transform-origin:50% 100%;animation:smoke 6s ease-in-out infinite;opacity:0}
+.smoke.b{animation-delay:3s}
+@keyframes smoke{0%{opacity:0;transform:translateY(10px) scaleY(.8)}30%{opacity:.5}100%{opacity:0;transform:translateY(-60px) scaleY(1.2)}}
+.breath{background:var(--paper);border-radius:36px;padding:28px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;gap:16px}
+.breath h3{font-size:26px}
+.breath p{color:var(--mu);font-size:14px}
+.orb{position:relative;width:min(240px,62vw);aspect-ratio:1;display:grid;place-items:center}
+.orb__ring{position:absolute;inset:0;border-radius:50%;border:1.5px dashed rgba(95,125,105,.35)}
+.orb__c{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 40% 35%,#cfe0d3,#7c9a86 70%);transform:scale(.6);box-shadow:0 20px 50px -20px rgba(47,70,57,.6)}
+.orb__c2{position:absolute;inset:-14px;border-radius:50%;background:radial-gradient(circle,rgba(124,154,134,.28),transparent 70%);transform:scale(.6)}
+.orb__t{position:relative;font:italic 400 26px/1.1 var(--hd);color:var(--ink)}
+.orb__n{position:relative;display:block;font:700 13px/1 var(--bd);letter-spacing:.2em;color:var(--deep);margin-top:8px}
+.breath .btn{min-height:46px}
+@media (max-width:960px){.calm__grid{grid-template-columns:1fr}.scene{aspect-ratio:800/520}}
+
+/* Ablauf */
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:56px;position:relative}
+.steps__line{position:absolute;left:8%;right:8%;top:34px;height:2px;background:var(--line);overflow:hidden}
+.steps__line i{position:absolute;inset:0;background:var(--sage);transform:scaleX(0);transform-origin:left;transition:transform 1.8s cubic-bezier(.2,.7,.2,1)}
+.steps.is-in .steps__line i{transform:none}
+.step{position:relative;text-align:left}
+.step__n{width:68px;height:68px;border-radius:50%;background:var(--paper);display:grid;place-items:center;font:400 28px/1 var(--hd);color:var(--sage2);box-shadow:0 0 0 8px var(--bg);position:relative}
+.step h3{font-size:26px;margin-top:22px}
+.step p{color:var(--mu);margin-top:8px;font-size:15px}
+.step small{display:inline-block;margin-top:14px;font-weight:700;font-size:13px;color:var(--sage2)}
+@media (max-width:760px){.steps{grid-template-columns:1fr;gap:34px}.steps__line{left:33px;right:auto;top:20px;bottom:20px;width:2px;height:auto}.steps__line i{transform:scaleY(0);transform-origin:top}.step{padding-left:92px}.step__n{position:absolute;left:0;top:0}.step h3{margin-top:10px}}
+
+/* Kasse */
+.kasse{display:grid;grid-template-columns:auto 1fr;gap:clamp(20px,4vw,50px);align-items:center;background:var(--sand);border-radius:36px;padding:clamp(28px,5vw,56px)}
+.kasse__ic{width:clamp(90px,12vw,140px);aspect-ratio:1;border-radius:50%;background:var(--paper);display:grid;place-items:center}
+.kasse__ic svg{width:55%;height:55%}
+.kasse h2{font-size:clamp(28px,3.6vw,42px)}
+.kasse p{color:#5d5a4f;margin-top:12px;max-width:640px}
+.kasse ol{list-style:none;padding:0;margin:22px 0 0;display:flex;flex-wrap:wrap;gap:10px}
+.kasse li{background:var(--paper);border-radius:999px;padding:10px 16px;font-weight:700;font-size:14px;display:inline-flex;gap:8px;align-items:center}
+.kasse li i{font-style:normal;width:24px;height:24px;border-radius:50%;background:var(--sage);color:#fff;display:grid;place-items:center;font-size:12px}
+.kasse small{display:block;margin-top:16px;color:#7a7568;font-size:13px}
+@media (max-width:700px){.kasse{grid-template-columns:1fr}}
+
+/* Termin */
+.book{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(30px,5vw,70px);align-items:start}
+.contact{margin-top:30px;display:grid;gap:14px}
+.contact>div{display:flex;gap:14px;align-items:center}
+.contact i{flex:none;width:46px;height:46px;border-radius:50%;background:var(--paper);display:grid;place-items:center;color:var(--sage2)}
+.contact i svg{width:20px;height:20px}
+.contact b{display:block;font-weight:700}.contact small{color:var(--mu);font-size:14px}
+.hours{margin-top:30px;background:var(--paper);border-radius:24px;padding:22px 24px}
+.hours h3{font-size:22px}
+.hours dl{margin:12px 0 0;display:grid;grid-template-columns:auto 1fr;gap:8px 20px;font-size:15px}
+.hours dt{font-weight:700}.hours dd{margin:0;color:var(--mu);text-align:right}
+.form{background:var(--paper);border-radius:36px;padding:clamp(24px,4vw,44px);box-shadow:0 40px 70px -50px rgba(34,48,42,.45)}
+.form h3{font-size:30px;margin-bottom:22px}
+.f{display:grid;gap:7px;margin-bottom:16px}
+.f label,.f legend{font-weight:700;font-size:14px;padding:0}
+.f input,.f select,.f textarea{min-height:52px;border:1.5px solid var(--line);border-radius:16px;padding:0 16px;font:500 16px var(--bd);background:#fff;color:var(--ink);width:100%}
+.f textarea{min-height:100px;padding:14px 16px;resize:vertical}
+.f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--sage2);box-shadow:0 0 0 4px rgba(124,154,134,.18)}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+fieldset.f{border:0;margin:0 0 16px;padding:0;min-width:0}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{position:relative}
+.pill input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.pill span{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;min-height:48px;min-width:64px;padding:6px 14px;border-radius:16px;border:1.5px solid var(--line);font-weight:700;font-size:14px;line-height:1.2;transition:all .2s;background:#fff}
+.pill span small{font-weight:600;font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:.08em}
+.pill input:checked+span{background:var(--deep);border-color:var(--deep);color:#fff}
+.pill input:checked+span small{color:#bccbc0}
+.pill input:focus-visible+span{outline:2.5px solid var(--sage2);outline-offset:2px}
+.check{display:flex;gap:12px;align-items:flex-start;font-size:14px;color:var(--mu);margin:6px 0 20px;cursor:pointer}
+.check input{width:22px;height:22px;accent-color:var(--deep);margin:1px 0 0;flex:none}
+.msg{display:none;margin-top:16px;padding:16px 20px;border-radius:18px;background:var(--deep);color:#eef2ec;font-weight:600}
+.msg.on{display:block;animation:sw .5s}
+@media (max-width:860px){.book{grid-template-columns:1fr}.f2{grid-template-columns:1fr}}
+
+/* Footer */
+.foot{margin-top:clamp(70px,9vw,120px);background:var(--ink);color:#cfdcd2;padding:70px 0 36px;border-radius:44px 44px 0 0}
+.foot__top{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:flex-end}
+.foot__q{font:300 italic clamp(28px,3.6vw,46px)/1.2 var(--hd);color:#eef2ec;max-width:640px}
+.foot__row{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:50px;font-size:14px;line-height:1.8}
+.foot__row strong{color:#fff}
+.foot__demo{margin-top:30px;padding-top:22px;border-top:1px solid rgba(207,220,210,.18);color:#e3a86b;font-weight:700;font-size:14px}
+@media (prefers-reduced-motion:reduce){.hero h1 .w{opacity:1;transform:none;filter:none;animation:none}.steps__line i{transition:none}}
+</style></head><body>
+<div class="tk-demo-bar"><a href="/#beispiele"><img src="/beispiele/_shared/tk-logo.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
+<span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musteradresse</span>
+<a class="tk-demo-bar__cta" href="/#anfrage">So eine Seite anfragen</a></div>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="logo" href="#top"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#7c9a86"/><path d="M12 27c0-9 6-14 15-15-1 9-6 15-15 15Z" fill="#eef2ec"/><path d="M12 27c4-5 8-8 12-11" stroke="#7c9a86" stroke-width="1.6" fill="none"/></svg>Praxis Sonnfeld</a>
+    <nav aria-label="Hauptnavigation"><ul>
+      <li><a href="#behandlungen">Behandlungen</a></li><li><a href="#koerper">Körperkarte</a></li><li><a href="#ablauf">Erster Termin</a></li><li><a href="#kasse">Krankenkasse</a></li>
+    </ul></nav>
+    <a class="btn" href="#termin">Termin buchen</a>
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="panel">Menü <i aria-hidden="true"></i></button>
+  </div>
+</header>
+<div class="panel" id="panel" aria-label="Mobiles Menü">
+  <a href="#behandlungen">Behandlungen</a><a href="#koerper">Körperkarte</a><a href="#atmen">Durchatmen</a><a href="#ablauf">Erster Termin</a><a href="#kasse">Krankenkasse</a>
+  <a class="btn" href="#termin">Termin buchen</a>
+</div>
+
+<main id="top">
+<section class="hero">
+  <svg class="hero__leaf" style="left:-40px;top:40px;width:160px" viewBox="0 0 100 100" aria-hidden="true"><path d="M10 90C10 40 40 12 92 8 88 60 60 90 10 90Z" fill="#c9d8cc"/></svg>
+  <svg class="hero__leaf" style="right:4%;bottom:-30px;width:120px;animation-delay:-6s" viewBox="0 0 100 100" aria-hidden="true"><path d="M10 90C10 40 40 12 92 8 88 60 60 90 10 90Z" fill="#d6e1d8"/></svg>
+  <div class="wrap hero__grid">
+    <div>
+      <p class="kick">Heilmassage · Lymphdrainage · Musterort</p>
+      <h1><span class="w">Zeit</span> <span class="w">für</span><br><span class="w"><em>Entspannung.</em></span></h1>
+      <p class="lead">Heilmassage, Lymphdrainage und Triggerpunkt-Behandlung in einer ruhigen Praxis am Ortsrand. Mit Zeit für ein Gespräch – und für Sie.</p>
+      <div class="hero__cta"><a class="btn" href="#termin">Termin vereinbaren</a><a class="btn soft" href="#koerper">Wo zwickt's?</a></div>
+      <div class="trust">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Diplomierte Heilmasseurin</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Rückerstattung möglich</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Parkplatz vor der Tür</span>
+      </div>
+    </div>
+    <div class="hero__arch">
+      <video class="tk-video" data-autoplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/massage-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/massage.mp4" type="video/mp4"></video>
+      <div class="hero__card"><i>A</i><div><b>Anna Sonnfeld</b><small>Heilmasseurin seit 2011</small></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="behandlungen" style="padding-top:20px">
+  <div class="wrap">
+    <p class="kick" data-reveal>Behandlungen</p>
+    <h2 class="h2" data-reveal style="--d:.08s">Für Körper <em>und Kopf.</em></h2>
+    <p class="lead" data-reveal style="--d:.14s">Jede Behandlung beginnt mit einem kurzen Gespräch. Die angegebene Zeit ist reine Behandlungszeit.</p>
+    <div class="treat">
+      <article class="tcard" data-reveal>
+        <div class="tcard__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 15c3-1 5-4 8-4s5 3 8 4"/><path d="M7 11V7a2 2 0 0 1 4 0v3M11 9V6a2 2 0 0 1 4 0v4M15 10V8a2 2 0 0 1 4 0v5"/></svg></div>
+        <h3>Heilmassage</h3>
+        <p>Klassische Massage zum Lösen von Verspannungen in Rücken, Nacken und Schultern. Fördert Durchblutung und Beweglichkeit.</p>
+        <div class="prices"><span class="price">30 Min. <b>45 €</b></span><span class="price">60 Min. <b>79 €</b></span></div>
+        <span class="note">Rückerstattung bei Verordnung möglich</span>
+      </article>
+      <article class="tcard" data-reveal style="--d:.08s">
+        <div class="tcard__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M12 3c3 4 6 7 6 11a6 6 0 0 1-12 0c0-4 3-7 6-11Z"/><path d="M9.5 15a2.5 2.5 0 0 0 2.5 2.5"/></svg></div>
+        <h3>Lymphdrainage</h3>
+        <p>Sanfte, rhythmische Griffe zur Entstauung – bei schweren Beinen, nach Operationen oder Verletzungen.</p>
+        <div class="prices"><span class="price">45 Min. <b>62 €</b></span><span class="price">60 Min. <b>75 €</b></span></div>
+        <span class="note">Rückerstattung bei Verordnung möglich</span>
+      </article>
+      <article class="tcard" data-reveal>
+        <div class="tcard__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/><circle cx="12" cy="12" r=".8" fill="currentColor"/></svg></div>
+        <h3>Triggerpunkt</h3>
+        <p>Gezielter Druck auf schmerzhafte Muskelknoten, die oft in andere Regionen ausstrahlen – etwa vom Nacken in den Kopf.</p>
+        <div class="prices"><span class="price">30 Min. <b>48 €</b></span><span class="price">als Zusatz zur Massage <b>+ 18 €</b></span></div>
+      </article>
+      <article class="tcard" data-reveal style="--d:.08s">
+        <div class="tcard__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M8 3c-2 3-2 8 0 12 1 3 0 5 2 6s4-1 4-4c0-2-2-3-2-6s1-6-1-8-2 0-3 0Z"/><circle cx="17" cy="5" r="1.2"/><circle cx="19" cy="8" r="1"/><circle cx="19.5" cy="11" r=".9"/></svg></div>
+        <h3>Fußreflexzonen</h3>
+        <p>Entspannende Behandlung über die Reflexzonen der Füße. Ideal zum Abschalten nach langen Tagen.</p>
+        <div class="prices"><span class="price">45 Min. <b>58 €</b></span><span class="price">10er-Block <b>520 €</b></span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="map" id="koerper" aria-labelledby="map-h">
+  <div class="wrap">
+    <p class="kick" data-reveal>Körperkarte</p>
+    <h2 class="h2" id="map-h" data-reveal style="--d:.08s">Wo <em>zwickt's?</em></h2>
+    <p class="lead" data-reveal style="--d:.14s">Tippen Sie auf eine Körperstelle – wir zeigen Ihnen, welche Behandlungen dort am besten helfen.</p>
+    <div class="map__grid">
+      <div class="body" data-reveal>
+        <svg viewBox="0 0 300 560" aria-label="Körper von hinten, wählbare Bereiche" role="group">
+          <defs><radialGradient id="mp-glow"><stop offset="0" stop-color="#ffd9a8" stop-opacity=".9"/><stop offset="1" stop-color="#ffd9a8" stop-opacity="0"/></radialGradient></defs>
+          <ellipse class="passive" cx="150" cy="58" rx="32" ry="38"/>
+          <path class="passive" d="M64 176 L50 270 L40 344 C44 352 56 352 60 346 L76 274 L104 196 Z"/>
+          <path class="passive" d="M236 176 L250 270 L260 344 C256 352 244 352 240 346 L224 274 L196 196 Z"/>
+          <path class="zone" data-z="beine" tabindex="0" role="button" aria-pressed="false" aria-label="Beine" d="M104 346 L148 346 L146 450 L140 540 C132 546 120 546 114 540 L108 450 Z M152 346 L196 346 L192 450 L186 540 C180 546 168 546 160 540 L154 450 Z"/>
+          <path class="zone" data-z="ruecken" tabindex="0" role="button" aria-pressed="false" aria-label="Rücken" d="M110 150 L132 132 L168 132 L190 150 L196 250 C198 280 198 310 198 342 L102 342 C102 310 102 280 104 250 Z"/>
+          <path class="zone" data-z="schultern" tabindex="0" role="button" aria-pressed="false" aria-label="Schultern" d="M132 118 C102 120 76 128 68 150 L64 178 L106 184 L112 150 L132 132 Z M168 118 C198 120 224 128 232 150 L236 178 L194 184 L188 150 L168 132 Z"/>
+          <path class="zone" data-z="nacken" tabindex="0" role="button" aria-pressed="false" aria-label="Nacken" d="M134 90 L166 90 L170 128 L130 128 Z"/>
+          <path d="M150 140 L150 330" stroke="#2f4639" stroke-width="2" stroke-dasharray="3 7" pointer-events="none"/>
+          <circle class="glow" data-g="nacken" cx="150" cy="110" r="34"/>
+          <circle class="glow" data-g="schultern" cx="90" cy="152" r="40"/><circle class="glow" data-g="schultern" cx="210" cy="152" r="40"/>
+          <circle class="glow" data-g="ruecken" cx="150" cy="240" r="70"/>
+          <circle class="glow" data-g="beine" cx="125" cy="440" r="46"/><circle class="glow" data-g="beine" cx="175" cy="440" r="46"/>
+        </svg>
+      </div>
+      <div>
+        <div class="chips" role="group" aria-label="Körperbereich wählen">
+          <button type="button" data-z="nacken" aria-pressed="false">Nacken</button><button type="button" data-z="schultern" aria-pressed="false">Schultern</button><button type="button" data-z="ruecken" aria-pressed="false">Rücken</button><button type="button" data-z="beine" aria-pressed="false">Beine</button>
+        </div>
+        <div class="info" id="map-info" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="atmen" aria-labelledby="calm-h">
+  <div class="wrap">
+    <p class="kick" data-reveal>Einen Moment Ruhe</p>
+    <h2 class="h2" id="calm-h" data-reveal style="--d:.08s">Atmen Sie <em>mit.</em></h2>
+    <p class="lead" data-reveal style="--d:.14s">So fühlt sich eine Stunde bei uns an: warme Hände, langsame Bewegungen, Kerzenlicht. Probieren Sie es gleich – vier Sekunden ein, sechs Sekunden aus.</p>
+    <div class="calm__grid">
+      <div class="scene" data-reveal>
+        <span class="scene__cap" aria-hidden="true"><i></i>Heilmassage · Rücken</span>
+        <svg id="ms-svg" viewBox="0 0 800 470" role="img" aria-labelledby="ms-t">
+          <title id="ms-t">Animation: Eine Person liegt auf einer Massageliege, zwei Hände massieren in langsamen Kreisen den Rücken, Druckpunkte leuchten sanft.</title>
+          <defs>
+            <radialGradient id="ms-candle" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffcf8a" stop-opacity=".55"/><stop offset="1" stop-color="#ffcf8a" stop-opacity="0"/></radialGradient>
+            <radialGradient id="ms-press" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffe2b8" stop-opacity=".95"/><stop offset=".5" stop-color="#f3b47a" stop-opacity=".35"/><stop offset="1" stop-color="#f3b47a" stop-opacity="0"/></radialGradient>
+            <linearGradient id="ms-skin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1c9a9"/><stop offset="1" stop-color="#d69f7f"/></linearGradient>
+            <linearGradient id="ms-arm" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e2b394"/><stop offset="1" stop-color="#c98f6e"/></linearGradient>
+            <linearGradient id="ms-towel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fae98"/><stop offset="1" stop-color="#5f7d69"/></linearGradient>
+          </defs>
+          <circle class="halo" cx="700" cy="330" r="170" fill="url(#ms-candle)"/>
+          <path d="M0 420 H800" stroke="#3a4a42" stroke-width="2"/>
+          <g opacity=".7"><path d="M50 420 L60 350 L94 350 L104 420 Z" fill="#3c4d44"/><path d="M77 350 C62 300 32 280 22 250 C52 260 72 290 77 350 Z M77 350 C87 290 112 260 142 248 C132 286 102 320 77 350 Z M77 350 C74 300 80 260 88 220 C96 270 88 310 77 350 Z" fill="#5f7d69"/></g>
+          <!-- Masseurin hinter der Liege -->
+          <g id="ms-ther">
+            <path d="M-62 340 L-60 196 C-58 158 -32 140 0 140 C32 140 58 158 60 196 L62 340 Z" fill="#6f9180"/>
+            <path d="M-16 142 L0 168 L16 142" fill="none" stroke="#5a7a69" stroke-width="3"/>
+            <rect x="-11" y="112" width="22" height="34" rx="9" fill="#d9a888"/>
+            <ellipse cx="0" cy="92" rx="27" ry="31" fill="#e7bb9c"/>
+            <path d="M-28 90 C-30 60 -12 54 2 54 C20 54 32 66 28 92 C22 74 10 68 -2 68 C-14 70 -22 78 -28 90 Z" fill="#4a3226"/>
+            <circle cx="16" cy="56" r="13" fill="#4a3226"/>
+            <path d="M-13 98 q5 3 10 0 M5 98 q5 3 10 0" stroke="#6b4334" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M-5 112 q5 3 10 0" stroke="#b46a5c" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </g>
+          <!-- Liege -->
+          <g fill="#4d5f55"><rect x="190" y="356" width="12" height="64" rx="4"/><rect x="600" y="356" width="12" height="64" rx="4"/><rect x="196" y="394" width="410" height="6" rx="3"/></g>
+          <rect x="140" y="330" width="520" height="28" rx="14" fill="#e9e2d6"/>
+          <rect x="140" y="350" width="520" height="10" rx="5" fill="#cfc6b8"/>
+          <path d="M92 344 C92 326 104 320 120 320 L142 320 L142 356 L110 356 C98 356 92 352 92 344 Z" fill="#e9e2d6"/>
+          <g id="ms-body">
+            <ellipse cx="146" cy="304" rx="34" ry="26" fill="url(#ms-skin)"/>
+            <path d="M112 296 C114 268 148 258 172 274 C178 280 182 290 180 298 C160 288 136 286 112 296 Z" fill="#3b2a22"/>
+            <ellipse cx="120" cy="282" rx="16" ry="13" fill="#3b2a22"/>
+            <path d="M172 330 C175 296 196 280 222 274 C270 266 310 274 350 282 C390 290 430 284 470 270 C500 262 525 262 545 268 L545 330 Z" fill="url(#ms-skin)"/>
+            <path d="M232 284 C300 290 380 300 466 284" stroke="#c48d6e" stroke-width="2" fill="none" opacity=".5" stroke-dasharray="1 9" stroke-linecap="round"/>
+            <path d="M236 280 C252 288 270 292 292 292" stroke="#c48d6e" stroke-width="2" fill="none" opacity=".45" stroke-linecap="round"/>
+            <path d="M178 316 C200 324 224 326 248 324 L248 332 L178 332 Z" fill="#d39a7c"/>
+            <path d="M462 276 C516 256 566 248 610 256 C642 262 664 280 678 306 C682 316 680 326 674 332 L452 332 C446 312 448 290 462 276 Z" fill="url(#ms-towel)"/>
+            <path d="M498 266 C510 288 512 312 506 332 M566 254 C574 278 574 306 566 332" stroke="#4e6b58" stroke-width="2" fill="none" opacity=".6"/>
+            <path d="M676 310 C690 310 698 318 698 326 L676 332 Z" fill="#d69f7f"/>
+          </g>
+          <g id="ms-glows"></g>
+          <g id="ms-armL"><path d="M-11 0 C-12 -80 -14 -160 -16 -240 L16 -240 C14 -160 12 -80 11 0 Z" fill="url(#ms-arm)"/><path d="M-15 -176 L15 -176 L17 -240 L-17 -240 Z" fill="#6f9180"/></g>
+          <g id="ms-armR"><path d="M-11 0 C-12 -80 -14 -160 -16 -240 L16 -240 C14 -160 12 -80 11 0 Z" fill="url(#ms-arm)"/><path d="M-15 -176 L15 -176 L17 -240 L-17 -240 Z" fill="#6f9180"/></g>
+          <g id="ms-handL"><ellipse cx="0" cy="0" rx="26" ry="10" fill="#e7bb9c"/><path d="M-24 2 C-34 4 -40 2 -42 -2 C-38 -6 -30 -6 -22 -4 Z" fill="#e7bb9c"/><path d="M-8 -6 C-3 -9 5 -9 10 -6" stroke="#c99476" stroke-width="2" fill="none" stroke-linecap="round"/></g>
+          <g id="ms-handR"><ellipse cx="0" cy="0" rx="26" ry="10" fill="#ecc3a5"/><path d="M24 2 C34 4 40 2 42 -2 C38 -6 30 -6 22 -4 Z" fill="#ecc3a5"/><path d="M-10 -6 C-5 -9 3 -9 8 -6" stroke="#c99476" stroke-width="2" fill="none" stroke-linecap="round"/></g>
+          <g transform="translate(712 354)">
+            <rect x="-22" y="0" width="44" height="66" rx="8" fill="#efe7da"/><rect x="-22" y="0" width="44" height="10" rx="5" fill="#f8f2e8"/>
+            <path d="M0 0 L0 -10" stroke="#3a2a22" stroke-width="2"/>
+            <path class="flame" d="M0 -12 C-9 -22 -6 -34 0 -44 C6 -34 9 -22 0 -12 Z" fill="#ffcf7a"/>
+            <path class="flame" d="M0 -14 C-4 -20 -3 -27 0 -32 C3 -27 4 -20 0 -14 Z" fill="#fff4d6"/>
+            <path class="smoke" d="M0 -50 C-8 -62 8 -72 0 -86" stroke="#cfdcd2" stroke-width="2" fill="none"/>
+            <path class="smoke b" d="M0 -50 C8 -62 -8 -74 2 -90" stroke="#cfdcd2" stroke-width="2" fill="none"/>
+          </g>
+        </svg>
+      </div>
+      <div class="breath" data-reveal style="--d:.1s">
+        <div><h3>Atemübung</h3><p>Rhythmus 4 – 6 · beruhigt das Nervensystem</p></div>
+        <div class="orb" aria-hidden="true"><span class="orb__ring"></span><span class="orb__c2" id="orb2"></span><span class="orb__c" id="orb"></span><span class="orb__t"><span id="orb-t">Einatmen</span><span class="orb__n" id="orb-n">4</span></span></div>
+        <p class="sr" id="orb-live" aria-live="polite" style="position:absolute;left:-9999px"></p>
+        <button class="btn soft" id="orb-btn" type="button" aria-pressed="true">Pause</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="ablauf" style="padding-top:0" aria-labelledby="st-h">
+  <div class="wrap">
+    <p class="kick" data-reveal>So läuft's</p>
+    <h2 class="h2" id="st-h" data-reveal style="--d:.08s">Ihr <em>erster Termin.</em></h2>
+    <div class="steps" id="steps">
+      <div class="steps__line" aria-hidden="true"><i></i></div>
+      <div class="step" data-reveal><div class="step__n">1</div><h3>Ankommen &amp; Gespräch</h3><p>Wir besprechen Beschwerden, Vorerkrankungen und was Ihnen guttut. Bitte bringen Sie eine ärztliche Verordnung mit, falls vorhanden.</p><small>ca. 10 Minuten</small></div>
+      <div class="step" data-reveal style="--d:.15s"><div class="step__n">2</div><h3>Behandlung</h3><p>Auf einer gewärmten Liege, mit hochwertigem Öl und so viel oder wenig Druck, wie Sie möchten. Reden ist erlaubt, Schweigen auch.</p><small>30 oder 60 Minuten</small></div>
+      <div class="step" data-reveal style="--d:.3s"><div class="step__n">3</div><h3>Nachruhen &amp; Tipps</h3><p>Ein Glas Wasser, ein paar Minuten Ruhe und zwei, drei einfache Übungen für zu Hause. Die Honorarnote bekommen Sie gleich mit.</p><small>ca. 5 Minuten</small></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="kasse" aria-labelledby="k-h">
+  <div class="kasse" data-reveal>
+    <div class="kasse__ic"><svg viewBox="0 0 48 48" fill="none" stroke="#5f7d69" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="6" width="32" height="38" rx="5"/><path d="M17 6V4h14v2"/><path d="M24 17v12M18 23h12"/><path d="M16 36h16"/></svg></div>
+    <div>
+      <p class="kick">Wahlarzt-Prinzip</p>
+      <h2 id="k-h" style="margin-top:12px">Ein Teil kommt zurück.</h2>
+      <p>Rückerstattung durch Ihre Krankenkasse bei ärztlicher Verordnung möglich. Sie bezahlen die Behandlung direkt in der Praxis und reichen die Honorarnote anschließend bei Ihrer Kasse ein.</p>
+      <ol><li><i>1</i>Verordnung vom Arzt</li><li><i>2</i>Behandlung bei uns</li><li><i>3</i>Honorarnote einreichen</li></ol>
+      <small>Die Höhe der Rückerstattung legt Ihre Krankenkasse fest. Wir beraten Sie gern.</small>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="termin" aria-labelledby="t-h">
+  <div class="wrap book">
+    <div>
+      <p class="kick" data-reveal>Termin buchen</p>
+      <h2 class="h2" id="t-h" data-reveal style="--d:.08s">Gönnen Sie sich <em>eine Stunde.</em></h2>
+      <p class="lead" data-reveal style="--d:.14s">Wunschtermin auswählen – wir bestätigen innerhalb eines Werktags per Telefon oder E-Mail.</p>
+      <div class="contact" data-reveal style="--d:.2s">
+        <div><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg></i><div><b>Gartenweg 7, 3280 Musterort</b><small>Erdgeschoß, barrierefrei · 2 Parkplätze</small></div></div>
+        <div><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></i><div><b>01234 / 765 43</b><small>Mo–Fr 8:00–9:00 telefonisch</small></div></div>
+      </div>
+      <div class="hours" data-reveal style="--d:.26s"><h3>Praxiszeiten</h3><dl><dt>Mo, Mi</dt><dd>8:00 – 18:00</dd><dt>Di, Do</dt><dd>12:00 – 20:00</dd><dt>Fr</dt><dd>8:00 – 13:00</dd><dt>Sa, So</dt><dd>nach Vereinbarung</dd></dl></div>
+    </div>
+    <form class="form" id="form" novalidate data-reveal>
+      <h3>Wunschtermin</h3>
+      <div class="f"><label for="f-beh">Behandlung</label>
+        <select id="f-beh" name="beh">
+          <option>Heilmassage · 30 Min. · 45 €</option><option>Heilmassage · 60 Min. · 79 €</option><option>Lymphdrainage · 45 Min. · 62 €</option><option>Lymphdrainage · 60 Min. · 75 €</option><option>Triggerpunkt · 30 Min. · 48 €</option><option>Fußreflexzonen · 45 Min. · 58 €</option>
+        </select></div>
+      <fieldset class="f"><legend>Wunschtag</legend><div class="pills" id="f-days"></div></fieldset>
+      <fieldset class="f"><legend>Tageszeit</legend><div class="pills">
+        <label class="pill"><input type="radio" name="zeit" value="vormittag" checked><span>Vormittag</span></label>
+        <label class="pill"><input type="radio" name="zeit" value="nachmittag"><span>Nachmittag</span></label>
+        <label class="pill"><input type="radio" name="zeit" value="abend"><span>Abend</span></label>
+      </div></fieldset>
+      <div class="f2"><div class="f"><label for="f-name">Name</label><input id="f-name" name="name" autocomplete="name"></div><div class="f"><label for="f-tel">Telefon</label><input id="f-tel" name="tel" type="tel" autocomplete="tel"></div></div>
+      <div class="f"><label for="f-note">Anmerkung <span style="font-weight:500;color:var(--mu)">(optional)</span></label><textarea id="f-note" name="note" placeholder="z. B. Beschwerden seit zwei Wochen, rechte Schulter"></textarea></div>
+      <label class="check"><input type="checkbox" name="vo"> Ich habe eine ärztliche Verordnung und möchte die Rückerstattung bei meiner Krankenkasse beantragen.</label>
+      <button class="btn" type="submit">Termin anfragen</button>
+      <p class="msg" id="msg" role="status"></p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__top"><p class="foot__q">„Nimm dir eine Stunde für dich. Der Rest kann warten.“</p><a class="btn light" href="#termin">Termin buchen</a></div>
+    <div class="foot__row">
+      <div><strong>Praxis Sonnfeld</strong> · Heilmassage<br>Gartenweg 7, 3280 Musterort<br>01234 / 765 43 · praxis@sonnfeld.example</div>
+      <div>Mo, Mi 8–18 · Di, Do 12–20<br>Fr 8–13 Uhr</div>
+      <div><a href="#top">Nach oben ↑</a></div>
+    </div>
+    <p class="foot__demo">Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb</p>
+  </div>
+</footer>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/massage/app.js" defer></script></body></html>

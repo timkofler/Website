@@ -1,0 +1,543 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Landgasthof Hollerhof – Beispiel-Entwurf | tim-kofler.at</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Beispiel-Entwurf einer Webseite für ein Wirtshaus von Tim Kofler – Webdesign. Erfundener Betrieb.">
+<meta name="theme-color" content="#1f3a2e">
+<link rel="icon" href="/assets/img/tk-badge.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/beispiele/_shared/demo.css">
+<style>
+@font-face{font-family:"Playfair";src:url(/beispiele/_shared/fonts/playfair-700.woff2) format("woff2");font-weight:400 900;font-display:swap}
+@font-face{font-family:"Playfair";src:url(/beispiele/_shared/fonts/playfair-italic.woff2) format("woff2");font-weight:400 900;font-style:italic;font-display:swap}
+@font-face{font-family:"Nunito Sans";src:url(/beispiele/_shared/fonts/nunito.woff2) format("woff2");font-weight:200 1000;font-display:swap}
+:root{--cream:#f4ede0;--paper:#fbf7ef;--green:#1f3a2e;--green2:#2d5240;--burg:#6d1f2a;--burg2:#8a2c39;--gold:#b8893b;--ink:#2a2420;--mu:#675b51;--line:#ddd1bd;
+--hd:"Playfair","Playfair Display",Georgia,"Times New Roman",serif;--bd:"Nunito Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--bar:42px;
+--noise:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .35  0 0 0 0 .27  0 0 0 0 .18  0 0 0 .09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:120px}
+body{margin:0;color:var(--ink);font:400 17px/1.65 var(--bd);-webkit-font-smoothing:antialiased;overflow-x:hidden;
+background-color:var(--cream);background-image:var(--noise),repeating-linear-gradient(0deg,rgba(120,95,60,.035) 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,rgba(120,95,60,.03) 0 1px,transparent 1px 4px)}
+img,svg,video{max-width:100%}
+img{display:block;height:auto}
+a{color:inherit}
+h1,h2,h3{font-family:var(--hd);font-weight:700;line-height:1.08;margin:0}
+p{margin:0}
+:focus-visible{outline:2.5px solid var(--gold);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.kick{display:flex;align-items:center;gap:12px;font:800 12px/1 var(--bd);letter-spacing:.24em;text-transform:uppercase;color:var(--burg)}
+.kick::before,.kick.c::after{content:"";width:34px;height:1px;background:currentColor}
+.kick.c{justify-content:center}
+.h2{font-size:clamp(36px,5vw,62px);margin-top:16px;letter-spacing:-.01em}
+.h2 em{font-style:italic;font-weight:500;color:var(--burg)}
+.lead{color:var(--mu);font-size:18px;max-width:580px;margin-top:18px}
+.sec{padding:clamp(80px,10vw,130px) 0}
+.center{text-align:center}.center .lead{margin-left:auto;margin-right:auto}
+.orn{display:block;width:120px;height:18px;margin:18px auto 0;color:var(--gold)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 28px;border-radius:4px;border:0;background:var(--burg);color:#fbf3e6;font:800 14px/1 var(--bd);letter-spacing:.12em;text-transform:uppercase;text-decoration:none;cursor:pointer;position:relative;overflow:hidden;transition:background .3s,transform .3s}
+.btn::after{content:"";position:absolute;inset:4px;border:1px solid rgba(251,243,230,.35);border-radius:2px;pointer-events:none}
+.btn:hover{background:var(--burg2);transform:translateY(-2px)}
+.btn.line{background:transparent;color:#fbf3e6;box-shadow:inset 0 0 0 1.5px rgba(251,243,230,.6)}
+.btn.line::after{display:none}
+.btn.line:hover{background:rgba(251,243,230,.12)}
+.btn.green{background:var(--green)}
+.btn.green:hover{background:var(--green2)}
+
+/* Navigation */
+.nav{position:sticky;top:var(--bar);z-index:900;color:#fbf3e6;transition:background .4s,box-shadow .4s}
+.nav.is-solid{background:rgba(31,58,46,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 1px 0 rgba(184,137,59,.4)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:74px}
+.logo{display:inline-flex;align-items:center;gap:12px;text-decoration:none}
+.logo svg{width:40px;height:40px}
+.logo b{display:block;font:700 21px/1 var(--hd)}
+.logo small{display:block;font:800 10px/1 var(--bd);letter-spacing:.26em;text-transform:uppercase;color:#d9bf8c;margin-top:5px}
+.nav ul{display:flex;list-style:none;margin:0;padding:0;gap:2px}
+.nav ul a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;text-decoration:none;font-weight:700;font-size:15px;position:relative}
+.nav ul a::after{content:"";position:absolute;left:14px;right:14px;bottom:8px;height:1px;background:#d9bf8c;transform:scaleX(0);transition:transform .3s}
+.nav ul a:hover::after{transform:scaleX(1)}
+.nav .btn{min-height:44px;padding:0 18px;font-size:12px}
+.burger{display:none;width:48px;height:48px;border:1.5px solid rgba(251,243,230,.4);border-radius:4px;background:transparent;color:inherit;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.burger span{width:20px;height:2px;background:currentColor;transition:transform .3s,opacity .3s}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.panel{position:fixed;inset:calc(var(--bar) + 74px) 0 0 0;background:var(--green);color:#fbf3e6;padding:30px 24px;display:flex;flex-direction:column;gap:2px;opacity:0;visibility:hidden;clip-path:inset(0 0 100% 0);transition:clip-path .5s cubic-bezier(.7,0,.2,1),opacity .3s,visibility 0s .5s;z-index:899}
+.panel.is-open{opacity:1;visibility:visible;clip-path:inset(0 0 0 0);transition:clip-path .5s cubic-bezier(.7,0,.2,1),opacity .3s}
+.panel a{font:700 30px/1 var(--hd);text-decoration:none;min-height:60px;display:flex;align-items:center;border-bottom:1px solid rgba(217,191,140,.25)}
+.panel .btn{font:800 14px/1 var(--bd);margin-top:24px;border:0}
+@media (max-width:940px){.nav ul,.nav .wrap>.btn{display:none}.burger{display:flex}}
+
+/* Hero */
+.hero{position:relative;min-height:calc(100svh - var(--bar));margin-top:-74px;display:grid;place-items:center;text-align:center;color:#fbf3e6;overflow:hidden;isolation:isolate}
+.hero__bg{position:absolute;inset:0;z-index:-1}
+.hero__bg::after{content:"";position:absolute;inset:0;background:radial-gradient(80% 70% at 50% 50%,rgba(20,38,30,.45),rgba(20,38,30,.82)),linear-gradient(180deg,rgba(20,38,30,.6),transparent 30%,transparent 70%,rgba(20,38,30,.9))}
+.hero__in{padding:150px 24px 140px;max-width:900px}
+.crest{width:86px;height:86px;margin:0 auto;color:#d9bf8c;animation:spinIn 1.6s cubic-bezier(.2,.7,.2,1) both}
+@keyframes spinIn{from{opacity:0;transform:rotate(-40deg) scale(.7)}to{opacity:1;transform:none}}
+.hero .kick{color:#d9bf8c;margin-top:22px}
+.hero h1{font-size:clamp(46px,8vw,112px);line-height:1;margin-top:20px;letter-spacing:-.015em;text-shadow:0 4px 40px rgba(0,0,0,.35)}
+.hero h1 em{font-style:italic;font-weight:500;color:#e9cf9c}
+.hero h1 span{display:inline-block;opacity:0;transform:translateY(24px);animation:up 1.2s cubic-bezier(.2,.7,.2,1) forwards}
+.hero h1 span:nth-of-type(2){animation-delay:.18s}
+@keyframes up{to{opacity:1;transform:none}}
+.hero p{font-size:19px;max-width:600px;margin:24px auto 0;color:#eadfc9}
+.hero__cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+.todaybar{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);display:flex;align-items:center;gap:14px;background:rgba(251,247,239,.95);color:var(--ink);padding:10px 12px 10px 18px;border-radius:999px;box-shadow:0 20px 40px -20px rgba(0,0,0,.5);width:max-content;max-width:calc(100% - 32px);font-size:14px}
+.todaybar b{font-weight:800}
+.todaybar a{flex:none;display:inline-flex;align-items:center;min-height:36px;padding:0 14px;border-radius:999px;background:var(--green);color:#fbf3e6;text-decoration:none;font-weight:800;font-size:13px}
+.todaybar .dot{flex:none;width:9px;height:9px;border-radius:50%;background:#9a8f84}
+.todaybar .dot.on{background:#3fa36b;box-shadow:0 0 0 4px rgba(63,163,107,.2)}
+.todaybar span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* Über uns */
+.about{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,6vw,90px);align-items:center}
+.about__img{position:relative}
+.about__img img{width:100%;aspect-ratio:4/4.6;object-fit:cover;border-radius:220px 220px 6px 6px;box-shadow:0 40px 60px -40px rgba(42,36,32,.6)}
+.about__img::before{content:"";position:absolute;inset:-14px;border:1px solid var(--gold);border-radius:234px 234px 10px 10px;pointer-events:none;opacity:.6}
+.stamp{position:absolute;right:-18px;bottom:40px;width:130px;height:130px;border-radius:50%;background:var(--burg);color:#fbf3e6;display:grid;place-items:center;text-align:center;font:700 13px/1.2 var(--hd);box-shadow:0 20px 40px -20px rgba(0,0,0,.5)}
+.stamp svg{position:absolute;inset:0;width:100%;height:100%;animation:rot 26s linear infinite}
+.stamp b{font-size:30px;display:block}
+@keyframes rot{to{transform:rotate(360deg)}}
+.nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:36px;border-top:1px solid var(--line);padding-top:26px}
+.nums b{display:block;font:700 clamp(34px,4vw,50px)/1 var(--hd);color:var(--green)}
+.nums span{display:block;color:var(--mu);font-size:14px;margin-top:6px;line-height:1.35}
+.sig{font:italic 500 26px/1 var(--hd);color:var(--burg);margin-top:28px}
+@media (max-width:860px){.about{grid-template-columns:1fr}.about__img{max-width:420px;margin:0 auto;width:calc(100% - 28px)}.stamp{right:-8px;width:110px;height:110px}}
+
+/* Wochenmenü */
+.week{background:var(--green);color:#f4ede0;position:relative}
+.week::before{content:"";position:absolute;inset:0;background:var(--noise);opacity:.6;pointer-events:none}
+.week .kick{color:#d9bf8c}.week .h2 em{color:#e9cf9c}.week .lead{color:#cfd9cf}
+.days{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:44px;position:relative}
+.days button{position:relative;min-height:74px;border:1px solid rgba(217,191,140,.3);border-radius:6px;background:transparent;color:inherit;cursor:pointer;font:700 20px/1 var(--hd);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;transition:background .3s,border-color .3s,color .3s}
+.days button small{font:700 12px/1 var(--bd);letter-spacing:.12em;color:#b9c8bc}
+.days button:hover{border-color:#d9bf8c}
+.days button[aria-selected="true"]{background:#f4ede0;color:var(--green);border-color:#f4ede0}
+.days button[aria-selected="true"] small{color:var(--burg)}
+.days button.is-today::after{content:"heute";position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--gold);color:#1f1a14;font:800 10px/1 var(--bd);letter-spacing:.14em;text-transform:uppercase;padding:4px 8px;border-radius:999px}
+.daycard{position:relative;margin-top:18px;background:var(--paper);color:var(--ink);border-radius:8px;padding:clamp(24px,4vw,48px);display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center;box-shadow:0 30px 60px -30px rgba(0,0,0,.5)}
+.daycard::before{content:"";position:absolute;inset:10px;border:1px solid var(--line);border-radius:4px;pointer-events:none}
+.daycard.swap>*{animation:fadeup .55s cubic-bezier(.2,.7,.2,1) both}
+.daycard.swap>*:nth-child(2){animation-delay:.08s}
+@keyframes fadeup{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.daycard h3{font-size:clamp(26px,3vw,34px)}
+.daycard .date{font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--burg)}
+.courses{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:0}
+.courses li{display:grid;grid-template-columns:110px 1fr;gap:16px;padding:12px 0;border-bottom:1px dashed var(--line);align-items:baseline}
+.courses li:last-child{border:0}
+.courses small{font-weight:800;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mu)}
+.courses span{font:500 19px/1.35 var(--hd)}
+.courses em{font-style:normal;font:800 11px/1 var(--bd);color:var(--green2);background:#e3ecdf;padding:3px 7px;border-radius:999px;margin-left:6px;vertical-align:3px;letter-spacing:.06em}
+.mprice{text-align:center;min-width:160px;position:relative}
+.mprice b{display:block;font:700 54px/1 var(--hd);color:var(--burg)}
+.mprice small{display:block;color:var(--mu);font-size:13px;margin-top:6px;line-height:1.4}
+.rest{text-align:center;grid-column:1/-1;padding:20px 0}
+.rest svg{width:90px;height:90px;color:var(--gold)}
+.rest h3{margin-top:10px}
+.rest p{color:var(--mu);margin-top:8px}
+@media (max-width:760px){.days{gap:6px}.days button{min-height:64px;font-size:17px}.days button small{font-size:10px;letter-spacing:.06em}.daycard{grid-template-columns:1fr}.courses li{grid-template-columns:1fr;gap:2px}.mprice{border-top:1px solid var(--line);padding-top:20px}}
+
+/* Speisekarte */
+.menu{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,40px);margin-top:56px}
+.mcol h3{font-size:30px;text-align:center;padding-bottom:16px;border-bottom:1px solid var(--ink);position:relative}
+.mcol h3::after{content:"";position:absolute;left:50%;bottom:-5px;width:9px;height:9px;background:var(--cream);border:1px solid var(--ink);transform:translateX(-50%) rotate(45deg)}
+.dish{padding:18px 0;border-bottom:1px solid var(--line);transition:background .3s}
+.dish__t{display:flex;align-items:baseline;gap:10px}
+.dish__t b{font:600 19px/1.3 var(--hd)}
+.dish__t i{flex:1;border-bottom:1.5px dotted #b9ab93;transform:translateY(-4px);min-width:20px}
+.dish__t span{font:700 19px/1 var(--hd);color:var(--burg);white-space:nowrap}
+.dish p{color:var(--mu);font-size:15px;margin-top:4px;line-height:1.5}
+.dish sup{font-size:10px;font-weight:800;color:#9a8b75;letter-spacing:.06em}
+.dish .v{display:inline-block;font:800 10px/1 var(--bd);color:var(--green2);background:#e3ecdf;padding:3px 6px;border-radius:999px;vertical-align:3px;margin-left:4px;letter-spacing:.06em}
+.mphotos{display:grid;grid-template-columns:1.3fr 1fr;gap:18px;margin-top:60px}
+.mphoto{position:relative;overflow:hidden;border-radius:6px;background:#e5dccb}
+.mphoto img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.mphoto:hover img{transform:scale(1.05)}
+.mphoto figcaption{position:absolute;left:14px;bottom:14px;background:rgba(251,247,239,.94);padding:10px 14px;border-radius:4px;font:600 15px/1.3 var(--hd)}
+.mphoto figcaption b{color:var(--burg)}
+.mphoto.a{aspect-ratio:3/2}.mphoto.b img{position:absolute;inset:0}
+.allerg{margin-top:26px;color:var(--mu);font-size:13px;text-align:center}
+@media (max-width:900px){.menu{grid-template-columns:1fr;gap:44px}.mphotos{grid-template-columns:1fr}.mphoto.b{aspect-ratio:4/3}}
+
+/* Anrichten (scroll-gebunden) */
+.plating{position:relative;height:380vh;background:#16291f;color:#f4ede0}
+.plating::before{content:"";position:absolute;inset:0;background:var(--noise);opacity:.5;pointer-events:none}
+.pl__sticky{position:sticky;top:calc(var(--bar) + 74px);height:calc(100svh - var(--bar) - 74px);display:grid;grid-template-columns:.8fr 1.2fr;align-items:center;gap:clamp(20px,4vw,60px);max-width:1180px;margin:0 auto;padding:20px 24px;overflow:hidden}
+.pl__text .kick{color:#d9bf8c}
+.pl__text .h2{font-size:clamp(30px,4vw,52px)}
+.pl__text .h2 em{color:#e9cf9c}
+.pl__steps{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:4px;counter-reset:p}
+.pl__steps li{display:flex;align-items:center;gap:14px;font-weight:700;color:rgba(244,237,224,.4);transition:color .4s;min-height:34px}
+.pl__steps li::before{counter-increment:p;content:counter(p);width:28px;height:28px;flex:none;border-radius:50%;border:1px solid currentColor;display:grid;place-items:center;font:700 13px/1 var(--hd);transition:background .4s,color .4s}
+.pl__steps li.on{color:#f4ede0}
+.pl__steps li.on::before{background:#d9bf8c;color:#16291f;border-color:#d9bf8c}
+.pl__bar{height:2px;background:rgba(244,237,224,.15);margin-top:24px;overflow:hidden;max-width:340px}
+.pl__bar i{display:block;height:100%;background:#d9bf8c;transform-origin:left;transform:scaleX(0)}
+.pl__stage{position:relative;height:100%;max-height:640px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:0}
+.pl__stage svg{width:100%;height:100%;max-height:560px;min-height:0;flex:1 1 auto}
+.pl__label{margin-top:10px;text-align:center;font:italic 500 clamp(19px,2.2vw,26px)/1.3 var(--hd);color:#f4ede0;opacity:0;transform:translateY(12px);transition:opacity .6s,transform .6s}
+.pl__label b{font-style:normal;font-weight:700;color:#e9cf9c;white-space:nowrap}
+.pl__label.on{opacity:1;transform:none}
+.steam path{opacity:0}
+.steam.on path{animation:steam 3.2s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+.steam.on path:nth-child(2){animation-delay:1s}.steam.on path:nth-child(3){animation-delay:2s}
+@keyframes steam{0%{opacity:0;transform:translateY(20px) scaleY(.7)}35%{opacity:.7}100%{opacity:0;transform:translateY(-50px) scaleY(1.3)}}
+@media (max-width:860px){.plating{height:320vh}.pl__sticky{grid-template-columns:1fr;grid-template-rows:auto 1fr;align-content:start;gap:8px;padding-top:18px}.pl__text .lead,.pl__text .kick{display:none}.pl__text .h2{margin-top:0;font-size:28px}.pl__steps{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}.pl__steps li{font-size:0;gap:0;min-height:0}.pl__steps li::before{font-size:12px}.pl__bar{display:none}.pl__label{font-size:18px}}
+.pl__now{display:none}
+@media (max-width:860px){.pl__now{display:block;margin-top:10px;font:italic 500 18px/1.3 var(--hd);color:#e9cf9c}.pl__stage{justify-content:flex-start}.pl__stage svg{flex:0 1 auto}}
+.plating.static{height:auto}.plating.static .pl__sticky{position:relative;top:0;height:auto;min-height:0;padding:80px 24px}
+
+/* Gastgarten & Feiern */
+.garden{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
+.garden__img{position:relative;overflow:hidden;border-radius:6px;min-height:460px}
+.garden__img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.garden__img .cap{position:absolute;left:0;right:0;bottom:0;padding:90px 30px 28px;background:linear-gradient(transparent,rgba(20,38,30,.9));color:#f4ede0}
+.garden__img h3{font-size:clamp(28px,3vw,40px)}
+.garden__img p{color:#e2dccd;margin-top:8px;max-width:460px}
+.hall{background:var(--burg);color:#fbf3e6;border-radius:6px;padding:clamp(28px,4vw,44px);position:relative;overflow:hidden;display:flex;flex-direction:column}
+.hall::before{content:"";position:absolute;inset:10px;border:1px solid rgba(251,243,230,.25);border-radius:3px;pointer-events:none}
+.hall .big{font:700 clamp(80px,10vw,128px)/.9 var(--hd);color:#f3d9a8}
+.hall .big small{font:italic 500 22px/1 var(--hd);color:#fbf3e6;margin-left:6px}
+.hall h3{font-size:28px;margin-top:10px}
+.hall ul{list-style:none;padding:0;margin:20px 0 0;display:grid;gap:8px;color:#f3e2df}
+.hall li{display:flex;gap:10px;align-items:baseline}
+.hall li::before{content:"❧";color:#f3d9a8}
+.hall .btn{margin-top:auto;align-self:flex-start;background:#fbf3e6;color:var(--burg);position:relative}
+.hall .btn::after{border-color:rgba(109,31,42,.25)}
+.hall .space{height:26px}
+@media (max-width:860px){.garden{grid-template-columns:1fr}.garden__img{min-height:380px}}
+
+/* Reservieren */
+.res{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(30px,5vw,70px);align-items:start}
+.card{background:var(--paper);border-radius:6px;padding:clamp(24px,4vw,46px);position:relative;box-shadow:0 30px 60px -40px rgba(42,36,32,.5)}
+.card::before{content:"";position:absolute;inset:10px;border:1px solid var(--line);border-radius:3px;pointer-events:none}
+.card>*{position:relative}
+.f{display:grid;gap:7px;margin-bottom:16px}
+.f label,.f legend{font-weight:800;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);padding:0}
+.f input,.f select,.f textarea{width:100%;min-height:52px;border:0;border-bottom:1.5px solid #c9bba3;background:transparent;padding:0 4px;font:600 17px var(--bd);color:var(--ink);border-radius:0}
+.f textarea{min-height:90px;padding:10px 4px;resize:vertical}
+.f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--burg);background:rgba(109,31,42,.03)}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+fieldset.f{border:0;margin:0 0 16px;min-width:0;padding:0}
+.stepper{display:inline-flex;align-items:center;border:1.5px solid #c9bba3;border-radius:4px}
+.stepper button{width:48px;height:48px;border:0;background:transparent;font:700 22px/1 var(--hd);cursor:pointer;color:var(--burg)}
+.stepper button:hover{background:rgba(109,31,42,.06)}
+.stepper output{min-width:110px;text-align:center;font:700 18px/1 var(--hd)}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg label{position:relative}
+.seg input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.seg span{display:inline-flex;align-items:center;min-height:46px;padding:0 16px;border:1.5px solid #c9bba3;border-radius:4px;font-weight:700;font-size:15px;transition:all .2s}
+.seg input:checked+span{background:var(--green);border-color:var(--green);color:#f4ede0}
+.seg input:focus-visible+span{outline:2.5px solid var(--gold);outline-offset:2px}
+.msg{display:none;margin-top:18px;padding:16px 18px;border-radius:4px;background:var(--green);color:#f4ede0;font-weight:700}
+.msg.on{display:block;animation:fadeup .5s both}
+.phone{margin-top:30px;display:flex;gap:16px;align-items:center}
+.phone i{width:54px;height:54px;border-radius:50%;background:var(--burg);display:grid;place-items:center;color:#fbf3e6;flex:none}
+.phone i svg{width:22px;height:22px}
+.phone b{display:block;font:700 24px/1.1 var(--hd)}
+.phone small{color:var(--mu)}
+@media (max-width:860px){.res{grid-template-columns:1fr}.f2{grid-template-columns:1fr}}
+
+/* Zeiten & Anfahrt */
+.visit{display:grid;grid-template-columns:.9fr 1.1fr;gap:18px}
+.hours{background:var(--green);color:#f4ede0;border-radius:6px;padding:clamp(26px,4vw,44px);position:relative}
+.hours::before{content:"";position:absolute;inset:10px;border:1px solid rgba(217,191,140,.3);border-radius:3px;pointer-events:none}
+.hours .kick{color:#d9bf8c}
+.hours h2{font-size:clamp(30px,3.6vw,44px);margin-top:12px}
+.htab{width:100%;border-collapse:collapse;margin-top:20px;position:relative}
+.htab th,.htab td{padding:12px 0;border-bottom:1px solid rgba(217,191,140,.22);text-align:left;font-weight:700;vertical-align:top}
+.htab td{text-align:right;font-weight:500;color:#dfe6dd}
+.htab td small{display:block;color:#a9bcae;font-size:13px}
+.htab tr.rest th,.htab tr.rest td{color:#9fb2a4}
+.htab tr.today th{color:#e9cf9c}
+.htab tr.today th::after{content:" · heute";font-weight:500;font-style:italic;font-family:var(--hd)}
+.vmap{position:relative;border-radius:6px;overflow:hidden;min-height:440px;background:#e9dfcb}
+.vmap svg{position:absolute;inset:0;width:100%;height:100%}
+.vmap__card{position:absolute;left:16px;right:16px;bottom:16px;background:var(--paper);border-radius:4px;padding:16px 20px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;box-shadow:0 20px 40px -20px rgba(0,0,0,.4)}
+.vmap__card b{font:700 21px/1.2 var(--hd)}
+.vmap__card small{display:block;color:var(--mu);font-size:14px}
+.pin{transform-box:fill-box;transform-origin:50% 100%;animation:pin 2.6s cubic-bezier(.3,1.5,.5,1) infinite}
+@keyframes pin{0%,60%,100%{transform:none}30%{transform:translateY(-10px)}}
+.leaf{transform-box:fill-box;transform-origin:center;animation:sway 5s ease-in-out infinite}
+@keyframes sway{50%{transform:rotate(4deg) scale(1.03)}}
+@media (max-width:860px){.visit{grid-template-columns:1fr}.vmap{min-height:440px}}
+
+/* Footer */
+.foot{background:var(--green);color:#cfd9cf;margin-top:clamp(80px,10vw,130px);padding:70px 0 34px;position:relative}
+.foot::before{content:"";position:absolute;left:0;right:0;top:-14px;height:14px;background:radial-gradient(circle at 7px 14px,var(--green) 7px,transparent 7.5px) 0 0/14px 14px repeat-x}
+.foot__top{text-align:center}
+.foot__top svg{width:60px;height:60px;color:#d9bf8c}
+.foot__top h2{font-size:clamp(32px,4vw,48px);color:#f4ede0;margin-top:12px}
+.foot__top p{font:italic 500 19px/1.4 var(--hd);color:#d9bf8c;margin-top:8px}
+.foot__row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:50px;font-size:15px;line-height:1.8;border-top:1px solid rgba(217,191,140,.25);padding-top:30px}
+.foot__row strong{color:#f4ede0}
+.foot__demo{margin-top:30px;text-align:center;color:#e9cf9c;font-weight:800;font-size:14px;letter-spacing:.04em}
+@media (max-width:760px){.foot__row{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.hero h1 span{opacity:1;transform:none;animation:none}.crest{animation:none}}
+</style></head><body>
+<div class="tk-demo-bar"><a href="/#beispiele"><img src="/beispiele/_shared/tk-logo.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
+<span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musteradresse</span>
+<a class="tk-demo-bar__cta" href="/#anfrage">So eine Seite anfragen</a></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="crest" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width=".8" stroke-dasharray="2 3"/><path d="M50 74 C50 60 50 48 50 34" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M50 56 C40 52 34 44 33 36 C42 38 48 46 50 56 Z M50 50 C60 46 66 38 67 30 C58 32 52 40 50 50 Z" fill="currentColor"/><g fill="currentColor"><circle cx="50" cy="28" r="3"/><circle cx="44" cy="25" r="2.4"/><circle cx="56" cy="25" r="2.4"/><circle cx="47" cy="20" r="2"/><circle cx="53" cy="20" r="2"/><circle cx="40" cy="30" r="2"/><circle cx="60" cy="30" r="2"/></g><path d="M28 78 H72" stroke="currentColor" stroke-width="1.2"/></symbol>
+  <symbol id="orn" viewBox="0 0 120 18"><path d="M0 9 H44 M76 9 H120" stroke="currentColor"/><path d="M60 2 L67 9 L60 16 L53 9 Z" fill="none" stroke="currentColor"/><circle cx="48" cy="9" r="2" fill="currentColor"/><circle cx="72" cy="9" r="2" fill="currentColor"/></symbol>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="logo" href="#top"><svg aria-hidden="true" style="color:#d9bf8c"><use href="#crest"/></svg><span><b>Hollerhof</b><small>Landgasthof · seit 1923</small></span></a>
+    <nav aria-label="Hauptnavigation"><ul>
+      <li><a href="#woche">Wochenmenü</a></li><li><a href="#karte">Speisekarte</a></li><li><a href="#feiern">Feiern</a></li><li><a href="#besuch">Öffnungszeiten</a></li>
+    </ul></nav>
+    <a class="btn" href="#reservieren">Tisch reservieren</a>
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="panel" aria-label="Menü öffnen"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="panel" id="panel" aria-label="Mobiles Menü">
+  <a href="#woche">Wochenmenü</a><a href="#karte">Speisekarte</a><a href="#anrichten">Aus der Küche</a><a href="#feiern">Gastgarten &amp; Feiern</a><a href="#besuch">Öffnungszeiten &amp; Anfahrt</a>
+  <a class="btn" href="#reservieren">Tisch reservieren</a>
+</div>
+
+<main id="top">
+<section class="hero">
+  <div class="hero__bg" aria-hidden="true"><video class="tk-video" data-autoplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/gasthaus-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/gasthaus.mp4" type="video/mp4"></video></div>
+  <div class="hero__in">
+    <svg class="crest" aria-hidden="true"><use href="#crest"/></svg>
+    <p class="kick c">Landgasthof · Musterdorf</p>
+    <h1><span>Wirtshausküche,</span><br><span><em>wie sie sein soll.</em></span></h1>
+    <p>Mostviertler Küche aus der Region – ehrlich gekocht, schön angerichtet und seit vier Generationen am Dorfplatz.</p>
+    <div class="hero__cta"><a class="btn" href="#reservieren">Tisch reservieren</a><a class="btn line" href="#karte">Zur Speisekarte</a></div>
+  </div>
+  <div class="todaybar" id="today"><i class="dot" id="today-dot"></i><span id="today-t"><b>Heute</b> · Mittagsmenü ab 11:30</span><a href="#woche">Wochenmenü</a></div>
+</section>
+
+<section class="sec" aria-labelledby="ab-h">
+  <div class="wrap about">
+    <div class="about__img" data-reveal>
+      <img src="/beispiele/gasthaus/stube.jpg" alt="Gaststube mit Holztisch, Holzbank und grüner Wandvertäfelung" width="960" height="640" loading="lazy">
+      <div class="stamp" aria-hidden="true"><svg viewBox="0 0 130 130"><defs><path id="circ" d="M65 65 m-50 0 a50 50 0 1 1 100 0 a50 50 0 1 1 -100 0"/></defs><text font-family="Nunito Sans, sans-serif" font-size="10.5" font-weight="800" letter-spacing="3.2" fill="#f3d9a8"><textPath href="#circ">· AUS DER REGION · FÜR DIE REGION </textPath></text></svg><span><b>100</b>Jahre</span></div>
+    </div>
+    <div>
+      <p class="kick" data-reveal>Über uns</p>
+      <h2 class="h2" id="ab-h" data-reveal style="--d:.08s">Ein Wirtshaus, <em>wie früher.</em> Nur besser.</h2>
+      <p class="lead" data-reveal style="--d:.14s">Seit 1923 kocht unsere Familie am Dorfplatz. Das Schwein kommt vom Hof nebenan, der Most aus dem eigenen Birnengarten und die Knödel werden jeden Morgen von Hand gedreht – wie bei der Oma.</p>
+      <div class="nums" data-reveal style="--d:.2s">
+        <div><b data-count="14">14</b><span>Bauern aus dem Umkreis von 20 km</span></div>
+        <div><b data-count="80">80</b><span>Plätze im Festsaal</span></div>
+        <div><b data-count="4">4</b><span>Generationen Familie Holler</span></div>
+      </div>
+      <p class="sig" data-reveal style="--d:.26s">– Maria &amp; Stefan Holler</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec week" id="woche" aria-labelledby="w-h">
+  <div class="wrap">
+    <div class="center"><p class="kick c" data-reveal>Mittagstisch</p>
+    <h2 class="h2" id="w-h" data-reveal style="--d:.08s">Das <em>Wochenmenü</em></h2>
+    <p class="lead" data-reveal style="--d:.14s">Suppe und Hauptspeise um 11,90 €, mit Nachspeise 13,90 €. Mittwoch bis Freitag von 11:30 bis 14:00 Uhr.</p></div>
+    <div class="days" role="tablist" aria-label="Wochentage" id="days"></div>
+    <div class="daycard" id="daycard" role="tabpanel" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="sec" id="karte" aria-labelledby="k-h">
+  <div class="wrap">
+    <div class="center"><p class="kick c" data-reveal>Speisekarte</p>
+    <h2 class="h2" id="k-h" data-reveal style="--d:.08s">Was bei uns <em>auf den Tisch</em> kommt</h2>
+    <svg class="orn" aria-hidden="true"><use href="#orn"/></svg></div>
+    <div class="menu">
+      <div class="mcol" data-reveal>
+        <h3>Vorspeisen</h3>
+        <div class="dish"><div class="dish__t"><b>Frittatensuppe</b><i></i><span>4,90</span></div><p>Kräftige Rindsuppe mit hausgemachten Frittaten <sup>A C G L</sup></p></div>
+        <div class="dish"><div class="dish__t"><b>Leberknödelsuppe</b><i></i><span>5,20</span></div><p>Ein großer Knödel, wie er sein muss <sup>A C L</sup></p></div>
+        <div class="dish"><div class="dish__t"><b>Kürbiscremesuppe <span class="v">VEG</span></b><i></i><span>5,40</span></div><p>Mit steirischem Kernöl und gerösteten Kernen <sup>G L</sup></p></div>
+        <div class="dish"><div class="dish__t"><b>Blunzngröstl-Radl</b><i></i><span>9,80</span></div><p>Auf lauwarmem Krautsalat mit Kren <sup>A C M</sup></p></div>
+        <div class="dish"><div class="dish__t"><b>Liptauer-Brettl <span class="v">VEG</span></b><i></i><span>6,90</span></div><p>Hausgemachter Liptauer, Radieschen, Bauernbrot <sup>A G</sup></p></div>
+      </div>
+      <div class="mcol" data-reveal style="--d:.1s">
+        <h3>Hauptspeisen</h3>
+        <div class="dish"><div class="dish__t"><b>Wiener Schnitzel vom Kalb</b><i></i><span>21,90</span></div><p>In Butterschmalz gebacken, Petersilerdäpfel, Preiselbeeren <sup>A C G</sup></p></div>
+        <div class="dish"><div class="dish__t"><b>Schnitzel vom Schwein</b><i></i><span>14,90</span></div><p>Mit Erdäpfel-Vogerlsalat <sup>A C M</sup></p></div>
+        <div class="dish"><div class="dish__t"><b>Schweinsbraten</b><i></i><span>16,90</span></div><p>Mit knuspriger Kruste, Serviettenknödel und warmem Speckkraut <sup>A C G</sup></p></div>
+        <div class="dish"><div class="dish__t"><b>Zwiebelrostbraten</b><i></i><span>24,50</span></div><p>Vom Mostviertler Rind, Röstzwiebel, Braterdäpfel <sup>A L</sup></p></div>
+        <div class="dish"><div class="dish__t"><b>Eierschwammerl-Gulasch <span class="v">VEG</span></b><i></i><span>14,50</span></div><p>Mit Serviettenknödel und Sauerrahm <sup>A C G</sup></p></div>
+        <div class="dish"><div class="dish__t"><b>Mostviertler Kasnocken <span class="v">VEG</span></b><i></i><span>12,90</span></div><p>Bergkäse, Röstzwiebel, grüner Salat <sup>A C G</sup></p></div>
+      </div>
+      <div class="mcol" data-reveal style="--d:.2s">
+        <h3>Mehlspeisen</h3>
+        <div class="dish"><div class="dish__t"><b>Apfelstrudel</b><i></i><span>5,90</span></div><p>Mit Schlagobers oder Vanilleeis <sup>A C G H</sup></p></div>
+        <div class="dish"><div class="dish__t"><b>Kaiserschmarrn</b><i></i><span>10,90</span></div><p>Mit Zwetschkenröster – für Hungrige oder zu zweit <sup>A C G</sup></p></div>
+        <div class="dish"><div class="dish__t"><b>Mohnnudeln</b><i></i><span>7,90</span></div><p>In Butter geschwenkt, mit Staubzucker <sup>A C G</sup></p></div>
+        <div class="dish"><div class="dish__t"><b>Topfenpalatschinken</b><i></i><span>6,90</span></div><p>Zwei Stück, überbacken <sup>A C G</sup></p></div>
+        <div class="dish"><div class="dish__t"><b>Mostbirnen-Parfait</b><i></i><span>6,50</span></div><p>Aus dem eigenen Birnengarten <sup>C G</sup></p></div>
+      </div>
+    </div>
+    <div class="mphotos">
+      <figure class="mphoto a" style="margin:0" data-reveal><img src="/beispiele/gasthaus/braten.jpg" alt="Saftiger Braten mit Kruste, aufgeschnitten auf einem weißen Teller" width="960" height="640" loading="lazy"><figcaption>Sonntagsbraten · <b>ab 16,90 €</b></figcaption></figure>
+      <figure class="mphoto b" style="margin:0" data-reveal><img src="/beispiele/gasthaus/schnitzel.jpg" alt="Goldbraun gebackenes Schnitzel mit Erdäpfelsalat auf weißem Teller" width="683" height="1024" loading="lazy"><figcaption>Schnitzel vom Schwein · <b>14,90 €</b></figcaption></figure>
+    </div>
+    <p class="allerg">Alle Preise in Euro inkl. MwSt. · Allergene laut Codex-Kennzeichnung (A–R), wir beraten Sie gern.</p>
+  </div>
+</section>
+
+<section class="plating" id="anrichten" aria-labelledby="pl-h">
+  <div class="pl__sticky">
+    <div class="pl__text">
+      <p class="kick">Aus der Küche</p>
+      <h2 class="h2" id="pl-h">So kommt <em>der Braten</em> auf den Teller.</h2>
+      <p class="lead" style="color:#cfd9cf">Scrollen Sie langsam – unser Küchenchef richtet an.</p>
+      <ol class="pl__steps" id="pl-steps">
+        <li>Vorgewärmter Teller</li><li>Ein Schwung Bratensaftl</li><li>Drei Scheiben Braten</li><li>Serviettenknödel</li><li>Frische Kräuter</li><li>Serviert – Mahlzeit!</li>
+      </ol>
+      <p class="pl__now" id="pl-now" aria-hidden="true"></p>
+      <div class="pl__bar" aria-hidden="true"><i id="pl-bar"></i></div>
+    </div>
+    <div class="pl__stage">
+      <svg id="pl-svg" viewBox="0 0 600 600" role="img" aria-labelledby="pl-t">
+        <title id="pl-t">Animation: Ein Teller wird angerichtet – Saft, drei Scheiben Schweinsbraten, zwei Serviettenknödel und Kräuter, zum Schluss steigt Dampf auf.</title>
+        <defs>
+          <radialGradient id="pl-plate" cx=".45" cy=".4" r=".65"><stop offset="0" stop-color="#ffffff"/><stop offset=".8" stop-color="#f1ece3"/><stop offset="1" stop-color="#ddd5c7"/></radialGradient>
+          <radialGradient id="pl-well" cx=".5" cy=".45" r=".6"><stop offset="0" stop-color="#fbf9f5"/><stop offset="1" stop-color="#ebe4d8"/></radialGradient>
+          <radialGradient id="pl-shadow"><stop offset=".7" stop-color="#000" stop-opacity=".45"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+          <linearGradient id="pl-meat" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ecc3a1"/><stop offset="1" stop-color="#d9a17b"/></linearGradient>
+          <radialGradient id="pl-kn" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#fbe9bf"/><stop offset=".8" stop-color="#ecd08f"/><stop offset="1" stop-color="#c99a52"/></radialGradient>
+          <linearGradient id="pl-linen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#efe6d4"/><stop offset="1" stop-color="#d9ccb2"/></linearGradient>
+        </defs>
+        <g id="pl-cutlery" opacity="0">
+          <rect x="18" y="80" width="70" height="440" rx="6" fill="url(#pl-linen)" opacity=".9" transform="rotate(-4 53 300)"/>
+          <g transform="translate(52 300) rotate(-4)" fill="#c9c3b8"><rect x="-4" y="-40" width="8" height="190" rx="4"/><path d="M-14 -150 L-14 -90 C-14 -70 -6 -60 0 -56 C6 -60 14 -70 14 -90 L14 -150 L10 -150 L10 -96 L6 -96 L6 -150 L2 -150 L2 -96 L-2 -96 L-2 -150 L-6 -150 L-6 -96 L-10 -96 L-10 -150 Z"/></g>
+          <g transform="translate(560 300) rotate(3)" fill="#c9c3b8"><rect x="-4" y="-20" width="8" height="170" rx="4"/><path d="M-6 -20 L-6 -160 C6 -150 10 -100 6 -20 Z"/></g>
+        </g>
+        <g id="pl-plate" style="transform-origin:300px 300px">
+          <ellipse cx="306" cy="316" rx="240" ry="236" fill="url(#pl-shadow)" opacity=".7"/>
+          <circle cx="300" cy="300" r="232" fill="url(#pl-plate)"/>
+          <circle cx="300" cy="300" r="166" fill="url(#pl-well)" stroke="#e2dacc" stroke-width="2"/>
+          <circle cx="300" cy="300" r="212" fill="none" stroke="#b8893b" stroke-width="1.2" opacity=".55"/>
+          <circle cx="300" cy="300" r="206" fill="none" stroke="#b8893b" stroke-width=".6" opacity=".4"/>
+        </g>
+        <path id="pl-sauce" d="M176 368 C214 446 366 452 432 360 C450 334 452 306 444 286" fill="none" stroke="#6e3818" stroke-width="30" stroke-linecap="round"/>
+        <path id="pl-sauce2" d="M196 380 C240 434 352 436 414 362" fill="none" stroke="#a5602e" stroke-width="5" stroke-linecap="round" opacity=".7"/>
+        <g id="pl-meat">
+          <g class="slice"><ellipse cx="0" cy="8" rx="72" ry="42" fill="#000" opacity=".12"/><path d="M-70 -6 C-70 -30 -40 -40 0 -40 C40 -40 70 -30 70 -6 L70 6 C70 30 40 38 0 38 C-40 38 -70 30 -70 6 Z" fill="url(#pl-meat)"/><path d="M-70 -6 C-70 -30 -40 -40 0 -40 C40 -40 70 -30 70 -6 C50 -18 30 -22 0 -22 C-30 -22 -52 -18 -70 -6 Z" fill="#f6e6cf"/><path d="M-70 -10 C-70 -34 -40 -46 0 -46 C40 -46 70 -34 70 -10 C50 -26 30 -30 0 -30 C-30 -30 -52 -26 -70 -10 Z" fill="#7b3e17"/><path d="M-52 -34 l6 10 M-36 -40 l6 11 M-18 -43 l5 11 M0 -44 l4 12 M18 -43 l4 11 M36 -40 l3 11 M52 -34 l2 10" stroke="#c9813c" stroke-width="2.5" stroke-linecap="round"/><path d="M-30 4 C-10 10 14 8 34 2" stroke="#c98a66" stroke-width="2" fill="none" opacity=".6"/></g>
+          <g class="slice"><ellipse cx="0" cy="8" rx="72" ry="42" fill="#000" opacity=".12"/><path d="M-70 -6 C-70 -30 -40 -40 0 -40 C40 -40 70 -30 70 -6 L70 6 C70 30 40 38 0 38 C-40 38 -70 30 -70 6 Z" fill="url(#pl-meat)"/><path d="M-70 -6 C-70 -30 -40 -40 0 -40 C40 -40 70 -30 70 -6 C50 -18 30 -22 0 -22 C-30 -22 -52 -18 -70 -6 Z" fill="#f6e6cf"/><path d="M-70 -10 C-70 -34 -40 -46 0 -46 C40 -46 70 -34 70 -10 C50 -26 30 -30 0 -30 C-30 -30 -52 -26 -70 -10 Z" fill="#7b3e17"/><path d="M-52 -34 l6 10 M-36 -40 l6 11 M-18 -43 l5 11 M0 -44 l4 12 M18 -43 l4 11 M36 -40 l3 11 M52 -34 l2 10" stroke="#c9813c" stroke-width="2.5" stroke-linecap="round"/><path d="M-30 4 C-10 10 14 8 34 2" stroke="#c98a66" stroke-width="2" fill="none" opacity=".6"/></g>
+          <g class="slice"><ellipse cx="0" cy="8" rx="72" ry="42" fill="#000" opacity=".12"/><path d="M-70 -6 C-70 -30 -40 -40 0 -40 C40 -40 70 -30 70 -6 L70 6 C70 30 40 38 0 38 C-40 38 -70 30 -70 6 Z" fill="url(#pl-meat)"/><path d="M-70 -6 C-70 -30 -40 -40 0 -40 C40 -40 70 -30 70 -6 C50 -18 30 -22 0 -22 C-30 -22 -52 -18 -70 -6 Z" fill="#f6e6cf"/><path d="M-70 -10 C-70 -34 -40 -46 0 -46 C40 -46 70 -34 70 -10 C50 -26 30 -30 0 -30 C-30 -30 -52 -26 -70 -10 Z" fill="#7b3e17"/><path d="M-52 -34 l6 10 M-36 -40 l6 11 M-18 -43 l5 11 M0 -44 l4 12 M18 -43 l4 11 M36 -40 l3 11 M52 -34 l2 10" stroke="#c9813c" stroke-width="2.5" stroke-linecap="round"/><path d="M-30 4 C-10 10 14 8 34 2" stroke="#c98a66" stroke-width="2" fill="none" opacity=".6"/></g>
+        </g>
+        <g id="pl-kn">
+          <g class="kn"><circle r="48" cy="6" fill="#000" opacity=".12"/><circle r="46" fill="url(#pl-kn)"/><circle r="46" fill="none" stroke="#b98a45" stroke-width="3"/><g fill="#e3bf76" opacity=".9"><rect x="-22" y="-18" width="9" height="8" rx="2" transform="rotate(20)"/><rect x="8" y="-26" width="8" height="8" rx="2"/><rect x="14" y="8" width="9" height="7" rx="2" transform="rotate(-15)"/><rect x="-14" y="14" width="8" height="8" rx="2"/><rect x="-2" y="-4" width="7" height="7" rx="2"/></g><g fill="#5e8a3a"><circle cx="-8" cy="-26" r="2.4"/><circle cx="22" cy="-6" r="2"/><circle cx="-26" cy="4" r="2.2"/><circle cx="6" cy="24" r="2.2"/><circle cx="-4" cy="10" r="1.8"/></g><path d="M-30 -20 A36 36 0 0 1 10 -36" stroke="#fff" stroke-width="4" fill="none" opacity=".5" stroke-linecap="round"/></g>
+          <g class="kn"><circle r="48" cy="6" fill="#000" opacity=".12"/><circle r="46" fill="url(#pl-kn)"/><circle r="46" fill="none" stroke="#b98a45" stroke-width="3"/><g fill="#e3bf76" opacity=".9"><rect x="-20" y="-22" width="9" height="8" rx="2"/><rect x="10" y="-20" width="8" height="8" rx="2" transform="rotate(25)"/><rect x="12" y="12" width="9" height="7" rx="2"/><rect x="-18" y="10" width="8" height="8" rx="2" transform="rotate(-20)"/><rect x="0" y="0" width="7" height="7" rx="2"/></g><g fill="#5e8a3a"><circle cx="4" cy="-28" r="2.2"/><circle cx="-24" cy="-6" r="2.4"/><circle cx="26" cy="2" r="2"/><circle cx="-6" cy="26" r="2.2"/></g><path d="M-30 -20 A36 36 0 0 1 10 -36" stroke="#fff" stroke-width="4" fill="none" opacity=".5" stroke-linecap="round"/></g>
+        </g>
+        <g id="pl-herbs"></g>
+        <g class="steam" id="pl-steam" fill="none" stroke="#cbbfa9" stroke-width="4.5" stroke-linecap="round">
+          <path d="M330 220 C316 200 344 186 330 160 C318 140 340 128 334 108"/>
+          <path d="M370 214 C356 194 384 180 370 154 C358 134 380 122 374 102"/>
+          <path d="M290 230 C276 210 304 196 290 170 C278 150 300 138 294 118"/>
+        </g>
+      </svg>
+      <p class="pl__label" id="pl-label">Unser Schweinsbraten mit Serviettenknödel – <b>16,90 €</b></p>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="feiern" aria-labelledby="g-h">
+  <div class="wrap">
+    <p class="kick" data-reveal>Gastgarten &amp; Feiern</p>
+    <h2 class="h2" id="g-h" data-reveal style="--d:.08s">Unter der Linde – <em>oder im Saal.</em></h2>
+    <p class="lead" data-reveal style="--d:.14s">Von Mai bis September sitzen Sie im schattigen Gastgarten unter der alten Dorflinde. Für Hochzeiten, Taufen und Firmenfeiern gibt's unseren Festsaal.</p>
+    <div class="garden" style="margin-top:44px">
+      <div class="garden__img" data-reveal>
+        <img src="/beispiele/gasthaus/gastgarten.jpg" alt="Gastgarten mit rot-braunen Holztischen und Klappstühlen, Blumen auf den Tischen" width="960" height="640" loading="lazy">
+        <div class="cap"><h3>Gastgarten · 120 Plätze</h3><p>Mit Kinderspielplatz, Most vom Fass und dem besten Ausblick auf den Kirchturm.</p></div>
+      </div>
+      <div class="hall" data-reveal style="--d:.1s">
+        <div class="big" data-count="80">80</div>
+        <h3>Personen im Festsaal</h3>
+        <ul><li>Hochzeiten, Taufen, Geburtstage</li><li>Firmenfeiern &amp; Weihnachtsfeiern</li><li>Buffet ab 29 € pro Person</li><li>Eigene Bühne, Beamer &amp; Tanzfläche</li></ul>
+        <div class="space"></div>
+        <a class="btn" href="#reservieren">Feier anfragen</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="reservieren" style="padding-top:0" aria-labelledby="r-h">
+  <div class="wrap res">
+    <div>
+      <p class="kick" data-reveal>Reservierung</p>
+      <h2 class="h2" id="r-h" data-reveal style="--d:.08s">Wir halten Ihnen <em>einen Platz</em> frei.</h2>
+      <p class="lead" data-reveal style="--d:.14s">Am Wochenende und an Feiertagen empfehlen wir zu reservieren. Für Gruppen ab 12 Personen rufen Sie uns am besten an.</p>
+      <div class="phone" data-reveal style="--d:.2s"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></i><div><b>01234 / 1923</b><small>Mi–So ab 9 Uhr</small></div></div>
+    </div>
+    <form class="card" id="form" novalidate data-reveal>
+      <div class="f2">
+        <div class="f"><label for="r-date">Datum</label><input id="r-date" name="date" type="date"></div>
+        <div class="f"><label for="r-time">Uhrzeit</label><select id="r-time" name="time"><option>11:30</option><option>12:00</option><option selected>12:30</option><option>13:00</option><option>17:30</option><option>18:00</option><option>18:30</option><option>19:00</option><option>19:30</option><option>20:00</option></select></div>
+      </div>
+      <div class="f"><span id="pers-l" style="font-weight:800;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--mu)">Personen</span>
+        <div class="stepper" role="group" aria-labelledby="pers-l"><button type="button" id="p-minus" aria-label="Eine Person weniger">−</button><output id="pers" aria-live="polite">2 Personen</output><button type="button" id="p-plus" aria-label="Eine Person mehr">+</button></div></div>
+      <fieldset class="f"><legend>Wo möchten Sie sitzen?</legend><div class="seg">
+        <label><input type="radio" name="ort" value="stube" checked><span>Gaststube</span></label>
+        <label><input type="radio" name="ort" value="garten"><span>Gastgarten</span></label>
+        <label><input type="radio" name="ort" value="egal"><span>Egal</span></label>
+      </div></fieldset>
+      <div class="f2"><div class="f"><label for="r-name">Name</label><input id="r-name" name="name" autocomplete="name"></div><div class="f"><label for="r-tel">Telefon</label><input id="r-tel" name="tel" type="tel" autocomplete="tel"></div></div>
+      <div class="f"><label for="r-note">Anmerkung</label><textarea id="r-note" name="note" placeholder="Kinderstuhl, Geburtstag, Allergien …"></textarea></div>
+      <button class="btn" type="submit">Tisch anfragen</button>
+      <p class="msg" id="msg" role="status"></p>
+    </form>
+  </div>
+</section>
+
+<section class="wrap" id="besuch" aria-labelledby="v-h">
+  <div class="visit">
+    <div class="hours" data-reveal>
+      <p class="kick">Öffnungszeiten</p>
+      <h2 id="v-h">Wann wir für Sie kochen</h2>
+      <table class="htab" id="htab">
+        <caption style="position:absolute;left:-9999px">Öffnungszeiten Landgasthof Hollerhof</caption>
+        <tr class="rest" data-d="1"><th scope="row">Montag</th><td>Ruhetag</td></tr>
+        <tr class="rest" data-d="2"><th scope="row">Dienstag</th><td>Ruhetag</td></tr>
+        <tr data-d="3"><th scope="row">Mittwoch</th><td>10:00 – 23:00<small>Küche 11:30–14:00 · 17:30–21:00</small></td></tr>
+        <tr data-d="4"><th scope="row">Donnerstag</th><td>10:00 – 23:00<small>Küche 11:30–14:00 · 17:30–21:00</small></td></tr>
+        <tr data-d="5"><th scope="row">Freitag</th><td>10:00 – 23:00<small>Küche 11:30–14:00 · 17:30–21:00</small></td></tr>
+        <tr data-d="6"><th scope="row">Samstag</th><td>10:00 – 23:00<small>Küche durchgehend 11:30–21:00</small></td></tr>
+        <tr data-d="0"><th scope="row">Sonntag &amp; Feiertag</th><td>9:00 – 17:00<small>Küche 11:30–14:30</small></td></tr>
+      </table>
+    </div>
+    <div class="vmap" data-reveal style="--d:.1s">
+      <svg viewBox="0 0 640 480" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustrierte Dorfkarte: Landgasthof Hollerhof am Dorfplatz neben der Kirche, Parkplatz hinter dem Haus, Bushaltestelle an der Landesstraße">
+        <rect width="640" height="480" fill="#e9dfcb"/>
+        <g fill="#dccfb4"><path d="M0 0 H240 L210 140 L0 170 Z"/><path d="M420 0 H640 V200 L450 150 Z"/><path d="M0 330 L230 300 L260 480 H0 Z"/><path d="M430 310 L640 280 V480 H460 Z"/></g>
+        <g stroke="#cdbf9f" stroke-width="1" opacity=".7"><path d="M20 20 L200 10 M10 50 L196 40 M8 80 L190 70 M6 110 L184 100"/><path d="M450 20 L630 30 M446 50 L630 62 M444 80 L630 94 M446 110 L630 126"/></g>
+        <path d="M-10 250 C120 236 250 226 330 232 S520 252 650 236" stroke="#fbf7ef" stroke-width="40" fill="none"/>
+        <path d="M-10 250 C120 236 250 226 330 232 S520 252 650 236" stroke="#d9bf8c" stroke-width="2" stroke-dasharray="16 14" fill="none"/>
+        <path d="M330 -10 C320 80 336 160 330 232 C326 320 340 400 330 490" stroke="#fbf7ef" stroke-width="26" fill="none"/>
+        <circle cx="330" cy="236" r="62" fill="#efe6d4" stroke="#d1c3a6" stroke-width="2"/>
+        <g class="leaf"><circle cx="330" cy="236" r="30" fill="#5f8a5a"/><circle cx="318" cy="226" r="16" fill="#79a06f"/><circle cx="342" cy="244" r="12" fill="#4f7a4b"/></g>
+        <g><rect x="380" y="150" width="70" height="56" rx="4" fill="#cfc2a7"/><rect x="398" y="118" width="26" height="40" fill="#bfae8c"/><path d="M398 118 L411 88 L424 118 Z" fill="#6d1f2a"/><circle cx="411" cy="134" r="5" fill="#f4ede0"/></g>
+        <text x="458" y="186" text-anchor="start" font-family="Nunito Sans, sans-serif" font-size="11" font-weight="800" fill="#7a6b55" letter-spacing="2">KIRCHE</text>
+        <g><rect x="210" y="150" width="96" height="62" rx="4" fill="#1f3a2e"/><path d="M204 152 L258 118 L312 152 Z" fill="#6d1f2a"/><rect x="250" y="186" width="16" height="26" fill="#d9bf8c"/></g>
+        <g fill="#1f3a2e"><rect x="140" y="160" width="56" height="40" rx="4" fill="#cfc2a7"/></g>
+        <g transform="translate(-90 -10)"><rect x="200" y="80" width="80" height="48" rx="4" fill="#fbf7ef" stroke="#cdbf9f"/><text x="240" y="110" text-anchor="middle" font-family="Nunito Sans, sans-serif" font-size="16" font-weight="900" fill="#1f3a2e">P</text><text x="240" y="122" text-anchor="middle" font-family="Nunito Sans, sans-serif" font-size="8" font-weight="800" fill="#7a6b55">30 PLÄTZE</text></g>
+        <g><rect x="520" y="256" width="28" height="18" rx="3" fill="#2d5240"/><text x="534" y="269" text-anchor="middle" font-family="Nunito Sans, sans-serif" font-size="10" font-weight="900" fill="#fbf7ef">H</text><text x="534" y="290" text-anchor="middle" font-family="Nunito Sans, sans-serif" font-size="10" font-weight="800" fill="#7a6b55">BUS</text></g>
+        <text x="40" y="232" font-family="Nunito Sans, sans-serif" font-size="11" font-weight="800" fill="#9a8b70" letter-spacing="2" transform="rotate(-3 40 232)">LANDESSTRASSE L 1234</text>
+        <text x="330" y="318" text-anchor="middle" font-family="Playfair, serif" font-style="italic" font-size="15" fill="#7a6b55">Dorfplatz</text>
+        <g class="pin"><path d="M258 120 C244 98 234 86 234 72 a24 24 0 0 1 48 0 C282 86 272 98 258 120Z" fill="#6d1f2a"/><circle cx="258" cy="72" r="9" fill="#f4ede0"/></g>
+      </svg>
+      <div class="vmap__card"><div><b>Dorfplatz 1, 3281 Musterdorf</b><small>Parkplatz hinter dem Haus · Bus „Musterdorf Ort“</small></div><a class="btn green" href="#reservieren" style="min-height:46px">Reservieren</a></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__top"><svg aria-hidden="true"><use href="#crest"/></svg><h2>Landgasthof Hollerhof</h2><p>Mahlzeit – und bis bald am Dorfplatz.</p></div>
+    <div class="foot__row">
+      <div><strong>Familie Holler</strong><br>Dorfplatz 1, 3281 Musterdorf<br>01234 / 1923 · servus@hollerhof.example</div>
+      <div><strong>Geöffnet</strong><br>Mi–Sa 10–23 Uhr · So 9–17 Uhr<br>Ruhetag: Montag &amp; Dienstag</div>
+      <div><strong>Mehr</strong><br><a href="#karte">Speisekarte</a> · <a href="#feiern">Feiern</a><br><a href="#top">Nach oben ↑</a></div>
+    </div>
+    <p class="foot__demo">Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb</p>
+  </div>
+</footer>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/gasthaus/app.js" defer></script></body></html>
