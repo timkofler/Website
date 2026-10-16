@@ -17,7 +17,7 @@ Options -Indexes
   # Kurzlink für den QR-Code im Brief an Betriebe
   RewriteRule ^brief/?$ /?utm_source=brief&utm_campaign=referenzkunde#pakete [R=302,NE,L]
   # Kurzer Link für Flyer, Briefe und Karten zur Newsletter-Anmeldung mit Checkliste
-  RewriteRule ^checkliste/?$ /newsletter/?utm_source=checkliste [R=302,L]
+  RewriteRule ^checkliste/?$ /newsletter/ [R=302,L]
 </IfModule>
 <If "%{HTTP_HOST} =~ /^(www\.)?tim-kofler\.at$/i">
   DirectoryIndex index.html index.php
