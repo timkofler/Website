@@ -64,3 +64,20 @@ Die Seite liegt auf dem Webspace von ALL-INKL.COM (KAS). Im KAS prüfen bzw. erl
 - **Manuell** über GitHub → Actions → „Webseite veröffentlichen“ → „Run workflow“
 
 Einmalig die vier Secrets unter GitHub → Settings → Secrets and variables → Actions anlegen: `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`, `FTP_SERVER_DIR`. Die Werte stehen im KAS unter „FTP“ und „Domains“. Ohne Secrets läuft der Workflow durch, veröffentlicht aber nichts.
+
+## Kundenportal auf tim-kofler.at
+
+Unter **tim-kofler.at/kunden/** melden sich Webdesign-Kunden an und laden Bilder, Logos und Texte hoch. Tim verwaltet die Kunden unter **tim-kofler.at/kunden/admin/** und bekommt bei jedem Upload eine E-Mail (über Brevo, an `notify_email`).
+
+```
+webdesign/kunden/index.php         Anmeldung und Upload für Kunden
+webdesign/kunden/admin/index.php   Admin: Kunden anlegen, Passwörter, Uploads ansehen/herunterladen/löschen
+webdesign/api/kunden-lib.php       Logik (Konten, Schutz vor Passwort-Raten, Upload-Prüfung, Benachrichtigung)
+webdesign/assets/css/portal.css    Design des Portals
+webdesign/assets/js/portal.js      Fortschrittsbalken beim Hochladen
+kunden/                            Pro Kunde ein Ordner im Repo, Vorlage in kunden/_vorlage/
+```
+
+- Konten und hochgeladene Dateien liegen nur auf dem Webspace unter `api/_data/kunden/` (für Besucher gesperrt, nicht im Repo). Passwörter nur als Hash.
+- Einrichten: `tim-kofler.at/kunden/admin/` aufrufen, Admin-Passwort wählen, den angezeigten Hash als `admin_password_hash` in `api/_data/config.php` auf dem Webspace eintragen (siehe `config.example.php`).
+- Im KAS die PHP-Werte `upload_max_filesize` (z. B. 200M) und `post_max_size` (z. B. 1024M), dazu `max_execution_time`/`max_input_time` (z. B. 600) prüfen. Das Portal zeigt den Kunden automatisch die tatsächlich erlaubte Größe.

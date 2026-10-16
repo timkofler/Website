@@ -26,4 +26,14 @@ return [
     'weiter_webseite'  => '/danke/',
     // Akzentfarbe (Schwarz-Weiß mit Grau) für Buttons in Mails
     'accent'           => '#d9d9d9',
+
+    // ---------------- Kundenportal (/kunden/) ----------------
+    // Hash des Admin-Passworts. Erzeugen: tim-kofler.at/kunden/admin/ aufrufen, solange das Feld leer ist,
+    // Passwort wählen und den angezeigten Hash hier eintragen. Das Passwort selbst steht nirgends.
+    'admin_password_hash' => '',
+    // Größte Datei in MB (Fotos vom Handy oft 10–20 MB, Videos mehr).
+    // Wirkt nur bis zu den PHP-Werten upload_max_filesize/post_max_size im KAS, diese entsprechend hochsetzen.
+    'upload_max_mb'    => 200,
+    // Speicherplatz je Kunde in GB
+    'kunde_max_gb'     => 10,
 ];
