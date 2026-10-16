@@ -77,11 +77,44 @@
       var div = document.createElement("div"); div.className = "day" + (w === hl ? " is-today" : "");
       var lis = o.i.map(function (x) { return "<li><span>" + x[0] + "</span><i></i>" + (x[2] ? "<s>" + x[2] + "</s>" : "") + "<b>" + x[1] + "</b></li>"; }).join("");
       div.innerHTML = '<h3>' + WD[w] + ' <small>' + d.getDate() + '.' + (d.getMonth() + 1) + '.</small></h3><p style="font:500 20px/1.2 var(--ch);color:#a9c7b8;margin-top:2px">' + o.t + '</p><ul>' + lis + '</ul>' +
-        '<svg class="ring" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" vector-effect="non-scaling-stroke" d="M8 14 C30 3 74 2 93 9 C99 30 99 70 94 92 C70 99 30 98 6 93 C1 70 1 34 5 16 C7 11 14 7 22 6"/></svg>' +
+        (w === hl ? '<svg class="ring" aria-hidden="true"></svg>' : '') +
         '<span class="tag" aria-hidden="true">' + (sunday ? "morgen!" : "heute!") + '</span>';
       if (w === hl) div.setAttribute("aria-label", WD[w] + (sunday ? " (morgen)" : " (heute)"));
       wrap.appendChild(div);
     }
+    // Kreidekreis um den heutigen Tag: in echten Pixeln berechnet, damit er sich ganz schließt.
+    var ringDay = wrap.querySelector(".day.is-today"), ringSvg = ringDay && ringDay.querySelector(".ring");
+    function chalkRing() {
+      if (!ringSvg) return;
+      var P = 18, w = ringDay.offsetWidth + 2 * P, h = ringDay.offsetHeight + 2 * P;
+      var cx = w / 2, cy = h / 2, rx = w / 2 - 4, ry = h / 2 - 4, pts = [], n = 22, seed = 7;
+      function rnd() { seed = (seed * 9301 + 49297) % 233280; return seed / 233280 - 0.5; }
+      // etwas mehr als eine Runde, mit leichter Unruhe wie von Hand
+      for (var k = 0; k <= n + 3; k++) {
+        var a = -2.25 + (k / n) * Math.PI * 2, j = 1 + rnd() * 0.035;
+        var sq = 0.55; // eher rechteckig-rund, damit der Text frei bleibt
+        var ca = Math.cos(a), sa = Math.sin(a);
+        var x = cx + rx * j * Math.sign(ca) * Math.pow(Math.abs(ca), 1 - sq);
+        var y = cy + ry * j * Math.sign(sa) * Math.pow(Math.abs(sa), 1 - sq) + (k > n ? -6 * (k - n) : 0);
+        pts.push([x, y]);
+      }
+      var d = "M" + pts[0][0].toFixed(1) + " " + pts[0][1].toFixed(1);
+      for (var i = 0; i < pts.length - 1; i++) {
+        var p0 = pts[Math.max(0, i - 1)], p1 = pts[i], p2 = pts[i + 1], p3 = pts[Math.min(pts.length - 1, i + 2)];
+        d += " C" + (p1[0] + (p2[0] - p0[0]) / 6).toFixed(1) + " " + (p1[1] + (p2[1] - p0[1]) / 6).toFixed(1) + " " +
+             (p2[0] - (p3[0] - p1[0]) / 6).toFixed(1) + " " + (p2[1] - (p3[1] - p1[1]) / 6).toFixed(1) + " " + p2[0].toFixed(1) + " " + p2[1].toFixed(1);
+      }
+      ringSvg.setAttribute("viewBox", "0 0 " + w + " " + h);
+      ringSvg.style.width = w + "px"; ringSvg.style.height = h + "px";
+      ringSvg.style.left = -P + "px"; ringSvg.style.top = -P + "px";
+      ringSvg.innerHTML = '<defs><filter id="chalk" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="3" result="n"/>' +
+        '<feDisplacementMap in="SourceGraphic" in2="n" scale="2.6" result="d"/><feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="1" seed="9" result="g"/>' +
+        '<feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.4 1.9" result="m"/><feComposite in="d" in2="m" operator="in"/></filter></defs>' +
+        '<g filter="url(#chalk)"><path class="r1" pathLength="1" d="' + d + '"/><path class="r2" pathLength="1" d="' + d + '" transform="translate(1.6 -1.2) rotate(.4 ' + cx.toFixed(0) + ' ' + cy.toFixed(0) + ')"/></g>';
+    }
+    chalkRing();
+    var ringT; window.addEventListener("resize", function () { clearTimeout(ringT); ringT = setTimeout(chalkRing, 150); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(chalkRing);
     var sat = addDays(monday, 5);
     $("#valid").textContent = "gültig " + monday.getDate() + ". – " + sat.getDate() + ". " + MON[sat.getMonth()];
     var board = $("#board");
@@ -151,7 +184,7 @@
       $$('input[name="x"]').forEach(function (c) { if (c.checked) { if (c.dataset.pp) pp += parseFloat(c.dataset.pp); if (c.dataset.fix) fix += parseFloat(c.dataset.fix); } });
       var total = Math.round(n * pp + fix), kg = n * parseFloat(s.dataset.g) / 1000, pl = Math.max(1, Math.ceil(n / 10));
       out.textContent = n;
-      est.className = "est s" + s.value;
+      est.classList.remove("s1", "s2", "s3"); est.classList.add("s" + s.value);   // nur die Größe tauschen, Einblend-Klasse bleibt
       $("#est-n").textContent = s.dataset.n + " · " + n + " Personen";
       $("#est-kg").textContent = "ca. " + kg.toFixed(1).replace(".", ",") + " kg";
       $("#est-pl").textContent = pl + (pl === 1 ? " Platte" : " Platten");
@@ -161,6 +194,7 @@
     function animate(to) {
       var from = lastTotal, t0 = null, elT = $("#est-total"); lastTotal = to;
       cancelAnimationFrame(raf);
+      var mini = $("#est-mini"); if (mini) mini.textContent = "ca. " + to + " €";
       if (reduce || !from) { elT.textContent = "ca. " + to + " €"; return; }
       (function step(t) { if (!t0) t0 = t; var k = Math.min(1, (t - t0) / 400), v = Math.round(from + (to - from) * (1 - Math.pow(1 - k, 3)));
         elT.textContent = "ca. " + v + " €"; if (k < 1) raf = requestAnimationFrame(step); })(performance.now());
