@@ -137,7 +137,7 @@
   var LINKS = {
     pakete: ["Zu den Paketen", "/#pakete"], anfrage: ["Anfrage stellen", "/#anfrage"], ablauf: ["Zum Ablauf", "/#ablauf"],
     email: ["Landingpages & E-Mail", "/#email"], beispiele: ["Beispielseiten ansehen", "/beispiele/"],
-    mail: ["E-Mail schreiben", "mailto:office@tim-kofler.at"], tel: ["Anrufen", "tel:+4367761773118"]
+    mail: ["E-Mail schreiben", "mailto:office@tim-kofler.at"], allinkl: ["ALL-INKL ansehen (Partnerlink)", "https://all-inkl.com/PA56CC1CF457650"], webspace: ["Meine Empfehlung", "/#webspace"], tel: ["Anrufen", "tel:+4367761773118"]
   };
   var ANSWERS = {
     preis: { q: "Was kostet eine Webseite?", a: "Die Pakete im Überblick:\n• Referenzkunde ab 290 € (einfache Seite, nur wenige Plätze)\n• Start ab 590 € (bis zu 3 Unterseiten)\n• Business ab 1.190 € (bis zu 8 Unterseiten)\n• Betreuung ab 29 € im Monat\nAlle Preise sind Endpreise, als Kleinunternehmer ohne Umsatzsteuer.", links: ["pakete", "anfrage"] },
@@ -145,10 +145,10 @@
     referenz: { q: "Was ist ein Referenzkunde?", a: "Für eine begrenzte Zahl von Kunden baue ich eine einfache Seite ab 290 €. Im Gegenzug darf ich sie als Referenz zeigen, du gibst eine ehrliche Google-Bewertung und im Footer steht ein kleiner Hinweis auf meine Arbeit.", links: ["pakete", "anfrage"] },
     email: { q: "Landingpage & Newsletter?", a: "Ja, mache ich: Landingpages für Aktionen oder Anzeigen, Newsletter-Anmeldung mit Double-Opt-in und automatische E-Mails wie eine Willkommensserie. Der Versand läuft über Brevo, einen E-Mail-Dienst aus der EU.", links: ["email", "anfrage"] },
     ablauf: { q: "Wie läuft es ab?", a: "In vier Schritten:\n1. Gespräch: Was soll die Seite können?\n2. Entwurf im Stil deines Unternehmens\n3. Umsetzung mit deinen Texten und Bildern\n4. Online-Schaltung und Anmeldung bei Google", links: ["ablauf", "anfrage"] },
-    hosting: { q: "Domain & Hosting?", a: "Domain und Webspace laufen auf deinen Namen, bei einem Anbieter deiner Wahl. Das kostet je nach Anbieter etwa 5 bis 10 € im Monat. Ich helfe dir bei Auswahl und Einrichtung, die Seite gehört dir.", links: ["anfrage"] },
+    hosting: { q: "Domain & Hosting?", a: "Domain und Webspace laufen auf deinen Namen, die Seite gehört dir. Ich empfehle ALL-INKL.COM, dort laufen auch meine eigenen Seiten: ab 4,95 € im Monat, mit eigener .at-Domain und eigenen E-Mail-Adressen wie office@deinbetrieb.at, erster Monat kostenlos, monatlich kündbar. Mein Tipp ist Privat+ um 7,95 € mit SSL und 24-Stunden-Hotline. Auf Wunsch richte ich alles für dich ein.\n(Partnerlink: Für dich ändert sich am Preis nichts, ich bekomme eine kleine Provision.)", links: ["webspace", "allinkl", "anfrage"] },
     google: { q: "Werde ich bei Google gefunden?", a: "Jede Seite bekommt saubere Grundlagen: schnelle Ladezeit, gute Titel und Beschreibungen, Sitemap, strukturierte Daten und die Anmeldung bei Google. Einen bestimmten Platz kann niemand seriös versprechen, aber die Basis stimmt.", links: ["pakete"] },
     baukasten: { q: "Warum kein Baukasten?", a: "Eine programmierte Seite lädt nur, was sie braucht. Sie ist schneller, sicherer, braucht keine Plugin-Updates und das Design gibt es so nur einmal.", links: ["beispiele"] },
-    beispiele: { q: "Gibt es Beispiele?", a: "Ja, sieben komplette Beispielseiten: Friseur, Café, Autowerkstatt, Gasthaus, Bäckerei, Tischlerei und Heilmasseurin. Alle mit Videos, eigenen Animationen und Funktionen wie Online-Buchung, live im Browser zum Ausprobieren.", links: ["beispiele", "anfrage"] },
+    beispiele: { q: "Gibt es Beispiele?", a: "Ja, neun komplette Beispielseiten: Friseur, Café, Autowerkstatt, Gasthaus, Bäckerei, Fleischerei, Tischlerei, Malerbetrieb und Heilmasseurin. Alle mit Videos, eigenen Animationen und Funktionen wie Online-Buchung, live im Browser zum Ausprobieren.", links: ["beispiele", "anfrage"] },
     kontakt: { q: "Persönlich anfragen", a: "Gerne! Am schnellsten über das Anfrageformular. Oder direkt per E-Mail an office@tim-kofler.at bzw. unter +43 677 61773118.", links: ["anfrage", "mail", "tel"] }
   };
   var CHIPS = ["preis", "beispiele", "dauer", "referenz", "email", "ablauf", "kontakt"];
@@ -203,6 +203,7 @@
         var a = document.createElement("a");
         a.href = LINKS[k][1];
         a.textContent = LINKS[k][0];
+        if (/^https?:/.test(LINKS[k][1])) { a.target = "_blank"; a.rel = "sponsored noopener"; }
         if (LINKS[k][1].charAt(0) === "/") a.addEventListener("click", function () { close(); });
         row.appendChild(a);
       });

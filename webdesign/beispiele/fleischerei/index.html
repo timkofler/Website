@@ -1,0 +1,781 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fleischerei Haselberger – Beispiel-Entwurf | tim-kofler.at</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Beispiel-Entwurf einer Webseite für eine Fleischerei von Tim Kofler – Webdesign. Erfundener Betrieb.">
+<meta name="theme-color" content="#4a141c">
+<link rel="icon" href="/assets/img/tk-badge.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/beispiele/_shared/demo.css">
+<style>
+@font-face{font-family:"Caslon";src:url(/beispiele/_shared/fonts/caslon-400.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Caslon";src:url(/beispiele/_shared/fonts/caslon-700.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Outfit";src:url(/beispiele/_shared/fonts/outfit.woff2) format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Caveat";src:url(/beispiele/fleischerei/caveat.woff2) format("woff2");font-weight:500 700;font-display:swap}
+:root{--ox:#5a1721;--ox2:#7a2331;--ox3:#3a0e15;--cream:#f5efe5;--paper:#fbf8f2;--slate:#1c1b1e;--slate2:#28262a;--gold:#b48c48;--gold2:#dcbd80;--ink:#241c1b;--mu:#6b5e58;--line:#e3d7c7;--chalk:#ecebe4;
+--hd:"Caslon","Libre Caslon Text","Big Caslon",Georgia,"Times New Roman",serif;--bd:"Outfit",system-ui,-apple-system,"Segoe UI",sans-serif;--ch:"Caveat","Segoe Print","Bradley Hand",cursive;--bar:42px;--navh:76px;
+--noise:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .3  0 0 0 0 .2  0 0 0 0 .15  0 0 0 .08 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:130px}
+body{margin:0;color:var(--ink);font:400 17px/1.65 var(--bd);-webkit-font-smoothing:antialiased;overflow-x:hidden;background:var(--cream) var(--noise)}
+img,svg,video{max-width:100%}
+a{color:inherit}
+h1,h2,h3{font-family:var(--hd);font-weight:700;line-height:1.08;margin:0}
+p{margin:0}
+:focus-visible{outline:2.5px solid var(--gold);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.sec{padding:clamp(80px,10vw,130px) 0}
+.kick{display:inline-flex;align-items:center;gap:12px;font:600 12px/1 var(--bd);letter-spacing:.26em;text-transform:uppercase;color:var(--ox2)}
+.kick::before{content:"";width:9px;height:9px;background:currentColor;transform:rotate(45deg)}
+.h2{font-size:clamp(34px,4.8vw,60px);margin-top:16px;letter-spacing:-.012em}
+.h2 em{font-style:italic;font-weight:400;color:var(--ox2)}
+.lead{color:var(--mu);font-size:18px;max-width:600px;margin-top:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border:0;border-radius:2px;background:var(--ox);color:#fbf3e8;font:600 15px/1 var(--bd);letter-spacing:.04em;text-decoration:none;cursor:pointer;transition:background .3s,transform .3s,box-shadow .3s;box-shadow:inset 0 0 0 1px rgba(220,189,128,.35)}
+.btn:hover{background:var(--ox2);transform:translateY(-2px)}
+.btn svg{width:18px;height:18px}
+.btn.gold{background:var(--gold2);color:var(--ox3);box-shadow:none}
+.btn.gold:hover{background:#e8cd96}
+.btn.ghost{background:transparent;color:#fbf3e8;box-shadow:inset 0 0 0 1.5px rgba(251,243,232,.55)}
+.btn.ghost:hover{background:rgba(251,243,232,.1)}
+
+/* Navigation */
+.nav{position:sticky;top:var(--bar);z-index:900;color:#f8efe2;transition:background .4s,box-shadow .4s}
+.nav.is-solid{background:rgba(58,14,21,.96);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 1px 0 rgba(220,189,128,.35)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:var(--navh);gap:16px}
+.logo{display:inline-flex;align-items:center;gap:12px;text-decoration:none;min-height:44px}
+.logo svg{width:46px;height:46px;flex:none}
+.logo b{display:block;font:700 22px/1 var(--hd);letter-spacing:.01em}
+.logo small{display:block;font:500 10px/1 var(--bd);letter-spacing:.3em;text-transform:uppercase;color:var(--gold2);margin-top:6px}
+.nav ul{display:flex;list-style:none;margin:0;padding:0;gap:0}
+.nav ul a{display:inline-flex;align-items:center;min-height:44px;padding:0 13px;text-decoration:none;font-weight:500;font-size:15px;position:relative}
+.nav ul a::after{content:"";position:absolute;left:50%;bottom:9px;width:5px;height:5px;background:var(--gold2);transform:translateX(-50%) rotate(45deg) scale(0);transition:transform .3s}
+.nav ul a:hover::after{transform:translateX(-50%) rotate(45deg) scale(1)}
+.nav .btn{min-height:44px;padding:0 18px;font-size:14px}
+.burger{display:none;width:48px;height:48px;border:1.5px solid rgba(248,239,226,.45);border-radius:2px;background:transparent;color:inherit;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.burger span{width:20px;height:2px;background:currentColor;transition:transform .3s,opacity .3s}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.panel{position:fixed;inset:calc(var(--bar) + var(--navh)) 0 0 0;background:var(--ox3) var(--noise);color:#f8efe2;padding:26px 24px;display:flex;flex-direction:column;opacity:0;visibility:hidden;clip-path:inset(0 0 100% 0);transition:clip-path .5s cubic-bezier(.7,0,.2,1),opacity .3s,visibility 0s .5s;z-index:899;overflow:auto}
+.panel.is-open{opacity:1;visibility:visible;clip-path:inset(0 0 0 0);transition:clip-path .5s cubic-bezier(.7,0,.2,1),opacity .3s}
+.panel a:not(.btn){font:700 28px/1 var(--hd);text-decoration:none;min-height:58px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(220,189,128,.22)}
+.panel a:not(.btn)::after{content:"→";font:400 20px/1 var(--bd);color:var(--gold2)}
+.panel .btn{margin-top:24px}
+.panel p{margin-top:22px;color:#cdb9a4;font-size:15px}
+@media (max-width:1020px){.nav ul,.nav .wrap>.btn{display:none}.burger{display:flex}}
+
+/* Hero */
+.hero{position:relative;min-height:calc(100svh - var(--bar));margin-top:calc(var(--navh) * -1);display:flex;align-items:flex-end;color:#fbf3e8;overflow:hidden;isolation:isolate;background:#120b0c}
+.hero__bg{position:absolute;inset:0;z-index:-1}
+.hero__bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(18,8,10,.92) 0%,rgba(18,8,10,.72) 38%,rgba(18,8,10,.15) 75%),linear-gradient(0deg,rgba(18,8,10,.95),transparent 45%),linear-gradient(180deg,rgba(18,8,10,.7),transparent 22%)}
+.hero__in{width:100%;padding-top:150px;padding-bottom:56px}
+.hero__txt{max-width:780px}.hero p.intro{max-width:540px}
+.status{display:inline-flex;align-items:center;gap:10px;padding:8px 16px 8px 12px;border-radius:999px;background:rgba(251,243,232,.1);box-shadow:inset 0 0 0 1px rgba(251,243,232,.22);font-size:14px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.status i{width:9px;height:9px;border-radius:50%;background:#a39890;flex:none}
+.status.on i{background:#5fcf86;box-shadow:0 0 0 0 rgba(95,207,134,.6);animation:pulse 2.2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(95,207,134,0)}100%{box-shadow:0 0 0 0 rgba(95,207,134,0)}}
+.status b{font-weight:600}
+.hero h1{font-size:clamp(44px,7.4vw,104px);line-height:.98;letter-spacing:-.02em;margin-top:26px}
+.hero h1 span{display:block;overflow:hidden;padding-bottom:.06em}
+.hero h1 span>i{display:block;font-style:normal;transform:translateY(105%);animation:rise 1.1s cubic-bezier(.2,.75,.2,1) forwards}
+.hero h1 span:nth-child(2)>i{animation-delay:.12s;font-style:italic;font-weight:400;color:var(--gold2)}
+.hero h1 span:nth-child(3)>i{animation-delay:.24s}
+@keyframes rise{to{transform:none}}
+.hero p.intro{font-size:19px;max-width:520px;margin-top:24px;color:#e8dccd;opacity:0;animation:fade 1s .5s forwards}
+@keyframes fade{to{opacity:1}}
+.hero__cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px;opacity:0;animation:fade 1s .7s forwards}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:64px;border-top:1px solid rgba(220,189,128,.3)}
+.facts>div{padding:22px 20px 0 0}
+.facts b{display:block;font:700 clamp(30px,3.4vw,44px)/1 var(--hd);color:var(--gold2)}
+.facts span{display:block;font-size:14px;color:#cbbcab;margin-top:8px;line-height:1.4}
+.seal{position:absolute;right:clamp(16px,5vw,80px);top:calc(var(--navh) + 70px);width:150px;height:150px;color:var(--gold2)}
+.seal svg{width:100%;height:100%}
+.seal .rot{transform-origin:50% 50%;animation:spin 30s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (max-width:860px){.facts{grid-template-columns:repeat(2,minmax(0,1fr))}.seal{width:104px;height:104px;top:calc(var(--navh) + 30px)}.hero__in{padding-top:190px}}
+
+/* Laufband */
+.ticker{background:var(--ox);color:var(--gold2);overflow:hidden;border-top:1px solid rgba(220,189,128,.25);border-bottom:1px solid rgba(220,189,128,.25)}
+.ticker__track{display:flex;width:max-content;animation:tick 38s linear infinite}
+.ticker span{display:inline-flex;align-items:center;gap:22px;padding:15px 11px;font:italic 400 21px/1 var(--hd);white-space:nowrap}
+.ticker span::after{content:"";width:7px;height:7px;background:currentColor;transform:rotate(45deg);margin-left:11px}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* Wochenangebote: Tafel */
+.offers{background:var(--slate) var(--noise);color:var(--chalk);position:relative;overflow-x:clip}
+.offers .kick{color:var(--gold2)}.offers .h2 em{color:var(--gold2)}.offers .lead{color:#b9b2a8}
+.offers__head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap}
+.valid{font:600 26px/1.2 var(--ch);color:#f1dfa9;transform:rotate(-2deg)}
+.board{margin-top:46px;position:relative;padding:clamp(16px,2.4vw,26px);border-radius:6px;
+background:linear-gradient(135deg,#8a5a34,#5d3a20 40%,#7b4f2d 60%,#4f311b);box-shadow:0 40px 80px -30px rgba(0,0,0,.8),inset 0 2px 0 rgba(255,255,255,.15)}
+.board__in{position:relative;border-radius:3px;padding:clamp(22px,4vw,48px);background:radial-gradient(120% 90% at 30% 20%,#34403b 0%,#232c29 55%,#1a211f 100%);box-shadow:inset 0 0 0 1px rgba(0,0,0,.6),inset 0 0 60px rgba(0,0,0,.5);overflow:hidden}
+.board__in::before{content:"";position:absolute;inset:0;background:var(--noise);opacity:.9;mix-blend-mode:screen;pointer-events:none}
+.board__in::after{content:"";position:absolute;inset:0;background:radial-gradient(40% 30% at 70% 70%,rgba(255,255,255,.05),transparent 70%),radial-gradient(30% 20% at 20% 80%,rgba(255,255,255,.04),transparent 70%);pointer-events:none}
+.board__title{position:relative;text-align:center;font:700 clamp(36px,5vw,58px)/1 var(--ch);color:#fbfaf3;text-shadow:0 0 1px rgba(255,255,255,.6)}
+.board__title small{display:block;font:500 22px/1.3 var(--ch);color:#c9d6cf;margin-top:6px}
+.days{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,2.4vw,30px);margin-top:34px}
+.day{position:relative;padding:18px 18px 16px;border-top:2px dashed rgba(236,235,228,.28)}
+.day h3{font:700 34px/1 var(--ch);color:#f6e8b8;display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.day h3 small{font:500 19px/1 var(--ch);color:#a9b8b0}
+.day ul{list-style:none;margin:10px 0 0;padding:0}
+.day li{display:flex;align-items:baseline;gap:8px;font:500 23px/1.25 var(--ch);color:var(--chalk);padding:5px 0}
+.day li i{flex:1;border-bottom:2px dotted rgba(236,235,228,.3);min-width:16px;transform:translateY(-5px)}
+.day li b{font-weight:700;color:#fff;white-space:nowrap}
+.day li s{color:#c78f8f;font-size:18px;margin-right:4px}
+.day .ring{position:absolute;inset:-6px -10px -8px -10px;width:calc(100% + 20px);height:calc(100% + 14px);pointer-events:none;overflow:visible;display:none}
+.day .ring path{fill:none;stroke:#f3d77e;stroke-width:3;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.6s cubic-bezier(.6,.1,.2,1) .3s}
+.day.is-today .ring{display:block}
+.board.drawn .day.is-today .ring path{stroke-dashoffset:0}
+.day .tag{position:absolute;top:-22px;right:4px;font:700 26px/1 var(--ch);color:#f3d77e;transform:rotate(-8deg);display:none}
+.day.is-today .tag{display:block}
+.chalkpig{position:absolute;right:26px;bottom:14px;width:110px;height:70px;opacity:.55}
+.board__note{position:relative;margin-top:24px;text-align:center;font:500 21px/1.3 var(--ch);color:#c9d6cf}
+@media (max-width:900px){.days{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.days{grid-template-columns:1fr}.chalkpig{display:none}.day li{font-size:21px}}
+
+/* Sortiment */
+.sort__head{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:end}
+.tabs{display:flex;gap:6px;margin-top:44px;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:none;min-height:54px;padding:0 20px;border:0;background:transparent;font:600 16px/1 var(--bd);color:var(--mu);cursor:pointer;position:relative;white-space:nowrap}
+.tabs button::after{content:"";position:absolute;left:12px;right:12px;bottom:-1px;height:3px;background:var(--ox);transform:scaleX(0);transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.tabs button[aria-selected="true"]{color:var(--ox)}
+.tabs button[aria-selected="true"]::after{transform:none}
+.tabs button:hover{color:var(--ink)}
+.tpanel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:56px;padding-top:12px}
+.tpanel[hidden]{display:none}
+.tpanel.swap .item{animation:itemIn .5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i) * 40ms)}
+@keyframes itemIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.item{display:grid;grid-template-columns:1fr auto;gap:4px 18px;padding:20px 0;border-bottom:1px solid var(--line)}
+.item h3{font:700 21px/1.25 var(--hd)}
+.item h3 em{font:600 10px/1 var(--bd);font-style:normal;letter-spacing:.14em;text-transform:uppercase;background:var(--ox);color:#fbefe0;padding:4px 7px 3px;border-radius:2px;vertical-align:4px;margin-left:8px}
+.item h3 em.g{background:var(--gold);color:#2a1d0c}
+.item p{grid-column:1;color:var(--mu);font-size:15px;line-height:1.5}
+.item .pr{grid-column:2;grid-row:1/3;text-align:right;font:700 22px/1 var(--hd);color:var(--ox);white-space:nowrap}
+.item .pr small{display:block;font:500 12px/1 var(--bd);color:var(--mu);margin-top:6px;letter-spacing:.06em}
+.sort__note{margin-top:24px;color:var(--mu);font-size:14px;display:flex;gap:10px;align-items:flex-start}
+.sort__note svg{width:20px;height:20px;flex:none;color:var(--gold);margin-top:2px}
+@media (max-width:820px){.sort__head{grid-template-columns:1fr;gap:0}.tpanel{grid-template-columns:1fr}}
+
+/* Selcherei-Animation */
+.slice{position:relative;height:420vh;background:#141214;color:#f3ebdf;overflow-x:clip}
+.slice::before{content:"";position:absolute;inset:0;background:var(--noise);opacity:.6;pointer-events:none}
+.sl__sticky{position:sticky;top:calc(var(--bar) + var(--navh));height:calc(100svh - var(--bar) - var(--navh));display:grid;grid-template-columns:.78fr 1.22fr;align-items:center;gap:clamp(20px,4vw,60px);max-width:1240px;margin:0 auto;padding:20px 24px;overflow:hidden}
+.sl__sticky::before{content:"";position:absolute;left:58%;top:52%;width:900px;height:620px;transform:translate(-50%,-50%);background:radial-gradient(closest-side,rgba(180,120,70,.22),transparent);pointer-events:none}
+.sl__text{position:relative}
+.sl__text .kick{color:var(--gold2)}
+.sl__text .h2{font-size:clamp(30px,3.8vw,52px)}
+.sl__text .h2 em{color:var(--gold2)}
+.sl__text .lead{color:#b8aca0;font-size:17px}
+.sl__steps{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:2px}
+.sl__steps li{display:flex;align-items:center;gap:14px;color:rgba(243,235,223,.38);transition:color .4s;min-height:36px;font-weight:500}
+.sl__steps li::before{content:"";width:22px;height:2px;background:currentColor;flex:none;transition:width .4s,background .4s}
+.sl__steps li.on{color:#f3ebdf}
+.sl__steps li.on::before{width:36px;background:var(--gold2)}
+.sl__count{margin-top:22px;font:italic 400 18px/1 var(--hd);color:var(--gold2)}
+.sl__count b{font:700 34px/1 var(--hd);font-style:normal;margin-right:6px}
+.sl__stage{position:relative;height:100%;max-height:660px;display:flex;align-items:center;justify-content:center;min-height:0}
+.sl__stage svg{width:100%;height:auto;max-height:100%;display:block}
+.sl__now{display:none}
+.slice.static{height:auto}
+.slice.static .sl__sticky{position:relative;top:0;height:auto;padding:90px 24px}
+@media (max-width:860px){
+  .slice{height:360vh}
+  .sl__sticky{grid-template-columns:1fr;grid-template-rows:auto 1fr;align-content:start;gap:4px;padding-top:22px}
+  .sl__text .lead,.sl__steps{display:none}
+  .sl__text .h2{font-size:30px;margin-top:10px}
+  .sl__count{margin-top:12px}
+  .sl__stage{align-items:center;padding-bottom:40px}
+  .sl__sticky::before{left:50%;top:60%;width:600px;height:500px}
+  .sl__now{display:block;margin-top:8px;font-weight:500;color:#f3ebdf;font-size:15px}
+  .sl__now::before{content:"";display:inline-block;width:26px;height:2px;background:var(--gold2);vertical-align:middle;margin-right:10px}
+}
+
+/* Über uns / Selcherei */
+.story{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,6vw,90px);align-items:center}
+.story__media{position:relative}
+.story__media .frame{position:relative;aspect-ratio:4/5;overflow:hidden;border-radius:2px;box-shadow:0 40px 70px -40px rgba(36,28,27,.7)}
+.story__media .frame video{position:absolute;inset:0}
+.story__media::before{content:"";position:absolute;inset:16px -16px -16px 16px;border:1px solid var(--gold);z-index:-1}
+.story__badge{position:absolute;left:-22px;bottom:34px;background:var(--ox);color:#fbefe0;padding:20px 22px;max-width:220px;box-shadow:0 20px 40px -20px rgba(0,0,0,.6)}
+.story__badge b{display:block;font:700 40px/1 var(--hd);color:var(--gold2)}
+.story__badge span{font-size:14px;line-height:1.4;display:block;margin-top:6px}
+.story blockquote{margin:30px 0 0;padding:0 0 0 22px;border-left:2px solid var(--gold);font:italic 400 22px/1.45 var(--hd);color:var(--ink)}
+.story blockquote cite{display:block;font:500 14px/1.3 var(--bd);font-style:normal;color:var(--mu);margin-top:12px}
+.nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:36px;padding-top:26px;border-top:1px solid var(--line)}
+.nums b{display:block;font:700 clamp(32px,3.6vw,46px)/1 var(--hd);color:var(--ox)}
+.nums span{display:block;color:var(--mu);font-size:14px;margin-top:8px;line-height:1.35}
+@media (max-width:860px){.story{grid-template-columns:1fr}.story__media{max-width:440px;width:calc(100% - 20px)}.story__badge{left:-8px}}
+
+/* Mittag + Leberkässemmel */
+.lunch{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.lunch__grid{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(24px,4vw,48px);margin-top:50px;align-items:stretch}
+.card{background:#fff;border:1px solid var(--line);border-radius:4px;padding:clamp(24px,3.4vw,40px);position:relative;box-shadow:0 30px 60px -45px rgba(36,28,27,.5)}
+.menu-today .when{font:600 12px/1 var(--bd);letter-spacing:.2em;text-transform:uppercase;color:var(--ox2)}
+.menu-today h3{font-size:clamp(26px,3vw,34px);margin-top:14px}
+.menu-today .dish{font:italic 400 24px/1.35 var(--hd);margin-top:10px;color:var(--ink)}
+.menu-today .price{display:flex;align-items:baseline;gap:10px;margin-top:16px}
+.menu-today .price b{font:700 44px/1 var(--hd);color:var(--ox)}
+.menu-today .price span{color:var(--mu);font-size:14px}
+.wk{list-style:none;margin:24px 0 0;padding:20px 0 0;border-top:1px dashed var(--line)}
+.wk li{display:grid;grid-template-columns:38px 1fr auto;gap:12px;padding:8px 0;font-size:15px;color:var(--mu);align-items:baseline}
+.wk li b{font-weight:600;color:var(--ink)}
+.wk li.now{color:var(--ink)}
+.wk li.now b{color:var(--ox)}
+.wk li.now span:first-of-type{font-weight:600}
+.lks{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:26px;align-items:center}
+.lks h3{font-size:clamp(24px,2.6vw,32px)}
+.lks__art{position:relative}
+.lks__art svg{width:100%;height:auto;display:block}
+.lks__art .gk,.lks__art .pf,.lks__art .rz,.lks__art .kd,.lks__art .pz{opacity:0;transform:translateY(-14px);transition:opacity .35s,transform .45s cubic-bezier(.2,.8,.2,1.3)}
+.lks__art.k-gurkerl .gk,.lks__art.k-pfefferoni .pf,.lks__art.k-zwiebel .rz,.lks__art.s-kaese .kd,.lks__art.s-pizza .pz{opacity:1;transform:none}
+.opt{margin-top:16px}
+.opt legend,.opt .lbl{font:600 12px/1 var(--bd);letter-spacing:.16em;text-transform:uppercase;color:var(--mu);padding:0;margin-bottom:10px}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips label{position:relative;cursor:pointer}
+.chips input{position:absolute;opacity:0;width:1px;height:1px}
+.chips span{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border:1px solid var(--line);border-radius:999px;font-size:14px;font-weight:500;background:#fff;transition:background .25s,border-color .25s,color .25s}
+.chips input:checked+span{background:var(--ox);border-color:var(--ox);color:#fbefe0}
+.chips input:focus-visible+span{outline:2.5px solid var(--gold);outline-offset:2px}
+.lks__sum{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-top:20px;padding-top:16px;border-top:1px solid var(--line)}
+.lks__sum b{font:700 38px/1 var(--hd);color:var(--ox)}
+.lks__sum span{font-size:14px;color:var(--mu)}
+@media (max-width:980px){.lunch__grid{grid-template-columns:1fr}}
+@media (max-width:560px){.lks{grid-template-columns:1fr}.lks__art{max-width:300px;margin:0 auto}}
+
+/* Partyservice */
+.party{background:var(--ox3) var(--noise);color:#f6ecdf;position:relative;overflow-x:clip}
+.party .kick{color:var(--gold2)}.party .h2 em{color:var(--gold2)}.party .lead{color:#d2bfae}
+.cfg{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(24px,4vw,60px);margin-top:50px;align-items:start}
+.sizes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.sizes label{position:relative;cursor:pointer;display:block}
+.sizes input{position:absolute;opacity:0;width:1px;height:1px}
+.sizes .sz{display:block;height:100%;padding:18px 16px;border:1px solid rgba(220,189,128,.3);border-radius:4px;transition:background .3s,border-color .3s,transform .3s}
+.sizes .sz b{display:block;font:700 22px/1.1 var(--hd)}
+.sizes .sz small{display:block;font-size:13px;color:#cdb8a4;margin-top:6px;line-height:1.4}
+.sizes .sz em{display:block;font:700 18px/1 var(--hd);font-style:normal;color:var(--gold2);margin-top:12px}
+.sizes label:hover .sz{border-color:var(--gold2)}
+.sizes input:checked+.sz{background:#f6ecdf;color:var(--ox3);border-color:#f6ecdf;transform:translateY(-3px)}
+.sizes input:checked+.sz small{color:var(--mu)}
+.sizes input:checked+.sz em{color:var(--ox2)}
+.sizes input:focus-visible+.sz{outline:2.5px solid var(--gold2);outline-offset:3px}
+.ppl{margin-top:30px}
+.ppl__row{display:flex;align-items:center;gap:16px;margin-top:6px}
+.ppl input[type=range]{flex:1;accent-color:var(--gold2);height:44px;min-width:0}
+.stp{display:flex;align-items:center;border:1px solid rgba(220,189,128,.35);border-radius:4px;flex:none}
+.stp button{width:44px;height:48px;border:0;background:transparent;color:inherit;font:500 22px/1 var(--bd);cursor:pointer}
+.stp button:hover{background:rgba(255,255,255,.08)}
+.stp output{min-width:46px;text-align:center;font:700 22px/1 var(--hd)}
+.ppl .lbl{font:600 12px/1 var(--bd);letter-spacing:.16em;text-transform:uppercase;color:#cdb8a4}
+.extras{margin-top:26px;display:grid;gap:8px}
+.chk{display:flex;align-items:center;gap:12px;min-height:44px;cursor:pointer;font-size:15px}
+.chk input{width:20px;height:20px;accent-color:var(--gold2);flex:none}
+.chk em{font-style:normal;color:var(--gold2);margin-left:auto;font-weight:500;white-space:nowrap}
+.est{background:#f6ecdf;color:var(--ink);border-radius:4px;padding:clamp(22px,3vw,34px);position:relative;box-shadow:0 40px 70px -40px rgba(0,0,0,.8)}
+.est::before{content:"";position:absolute;inset:8px;border:1px solid var(--line);border-radius:2px;pointer-events:none}
+.est svg{width:100%;height:auto;display:block;max-width:360px;margin:0 auto}
+.est .it{opacity:0;transform:scale(.6);transform-box:fill-box;transform-origin:center;transition:opacity .4s,transform .5s cubic-bezier(.2,.8,.2,1.3)}
+.est.s1 .l1,.est.s2 .l1,.est.s2 .l2,.est.s3 .it{opacity:1;transform:none}
+.est__total{text-align:center;margin-top:12px;position:relative}
+.est__total small{display:block;font:600 12px/1 var(--bd);letter-spacing:.18em;text-transform:uppercase;color:var(--mu)}
+.est__total b{display:block;font:700 clamp(44px,5vw,60px)/1.05 var(--hd);color:var(--ox);margin-top:8px}
+.est dl{display:grid;grid-template-columns:1fr auto;gap:6px 14px;margin:18px 0 0;padding-top:16px;border-top:1px dashed var(--line);font-size:15px;position:relative}
+.est dt{color:var(--mu)}.est dd{margin:0;font-weight:600;text-align:right}
+.est .fine{font-size:12.5px;color:var(--mu);margin-top:14px;line-height:1.5;position:relative}
+.est .btn{width:100%;margin-top:16px;position:relative}
+@media (max-width:900px){.cfg{grid-template-columns:1fr}}
+@media (max-width:560px){.sizes{grid-template-columns:1fr}.sizes .sz{display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:10px}.sizes .sz em{grid-row:1/3;grid-column:2;margin:0}}
+
+/* Vorbestellung */
+.order{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(30px,5vw,80px);align-items:start}
+.order ol{list-style:none;padding:0;margin:30px 0 0;counter-reset:o;display:grid;gap:18px}
+.order ol li{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start}
+.order ol li::before{counter-increment:o;content:counter(o);width:44px;height:44px;border-radius:50%;border:1px solid var(--gold);display:grid;place-items:center;font:700 18px/1 var(--hd);color:var(--ox)}
+.order ol b{display:block;font-weight:600}
+.order ol span{color:var(--mu);font-size:15px}
+.form{display:grid;gap:16px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.f label,.f .lbl{display:block;font:600 12px/1 var(--bd);letter-spacing:.14em;text-transform:uppercase;color:var(--mu);margin-bottom:8px}
+.f input,.f select,.f textarea{width:100%;min-height:50px;padding:12px 14px;border:1px solid #d6c8b5;border-radius:3px;background:#fffdf9;font:400 16px/1.4 var(--bd);color:var(--ink);transition:border-color .25s,box-shadow .25s}
+.f textarea{min-height:120px;resize:vertical}
+.f input:focus,.f select:focus,.f textarea:focus{outline:0;border-color:var(--ox2);box-shadow:0 0 0 3px rgba(122,35,49,.15)}
+.f .hint{font-size:13px;color:var(--mu);margin-top:6px}
+.f .err{font-size:13px;color:#a3222f;margin-top:6px;min-height:0}
+.msg{display:none;padding:16px 18px;border-radius:3px;background:#efe6d2;border-left:3px solid var(--gold);font-size:15px}
+.msg.on{display:block;animation:itemIn .5s both}
+@media (max-width:820px){.order{grid-template-columns:1fr}}
+@media (max-width:520px){.f2{grid-template-columns:1fr}}
+
+/* Öffnungszeiten & Anfahrt */
+.visit{background:var(--slate);color:#efe7dc;overflow-x:clip}
+.visit .kick{color:var(--gold2)}.visit .h2 em{color:var(--gold2)}
+.visit__grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(30px,5vw,70px);margin-top:46px;align-items:start}
+.hours{width:100%;border-collapse:collapse;font-size:16px}
+.hours th,.hours td{padding:14px 0;border-bottom:1px solid rgba(239,231,220,.12);text-align:left;font-weight:400}
+.hours td{text-align:right}
+.hours th{font-weight:500}
+.hours tr.today th,.hours tr.today td{color:var(--gold2);font-weight:600}
+.hours tr.today th::after{content:"heute";font:600 10px/1 var(--bd);letter-spacing:.14em;text-transform:uppercase;background:var(--gold2);color:var(--ox3);padding:4px 7px;border-radius:999px;margin-left:10px;vertical-align:2px}
+.visit .sub{margin-top:26px;color:#b9ada0;font-size:15px}
+.visit .sub b{color:#efe7dc;font-weight:500}
+.map{position:relative;border-radius:4px;overflow:hidden;background:#efe6d6;box-shadow:0 40px 80px -40px rgba(0,0,0,.8)}
+.map svg{display:block;width:100%;height:auto}
+.map .pin{transform-origin:50% 100%;transform-box:fill-box;animation:bob 2.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-6px)}}
+.addr{display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:22px;font-size:15px;color:#cfc3b6}
+.addr b{display:block;color:#efe7dc;font-weight:500}
+@media (max-width:860px){.visit__grid{grid-template-columns:1fr}}
+
+/* Footer */
+.foot{background:#120a0c;color:#bcae9f;padding:60px 0 40px;font-size:15px}
+.foot__grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:30px}
+.foot .logo{color:#f6ecdf}
+.foot h3{font:600 12px/1 var(--bd);letter-spacing:.2em;text-transform:uppercase;color:var(--gold2);margin-bottom:14px}
+.foot a{text-decoration:none}
+.foot a:hover{color:#fff}
+.foot__demo{margin-top:40px;padding-top:22px;border-top:1px solid rgba(220,189,128,.18);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:14px}
+.foot__demo b{color:#f6ecdf;font-weight:500}
+@media (max-width:760px){.foot__grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.ticker__track{animation:none}.hero h1 span>i{transform:none;animation:none}.hero p.intro,.hero__cta{opacity:1;animation:none}}
+</style></head><body>
+<div class="tk-demo-bar"><a href="/#beispiele"><img src="/beispiele/_shared/tk-logo.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
+<span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musteradresse</span>
+<a class="tk-demo-bar__cta" href="/#anfrage">So eine Seite anfragen</a></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="crest" viewBox="0 0 100 100">
+    <path d="M50 4 L88 16 V46 C88 70 72 86 50 96 C28 86 12 70 12 46 V16 Z" fill="#5a1721" stroke="#dcbd80" stroke-width="2.4"/>
+    <path d="M50 11 L81 21 V46 C81 66 68 80 50 89 C32 80 19 66 19 46 V21 Z" fill="none" stroke="#dcbd80" stroke-width=".9" opacity=".7"/>
+    <text x="50" y="58" text-anchor="middle" font-family="Caslon,Georgia,serif" font-weight="700" font-size="34" fill="#f5efe5">H</text>
+    <path d="M28 68 H72" stroke="#dcbd80" stroke-width="1"/>
+    <text x="50" y="79" text-anchor="middle" font-family="Outfit,sans-serif" font-weight="600" font-size="8.5" letter-spacing="1.5" fill="#dcbd80">1958</text>
+    <path d="M36 30 L42 24 M64 30 L58 24" stroke="#dcbd80" stroke-width="1.2" stroke-linecap="round"/>
+  </symbol>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="logo" href="#top"><svg aria-hidden="true"><use href="#crest"/></svg><span><b>Haselberger</b><small>Fleischerei · seit 1958</small></span></a>
+    <nav aria-label="Hauptnavigation"><ul>
+      <li><a href="#angebote">Angebote</a></li><li><a href="#sortiment">Sortiment</a></li><li><a href="#selcherei">Selcherei</a></li><li><a href="#mittag">Mittag</a></li><li><a href="#partyservice">Partyservice</a></li><li><a href="#besuch">Öffnungszeiten</a></li>
+    </ul></nav>
+    <a class="btn gold" href="#vorbestellen">Vorbestellen</a>
+    <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="panel" aria-label="Menü öffnen"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="panel" id="panel" role="dialog" aria-label="Menü">
+  <a href="#angebote">Wochenangebote</a><a href="#sortiment">Sortiment</a><a href="#selcherei">Aus der Selcherei</a><a href="#mittag">Mittagsmenü</a><a href="#partyservice">Partyservice</a><a href="#besuch">Öffnungszeiten</a>
+  <a class="btn gold" href="#vorbestellen">Jetzt vorbestellen</a>
+  <p>Marktplatz 4 · 3280 Musterort · 07412 / 000 00</p>
+</div>
+
+<main id="top">
+<section class="hero" aria-labelledby="h1">
+  <div class="hero__bg"><video class="tk-video" data-autoplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/fleischerei-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/fleischerei.mp4" type="video/mp4"></video></div>
+  <div class="seal" aria-hidden="true"><svg viewBox="0 0 160 160">
+    <defs><path id="sealc" d="M80 80 m-62 0 a62 62 0 1 1 124 0 a62 62 0 1 1 -124 0"/></defs>
+    <g class="rot"><text font-family="Outfit,sans-serif" font-size="11.5" font-weight="600" letter-spacing="3.4" fill="currentColor"><textPath href="#sealc">MEISTERBETRIEB · MOSTVIERTEL · SEIT 1958 ·</textPath></text></g>
+    <circle cx="80" cy="80" r="46" fill="none" stroke="currentColor" stroke-width="1"/>
+    <text x="80" y="76" text-anchor="middle" font-family="Caslon,Georgia,serif" font-size="13" font-style="italic" fill="currentColor">eigene</text>
+    <text x="80" y="96" text-anchor="middle" font-family="Caslon,Georgia,serif" font-size="19" font-weight="700" fill="currentColor">Selcherei</text>
+  </svg></div>
+  <div class="wrap hero__in">
+    <div class="hero__txt">
+      <p class="status" id="status"><i></i><span id="status-t"><b>Heute geöffnet</b></span></p>
+      <h1 id="h1"><span><i>Fleisch mit</i></span><span><i>Herkunft.</i></span><span><i>Wurst mit Handschrift.</i></span></h1>
+      <p class="intro">Seit 1958 am Marktplatz in Musterort: Rind und Schwein von Mostviertler Höfen, selbst zerlegt, selbst geselcht und mit Rezepten, die in der Familie bleiben.</p>
+      <div class="hero__cta"><a class="btn gold" href="#angebote">Wochenangebote ansehen</a><a class="btn ghost" href="#vorbestellen">Vorbestellen &amp; abholen</a></div>
+    </div>
+    <div class="facts">
+      <div><b data-count="68">68</b><span>Jahre am Marktplatz</span></div>
+      <div><b data-count="35" data-suffix=" km">35 km</b><span>maximal vom Hof zu uns</span></div>
+      <div><b data-count="10" data-suffix=" Tage">10 Tage</b><span>im Buchenrauch gereift</span></div>
+      <div><b data-count="40" data-suffix="+">40+</b><span>Wurstsorten aus eigener Küche</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true"><div class="ticker__track">
+  <span>Mostviertler Weiderind</span><span>Hausgeselchter Speck</span><span>Warmer Leberkäse ab 7 Uhr</span><span>Grammelschmalz nach Omas Rezept</span><span>Partyservice für 4 bis 120 Gäste</span><span>Eigene Selcherei</span>
+  <span>Mostviertler Weiderind</span><span>Hausgeselchter Speck</span><span>Warmer Leberkäse ab 7 Uhr</span><span>Grammelschmalz nach Omas Rezept</span><span>Partyservice für 4 bis 120 Gäste</span><span>Eigene Selcherei</span>
+</div></div>
+
+<section class="offers sec" id="angebote" aria-labelledby="off-h">
+  <div class="wrap">
+    <div class="offers__head">
+      <div><p class="kick" data-reveal>Diese Woche an der Tafel</p>
+      <h2 class="h2" id="off-h" data-reveal style="--d:.08s">Die <em>Wochenangebote</em></h2>
+      <p class="lead" data-reveal style="--d:.16s">Jeden Tag ein anderes Stück zum Sonderpreis – solange der Vorrat reicht. Den heutigen Tag haben wir Ihnen eingekreist.</p></div>
+      <p class="valid" id="valid" data-reveal style="--d:.2s">gültig diese Woche</p>
+    </div>
+    <div class="board" id="board" data-reveal style="--d:.1s">
+      <div class="board__in">
+        <p class="board__title">Angebote der Woche<small>frisch aus der Kühlvitrine</small></p>
+        <div class="days" id="days"></div>
+        <p class="board__note">Preise inkl. MwSt. · Abgabe in Haushaltsmengen · am liebsten mit Vorbestellung</p>
+        <svg class="chalkpig" viewBox="0 0 110 70" aria-hidden="true"><g fill="none" stroke="#ecebe4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 36 C16 18 40 10 62 13 C84 15 96 28 94 42 C92 56 76 60 56 60 C36 60 20 54 18 36 Z"/><path d="M94 34 C100 32 104 36 102 41 C100 46 95 45 94 42"/><circle cx="99" cy="38" r=".8"/><path d="M78 20 L84 9 L86 22"/><circle cx="82" cy="30" r="1.4"/><path d="M30 58 V66 M44 60 V67 M66 60 V67 M80 57 V65"/><path d="M18 34 C10 30 10 24 14 22 C17 21 18 25 15 27"/></g></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="sortiment" aria-labelledby="sort-h">
+  <div class="wrap">
+    <div class="sort__head">
+      <div><p class="kick" data-reveal>Aus der Vitrine</p>
+      <h2 class="h2" id="sort-h" data-reveal style="--d:.08s">Unser <em>Sortiment</em></h2></div>
+      <p class="lead" data-reveal style="--d:.16s">Ein Auszug aus der Theke. Wir schneiden, klopfen und faschieren auf Wunsch – fragen Sie ruhig nach dem passenden Stück für Ihr Rezept.</p>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Sortiment" data-reveal>
+      <button type="button" role="tab" id="t-1" aria-controls="p-1" aria-selected="true">Frischfleisch</button>
+      <button type="button" role="tab" id="t-2" aria-controls="p-2" aria-selected="false" tabindex="-1">Wurst &amp; Selchwaren</button>
+      <button type="button" role="tab" id="t-3" aria-controls="p-3" aria-selected="false" tabindex="-1">Fertiggerichte &amp; Mittagsmenü</button>
+    </div>
+    <div class="tpanel" role="tabpanel" id="p-1" aria-labelledby="t-1" tabindex="0">
+      <div class="item" style="--i:0"><h3>Beiried vom Weiderind<em class="g">28 Tage gereift</em></h3><p>Am Knochen trocken gereift, kräftig marmoriert – zum Kurzbraten oder als Rostbraten.</p><span class="pr">38,90 €<small>pro kg</small></span></div>
+      <div class="item" style="--i:1"><h3>Tafelspitz</h3><p>Der Klassiker für den Sonntag, mit schönem Fettdeckel. Suppenknochen gibt's dazu.</p><span class="pr">29,90 €<small>pro kg</small></span></div>
+      <div class="item" style="--i:2"><h3>Schweinsschopf</h3><p>Saftig durchwachsen – im Ganzen für den Braten oder in Scheiben zum Grillen.</p><span class="pr">12,90 €<small>pro kg</small></span></div>
+      <div class="item" style="--i:3"><h3>Schweinskarree mit Schwarte</h3><p>Für den knusprigen Krustenbraten, auf Wunsch fertig eingeschnitten.</p><span class="pr">13,90 €<small>pro kg</small></span></div>
+      <div class="item" style="--i:4"><h3>Schnitzelfleisch vom Schwein</h3><p>Aus der Schale, hauchdünn geklopft – Sie müssen nur noch panieren.</p><span class="pr">14,90 €<small>pro kg</small></span></div>
+      <div class="item" style="--i:5"><h3>Kalbsschnitzel</h3><p>Vom Kalb aus der Region, zart und hell – für das echte Wiener.</p><span class="pr">42,90 €<small>pro kg</small></span></div>
+      <div class="item" style="--i:6"><h3>Rindsgulaschfleisch</h3><p>Vom Wadschinken, in Würfel geschnitten – zerfällt nach drei Stunden fast von selbst.</p><span class="pr">17,90 €<small>pro kg</small></span></div>
+      <div class="item" style="--i:7"><h3>Faschiertes gemischt</h3><p>Rind und Schwein, frisch vor Ihren Augen faschiert.</p><span class="pr">11,90 €<small>pro kg</small></span></div>
+    </div>
+    <div class="tpanel" role="tabpanel" id="p-2" aria-labelledby="t-2" tabindex="0" hidden>
+      <div class="item" style="--i:0"><h3>Hausgeselchter Bauchspeck<em>Hausmarke</em></h3><p>Trocken gepökelt, zehn Tage kalt über Buchenholz geräuchert.</p><span class="pr">2,49 €<small>pro 100 g</small></span></div>
+      <div class="item" style="--i:1"><h3>Leberkäse</h3><p>Täglich frisch aus dem Rohr – klassisch, mit Käse oder Pizza-Art.</p><span class="pr">1,59 €<small>pro 100 g</small></span></div>
+      <div class="item" style="--i:2"><h3>Extrawurst</h3><p>Fein, mild, die Jause schlechthin. Am liebsten hauchdünn geschnitten.</p><span class="pr">1,49 €<small>pro 100 g</small></span></div>
+      <div class="item" style="--i:3"><h3>Kantwurst</h3><p>Kräftig geräuchert und luftgetrocknet – zum Brettljausen-Teller.</p><span class="pr">2,19 €<small>pro 100 g</small></span></div>
+      <div class="item" style="--i:4"><h3>Bratwürstel</h3><p>Grob, mit Majoran und einem Hauch Knoblauch – für Pfanne und Grill.</p><span class="pr">1,39 €<small>pro 100 g</small></span></div>
+      <div class="item" style="--i:5"><h3>Grammelschmalz</h3><p>Mit knusprigen Grammeln und Röstzwiebeln – aufs frische Bauernbrot.</p><span class="pr">1,29 €<small>pro 100 g</small></span></div>
+      <div class="item" style="--i:6"><h3>Beinschinken</h3><p>Im Ganzen gekocht, mild geräuchert – mit Kren ein Gedicht.</p><span class="pr">2,59 €<small>pro 100 g</small></span></div>
+      <div class="item" style="--i:7"><h3>Mostviertler Hauswürstel</h3><p>Paarweise, kalt geräuchert, mit Most aus der Nachbarschaft abgeschmeckt.</p><span class="pr">2,29 €<small>pro 100 g</small></span></div>
+    </div>
+    <div class="tpanel" role="tabpanel" id="p-3" aria-labelledby="t-3" tabindex="0" hidden>
+      <div class="item" style="--i:0"><h3>Schweinsbraten mit Knödel &amp; Kraut</h3><p>Portion zum Mitnehmen oder warm an der Theke, Mo–Fr ab 11 Uhr.</p><span class="pr">9,90 €<small>pro Portion</small></span></div>
+      <div class="item" style="--i:1"><h3>Rindsgulasch</h3><p>Nach Großvaters Rezept mit viel Zwiebel, dazu eine Semmel.</p><span class="pr">9,40 €<small>pro Portion</small></span></div>
+      <div class="item" style="--i:2"><h3>Faschierte Laibchen</h3><p>Zwei Stück, mit cremigem Erdäpfelpüree und Bratensaft.</p><span class="pr">8,90 €<small>pro Portion</small></span></div>
+      <div class="item" style="--i:3"><h3>Krautfleckerl</h3><p>Mit karamellisiertem Kraut und ein bisserl Speck.</p><span class="pr">7,90 €<small>pro Portion</small></span></div>
+      <div class="item" style="--i:4"><h3>Leberknödelsuppe</h3><p>Kräftige Rindsuppe, flaumiger Leberknödel, Schnittlauch.</p><span class="pr">4,20 €<small>pro Portion</small></span></div>
+      <div class="item" style="--i:5"><h3>Grammelknödel</h3><p>Drei Stück, tiefgekühlt oder frisch – mit warmem Speckkraut.</p><span class="pr">7,90 €<small>pro Packung</small></span></div>
+      <div class="item" style="--i:6"><h3>Fleischstrudel</h3><p>Im Ganzen zum Aufbacken, ideal für die Suppe am Sonntag.</p><span class="pr">11,90 €<small>pro Stück</small></span></div>
+      <div class="item" style="--i:7"><h3>Leberkässemmel</h3><p>Der Klassiker – mit süßem oder scharfem Senf, gerne mit Gurkerl.</p><span class="pr">3,20 €<small>pro Stück</small></span></div>
+    </div>
+    <p class="sort__note"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 9 V14 M10 6 V6.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Preise inkl. MwSt., Beispielpreise. Allergene erfahren Sie gerne an der Theke.</p>
+  </div>
+</section>
+
+<section class="slice" id="selcherei" aria-labelledby="sl-h">
+  <div class="sl__sticky">
+    <div class="sl__text">
+      <p class="kick">Aus der eigenen Selcherei</p>
+      <h2 class="h2" id="sl-h">Hauchdünn – <em>Scheibe für Scheibe.</em></h2>
+      <p class="lead">Unser Bauchspeck hängt zehn Tage im kalten Buchenrauch, bevor er auf das Brett kommt. Scrollen Sie langsam – wir schneiden auf.</p>
+      <ol class="sl__steps" id="sl-steps">
+        <li>Am Stück aus der Selchkammer</li><li>Das Messer frisch abgezogen</li><li>Scheibe für Scheibe geschnitten</li><li>Schön aufgefächert</li><li>Abgewogen &amp; beschriftet</li>
+      </ol>
+      <p class="sl__count" aria-hidden="true"><b id="sl-n">0</b>Scheiben geschnitten</p>
+      <p class="sl__now" id="sl-now" aria-hidden="true"></p>
+    </div>
+    <div class="sl__stage">
+      <svg id="sl-svg" viewBox="0 110 800 400" role="img" aria-labelledby="sl-title">
+        <title id="sl-title">Ein Stück hausgeselchter Bauchspeck wird auf einem Holzbrett in Scheiben geschnitten und aufgefächert; dazu ein Etikett: Hausgeselchter Bauchspeck, 100 g 2,49 Euro.</title>
+        <defs>
+          <linearGradient id="g-wood" x1="0" y1="0" x2="1" y2=".3"><stop offset="0" stop-color="#b98450"/><stop offset=".45" stop-color="#a87442"/><stop offset=".7" stop-color="#bf8b57"/><stop offset="1" stop-color="#94643a"/></linearGradient>
+          <linearGradient id="g-woodedge" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a4e2a"/><stop offset="1" stop-color="#4f3018"/></linearGradient>
+          <linearGradient id="g-rind" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7a3d1c"/><stop offset=".5" stop-color="#5a2a13"/><stop offset="1" stop-color="#3e1c0d"/></linearGradient>
+          <linearGradient id="g-side" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a200f" stop-opacity=".88"/><stop offset=".5" stop-color="#6b2d18" stop-opacity=".72"/><stop offset="1" stop-color="#3b190c" stop-opacity=".85"/></linearGradient>
+          <linearGradient id="g-fat" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e9d3b8"/><stop offset=".5" stop-color="#f6ead9"/><stop offset="1" stop-color="#e6cfb2"/></linearGradient>
+          <linearGradient id="g-fat1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d6b088"/><stop offset=".45" stop-color="#f1e1cb"/><stop offset="1" stop-color="#f5e9d8"/></linearGradient>
+          <linearGradient id="g-meat" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b9504a"/><stop offset=".5" stop-color="#a63d3d"/><stop offset="1" stop-color="#8c2e31"/></linearGradient>
+          <radialGradient id="g-vig" cx=".5" cy=".5" r=".72"><stop offset=".55" stop-color="#5a2410" stop-opacity="0"/><stop offset="1" stop-color="#5a2410" stop-opacity=".55"/></radialGradient>
+          <linearGradient id="g-sheen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset=".4" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity=".06"/></linearGradient>
+          <linearGradient id="g-blade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8f969c"/><stop offset=".18" stop-color="#e9edf0"/><stop offset=".55" stop-color="#b9c0c6"/><stop offset=".86" stop-color="#d8dde1"/><stop offset="1" stop-color="#f8fafb"/></linearGradient>
+          <linearGradient id="g-handle" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3233"/><stop offset=".4" stop-color="#1b1718"/><stop offset="1" stop-color="#0d0b0b"/></linearGradient>
+          <radialGradient id="g-shadow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#000" stop-opacity=".45"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+          <filter id="f-soft" x="-20%" y="-40%" width="140%" height="180%"><feGaussianBlur stdDeviation="6"/></filter>
+          <filter id="f-slice" x="-15%" y="-30%" width="130%" height="160%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#2a1206" flood-opacity=".45"/></filter>
+          <filter id="f-paper" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#000" flood-opacity=".35"/></filter>
+          <pattern id="p-grain" width="800" height="200" patternUnits="userSpaceOnUse"><g fill="none" stroke="#6e4524" stroke-width="1.1" opacity=".28"><path d="M0 20 C150 14 300 30 450 22 S700 12 800 20"/><path d="M0 52 C120 46 260 60 420 54 S690 44 800 50"/><path d="M0 86 C180 80 330 96 500 88 S710 80 800 84"/><path d="M0 120 C140 126 300 112 460 120 S680 128 800 118"/><path d="M0 158 C170 150 320 166 480 160 S700 150 800 156"/><path d="M0 186 C160 192 330 180 500 188 S720 194 800 184"/></g><g fill="none" stroke="#e2b783" stroke-width=".8" opacity=".25"><path d="M0 36 C200 30 380 44 560 36 S760 30 800 34"/><path d="M0 104 C180 98 360 110 540 102 S760 98 800 102"/><path d="M0 170 C200 166 400 176 600 168 S760 164 800 168"/></g></pattern>
+          <g id="face"></g>
+        </defs>
+        <!-- Brett -->
+        <ellipse cx="410" cy="482" rx="380" ry="26" fill="#000" opacity=".5" filter="url(#f-soft)"/>
+        <path d="M44 274 Q40 262 54 262 H748 Q762 262 760 276 L770 446 Q772 460 756 460 H46 Q30 460 32 446 Z" fill="url(#g-wood)"/>
+        <path d="M44 274 Q40 262 54 262 H748 Q762 262 760 276 L770 446 Q772 460 756 460 H46 Q30 460 32 446 Z" fill="url(#p-grain)"/>
+        <ellipse cx="642" cy="300" rx="16" ry="6" fill="#6e4524" opacity=".35"/><ellipse cx="642" cy="300" rx="8" ry="3" fill="#5a3519" opacity=".4"/>
+        <path d="M32 446 Q30 460 46 460 H756 Q772 460 770 446 L770 470 Q770 484 754 484 H48 Q32 484 32 470 Z" fill="url(#g-woodedge)"/>
+        <path d="M46 460 H756" stroke="#d9a873" stroke-opacity=".4"/>
+        <path d="M54 264 H748" stroke="#e6bb88" stroke-opacity=".5"/>
+        <!-- Speck am Stück -->
+        <g id="slab">
+          <ellipse id="slab-shadow" cx="300" cy="380" rx="190" ry="16" fill="url(#g-shadow)"/>
+          <polygon id="slab-top" fill="url(#g-rind)"/>
+          <polygon id="slab-topsheen" fill="url(#g-sheen)"/>
+          <g id="slab-side"><use href="#face"/></g>
+          <polygon id="slab-sideov" fill="url(#g-side)"/>
+          <g id="slab-front"><use href="#face"/><rect id="slab-smoke" x="0" y="-120" width="230" height="120" fill="#6b2d15" opacity=".55"/></g>
+        </g>
+        <!-- Messer -->
+        <g id="knife">
+          <g id="knife-in">
+            <path d="M0 0 C40 -6 90 -46 150 -66 L338 -74 V0 Z" fill="url(#g-blade)"/>
+            <path d="M0 0 C40 -6 90 -46 150 -66 L338 -74" fill="none" stroke="#7d858c" stroke-width="1.2"/>
+            <path d="M6 -2 H338" stroke="#fff" stroke-width="2" opacity=".85"/>
+            <path d="M40 -10 C120 -14 220 -12 330 -16" stroke="#fff" stroke-width="5" opacity=".25" fill="none"/>
+            <rect x="334" y="-74" width="18" height="74" rx="3" fill="#c9cfd4"/><rect x="334" y="-74" width="18" height="74" rx="3" fill="none" stroke="#868d93"/>
+            <path d="M350 -66 H470 Q486 -66 486 -50 V-24 Q486 -8 470 -8 H350 Z" fill="url(#g-handle)"/>
+            <circle cx="380" cy="-37" r="4" fill="#c8a35c"/><circle cx="418" cy="-37" r="4" fill="#c8a35c"/><circle cx="456" cy="-37" r="4" fill="#c8a35c"/>
+            <path d="M356 -60 H468" stroke="#fff" stroke-opacity=".14" stroke-width="3"/>
+          </g>
+        </g>
+        <g id="slices"></g>
+        <!-- Etikett -->
+        <g id="label" opacity="0">
+          <g id="label-in" filter="url(#f-paper)">
+            <path d="M-6 -46 C20 -70 34 -90 30 -120" fill="none" stroke="#c8a77a" stroke-width="2"/>
+            <path d="M0 -50 L180 -50 L196 -34 V30 L180 46 H0 L-16 30 V-34 Z" fill="#f7f0e1"/>
+            <path d="M0 -42 L176 -42 L188 -30 V26 L176 38 H0 L-8 26 V-30 Z" fill="none" stroke="#5a1721" stroke-width="1" opacity=".6"/>
+            <circle cx="-2" cy="-34" r="5" fill="#141214"/><circle cx="-2" cy="-34" r="7.5" fill="none" stroke="#c8a77a" stroke-width="1.5"/>
+            <text x="90" y="-18" text-anchor="middle" font-family="Caslon,Georgia,serif" font-size="15" font-style="italic" fill="#5a1721">Hausgeselchter</text>
+            <text x="90" y="4" text-anchor="middle" font-family="Caslon,Georgia,serif" font-size="21" font-weight="700" fill="#241c1b">Bauchspeck</text>
+            <path d="M30 13 H150" stroke="#b48c48" stroke-width="1"/>
+            <text x="90" y="32" text-anchor="middle" font-family="Outfit,sans-serif" font-size="14" font-weight="600" fill="#241c1b">100 g · 2,49 €</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="sec" aria-labelledby="story-h">
+  <div class="wrap story">
+    <div class="story__media" data-reveal>
+      <div class="frame"><video class="tk-video" data-autoplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/fleischerei-brett-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/fleischerei-brett.mp4" type="video/mp4"></video></div>
+      <div class="story__badge"><b>3.</b><span>Generation hinter der Theke – und die vierte lernt schon fleißig mit.</span></div>
+    </div>
+    <div>
+      <p class="kick" data-reveal>Über uns</p>
+      <h2 class="h2" id="story-h" data-reveal style="--d:.08s">Ein Handwerk, das man <em>schmeckt.</em></h2>
+      <p class="lead" data-reveal style="--d:.14s">1958 hat Großvater Leopold die Fleischerei am Marktplatz eröffnet. Bis heute kennen wir die Bauern, deren Tiere wir verarbeiten, beim Vornamen – und in der Selchkammer im Hof riecht es nach Buchenholz wie damals.</p>
+      <blockquote data-reveal style="--d:.2s">„Gute Wurst braucht drei Dinge: gutes Fleisch, Geduld – und niemanden, der dabei auf die Uhr schaut.“<cite>Beispiel-Zitat · Martin H., Fleischermeister</cite></blockquote>
+      <div class="nums">
+        <div data-reveal style="--d:.1s"><b data-count="1958">1958</b><span>gegründet am Marktplatz</span></div>
+        <div data-reveal style="--d:.18s"><b data-count="12">12</b><span>Partnerhöfe im Mostviertel</span></div>
+        <div data-reveal style="--d:.26s"><b data-count="100" data-suffix=" %">100 %</b><span>selbst zerlegt &amp; verarbeitet</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lunch sec" id="mittag" aria-labelledby="lunch-h">
+  <div class="wrap">
+    <p class="kick" data-reveal>Mittagstisch &amp; Jause</p>
+    <h2 class="h2" id="lunch-h" data-reveal style="--d:.08s">Mittagsmenü &amp; <em>Leberkässemmel-Ecke</em></h2>
+    <p class="lead" data-reveal style="--d:.14s">Montag bis Freitag von 11 bis 13:30 Uhr kochen wir ein warmes Mittagsmenü zum Mitnehmen. Und der Leberkäse ist ab 7 Uhr in der Früh warm.</p>
+    <div class="lunch__grid">
+      <article class="card menu-today" data-reveal aria-labelledby="mt-h">
+        <p class="when" id="mt-when">Heute</p>
+        <h3 id="mt-h">Mittagsmenü</h3>
+        <p class="dish" id="mt-dish">Schweinsbraten mit Semmelknödel und Sauerkraut</p>
+        <div class="price"><b id="mt-price">9,90 €</b><span>inkl. Tagessuppe</span></div>
+        <ul class="wk" id="mt-week"></ul>
+      </article>
+      <article class="card" data-reveal style="--d:.1s" aria-labelledby="lks-h">
+        <div class="lks">
+          <div>
+            <h3 id="lks-h">Ihre Leberkässemmel</h3>
+            <p style="color:var(--mu);font-size:15px;margin-top:6px">Zusammenstellen, Preis sehen – an der Theke bekommen Sie sie in einer Minute.</p>
+            <fieldset class="opt"><legend>Leberkäse</legend><div class="chips" id="lks-sorte">
+              <label><input type="radio" name="sorte" value="klassisch" data-p="3.20" checked><span>Klassisch</span></label>
+              <label><input type="radio" name="sorte" value="kaese" data-p="3.60"><span>Käse</span></label>
+              <label><input type="radio" name="sorte" value="pizza" data-p="3.60"><span>Pizza</span></label>
+            </div></fieldset>
+            <fieldset class="opt"><legend>Senf</legend><div class="chips">
+              <label><input type="radio" name="senf" value="süß" checked><span>süß</span></label>
+              <label><input type="radio" name="senf" value="scharf"><span>scharf</span></label>
+              <label><input type="radio" name="senf" value="ohne"><span>ohne</span></label>
+            </div></fieldset>
+            <fieldset class="opt"><legend>Extras</legend><div class="chips" id="lks-extra">
+              <label><input type="checkbox" value="gurkerl" data-p="0.40"><span>Gurkerl +0,40</span></label>
+              <label><input type="checkbox" value="pfefferoni" data-p="0.40"><span>Pfefferoni +0,40</span></label>
+              <label><input type="checkbox" value="zwiebel" data-p="0.30"><span>Röstzwiebel +0,30</span></label>
+            </div></fieldset>
+          </div>
+          <div class="lks__art s-klassisch" id="lks-art" aria-hidden="true">
+            <svg viewBox="0 0 260 230">
+              <defs>
+                <radialGradient id="g-bun" cx=".45" cy=".35" r=".7"><stop offset="0" stop-color="#e9b672"/><stop offset=".6" stop-color="#c9843f"/><stop offset="1" stop-color="#9a5a25"/></radialGradient>
+                <linearGradient id="g-bunb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3dcb4"/><stop offset="1" stop-color="#c58a4a"/></linearGradient>
+                <linearGradient id="g-lk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d98d7e"/><stop offset="1" stop-color="#c47362"/></linearGradient>
+              </defs>
+              <ellipse cx="130" cy="206" rx="104" ry="14" fill="#241c1b" opacity=".14"/>
+              <path d="M30 164 C30 196 230 196 230 164 L226 150 H34 Z" fill="url(#g-bunb)"/>
+              <path d="M22 140 Q20 128 34 126 L226 122 Q242 124 238 138 L232 160 Q130 176 28 160 Z" fill="url(#g-lk)"/>
+              <path d="M24 146 Q130 166 236 142" stroke="#8a4a36" stroke-width="5" fill="none" stroke-linecap="round" opacity=".85"/>
+              <g fill="#b45f50" opacity=".5"><circle cx="70" cy="140" r="2"/><circle cx="110" cy="136" r="1.6"/><circle cx="160" cy="142" r="2"/><circle cx="196" cy="134" r="1.5"/><circle cx="136" cy="148" r="1.4"/></g>
+              <g class="kd" fill="#f6d36b"><circle cx="64" cy="134" r="4.5"/><circle cx="100" cy="146" r="4"/><circle cx="140" cy="134" r="5"/><circle cx="178" cy="146" r="4"/><circle cx="210" cy="134" r="4.5"/></g>
+              <g class="pz"><circle cx="66" cy="138" r="4" fill="#b8332a"/><circle cx="118" cy="144" r="4" fill="#3f7a34"/><circle cx="150" cy="134" r="4" fill="#b8332a"/><circle cx="196" cy="144" r="3.6" fill="#e3b33c"/><circle cx="92" cy="132" r="3" fill="#3f7a34"/></g>
+              <path d="M40 124 Q90 116 130 126 T 222 120" stroke="#e8c62f" stroke-width="5" fill="none" stroke-linecap="round" id="lks-senf"/>
+              <g class="gk"><ellipse cx="30" cy="120" rx="18" ry="7" fill="#6d8a2e" transform="rotate(-12 30 120)"/><ellipse cx="30" cy="119" rx="14" ry="4.6" fill="#b9c96a" transform="rotate(-12 30 120)"/><ellipse cx="230" cy="120" rx="18" ry="7" fill="#6d8a2e" transform="rotate(10 230 120)"/><ellipse cx="230" cy="119" rx="14" ry="4.6" fill="#b9c96a" transform="rotate(10 230 120)"/></g>
+              <g class="pf"><path d="M58 116 C80 106 104 108 118 114" stroke="#9cc14a" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M150 112 C170 104 192 106 206 114" stroke="#c4d75a" stroke-width="7" fill="none" stroke-linecap="round"/></g>
+              <g class="rz" fill="#a8641f"><path d="M62 112 q6 -6 12 0" stroke="#a8641f" stroke-width="3" fill="none"/><path d="M96 108 q6 -6 12 0" stroke="#c07a2a" stroke-width="3" fill="none"/><path d="M136 110 q6 -6 12 0" stroke="#a8641f" stroke-width="3" fill="none"/><path d="M172 106 q6 -6 12 0" stroke="#c07a2a" stroke-width="3" fill="none"/><path d="M200 112 q6 -6 12 0" stroke="#a8641f" stroke-width="3" fill="none"/></g>
+              <path d="M28 114 C26 50 84 26 130 26 C176 26 234 50 232 114 C200 124 60 124 28 114 Z" fill="url(#g-bun)"/>
+              <g fill="none" stroke="#8a4d1c" stroke-width="2.4" stroke-linecap="round" opacity=".6"><path d="M130 72 C120 52 110 42 96 36"/><path d="M130 72 C142 52 154 42 170 38"/><path d="M130 72 C110 74 82 72 58 64"/><path d="M130 72 C152 76 182 74 206 66"/><path d="M130 72 C130 90 132 100 136 112"/></g>
+              <ellipse cx="104" cy="50" rx="34" ry="12" fill="#fff" opacity=".18" transform="rotate(-14 104 50)"/>
+            </svg>
+          </div>
+        </div>
+        <div class="lks__sum"><span id="lks-desc">Klassisch · süßer Senf</span><b id="lks-price">3,20 €</b></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="party sec" id="partyservice" aria-labelledby="party-h">
+  <div class="wrap">
+    <p class="kick" data-reveal>Partyservice</p>
+    <h2 class="h2" id="party-h" data-reveal style="--d:.08s">Platten, die <em>Feste machen.</em></h2>
+    <p class="lead" data-reveal style="--d:.14s">Geburtstag, Taufe, Firmenfeier oder Leichenschmaus: Wir richten Aufschnitt, Braten und Aufstriche auf unseren Holz- und Porzellanplatten an. Stellen Sie sich Ihre Platte zusammen – der Preis rechnet live mit.</p>
+    <div class="cfg">
+      <form class="pcfg" id="pcfg" data-reveal novalidate>
+        <fieldset><legend class="lbl" style="font:600 12px/1 var(--bd);letter-spacing:.16em;text-transform:uppercase;color:#cdb8a4;margin-bottom:12px">Plattengröße</legend>
+          <div class="sizes">
+            <label><input type="radio" name="size" value="1" data-p="8.90" data-g="150" data-n="Jausenplatte"><span class="sz"><b>Klein</b><small>Jausenplatte · ca. 150 g Aufschnitt</small><em>8,90 €/P.</em></span></label>
+            <label><input type="radio" name="size" value="2" data-p="11.90" data-g="220" data-n="Brettljause" checked><span class="sz"><b>Mittel</b><small>Brettljause · 220 g, mit Aufstrichen</small><em>11,90 €/P.</em></span></label>
+            <label><input type="radio" name="size" value="3" data-p="15.90" data-g="300" data-n="Festplatte"><span class="sz"><b>Groß</b><small>Festplatte · 300 g, mit Braten &amp; Garnitur</small><em>15,90 €/P.</em></span></label>
+          </div>
+        </fieldset>
+        <div class="ppl">
+          <label class="lbl" for="ppl-r">Anzahl Personen</label>
+          <div class="ppl__row">
+            <input type="range" id="ppl-r" min="4" max="120" step="1" value="20">
+            <div class="stp"><button type="button" id="ppl-m" aria-label="Eine Person weniger">−</button><output id="ppl-o" for="ppl-r" aria-live="polite">20</output><button type="button" id="ppl-p" aria-label="Eine Person mehr">+</button></div>
+          </div>
+        </div>
+        <div class="extras">
+          <label class="chk"><input type="checkbox" name="x" value="brot" data-pp="1.20">Gebäckkorb mit Semmeln &amp; Bauernbrot<em>+1,20 €/P.</em></label>
+          <label class="chk"><input type="checkbox" name="x" value="gurkerl" data-fix="6.90">Schüssel Gurkerl &amp; Pfefferoni<em>+6,90 €</em></label>
+          <label class="chk"><input type="checkbox" name="x" value="zust" data-fix="15">Zustellung im Umkreis von 15 km<em>+15,00 €</em></label>
+        </div>
+      </form>
+      <aside class="est s2" id="est" data-reveal style="--d:.1s" aria-live="polite">
+        <svg viewBox="0 0 360 230" aria-hidden="true">
+          <defs><radialGradient id="g-plate" cx=".5" cy=".45" r=".6"><stop offset="0" stop-color="#fff"/><stop offset=".8" stop-color="#f1ebe1"/><stop offset="1" stop-color="#ddd2c2"/></radialGradient></defs>
+          <ellipse cx="180" cy="124" rx="168" ry="96" fill="#241c1b" opacity=".12"/>
+          <ellipse cx="180" cy="116" rx="166" ry="96" fill="url(#g-plate)" stroke="#d3c5b1"/>
+          <ellipse cx="180" cy="116" rx="140" ry="76" fill="none" stroke="#b48c48" stroke-width="1" opacity=".6"/>
+          <g class="it l1"><g fill="#e8a39a" stroke="#c97a6f"><ellipse cx="96" cy="100" rx="26" ry="18"/><ellipse cx="112" cy="110" rx="26" ry="18"/><ellipse cx="128" cy="120" rx="26" ry="18"/></g></g>
+          <g class="it l1"><g fill="#c0453f" stroke="#8e2a2f"><circle cx="210" cy="78" r="15"/><circle cx="232" cy="88" r="15"/><circle cx="252" cy="100" r="15"/></g><g fill="#f3e3cf"><circle cx="206" cy="74" r="2"/><circle cx="214" cy="82" r="1.6"/><circle cx="230" cy="84" r="2"/><circle cx="236" cy="92" r="1.6"/><circle cx="250" cy="96" r="2"/><circle cx="256" cy="104" r="1.5"/></g></g>
+          <g class="it l1"><path d="M150 150 h56 v14 h-56 z" fill="#f2e2cc"/><path d="M150 150 h56 v5 h-56 z" fill="#6b3519"/><path d="M150 160 h56 v4 h-56 z" fill="#b24a44"/><path d="M160 140 h56 v14 h-56 z" fill="#f2e2cc" opacity=".95"/><path d="M160 140 h56 v5 h-56 z" fill="#6b3519"/><path d="M160 150 h56 v4 h-56 z" fill="#b24a44"/></g>
+          <g class="it l2"><circle cx="268" cy="146" r="20" fill="#efe1c4" stroke="#cdb58d"/><circle cx="268" cy="146" r="14" fill="#e9cf98"/><g fill="#a8641f"><circle cx="264" cy="142" r="2"/><circle cx="272" cy="149" r="2"/><circle cx="266" cy="151" r="1.6"/></g></g>
+          <g class="it l2"><circle cx="96" cy="152" r="18" fill="#efe1c4" stroke="#cdb58d"/><circle cx="96" cy="152" r="12" fill="#f4f0e4"/><path d="M90 150 l4 3 l6 -5" stroke="#3f7a34" stroke-width="2" fill="none"/></g>
+          <g class="it l3"><g fill="#a5683d" stroke="#6e3e1e"><path d="M176 74 q20 -16 40 0 v18 q-20 12 -40 0 z"/><path d="M152 84 q20 -16 40 0 v18 q-20 12 -40 0 z" fill="#b97a4a"/></g><path d="M156 86 q16 -10 32 0" stroke="#f3e3cf" stroke-width="2" fill="none"/></g>
+          <g class="it l3"><g fill="#4f8a3a"><path d="M300 110 q8 -12 14 0 q-7 8 -14 0z"/><path d="M60 124 q8 -12 14 0 q-7 8 -14 0z"/><path d="M226 182 q8 -12 14 0 q-7 8 -14 0z"/></g><circle cx="132" cy="70" r="7" fill="#d04536"/><circle cx="292" cy="128" r="6" fill="#d04536"/></g>
+        </svg>
+        <div class="est__total"><small>Geschätzter Preis</small><b id="est-total">238 €</b></div>
+        <dl>
+          <dt>Platte</dt><dd id="est-n">Brettljause · 20 Personen</dd>
+          <dt>Aufschnitt gesamt</dt><dd id="est-kg">ca. 4,4 kg</dd>
+          <dt>Benötigte Platten</dt><dd id="est-pl">2 Platten</dd>
+        </dl>
+        <p class="fine">Unverbindliche Schätzung inkl. MwSt. Plattenpfand 20 € je Platte, wird bei Rückgabe erstattet. Bitte bis spätestens 3 Tage vorher bestellen.</p>
+        <a class="btn" href="#vorbestellen" id="est-cta">Diese Platte anfragen</a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="vorbestellen" aria-labelledby="ord-h">
+  <div class="wrap order">
+    <div>
+      <p class="kick" data-reveal>Vorbestellung</p>
+      <h2 class="h2" id="ord-h" data-reveal style="--d:.08s">Bestellen, abholen, <em>nicht anstellen.</em></h2>
+      <p class="lead" data-reveal style="--d:.14s">Schreiben Sie uns, was Sie brauchen – wir richten alles her und legen es mit Ihrem Namen in die Kühlung.</p>
+      <ol>
+        <li data-reveal style="--d:.1s"><div><b>Wunschliste schicken</b><span>Gerne in „dag“ oder Stück – wir verstehen beides.</span></div></li>
+        <li data-reveal style="--d:.18s"><div><b>Wir bestätigen</b><span>Kurzer Rückruf oder SMS, falls etwas fehlt.</span></div></li>
+        <li data-reveal style="--d:.26s"><div><b>Abholen ohne Wartezeit</b><span>Am Abholfach neben der Kassa, bezahlt wird vor Ort.</span></div></li>
+      </ol>
+    </div>
+    <form class="card form" id="order" novalidate data-reveal style="--d:.1s">
+      <div class="f2">
+        <div class="f"><label for="o-name">Name</label><input id="o-name" name="name" autocomplete="name" required></div>
+        <div class="f"><label for="o-tel">Telefon</label><input id="o-tel" name="tel" type="tel" autocomplete="tel" required></div>
+      </div>
+      <div class="f2">
+        <div class="f"><label for="o-date">Abholdatum</label><input id="o-date" name="date" type="date" required><p class="err" id="o-date-err" aria-live="polite"></p></div>
+        <div class="f"><label for="o-time">Abholzeit</label><select id="o-time" name="time"><option>7:00 – 9:00 Uhr</option><option selected>9:00 – 11:00 Uhr</option><option>11:00 – 12:00 Uhr</option><option>14:00 – 16:00 Uhr</option><option>16:00 – 18:00 Uhr</option></select></div>
+      </div>
+      <div class="f"><label for="o-what">Was darf's sein?</label><textarea id="o-what" name="what" placeholder="z. B. 1,5 kg Schweinsschopf im Ganzen, 20 dag Extrawurst geschnitten, 4 Paar Bratwürstel"></textarea><p class="hint">Samstag nur bis 12 Uhr, Montag nur vormittags.</p></div>
+      <label class="chk" style="font-size:14px;color:var(--mu)"><input type="checkbox" required> Ich bin einverstanden, dass meine Angaben für die Bestellung verwendet werden.</label>
+      <button class="btn" type="submit">Vorbestellung senden</button>
+      <p class="msg" id="order-msg" role="status"></p>
+    </form>
+  </div>
+</section>
+
+<section class="visit sec" id="besuch" aria-labelledby="vis-h">
+  <div class="wrap">
+    <p class="kick" data-reveal>Besuchen Sie uns</p>
+    <h2 class="h2" id="vis-h" data-reveal style="--d:.08s">Öffnungszeiten &amp; <em>Anfahrt</em></h2>
+    <div class="visit__grid">
+      <div data-reveal>
+        <table class="hours" id="hours"><caption class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Öffnungszeiten</caption><tbody>
+          <tr data-d="1"><th scope="row">Montag</th><td>7:00 – 12:30</td></tr>
+          <tr data-d="2"><th scope="row">Dienstag</th><td>7:00 – 18:00</td></tr>
+          <tr data-d="3"><th scope="row">Mittwoch</th><td>7:00 – 18:00</td></tr>
+          <tr data-d="4"><th scope="row">Donnerstag</th><td>7:00 – 18:00</td></tr>
+          <tr data-d="5"><th scope="row">Freitag</th><td>7:00 – 18:00</td></tr>
+          <tr data-d="6"><th scope="row">Samstag</th><td>7:00 – 12:00</td></tr>
+          <tr data-d="0"><th scope="row">Sonntag</th><td>geschlossen</td></tr>
+        </tbody></table>
+        <p class="sub"><b>Mittagsmenü:</b> Mo–Fr 11:00 – 13:30 · <b>Warmer Leberkäse:</b> ab 7:00</p>
+        <div class="addr"><div><b>Fleischerei Haselberger</b>Marktplatz 4, 3280 Musterort</div><div><b>Telefon</b>07412 / 000 00</div></div>
+      </div>
+      <div class="map" data-reveal style="--d:.1s">
+        <svg viewBox="0 0 600 420" role="img" aria-labelledby="map-t">
+          <title id="map-t">Lageplan: Die Fleischerei liegt an der Nordseite des Marktplatzes, gegenüber der Kirche. Parkplätze in der Kurzparkzone am Platz und hinter dem Gemeindeamt.</title>
+          <rect width="600" height="420" fill="#ece3d2"/>
+          <g fill="#e1d6c1"><rect x="20" y="20" width="150" height="110" rx="6"/><rect x="430" y="20" width="150" height="110" rx="6"/><rect x="20" y="290" width="150" height="110" rx="6"/><rect x="430" y="290" width="150" height="110" rx="6"/></g>
+          <path d="M0 160 H600 M0 260 H600" stroke="#fffaf1" stroke-width="26"/>
+          <path d="M200 0 V420 M400 0 V420" stroke="#fffaf1" stroke-width="22"/>
+          <path d="M0 160 H600 M0 260 H600 M200 0 V420 M400 0 V420" stroke="#d7cab3" stroke-width="1" stroke-dasharray="6 8"/>
+          <rect x="214" y="174" width="172" height="72" rx="4" fill="#d9ccb0"/>
+          <g fill="#c9bb9c"><rect x="214" y="96" width="44" height="50" rx="3"/><rect x="262" y="96" width="60" height="50" rx="3" fill="#5a1721"/><rect x="326" y="96" width="60" height="50" rx="3"/></g>
+          <g fill="#c9bb9c"><rect x="214" y="274" width="76" height="60" rx="3"/><path d="M300 274 h86 v60 h-86 z"/></g>
+          <path d="M343 286 l0 -16 l8 -10 l8 10 l0 16 z" fill="#b3a585"/>
+          <circle cx="300" cy="210" r="16" fill="#a9c4c9" stroke="#fffaf1" stroke-width="3"/>
+          <g font-family="Outfit,sans-serif" font-size="12" fill="#6b5e58" font-weight="500">
+            <text x="300" y="214" text-anchor="middle" font-size="9" fill="#3e5a5f">Brunnen</text>
+            <text x="300" y="196" text-anchor="middle" opacity="0">.</text>
+            <text x="18" y="154">Hauptstraße</text>
+            <text x="440" y="254">Hauptstraße</text>
+            <text x="206" y="404" transform="rotate(-90 206 404)">Kirchengasse</text>
+            <text x="352" y="322" text-anchor="middle">Kirche</text>
+            <text x="252" y="310" text-anchor="middle">Gemeindeamt</text>
+            <text x="300" y="240" text-anchor="middle" font-size="11">Marktplatz</text>
+          </g>
+          <g><rect x="232" y="182" width="24" height="24" rx="5" fill="#2f5d9a"/><text x="244" y="199" text-anchor="middle" font-family="Outfit,sans-serif" font-weight="700" font-size="15" fill="#fff">P</text></g>
+          <g><rect x="150" y="300" width="24" height="24" rx="5" fill="#2f5d9a"/><text x="162" y="317" text-anchor="middle" font-family="Outfit,sans-serif" font-weight="700" font-size="15" fill="#fff">P</text></g>
+          <g><circle cx="420" cy="180" r="11" fill="#2a7a52"/><text x="420" y="184" text-anchor="middle" font-family="Outfit,sans-serif" font-weight="700" font-size="11" fill="#fff">H</text><text x="436" y="184" font-family="Outfit,sans-serif" font-size="11" fill="#6b5e58">Bus</text></g>
+          <g class="pin"><path d="M292 92 C292 70 262 62 262 40 A30 30 0 0 1 322 40 C322 62 292 70 292 92 Z" fill="#5a1721" stroke="#fff" stroke-width="2.5"/><circle cx="292" cy="40" r="11" fill="#dcbd80"/></g>
+          <g><rect x="330" y="26" width="200" height="40" rx="4" fill="#fffaf1" stroke="#d3c5b1"/><text x="342" y="44" font-family="Caslon,Georgia,serif" font-weight="700" font-size="15" fill="#241c1b">Fleischerei Haselberger</text><text x="342" y="59" font-family="Outfit,sans-serif" font-size="11" fill="#6b5e58">Marktplatz 4 · Eingang am Platz</text></g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__grid">
+      <div><a class="logo" href="#top"><svg aria-hidden="true"><use href="#crest"/></svg><span><b>Haselberger</b><small>Fleischerei · seit 1958</small></span></a>
+        <p style="margin-top:16px;max-width:340px">Mostviertler Fleisch- und Wurstwaren, eigene Selcherei und Partyservice – Meisterbetrieb in dritter Generation.</p></div>
+      <div><h3>Kontakt</h3><p>Fleischerei Haselberger<br>Marktplatz 4<br>3280 Musterort<br>07412 / 000 00</p></div>
+      <div><h3>Seite</h3><p><a href="#angebote">Wochenangebote</a><br><a href="#sortiment">Sortiment</a><br><a href="#partyservice">Partyservice</a><br><a href="#vorbestellen">Vorbestellung</a></p></div>
+    </div>
+    <div class="foot__demo"><span><b>Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb</b></span><span>Alle Namen, Preise und Adressen sind frei erfunden.</span></div>
+  </div>
+</footer>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/fleischerei/app.js" defer></script></body></html>

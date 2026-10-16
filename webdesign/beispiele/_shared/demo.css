@@ -18,3 +18,9 @@
   .tk-js [data-reveal] { opacity: 1; transform: none; transition: none; }
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
 }
+
+/* Formularfelder: Datums- und Zeitfelder haben am Handy eine feste Mindestbreite und ragen sonst über den Rand. */
+input, select, textarea { box-sizing: border-box; max-width: 100%; min-width: 0; }
+input[type="date"], input[type="time"], input[type="datetime-local"] { -webkit-appearance: none; appearance: none; display: block; width: 100%; min-width: 0; }
+input[type="date"]::-webkit-date-and-time-value { text-align: left; }
+form label, form .row2 > *, form [class*="row"] > * { min-width: 0; }
