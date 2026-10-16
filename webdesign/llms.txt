@@ -16,6 +16,7 @@
 - [Ablauf](https://tim-kofler.at/#ablauf): Gespräch, Entwurf, Umsetzung, Online-Schaltung.
 - [Referenz](https://tim-kofler.at/#referenz): crypto-x.at, selbst programmiert, Lighthouse 100 am Computer, 97–99 am Handy.
 - [Anfrage](https://tim-kofler.at/#anfrage): unverbindliches Anfrageformular.
+- [Checkliste und Newsletter](https://tim-kofler.at/newsletter/): kostenlose Checkliste mit 10 Punkten für mehr Anfragen über Webseite und Google-Profil, dazu gelegentlich Tipps per E-Mail (Double-Opt-in).
 
 ## Über
 
