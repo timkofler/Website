@@ -118,6 +118,10 @@ p a:not(.btn):hover, li a:not(.btn):hover, .form__check a:hover { text-decoratio
 .tk-car__item figcaption b { display: block; font-family: var(--display); font-size: 1.1rem; font-weight: 600; }
 .tk-car__item figcaption span { display: block; margin-top: 4px; color: var(--muted); font-size: .92rem; }
 .tk-car__item:not(.is-center) figcaption { opacity: .45; }
+.tk-car__item figcaption b { position: relative; width: max-content; max-width: 100%; margin: 0 auto; padding-bottom: 8px; color: #9a9a9a; transition: color .3s; }
+.tk-car__item figcaption b::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; border-radius: 3px; background: var(--hot-grad, #ff5a1f); transform: scaleX(0); transition: transform .45s cubic-bezier(.2,.7,.2,1); }
+.tk-car__item.is-center figcaption b { color: #fff; }
+.tk-car__item.is-center figcaption b::after { transform: scaleX(1); }
 .tk-phone--cta .tk-phone__screen { background: radial-gradient(120% 80% at 50% 0%, #2a2a2a, #0d0d0d 70%); }
 .tk-cta { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 30px 26px; gap: 14px; }
 .tk-cta img { width: 80px; height: auto; margin-bottom: 10px; }

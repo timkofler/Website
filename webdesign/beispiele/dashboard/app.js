@@ -1,7 +1,7 @@
-// Betriebs-Dashboard "Haustechnik Moser": Stundenerfassung, Aufträge, Rechnungen, Lager und Termine.
+// Betriebs-Dashboard "Haustechnik Kofler": Stundenerfassung, Aufträge, Rechnungen, Lager und Termine.
 // Alles läuft im Browser. Musterdaten werden pro Tag neu erzeugt, Änderungen bleiben im localStorage.
 (function () {
-  var KEY = "tk-dash-moser-v1", RATE = 68, VAT = 0.2;
+  var KEY = "tk-dash-kofler-v1", RATE = 68, VAT = 0.2;
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
@@ -25,7 +25,7 @@
   while (plan.length < 5) { if (d0.getDay() > 0 && d0.getDay() < 6) plan.push(iso(d0)); d0 = add(d0, 1); }
 
   var STAFF = [
-    { id: "st", name: "Stefan Moser", short: "SM", role: "Meister", c: "#2f5bff", soll: 38.5 },
+    { id: "st", name: "Stefan Kofler", short: "SK", role: "Meister", c: "#2f5bff", soll: 38.5 },
     { id: "lu", name: "Lukas Hofer", short: "LH", role: "Monteur", c: "#12a36b", soll: 38.5 },
     { id: "ma", name: "Martin Eder", short: "ME", role: "Monteur", c: "#e69a00", soll: 38.5 },
     { id: "jo", name: "Jonas Pichler", short: "JP", role: "Lehrling", c: "#e5484d", soll: 38.5 }
@@ -48,7 +48,7 @@
       { id: "A-1044", kunde: "Gemeindeamt Musterdorf", titel: "Heizungswartung, 14 Heizkörper", ort: "Musterdorf", st: "plan", std: 6, mat: 180 },
       { id: "A-1046", kunde: "Café Mühlbach", titel: "Wasserenthärter einbauen", ort: "Mühlbach", st: "plan", std: 5, mat: 1120 },
       { id: "A-1045", kunde: "Fam. Leitner", titel: "Wärmepumpe: Beratung & Angebot", ort: "Kirchberg", st: "neu", std: 3, mat: 0 },
-      { id: "A-1047", kunde: "Hr. Wimmer", titel: "Thermenservice", ort: "Oberau", st: "neu", std: 2, mat: 60 }
+      { id: "A-1047", kunde: "Hr. Wimmer", titel: "E-Check & FI-Schalter tauschen", ort: "Oberau", st: "neu", std: 3, mat: 140 }
     ];
     // Stunden der laufenden Woche bis heute
     var time = [], who = ["st", "lu", "ma", "jo"], on = { st: ["A-1043", "A-1041"], lu: ["A-1041"], ma: ["A-1041", "A-1043"], jo: ["A-1041", "A-1043"] };
@@ -81,13 +81,13 @@
       { id: "s5", name: "Thermostatkopf", unit: "Stk.", qty: 14, min: 6, max: 30 },
       { id: "s6", name: "Flexschlauch ⅜″ 50 cm", unit: "Stk.", qty: 9, min: 12, max: 40 },
       { id: "s7", name: "Siphon 40 mm", unit: "Stk.", qty: 3, min: 5, max: 15 },
-      { id: "s8", name: "Hanf & Dichtpaste", unit: "Set", qty: 11, min: 4, max: 20 }
+      { id: "s8", name: "Kabel NYM-J 3×1,5 mm²", unit: "m", qty: 85, min: 50, max: 200 }
     ];
     var ev = [], tpl = [
       [0, "07:30", "lu", "A-1041", "Fliesen Dusche, Abdichtung"], [0, "07:30", "jo", "A-1041", "mit Lukas"], [0, "08:00", "ma", "A-1043", "Speicher anschließen"], [0, "13:30", "st", "A-1045", "Beratung vor Ort"],
-      [1, "07:30", "lu", "A-1041", "Vorwandinstallation"], [1, "08:00", "st", "A-1044", "Wartung Teil 1"], [1, "09:00", "ma", "A-1046", "Enthärter montieren"], [1, "14:00", "jo", "A-1047", "Thermenservice mit Stefan"],
+      [1, "07:30", "lu", "A-1041", "Vorwandinstallation"], [1, "08:00", "st", "A-1044", "Wartung Teil 1"], [1, "09:00", "ma", "A-1046", "Enthärter montieren"], [1, "14:00", "jo", "A-1047", "E-Check mit Stefan"],
       [2, "07:30", "lu", "A-1041", "Sanitärkeramik"], [2, "08:00", "st", "A-1044", "Wartung Teil 2"], [2, "10:00", "ma", "A-1043", "Abnahme mit Kunde"],
-      [3, "07:30", "lu", "A-1041", "Fertigstellung"], [3, "07:30", "jo", "A-1041", "mit Lukas"], [3, "08:30", "st", "A-1047", "Thermenservice"],
+      [3, "07:30", "lu", "A-1041", "Fertigstellung"], [3, "07:30", "jo", "A-1041", "mit Lukas"], [3, "08:30", "st", "A-1047", "FI-Schalter tauschen"],
       [4, "08:00", "ma", "A-1046", "Einschulung Kunde"], [4, "12:00", "st", "A-1045", "Angebot besprechen"]
     ];
     tpl.forEach(function (t, i) { ev.push({ id: "e" + i, d: plan[t[0]], t: t[1], who: t[2], job: t[3], note: t[4] }); });
@@ -133,7 +133,7 @@
     var d = now;
     var h = now.getHours();
     $("#h-home").textContent = (h < 11 ? "Guten Morgen" : h < 18 ? "Hallo" : "Guten Abend") + ", Anna";
-    $("#today-l").textContent = WDL[d.getDay()] + ", " + d.getDate() + ". " + MON[d.getMonth()] + " " + d.getFullYear() + " · Haustechnik Moser, Musterdorf";
+    $("#today-l").textContent = WDL[d.getDay()] + ", " + d.getDate() + ". " + MON[d.getMonth()] + " " + d.getFullYear() + " · Haustechnik Kofler, Musterdorf";
     var m = today.slice(0, 7);
     var paid = S.inv.filter(function (i) { return i.paid && i.paid.slice(0, 7) === m; }).reduce(function (a, i) { return a + gross(i); }, 0);
     var open = S.inv.filter(function (i) { return !i.paid; }), due = open.filter(isDue);
@@ -343,7 +343,7 @@
   // ---- Lager ----
   function orderText() {
     var low = S.stock.filter(function (s) { return s.qty < s.min; });
-    return low.length ? "Bestellung Haustechnik Moser\n" + low.map(function (s) { return "• " + (s.max - s.qty) + " " + s.unit + " " + s.name; }).join("\n") : "Nichts zu bestellen. Alle Artikel über dem Mindestbestand.";
+    return low.length ? "Bestellung Haustechnik Kofler\n" + low.map(function (s) { return "• " + (s.max - s.qty) + " " + s.unit + " " + s.name; }).join("\n") : "Nichts zu bestellen. Alle Artikel über dem Mindestbestand.";
   }
   function renderStock() {
     var low = 0;

@@ -1,5 +1,5 @@
 <!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Betriebs-Dashboard Haustechnik Moser – Beispiel-Entwurf | tim-kofler.at</title>
+<title>Betriebs-Dashboard Haustechnik Kofler – Beispiel-Entwurf | tim-kofler.at</title>
 <meta name="robots" content="noindex">
 <meta name="description" content="Beispiel-Entwurf eines Betriebs-Dashboards von Tim Kofler – Webdesign: Stundenerfassung, Aufträge, Rechnungen, Lager und Termine in einer Web-App. Erfundener Betrieb.">
 <meta name="theme-color" content="#2f5bff">
@@ -37,7 +37,7 @@ button{cursor:pointer}
 .intro li b{color:var(--pop)}
 
 /* App-Rahmen */
-.app{display:grid;grid-template-columns:232px minmax(0,1fr);background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 30px 80px -40px rgba(18,22,37,.35);min-height:760px}
+.app{display:grid;grid-template-columns:232px minmax(0,1fr);background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;overflow:clip;box-shadow:0 30px 80px -40px rgba(18,22,37,.35);min-height:760px}
 .side{background:var(--side);color:#c9cede;padding:20px 14px;display:flex;flex-direction:column;gap:4px}
 .brand{display:flex;align-items:center;gap:10px;padding:4px 8px 18px;color:#fff}
 .brand svg{width:36px;height:36px;flex:none}
@@ -319,7 +319,7 @@ td.today,th.today{background:var(--popl)}
 <div class="wrap">
 <div class="app" id="app">
   <nav class="side" aria-label="Dashboard-Bereiche">
-    <div class="brand"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#2f5bff"/><path d="M11 27V14l9 7 9-7v13" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="11" r="2.4" fill="#ffc83a"/></svg><span><b>Haustechnik Moser</b><small>Installateur &amp; Heizung</small></span></div>
+    <div class="brand"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#2f5bff"/><path d="M14 11v18M27 11l-9.5 9L27 29" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 4l-3 6h4l-3 6" fill="none" stroke="#ffc83a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Haustechnik Kofler</b><small>Elektro, Sanitär &amp; Heizung</small></span></div>
     <button class="nav-b" data-go="home" aria-current="page"><svg><use href="#i-home"/></svg><span class="l">Übersicht</span></button>
     <button class="nav-b" data-go="zeit"><svg><use href="#i-clock"/></svg><span class="l">Stunden</span><span class="badge" id="b-zeit"></span></button>
     <button class="nav-b" data-go="jobs"><svg><use href="#i-jobs"/></svg><span class="l">Aufträge</span><span class="badge" id="b-jobs"></span></button>
@@ -327,7 +327,7 @@ td.today,th.today{background:var(--popl)}
     <button class="nav-b" data-go="lager"><svg><use href="#i-box"/></svg><span class="l">Lager</span><span class="badge" id="b-lager"></span></button>
     <button class="nav-b" data-go="cal"><svg><use href="#i-cal"/></svg><span class="l">Termine</span></button>
     <div class="side__foot">
-      <div class="me"><span class="ava" style="--c:#c026d3">AM</span><span><b>Anna Moser</b>Büro</span></div>
+      <div class="me"><span class="ava" style="--c:#c026d3">AK</span><span><b>Anna Kofler</b>Büro</span></div>
       <button type="button" data-reset>Demo zurücksetzen</button>
     </div>
   </nav>
@@ -460,4 +460,4 @@ td.today,th.today{background:var(--popl)}
 
 <footer class="foot"><div class="wrap"><span><b>Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb</b></span><span>Alle Namen, Preise und Zahlen sind frei erfunden. Eingaben werden nur in deinem Browser gespeichert.</span></div></footer>
 <div class="toast" id="toast" role="status"></div>
-<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/dashboard/app.js?v=20261017" defer></script></body></html>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/dashboard/app.js?v=20261017b" defer></script></body></html>
