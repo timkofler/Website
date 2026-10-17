@@ -135,12 +135,12 @@
 
   // ---------------- Antwort-Assistent ----------------
   var LINKS = {
-    pakete: ["Zu den Paketen", "/#pakete"], anfrage: ["Anfrage stellen", "/#anfrage"], ablauf: ["Zum Ablauf", "/#ablauf"],
+    pakete: ["Zu den Paketen", "/#pakete"], rechner: ["Richtpreis berechnen", "/#rechner"], anfrage: ["Anfrage stellen", "/#anfrage"], ablauf: ["Zum Ablauf", "/#ablauf"],
     email: ["Landingpages & E-Mail", "/#email"], beispiele: ["Beispielseiten ansehen", "/beispiele/"],
     mail: ["E-Mail schreiben", "mailto:office@tim-kofler.at"], allinkl: ["ALL-INKL ansehen (Partnerlink)", "https://all-inkl.com/PA56CC1CF457650"], webspace: ["Meine Empfehlung", "/#webspace"], tel: ["Anrufen", "tel:+4367761773118"], whatsapp: ["Auf WhatsApp schreiben", "https://wa.me/4367761773118?text=Hallo%20Tim%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Webseite."]
   };
   var ANSWERS = {
-    preis: { q: "Was kostet eine Webseite?", a: "Die Pakete im Überblick:\n• Referenzkunde ab 290 € (einfache Seite, nur wenige Plätze)\n• Start ab 590 € (bis zu 3 Unterseiten)\n• Business ab 1.190 € (bis zu 8 Unterseiten)\n• Betreuung ab 29 € im Monat\nAlle Preise sind Endpreise, als Kleinunternehmer ohne Umsatzsteuer.", links: ["pakete", "anfrage"] },
+    preis: { q: "Was kostet eine Webseite?", a: "Die Pakete im Überblick:\n• Referenzkunde ab 290 € (einfache Seite, nur wenige Plätze)\n• Start ab 590 € (bis zu 3 Unterseiten)\n• Business ab 1.190 € (bis zu 8 Unterseiten)\n• Betreuung ab 29 € im Monat\nAlle Preise sind Endpreise, als Kleinunternehmer ohne Umsatzsteuer. Einen Richtpreis für deine Wünsche zeigt dir der Angebots-Rechner.", links: ["rechner", "pakete", "anfrage"] },
     dauer: { q: "Wie lange dauert es?", a: "Das hängt vom Umfang ab und davon, wie schnell Texte, Fotos und Logo da sind. Einen realistischen Zeitplan bekommst du gleich mit dem Angebot.", links: ["ablauf", "anfrage"] },
     referenz: { q: "Was ist ein Referenzkunde?", a: "Für eine begrenzte Zahl von Kunden baue ich eine einfache Seite ab 290 €. Im Gegenzug darf ich sie als Referenz zeigen, du gibst eine ehrliche Google-Bewertung und im Footer steht ein kleiner Hinweis auf meine Arbeit.", links: ["pakete", "anfrage"] },
     email: { q: "Landingpage & Newsletter?", a: "Ja, mache ich: Landingpages für Aktionen oder Anzeigen, Newsletter-Anmeldung mit Double-Opt-in und automatische E-Mails wie eine Willkommensserie. Der Versand läuft über Brevo, einen E-Mail-Dienst aus der EU.", links: ["email", "anfrage"] },
