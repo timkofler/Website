@@ -181,15 +181,31 @@ export function start(section) {
     add(bodyG, deform(g), paint);
   });
   // Mittelteil vorne (über dem Motor) bis zur Spritzwand, hinten bis zur Rückwand
-  const front = new Shape();
+  // Vorderwagen offen (Motorraum): nur Nase vorne und Spritzwand hinten, dazwischen sieht man den Motor
+  const front = new Shape(); // nur für die Motorhaube (Oberkante)
   front.moveTo(2.12, 0.2);
   front.quadraticCurveTo(2.36, 0.22, 2.37, 0.42);
   front.lineTo(2.35, 0.55);
   front.quadraticCurveTo(2.33, 0.68, 2.08, 0.72);
   front.quadraticCurveTo(1.35, 0.8, 0.72, 0.86);
-  front.lineTo(0.62, 0.62);
   front.lineTo(0.56, 0.2);
   front.lineTo(2.12, 0.2);
+  const nose = new Shape();
+  nose.moveTo(2.12, 0.2);
+  nose.quadraticCurveTo(2.36, 0.22, 2.37, 0.42);
+  nose.lineTo(2.35, 0.55);
+  nose.quadraticCurveTo(2.33, 0.68, 2.08, 0.72);
+  nose.lineTo(2.02, 0.727);
+  nose.lineTo(2.02, 0.2);
+  nose.lineTo(2.12, 0.2);
+  const firewall = new Shape();
+  firewall.moveTo(0.8, 0.853);
+  firewall.lineTo(0.72, 0.86);
+  firewall.lineTo(0.62, 0.62);
+  firewall.lineTo(0.56, 0.2);
+  firewall.lineTo(0.66, 0.2);
+  firewall.lineTo(0.72, 0.6);
+  firewall.lineTo(0.8, 0.853);
   const rear = new Shape();
   rear.moveTo(-1.5, 0.2);
   rear.lineTo(-1.56, 0.62);
@@ -199,7 +215,8 @@ export function start(section) {
   rear.lineTo(-2.3, 0.26);
   rear.quadraticCurveTo(-2.27, 0.2, -2.12, 0.2);
   rear.lineTo(-1.5, 0.2);
-  add(bodyG, deform(extrude(front, 1.36, 0.03, 2, 28)), paint);
+  add(bodyG, deform(extrude(nose, 1.36, 0.03, 2, 20)), paint);
+  add(bodyG, deform(extrude(firewall, 1.36, 0.02, 1, 6)), black);
   add(bodyG, deform(extrude(rear, 1.36, 0.03, 2, 28)), paint);
   // Innenverkleidung der Seitenwände (dunkel), damit der Innenraum nicht rot leuchtet
   [1, -1].forEach((s) => add(bodyG, new BoxGeometry(0.85, 0.42, 0.01), black, -1.08, 0.6, s * 0.615));
@@ -345,7 +362,7 @@ export function start(section) {
   add(pan, new BoxGeometry(0.8, 0.08, 0.36), dark);
   const gear = part(V(0.55, 0.42, 0), V(-0.25, 0.12, 0), 0.6, 1);
   add(gear, new CylinderGeometry(0.17, 0.11, 0.6, S(20)).rotateZ(Math.PI / 2), alu);
-  const rad = part(V(2.06, 0.46, 0), V(1.0, 0.1, 0), 0.45, 0.85);
+  const rad = part(V(1.97, 0.46, 0), V(1.0, 0.1, 0), 0.45, 0.85);
   add(rad, new BoxGeometry(0.06, 0.32, 1.1), dark);
   add(rad, new BoxGeometry(0.065, 0.26, 1.02), steel);
 
