@@ -1,6 +1,14 @@
 // CryptoX – Formulare (Beta-Bewerbung, Newsletter) ohne Neuladen absenden.
 // Ohne JavaScript funktionieren die Formulare ganz normal per POST.
 (function () {
+  // Links wie "/#anfrage" laden die Startseite ohne "?gclid=…" bzw. "?utm_source=…" neu,
+  // dann ginge die Herkunft verloren. Deshalb hängen wir die Adresszeile an diese Links an.
+  if (/[?&](gclid|gbraid|wbraid|utm_source|empfohlen)=/.test(location.search)) {
+    document.querySelectorAll('a[href^="/#"]').forEach(function (a) {
+      a.setAttribute("href", "/" + location.search + a.getAttribute("href").slice(1));
+    });
+  }
+
   var forms = document.querySelectorAll("form[data-cx-form]");
   if (!forms.length || !window.fetch || !window.FormData) return;
 
