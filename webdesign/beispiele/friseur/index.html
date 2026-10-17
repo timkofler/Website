@@ -122,7 +122,8 @@ section{position:relative}
 .cut__steps li::before{counter-increment:s;content:"0" counter(s);font:800 26px/1 var(--hd);color:var(--ro)}
 .cut__steps b{display:block;font-weight:600;font-size:17px}
 .cut__steps span{color:var(--mu);font-size:14px}
-.cut__stage{position:relative;aspect-ratio:600/640;width:100%;max-width:620px;justify-self:center;border-radius:40px;background:radial-gradient(60% 55% at 52% 44%,rgba(232,180,166,.16),transparent 70%),linear-gradient(160deg,#2a201e,#181212);border:1px solid var(--line);overflow:hidden}
+.cut__col{width:100%;max-width:620px;justify-self:center}
+.cut__stage{position:relative;aspect-ratio:600/640;width:100%;border-radius:40px;background:radial-gradient(60% 55% at 52% 44%,rgba(232,180,166,.16),transparent 70%),linear-gradient(160deg,#2a201e,#181212);border:1px solid var(--line);overflow:hidden}
 .cut__stage svg,.cut__stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .cut__replay{position:absolute;right:18px;bottom:18px;min-height:46px;padding:0 18px;font-size:14px;background:rgba(20,16,16,.7);backdrop-filter:blur(6px);color:var(--tx);box-shadow:inset 0 0 0 1px var(--line)}
 .cut__replay:hover{background:rgba(40,30,29,.9)}
@@ -135,7 +136,18 @@ section{position:relative}
 .spark{opacity:0;transform-box:fill-box;transform-origin:center}
 .spark.on{animation:spark 1.1s ease-out forwards}
 @keyframes spark{0%{opacity:0;transform:scale(0) rotate(0)}40%{opacity:1;transform:scale(1.2) rotate(45deg)}100%{opacity:0;transform:scale(.6) rotate(90deg)}}
-@media (max-width:900px){.cut__grid{grid-template-columns:1fr}.cut__stage{order:-1}}
+.cut__ctrl{display:flex;flex-wrap:wrap;gap:14px 22px;margin-top:16px}
+.cut__ctrl fieldset{border:0;margin:0;padding:0;min-width:0}
+.cut__ctrl legend{font:600 11px/1 var(--bd);letter-spacing:.18em;text-transform:uppercase;color:var(--mu);padding:0;margin-bottom:9px}
+.seg{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:var(--card);box-shadow:inset 0 0 0 1px var(--line)}
+.seg label{position:relative;cursor:pointer}
+.seg input{position:absolute;opacity:0;width:1px;height:1px}
+.seg span{display:inline-flex;align-items:center;gap:7px;min-height:40px;padding:0 14px;border-radius:999px;font-size:14px;font-weight:600;color:var(--mu);transition:background .25s,color .25s}
+.seg i{width:12px;height:12px;border-radius:50%;background:var(--c);box-shadow:0 0 0 1.5px rgba(245,237,233,.35)}
+.seg input:checked+span{background:var(--ro);color:var(--ink)}
+.seg input:focus-visible+span{outline:2px solid var(--ro);outline-offset:2px}
+@media (max-width:900px){.cut__grid{grid-template-columns:1fr}.cut__col{order:-1}}
+@media (max-width:420px){.seg span{padding:0 11px}}
 @media (max-width:520px){.cut__badge{display:none}}
 
 /* Pflege mit Video */
@@ -363,7 +375,7 @@ section{position:relative}
   <div class="wrap cut__grid">
     <div>
       <p class="kick" data-reveal>Handwerk</p>
-      <h2 class="h2" id="cut-h" data-reveal style="--d:.08s">Vom langen Haar<br>zum <em>frischen Bob.</em></h2>
+      <h2 class="h2" id="cut-h" data-reveal style="--d:.08s">Vom langen Haar<br>zum <em id="cut-em">frischen Bob.</em></h2>
       <p class="lead" data-reveal style="--d:.16s">Jeder Schnitt beginnt mit dem Kamm und endet mit einem Blick in den Spiegel, bei dem Sie lächeln. Dazwischen: ruhige Hände und eine sehr scharfe Schere.</p>
       <ol class="cut__steps" id="cut-steps">
         <li class="is-on"><div><b>Kämmen &amp; Abteilen</b><span>Wir lesen Wuchsrichtung, Wirbel und Fall.</span></div></li>
@@ -371,11 +383,12 @@ section{position:relative}
         <li><div><b>Fertig: frischer Bob</b><span>Leicht, glänzend – und er fällt von selbst in Form.</span></div></li>
       </ol>
     </div>
-    <div class="cut__stage" data-reveal>
+    <div class="cut__col" data-reveal>
+    <div class="cut__stage">
       <span class="cut__badge" aria-hidden="true"><i></i>Live-Schnitt</span>
       <canvas id="hw-canvas" aria-hidden="true"></canvas>
       <svg id="hw-svg" viewBox="0 0 600 640" role="img" aria-labelledby="hw-title">
-        <title id="hw-title">Animation: Ein Kamm glättet lange Haare, eine Schere schneidet sie zu einem Bob, abgeschnittene Strähnen fallen auf den Umhang.</title>
+        <title id="hw-title">Animation: Ein Kamm glättet lange Haare einer Kundin, eine Schere schneidet sie zu einem Bob, abgeschnittene Strähnen fallen auf den Umhang.</title>
         <g fill="#f8e1d8">
           <path class="spark" d="M470 300 l5 13 13 5 -13 5 -5 13 -5 -13 -13 -5 13 -5 z"/>
           <path class="spark" d="M252 380 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4 z"/>
@@ -385,10 +398,22 @@ section{position:relative}
           <rect x="165" y="40" width="270" height="50" rx="25" fill="#e8b4a6"/>
           <circle cx="194" cy="65" r="13" fill="#1b1515"/>
           <path d="M188 65 l4.5 4.5 8-9" fill="none" stroke="#e8b4a6" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-          <text x="218" y="71" font-family="Bricolage, Arial, sans-serif" font-weight="800" font-size="18" fill="#1b1515">Frischer Bob · 49 €</text>
+          <text x="218" y="71" font-family="Bricolage, Arial, sans-serif" font-weight="800" font-size="18" fill="#1b1515" id="hw-done-t">Frischer Bob · 49 €</text>
         </g>
       </svg>
       <button class="btn cut__replay" id="hw-replay" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Nochmal schneiden</button>
+    </div>
+    <div class="cut__ctrl" id="cut-ctrl">
+      <fieldset><legend>Wer sitzt im Stuhl?</legend><div class="seg">
+        <label><input type="radio" name="hw-m" value="frau" checked><span>Dame</span></label>
+        <label><input type="radio" name="hw-m" value="mann"><span>Herr</span></label>
+      </div></fieldset>
+      <fieldset><legend>Haarfarbe</legend><div class="seg">
+        <label><input type="radio" name="hw-c" value="schwarz"><span><i style="--c:#1b1716"></i>Schwarz</span></label>
+        <label><input type="radio" name="hw-c" value="braun" checked><span><i style="--c:#5a341f"></i>Braun</span></label>
+        <label><input type="radio" name="hw-c" value="blond"><span><i style="--c:#d6ad66"></i>Blond</span></label>
+      </div></fieldset>
+    </div>
     </div>
   </div>
 </section>
@@ -565,4 +590,4 @@ section{position:relative}
     <p class="foot__demo">Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb</p>
   </div>
 </footer>
-<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/friseur/app.js" defer></script></body></html>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/friseur/app.js?v=dbe67592" defer></script></body></html>

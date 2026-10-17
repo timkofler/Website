@@ -76,9 +76,8 @@
       var d = addDays(monday, w - 1), o = OFFERS[w];
       var div = document.createElement("div"); div.className = "day" + (w === hl ? " is-today" : "");
       var lis = o.i.map(function (x) { return "<li><span>" + x[0] + "</span><i></i>" + (x[2] ? "<s>" + x[2] + "</s>" : "") + "<b>" + x[1] + "</b></li>"; }).join("");
-      div.innerHTML = '<h3>' + WD[w] + ' <small>' + d.getDate() + '.' + (d.getMonth() + 1) + '.</small></h3><p style="font:500 20px/1.2 var(--ch);color:#a9c7b8;margin-top:2px">' + o.t + '</p><ul>' + lis + '</ul>' +
-        (w === hl ? '<svg class="ring" aria-hidden="true"></svg>' : '') +
-        '<span class="tag" aria-hidden="true">' + (sunday ? "morgen!" : "heute!") + '</span>';
+      div.innerHTML = '<h3><span>' + WD[w] + (w === hl ? ' <span class="tag" aria-hidden="true">' + (sunday ? "morgen!" : "heute!") + '</span>' : '') + '</span> <small>' + d.getDate() + '.' + (d.getMonth() + 1) + '.</small></h3><p style="font:500 20px/1.2 var(--ch);color:#a9c7b8;margin-top:2px">' + o.t + '</p><ul>' + lis + '</ul>' +
+        (w === hl ? '<svg class="ring" aria-hidden="true"></svg>' : '');
       if (w === hl) div.setAttribute("aria-label", WD[w] + (sunday ? " (morgen)" : " (heute)"));
       wrap.appendChild(div);
     }
@@ -239,29 +238,48 @@
     var A0 = .08, S = .125;
     var seed = 11; function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
 
-    // Querschnitt: Schwarte, Fett und Fleisch in welligen Schichten, dazu feine Marmorierung.
-    var base = [-120, -111, -91, -65, -53, -23, -12, 0];
-    var fills = ["url(#g-rind)", "url(#g-fat1)", "url(#g-meat)", "url(#g-fat)", "url(#g-meat)", "url(#g-fat)", "url(#g-meat)"];
+    // Querschnitt: Schwarte, Fett und Fleisch in unregelmäßigen, auslaufenden Schichten, dazu Fasern und Bindegewebe.
+    var base = [-120, -112, -90, -66, -51, -27, -13, 0];
+    var tap = [0, 0, 7, -6, 9, -8, 5, 0];   // Schichten werden zu einer Seite hin dicker oder dünner
+    var fills = ["url(#g-rind)", "url(#g-fat1)", "url(#g-meat)", "url(#g-fat)", "url(#g-meat2)", "url(#g-fat)", "url(#g-meat)"];
     var lines = base.map(function (b, i) {
-      var pts = [], a1 = (i === 0 || i === 7) ? 0 : 2 + rnd() * 2.5, f1 = .02 + rnd() * .03, p1 = rnd() * 6, a2 = a1 * .45, f2 = .07 + rnd() * .05, p2 = rnd() * 6;
-      for (var x = 0; x <= W; x += 10) pts.push([x, b + a1 * Math.sin(x * f1 + p1) + a2 * Math.sin(x * f2 + p2)]);
+      var pts = [], edge = i === 0 || i === 7, a1 = edge ? 0 : 3 + rnd() * 3.5, f1 = .018 + rnd() * .02, p1 = rnd() * 6, a2 = a1 * .5, f2 = .06 + rnd() * .05, p2 = rnd() * 6, a3 = edge ? 0 : .9, p3 = rnd() * 6;
+      for (var x = 0; x <= W; x += 5) pts.push([x, b + (edge ? 0 : tap[i] * (x / W - .5)) + a1 * Math.sin(x * f1 + p1) + a2 * Math.sin(x * f2 + p2) + a3 * Math.sin(x * .31 + p3)]);
       return pts;
     });
+    for (var lc = 1; lc < lines.length; lc++) lines[lc].forEach(function (pt, j) { var min = lines[lc - 1][j][1] + 2.5; if (pt[1] < min) pt[1] = min; });
     function pstr(pts) { return pts.map(function (p, i) { return (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1); }).join(" "); }
     for (var li = 0; li < 7; li++) {
       var top = lines[li], bot = lines[li + 1].slice().reverse();
       el("path", { d: pstr(top) + " " + pstr(bot).replace("M", "L") + " Z", fill: fills[li] }, face);
     }
-    // Marmorierung in den Fleischschichten
-    [[2, 3], [4, 5], [6, 7]].forEach(function (ly) {
-      for (var k = 0; k < 7; k++) {
-        var x = 8 + rnd() * (W - 40), y1 = base[ly[0]] + 3, y2 = base[ly[1]] - 3, y = y1 + rnd() * (y2 - y1), len = 14 + rnd() * 34;
-        el("path", { d: "M" + x.toFixed(1) + " " + y.toFixed(1) + " q" + (len / 2).toFixed(1) + " " + ((rnd() - .5) * 8).toFixed(1) + " " + len.toFixed(1) + " " + ((rnd() - .5) * 5).toFixed(1),
-          fill: "none", stroke: "#f2dfc9", "stroke-width": (.6 + rnd() * 1.4).toFixed(2), "stroke-linecap": "round", opacity: (.45 + rnd() * .4).toFixed(2) }, face);
+    function yAt(l, x) { var j = Math.min(lines[l].length - 2, Math.floor(x / 5)), t = (x - j * 5) / 5; return lines[l][j][1] + (lines[l][j + 1][1] - lines[l][j][1]) * t; }
+    // Muskelfasern und kleine Fetteinschlüsse im Mageren
+    [2, 4, 6].forEach(function (l) {
+      for (var k = 0; k < 26; k++) {
+        var x = 4 + rnd() * (W - 16), y1 = yAt(l, x) + 2, y2 = yAt(l + 1, x) - 2; if (y2 - y1 < 3) continue;
+        var y = y1 + rnd() * (y2 - y1), len = 5 + rnd() * 12;
+        el("path", { d: "M" + x.toFixed(1) + " " + y.toFixed(1) + " q" + (len / 2).toFixed(1) + " " + ((rnd() - .5) * 2.5).toFixed(1) + " " + len.toFixed(1) + " " + ((rnd() - .5) * 2).toFixed(1),
+          fill: "none", stroke: rnd() < .55 ? "#6a1f1e" : "#d77a6a", "stroke-width": (.4 + rnd() * .6).toFixed(2), "stroke-linecap": "round", opacity: (.22 + rnd() * .25).toFixed(2) }, face);
+      }
+      for (var k3 = 0; k3 < 5; k3++) {
+        var x3 = 10 + rnd() * (W - 50), m1 = yAt(l, x3) + 3, m2 = yAt(l + 1, x3) - 3; if (m2 - m1 < 4) continue;
+        var y3 = m1 + rnd() * (m2 - m1), l3 = 10 + rnd() * 26;
+        el("path", { d: "M" + x3.toFixed(1) + " " + y3.toFixed(1) + " q" + (l3 / 2).toFixed(1) + " " + ((rnd() - .5) * 6).toFixed(1) + " " + l3.toFixed(1) + " " + ((rnd() - .5) * 4).toFixed(1),
+          fill: "none", stroke: "#f4e3cf", "stroke-width": (.8 + rnd() * 1.6).toFixed(2), "stroke-linecap": "round", opacity: (.5 + rnd() * .35).toFixed(2) }, face);
       }
     });
-    // feine Fettpunkte im Speck und Rauchschimmer an der Schwarte
-    for (var k2 = 0; k2 < 18; k2++) el("circle", { cx: (rnd() * W).toFixed(1), cy: (base[1] + 2 + rnd() * 16).toFixed(1), r: (.6 + rnd()).toFixed(2), fill: "#e2c39c", opacity: ".7" }, face);
+    // feine Bindegewebslinien im Fett
+    [1, 3, 5].forEach(function (l) {
+      for (var k = 0; k < 4; k++) {
+        var x = rnd() * (W - 60), y = (yAt(l, x) + yAt(l + 1, x)) / 2 + (rnd() - .5) * 4, len = 30 + rnd() * 60;
+        el("path", { d: "M" + x.toFixed(1) + " " + y.toFixed(1) + " q" + (len / 2).toFixed(1) + " " + ((rnd() - .5) * 5).toFixed(1) + " " + len.toFixed(1) + " " + ((rnd() - .5) * 3).toFixed(1),
+          fill: "none", stroke: "#cfa883", "stroke-width": ".6", opacity: ".45" }, face);
+      }
+    });
+    // Rauchring unter der Schwarte und feine Fettpunkte
+    el("rect", { x: 0, y: -H, width: W, height: 46, fill: "url(#g-smoke)" }, face);
+    for (var k2 = 0; k2 < 22; k2++) { var x4 = rnd() * W; el("circle", { cx: x4.toFixed(1), cy: (yAt(1, x4) + 2 + rnd() * (yAt(2, x4) - yAt(1, x4) - 4)).toFixed(1), r: (.5 + rnd() * .9).toFixed(2), fill: "#d9b48c", opacity: ".55" }, face); }
     el("rect", { x: 0, y: -H, width: W, height: H, fill: "url(#g-vig)" }, face);
     el("rect", { x: 0, y: -H, width: W, height: H, fill: "url(#g-sheen)" }, face);
     el("rect", { x: .5, y: -H + .5, width: W - 1, height: H - 1, fill: "none", stroke: "#4a1c0e", "stroke-opacity": ".45" }, face);
