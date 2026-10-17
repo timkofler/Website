@@ -318,6 +318,12 @@ fieldset.f{border:0;margin:0 0 16px;padding:0;min-width:0}
             <filter id="mp-soft" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="5"/></filter>
             <path id="mp-sil" d="M150 14A27 33 0 1 0 150 80A27 33 0 1 0 150 14ZM150 74C143 74 138 77 138 82C138 90 136 96 131 100C121 106 106 108 94 113C82 118 77 130 78 146C79 156 86 164 97 166C99 176 101 186 104 196C107 204 111 208 112 214C113 228 104 244 102 258C100 272 101 286 106 296C113 306 130 308 142 303C145 302 148 301 150 301C152 301 155 302 158 303C170 308 187 306 194 296C199 286 200 272 198 258C196 244 187 228 188 214C189 208 193 204 196 196C199 186 201 176 203 166C214 164 221 156 222 146C223 130 218 118 206 113C194 108 179 106 169 100C164 96 162 90 162 82C162 77 157 74 150 74ZM97 116C82 118 73 132 74 150C73 170 70 190 69 206C67 228 65 252 66 272C65 286 63 300 66 312C68 322 76 324 79 316C82 304 80 290 79 276C81 256 84 230 87 210C89 192 93 176 98 164C100 148 101 130 97 116ZM203 116C199 130 200 148 202 164C207 176 211 192 213 210C216 230 219 256 221 276C220 290 218 304 221 316C224 324 232 322 234 312C237 300 235 286 234 272C235 252 233 228 231 206C230 190 227 170 226 150C227 132 218 118 203 116ZM103 282C100 320 104 380 111 410C106 428 105 450 110 468C114 488 118 510 120 524C119 536 125 544 136 542C142 540 142 532 139 524C139 506 145 470 144 448C143 436 142 424 143 414C146 380 148.5 330 148.5 302C140 292 118 288 103 282ZM197 282C182 288 160 292 151.5 302C151.5 330 154 380 157 414C158 424 157 436 156 448C155 470 161 506 161 524C158 532 158 540 164 542C175 544 181 536 180 524C182 510 186 488 190 468C195 450 194 428 189 410C196 380 200 320 197 282Z"/>
             <clipPath id="mp-clip"><use href="#mp-sil"/></clipPath>
+            <g id="ms-hand-shadow"><ellipse cx="2" cy="3.5" rx="30" ry="3.6" fill="#8a5a43" opacity=".26"/></g>
+            <g id="ms-hand-detail" fill="none" stroke-linecap="round">
+              <path d="M-13 -1.5 C-6 -2.5 2 -.5 7 2.2" stroke="#c99476" stroke-width="1.6"/>
+              <path d="M12 -9.5 C17 -6.5 21 -4 25 -1.2 M10 -5 C15 -3 19 -.8 22 1.4" stroke="#c99476" stroke-width="1.2" opacity=".75"/>
+              <path d="M-14 -12.5 C-6 -14.5 2 -14 8 -11.5" stroke="#f3d2b8" stroke-width="1.6" opacity=".7"/>
+            </g>
           </defs>
           <ellipse class="mp-shadow" cx="150" cy="545" rx="62" ry="5"/>
           <use class="mp-outline" href="#mp-sil"/>
@@ -365,7 +371,6 @@ fieldset.f{border:0;margin:0 0 16px;padding:0;min-width:0}
             <radialGradient id="ms-candle" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffcf8a" stop-opacity=".55"/><stop offset="1" stop-color="#ffcf8a" stop-opacity="0"/></radialGradient>
             <radialGradient id="ms-press" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffe2b8" stop-opacity=".95"/><stop offset=".5" stop-color="#f3b47a" stop-opacity=".35"/><stop offset="1" stop-color="#f3b47a" stop-opacity="0"/></radialGradient>
             <linearGradient id="ms-skin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1c9a9"/><stop offset="1" stop-color="#d69f7f"/></linearGradient>
-            <linearGradient id="ms-arm" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e2b394"/><stop offset="1" stop-color="#c98f6e"/></linearGradient>
             <linearGradient id="ms-towel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fae98"/><stop offset="1" stop-color="#5f7d69"/></linearGradient>
           </defs>
           <circle class="halo" cx="700" cy="330" r="170" fill="url(#ms-candle)"/>
@@ -400,10 +405,11 @@ fieldset.f{border:0;margin:0 0 16px;padding:0;min-width:0}
             <path d="M676 310 C690 310 698 318 698 326 L676 332 Z" fill="#d69f7f"/>
           </g>
           <g id="ms-glows"></g>
-          <g id="ms-armL"><path d="M-11 0 C-12 -80 -14 -160 -16 -240 L16 -240 C14 -160 12 -80 11 0 Z" fill="url(#ms-arm)"/><path d="M-15 -176 L15 -176 L17 -240 L-17 -240 Z" fill="#6f9180"/></g>
-          <g id="ms-armR"><path d="M-11 0 C-12 -80 -14 -160 -16 -240 L16 -240 C14 -160 12 -80 11 0 Z" fill="url(#ms-arm)"/><path d="M-15 -176 L15 -176 L17 -240 L-17 -240 Z" fill="#6f9180"/></g>
-          <g id="ms-handL"><ellipse cx="0" cy="0" rx="26" ry="10" fill="#e7bb9c"/><path d="M-24 2 C-34 4 -40 2 -42 -2 C-38 -6 -30 -6 -22 -4 Z" fill="#e7bb9c"/><path d="M-8 -6 C-3 -9 5 -9 10 -6" stroke="#c99476" stroke-width="2" fill="none" stroke-linecap="round"/></g>
-          <g id="ms-handR"><ellipse cx="0" cy="0" rx="26" ry="10" fill="#ecc3a5"/><path d="M24 2 C34 4 40 2 42 -2 C38 -6 30 -6 22 -4 Z" fill="#ecc3a5"/><path d="M-10 -6 C-5 -9 3 -9 8 -6" stroke="#c99476" stroke-width="2" fill="none" stroke-linecap="round"/></g>
+          <!-- Arme der Masseurin: Ober- + Unterarm als ein Pfad (per JS berechnet), Ärmel darüber, Hände liegen flach auf dem Rücken -->
+          <g id="ms-armL"><path class="ms-limb" fill="#e3b494"/><path class="ms-shade" fill="#d8a787"/><path class="ms-sleeve" fill="#6f9180"/><path class="ms-hem" fill="none" stroke="#5a7a69" stroke-width="2.5" stroke-linecap="round"/></g>
+          <g id="ms-armR"><path class="ms-limb" fill="#e7bb9c"/><path class="ms-shade" fill="#dcae8f"/><path class="ms-sleeve" fill="#6f9180"/><path class="ms-hem" fill="none" stroke="#5a7a69" stroke-width="2.5" stroke-linecap="round"/></g>
+          <g id="ms-handL"><g transform="scale(-1 1)"><use href="#ms-hand-shadow"/><path d="M-25 2.5 C-27 -4 -25 -11 -19 -13.5 C-10 -16.5 1 -15.5 9 -12.5 C16 -9.5 23 -6 27.5 -2.5 C30 -.5 29 2.2 25.5 2.6 L-25 2.6 Z" fill="#e3b494"/><use href="#ms-hand-detail"/></g></g>
+          <g id="ms-handR"><use href="#ms-hand-shadow"/><path d="M-25 2.5 C-27 -4 -25 -11 -19 -13.5 C-10 -16.5 1 -15.5 9 -12.5 C16 -9.5 23 -6 27.5 -2.5 C30 -.5 29 2.2 25.5 2.6 L-25 2.6 Z" fill="#e7bb9c"/><use href="#ms-hand-detail"/></g>
           <g transform="translate(712 354)">
             <rect x="-22" y="0" width="44" height="66" rx="8" fill="#efe7da"/><rect x="-22" y="0" width="44" height="10" rx="5" fill="#f8f2e8"/>
             <path d="M0 0 L0 -10" stroke="#3a2a22" stroke-width="2"/>
@@ -495,4 +501,4 @@ fieldset.f{border:0;margin:0 0 16px;padding:0;min-width:0}
     <p class="foot__demo">Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb</p>
   </div>
 </footer>
-<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/massage/app.js" defer></script></body></html>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/massage/app.js?v=20261017" defer></script></body></html>
