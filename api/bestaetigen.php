@@ -13,7 +13,7 @@ if (!cx_ready()) {
 
 $data = cx_token_read((string) ($_GET['t'] ?? ''));
 if ($data === null) {
-    cx_page('Link ungültig oder abgelaufen', 'Dieser Bestätigungslink ist ungültig oder älter als 7 Tage. Melde dich einfach noch einmal unter crypto-x.at/newsletter/ an.');
+    cx_page('Link ungültig oder abgelaufen', 'Dieser Bestätigungslink ist ungültig oder älter als 7 Tage. Melde dich einfach noch einmal unter ' . preg_replace('~^https?://~', '', cx_brand()['site']) . '/newsletter/ an.');
 }
 
 $email = cx_email((string) $data['e']);
@@ -30,4 +30,15 @@ if (!$ok) {
 }
 
 cx_consent_log('optin_bestaetigt_' . preg_replace('/[^a-z]/', '', (string) ($data['s'] ?? '')), $email);
+
+// Dankeschön nach der Bestätigung (nur wenn in der config.php eingestellt, z. B. die Checkliste auf tim-kofler.at).
+$geschenk = (array) ($c['newsletter_geschenk'] ?? []);
+if (!empty($geschenk['url']) && !empty($geschenk['titel'])) {
+    $n = (string) ($data['n'] ?? '');
+    $inner = '<p style="margin:0 0 14px">' . ($n !== '' ? 'Hallo ' . cx_h($n) . ',' : 'Hallo,') . '</p>'
+        . '<p style="margin:0 0 14px">danke für deine Anmeldung! Wie versprochen hier der Link zu deiner ' . cx_h((string) $geschenk['titel']) . '. Heb dir diese E-Mail ruhig auf, dann findest du sie jederzeit wieder.</p>'
+        . cx_button(cx_brand()['site'] . (string) $geschenk['url'], 'Zur ' . (string) $geschenk['titel'])
+        . '<p style="margin:0 0 4px">Viele Grüße<br>Tim</p>';
+    cx_mail($email, $n, 'Deine ' . (string) $geschenk['titel'], cx_mail_layout('Danke für deine Anmeldung', $inner));
+}
 header('Location: /newsletter/bestaetigt/', true, 303);

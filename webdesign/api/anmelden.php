@@ -27,7 +27,7 @@ if ($email === '') {
 }
 
 // Nur Formulare annehmen, deren Liste in der config.php dieses Webspace steht
-// (tim-kofler.at kennt nur list_webdesign, crypto-x.at nur Beta und Newsletter).
+// (tim-kofler.at kennt Webseiten-Anfrage und Newsletter, crypto-x.at Beta und Newsletter).
 $lists = ['newsletter' => 'list_newsletter', 'beta' => 'list_beta', 'webseite' => 'list_webdesign'];
 if (!isset($lists[$form]) || !array_key_exists($lists[$form], $c)) {
     cx_respond(false, 'Ungültige Anfrage.');

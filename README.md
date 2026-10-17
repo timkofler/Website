@@ -81,3 +81,11 @@ kunden/                            Pro Kunde ein Ordner im Repo, Vorlage in kund
 - Konten und hochgeladene Dateien liegen nur auf dem Webspace unter `api/_data/kunden/` (für Besucher gesperrt, nicht im Repo). Passwörter nur als Hash.
 - Einrichten: `tim-kofler.at/kunden/admin/` aufrufen, Admin-Passwort wählen, den angezeigten Hash als `admin_password_hash` in `api/_data/config.php` auf dem Webspace eintragen (siehe `config.example.php`).
 - Die PHP-Grenzen fürs Hochladen (200 MB pro Datei, 1 GB pro Durchgang, 10 Minuten Laufzeit) setzt `webdesign/kunden/.user.ini`. Sie wirken nach etwa 5 Minuten. Das Portal zeigt den Kunden automatisch die tatsächlich erlaubte Größe, daran sieht man, ob die Werte greifen.
+
+## Newsletter auf tim-kofler.at
+
+Anmeldung unter **tim-kofler.at/newsletter/** und am Ende der Startseite (`#newsletter`). Als Anreiz gibt es eine Checkliste („10 Punkte für mehr Anfragen“), die nach der Bestätigung unter `/newsletter/bestaetigt/` erscheint und zusätzlich per E-Mail verlinkt wird.
+
+- Ablauf: Formular → `api/anmelden.php` schickt die Bestätigungsmail (Double-Opt-in, signierter Link, 7 Tage gültig) → `api/bestaetigen.php` trägt den Kontakt in die Brevo-Liste ein und protokolliert die Einwilligung in `api/_data/einwilligungen.log`.
+- Einrichten: In Brevo eine Liste „Newsletter tim-kofler.at“ anlegen und in `api/_data/config.php` auf dem Webspace `list_newsletter`, `newsletter_name`, `newsletter_inhalt` und `newsletter_geschenk` eintragen (siehe `webdesign/api/config.example.php`). Ohne `list_newsletter` lehnt das Formular Anmeldungen ab.
+- Versand: Newsletter als Kampagne in Brevo an diese Liste. Brevo setzt den Abmeldelink automatisch ein. Öffnungs- und Klickmessung in Brevo ausschalten (Versprechen „Kein Tracking“, steht so in der Datenschutzerklärung).

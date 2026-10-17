@@ -10,6 +10,14 @@ return [
     'secret'           => '',
     // Liste für Webseiten-Anfragen in Brevo (Kontakte → Listen)
     'list_webdesign'   => 0,
+    // Newsletter-Liste in Brevo (Kontakte → Listen → neue Liste "Newsletter tim-kofler.at", deren ID hier eintragen).
+    // Erst wenn diese Zeile in der config.php steht, nimmt tim-kofler.at/newsletter/ Anmeldungen an.
+    'list_newsletter'  => 0,
+    // Text in der Bestätigungsmail (Double-Opt-in)
+    'newsletter_name'  => 'Newsletter von Tim Kofler – Webdesign',
+    'newsletter_inhalt' => 'Darin bekommst du ein paar Mal im Jahr praktische Tipps für deine Webseite, dein Google-Profil und mehr Anfragen, ohne Spam.',
+    // Nach der Bestätigung bekommt die Person zusätzlich eine E-Mail mit dem Link zur Checkliste
+    'newsletter_geschenk' => ['titel' => 'Checkliste: 10 Punkte für mehr Anfragen', 'url' => '/newsletter/bestaetigt/'],
     // Absender in Brevo bestätigt
     'sender_email'     => 'office@tim-kofler.at',
     'sender_name'      => 'Tim Kofler – Webdesign',
