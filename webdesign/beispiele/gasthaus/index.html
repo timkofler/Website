@@ -455,6 +455,49 @@ fieldset.f{border:0;margin:0 0 16px;min-width:0;padding:0}
 .foot__demo{margin-top:30px;text-align:center;color:#e9cf9c;font-weight:800;font-size:14px;letter-spacing:.04em}
 @media (max-width:760px){.foot__row{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.hero h1 span{opacity:1;transform:none;animation:none}.crest{animation:none}}
+.tour{padding-bottom:0}
+.pano{position:relative;margin-top:44px;border-radius:6px;overflow:hidden;aspect-ratio:16/8;background:#2a2420;box-shadow:0 40px 70px -45px rgba(42,36,32,.7)}
+.pano__poster,.pano__view{position:absolute;inset:0;width:100%;height:100%}
+.pano__poster{object-fit:cover}
+.pano__view .s3d{display:block;width:100%;height:100%;cursor:grab}
+.pano__view .s3d:active{cursor:grabbing}
+.pano__view{opacity:0;transition:opacity .6s}
+.pano.is-on .pano__view{opacity:1}
+.pano__go{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:none;box-shadow:0 20px 40px -18px rgba(0,0,0,.7)}
+.pano__go:hover{transform:translate(-50%,-52%)}
+.pano.can3d .pano__go{display:inline-flex}
+.pano.is-loading .pano__go{pointer-events:none;opacity:.8}
+.pano.is-loading .pano__go::before{content:"";width:16px;height:16px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:pspin .8s linear infinite}
+.pano.is-loading .pano__go svg{display:none}
+@keyframes pspin{to{transform:rotate(360deg)}}
+.pano.is-on .pano__go{display:none}
+.pano__ui,.pano__hint,.pano__spots{display:none}
+.pano.is-on .pano__ui{display:flex}.pano.is-on .pano__spots{display:block}.pano.is-on .pano__hint{display:block}
+.pano__ui{position:absolute;left:14px;top:14px;right:14px;gap:8px;flex-wrap:wrap;pointer-events:none}
+.pano__ui button{pointer-events:auto;min-height:40px;padding:0 16px;border:0;border-radius:999px;background:rgba(251,247,239,.92);color:var(--ink);font:800 12px/1 var(--bd);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.pano__ui button[aria-pressed="true"]{background:var(--burg);color:#fbf3e6}
+.pano__ui [data-full]{margin-left:auto;font-size:18px;letter-spacing:0;padding:0 13px}
+.pano__ui [hidden]{display:none}
+.pano__spots{position:absolute;inset:0;pointer-events:none}
+.spot{position:absolute;left:0;top:0;margin:-22px 0 0 -22px;width:44px;height:44px;padding:0;border:0;background:none;cursor:pointer;pointer-events:auto;transition:opacity .3s}
+.spot.off{opacity:0;pointer-events:none}
+.spot i{position:absolute;inset:11px;border-radius:50%;background:#fbf3e6;box-shadow:0 0 0 4px rgba(184,137,59,.55),0 6px 16px rgba(0,0,0,.4)}
+.spot i::after{content:"";position:absolute;inset:-10px;border-radius:50%;border:2px solid rgba(251,243,230,.8);animation:ppulse 2.2s ease-out infinite}
+.spot--go i{background:var(--burg)}
+.spot--go i::before{content:"→";position:absolute;inset:0;display:grid;place-items:center;color:#fff;font:800 13px/1 var(--bd)}
+.spot span{position:absolute;left:50%;top:46px;transform:translateX(-50%);white-space:nowrap;padding:6px 11px;border-radius:999px;background:rgba(42,36,32,.82);color:#fbf3e6;font:700 12px/1 var(--bd);opacity:0;transition:opacity .25s}
+.spot:hover span,.spot:focus-visible span,.spot--go span{opacity:1}
+@keyframes ppulse{0%{transform:scale(.6);opacity:1}100%{transform:scale(1.4);opacity:0}}
+.pano__hint{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);margin:0;padding:8px 14px;border-radius:999px;background:rgba(42,36,32,.7);color:#fbf3e6;font:700 12px/1 var(--bd);pointer-events:none;transition:opacity .5s}
+.pano.touched .pano__hint{opacity:0}
+.pano__info{position:absolute;left:14px;bottom:14px;max-width:min(380px,calc(100% - 28px));padding:16px 40px 16px 18px;border-radius:6px;background:rgba(251,247,239,.96);color:var(--mu);font-size:15px;line-height:1.5;box-shadow:0 20px 40px -20px rgba(0,0,0,.6);opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity .35s,transform .35s}
+.pano__info.on{opacity:1;transform:none;pointer-events:auto}
+.pano__info b{display:block;font:700 20px/1.2 var(--hd);color:var(--ink);margin-bottom:4px}
+.pano__info button{position:absolute;right:6px;top:6px;width:32px;height:32px;border:0;background:none;font-size:22px;color:var(--mu);cursor:pointer}
+.pano__src{margin-top:12px;font-size:13px;color:var(--mu)}
+.pano.is-full{position:fixed;inset:0;z-index:9999;margin:0;border-radius:0;aspect-ratio:auto}
+html.pano-lock{overflow:hidden}
+@media (max-width:640px){.pano{aspect-ratio:4/5;margin-left:-24px;margin-right:-24px;border-radius:0}.pano__ui button{min-height:36px;padding:0 12px;font-size:11px}}
 </style></head><body>
 <div class="tk-demo-bar"><a href="/#beispiele"><img src="/beispiele/_shared/tk-logo.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
 <span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musteradresse</span>
@@ -469,14 +512,14 @@ fieldset.f{border:0;margin:0 0 16px;min-width:0;padding:0}
   <div class="wrap">
     <a class="logo" href="#top"><svg aria-hidden="true" style="color:#d9bf8c"><use href="#crest"/></svg><span><b>Hollerhof</b><small>Landgasthof · seit 1923</small></span></a>
     <nav aria-label="Hauptnavigation"><ul>
-      <li><a href="#woche">Wochenmenü</a></li><li><a href="#karte">Speisekarte</a></li><li class="nav-x"><a href="#selbst">Selbst ändern</a></li><li><a href="#feiern">Feiern</a></li><li><a href="#besuch">Öffnungszeiten</a></li>
+      <li><a href="#woche">Wochenmenü</a></li><li><a href="#karte">Speisekarte</a></li><li class="nav-x"><a href="#selbst">Selbst ändern</a></li><li><a href="#rundgang">Rundgang</a></li><li><a href="#feiern">Feiern</a></li><li><a href="#besuch">Öffnungszeiten</a></li>
     </ul></nav>
     <a class="btn" href="#reservieren">Tisch reservieren</a>
     <button class="burger" id="burger" aria-expanded="false" aria-controls="panel" aria-label="Menü öffnen"><span></span><span></span><span></span></button>
   </div>
 </header>
 <div class="panel" id="panel" aria-label="Mobiles Menü">
-  <a href="#woche">Wochenmenü</a><a href="#karte">Speisekarte</a><a href="#selbst">Karte selbst ändern</a><a href="#anrichten">Aus der Küche</a><a href="#feiern">Gastgarten &amp; Feiern</a><a href="#besuch">Öffnungszeiten &amp; Anfahrt</a>
+  <a href="#woche">Wochenmenü</a><a href="#karte">Speisekarte</a><a href="#selbst">Karte selbst ändern</a><a href="#anrichten">Aus der Küche</a><a href="#rundgang">360°-Rundgang</a><a href="#feiern">Gastgarten &amp; Feiern</a><a href="#besuch">Öffnungszeiten &amp; Anfahrt</a>
   <a class="btn" href="#reservieren">Tisch reservieren</a>
 </div>
 
@@ -660,6 +703,27 @@ fieldset.f{border:0;margin:0 0 16px;min-width:0;padding:0}
   </div>
 </section>
 
+<section class="sec tour" id="rundgang" aria-labelledby="t-h">
+  <div class="wrap">
+    <p class="kick" data-reveal>360°-Rundgang</p>
+    <h2 class="h2" id="t-h" data-reveal style="--d:.08s">Schauen Sie sich <em>schon mal um.</em></h2>
+    <p class="lead" data-reveal style="--d:.14s">Ziehen Sie mit Maus oder Finger durch die Gaststube, tippen Sie auf die Punkte – und gehen Sie weiter zur Schank. Am Abend sieht's übrigens so aus, wie Sie es sich vorstellen.</p>
+    <div class="pano" id="pano" data-reveal style="--d:.1s">
+      <img class="pano__poster" src="/beispiele/gasthaus/rundgang/vorschau.jpg" alt="Blick in die Gaststube mit langem Holztisch, weißen Korbstühlen und Glastüren zur Terrasse" width="1200" height="555" loading="lazy">
+      <div class="pano__view"></div>
+      <div class="pano__spots"></div>
+      <button class="btn pano__go" type="button"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><ellipse cx="12" cy="12" rx="10" ry="4"/><path d="M12 2a4 10 0 0 1 0 20"/><path d="M12 2a4 10 0 0 0 0 20"/></svg>360°-Rundgang starten</button>
+      <div class="pano__ui" role="group" aria-label="Rundgang">
+        <button type="button" data-scene="stube" aria-pressed="true">Gaststube</button><button type="button" data-scene="schank" aria-pressed="false">Schank</button>
+        <button type="button" data-night aria-pressed="false">Am Abend</button>
+        <button type="button" data-full aria-label="Vollbild">⤢</button>
+      </div>
+      <p class="pano__hint">Ziehen zum Umsehen</p>
+      <div class="pano__info" aria-live="polite"></div>
+    </div>
+    <p class="pano__src">Beispiel-Panoramen von Poly Haven (CC0). Für Ihr Lokal fotografieren wir die echten Räume mit einer 360°-Kamera.</p>
+  </div>
+</section>
 <section class="sec" id="feiern" aria-labelledby="g-h">
   <div class="wrap">
     <p class="kick" data-reveal>Gastgarten &amp; Feiern</p>
@@ -762,4 +826,4 @@ fieldset.f{border:0;margin:0 0 16px;min-width:0;padding:0}
     <p class="foot__demo">Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb</p>
   </div>
 </footer>
-<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/gasthaus/app.js?v=20261017" defer></script></body></html>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/gasthaus/app.js?v=20261017" defer></script><script type="module" src="/beispiele/gasthaus/rundgang.js?v=1"></script></body></html>
