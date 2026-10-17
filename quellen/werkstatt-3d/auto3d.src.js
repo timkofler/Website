@@ -3,7 +3,7 @@
 // Beim Scrollen fliegen Karosserie, Räder, Fahrwerk und Motor auseinander und wieder zusammen.
 // Build: npm run build (esbuild bündelt nur die benötigten Teile von Three.js).
 import {
-  WebGLRenderer, Scene, PerspectiveCamera, Group, Mesh, Vector3, Color,
+  Path, WebGLRenderer, Scene, PerspectiveCamera, Group, Mesh, Vector3, Color,
   Shape, ExtrudeGeometry, LatheGeometry, CylinderGeometry, BoxGeometry, TorusGeometry, SphereGeometry,
   RingGeometry, PlaneGeometry, TubeGeometry, Curve, CatmullRomCurve3, Vector2,
   MeshPhysicalMaterial, MeshStandardMaterial, MeshBasicMaterial, BackSide, DoubleSide,
@@ -60,7 +60,7 @@ export function start(section) {
 
   // Materialien
   const paint = new MeshPhysicalMaterial({ color: 0x8f0a10, metalness: 0.55, roughness: 0.32, clearcoat: 1, clearcoatRoughness: 0.06 });
-  const glass = new MeshPhysicalMaterial({ color: 0x07090c, metalness: 0.3, roughness: 0.06, clearcoat: 1, clearcoatRoughness: 0.02 });
+  const glass = new MeshPhysicalMaterial({ color: 0x0a0d12, metalness: 0.3, roughness: 0.06, clearcoat: 1, clearcoatRoughness: 0.02, transparent: true, opacity: 0.72, depthWrite: false });
   const chrome = new MeshStandardMaterial({ color: 0xdfe2e6, metalness: 1, roughness: 0.16 });
   const alu = new MeshStandardMaterial({ color: 0xa9adb3, metalness: 0.9, roughness: 0.35 });
   const steel = new MeshStandardMaterial({ color: 0x6d7279, metalness: 0.85, roughness: 0.42 });
@@ -69,7 +69,8 @@ export function start(section) {
   const rubber = new MeshStandardMaterial({ color: 0x151617, metalness: 0, roughness: 0.88 });
   const yellow = new MeshPhysicalMaterial({ color: 0xffb81c, metalness: 0.2, roughness: 0.32, clearcoat: 0.8 });
   const redCover = new MeshStandardMaterial({ color: 0x9a1016, metalness: 0.6, roughness: 0.38 });
-  const leather = new MeshStandardMaterial({ color: 0x24211f, metalness: 0.05, roughness: 0.62 });
+  const leather = new MeshStandardMaterial({ color: 0x6e3b22, metalness: 0.05, roughness: 0.55 });
+  const trim = new MeshStandardMaterial({ color: 0x1c1d20, metalness: 0.1, roughness: 0.7 });
   const headL = new MeshPhysicalMaterial({ color: 0xffffff, emissive: 0xdde8ff, emissiveIntensity: 0.9, metalness: 0.2, roughness: 0.1, clearcoat: 1 });
   const tailL = new MeshStandardMaterial({ color: 0x5a0004, emissive: 0xff1020, emissiveIntensity: 1.1, roughness: 0.3 });
 
@@ -141,49 +142,86 @@ export function start(section) {
     return s;
   }
 
-  const bodyG = part(V(0, 0, 0), V(0, 1.55, 0), 0.25, 0.6);
-  add(bodyG, deform(extrude(body, 1.9, 0.13, 5, 28)), paint);
-  // Unterboden-Kante dunkel (Schweller)
-  add(bodyG, new BoxGeometry(2.0, 0.06, 1.72), black, 0, 0.13, 0);
+  // Türausschnitt (Loch in der Seitenwand) und Tür (etwas kleiner, damit eine Fuge bleibt)
+  function doorPath(d, P) {
+    P.moveTo(0.6 - d, 0.3 + d);
+    P.lineTo(0.655 - d, 0.8 - d);
+    P.lineTo(-0.5 + d, 0.845 - d);
+    P.quadraticCurveTo(-0.62 + d, 0.58, -0.48 + d, 0.3 + d);
+    P.lineTo(0.6 - d, 0.3 + d);
+    return P;
+  }
 
-  // Fahrgastzelle (getönte Scheiben) + Dach
+  // Karosserie: zwei Seitenwände (mit Türausschnitt) + Vorderwagen + Heck, oben offen (Innenraum sichtbar)
+  const bodyG = part(V(0, 0, 0), V(0, 1.55, 0), 0.45, 0.75);
+  const side = new Shape(body.getPoints(40));
+  side.holes.push(doorPath(0, new Path()));
+  const SW = 0.33, ST = 0.07; // Stärke der Seitenwand inkl. Rundung
+  [1, -1].forEach((s) => {
+    const g = new ExtrudeGeometry(side, { depth: SW - 2 * ST, bevelEnabled: true, bevelThickness: ST, bevelSize: 0.05, bevelSegments: S(5), curveSegments: S(28) });
+    g.translate(0, 0, s > 0 ? 0.95 - SW + ST : -0.95 + ST);
+    add(bodyG, deform(g), paint);
+  });
+  // Mittelteil vorne (über dem Motor) bis zur Spritzwand, hinten bis zur Rückwand
+  const front = new Shape();
+  front.moveTo(2.12, 0.2);
+  front.quadraticCurveTo(2.36, 0.22, 2.37, 0.42);
+  front.lineTo(2.35, 0.55);
+  front.quadraticCurveTo(2.33, 0.68, 2.08, 0.72);
+  front.quadraticCurveTo(1.35, 0.8, 0.72, 0.86);
+  front.lineTo(0.62, 0.62);
+  front.lineTo(0.56, 0.2);
+  front.lineTo(2.12, 0.2);
+  const rear = new Shape();
+  rear.moveTo(-1.5, 0.2);
+  rear.lineTo(-1.56, 0.62);
+  rear.lineTo(-1.6, 0.93);
+  rear.quadraticCurveTo(-2.15, 0.92, -2.3, 0.82);
+  rear.quadraticCurveTo(-2.4, 0.72, -2.37, 0.5);
+  rear.lineTo(-2.3, 0.26);
+  rear.quadraticCurveTo(-2.27, 0.2, -2.12, 0.2);
+  rear.lineTo(-1.5, 0.2);
+  add(bodyG, deform(extrude(front, 1.36, 0.03, 2, 28)), paint);
+  add(bodyG, deform(extrude(rear, 1.36, 0.03, 2, 28)), paint);
+  // Innenverkleidung der Seitenwände (dunkel), damit der Innenraum nicht rot leuchtet
+  [1, -1].forEach((s) => add(bodyG, new BoxGeometry(2.0, 0.42, 0.01), black, -0.45, 0.6, s * 0.615));
+
+  // Fahrgastzelle (getönte Scheiben, leicht durchsichtig) + Dach
   const cab = new Shape();
   cab.moveTo(0.8, 0.82);
   cab.quadraticCurveTo(0.32, 1.2, -0.12, 1.3);
   cab.lineTo(-0.72, 1.31);
   cab.quadraticCurveTo(-1.38, 1.27, -1.88, 0.9);
   cab.lineTo(0.8, 0.82);
-  const cabG = part(V(0, 0, 0), V(0, 2.15, 0), 0.1, 0.5);
+  const cabG = part(V(0, 0, 0), V(0, 1.9, 0), 0.04, 0.32);
   add(cabG, deform(extrude(cab, 1.62, 0.1, 4, 24), 0.0), glass);
-  const roofG = part(V(0, 0, 0), V(0, 2.55, 0), 0.15, 0.55);
+  const roofG = part(V(0, 0, 0), V(0, 2.35, 0), 0.06, 0.34);
   add(roofG, deform(extrude(strip(cab, 0.18, -1.15, 0.05), 1.42, 0.03, 2, 24), 0.0), paint, 0, 0.012, 0);
 
   // Motorhaube, Kofferraumdeckel
-  const hoodG = part(V(0, 0, 0), V(0.35, 1.95, 0), 0, 0.4);
-  add(hoodG, deform(extrude(strip(body, 2.05, 0.82, 0.03), 1.5, 0.015, 2, 30)), paint, 0, 0.012, 0);
-  const trunkG = part(V(0, 0, 0), V(-0.3, 1.95, 0), 0.02, 0.42);
-  add(trunkG, deform(extrude(strip(body, -1.92, -2.24, 0.03), 1.45, 0.015, 2, 30)), paint, 0, 0.012, 0);
+  const hoodG = part(V(0, 0, 0), V(0.35, 1.6, 0), 0.02, 0.3);
+  add(hoodG, deform(extrude(strip(front, 2.05, 0.82, 0.03), 1.5, 0.015, 2, 30)), paint, 0, 0.012, 0);
+  const trunkG = part(V(0, 0, 0), V(-0.3, 1.6, 0), 0.04, 0.32);
+  add(trunkG, deform(extrude(strip(rear, -1.92, -2.24, 0.03), 1.45, 0.015, 2, 30)), paint, 0, 0.012, 0);
 
-  // Türen links/rechts mit Griff und Spiegel
-  const door = new Shape();
-  door.moveTo(0.6, 0.3);
-  door.lineTo(0.68, 0.84);
-  door.lineTo(-0.5, 0.885);
-  door.quadraticCurveTo(-0.62, 0.6, -0.48, 0.3);
-  door.lineTo(0.6, 0.3);
+  // Türen: sitzen bündig im Ausschnitt, innen dunkle Verkleidung, mit Griff und Spiegel
+  const doorShape = doorPath(0.014, new Shape());
   [1, -1].forEach((s) => {
-    const g = part(V(0, 0, 0), V(0, 1.2, s * 1.05), 0, 0.4);
-    const geo = new ExtrudeGeometry(door, { depth: 0.035, bevelEnabled: true, bevelThickness: 0.008, bevelSize: 0.008, bevelSegments: 1, curveSegments: S(12) });
-    geo.translate(0, 0, s > 0 ? 0.952 : -0.987);
-    add(g, deform(geo), paint);
-    add(g, new BoxGeometry(0.16, 0.025, 0.03), chrome, -0.32, 0.75, s * 0.96);
+    const g = part(V(0, 0, 0), V(0, 0.35, s * 1.25), 0, 0.28);
+    const outer = new ExtrudeGeometry(doorShape, { depth: 0.05, bevelEnabled: true, bevelThickness: 0.02, bevelSize: 0.012, bevelSegments: S(3), curveSegments: S(12) });
+    outer.translate(0, 0, s > 0 ? 0.95 - 0.07 : -0.95 + 0.02);
+    add(g, deform(outer), paint);
+    const inner = new ExtrudeGeometry(doorPath(0.04, new Shape()), { depth: 0.12, bevelEnabled: false, curveSegments: S(12) });
+    inner.translate(0, 0, s > 0 ? 0.76 : -0.88);
+    add(g, deform(inner), black);
+    add(g, new BoxGeometry(0.16, 0.025, 0.03), chrome, -0.32, 0.72, s * 0.955);
     const mir = add(g, new SphereGeometry(0.08, S(16), S(10)), paint, 0.55, 0.9, s * 1.0);
     mir.scale.set(1.1, 0.6, 0.9);
-    add(g, new BoxGeometry(0.05, 0.04, 0.1), black, 0.6, 0.86, s * 0.94);
+    add(g, new BoxGeometry(0.05, 0.08, 0.1), black, 0.6, 0.84, s * 0.94);
   });
 
   // Stoßfänger vorne mit Scheinwerfern und Grill, hinten mit Rückleuchten und Endrohren
-  const frontG = part(V(0, 0, 0), V(1.25, 0.25, 0), 0, 0.38);
+  const frontG = part(V(0, 0, 0), V(1.25, 0.25, 0), 0.3, 0.55);
   const fb = new Shape();
   fb.moveTo(2.0, 0.17); fb.quadraticCurveTo(2.39, 0.19, 2.4, 0.42); fb.lineTo(2.38, 0.52); fb.lineTo(2.1, 0.5); fb.lineTo(2.0, 0.17);
   add(frontG, deform(extrude(fb, 1.86, 0.08, 3, 16)), paint);
@@ -192,7 +230,7 @@ export function start(section) {
     const h = add(frontG, new SphereGeometry(0.13, S(20), S(12)), headL, 2.36, 0.6, s * 0.58);
     h.scale.set(0.9, 0.45, 1.3);
   });
-  const rearG = part(V(0, 0, 0), V(-1.2, 0.25, 0), 0.02, 0.4);
+  const rearG = part(V(0, 0, 0), V(-1.2, 0.25, 0), 0.32, 0.57);
   const rb = new Shape();
   rb.moveTo(-2.0, 0.17); rb.quadraticCurveTo(-2.39, 0.19, -2.41, 0.42); rb.lineTo(-2.39, 0.5); rb.lineTo(-2.1, 0.48); rb.lineTo(-2.0, 0.17);
   add(rearG, deform(extrude(rb, 1.86, 0.08, 3, 16)), paint);
@@ -298,18 +336,28 @@ export function start(section) {
   const muff = add(exh, new CylinderGeometry(0.13, 0.13, 0.5, S(20)).rotateX(Math.PI / 2), steel, -1.85, 0.24, 0);
   muff.scale.set(1, 0.6, 1);
 
-  // Innenraum: Sitze, Lenkrad, Armaturenbrett
+  // Innenraum: Sitze, Lenkrad, Armaturenbrett, Mittelkonsole
   [1, -1].forEach((s) => {
-    const seat = part(V(-0.35, 0.3, s * 0.38), V(0, 0.8, 0), 0.4, 0.8);
-    add(seat, new BoxGeometry(0.5, 0.1, 0.46), leather, 0, 0.05, 0);
-    add(seat, new BoxGeometry(0.1, 0.55, 0.46), leather, -0.24, 0.32, 0, 0, 0, -0.2);
-    add(seat, new BoxGeometry(0.01, 0.48, 0.02), yellow, -0.18, 0.33, 0, 0, 0, -0.2);
+    const seat = part(V(-0.35, 0.25, s * 0.33), V(0, 0.8, 0), 0.55, 0.85);
+    add(seat, new BoxGeometry(0.5, 0.12, 0.44), leather, 0, 0.08, 0);
+    add(seat, new BoxGeometry(0.12, 0.56, 0.44), leather, -0.27, 0.38, 0, 0, 0, -0.18);
+    add(seat, new BoxGeometry(0.1, 0.16, 0.26), leather, -0.36, 0.76, 0, 0, 0, -0.18);
+    [-0.15, 0.15].forEach((z) => add(seat, new BoxGeometry(0.01, 0.5, 0.012), yellow, -0.205, 0.38, z, 0, 0, -0.18));
+    add(seat, new BoxGeometry(0.42, 0.012, 0.012), yellow, 0.02, 0.145, 0);
   });
-  const dash = part(V(0.42, 0.62, 0), V(0, 1.1, 0), 0.4, 0.8);
-  add(dash, new BoxGeometry(0.25, 0.14, 1.4), leather);
-  const wheel = part(V(0.24, 0.7, 0.38), V(0.1, 1.25, 0), 0.42, 0.82);
-  add(wheel, new TorusGeometry(0.15, 0.02, S(8), S(28)), black, 0, 0, 0, 0, Math.PI / 2, 0.5);
-  add(wheel, new CylinderGeometry(0.02, 0.02, 0.3, S(8)), black, 0.14, -0.06, 0, 0, 0, 1.05);
+  const dash = part(V(0.5, 0.62, 0), V(0, 1.1, 0), 0.55, 0.85);
+  add(dash, new BoxGeometry(0.24, 0.16, 1.22), trim);
+  add(dash, new BoxGeometry(0.02, 0.07, 0.3), new MeshBasicMaterial({ color: 0xffb81c }), -0.125, 0.04, 0.33);
+  add(dash, new BoxGeometry(0.02, 0.08, 0.26), new MeshBasicMaterial({ color: 0x3b4a5e }), -0.125, 0.0, -0.02);
+  const console_ = part(V(-0.05, 0.3, 0), V(0, 0.95, 0), 0.55, 0.85);
+  add(console_, new BoxGeometry(0.9, 0.16, 0.18), trim);
+  add(console_, new CylinderGeometry(0.012, 0.012, 0.12, S(8)), chrome, 0.15, 0.14, 0);
+  add(console_, new SphereGeometry(0.03, S(12), S(8)), black, 0.15, 0.21, 0);
+  const wheel = part(V(0.27, 0.7, 0.33), V(0.1, 1.25, 0), 0.58, 0.88);
+  add(wheel, new TorusGeometry(0.15, 0.022, S(8), S(28)), black, 0, 0, 0, 0, Math.PI / 2, 0.45);
+  add(wheel, new CylinderGeometry(0.045, 0.045, 0.03, S(16)).rotateZ(Math.PI / 2), yellow, 0.0, 0, 0, 0, 0, 0.45 - Math.PI / 2 + Math.PI / 2);
+  [0, 2.1, 4.2].forEach((a) => add(wheel, new BoxGeometry(0.012, 0.15, 0.02), black, 0, 0, 0, a, Math.PI / 2, 0.45).translateY(0.07));
+  add(wheel, new CylinderGeometry(0.02, 0.02, 0.3, S(8)), black, 0.14, -0.06, 0, 0, 0, 1.1);
 
   // Boden: Kontaktschatten + Drehteller-Ring
   const sh = document.createElement("canvas");
