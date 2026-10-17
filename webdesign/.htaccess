@@ -18,6 +18,8 @@ Options -Indexes
   RewriteRule ^brief/?$ /?utm_source=brief&utm_campaign=referenzkunde#pakete [R=302,NE,L]
   # Kurzer Link für Flyer, Briefe und Karten zur Newsletter-Anmeldung mit Checkliste
   RewriteRule ^checkliste/?$ /newsletter/ [R=302,L]
+  # Teilbare Adresse einer erzeugten Vorschau (/vorschau/abc123xyz0/)
+  RewriteRule ^vorschau/([a-z0-9]{10})/?$ /vorschau/index.php?id=$1 [L,QSA]
 </IfModule>
 <If "%{HTTP_HOST} =~ /^(www\.)?tim-kofler\.at$/i">
   DirectoryIndex index.html index.php

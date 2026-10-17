@@ -511,6 +511,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
   </div>
 </footer>
 <script src="/assets/js/portal.js"></script>
+<script src="/assets/js/vorschau.js?v=1"></script>
 </body>
 </html>
 HTML;

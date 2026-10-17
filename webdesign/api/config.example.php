@@ -44,4 +44,16 @@ return [
     'upload_max_mb'    => 200,
     // Speicherplatz je Kunde in GB
     'kunde_max_gb'     => 10,
+
+    // ---------------- Vorschau in 60 Sekunden (/vorschau/) ----------------
+    // API-Schlüssel von Anthropic: console.anthropic.com → API Keys → "Create Key". Beginnt mit "sk-ant-".
+    // Erst wenn diese Zeile ausgefüllt ist, erzeugt /vorschau/ Entwürfe. Der Schlüssel verlässt den Server nie.
+    'anthropic_api_key' => '',
+    // Modell. Standard 'claude-sonnet-5-5' (etwa 1 bis 2 Cent je Vorschau). Günstiger: 'claude-haiku-5-5' (unter 0,2 Cent).
+    'vorschau_model'    => 'claude-sonnet-5-5',
+    // Höchstens so viele Vorschauen je Tag für Besucher (Kostenbremse) und zusätzlich für dich im Admin-Bereich.
+    'vorschau_tageslimit'       => 30,
+    'vorschau_tageslimit_admin' => 50,
+    // Nach so vielen Tagen werden Vorschauen automatisch gelöscht.
+    'vorschau_tage'     => 90,
 ];
