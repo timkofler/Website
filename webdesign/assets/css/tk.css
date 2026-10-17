@@ -357,3 +357,9 @@ h1 .lime, h2 .lime, h3 .lime { background: var(--hot-grad); -webkit-background-c
 .tk-bonus { margin-top: 0; }
 .tk-bonus .form-steps { margin: 0; }
 .tk-bonus .tk-host__price small { margin-left: 4px; }
+
+/* WhatsApp-Kontakt (nur Link, kein Widget) */
+.wa-box { margin: 22px 0; padding: 18px; border: 1px solid var(--line); border-radius: 14px; }
+.wa-box p { margin: 0 0 14px; font-size: .95rem; }
+.wa-btn { display: inline-flex; align-items: center; gap: 10px; }
+.wa-btn svg { width: 20px; height: 20px; color: var(--hot); }
