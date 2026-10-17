@@ -276,6 +276,22 @@ td.today,th.today{background:var(--popl)}
   .kpi strong{font-size:24px}
 }
 .reset-m{display:none}
+.h3d{padding-bottom:0}
+.h3d__box{position:relative;margin-top:30px;border-radius:22px;overflow:hidden;background:#0f1424;box-shadow:0 40px 80px -50px rgba(18,22,37,.8)}
+.h3d__view{position:relative;aspect-ratio:16/8.5;min-height:420px}
+.h3d__view .s3d{position:absolute;inset:0;display:block;width:100%;height:100%;cursor:grab}
+.h3d__view .s3d.is-drag{cursor:grabbing}
+.h3d__no{position:absolute;inset:0;display:grid;place-items:center;margin:0;color:#8a90a2;font-size:14px}
+.h3d__view.is-on .h3d__no{display:none}
+.h3d__legend{position:absolute;left:16px;top:16px;right:16px;display:flex;flex-wrap:wrap;gap:8px}
+.h3d__legend button{display:inline-flex;align-items:center;gap:8px;min-height:38px;padding:0 14px;border:1px solid rgba(255,255,255,.14);border-radius:999px;background:rgba(15,20,36,.72);color:#c9cfdd;font:600 13px/1 var(--bd);cursor:pointer;backdrop-filter:blur(6px)}
+.h3d__legend button::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--c);box-shadow:0 0 10px var(--c);opacity:.45}
+.h3d__legend button[aria-pressed="true"]{color:#fff;border-color:var(--c)}
+.h3d__legend button[aria-pressed="true"]::before{opacity:1}
+.h3d__info{position:absolute;right:16px;bottom:16px;max-width:min(420px,calc(100% - 32px));margin:0;padding:14px 16px;border-radius:14px;background:rgba(15,20,36,.8);color:#aab2c5;font-size:14px;line-height:1.45;backdrop-filter:blur(6px)}
+.h3d__info:empty{display:none}
+.h3d__info b{display:block;color:#fff;font-size:16px;margin-bottom:2px}
+@media (max-width:700px){.h3d__view{aspect-ratio:auto;height:520px;min-height:0}.h3d__legend{left:10px;right:10px;top:10px;gap:6px}.h3d__legend button{min-height:34px;padding:0 11px;font-size:12px}.h3d__info{left:10px;right:10px;bottom:10px;font-size:13px}}
 </style></head><body>
 <div class="tk-demo-bar"><a href="/beispiele/#dashboard"><img src="/beispiele/_shared/tk-logo.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
 <span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musterdaten</span>
@@ -435,6 +451,20 @@ td.today,th.today{background:var(--popl)}
 </div>
 </div>
 
+<section class="more h3d" id="haus" aria-labelledby="h3d-h">
+  <div class="wrap">
+    <span class="kick" data-reveal><i></i>Extra für die Firmen-Website</span>
+    <h2 id="h3d-h" data-reveal style="margin-top:14px">Was steckt in den Wänden? Ein Haus im Querschnitt.</h2>
+    <p class="lead" data-reveal>So könnte Haustechnik Kofler auf der eigenen Website zeigen, was sie kann: Strom, Wasser, Heizung, Photovoltaik und Abwasser leuchten nacheinander auf. Tipp auf einen Bereich, um ihn einzeln zu sehen, und dreh das Haus mit Maus oder Finger.</p>
+    <div class="h3d__box" data-reveal>
+      <div class="h3d__view" id="haus3d"><p class="h3d__no">Für die 3D-Ansicht braucht dein Browser WebGL.</p></div>
+      <div class="h3d__legend" role="group" aria-label="Leitungen anzeigen">
+        <button type="button" data-sys="strom" style="--c:#ffc83d" aria-pressed="true">Strom</button><button type="button" data-sys="wasser" style="--c:#3ea6ff" aria-pressed="true">Wasser</button><button type="button" data-sys="heizung" style="--c:#ff6a3d" aria-pressed="true">Heizung</button><button type="button" data-sys="pv" style="--c:#37d67a" aria-pressed="true">Photovoltaik</button><button type="button" data-sys="abwasser" style="--c:#9aa6bd" aria-pressed="true">Abwasser</button>
+      </div>
+      <p class="h3d__info" aria-live="polite"></p>
+    </div>
+  </div>
+</section>
 <section class="more">
   <div class="wrap">
     <span class="kick" data-reveal><i></i>Was sich noch erfassen lässt</span>
@@ -460,4 +490,4 @@ td.today,th.today{background:var(--popl)}
 
 <footer class="foot"><div class="wrap"><span><b>Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb</b></span><span>Alle Namen, Preise und Zahlen sind frei erfunden. Eingaben werden nur in deinem Browser gespeichert.</span></div></footer>
 <div class="toast" id="toast" role="status"></div>
-<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/dashboard/app.js?v=20261017b" defer></script></body></html>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/dashboard/app.js?v=20261017b" defer></script><script type="module" src="/beispiele/dashboard/haus3d.js?v=1"></script></body></html>
