@@ -137,7 +137,7 @@
   var LINKS = {
     pakete: ["Zu den Paketen", "/#pakete"], anfrage: ["Anfrage stellen", "/#anfrage"], ablauf: ["Zum Ablauf", "/#ablauf"],
     email: ["Landingpages & E-Mail", "/#email"], beispiele: ["Beispielseiten ansehen", "/beispiele/"],
-    mail: ["E-Mail schreiben", "mailto:office@tim-kofler.at"], allinkl: ["ALL-INKL ansehen (Partnerlink)", "https://all-inkl.com/PA56CC1CF457650"], webspace: ["Meine Empfehlung", "/#webspace"], tel: ["Anrufen", "tel:+4367761773118"]
+    mail: ["E-Mail schreiben", "mailto:office@tim-kofler.at"], allinkl: ["ALL-INKL ansehen (Partnerlink)", "https://all-inkl.com/PA56CC1CF457650"], webspace: ["Meine Empfehlung", "/#webspace"], tel: ["Anrufen", "tel:+4367761773118"], whatsapp: ["Auf WhatsApp schreiben", "https://wa.me/4367761773118?text=Hallo%20Tim%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Webseite."]
   };
   var ANSWERS = {
     preis: { q: "Was kostet eine Webseite?", a: "Die Pakete im Überblick:\n• Referenzkunde ab 290 € (einfache Seite, nur wenige Plätze)\n• Start ab 590 € (bis zu 3 Unterseiten)\n• Business ab 1.190 € (bis zu 8 Unterseiten)\n• Betreuung ab 29 € im Monat\nAlle Preise sind Endpreise, als Kleinunternehmer ohne Umsatzsteuer.", links: ["pakete", "anfrage"] },
@@ -149,10 +149,12 @@
     google: { q: "Werde ich bei Google gefunden?", a: "Jede Seite bekommt saubere Grundlagen: schnelle Ladezeit, gute Titel und Beschreibungen, Sitemap, strukturierte Daten und die Anmeldung bei Google. Einen bestimmten Platz kann niemand seriös versprechen, aber die Basis stimmt.", links: ["pakete"] },
     baukasten: { q: "Warum kein Baukasten?", a: "Eine programmierte Seite lädt nur, was sie braucht. Sie ist schneller, sicherer, braucht keine Plugin-Updates und das Design gibt es so nur einmal.", links: ["beispiele"] },
     beispiele: { q: "Gibt es Beispiele?", a: "Ja, neun komplette Beispielseiten: Friseur, Café, Autowerkstatt, Gasthaus, Bäckerei, Fleischerei, Tischlerei, Malerbetrieb und Heilmasseurin. Alle mit Videos, eigenen Animationen und Funktionen wie Online-Buchung, live im Browser zum Ausprobieren.", links: ["beispiele", "anfrage"] },
-    kontakt: { q: "Persönlich anfragen", a: "Gerne! Am schnellsten über das Anfrageformular. Oder direkt per E-Mail an office@tim-kofler.at bzw. unter +43 677 61773118.", links: ["anfrage", "mail", "tel"] }
+    whatsapp: { q: "Per WhatsApp schreiben", a: "Klar! Schreib Tim direkt auf WhatsApp unter +43 677 61773118. Ein Klick öffnet den Chat mit einer kurzen Begrüßung, die du noch ändern kannst. Tim meldet sich so bald wie möglich persönlich.", links: ["whatsapp", "anfrage"] },
+    kontakt: { q: "Persönlich anfragen", a: "Gerne! Am schnellsten über das Anfrageformular. Oder direkt per E-Mail an office@tim-kofler.at bzw. unter +43 677 61773118, gerne auch per WhatsApp.", links: ["anfrage", "whatsapp", "mail", "tel"] }
   };
-  var CHIPS = ["preis", "beispiele", "dauer", "referenz", "email", "ablauf", "kontakt"];
+  var CHIPS = ["preis", "whatsapp", "beispiele", "dauer", "referenz", "email", "ablauf", "kontakt"];
   var KEYWORDS = [
+    ["whatsapp", /(whats ?app|\bwa\b|chatten)/],
     ["preis", /(preis|kost|euro|€|teuer|günstig|guenstig|budget|angebot)/],
     ["dauer", /(dauer|lange|wann|zeit|schnell fertig|bis wann)/],
     ["referenz", /(referenz|290)/],
@@ -170,7 +172,9 @@
   btn.className = "tk-chat-btn";
   btn.setAttribute("aria-expanded", "false");
   btn.setAttribute("aria-controls", "tk-chat");
-  btn.innerHTML = '<img src="/assets/img/tk-badge.svg" alt=""><i aria-hidden="true"></i><span>Fragen?</span>';
+  btn.setAttribute("aria-label", "Fragen? Antwort-Assistent und WhatsApp");
+  // Symbol und Text wechseln langsam zwischen TK und WhatsApp (nur CSS, kein Skript von WhatsApp)
+  btn.innerHTML = '<span class="tk-chat-btn__ic" aria-hidden="true"><img src="/assets/img/tk-badge.svg" alt=""><img class="tk-chat-btn__wa" src="/assets/img/wa-badge.svg" alt=""></span><i aria-hidden="true"></i><span class="tk-chat-btn__t" aria-hidden="true"><span>Fragen?</span><span class="tk-chat-btn__wa">WhatsApp</span></span>';
 
   var box = document.createElement("div");
   box.className = "tk-chat";
@@ -182,6 +186,7 @@
     '<button type="button" class="tk-chat__x" aria-label="Schließen">✕</button></div>' +
     '<div class="tk-chat__log" aria-live="polite"></div>' +
     '<div class="tk-chat__chips"></div>' +
+    '<a class="tk-chat__wabar" href="https://wa.me/4367761773118?text=Hallo%20Tim%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Webseite." target="_blank" rel="noopener"><img src="/assets/img/wa-badge.svg" alt=""><span><b>Lieber direkt mit Tim schreiben?</b> Per WhatsApp</span><em aria-hidden="true">→</em></a>' +
     '<form class="tk-chat__form"><label class="sr-only" for="tk-chat-in">Deine Frage</label><input id="tk-chat-in" type="text" maxlength="200" autocomplete="off" placeholder="Frage eintippen …"><button type="submit" aria-label="Senden">→</button></form>' +
     '<p class="tk-chat__note">Automatische Antworten, keine KI. Es wird nichts gespeichert oder gesendet.</p>';
   document.body.appendChild(btn);
@@ -203,7 +208,7 @@
         var a = document.createElement("a");
         a.href = LINKS[k][1];
         a.textContent = LINKS[k][0];
-        if (/^https?:/.test(LINKS[k][1])) { a.target = "_blank"; a.rel = "sponsored noopener"; }
+        if (/^https?:/.test(LINKS[k][1])) { a.target = "_blank"; a.rel = k === "allinkl" ? "sponsored noopener" : "noopener"; }
         if (LINKS[k][1].charAt(0) === "/") a.addEventListener("click", function () { close(); });
         row.appendChild(a);
       });
@@ -263,7 +268,7 @@
       if (KEYWORDS[i][1].test(low)) { answer(KEYWORDS[i][0], text); return; }
     }
     bubble(text, "me");
-    botSay("Das beantwortet Tim dir am besten persönlich. Schreib ihm kurz, er meldet sich innerhalb von zwei Werktagen.", ["anfrage", "mail"]);
+    botSay("Das beantwortet Tim dir am besten persönlich. Schreib ihm kurz, am schnellsten per WhatsApp oder über das Formular.", ["whatsapp", "anfrage", "mail"]);
   });
   }
   // Erst nach dem Laden der Seite einrichten, damit der Seitenaufbau nicht gebremst wird
