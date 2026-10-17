@@ -1,0 +1,12 @@
+{
+  "name": "werkstatt-3d",
+  "private": true,
+  "description": "3D-Explosionsansicht für /beispiele/werkstatt/ – baut webdesign/beispiele/werkstatt/auto3d.js",
+  "scripts": {
+    "build": "esbuild auto3d.src.js --bundle --format=esm --minify --target=es2020 --legal-comments=inline --outfile=../../webdesign/beispiele/werkstatt/auto3d.js"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.10",
+    "three": "0.186.1"
+  }
+}
