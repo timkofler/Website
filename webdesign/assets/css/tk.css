@@ -438,6 +438,12 @@ h1 .lime, h2 .lime, h3 .lime { background: var(--hot-grad); -webkit-background-c
 .tk-calc__opt.is-off { opacity: .5; cursor: not-allowed; }
 .tk-calc__opt.is-off:hover { border-color: var(--line-2); }
 .tk-calc__opt--ref em { color: var(--hot); }
+.tk-calc__opt em:empty { display: none; }
+/* Modus "spanne": kleinere Zahl, da zwei Werte; Modus "ohne": kein Betrag */
+.tk-calc[data-modus="spanne"] .tk-calc__amount { font-size: clamp(1.5rem, 2.6vw, 2rem); }
+.tk-calc__ohne { display: none; margin: 0; font-size: 1.02rem; font-weight: 600; }
+.tk-calc[data-modus="ohne"] .tk-calc__amount, .tk-calc[data-modus="ohne"] .tk-calc__sk { display: none; }
+.tk-calc[data-modus="ohne"] .tk-calc__ohne { display: block; }
 
 /* Ergebnis */
 .tk-calc__sum { position: sticky; top: 96px; display: grid; gap: 10px; padding: 26px 26px 22px; border: 1px solid rgba(255,90,31,.45); border-radius: 20px; background: linear-gradient(180deg, #171717, #101010); box-shadow: 0 30px 70px rgba(0,0,0,.45), 0 0 60px rgba(255,90,31,.10); }

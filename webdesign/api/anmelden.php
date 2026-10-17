@@ -118,6 +118,7 @@ function cx_webseite(array $c, string $email, string $name, string $fallback): v
         'Domain vorhanden' => cx_field('domain', 20),
         'Zeitrahmen' => cx_field('zeit', 40),
         'Nachricht' => cx_field('nachricht', 3000),
+        'Rechner (nur für dich)' => cx_field('rechner', 1000),
         'Empfohlen von' => cx_field('empfohlen', 120),
         'Gefunden über' => cx_field('quelle', 120),
     ];

@@ -30,6 +30,9 @@
     businessSeiten: num(root.getAttribute("data-business-seiten"), 8),
     proSeite: num(root.getAttribute("data-preis-weitere-seite"), 120)
   };
+  // Anzeige-Modus (data-modus am Block): "genau" = Richtpreis und Einzelpreise, "spanne" = nur gerundete Spanne ohne
+  // Einzelpreise der Extras, "ohne" = gar kein Preis. Die genaue Rechnung geht in allen Modi nur im versteckten Feld "rechner" an Tim.
+  var MODE = root.getAttribute("data-modus") || "spanne";
   var PAKET_OPTION = { ref: "Referenzkunde (ab 290 €)", start: "Start (ab 590 €)", business: "Business (ab 1.190 €)" };
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -59,6 +62,7 @@
       var priceEl = lab ? lab.querySelector("em") : null;
       if (priceEl) {
         if (inkl) priceEl.textContent = "inklusive";
+        else if (MODE !== "genau") priceEl.textContent = cb.hasAttribute("data-ab") ? "nach Aufwand" : "";
         else priceEl.textContent = (cb.hasAttribute("data-ab") ? "ab + " : "+ ") + fmt(preis) + " €";
       }
       if (lab) { lab.classList.toggle("is-inkl", inkl); lab.classList.toggle("is-on", cb.checked); }
@@ -77,7 +81,9 @@
       monthLines.push(cb.getAttribute("data-calc-monthly") + " " + fmt(preis) + " € im Monat");
     });
 
-    return { n: n, paket: paket, paketName: paketName, base: base, sum: sum, lines: lines, monthSum: monthSum, monthLines: monthLines, monthNames: monthNames, refOk: refOk };
+    // Spanne: unten auf 50 gerundet (nie unter dem Paketpreis), oben rund 20 % Luft für Abstimmung und Sonderwünsche.
+    var lo = Math.max(base, Math.floor(sum / 50) * 50), hi = Math.ceil(sum * 1.2 / 50) * 50;
+    return { n: n, paket: paket, paketName: paketName, base: base, sum: sum, lo: lo, hi: hi, lines: lines, monthSum: monthSum, monthLines: monthLines, monthNames: monthNames, refOk: refOk };
   }
 
   var shown = null; // zuletzt angezeigter Betrag für die Zählanimation
@@ -104,14 +110,15 @@
       if (ref) ref.disabled = !r.refOk;
       refWrap.classList.toggle("is-on", !!(ref && ref.checked && r.refOk));
     }
-    animateTo(r.sum);
+    if (MODE === "genau") animateTo(r.sum);
+    else if (MODE === "spanne") text(amountEl, fmt(r.lo) + " bis " + fmt(r.hi));
     text(pkgEl, r.paketName + " · " + r.n + (r.n === 1 ? " Seite" : " Seiten"));
     if (listEl) {
       listEl.innerHTML = "";
       r.lines.forEach(function (l) {
         var li = document.createElement("li");
         var k = document.createElement("span"); k.textContent = l.k;
-        var v = document.createElement("b"); v.textContent = l.inkl ? "inkl." : fmt(l.v) + " €";
+        var v = document.createElement("b"); v.textContent = l.inkl ? "inkl." : MODE === "genau" ? fmt(l.v) + " €" : "";
         li.appendChild(k); li.appendChild(v); listEl.appendChild(li);
       });
     }
@@ -119,18 +126,25 @@
       monthEl.hidden = r.monthSum === 0;
       text(monthEl, r.monthSum ? "+ " + fmt(r.monthSum) + " € im Monat (" + r.monthNames.join(", ") + "), monatlich kündbar" : "");
     }
-    if (barAmount) text(barAmount, "ca. " + fmt(r.sum) + " €");
+    if (barAmount) text(barAmount, MODE === "genau" ? "ca. " + fmt(r.sum) + " €" : MODE === "spanne" ? "ca. " + fmt(r.lo) + "–" + fmt(r.hi) + " €" : r.paketName);
     root.setAttribute("data-paket", r.paket);
     return r;
   }
 
-  // Text für das Feld "Was soll die Seite können?" im Anfrageformular.
+  // Text für das Feld "Was soll die Seite können?" im Anfrageformular (sieht auch der Besucher).
   function summary(r) {
     var s = "Meine Auswahl im Angebots-Rechner:\n";
     r.lines.forEach(function (l) { s += "• " + l.k + (l.inkl ? " (inklusive)" : "") + "\n"; });
     r.monthLines.forEach(function (m) { s += "• " + m + "\n"; });
-    s += "Richtpreis laut Rechner: ca. " + fmt(r.sum) + " € einmalig" + (r.monthSum ? " + " + fmt(r.monthSum) + " € im Monat" : "") + "\n";
+    if (MODE === "genau") s += "Richtpreis laut Rechner: ca. " + fmt(r.sum) + " € einmalig" + (r.monthSum ? " + " + fmt(r.monthSum) + " € im Monat" : "") + "\n";
+    else if (MODE === "spanne") s += "Richtpreis laut Rechner: ca. " + fmt(r.lo) + " bis " + fmt(r.hi) + " € einmalig" + (r.monthSum ? " + " + fmt(r.monthSum) + " € im Monat" : "") + "\n";
     return s;
+  }
+
+  // Genaue Rechnung nur für Tim (verstecktes Feld "rechner", steht in der Benachrichtigungs-Mail).
+  function detail(r) {
+    var parts = r.lines.map(function (l) { return l.k + " " + (l.inkl ? "inkl." : fmt(l.v) + " €"); });
+    return parts.join(" | ") + " | Summe " + fmt(r.sum) + " € einmalig" + (r.monthSum ? " + " + fmt(r.monthSum) + " €/Monat" : "") + " (Modus " + MODE + ")";
   }
 
   var lastInserted = "";
@@ -139,6 +153,8 @@
     var form = document.querySelector('form[data-cx-form] select[name="paket"]');
     var ta = document.querySelector('form[data-cx-form] textarea[name="nachricht"]');
     if (form) form.value = PAKET_OPTION[r.paket] || "Noch unsicher";
+    var hidden = document.querySelector('form[data-cx-form] input[name="rechner"]');
+    if (hidden) hidden.value = detail(r).slice(0, 1000);
     if (ta) {
       var own = ta.value;
       // Eine frühere Auswahl aus dem Rechner wird ersetzt, eigener Text bleibt erhalten.
