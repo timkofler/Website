@@ -142,20 +142,38 @@ export function start(section) {
     return s;
   }
 
-  // Türausschnitt (Loch in der Seitenwand) und Tür (etwas kleiner, damit eine Fuge bleibt)
-  function doorPath(d, P) {
-    P.moveTo(0.6 - d, 0.3 + d);
-    P.lineTo(0.655 - d, 0.8 - d);
-    P.lineTo(-0.5 + d, 0.845 - d);
-    P.quadraticCurveTo(-0.62 + d, 0.58, -0.48 + d, 0.3 + d);
-    P.lineTo(0.6 - d, 0.3 + d);
+  // Türausschnitt: von der Schwelle bis zur Fensterlinie (oben offen), Tür etwas kleiner für die Fuge
+  const DF = 0.68, DR = -0.62, SILL = 0.27;
+  const belt = (x) => 0.86 + ((0.72 - x) / 2.32) * 0.07;
+  function doorShapeFn(g) {
+    const P = new Shape();
+    P.moveTo(DF - g, SILL + g);
+    P.lineTo(DF - g, belt(DF - g));
+    for (let i = 1; i <= 8; i++) { const x = lerp(DF - g, DR + g, i / 8); P.lineTo(x, belt(x)); }
+    P.quadraticCurveTo(DR + g - 0.06, 0.5, DR + g, SILL + g);
+    P.lineTo(DF - g, SILL + g);
     return P;
   }
 
   // Karosserie: zwei Seitenwände (mit Türausschnitt) + Vorderwagen + Heck, oben offen (Innenraum sichtbar)
   const bodyG = part(V(0, 0, 0), V(0, 1.55, 0), 0.45, 0.75);
-  const side = new Shape(body.getPoints(40));
-  side.holes.push(doorPath(0, new Path()));
+  // Seitenprofil mit Türausschnitt: die Oberkante zwischen DF und DR wird durch eine Aussparung ersetzt
+  const sidePts = [];
+  let cut = false;
+  body.getPoints(40).forEach((p) => {
+    if (p.y > 0.6 && p.x < DF && p.x > DR) {
+      if (!cut) {
+        cut = true;
+        sidePts.push(new Vector2(DF, belt(DF)), new Vector2(DF, SILL));
+        for (let i = 1; i < 8; i++) { const x = lerp(DF, DR, i / 8); sidePts.push(new Vector2(x, SILL)); }
+        sidePts.push(new Vector2(DR - 0.05, SILL + 0.02));
+        sidePts.push(new Vector2(DR - 0.03, 0.5), new Vector2(DR, belt(DR)));
+      }
+      return;
+    }
+    sidePts.push(p);
+  });
+  const side = new Shape(sidePts);
   const SW = 0.33, ST = 0.07; // Stärke der Seitenwand inkl. Rundung
   [1, -1].forEach((s) => {
     const g = new ExtrudeGeometry(side, { depth: SW - 2 * ST, bevelEnabled: true, bevelThickness: ST, bevelSize: 0.05, bevelSegments: S(5), curveSegments: S(28) });
@@ -184,7 +202,7 @@ export function start(section) {
   add(bodyG, deform(extrude(front, 1.36, 0.03, 2, 28)), paint);
   add(bodyG, deform(extrude(rear, 1.36, 0.03, 2, 28)), paint);
   // Innenverkleidung der Seitenwände (dunkel), damit der Innenraum nicht rot leuchtet
-  [1, -1].forEach((s) => add(bodyG, new BoxGeometry(2.0, 0.42, 0.01), black, -0.45, 0.6, s * 0.615));
+  [1, -1].forEach((s) => add(bodyG, new BoxGeometry(0.85, 0.42, 0.01), black, -1.08, 0.6, s * 0.615));
 
   // Fahrgastzelle (getönte Scheiben, leicht durchsichtig) + Dach
   const cab = new Shape();
@@ -205,16 +223,21 @@ export function start(section) {
   add(trunkG, deform(extrude(strip(rear, -1.92, -2.24, 0.03), 1.45, 0.015, 2, 30)), paint, 0, 0.012, 0);
 
   // Türen: sitzen bündig im Ausschnitt, innen dunkle Verkleidung, mit Griff und Spiegel
-  const doorShape = doorPath(0.014, new Shape());
+  const doorShape = doorShapeFn(0.014);
   [1, -1].forEach((s) => {
-    const g = part(V(0, 0, 0), V(0, 0.35, s * 1.25), 0, 0.28);
+    // Drehpunkt = Scharnier vorne an der Tür: erst aufschwenken, dann wegfliegen
+    const hinge = part(V(DF, 0, s * 0.95), V(0, 0.35, s * 1.25), 0, 0.42);
+    parts[parts.length - 1].hinge = s;
+    const g = new Group();
+    g.position.set(-DF, 0, -s * 0.95);
+    hinge.add(g);
     const outer = new ExtrudeGeometry(doorShape, { depth: 0.05, bevelEnabled: true, bevelThickness: 0.02, bevelSize: 0.012, bevelSegments: S(3), curveSegments: S(12) });
     outer.translate(0, 0, s > 0 ? 0.95 - 0.07 : -0.95 + 0.02);
     add(g, deform(outer), paint);
-    const inner = new ExtrudeGeometry(doorPath(0.04, new Shape()), { depth: 0.12, bevelEnabled: false, curveSegments: S(12) });
+    const inner = new ExtrudeGeometry(doorShapeFn(0.03), { depth: 0.12, bevelEnabled: false, curveSegments: S(12) });
     inner.translate(0, 0, s > 0 ? 0.76 : -0.88);
     add(g, deform(inner), black);
-    add(g, new BoxGeometry(0.16, 0.025, 0.03), chrome, -0.32, 0.72, s * 0.955);
+    add(g, new BoxGeometry(0.16, 0.025, 0.03), chrome, -0.36, 0.74, s * 0.955);
     const mir = add(g, new SphereGeometry(0.08, S(16), S(10)), paint, 0.55, 0.9, s * 1.0);
     mir.scale.set(1.1, 0.6, 0.9);
     add(g, new BoxGeometry(0.05, 0.08, 0.1), black, 0.6, 0.84, s * 0.94);
@@ -419,7 +442,11 @@ export function start(section) {
   const tmp = new Vector3();
   function apply() {
     parts.forEach((q) => {
-      const t = smooth(q.a, q.b, E);
+      let t = smooth(q.a, q.b, E);
+      if (q.hinge) {
+        q.g.rotation.y = q.hinge * 1.15 * smooth(0, 0.55, t);
+        t = smooth(0.5, 1, t);
+      }
       q.g.position.set(q.home.x + q.off.x * t, q.home.y + q.off.y * t, q.home.z + q.off.z * t);
       if (q.spin) q.g.rotation.z = q.spin * t;
     });

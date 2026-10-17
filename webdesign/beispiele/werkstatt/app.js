@@ -315,7 +315,7 @@
     var io3 = new IntersectionObserver(function (es) {
       if (!es[0].isIntersecting) return;
       io3.disconnect();
-      import("/beispiele/werkstatt/auto3d.js?v=20261017b").then(function (m) {
+      import("/beispiele/werkstatt/auto3d.js?v=20261017c").then(function (m) {
         if (!m.start(x3)) x3.classList.remove("is-3d");
       }).catch(function () { x3.classList.remove("is-3d"); });
     }, { rootMargin: "800px 0px" });
