@@ -174,7 +174,7 @@
   btn.setAttribute("aria-controls", "tk-chat");
   btn.setAttribute("aria-label", "Fragen? Antwort-Assistent und WhatsApp");
   // Symbol und Text wechseln langsam zwischen TK und WhatsApp (nur CSS, kein Skript von WhatsApp)
-  btn.innerHTML = '<span class="tk-chat-btn__ic" aria-hidden="true"><img src="/assets/img/tk-badge.svg" alt=""><img class="tk-chat-btn__wa" src="/assets/img/wa-badge.svg" alt=""></span><i aria-hidden="true"></i><span class="tk-chat-btn__t" aria-hidden="true"><span>Fragen?</span><span class="tk-chat-btn__wa">WhatsApp</span></span>';
+  btn.innerHTML = '<span class="tk-chat-btn__ic" aria-hidden="true"><img src="/assets/img/tk-badge.svg" alt=""><img class="tk-chat-btn__wa" src="/assets/img/wa-badge.svg?v=c266c6f8" alt=""></span><i aria-hidden="true"></i><span class="tk-chat-btn__t" aria-hidden="true"><span>Fragen?</span><span class="tk-chat-btn__wa">WhatsApp</span></span>';
 
   var box = document.createElement("div");
   box.className = "tk-chat";
@@ -186,7 +186,7 @@
     '<button type="button" class="tk-chat__x" aria-label="Schließen">✕</button></div>' +
     '<div class="tk-chat__log" aria-live="polite"></div>' +
     '<div class="tk-chat__chips"></div>' +
-    '<a class="tk-chat__wabar" href="https://wa.me/4367761773118?text=Hallo%20Tim%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Webseite." target="_blank" rel="noopener"><img src="/assets/img/wa-badge.svg" alt=""><span><b>Lieber direkt mit Tim schreiben?</b> Per WhatsApp</span><em aria-hidden="true">→</em></a>' +
+    '<a class="tk-chat__wabar" href="https://wa.me/4367761773118?text=Hallo%20Tim%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Webseite." target="_blank" rel="noopener"><img src="/assets/img/wa-badge.svg?v=c266c6f8" alt=""><span><b>Lieber direkt mit Tim schreiben?</b> Per WhatsApp</span><em aria-hidden="true">→</em></a>' +
     '<form class="tk-chat__form"><label class="sr-only" for="tk-chat-in">Deine Frage</label><input id="tk-chat-in" type="text" maxlength="200" autocomplete="off" placeholder="Frage eintippen …"><button type="submit" aria-label="Senden">→</button></form>' +
     '<p class="tk-chat__note">Automatische Antworten, keine KI. Es wird nichts gespeichert oder gesendet.</p>';
   document.body.appendChild(btn);
