@@ -62,8 +62,8 @@ p{margin:0}
 .hero__cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
 .hero__arch{position:relative;aspect-ratio:4/5;border-radius:999px 999px 36px 36px;overflow:hidden;background:#cfdcd2;box-shadow:0 40px 80px -40px rgba(34,48,42,.5)}
 .hero__arch video{position:absolute;inset:0}
-.hero__arch::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(34,48,42,.55));pointer-events:none}
-.hero__card{position:absolute;left:-30px;bottom:40px;background:var(--paper);border-radius:22px;padding:16px 20px 16px 16px;display:flex;gap:14px;align-items:center;box-shadow:0 24px 50px -24px rgba(34,48,42,.45);animation:floaty 7s ease-in-out infinite}
+.hero__arch::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 62%,rgba(34,48,42,.38));pointer-events:none}
+.hero__card{position:absolute;left:18px;bottom:28px;background:var(--paper);border-radius:22px;padding:16px 20px 16px 16px;display:flex;gap:14px;align-items:center;box-shadow:0 24px 50px -24px rgba(34,48,42,.45);animation:floaty 7s ease-in-out infinite}
 .hero__card i{width:46px;height:46px;border-radius:50%;background:var(--sage);display:grid;place-items:center;color:#fff;font:italic 400 20px/1 var(--hd)}
 .hero__card b{display:block;font:500 17px/1.2 var(--hd)}
 .hero__card small{color:var(--mu);font-size:13px}
@@ -97,12 +97,23 @@ p{margin:0}
 .map__grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(30px,5vw,70px);align-items:center;margin-top:44px}
 .body{position:relative;max-width:340px;width:100%;justify-self:center}
 .body svg{width:100%;height:auto;display:block;overflow:visible}
-.zone{fill:#4b6656;stroke:#7c9a86;stroke-width:1.5;cursor:pointer;transition:fill .35s}
+.zone{fill:#4f6d5b;stroke:#7c9a86;stroke-width:1.5;cursor:pointer;transition:fill .35s}
 .zone:hover{fill:#5f7d69}
 .zone[aria-pressed="true"]{fill:#e3a86b;stroke:#f6d2a8}
 .zone:focus{outline:none}
 .zone:focus-visible{stroke:#fff;stroke-width:3}
 .passive{fill:#3d5446}
+.mp-shadow{fill:#000;opacity:.18}
+.mp-deco{pointer-events:none}
+.mp-hair{fill:#56493d}
+.mp-hairhi{fill:none;stroke:#7d6a57;stroke-width:2;stroke-linecap:round;opacity:.7}
+.mp-hairline{fill:none;stroke:#3f342b;stroke-width:1.1;stroke-linecap:round;opacity:.55}
+.mp-ear{fill:#466052;stroke:#2a3c32;stroke-width:1}
+.mp-rim{fill:none;stroke:#0f1b15;stroke-width:16;opacity:.42}
+.mp-lines{fill:none;stroke:#1b2b22;stroke-width:1.4;stroke-linecap:round;opacity:.42}
+.mp-spine{fill:none;stroke:#1b2b22;stroke-width:2;stroke-linecap:round;stroke-dasharray:.1 7;opacity:.5}
+.mp-dots{fill:#1b2b22;opacity:.4}
+.mp-outline{fill:none;stroke:#a9c4b0;stroke-width:2.6;opacity:.4}
 .glow{fill:url(#mp-glow);opacity:0;transition:opacity .5s;pointer-events:none}
 .glow.on{opacity:1;animation:breathe 2.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
 @keyframes breathe{50%{transform:scale(1.25)}}
@@ -251,7 +262,7 @@ fieldset.f{border:0;margin:0 0 16px;padding:0;min-width:0}
       </div>
     </div>
     <div class="hero__arch">
-      <video class="tk-video" data-autoplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/massage-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/massage.mp4" type="video/mp4"></video>
+      <video class="tk-video" data-autoplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/massage-hell-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/massage-hell.mp4" type="video/mp4"></video>
       <div class="hero__card"><i>A</i><div><b>Anna Sonnfeld</b><small>Heilmasseurin seit 2011</small></div></div>
     </div>
   </div>
@@ -301,19 +312,33 @@ fieldset.f{border:0;margin:0 0 16px;padding:0;min-width:0}
     <div class="map__grid">
       <div class="body" data-reveal>
         <svg viewBox="0 0 300 560" aria-label="Körper von hinten, wählbare Bereiche" role="group">
-          <defs><radialGradient id="mp-glow"><stop offset="0" stop-color="#ffd9a8" stop-opacity=".9"/><stop offset="1" stop-color="#ffd9a8" stop-opacity="0"/></radialGradient></defs>
-          <ellipse class="passive" cx="150" cy="58" rx="32" ry="38"/>
-          <path class="passive" d="M64 176 L50 270 L40 344 C44 352 56 352 60 346 L76 274 L104 196 Z"/>
-          <path class="passive" d="M236 176 L250 270 L260 344 C256 352 244 352 240 346 L224 274 L196 196 Z"/>
-          <path class="zone" data-z="beine" tabindex="0" role="button" aria-pressed="false" aria-label="Beine" d="M104 346 L148 346 L146 450 L140 540 C132 546 120 546 114 540 L108 450 Z M152 346 L196 346 L192 450 L186 540 C180 546 168 546 160 540 L154 450 Z"/>
-          <path class="zone" data-z="ruecken" tabindex="0" role="button" aria-pressed="false" aria-label="Rücken" d="M110 150 L132 132 L168 132 L190 150 L196 250 C198 280 198 310 198 342 L102 342 C102 310 102 280 104 250 Z"/>
-          <path class="zone" data-z="schultern" tabindex="0" role="button" aria-pressed="false" aria-label="Schultern" d="M132 118 C102 120 76 128 68 150 L64 178 L106 184 L112 150 L132 132 Z M168 118 C198 120 224 128 232 150 L236 178 L194 184 L188 150 L168 132 Z"/>
-          <path class="zone" data-z="nacken" tabindex="0" role="button" aria-pressed="false" aria-label="Nacken" d="M134 90 L166 90 L170 128 L130 128 Z"/>
-          <path d="M150 140 L150 330" stroke="#2f4639" stroke-width="2" stroke-dasharray="3 7" pointer-events="none"/>
-          <circle class="glow" data-g="nacken" cx="150" cy="110" r="34"/>
-          <circle class="glow" data-g="schultern" cx="90" cy="152" r="40"/><circle class="glow" data-g="schultern" cx="210" cy="152" r="40"/>
-          <circle class="glow" data-g="ruecken" cx="150" cy="240" r="70"/>
-          <circle class="glow" data-g="beine" cx="125" cy="440" r="46"/><circle class="glow" data-g="beine" cx="175" cy="440" r="46"/>
+          <defs>
+            <radialGradient id="mp-glow"><stop offset="0" stop-color="#ffd9a8" stop-opacity=".9"/><stop offset="1" stop-color="#ffd9a8" stop-opacity="0"/></radialGradient>
+            <linearGradient id="mp-light" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".07"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".1"/></linearGradient>
+            <filter id="mp-soft" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="5"/></filter>
+            <path id="mp-sil" d="M150 14A27 33 0 1 0 150 80A27 33 0 1 0 150 14ZM150 74C143 74 138 77 138 82C138 90 136 96 131 100C121 106 106 108 94 113C82 118 77 130 78 146C79 156 86 164 97 166C99 176 101 186 104 196C107 204 111 208 112 214C113 228 104 244 102 258C100 272 101 286 106 296C113 306 130 308 142 303C145 302 148 301 150 301C152 301 155 302 158 303C170 308 187 306 194 296C199 286 200 272 198 258C196 244 187 228 188 214C189 208 193 204 196 196C199 186 201 176 203 166C214 164 221 156 222 146C223 130 218 118 206 113C194 108 179 106 169 100C164 96 162 90 162 82C162 77 157 74 150 74ZM97 116C82 118 73 132 74 150C73 170 70 190 69 206C67 228 65 252 66 272C65 286 63 300 66 312C68 322 76 324 79 316C82 304 80 290 79 276C81 256 84 230 87 210C89 192 93 176 98 164C100 148 101 130 97 116ZM203 116C199 130 200 148 202 164C207 176 211 192 213 210C216 230 219 256 221 276C220 290 218 304 221 316C224 324 232 322 234 312C237 300 235 286 234 272C235 252 233 228 231 206C230 190 227 170 226 150C227 132 218 118 203 116ZM103 282C100 320 104 380 111 410C106 428 105 450 110 468C114 488 118 510 120 524C119 536 125 544 136 542C142 540 142 532 139 524C139 506 145 470 144 448C143 436 142 424 143 414C146 380 148.5 330 148.5 302C140 292 118 288 103 282ZM197 282C182 288 160 292 151.5 302C151.5 330 154 380 157 414C158 424 157 436 156 448C155 470 161 506 161 524C158 532 158 540 164 542C175 544 181 536 180 524C182 510 186 488 190 468C195 450 194 428 189 410C196 380 200 320 197 282Z"/>
+            <clipPath id="mp-clip"><use href="#mp-sil"/></clipPath>
+          </defs>
+          <ellipse class="mp-shadow" cx="150" cy="545" rx="62" ry="5"/>
+          <use class="mp-outline" href="#mp-sil"/>
+          <use class="passive" href="#mp-sil"/>
+          <path class="zone" data-z="beine" clip-path="url(#mp-clip)" tabindex="0" role="button" aria-pressed="false" aria-label="Beine" d="M92 284C108 308 136 312 150 303C164 312 192 308 208 284L214 562H86Z"/>
+          <path class="zone" data-z="ruecken" clip-path="url(#mp-clip)" tabindex="0" role="button" aria-pressed="false" aria-label="Rücken" d="M96 166C110 140 128 130 150 130C172 130 190 140 204 166V250C186 258 168 262 150 262C132 262 114 258 96 250Z"/>
+          <path class="zone" data-z="schultern" clip-path="url(#mp-clip)" tabindex="0" role="button" aria-pressed="false" aria-label="Schultern" d="M0 40H118V98C128 105 139 108 150 108C161 108 172 105 182 98V40H300V172L204 166C190 140 172 130 150 130C128 130 110 140 96 166L0 172Z"/>
+          <path class="zone" data-z="nacken" clip-path="url(#mp-clip)" tabindex="0" role="button" aria-pressed="false" aria-label="Nacken" d="M118 66H182V98C172 105 161 108 150 108C139 108 128 105 118 98Z"/>
+          <g class="mp-deco" aria-hidden="true">
+            <path class="mp-hair" d="M150 13C134 13 122.5 27 122.5 46C122.5 58 125 67 130 74C135 77 139 76 142 73C145 76 148 78 150 78C152 78 155 76 158 73C161 76 165 77 170 74C175 67 177.5 58 177.5 46C177.5 27 166 13 150 13Z"/><path class="mp-hairhi" d="M134 26C140 19 152 17 160 21"/>
+            <path class="mp-hairline" d="M138 34C141 46 141 58 139 70M150 22V72M162 34C159 46 159 58 161 70"/>
+            <ellipse class="mp-ear" cx="123.5" cy="52" rx="3.6" ry="8"/><ellipse class="mp-ear" cx="176.5" cy="52" rx="3.6" ry="8"/>
+            <g clip-path="url(#mp-clip)"><use class="mp-rim" href="#mp-sil" filter="url(#mp-soft)"/><use href="#mp-sil" fill="url(#mp-light)"/></g>
+            <path class="mp-lines" d="M135 136C134 154 130 170 121 182M104 134C116 128 128 130 136 136M165 136C166 154 170 170 179 182M196 134C184 128 172 130 164 136M133 103C137 109 140 114 141 119M167 103C163 109 160 114 159 119M103 180C111 198 122 210 132 218M197 180C189 198 178 210 168 218M150 266V300M110 296C122 305 138 306 147 302M190 296C178 305 162 306 153 302M118 410C126 414 134 414 140 410M182 410C174 414 166 414 160 410M127 424C124 438 124 450 127 462M173 424C176 438 176 450 173 462M71 204C75 208 80 208 85 206M229 204C225 208 220 208 215 206"/>
+            <path class="mp-spine" d="M150 112C150 160 151 210 150 256"/>
+            <g class="mp-dots"><circle cx="150" cy="108" r="1.8"/><circle cx="141" cy="250" r="1.6"/><circle cx="159" cy="250" r="1.6"/></g>
+          </g>
+          <circle class="glow" data-g="nacken" cx="150" cy="92" r="28"/>
+          <circle class="glow" data-g="schultern" cx="100" cy="128" r="40"/><circle class="glow" data-g="schultern" cx="200" cy="128" r="40"/>
+          <circle class="glow" data-g="ruecken" cx="150" cy="196" r="62"/>
+          <circle class="glow" data-g="beine" cx="124" cy="372" r="42"/><circle class="glow" data-g="beine" cx="176" cy="372" r="42"/>
         </svg>
       </div>
       <div>
