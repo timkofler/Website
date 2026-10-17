@@ -161,6 +161,7 @@
       var c = COLS[i][1];
       $$("button", wrap).forEach(function (b) { b.setAttribute("aria-pressed", b === btn ? "true" : "false"); });
       $("#v-name").textContent = COLS[i][0]; $("#v-desc").textContent = COLS[i][2]; dot.style.background = c;
+      room.dispatchEvent(new CustomEvent("tk-paint", { detail: { c: c, name: COLS[i][0] } }));
       cancelAnimationFrame(anim); finish();
       if (c === cur) return;
       if (reduce) { paint(base, c); cur = c; return; }
