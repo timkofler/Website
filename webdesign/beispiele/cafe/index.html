@@ -140,10 +140,10 @@ section{position:relative}
 .pour__stage{position:relative;margin-inline:auto;width:100%;max-width:520px}
 .pour__svgbox{aspect-ratio:4/5;position:relative}
 #pourSvg{width:100%;height:100%;display:block;cursor:pointer;overflow:visible}
-.pour__hud{position:absolute;left:0;top:8%;display:grid;gap:6px;font:500 14px/1.2 var(--sans);color:#cdb39a}
+.pour__hud{display:grid;justify-items:center;gap:8px;margin-top:-6px;text-align:center;font:500 14px/1.2 var(--sans);color:#cdb39a}
 .pour__hud b{font:500 34px/1 var(--serif);color:var(--cream);font-variant-numeric:tabular-nums}
 .pour__hud small{letter-spacing:.16em;text-transform:uppercase;font-size:11.5px}
-.replay{display:flex;justify-content:center;margin-top:18px}
+.replay{display:flex;justify-content:center;margin-top:20px}
 .replay .btn{backdrop-filter:none}
 .replay .btn{min-height:48px;padding:0 20px;font-size:15px}
 .steam path{opacity:0}
@@ -373,7 +373,6 @@ footer p+p{margin-top:4px}
       </ol>
     </div>
     <div class="pour__stage" id="pourStage">
-      <div class="pour__hud" aria-hidden="true"><small>Extraktion</small><b id="pourTime">00,0 s</b></div>
       <div class="pour__svgbox"><svg id="pourSvg" viewBox="0 0 400 500" role="img" aria-labelledby="pourTitle">
         <title id="pourTitle">Animation: Espresso fließt in eine Tasse, die Crema bildet sich, Milchschaum wird eingegossen und Dampf steigt auf</title>
         <defs>
@@ -385,6 +384,9 @@ footer p+p{margin-top:4px}
           <linearGradient id="gInner" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b8a998"/><stop offset=".55" stop-color="#d9cdbd"/><stop offset="1" stop-color="#8f7f6e"/></linearGradient>
           <linearGradient id="gChrome" x1="0" x2="1"><stop offset="0" stop-color="#6d6762"/><stop offset=".3" stop-color="#e6e1dc"/><stop offset=".55" stop-color="#9c958f"/><stop offset="1" stop-color="#4d4844"/></linearGradient>
           <radialGradient id="gShadow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#000" stop-opacity=".45"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+          <radialGradient id="gWell" cx=".5" cy=".35" r=".7"><stop offset="0" stop-color="#f1e9de"/><stop offset="1" stop-color="#ddd0bf"/></radialGradient>
+          <radialGradient id="gContact" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#3b2a20" stop-opacity=".5"/><stop offset=".6" stop-color="#3b2a20" stop-opacity=".22"/><stop offset="1" stop-color="#3b2a20" stop-opacity="0"/></radialGradient>
+          <linearGradient id="gFoot" x1="0" x2="1"><stop offset="0" stop-color="#c9bcac"/><stop offset=".3" stop-color="#f6f0e8"/><stop offset=".6" stop-color="#e9e0d4"/><stop offset="1" stop-color="#b3a593"/></linearGradient>
           <clipPath id="clipRim"><ellipse cx="200" cy="262" rx="103" ry="19"/></clipPath>
         </defs>
         <!-- Siebträger -->
@@ -399,7 +401,14 @@ footer p+p{margin-top:4px}
         <ellipse cx="200" cy="452" rx="185" ry="30" fill="url(#gShadow)"/>
         <ellipse cx="200" cy="438" rx="160" ry="30" fill="#e8ddd0"/>
         <ellipse cx="200" cy="432" rx="160" ry="28" fill="#fbf7f1"/>
-        <ellipse cx="200" cy="430" rx="92" ry="15" fill="#e6dccf"/>
+        <ellipse cx="200" cy="430" rx="92" ry="15" fill="url(#gWell)"/>
+        <ellipse cx="200" cy="430" rx="92" ry="15" fill="none" stroke="#d6c9b8" stroke-width="1"/>
+        <!-- Kontaktschatten: Tasse steht im Spiegel der Untertasse -->
+        <ellipse cx="204" cy="429" rx="62" ry="9" fill="url(#gContact)"/>
+        <!-- Standring der Tasse -->
+        <path d="M160 402 C163 412 160 420 154 425 A46 7.5 0 0 0 246 425 C240 420 237 412 240 402 Z" fill="url(#gFoot)"/>
+        <path d="M154 425 A46 7.5 0 0 0 246 425" fill="none" stroke="#a89884" stroke-width="1.2" opacity=".7"/>
+        <path d="M157 422 A43 6.5 0 0 0 243 422" fill="none" stroke="#fffdf9" stroke-width="1.5" opacity=".7"/>
         <!-- Henkel -->
         <path d="M296 296c58-6 62 70 4 84" fill="none" stroke="#e7ddd0" stroke-width="20" stroke-linecap="round"/>
         <path d="M296 296c58-6 62 70 4 84" fill="none" stroke="#fffdf9" stroke-width="11" stroke-linecap="round"/>
@@ -430,6 +439,7 @@ footer p+p{margin-top:4px}
         <!-- Tassenkörper vorne -->
         <path d="M94 262 A106 21 0 0 0 306 262 L298 330 C292 392 252 414 200 414 C148 414 108 392 102 330 Z" fill="url(#gCup)"/>
         <path d="M118 300 C120 360 140 392 176 404" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".7"/>
+        <path d="M158 405 Q200 417 242 405" fill="none" stroke="#8f7f6e" stroke-width="3" opacity=".18" stroke-linecap="round"/>
         <!-- vorderer Tassenrand: verdeckt Strahl und Kaffeespiegel -->
         <path d="M94 262 A106 21 0 0 0 306 262" fill="none" stroke="#efe7dc" stroke-width="4"/>
         <path d="M92 262 A108 22.5 0 0 0 308 262" fill="none" stroke="#c6b8a7" stroke-width="1"/>
@@ -441,6 +451,7 @@ footer p+p{margin-top:4px}
           <path d="M235 238 c-14 -18 14 -28 0 -48 c-10 -14 6 -22 2 -32"/>
         </g>
       </svg></div>
+      <div class="pour__hud" aria-hidden="true"><small>Extraktion</small><b id="pourTime">00,0 s</b></div>
       <div class="replay"><button class="btn btn--ghost" id="pourReplay" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Noch eine Tasse</button></div>
     </div>
   </div>

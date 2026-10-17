@@ -160,7 +160,7 @@
     gauge.innerHTML = g;
   }
 
-  var carImg = $("#carImg"), shadow = $("#carShadow"), jack = $("#jack"), jackLift = $("#jackLift"),
+  var carImg = $("#carImg"), shadow = $("#carShadow"), jack = $("#jack"), jackLift = $("#jackLift"), jackArm = $("#jackArm"), refl = $("#carRefl"),
     coOld = $("#coOld"), coNew = $("#coNew"), done = $("#done"), needle = $("#needle"),
     nmEl = $("#nm"), minEl = $("#min"), klick = $("#klick"), hud = $("#hudState"),
     steps = document.querySelectorAll("#steps li"), dots = document.querySelectorAll("#boltDots i");
@@ -223,7 +223,9 @@
       await A(jack, [{ opacity: 0, transform: "translate(-70%,-100%)" }, { opacity: 1, transform: "translate(0,-100%)" }], 650);
       count(minEl, 0, 3, 1100 * SPEED || 1, tk);
       await all([
-        A(jackLift, [{ transform: "translateY(0)" }, { transform: "translateY(-13px)" }], 1100),
+        A(jackLift, [{ transform: "translate(0,0)" }, { transform: "translate(-5px,-17px)" }], 1100),
+        A(jackArm, [{ transform: "rotate(0deg)" }, { transform: "rotate(-20deg)" }], 1100),
+        A(refl, [{ opacity: .22 }, { opacity: 0 }], 700),
         A(carImg, [{ transform: "none" }, { transform: LIFT }], 1100),
         A(ov, [{ transform: "none" }, { transform: LIFT }], 1100),
         A(shadow, [{ opacity: 1 }, { opacity: .5 }], 1100)
@@ -282,7 +284,9 @@
       step(5);
       count(minEl, 22, 25, 1000 * SPEED || 1, tk);
       await all([
-        A(jackLift, [{ transform: "translateY(-13px)" }, { transform: "translateY(0)" }], 1000),
+        A(jackLift, [{ transform: "translate(-5px,-17px)" }, { transform: "translate(0,0)" }], 1000),
+        A(jackArm, [{ transform: "rotate(-20deg)" }, { transform: "rotate(0deg)" }], 1000),
+        A(refl, [{ opacity: 0 }, { opacity: .22 }], 900, { delay: 300 }),
         A(carImg, [{ transform: LIFT }, { transform: "none" }], 1000, { easing: "cubic-bezier(.3,0,.2,1.25)" }),
         A(ov, [{ transform: LIFT }, { transform: "none" }], 1000, { easing: "cubic-bezier(.3,0,.2,1.25)" }),
         A(shadow, [{ opacity: .5 }, { opacity: 1 }], 1000)

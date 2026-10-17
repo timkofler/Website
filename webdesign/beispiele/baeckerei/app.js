@@ -132,9 +132,10 @@
   /* ---------- Signatur-Animation: Kaisersemmel ---------- */
   var story = $("#handwerk"), sticky = $(".story__sticky"), stage = $("#sStage");
   var doughP = $("#doughP"), roll = $("#roll"), cutsG = $("#cuts"), flourOn = $("#flourOn"), hlE = $("#hlE"),
-      ovenG = $("#ovenG"), boardG = $("#boardG"), glowC = $("#glowC"), rods = $("#rods"), shd = $("#shd"), dustG = $("#dust");
+      ovenG = $("#ovenG"), boardG = $("#boardG"), glowC = $("#glowC"), rods = $("#rods"), shd = $("#shd"), dustG = $("#dust"),
+      crust = $("#crust"), crease = $("#crease"), hands = $("#hands");
   var stops = [$("#dS0"), $("#dS1"), $("#dS2")];
-  var RAW = [[246, 234, 210], [236, 220, 188], [217, 195, 155]], BAKED = [[240, 178, 92], [198, 118, 44], [128, 66, 24]];
+  var RAW = [[246, 234, 210], [236, 220, 188], [217, 195, 155]], BAKED = [[238, 176, 96], [210, 134, 58], [122, 63, 21]];
   var steps = $$("#sSteps .sstep"), NAMES = ["Kneten", "Formen", "Einschneiden", "Backen", "Fertig"];
 
   function clamp(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
@@ -142,68 +143,99 @@
   function eio(x) { return x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; }
   function eout(x) { return 1 - Math.pow(1 - x, 3); }
   function mix(a, b, t) { return "rgb(" + a.map(function (v, i) { return Math.round(v + (b[i] - v) * t); }).join(",") + ")"; }
+  function f1(n) { return n.toFixed(1); }
+  function el(tag, attrs, parent) { var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
 
-  // Schnitte des Kaisermusters: je ein dunkler Schatten und eine helle Ausbruchkante
-  var cuts = [];
-  for (var k = 0; k < 5; k++) {
-    var a = -Math.PI / 2 + k * (Math.PI * 2 / 5);
-    var x0 = Math.cos(a) * 14, y0 = Math.sin(a) * 14, a2 = a + 0.95;
-    var x1 = Math.cos(a2) * 94, y1 = Math.sin(a2) * 94, ac = a + 0.2;
-    var cx = Math.cos(ac) * 74, cy = Math.sin(ac) * 74;
-    var dd = "M" + x0.toFixed(1) + " " + y0.toFixed(1) + " Q" + cx.toFixed(1) + " " + cy.toFixed(1) + " " + x1.toFixed(1) + " " + y1.toFixed(1);
-    var sh = document.createElementNS(NS, "path"), cr = document.createElementNS(NS, "path");
-    [sh, cr].forEach(function (pp) { pp.setAttribute("d", dd); pp.setAttribute("pathLength", "1"); pp.setAttribute("stroke-dasharray", "1 1"); pp.setAttribute("stroke-dashoffset", "1"); cutsG.appendChild(pp); });
-    sh.setAttribute("stroke-width", "10"); cr.setAttribute("stroke-width", "4");
-    cuts.push([sh, cr]);
-  }
+  // Kaisermuster: fünf gebogene Schnitte, die sich wie ein Windrad um die Mitte drehen
+  var SR = 112, A0 = -Math.PI / 2 - 0.25;
+  function pol(r, a) { return [Math.cos(a) * r, Math.sin(a) * r]; }
+  function rotP(q, deg) { var a = deg * Math.PI / 180, c = Math.cos(a), s = Math.sin(a); return [q[0] * c - q[1] * s, q[0] * s + q[1] * c]; }
+  function cutGeo(k) { var a = A0 + k * Math.PI * 2 / 5; return { s: pol(SR * .09, a), c1: pol(SR * .45, a + .06), c2: pol(SR * .8, a + .52), e: pol(SR * 1.12, a + 1.18) }; }
+  function rotG(g, deg) { return { s: rotP(g.s, deg), c1: rotP(g.c1, deg), c2: rotP(g.c2, deg), e: rotP(g.e, deg) }; }
+  function cutD(g) { return "M" + f1(g.s[0]) + " " + f1(g.s[1]) + " C" + f1(g.c1[0]) + " " + f1(g.c1[1]) + " " + f1(g.c2[0]) + " " + f1(g.c2[1]) + " " + f1(g.e[0]) + " " + f1(g.e[1]); }
+  function backD(h) { return " C" + f1(h.c2[0]) + " " + f1(h.c2[1]) + " " + f1(h.c1[0]) + " " + f1(h.c1[1]) + " " + f1(h.s[0]) + " " + f1(h.s[1]) + "Z"; }
+  function bandD(g, deg) { var h = rotG(g, deg); return cutD(g) + " L" + f1(h.e[0]) + " " + f1(h.e[1]) + backD(h); }
+  var geo = [0, 1, 2, 3, 4].map(cutGeo), cuts = [], Rr = SR * 1.12;
+  geo.forEach(function (g, k) {
+    var h = geo[(k + 1) % 5];
+    el("path", { d: cutD(g) + " A" + f1(Rr) + " " + f1(Rr) + " 0 0 1 " + f1(h.e[0]) + " " + f1(h.e[1]) + backD(h) }, $("#petals"));
+    var d = cutD(g), c = {};
+    c.sh = el("path", { fill: "#3e1803", filter: "url(#soft)", opacity: "0" }, cutsG);
+    var rg = el("g", { filter: "url(#rough)" }, cutsG);
+    c.band = el("path", { opacity: "0" }, rg);
+    c.lip = el("path", { d: d, fill: "none", stroke: "#fff6e2", "stroke-width": "1.5", "stroke-linecap": "round", opacity: "0" }, rg);
+    c.line = el("path", { d: d, fill: "none", "stroke-width": "2", "stroke-linecap": "round", pathLength: "1", "stroke-dasharray": "1 1", "stroke-dashoffset": "1" }, rg);
+    c.g = g; cuts.push(c);
+  });
 
   // Mehlstaub-Partikel
   var dust = [], rnd = (function () { var s = 7; return function () { s = (s * 16807) % 2147483647; return s / 2147483647; }; })();
-  for (var i = 0; i < 46; i++) {
-    var c = document.createElementNS(NS, "circle"), ang = rnd() * Math.PI * 2, rr = Math.sqrt(rnd());
-    c.setAttribute("r", (1 + rnd() * 2.4).toFixed(1)); c.setAttribute("opacity", "0");
-    dustG.appendChild(c);
-    dust.push({ el: c, ang: ang, orb: 120 + rnd() * 90, tx: Math.cos(ang) * rr * 100, ty: Math.sin(ang) * rr * 92, d: rnd(), sp: 0.6 + rnd() });
+  for (var i = 0; i < 52; i++) {
+    var ang = rnd() * Math.PI * 2, rr = Math.sqrt(rnd());
+    var c = el("circle", { r: (0.6 + rnd() * 1.6).toFixed(1), opacity: "0" }, dustG);
+    dust.push({ el: c, ang: ang, tx: Math.cos(ang) * rr * 104, ty: Math.sin(ang) * rr * 96, d: rnd(), sp: 0.6 + rnd(), side: rnd() < .5 ? -1 : 1 });
   }
 
-  // Teigform: Radius je Winkel, unruhig beim Kneten, rund beim Formen
-  function doughPath(p) {
-    var amp = 0.17 * (1 - eio(seg(p, 0.16, 0.36))), ph = p * 46, N = 64, pts = [];
-    var R = 104 + 8 * eio(seg(p, 0.18, 0.36));
+  // Teigform: beim Kneten länglich ausgestoßen, beim Formen rund, im Ofen mit Einkerbungen an den Schnitten
+  var PH = A0 + 1.12, sy = 1, soy = 0, volC = $("#volC");
+  function doughPath(p, st, notch, push) {
+    var N = 72, pts = [], flat = 1 - eio(seg(p, 0.15, 0.32)), wob = 0.04 * flat;
+    var R = 104 + 8 * eio(seg(p, 0.18, 0.36)), rx = R * (1 + 0.12 * flat) * (1 - 0.08 * st), ry = R * (1 - 0.27 * flat) * (1 + 0.42 * st), oy = R * (0.1 * flat - 0.3 * st);
+    sy = ry / R; soy = oy;
     for (var j = 0; j < N; j++) {
-      var t = j / N * Math.PI * 2;
-      var r = R * (1 + amp * (0.55 * Math.sin(2 * t + ph) + 0.3 * Math.sin(3 * t - ph * 0.7 + 1) + 0.18 * Math.sin(5 * t + ph * 1.3)));
-      pts.push([Math.cos(t) * r, Math.sin(t) * r]);
+      var t = j / N * Math.PI * 2, dn = 0, h = t - Math.PI / 2;
+      for (var k = 0; k < 5; k++) { var dt = Math.atan2(Math.sin(t - PH - k * 1.2566), Math.cos(t - PH - k * 1.2566)); dn += Math.exp(-dt * dt / 0.02); }
+      var bul = push * flat * (0.1 * (Math.exp(-(h - 0.85) * (h - 0.85) / 0.06) + Math.exp(-(h + 0.85) * (h + 0.85) / 0.06)) - 0.07 * Math.exp(-h * h / 0.12));
+      var m = 1 + bul + wob * (0.6 * Math.sin(2 * t + p * 30) + 0.4 * Math.sin(3 * t - p * 21 + 1)) - notch * dn + notch * 0.25 * Math.sin(5 * (t - PH) - 0.6);
+      pts.push([Math.cos(t) * rx * m, oy + Math.sin(t) * ry * m]);
     }
-    var s = "M" + ((pts[N - 1][0] + pts[0][0]) / 2).toFixed(1) + " " + ((pts[N - 1][1] + pts[0][1]) / 2).toFixed(1);
+    var s = "M" + f1((pts[N - 1][0] + pts[0][0]) / 2) + " " + f1((pts[N - 1][1] + pts[0][1]) / 2);
     for (var q = 0; q < N; q++) {
       var p0 = pts[q], p1 = pts[(q + 1) % N];
-      s += " Q" + p0[0].toFixed(1) + " " + p0[1].toFixed(1) + " " + ((p0[0] + p1[0]) / 2).toFixed(1) + " " + ((p0[1] + p1[1]) / 2).toFixed(1);
+      s += " Q" + f1(p0[0]) + " " + f1(p0[1]) + " " + f1((p0[0] + p1[0]) / 2) + " " + f1((p0[1] + p1[1]) / 2);
     }
     return s + "Z";
   }
 
   var lastStep = -1;
   function render(p) {
-    doughP.setAttribute("d", doughPath(p));
-    var knead = 1 - seg(p, 0.16, 0.34);
-    var sq = knead * 0.12 * Math.sin(p * 60), rot = knead * 18 * Math.sin(p * 22);
-    var rise = 1 + 0.14 * eout(seg(p, 0.6, 0.84));
-    roll.setAttribute("transform", "translate(300 " + (280 - 6 * (rise - 1) * 10).toFixed(1) + ") rotate(" + rot.toFixed(2) + ") scale(" + ((1 + sq) * rise).toFixed(3) + " " + ((1 - sq) * rise).toFixed(3) + ")");
-    shd.setAttribute("transform", "translate(300 392) scale(" + rise.toFixed(3) + " 1) translate(-300 -392)");
-
+    // Kneten: drei Mal ausstoßen, zurückfalten, weiterdrehen
+    var kAmp = 1 - eio(seg(p, 0.13, 0.22)), kp = seg(p, 0, 0.18) * 3, cyc = kp % 1, n = Math.floor(kp);
+    if (kp >= 3) { cyc = 1; n = 2; }
+    var push = cyc < 0.55 ? eio(cyc / 0.55) : 1 - eio((cyc - 0.55) / 0.45);
+    var st = push * 0.3 * kAmp, fold = (cyc > 0.45 ? Math.sin(Math.PI * clamp((cyc - 0.45) / 0.55)) : 0) * kAmp;
     var b = eio(seg(p, 0.62, 0.88));
-    stops.forEach(function (st, n) { st.setAttribute("stop-color", mix(RAW[n], BAKED[n], b)); });
-    flourOn.setAttribute("opacity", (0.5 * (1 - seg(p, 0.6, 0.75))).toFixed(3));
-    hlE.setAttribute("opacity", (0.5 - 0.2 * b).toFixed(3));
+    doughP.setAttribute("d", doughPath(p, st, 0.035 * b, push));
+    volC.setAttribute("transform", "translate(0 " + f1(soy) + ") scale(1 " + sy.toFixed(3) + ")");
+    crease.setAttribute("opacity", fold.toFixed(3));
+    crease.setAttribute("transform", "translate(0 " + f1(soy) + ") scale(1 " + sy.toFixed(3) + ") rotate(" + [0, -24, 20][n] + ")");
+    var lift = cyc > 0.55 ? Math.sin(Math.PI * (cyc - 0.55) / 0.45) : 0, out = eio(seg(p, 0.12, 0.2));
+    hands.setAttribute("transform", "translate(0 " + (-30 * push + 12 * lift + 190 * out).toFixed(1) + ")");
+    hands.setAttribute("opacity", (1 - seg(p, 0.13, 0.18)).toFixed(3));
+    hands.style.display = p > 0.21 ? "none" : "";
 
-    // Schnitte
-    var shCol = mix([196, 172, 130], [110, 56, 18], b), crCol = mix([170, 146, 104], [246, 214, 156], b);
-    cuts.forEach(function (cc, n) {
-      var k2 = eio(seg(p, 0.42 + n * 0.028, 0.47 + n * 0.028)), off = (1 - k2).toFixed(3);
-      cc[0].setAttribute("stroke-dashoffset", off); cc[1].setAttribute("stroke-dashoffset", off);
-      cc[0].setAttribute("stroke", shCol); cc[1].setAttribute("stroke", crCol);
-      cc[0].setAttribute("stroke-width", (6 + 6 * b).toFixed(1)); cc[1].setAttribute("stroke-width", (3 + 3 * b).toFixed(1));
+    var rise = 1 + 0.14 * eout(seg(p, 0.6, 0.84)), rot = 6 * Math.sin(p * 9) * (1 - seg(p, 0.2, 0.4)) * (1 - kAmp);
+    roll.setAttribute("transform", "translate(300 " + (280 - 6 * (rise - 1) * 10).toFixed(1) + ") rotate(" + rot.toFixed(2) + ") scale(" + rise.toFixed(3) + ")");
+    shd.setAttribute("transform", "translate(300 392) scale(" + (rise * (1 - 0.1 * st)).toFixed(3) + " 1) translate(-300 -392)");
+
+    stops.forEach(function (s2, i2) { s2.setAttribute("stop-color", mix(RAW[i2], BAKED[i2], b)); });
+    flourOn.setAttribute("opacity", (0.5 * (1 - seg(p, 0.6, 0.75))).toFixed(3));
+    hlE.setAttribute("opacity", (0.55 - 0.15 * b).toFixed(3));
+    crust.setAttribute("opacity", b.toFixed(3));
+
+    // Schnitte: zuerst eine feine Kerbe, im Ofen reißen sie auf und werden hell
+    var lineCol = mix([176, 150, 108], [85, 35, 10], b), bandCol = mix([214, 192, 152], [242, 206, 146], b);
+    cuts.forEach(function (c, i2) {
+      var k2 = eio(seg(p, 0.42 + i2 * 0.028, 0.47 + i2 * 0.028)), open = 1.3 * k2 + 4.1 * b;
+      c.line.setAttribute("stroke-dashoffset", (1 - k2).toFixed(3));
+      c.line.setAttribute("stroke", lineCol);
+      c.line.setAttribute("transform", "rotate(" + open.toFixed(2) + ")");
+      if (k2 > 0.99) {
+        c.band.setAttribute("d", bandD(c.g, open)); c.band.setAttribute("fill", bandCol); c.band.setAttribute("opacity", "1");
+        c.sh.setAttribute("d", bandD(c.g, open + 2.6 * b + 0.8)); c.sh.setAttribute("opacity", (0.18 + 0.32 * b).toFixed(3));
+      } else { c.band.setAttribute("opacity", "0"); c.sh.setAttribute("opacity", "0"); }
+      c.lip.setAttribute("opacity", (0.75 * b).toFixed(3));
+      c.lip.setAttribute("transform", "rotate(" + (open * 0.4).toFixed(2) + ")");
     });
 
     // Ofen
@@ -212,17 +244,17 @@
     glowC.setAttribute("opacity", (b * (0.75 + 0.25 * Math.sin(p * 90))).toFixed(3));
     rods.setAttribute("opacity", (0.35 + 0.65 * seg(p, 0.58, 0.68)).toFixed(3));
 
-    // Mehlstaub: beim Kneten Wölkchen, am Ende fein auf die Semmel gestäubt
-    var puff = 1 - seg(p, 0.14, 0.24), fin = seg(p, 0.88, 0.99), sc = rise;
+    // Mehlstaub: beim Ausstoßen stäubt es unter den Händen hervor, am Ende fein auf die Semmel
+    var puff = 1 - seg(p, 0.15, 0.2), fin = seg(p, 0.88, 0.99);
     dust.forEach(function (q) {
       var x, y, op;
       if (fin > 0) {
         var f = eout(clamp((fin - q.d * 0.5) / 0.5));
-        x = 300 + q.tx * sc; y = 280 + q.ty * sc - 150 * (1 - f); op = f * 0.9;
+        x = 300 + q.tx * rise; y = 280 + q.ty * rise - 150 * (1 - f) - 6 * (rise - 1) * 10; op = f * (0.35 + 0.4 * q.sp / 1.6);
       } else {
-        var w = (p * 30 * q.sp + q.d * 6) % 1;
-        x = 300 + Math.cos(q.ang + p * 3) * (q.orb + w * 30); y = 290 + Math.sin(q.ang + p * 3) * (q.orb * 0.7 + w * 20) - w * 30;
-        op = puff * (1 - w) * 0.7;
+        var w = (cyc * q.sp + q.d * 0.35) % 1, e = eout(w);
+        x = 300 + q.side * (70 + 40 * q.d) + Math.cos(q.ang) * e * 70; y = 352 - 30 * push + Math.sin(q.ang) * e * 30 - e * 50;
+        op = puff * (1 - w) * 0.75 * (0.4 + 0.6 * push);
       }
       q.el.setAttribute("cx", x.toFixed(1)); q.el.setAttribute("cy", y.toFixed(1)); q.el.setAttribute("opacity", op.toFixed(3));
     });
