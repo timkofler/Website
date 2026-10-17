@@ -66,28 +66,62 @@
     function backY(x) { return 273 + 10 * Math.sin(Math.PI * Math.max(0, Math.min(1, (x - 222) / 250))); }
     function ease(t) { return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
     function breath(t) { var c = (t / 1000) % 10; return c < 4 ? { s: ease(c / 4), inh: true, left: Math.ceil(4 - c) } : { s: 1 - ease((c - 4) / 6), inh: false, left: Math.ceil(10 - c) }; }
-    function arm(g, hx, hy, sx, sy) {
-      var dx = sx - hx, dy = sy - hy, len = Math.sqrt(dx * dx + dy * dy), ang = Math.atan2(dx, -dy) * 180 / Math.PI;
-      g.setAttribute("transform", "translate(" + hx.toFixed(1) + " " + hy.toFixed(1) + ") rotate(" + ang.toFixed(2) + ") scale(1 " + (len / 240).toFixed(3) + ")");
+    // Arm als durchgehende Form: Schulter -> Ellbogen (2-Gelenk-IK, Ellbogen nach außen) -> Handgelenk.
+    var UP = 58, LO = 60;
+    function f(n) { return n.toFixed(1); }
+    function P(p) { return f(p[0]) + " " + f(p[1]); }
+    function add(a, b, k) { return [a[0] + b[0] * k, a[1] + b[1] * k]; }
+    function nrm(a, b) { var dx = b[0] - a[0], dy = b[1] - a[1], l = Math.sqrt(dx * dx + dy * dy) || 1; return [-dy / l, dx / l]; }
+    function mid(a, b) { return [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]; }
+    var armParts = {};
+    function arm(g, S, W, side) {
+      var parts = armParts[g.id] || (armParts[g.id] = { limb: g.querySelector(".ms-limb"), shade: g.querySelector(".ms-shade"), sleeve: g.querySelector(".ms-sleeve"), hem: g.querySelector(".ms-hem") });
+      var dx = W[0] - S[0], dy = W[1] - S[1], d = Math.sqrt(dx * dx + dy * dy);
+      var dd = Math.max(Math.abs(UP - LO) + 1, Math.min(d, (UP + LO) * 0.995));
+      var a = Math.acos((UP * UP + dd * dd - LO * LO) / (2 * UP * dd)) * (side < 0 ? 1 : -1);
+      var ux = dx / d, uy = dy / d, E = [S[0] + UP * (ux * Math.cos(a) - uy * Math.sin(a)), S[1] + UP * (ux * Math.sin(a) + uy * Math.cos(a))];
+      var n1 = nrm(S, E), n2 = nrm(E, W), nE = [n1[0] + n2[0], n1[1] + n2[1]], ln = Math.sqrt(nE[0] * nE[0] + nE[1] * nE[1]) || 1;
+      var cosH = Math.max(.6, ln / 2); nE = [nE[0] / ln / cosH, nE[1] / ln / cosH];
+      var hS = 11.5, hE = 9, hW = 6.5;
+      var a1 = add(S, n1, hS), a2 = add(E, nE, hE), a3 = add(W, n2, hW), b1 = add(S, n1, -hS), b2 = add(E, nE, -hE), b3 = add(W, n2, -hW);
+      // Ober- und Unterarm in einem Pfad, Ellbogen weich gerundet, runde Enden an Schulter und Handgelenk
+      parts.limb.setAttribute("d", "M" + P(a1) + " L" + P(mid(a1, a2)) + " Q" + P(a2) + " " + P(mid(a2, a3)) + " L" + P(a3) +
+        " A" + hW + " " + hW + " 0 0 1 " + P(b3) + " L" + P(mid(b3, b2)) + " Q" + P(b2) + " " + P(mid(b2, b1)) + " L" + P(b1) +
+        " A" + hS + " " + hS + " 0 0 1 " + P(a1) + " Z");
+      // dezenter Schatten an der Unterarm-Innenseite (zur Körpermitte hin)
+      var sh = side < 0 ? -1 : 1, c2 = add(E, nE, sh * hE * .6), c3 = add(W, n2, sh * hW * .35), o2 = add(E, nE, sh * hE), o3 = add(W, n2, sh * hW);
+      parts.shade.setAttribute("d", "M" + P(mid(c2, o2)) + " Q" + P(o2) + " " + P(mid(o2, o3)) + " L" + P(o3) + " L" + P(c3) + " L" + P(mid(c2, c3)) + " Z");
+      // Ärmel (Kurzarm-Kasack) über der oberen Hälfte des Oberarms
+      var k = .5, M2 = [S[0] + (E[0] - S[0]) * k, S[1] + (E[1] - S[1]) * k], hM = hS + 3;
+      var r = hS + 2.5, s1 = add(S, n1, r), s2 = add(M2, n1, hM), s3 = add(M2, n1, -hM), s4 = add(S, n1, -r);
+      parts.sleeve.setAttribute("d", "M" + P(s2) + " L" + P(s1) + " A" + f(r) + " " + f(r) + " 0 0 1 " + P(s4) + " L" + P(s3) + " Z");
+      parts.hem.setAttribute("d", "M" + P(add(M2, n1, hM - 1)) + " L" + P(add(M2, n1, -hM + 1)));
+    }
+    function backSlope(x) { return (backY(x + 2) - backY(x - 2)) / 4; }
+    function hand(g, x, y, s, mirror) {
+      var ang = Math.atan(backSlope(x) * s), deg = ang * 180 / Math.PI;
+      g.setAttribute("transform", "translate(" + f(x) + " " + f(y) + ") rotate(" + deg.toFixed(2) + ")");
+      var wx = mirror ? 18 : -18, wy = -6.5;
+      return [x + wx * Math.cos(ang) - wy * Math.sin(ang), y + wx * Math.sin(ang) + wy * Math.cos(ang)];
     }
     function draw(t) {
       var b = breath(t), s = 1 + 0.018 * b.s;
       body.setAttribute("transform", "matrix(1 0 0 " + s.toFixed(4) + " 0 " + (330 * (1 - s)).toFixed(2) + ")");
       // Massagezentrum wandert langsam über den Rücken, Hände kreisen gegengleich
-      var c = 348 + 74 * Math.sin(t / 16000 * Math.PI * 2 - Math.PI / 2), w = t / 3400 * Math.PI * 2;
-      var xL = c - 44 + 16 * Math.cos(w), xR = c + 44 + 16 * Math.cos(w + Math.PI);
-      var yL = 330 - (330 - backY(xL)) * s - 7 + 3 * Math.sin(w), yR = 330 - (330 - backY(xR)) * s - 7 + 3 * Math.sin(w + Math.PI);
-      var tx = c + 6 + 6 * Math.sin(w), lean = 4 * Math.sin(w * 2);
-      ther.setAttribute("transform", "translate(" + tx.toFixed(1) + " " + lean.toFixed(1) + ")");
-      arm(aL, xL, yL - 3, tx - 46, 166 + lean); arm(aR, xR, yR - 3, tx + 46, 166 + lean);
-      hL.setAttribute("transform", "translate(" + xL.toFixed(1) + " " + yL.toFixed(1) + ")");
-      hR.setAttribute("transform", "translate(" + xR.toFixed(1) + " " + yR.toFixed(1) + ")");
+      var c = 364 + 62 * Math.sin(t / 16000 * Math.PI * 2 - Math.PI / 2), w = t / 3400 * Math.PI * 2;
+      var xL = c - 48 + 16 * Math.cos(w), xR = c + 48 + 16 * Math.cos(w + Math.PI);
+      // Handflächen liegen auf der Rückenlinie und drücken leicht ein (Druckphase abwechselnd)
+      var yL = 330 - (330 - backY(xL)) * s + 1 + 1.2 * Math.max(0, Math.sin(w)), yR = 330 - (330 - backY(xR)) * s + 1 + 1.2 * Math.max(0, Math.sin(w + Math.PI));
+      var tx = c + 4 * Math.sin(w), lean = 3 + 3 * Math.sin(w * 2);
+      ther.setAttribute("transform", "translate(" + f(tx) + " " + f(lean) + ")");
+      var wL = hand(hL, xL, yL, s, true), wR = hand(hR, xR, yR, s, false);
+      arm(aL, [tx - 49, 170 + lean], wL, -1); arm(aR, [tx + 49, 170 + lean], wR, 1);
       var pl = .35 + .65 * Math.max(0, Math.sin(w)), pr = .35 + .65 * Math.max(0, Math.sin(w + Math.PI));
-      pressL.setAttribute("cx", xL.toFixed(1)); pressL.setAttribute("cy", (yL + 10).toFixed(1)); pressL.setAttribute("opacity", pl.toFixed(2));
-      pressR.setAttribute("cx", xR.toFixed(1)); pressR.setAttribute("cy", (yR + 10).toFixed(1)); pressR.setAttribute("opacity", pr.toFixed(2));
+      pressL.setAttribute("cx", xL.toFixed(1)); pressL.setAttribute("cy", (yL + 4).toFixed(1)); pressL.setAttribute("opacity", pl.toFixed(2));
+      pressR.setAttribute("cx", xR.toFixed(1)); pressR.setAttribute("cy", (yR + 4).toFixed(1)); pressR.setAttribute("opacity", pr.toFixed(2));
       if (t - lastTrail > 420) {
         lastTrail = t; var a = trail[ti++ % trail.length], left = ti % 2;
-        a.t = t; a.e.setAttribute("cx", (left ? xL : xR).toFixed(1)); a.e.setAttribute("cy", ((left ? yL : yR) + 11).toFixed(1));
+        a.t = t; a.e.setAttribute("cx", (left ? xL : xR).toFixed(1)); a.e.setAttribute("cy", ((left ? yL : yR) + 5).toFixed(1));
       }
       trail.forEach(function (p) { var age = (t - p.t) / 2600; p.e.setAttribute("opacity", age < 1 ? (0.7 * (1 - age)).toFixed(2) : 0); });
       // Atemkreis
