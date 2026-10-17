@@ -243,7 +243,7 @@ td.today,th.today{background:var(--popl)}
 @media (max-width:960px){
   .intro .wrap{grid-template-columns:1fr}
   .g2,.g2e{grid-template-columns:1fr}
-  .app{grid-template-columns:1fr;min-height:0;border-radius:18px}
+  .app{grid-template-columns:minmax(0,1fr);min-height:0;border-radius:18px}
   .side{position:sticky;bottom:0;order:2;flex-direction:row;padding:6px;gap:2px;z-index:20;border-top:1px solid #262b3d}
   .brand,.side__foot{display:none}
   .nav-b{flex-direction:column;gap:3px;padding:7px 2px;font-size:10.5px;text-align:center;justify-content:center;border-radius:10px;flex:1 1 0;min-width:0}
@@ -269,6 +269,11 @@ td.today,th.today{background:var(--popl)}
   .frm .row,.clock__f{grid-template-columns:1fr}
   .main{padding:16px 12px 20px}
   .chart{height:180px}
+}
+@media (max-width:360px){
+  .g4{grid-template-columns:minmax(0,1fr)}
+  .card h3{flex-wrap:wrap}
+  .kpi strong{font-size:24px}
 }
 .reset-m{display:none}
 </style></head><body>
@@ -455,4 +460,4 @@ td.today,th.today{background:var(--popl)}
 
 <footer class="foot"><div class="wrap"><span><b>Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb</b></span><span>Alle Namen, Preise und Zahlen sind frei erfunden. Eingaben werden nur in deinem Browser gespeichert.</span></div></footer>
 <div class="toast" id="toast" role="status"></div>
-<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/dashboard/app.js" defer></script></body></html>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/dashboard/app.js?v=20261017" defer></script></body></html>
