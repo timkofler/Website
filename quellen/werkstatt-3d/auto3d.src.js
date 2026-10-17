@@ -159,18 +159,18 @@ export function start(section) {
   const bodyG = part(V(0, 0, 0), V(0, 1.55, 0), 0.45, 0.75);
   // Seitenprofil mit Türausschnitt: die Oberkante zwischen DF und DR wird durch eine Aussparung ersetzt
   const sidePts = [];
-  let cut = false;
+  let cut = false, prev = null;
   body.getPoints(40).forEach((p) => {
-    if (p.y > 0.6 && p.x < DF && p.x > DR) {
-      if (!cut) {
-        cut = true;
-        sidePts.push(new Vector2(DF, belt(DF)), new Vector2(DF, SILL));
-        for (let i = 1; i < 8; i++) { const x = lerp(DF, DR, i / 8); sidePts.push(new Vector2(x, SILL)); }
-        sidePts.push(new Vector2(DR - 0.05, SILL + 0.02));
-        sidePts.push(new Vector2(DR - 0.03, 0.5), new Vector2(DR, belt(DR)));
-      }
-      return;
+    const top = p.y > 0.6 && prev && prev.y > 0.6;
+    if (top && !cut && prev.x >= DF && p.x < DF) {
+      cut = true;
+      sidePts.push(new Vector2(DF, belt(DF)), new Vector2(DF, SILL));
+      for (let i = 1; i < 8; i++) { const x = lerp(DF, DR, i / 8); sidePts.push(new Vector2(x, SILL)); }
+      sidePts.push(new Vector2(DR - 0.05, SILL + 0.02));
+      sidePts.push(new Vector2(DR - 0.03, 0.5), new Vector2(DR, belt(DR)));
     }
+    prev = p;
+    if (top && p.x < DF && p.x > DR) return;
     sidePts.push(p);
   });
   const side = new Shape(sidePts);
