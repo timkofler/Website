@@ -91,15 +91,17 @@ function init(THREE) {
     box.classList.toggle("is-full", on); document.documentElement.classList.toggle("pano-lock", on);
     if (on && box.requestFullscreen) box.requestFullscreen().catch(function () {});
     else if (!on && document.fullscreenElement) document.exitFullscreen();
-    setTimeout(S.resize, 60);
+    setTimeout(S.resize, 60); touchMode();
   });
   document.addEventListener("fullscreenchange", function () {
-    if (!document.fullscreenElement && box.classList.contains("is-full")) { box.classList.remove("is-full"); document.documentElement.classList.remove("pano-lock"); setTimeout(S.resize, 60); }
+    if (!document.fullscreenElement && box.classList.contains("is-full")) { box.classList.remove("is-full"); document.documentElement.classList.remove("pano-lock"); setTimeout(S.resize, 60); touchMode(); }
   });
 
   // Ziehen, Mausrad und Zwei-Finger-Zoom
   var cv = S.canvas, pts = {}, sx, sy, y0, p0, d0 = 0, f0;
-  cv.style.touchAction = "none";
+  // Auf der Seite: senkrecht wischen scrollt weiter, waagrecht dreht. Im Vollbild gehört jede Geste dem Rundgang.
+  function touchMode() { cv.style.touchAction = box.classList.contains("is-full") ? "none" : "pan-y"; }
+  touchMode();
   function n() { return Object.keys(pts).length; }
   function dist() { var k = Object.keys(pts), p = pts[k[0]], q = pts[k[1]]; return Math.hypot(p.x - q.x, p.y - q.y); }
   cv.addEventListener("pointerdown", function (e) {
@@ -115,7 +117,7 @@ function init(THREE) {
   });
   function up(e) { delete pts[e.pointerId]; if (n() === 1) { var p = pts[Object.keys(pts)[0]]; sx = p.x; sy = p.y; y0 = yaw; p0 = pitch; } }
   cv.addEventListener("pointerup", up); cv.addEventListener("pointercancel", up);
-  cv.addEventListener("wheel", function (e) { e.preventDefault(); fov = Math.max(35, Math.min(90, fov + e.deltaY * .04)); }, { passive: false });
+  cv.addEventListener("wheel", function (e) { if (!box.classList.contains("is-full") && !e.ctrlKey) return; e.preventDefault(); fov = Math.max(35, Math.min(90, fov + e.deltaY * .04)); }, { passive: false });
 
   var v = new THREE.Vector3(), look = new THREE.Vector3();
   S.onFrame(function (dt) {
