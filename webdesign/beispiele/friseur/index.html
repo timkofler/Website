@@ -275,6 +275,38 @@ section{position:relative}
 .foot__row strong{color:var(--tx)}
 .foot__demo{margin-top:30px;padding-top:24px;border-top:1px solid var(--line);color:var(--ro);font-weight:600;font-size:14px}
 @media (prefers-reduced-motion:reduce){.hero h1 .ln>span{transform:none;animation:none}.ticker__t{animation:none}.hero__media video{transform:none}}
+.ft__grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(30px,5vw,70px);align-items:center}
+.ft__stage{position:relative;border-radius:24px;overflow:hidden;background:var(--card);aspect-ratio:3/4;box-shadow:0 40px 80px -40px rgba(0,0,0,.8)}
+.ft__stage img,.ft__stage canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ft__stage canvas{display:none}
+.ft.is-ready .ft__stage canvas{display:block}.ft.is-ready .ft__stage img{visibility:hidden}
+.ft__stage video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.ft__status{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;width:max-content;max-width:80%;padding:12px 18px;border-radius:14px;background:rgba(20,16,16,.82);color:var(--tx);font-size:14px;text-align:center}
+.ft__before{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);min-height:44px;padding:0 18px;border-radius:999px;border:0;background:rgba(20,16,16,.72);color:var(--tx);font:600 13px/1 var(--bd);cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:none;backdrop-filter:blur(6px)}
+.ft__before.on{background:var(--ro);color:var(--ink)}
+.ft__src{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.ft__src .btn{min-height:46px;padding:0 20px;font-size:14px}
+.ft__src .btn:hover svg{transform:none}
+.ft__src input{position:absolute;width:1px;height:1px;opacity:0}
+.ft__src label:focus-within{outline:2px solid var(--ro);outline-offset:3px}
+.ft__colors{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:8px;margin-top:28px}
+.ft__colors button{display:flex;flex-direction:column;align-items:center;gap:7px;padding:0;border:0;background:none;color:var(--mu);font:500 11px/1.1 var(--bd);cursor:pointer;min-height:44px}
+.ft__colors i{display:block;width:100%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.35),transparent 45%),var(--c);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);transition:transform .25s,box-shadow .25s}
+.ft__colors button:hover i{transform:scale(1.08)}
+.ft__colors button[aria-pressed="true"] i{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ro)}
+.ft__colors button[aria-pressed="true"]{color:var(--tx)}
+.ft__opts{display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;margin-top:24px}
+.ft__range{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--mu)}
+.ft__range input{width:140px;accent-color:var(--ro)}
+.ft__mode{display:flex;padding:3px;border-radius:999px;background:var(--card)}
+.ft__mode button,.ft__save{min-height:38px;padding:0 14px;border:0;border-radius:999px;background:none;color:var(--mu);font:600 13px/1 var(--bd);cursor:pointer}
+.ft__mode button[aria-pressed="true"]{background:var(--ro);color:var(--ink)}
+.ft__save{box-shadow:inset 0 0 0 1px var(--line);color:var(--tx)}
+.ft__privacy{display:flex;gap:12px;align-items:flex-start;margin-top:26px;padding:16px 18px;border-radius:16px;background:var(--card);font-size:14px;color:var(--mu);line-height:1.5}
+.ft__privacy svg{flex:none;width:20px;height:20px;color:var(--ro);margin-top:2px}
+.ft__privacy b{color:var(--tx)}
+.ft__note{margin-top:12px;font-size:12px;color:var(--mu);opacity:.8}
+@media (max-width:900px){.ft__grid{grid-template-columns:1fr}.ft__stage{max-width:380px;width:100%;margin:0 auto}.ft__colors{grid-template-columns:repeat(5,minmax(0,1fr))}}
 </style></head><body>
 <div class="tk-demo-bar"><a href="/#beispiele"><img src="/beispiele/_shared/tk-logo.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
 <span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musteradresse</span>
@@ -286,14 +318,14 @@ section{position:relative}
       <svg viewBox="0 0 32 32" fill="none" stroke="#e8b4a6" stroke-width="2" aria-hidden="true"><circle cx="9" cy="24" r="5"/><circle cx="23" cy="24" r="5"/><path d="M12.5 20.5 26 4M19.5 20.5 6 4"/></svg>
       <span>HAARWERK<i>.</i></span></a>
     <nav aria-label="Hauptnavigation"><ul>
-      <li><a href="#preise">Preise</a></li><li><a href="#schnitt">Handwerk</a></li><li><a href="#team">Team</a></li><li><a href="#zeiten">Öffnungszeiten</a></li>
+      <li><a href="#preise">Preise</a></li><li><a href="#schnitt">Handwerk</a></li><li><a href="#farbtest">Farbe testen</a></li><li><a href="#team">Team</a></li><li><a href="#zeiten">Öffnungszeiten</a></li>
     </ul></nav>
     <a class="btn" href="#buchen">Termin buchen</a>
     <button class="burger" id="burger" aria-expanded="false" aria-controls="panel" aria-label="Menü öffnen"><span></span></button>
   </div>
 </header>
 <div class="panel" id="panel" aria-label="Mobiles Menü">
-  <a href="#preise">Leistungen &amp; Preise</a><a href="#schnitt">Handwerk</a><a href="#team">Team</a><a href="#buchen">Online buchen</a><a href="#zeiten">Öffnungszeiten</a><a href="#anfahrt">Anfahrt</a>
+  <a href="#preise">Leistungen &amp; Preise</a><a href="#schnitt">Handwerk</a><a href="#farbtest">Haarfarbe testen</a><a href="#team">Team</a><a href="#buchen">Online buchen</a><a href="#zeiten">Öffnungszeiten</a><a href="#anfahrt">Anfahrt</a>
   <a class="btn" href="#buchen">Termin online buchen</a>
 </div>
 
@@ -418,6 +450,35 @@ section{position:relative}
   </div>
 </section>
 
+<section class="sec ft" id="farbtest" aria-labelledby="ft-h">
+  <div class="wrap ft__grid">
+    <div class="ft__stage" data-reveal>
+      <img id="ft-img" src="/beispiele/friseur/haarfarbe-beispiel.jpg" data-sample="/beispiele/friseur/haarfarbe-beispiel.jpg" alt="Beispielfoto: Frau mit schulterlangen, lockigen braunen Haaren" width="720" height="960" loading="lazy">
+      <canvas id="ft-canvas" role="img" aria-label="Vorschau mit der gewählten Haarfarbe"></canvas>
+      <video id="ft-video" playsinline muted></video>
+      <p class="ft__status" id="ft-status" role="status" hidden></p>
+      <button type="button" class="ft__before" id="ft-before">Gedrückt halten: Vorher</button>
+    </div>
+    <div class="ft__panel">
+      <p class="kick" data-reveal>Farbe testen</p>
+      <h2 class="h2" id="ft-h" data-reveal style="--d:.08s">Ihre Wunschfarbe – <em>vorher sehen.</em></h2>
+      <p class="lead" data-reveal style="--d:.14s">Kamera an oder Foto wählen, Farbton antippen: Die Haare werden automatisch erkannt und eingefärbt. Ein erster Eindruck, bevor wir gemeinsam die echte Rezeptur mischen.</p>
+      <div class="ft__src" data-reveal style="--d:.18s">
+        <button type="button" class="btn" id="ft-cam"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Kamera starten</button>
+        <label class="btn ghost" for="ft-file">Foto wählen<input type="file" id="ft-file" accept="image/*"></label>
+        <button type="button" class="btn ghost" id="ft-sample">Beispielfoto</button>
+      </div>
+      <div class="ft__colors" id="ft-colors" role="group" aria-label="Haarfarbe wählen"></div>
+      <div class="ft__opts">
+        <label class="ft__range">Intensität<input type="range" id="ft-strength" min="20" max="100" value="75"></label>
+        <div class="ft__mode" role="group" aria-label="Färbetechnik"><button type="button" data-mode="voll" aria-pressed="true">Ganz</button><button type="button" data-mode="balayage" aria-pressed="false">Balayage</button></div>
+        <button type="button" class="ft__save" id="ft-save">Bild speichern</button>
+      </div>
+      <p class="ft__privacy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span><b>Ihr Bild bleibt auf Ihrem Gerät.</b> Kamera und Foto werden nur hier im Browser verarbeitet, nichts wird hochgeladen oder gespeichert. Beim ersten Einfärben lädt die Haar-Erkennung einmalig (ca. 4&nbsp;MB).</span></p>
+      <p class="ft__note">Vorschau, keine Farbgarantie: Ergebnis hängt von Ausgangsfarbe und Haarstruktur ab. Beispielfoto: Pexels.</p>
+    </div>
+  </div>
+</section>
 <section class="sec" style="padding-top:0" aria-labelledby="care-h">
   <div class="wrap care">
     <div class="care__vid" data-reveal>
@@ -590,4 +651,4 @@ section{position:relative}
     <p class="foot__demo">Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb</p>
   </div>
 </footer>
-<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/friseur/app.js?v=dbe67592" defer></script></body></html>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/friseur/app.js?v=dbe67592" defer></script><script type="module" src="/beispiele/friseur/haarfarbe.js?v=1"></script></body></html>
