@@ -57,17 +57,49 @@
     function sm(a, b, x) { x = cl((x - a) / (b - a)); return x * x * (3 - 2 * x); }
     function lerp(a, b, t) { return a + (b - a) * t; }
     function eio(t) { t = cl(t); return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
-    function cutY(x) { return 368 - (x - 300) * 0.2; }
+    /* --- Modelle (Dame/Herr) und Haarfarben --- */
+    // KF: Geometrie der Haarführung je Leitsträhne: Wurzel, Scheitelpunkt, Fallpunkt, Spitze
+    var MOD = {
+      frau: {
+        KF: [
+          [258, 258, 284, 250, 324, 298, 330, 512],
+          [224, 182, 270, 166, 354, 268, 357, 526],
+          [250, 147, 312, 128, 394, 230, 393, 536],
+          [302, 135, 374, 139, 425, 240, 425, 532],
+          [352, 140, 411, 170, 437, 270, 442, 520]],
+        cy0: 368, cyS: .2, lift: 1, comb: [318, 552], gy: 402,
+        head: "M302 142 C258 142 222 166 213 204 C209 220 210 228 206 236 C203 243 197 252 191 261 C186 268 181 275 180 280 C179 285 183 289 190 289 C195 289 198 291 199 294 C200 297 196 300 196 304 C196 308 200 309 200 312 C200 316 197 319 199 323 C201 327 206 329 207 333 C208 340 206 347 214 352 C226 360 252 358 268 351 C270 378 272 404 270 448 L368 448 C358 414 354 384 358 356 C392 330 410 296 406 248 C400 182 356 142 302 142 Z",
+        skin: ["#f4d8ca", "#e6b8a3", "#c88d77"],
+        h2: "frischen Bob.", done: "Frischer Bob · 49 €", step: ["Fertig: frischer Bob", "Leicht, glänzend – und er fällt von selbst in Form."],
+        title: "Animation: Ein Kamm glättet lange Haare einer Kundin, eine Schere schneidet sie zu einem Bob, abgeschnittene Strähnen fallen auf den Umhang."
+      },
+      mann: {
+        KF: [
+          [262, 252, 288, 238, 332, 256, 338, 334],
+          [224, 182, 268, 164, 348, 248, 352, 372],
+          [250, 147, 312, 128, 388, 222, 392, 390],
+          [302, 135, 374, 139, 420, 236, 424, 392],
+          [352, 140, 411, 170, 434, 266, 438, 384]],
+        cy0: 296, cyS: -.35, lift: .5, comb: [268, 400], gy: 318,
+        head: "M302 142 C258 142 222 166 213 204 C210 216 212 226 207 234 C204 241 198 250 190 260 C184 268 177 276 176 282 C175 288 180 292 188 292 C194 292 197 294 198 297 C199 300 196 303 196 307 C196 311 199 312 199 315 C199 319 197 322 198 326 C199 330 203 332 203 337 C203 346 201 356 212 362 C228 370 256 366 274 356 C276 372 277 383 281 391 C284 398 280 405 277 413 C275 424 275 436 274 448 L370 448 C360 414 356 384 360 356 C394 330 410 296 406 248 C400 182 356 142 302 142 Z",
+        skin: ["#efcdb9", "#dcaa91", "#b97d65"],
+        h2: "frischen Herrenschnitt.", done: "Herrenschnitt · 29 €", step: ["Fertig: Herrenschnitt", "Kurz, sauber, gepflegt – mit Styling zum Mitnehmen."],
+        title: "Animation: Ein Kamm glättet die Haare eines Kunden, eine Schere schneidet sie zu einem kurzen Herrenschnitt, abgeschnittene Haare fallen auf den Umhang."
+      }
+    };
+    var COL = {
+      schwarz: { pal: ["#040303", "#0a0807", "#121010", "#1b1817", "#262220", "#36302d"], under: ["rgba(12,10,9,.97)", "rgba(8,7,6,.97)", "rgba(6,5,5,.95)"],
+        shine: "rgba(178,186,204,.85)", sweep: "220,228,240", lock: ["#0a0807", "#1b1817", "#36302d"], clip: ["rgba(12,10,9,.95)", "rgba(74,68,66,.9)"], baby: "rgba(20,16,14,.45)", shAl: .7 },
+      braun: { pal: ["#170b07", "#22120b", "#301a10", "#422416", "#57321f", "#70452b"], under: ["rgba(40,21,13,.96)", "rgba(30,15,9,.96)", "rgba(22,11,7,.94)"],
+        shine: "rgba(238,196,148,.95)", sweep: "255,230,196", lock: ["#28140c", "#43251a", "#6a3f27"], clip: ["rgba(48,26,16,.95)", "rgba(140,92,60,.9)"], baby: "rgba(52,28,18,.42)", shAl: .8 },
+      blond: { pal: ["#6e4a22", "#8a6130", "#a87b3f", "#c39853", "#d8b26c", "#ead08f"], under: ["rgba(124,86,42,.97)", "rgba(106,72,34,.97)", "rgba(88,58,26,.95)"],
+        shine: "rgba(255,244,214,.95)", sweep: "255,250,232", lock: ["#8a6130", "#c39853", "#ead08f"], clip: ["rgba(150,108,56,.95)", "rgba(230,200,136,.9)"], baby: "rgba(176,134,74,.45)", shAl: .75 }
+    };
+    var M = MOD.frau, C = COL.braun;
+    function cutY(x) { return M.cy0 - (x - 300) * M.cyS; }
 
-    /* --- Geometrie der Haarführung: Wurzel, Scheitelpunkt, Fallpunkt, Spitze --- */
-    var KF = [
-      [258, 258, 284, 250, 324, 298, 330, 512],
-      [224, 182, 270, 166, 354, 268, 357, 526],
-      [250, 147, 312, 128, 394, 230, 393, 536],
-      [302, 135, 374, 139, 425, 240, 425, 532],
-      [352, 140, 411, 170, 437, 270, 442, 520]];
     function kf(u, j) {
-      var f = u * 4, i = Math.min(3, Math.floor(f)), t = f - i;
+      var KF = M.KF, f = u * 4, i = Math.min(3, Math.floor(f)), t = f - i;
       var p0 = KF[Math.max(0, i - 1)][j], p1 = KF[i][j], p2 = KF[i + 1][j], p3 = KF[Math.min(4, i + 2)][j];
       return .5 * (2 * p1 + (-p0 + p2) * t + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t * t + (-p0 + 3 * p1 - 3 * p2 + p3) * t * t * t);
     }
@@ -82,17 +114,18 @@
     for (var k = 0; k < P; k++) KS[k] = lerp(.32, .028, Math.pow(k / (P - 1), .55));
 
     // Ruhelage jeder Leitsträhne: Catmull-Rom durch die Stützpunkte, gleichmäßig nach Bogenlänge abgetastet
-    (function () {
+    function buildGuides() {
+      seed = 7;
       for (var g = 0; g < G; g++) {
         var u = g / (G - 1), pt = [];
         for (var j = 0; j < 8; j += 2) pt.push([kf(u, j), kf(u, j + 1)]);
         var R = pt[0], A = pt[1], D = pt[2], E = pt[3];
         E = [E[0] + rr(-3, 3), E[1] + rr(-9, 9)];
-        var M = [lerp(D[0], E[0], .45) + 3, lerp(D[1], E[1], .45)];
-        var C = [[2 * R[0] - A[0], 2 * R[1] - A[1]], R, A, D, M, E, [E[0], E[1] + 40]];
+        var Mid = [lerp(D[0], E[0], .45) + 3, lerp(D[1], E[1], .45)];
+        var Cp = [[2 * R[0] - A[0], 2 * R[1] - A[1]], R, A, D, Mid, E, [E[0], E[1] + 40]];
         var dense = [], s, q;
-        for (s = 0; s < C.length - 3; s++) for (q = 0; q < 24; q++) {
-          var t = q / 24; dense.push([cr(C[s][0], C[s + 1][0], C[s + 2][0], C[s + 3][0], t), cr(C[s][1], C[s + 1][1], C[s + 2][1], C[s + 3][1], t)]);
+        for (s = 0; s < Cp.length - 3; s++) for (q = 0; q < 24; q++) {
+          var t = q / 24; dense.push([cr(Cp[s][0], Cp[s + 1][0], Cp[s + 2][0], Cp[s + 3][0], t), cr(Cp[s][1], Cp[s + 1][1], Cp[s + 2][1], Cp[s + 3][1], t)]);
         }
         dense.push(E);
         var acc = [0]; for (q = 1; q < dense.length; q++) acc.push(acc[q - 1] + Math.hypot(dense[q][0] - dense[q - 1][0], dense[q][1] - dense[q - 1][1]));
@@ -107,18 +140,17 @@
         gCutS[g] = .99; gCross[g] = restL[(g * P + P - 1) * 2];
         for (k = 1; k < P; k++) {
           var a = (g * P + k - 1) * 2, b = (g * P + k) * 2, ya = restL[a + 1] - cutY(restL[a]), yb = restL[b + 1] - cutY(restL[b]);
-          if (restL[b + 1] > 290 && ya < 0 && yb >= 0) { var z = ya / (ya - yb); gCutS[g] = (k - 1 + z) / (P - 1); gCross[g] = lerp(restL[a], restL[b], z); break; }
+          if (restL[b + 1] > 280 && ya < 0 && yb >= 0) { var z = ya / (ya - yb); gCutS[g] = (k - 1 + z) / (P - 1); gCross[g] = lerp(restL[a], restL[b], z); break; }
         }
         // Bob-Pose: Spitzen federn hoch und drehen leicht nach innen
         for (k = 0; k < P; k++) {
           var o3 = (g * P + k) * 2, ff = sm(gCutS[g] - .2, gCutS[g], k / (P - 1));
-          restB[o3] = restL[o3] - (4 + 9 * u) * ff * ff; restB[o3 + 1] = restL[o3 + 1] - 6 * ff;
+          restB[o3] = restL[o3] - (4 + 9 * u) * M.lift * ff * ff; restB[o3 + 1] = restL[o3 + 1] - 6 * M.lift * ff;
         }
       }
-    })();
+    }
 
     /* --- Einzelne feine Haare, interpoliert zwischen zwei Leitsträhnen --- */
-    var PAL = ["#170b07", "#22120b", "#301a10", "#422416", "#57321f", "#70452b"];
     var BK = [];   // Bündel: gleiche Farbe/Stärke/Alpha werden gemeinsam gezeichnet
     function bucket(c, w, a) { BK.push({ c: c, w: w, a: a }); return BK.length - 1; }
     var bUnder = [], bMain = [], bTop = [], ci, wi;
@@ -129,15 +161,6 @@
       sFrq = new Float32Array(N), sPh = new Float32Array(N), sLen = new Float32Array(N), sClump = new Float32Array(N), sShine = new Uint8Array(N),
       sCut = new Uint8Array(N), sCutS = new Float32Array(N), sCross = new Float32Array(N), sCol = new Uint8Array(N);
     var tmp = new Float32Array(P * 2 + 4), pts = new Float32Array(P * 2 + 4);
-    for (var i = 0; i < N; i++) {
-      var u = (i + rnd()) / N * (G - 1.001), g = Math.floor(u), r = rnd(), b;
-      sG[i] = g; sW[i] = u - g;
-      if (r < .34) b = bUnder[Math.floor(rnd() * bUnder.length)]; else if (r < .9) b = bMain[Math.floor(rnd() * bMain.length)]; else b = bTop[Math.floor(rnd() * bTop.length)];
-      sB[i] = b; sCol[i] = BK[b].c;
-      sJit[i] = rr(-2.2, 2.2); sFrq[i] = rr(1.2, 3.2); sPh[i] = rr(0, 6.283); sClump[i] = rr(.35, .8);
-      sAmp[i] = rr(1.6, 5.2); if (r >= .9 && rnd() < .4) { sAmp[i] = rr(6, 11); sFrq[i] = rr(.8, 1.8); }
-      sLen[i] = rr(.86, 1); sShine[i] = rnd() < .5 ? 1 : 0;
-    }
     function strandPts(i, out, upto) {
       var g = sG[i], w = sW[i], tg = w < .5 ? 0 : 1, a = g * P * 2, b2 = a + P * 2, cy = combedY[g];
       for (var k = 0; k <= upto; k++) {
@@ -148,15 +171,27 @@
         out[o] = x + nrm[a + o] * off; out[o + 1] = y + nrm[a + o + 1] * off;
       }
     }
-    // Schnittposition jedes Haares aus der Ruhelage
-    pos.set(restL); computeNormals(); combedY.fill(-1);
-    for (i = 0; i < N; i++) {
-      strandPts(i, tmp, P - 1); sCutS[i] = .99; sCross[i] = tmp[(P - 1) * 2];
-      for (k = 1; k < P; k++) {
-        var ya = tmp[k * 2 - 1] - cutY(tmp[k * 2 - 2]), yb = tmp[k * 2 + 1] - cutY(tmp[k * 2]);
-        if (tmp[k * 2 + 1] > 290 && ya < 0 && yb >= 0) { var z = ya / (ya - yb); sCutS[i] = (k - 1 + z) / (P - 1) + rr(-.004, .004); sCross[i] = lerp(tmp[k * 2 - 2], tmp[k * 2], z); break; }
+    function buildStrands() {
+      for (var i = 0; i < N; i++) {
+        var u = (i + rnd()) / N * (G - 1.001), g = Math.floor(u), r = rnd(), b;
+        sG[i] = g; sW[i] = u - g;
+        if (r < .34) b = bUnder[Math.floor(rnd() * bUnder.length)]; else if (r < .9) b = bMain[Math.floor(rnd() * bMain.length)]; else b = bTop[Math.floor(rnd() * bTop.length)];
+        sB[i] = b; sCol[i] = BK[b].c;
+        sJit[i] = rr(-2.2, 2.2); sFrq[i] = rr(1.2, 3.2); sPh[i] = rr(0, 6.283); sClump[i] = rr(.35, .8);
+        sAmp[i] = rr(1.6, 5.2); if (r >= .9 && rnd() < .4) { sAmp[i] = rr(6, 11); sFrq[i] = rr(.8, 1.8); }
+        sLen[i] = rr(.86, 1); sShine[i] = rnd() < .5 ? 1 : 0;
+      }
+      // Schnittposition jedes Haares aus der Ruhelage
+      pos.set(restL); computeNormals(); combedY.fill(-1);
+      for (i = 0; i < N; i++) {
+        strandPts(i, tmp, P - 1); sCutS[i] = .99; sCross[i] = tmp[(P - 1) * 2];
+        for (k = 1; k < P; k++) {
+          var ya = tmp[k * 2 - 1] - cutY(tmp[k * 2 - 2]), yb = tmp[k * 2 + 1] - cutY(tmp[k * 2]);
+          if (tmp[k * 2 + 1] > 280 && ya < 0 && yb >= 0) { var z = ya / (ya - yb); sCutS[i] = (k - 1 + z) / (P - 1) + rr(-.004, .004); sCross[i] = lerp(tmp[k * 2 - 2], tmp[k * 2], z); break; }
+        }
       }
     }
+    function build() { buildGuides(); buildStrands(); HEAD = new Path2D(M.head); }
     function computeNormals() {
       for (var g = 0; g < G; g++) for (var k = 0; k < P; k++) {
         var o = (g * P + k) * 2, a = k > 0 ? o - 2 : o, b = k < P - 1 ? o + 2 : o;
@@ -193,7 +228,7 @@
     }
 
     /* --- Fallende Strähnen und kleine Schnipsel --- */
-    var locks = [], clips = [], LOCKC = ["#28140c", "#43251a", "#6a3f27"];
+    var locks = [], clips = [];
     var CAPE = [[60, 640], [100, 534], [150, 474], [240, 436], [270, 416], [300, 426], [340, 426], [366, 414], [410, 436], [462, 454], [530, 486], [570, 640]];
     function capeTop(x) {
       for (var j = 1; j < CAPE.length; j++) if (x <= CAPE[j][0]) { var a = CAPE[j - 1], b = CAPE[j]; return lerp(a[1], b[1], (x - a[0]) / (b[0] - a[0])); }
@@ -242,51 +277,100 @@
 
     /* --- Canvas-Größe, Grundebene (Umhang, Hals, Gesicht) --- */
     var base = document.createElement("canvas"), bctx = base.getContext("2d"), dpr = 1, SC = 1, CS = 1;
-    var HEAD = new Path2D("M302 142 C258 142 222 166 213 204 C209 220 210 228 206 236 C203 243 197 252 191 261 C186 268 181 275 180 280 C179 285 183 289 190 289 C195 289 198 291 199 294 C200 297 196 300 196 304 C196 308 200 309 200 312 C200 316 197 319 199 323 C201 327 206 329 207 333 C208 340 206 347 214 352 C226 360 252 358 268 351 C270 378 272 404 270 448 L368 448 C358 414 354 384 358 356 C392 330 410 296 406 248 C400 182 356 142 302 142 Z");
+    var HEAD;
     var EAR = new Path2D("M297 267 C306 261 318 266 319 280 C320 292 314 298 310 306 C307 312 303 316 297 314 C292 312 291 306 294 301 C289 292 289 275 297 267 Z");
     var CAPEP = new Path2D("M60 640 C74 540 138 464 236 438 C254 433 266 426 270 416 C296 430 342 430 366 414 C376 426 412 438 462 456 C532 484 562 560 572 640 Z");
     function rad(c, x, y, r, stops) { var gr = c.createRadialGradient(x, y, 0, x, y, r); stops.forEach(function (s) { gr.addColorStop(s[0], s[1]); }); return gr; }
     function lin(c, x0, y0, x1, y1, stops) { var gr = c.createLinearGradient(x0, y0, x1, y1); stops.forEach(function (s) { gr.addColorStop(s[0], s[1]); }); return gr; }
+    function bz(a, b, c2, d, t) { var u = 1 - t; return u * u * u * a + 3 * u * u * t * b + 3 * u * t * t * c2 + t * t * t * d; }
+    // Offenes Auge im Profil: Lidspalte, Iris als schmales Oval vorne, Glanzlicht, Lidfalte, Wimpern
+    function eye(c, ex, ey, s, fem) {
+      var op = new Path2D();
+      op.moveTo(ex + 17 * s, ey + 1.2 * s);
+      op.bezierCurveTo(ex + 11 * s, ey - 4.6 * s, ex + 4 * s, ey - 5 * s, ex, ey - 2.6 * s);
+      op.bezierCurveTo(ex - 1.4 * s, ey - .6 * s, ex - 1 * s, ey + 2.2 * s, ex + 1.2 * s, ey + 3.6 * s);
+      op.bezierCurveTo(ex + 6 * s, ey + 4.6 * s, ex + 12 * s, ey + 3.6 * s, ex + 17 * s, ey + 1.2 * s);
+      op.closePath();
+      c.fillStyle = rad(c, ex + 9 * s, ey - 3 * s, 17 * s, [[0, "rgba(130,72,58,.24)"], [1, "rgba(130,72,58,0)"]]); c.fillRect(ex - 10 * s, ey - 20 * s, 40 * s, 36 * s);
+      c.save(); c.clip(op);
+      c.fillStyle = lin(c, ex, 0, ex + 17 * s, 0, [[0, "#fbf5f1"], [.55, "#ecdcd4"], [1, "#c7a497"]]); c.fill(op);
+      c.fillStyle = rad(c, ex + 3 * s, ey + .4 * s, 4.6 * s, [[0, fem ? "#4f8590" : "#5a4128"], [.6, fem ? "#2d5560" : "#3c2a19"], [1, "#140e0b"]]);
+      c.beginPath(); c.ellipse(ex + 3.3 * s, ey + .5 * s, 2.6 * s, 4.2 * s, 0, 0, 6.283); c.fill();
+      c.fillStyle = "#090605"; c.beginPath(); c.ellipse(ex + 2.5 * s, ey + .6 * s, 1.1 * s, 2.2 * s, 0, 0, 6.283); c.fill();
+      c.fillStyle = lin(c, 0, ey - 5.5 * s, 0, ey + 1.5 * s, [[0, "rgba(60,30,22,.6)"], [1, "rgba(60,30,22,0)"]]); c.fillRect(ex - 2 * s, ey - 6 * s, 21 * s, 8 * s);
+      c.restore();
+      c.fillStyle = "rgba(255,255,255,.95)"; c.beginPath(); c.arc(ex + 2.1 * s, ey - .9 * s, .85 * s, 0, 6.283); c.fill();
+      c.strokeStyle = "#2a1510"; c.lineWidth = (fem ? 1.7 : 1.25) * s; c.beginPath(); c.moveTo(ex + 17.5 * s, ey + 1 * s); c.bezierCurveTo(ex + 11 * s, ey - 4.8 * s, ex + 4 * s, ey - 5.2 * s, ex - .4 * s, ey - 2.6 * s); c.stroke();
+      c.strokeStyle = "rgba(118,64,50,.5)"; c.lineWidth = .8 * s; c.beginPath(); c.moveTo(ex + 16 * s, ey - 2.4 * s); c.bezierCurveTo(ex + 11 * s, ey - 8.8 * s, ex + 4 * s, ey - 8.8 * s, ex + 1 * s, ey - 6.6 * s); c.stroke();
+      c.strokeStyle = "rgba(118,64,50,.45)"; c.lineWidth = .7 * s; c.beginPath(); c.moveTo(ex + 1.2 * s, ey + 3.6 * s); c.bezierCurveTo(ex + 6 * s, ey + 4.8 * s, ex + 12 * s, ey + 3.8 * s, ex + 17 * s, ey + 1.4 * s); c.stroke();
+      var n = fem ? 11 : 7, j;
+      c.strokeStyle = "rgba(26,14,10,.92)"; c.lineWidth = (fem ? .8 : .55) * s; c.beginPath();
+      for (j = 0; j < n; j++) {
+        var t = .02 + j / (n - 1) * .72, x = bz(ex - .4 * s, ex + 4 * s, ex + 11 * s, ex + 17.5 * s, t), y = bz(ey - 2.6 * s, ey - 5.2 * s, ey - 4.8 * s, ey + 1 * s, t), l = (fem ? 6.4 : 3.2) * s * (1 - .55 * t);
+        c.moveTo(x, y); c.quadraticCurveTo(x - l * .15, y - l * .85, x - l * .8, y - l * 1.05);
+      }
+      c.stroke();
+      if (fem) {
+        c.lineWidth = .45 * s; c.strokeStyle = "rgba(40,22,16,.6)"; c.beginPath();
+        for (j = 0; j < 5; j++) { var x2 = ex + (2 + j * 2.4) * s, y2 = ey + (3.9 - j * .1) * s; c.moveTo(x2, y2); c.lineTo(x2 - 1.2 * s, y2 + 1.8 * s); }
+        c.stroke();
+      }
+    }
     function drawBase() {
-      var c = bctx; c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, base.width, base.height); c.setTransform(SC, 0, 0, SC, 0, 0);
+      var c = bctx, man = M === MOD.mann; c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, base.width, base.height); c.setTransform(SC, 0, 0, SC, 0, 0);
       c.lineCap = "round"; c.lineJoin = "round";
       // weicher Schatten hinter Kopf und Schultern
       c.fillStyle = rad(c, 340, 330, 250, [[0, "rgba(0,0,0,.28)"], [1, "rgba(0,0,0,0)"]]); c.fillRect(0, 0, 600, 640);
       // Hals + Kopf
-      c.fillStyle = lin(c, 190, 170, 340, 430, [[0, "#f4d8ca"], [.45, "#e6b8a3"], [1, "#c88d77"]]); c.fill(HEAD);
+      c.fillStyle = lin(c, 190, 170, 340, 430, [[0, M.skin[0]], [.45, M.skin[1]], [1, M.skin[2]]]); c.fill(HEAD);
       c.save(); c.clip(HEAD);
       c.fillStyle = rad(c, 222, 206, 34, [[0, "rgba(255,243,236,.32)"], [1, "rgba(255,243,236,0)"]]); c.fillRect(150, 150, 150, 120);
-      c.fillStyle = rad(c, 228, 272, 20, [[0, "rgba(255,238,228,.28)"], [1, "rgba(255,238,228,0)"]]); c.fillRect(190, 240, 80, 70);
-      c.fillStyle = rad(c, 194, 262, 9, [[0, "rgba(255,245,238,.4)"], [1, "rgba(255,245,238,0)"]]); c.fillRect(180, 250, 30, 30);
-      c.fillStyle = rad(c, 238, 298, 26, [[0, "rgba(224,126,110,.32)"], [1, "rgba(224,126,110,0)"]]); c.fillRect(200, 260, 80, 80);
-      c.fillStyle = rad(c, 226, 246, 13, [[0, "rgba(150,88,72,.22)"], [1, "rgba(150,88,72,0)"]]); c.fillRect(205, 228, 45, 40);
+      c.fillStyle = rad(c, 230, 270, 22, [[0, "rgba(255,238,228,.3)"], [1, "rgba(255,238,228,0)"]]); c.fillRect(190, 240, 80, 70);
+      c.fillStyle = rad(c, man ? 189 : 193, man ? 268 : 263, 10, [[0, "rgba(255,245,238,.45)"], [1, "rgba(255,245,238,0)"]]); c.fillRect(175, 250, 32, 32);
+      c.fillStyle = rad(c, 240, 296, 26, [[0, man ? "rgba(214,120,100,.14)" : "rgba(226,124,108,.34)"], [1, "rgba(224,126,110,0)"]]); c.fillRect(200, 260, 80, 80);
+      c.fillStyle = rad(c, 226, 246, 14, [[0, "rgba(150,88,72,.24)"], [1, "rgba(150,88,72,0)"]]); c.fillRect(205, 228, 45, 40);
+      // Schläfe und Wangenknochen-Schatten
       c.fillStyle = rad(c, 266, 230, 46, [[0, "rgba(90,50,38,.32)"], [1, "rgba(90,50,38,0)"]]); c.fillRect(210, 170, 120, 120);
-      var jaw = new Path2D("M214 352 C240 350 268 340 296 314 L340 320 L340 410 L262 410 Z");
-      c.fillStyle = lin(c, 0, 330, 0, 400, [[0, "rgba(118,62,46,.5)"], [1, "rgba(118,62,46,0)"]]); c.fill(jaw);
+      c.fillStyle = rad(c, 252, 300, 24, [[0, "rgba(110,58,44,.16)"], [1, "rgba(110,58,44,0)"]]); c.fillRect(220, 270, 70, 70);
+      var jaw = new Path2D(man ? "M212 362 C240 362 270 346 298 318 L340 322 L340 410 L262 410 Z" : "M214 352 C240 350 268 340 296 314 L340 320 L340 410 L262 410 Z");
+      c.fillStyle = lin(c, 0, man ? 338 : 330, 0, 400, [[0, "rgba(118,62,46,.5)"], [1, "rgba(118,62,46,0)"]]); c.fill(jaw);
       c.fillStyle = rad(c, 352, 352, 70, [[0, "rgba(70,34,24,.55)"], [1, "rgba(70,34,24,0)"]]); c.fillRect(280, 280, 140, 170);
+      if (man) {
+        // Bartschatten: kühler Hauch + feine Stoppeln an Oberlippe, Kinn und Kiefer
+        var beard = new Path2D("M190 293 C196 294 199 300 197 308 C199 322 202 340 212 360 C238 368 268 352 294 322 C292 306 282 296 266 294 C248 294 226 300 210 298 C204 296 198 293 190 293 Z");
+        c.save(); c.clip(beard);
+        c.fillStyle = rad(c, 222, 336, 70, [[0, "rgba(70,62,66,.2)"], [.7, "rgba(70,62,66,.12)"], [1, "rgba(70,62,66,0)"]]); c.fill(beard);
+        var sd0 = seed; seed = 777; c.fillStyle = "rgba(44,34,32,.2)";
+        for (var d = 0; d < 700; d++) { var bx0 = rr(186, 296), by0 = rr(290, 366); if (Math.hypot(bx0 - 222, by0 - 336) < rr(40, 72)) c.fillRect(bx0, by0, .6, .6); }
+        seed = sd0; c.restore();
+        // Adamsapfel
+        c.strokeStyle = "rgba(120,64,50,.35)"; c.lineWidth = 1.2; c.beginPath(); c.moveTo(279, 386); c.quadraticCurveTo(285, 398, 279, 410); c.stroke();
+      }
       c.restore();
       c.strokeStyle = "rgba(255,222,204,.28)"; c.lineWidth = .9; c.stroke(HEAD);
       // Lippen
-      var lips = new Path2D("M199 295 C200 298 196 301 196 304 C196 308 200 309 200 312 C200 316 197 319 199 323 C202 322 205 318 205 312 C205 304 204 298 199 295 Z");
-      c.fillStyle = lin(c, 196, 295, 207, 323, [[0, "rgba(198,122,112,.6)"], [1, "rgba(172,96,90,.6)"]]); c.fill(lips);
-      c.strokeStyle = "rgba(128,64,58,.75)"; c.lineWidth = .9; c.beginPath(); c.moveTo(200, 312); c.quadraticCurveTo(203, 312.5, 206, 311.4); c.stroke();
-      c.fillStyle = "rgba(255,236,230,.35)"; c.beginPath(); c.ellipse(199.6, 317, 1.1, 2, .2, 0, 6.283); c.fill();
-      // Nasenflügel
-      c.strokeStyle = "rgba(146,84,68,.55)"; c.lineWidth = 1; c.beginPath(); c.moveTo(189.5, 284.5); c.quadraticCurveTo(194, 287.5, 198, 285); c.stroke();
-      // Auge (geschlossen, ruhig), Lidfalte, Wimpern, Braue
-      c.strokeStyle = "rgba(150,92,76,.45)"; c.lineWidth = .8; c.beginPath(); c.moveTo(216, 243.5); c.quadraticCurveTo(224, 239.5, 232.5, 243.5); c.stroke();
-      c.strokeStyle = "#4a2b21"; c.lineWidth = 1.3; c.beginPath(); c.moveTo(214.5, 248); c.quadraticCurveTo(223, 254, 233, 249); c.stroke();
-      c.lineWidth = .7; c.strokeStyle = "rgba(48,26,20,.9)"; c.beginPath();
-      for (var j = 0; j < 9; j++) {
-        var t = .12 + j * .1, lx = (1 - t) * (1 - t) * 214.5 + 2 * (1 - t) * t * 223 + t * t * 233, ly = (1 - t) * (1 - t) * 248 + 2 * (1 - t) * t * 254 + t * t * 249;
-        c.moveTo(lx, ly); c.quadraticCurveTo(lx - 1.6, ly + 2.8, lx - 3.6 - j * .15, ly + 3.8 + Math.sin(j) * .3);
+      var lips = new Path2D(man ? "M198 297 C199 300 196 303 196 307 C196 311 199 312 199 315 C199 319 197 322 198 326 C201 325 203 321 203 315 C203 306 202 300 198 297 Z"
+        : "M199 295 C200 298 196 301 196 304 C196 308 200 309 200 312 C200 316 197 319 199 323 C202 322 205 318 205 312 C205 304 204 298 199 295 Z");
+      c.fillStyle = lin(c, 196, 295, 207, 326, man ? [[0, "rgba(176,108,96,.45)"], [1, "rgba(156,92,82,.45)"]] : [[0, "rgba(204,114,108,.72)"], [1, "rgba(178,90,88,.72)"]]); c.fill(lips);
+      var my = man ? 315 : 312;
+      c.strokeStyle = "rgba(118,58,52,.8)"; c.lineWidth = .9; c.beginPath(); c.moveTo(man ? 199 : 200, my); c.quadraticCurveTo(man ? 202 : 203, my + .5, man ? 205.5 : 206.5, my - 1); c.stroke();
+      c.fillStyle = "rgba(255,236,230,.4)"; c.beginPath(); c.ellipse(man ? 198.6 : 199.6, my + 5, 1.1, 2, .2, 0, 6.283); c.fill();
+      // Nasenflügel + Nasolabialfalte
+      c.strokeStyle = "rgba(140,78,62,.6)"; c.lineWidth = 1; c.beginPath();
+      if (man) { c.moveTo(185, 287); c.bezierCurveTo(186, 292, 194, 293, 196, 288); c.moveTo(194, 281); c.quadraticCurveTo(199, 284, 197, 289); }
+      else { c.moveTo(189.5, 284.5); c.bezierCurveTo(190, 288.5, 196, 289, 198, 285); c.moveTo(196.5, 279); c.quadraticCurveTo(201, 281.5, 198.5, 285.5); }
+      c.stroke();
+      c.strokeStyle = "rgba(140,78,62,.22)"; c.lineWidth = 1.4; c.beginPath(); c.moveTo(man ? 203 : 205, man ? 286 : 283); c.quadraticCurveTo(man ? 210 : 211, 298, man ? 206 : 208, 312); c.stroke();
+      // Auge + Braue
+      eye(c, man ? 213 : 215, man ? 250 : 248, 1, !man);
+      c.strokeStyle = man ? "rgba(52,32,24,.82)" : "rgba(74,42,32,.7)"; c.lineWidth = man ? 1.15 : .8; c.beginPath();
+      for (var j = 0; j < (man ? 34 : 24); j++) {
+        var f = j / (man ? 33 : 23), bx = lerp(man ? 205 : 207, 240, f), by = (man ? 236.5 : 233.5) - (man ? 2.2 : 4.4) * Math.sin(Math.PI * Math.min(1, f * 1.15)) + f * 1.2;
+        c.moveTo(bx, by + 1 + (j % 2) * .6); c.lineTo(bx + 3.8, by - .9 + (j % 3) * .3);
       }
       c.stroke();
-      c.strokeStyle = "rgba(74,42,32,.62)"; c.lineWidth = .8; c.beginPath();
-      for (j = 0; j < 22; j++) { var f = j / 21, bx = lerp(207, 240, f), by = 233.5 - 4.2 * Math.sin(Math.PI * Math.min(1, f * 1.15)) + f * 1.2; c.moveTo(bx, by + 1); c.lineTo(bx + 3.6, by - .8 + (j % 3) * .25); }
-      c.stroke();
       // feine Babyhaare am Haaransatz
-      c.lineWidth = .45 / CS; c.strokeStyle = "rgba(52,28,18,.42)"; c.beginPath();
+      c.lineWidth = .45 / CS; c.strokeStyle = C.baby; c.beginPath();
       var sd = seed; seed = 4242;
       for (var g = 0; g < G * .5; g++) for (var m = 0; m < 4; m++) {
         var o = g * P * 2, rx = restL[o], ry = restL[o + 1], tx = restL[o + 2] - rx, ty = restL[o + 3] - ry, tl2 = Math.hypot(tx, ty); tx /= tl2; ty /= tl2;
@@ -294,10 +378,18 @@
         c.moveTo(sx, sy); c.quadraticCurveTo(sx + tx * ln * .5 - ty * cu, sy + ty * ln * .5 + tx * cu, sx + tx * ln, sy + ty * ln);
       }
       seed = sd; c.stroke();
+      if (man) {
+        // Koteletten vor dem Ohr
+        c.fillStyle = C.pal[2]; c.globalAlpha = .85; c.beginPath(); c.moveTo(282, 250); c.bezierCurveTo(289, 248, 296, 251, 296, 258); c.lineTo(293, 280); c.quadraticCurveTo(291, 285, 289, 279); c.closePath(); c.fill();
+        c.strokeStyle = C.pal[4]; c.lineWidth = .5; c.globalAlpha = .6; c.beginPath();
+        for (var sb = 0; sb < 9; sb++) { c.moveTo(285 + sb, 252); c.lineTo(286 + sb * .7, 268 + sb * 1.4); }
+        c.stroke(); c.globalAlpha = 1;
+      }
       // Ohr
-      c.fillStyle = lin(c, 290, 265, 318, 315, [[0, "#ecc1ad"], [1, "#c98a74"]]); c.fill(EAR);
+      c.fillStyle = lin(c, 290, 265, 318, 315, [[0, man ? "#e8bea8" : "#ecc1ad"], [1, "#c98a74"]]); c.fill(EAR);
       c.strokeStyle = "rgba(150,82,66,.55)"; c.lineWidth = 1.1; c.beginPath(); c.moveTo(300, 274); c.bezierCurveTo(309, 271, 313, 281, 311, 290); c.bezierCurveTo(309, 297, 305, 300, 303, 306); c.stroke();
       c.lineWidth = .9; c.beginPath(); c.moveTo(300, 285); c.bezierCurveTo(305, 284, 306, 291, 302, 294); c.stroke();
+      if (!man) { c.fillStyle = "#f3e6c8"; c.beginPath(); c.arc(303, 316, 2.2, 0, 6.283); c.fill(); c.fillStyle = "rgba(255,255,255,.8)"; c.beginPath(); c.arc(302.4, 315.3, .7, 0, 6.283); c.fill(); }
       // Umhang mit Satinglanz und Falten
       c.fillStyle = lin(c, 0, 414, 0, 640, [[0, "#3b2e31"], [1, "#171213"]]); c.fill(CAPEP);
       c.save(); c.clip(CAPEP);
@@ -332,8 +424,8 @@
       c.fillStyle = lin(c, 304 + dx * 30, 240 + dy * 30, 304 + dx * 115, 240 + dy * 115, [[0, "rgba(255,255,255,0)"], [.6, "rgba(255,255,255,.9)"], [1, "rgba(255,255,255,1)"]]);
       c.fillRect(0, 0, 600, 640);
       c.globalCompositeOperation = "source-over";
-      c.fillStyle = lin(c, 0, 402, 0, 470, [[0, "rgba(255,255,255,0)"], [.45, "rgba(255,255,255,.3)"], [1, "rgba(255,255,255,0)"]]);
-      c.fillRect(300, 395, 170, 80);
+      c.fillStyle = lin(c, 0, M.gy, 0, M.gy + 68, [[0, "rgba(255,255,255,0)"], [.45, "rgba(255,255,255,.3)"], [1, "rgba(255,255,255,0)"]]);
+      c.fillRect(300, M.gy - 7, 170, 80);
     }
     function addSec(p, a, b) {
       p.moveTo(pts[a * 2], pts[a * 2 + 1]);
@@ -350,7 +442,7 @@
       for (j = 10; j >= 0; j--) { q = gAt(G - 2, lerp(s0, vis(G - 2), j / 10)); p.lineTo(q[0], q[1]); }
       for (g = G - 3; g > 1; g--) { q = gAt(g, s0); p.lineTo(q[0], q[1]); }
       p.closePath();
-      ctx.fillStyle = lin(ctx, 0, 140, 0, 520, [[0, "rgba(40,21,13,.96)"], [.5, "rgba(30,15,9,.96)"], [1, "rgba(22,11,7,.94)"]]); ctx.fill(p);
+      ctx.fillStyle = lin(ctx, 0, 140, 0, 520, [[0, C.under[0]], [.5, C.under[1]], [1, C.under[2]]]); ctx.fill(p);
       // feine Haare, gebündelt nach Farbe/Stärke
       var body = [], tipA = [], tipB = [], shp = new Path2D(), b;
       for (b = 0; b < BK.length; b++) { body.push(new Path2D()); tipA.push(new Path2D()); tipB.push(new Path2D()); }
@@ -369,7 +461,7 @@
       }
       ctx.lineCap = "round"; ctx.lineJoin = "round";
       for (b = 0; b < BK.length; b++) {
-        var bk = BK[b]; ctx.strokeStyle = PAL[bk.c];
+        var bk = BK[b]; ctx.strokeStyle = C.pal[bk.c];
         ctx.globalAlpha = bk.a; ctx.lineWidth = bk.w / CS; ctx.stroke(body[b]);
         ctx.globalAlpha = bk.a * .5; ctx.lineWidth = bk.w * .75 / CS; ctx.stroke(tipA[b]);
         ctx.globalAlpha = bk.a * .22; ctx.lineWidth = bk.w * .55 / CS; ctx.stroke(tipB[b]);
@@ -377,12 +469,12 @@
       ctx.globalAlpha = 1;
       // Glanz: Haare in hellem Ton auf eigene Ebene, mit Lichtmaske ausgestanzt
       hctx.setTransform(1, 0, 0, 1, 0, 0); hctx.globalCompositeOperation = "source-over"; hctx.clearRect(0, 0, hcv.width, hcv.height);
-      hctx.setTransform(SC, 0, 0, SC, 0, 0); hctx.lineCap = "round"; hctx.strokeStyle = "rgba(238,196,148,.95)"; hctx.lineWidth = .7 / CS; hctx.stroke(shp);
+      hctx.setTransform(SC, 0, 0, SC, 0, 0); hctx.lineCap = "round"; hctx.strokeStyle = C.shine; hctx.lineWidth = .7 / CS; hctx.stroke(shp);
       hctx.setTransform(1, 0, 0, 1, 0, 0); hctx.globalCompositeOperation = "destination-in"; hctx.drawImage(mask, 0, 0);
-      ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = .8; ctx.drawImage(hcv, 0, 0); ctx.restore();
+      ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = C.shAl; ctx.drawImage(hcv, 0, 0); ctx.restore();
       if (shineP > -1) {
         var dx = .8 * 260, dy = .6 * 260, ox = 250 + shineP * dx, oy = 140 + shineP * dy;
-        ctx.strokeStyle = lin(ctx, ox - 40, oy - 30, ox + 40, oy + 30, [[0, "rgba(255,226,190,0)"], [.5, "rgba(255,230,196,.38)"], [1, "rgba(255,226,190,0)"]]);
+        ctx.strokeStyle = lin(ctx, ox - 40, oy - 30, ox + 40, oy + 30, [[0, "rgba(" + C.sweep + ",0)"], [.5, "rgba(" + C.sweep + ",.38)"], [1, "rgba(" + C.sweep + ",0)"]]);
         ctx.lineWidth = .75 / CS; ctx.stroke(shp);
       }
     }
@@ -391,7 +483,7 @@
         var al = 1 - sm(.35, 1.15, L.age); if (al <= 0) return;
         ctx.save(); ctx.translate(L.x, L.y); ctx.rotate(L.a); ctx.scale(L.sx, 1);
         for (var c = 0; c < 3; c++) {
-          ctx.strokeStyle = LOCKC[c];
+          ctx.strokeStyle = C.lock[c];
           ctx.globalAlpha = .85 * al; ctx.lineWidth = .85 / CS; ctx.stroke(L.body[c]);
           ctx.globalAlpha = .35 * al; ctx.lineWidth = .6 / CS; ctx.stroke(L.tips[c]);
         }
@@ -401,7 +493,7 @@
       if (clips.length) {
         var pa = [new Path2D(), new Path2D()];
         clips.forEach(function (c) { var dx = Math.cos(c.a) * c.l / 2, dy = Math.sin(c.a) * c.l / 2; pa[c.c].moveTo(c.x - dx, c.y - dy); pa[c.c].lineTo(c.x + dx, c.y + dy); });
-        ctx.lineWidth = .8 / CS; ctx.strokeStyle = "rgba(48,26,16,.95)"; ctx.stroke(pa[0]); ctx.strokeStyle = "rgba(140,92,60,.9)"; ctx.stroke(pa[1]);
+        ctx.lineWidth = .8 / CS; ctx.strokeStyle = C.clip[0]; ctx.stroke(pa[0]); ctx.strokeStyle = C.clip[1]; ctx.stroke(pa[1]);
       }
     }
     function drawComb(x, y, rot, al) {
@@ -457,11 +549,11 @@
         var c = (t - T.c0 - p * (T.cDur + T.cGap)) / T.cDur;
         if (c > 0 && c < 1) {
           var e = eio(c), al = sm(0, .12, c) * (1 - sm(.85, 1, c));
-          st.comb = { x: 386 + p * 8 + Math.sin(c * 3) * 3, y: lerp(318, 552, e), r: -.05 + .03 * Math.sin(c * 4), a: al };
+          st.comb = { x: 386 + p * 8 + Math.sin(c * 3) * 3, y: lerp(M.comb[0], M.comb[1], e), r: -.05 + .03 * Math.sin(c * 4), a: al };
           if (al > .3) comb = { x: st.comb.x, y: st.comb.y };
         }
       }
-      var x, y, rot = -.197, ang, a = 1;
+      var x, y, rot = -Math.atan(M.cyS), ang, a = 1;
       if (t >= T.sIn && t < T.cut0) {
         var q = eio((t - T.sIn) / (T.cut0 - T.sIn)); x = lerp(610, xp(-1), q); y = cutY(x) - 50 * (1 - q); ang = .46; a = sm(0, .5, q);
       } else if (t >= T.cut0 && t < T.cut1) {
@@ -530,7 +622,23 @@
     }
     function play() { if (reduce) { finalState(); return; } reset(false); tl = 0; setStep(0); loop(); }
     $("#hw-replay").addEventListener("click", function () { played = true; visible = true; play(); });
-    reset(false); resize();
+    // Umschalter: Dame/Herr startet den Schnitt neu, die Haarfarbe wechselt sofort
+    function applyText() {
+      $("#cut-em").textContent = M.h2; $("#hw-done-t").textContent = M.done; $("#hw-title").textContent = M.title;
+      var li = steps[2]; if (li) { $("b", li).textContent = M.step[0]; $("span", li).textContent = M.step[1]; }
+    }
+    $$('#cut-ctrl input[name="hw-m"]').forEach(function (r) {
+      r.addEventListener("change", function () {
+        if (!r.checked || M === MOD[r.value]) return;
+        M = MOD[r.value]; build(); applyText(); drawMask(); drawBase();
+        played = true; visible = true; play();
+        if (!raf) render();
+      });
+    });
+    $$('#cut-ctrl input[name="hw-c"]').forEach(function (r) {
+      r.addEventListener("change", function () { if (r.checked) { C = COL[r.value]; drawBase(); render(); } });
+    });
+    build(); reset(false); resize();
     if ("ResizeObserver" in window) new ResizeObserver(function () { resize(); }).observe(stage);
     else window.addEventListener("resize", resize);
     if (reduce) finalState();
