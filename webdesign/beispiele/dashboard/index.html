@@ -1,0 +1,458 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Betriebs-Dashboard Haustechnik Moser – Beispiel-Entwurf | tim-kofler.at</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Beispiel-Entwurf eines Betriebs-Dashboards von Tim Kofler – Webdesign: Stundenerfassung, Aufträge, Rechnungen, Lager und Termine in einer Web-App. Erfundener Betrieb.">
+<meta name="theme-color" content="#2f5bff">
+<link rel="icon" href="/assets/img/tk-badge.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/beispiele/_shared/demo.css">
+<style>
+@font-face{font-family:"Outfit";src:url(/beispiele/_shared/fonts/outfit.woff2) format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Inter";src:url(/beispiele/_shared/fonts/inter.woff2) format("woff2");font-weight:100 900;font-display:swap}
+:root{--ink:#121625;--mu:#5d6478;--mu2:#8a90a2;--line:#e4e7ef;--soft:#f4f6fb;--bg:#eef1f8;--card:#fff;--pop:#2f5bff;--popd:#1f43d6;--popl:#e6ecff;
+--ok:#12a36b;--okl:#e2f6ee;--warn:#e69a00;--warnl:#fff3d6;--bad:#e5484d;--badl:#fde8e8;--side:#121625;
+--hd:"Outfit",system-ui,-apple-system,"Segoe UI",sans-serif;--bd:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;--r:16px}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none !important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.55 var(--bd);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+h1,h2,h3,h4{font-family:var(--hd);font-weight:700;line-height:1.08;margin:0;letter-spacing:-.02em}
+p{margin:0}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--pop);outline-offset:2px;border-radius:8px}
+.wrap{max-width:1320px;margin:0 auto;padding:0 20px}
+.num{font-variant-numeric:tabular-nums}
+
+/* Einleitung */
+.intro{padding:clamp(40px,6vw,72px) 0 28px}
+.intro .wrap{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:20px 48px;align-items:end}
+.kick{display:inline-flex;align-items:center;gap:8px;font:600 12px/1 var(--bd);letter-spacing:.14em;text-transform:uppercase;color:var(--popd);background:var(--popl);padding:7px 12px;border-radius:999px}
+.kick i{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px rgba(18,163,107,.2)}
+.intro h1{font-size:clamp(36px,5.4vw,66px);margin-top:16px}
+.intro h1 span{color:var(--pop)}
+.intro .lead{color:var(--mu);font-size:17px;max-width:520px}
+.intro ul{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.intro li{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:500}
+.intro li b{color:var(--pop)}
+
+/* App-Rahmen */
+.app{display:grid;grid-template-columns:232px minmax(0,1fr);background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 30px 80px -40px rgba(18,22,37,.35);min-height:760px}
+.side{background:var(--side);color:#c9cede;padding:20px 14px;display:flex;flex-direction:column;gap:4px}
+.brand{display:flex;align-items:center;gap:10px;padding:4px 8px 18px;color:#fff}
+.brand svg{width:36px;height:36px;flex:none}
+.brand b{display:block;font:700 16px/1.1 var(--hd)}
+.brand small{display:block;font-size:11.5px;color:#8a90a2;margin-top:3px}
+.nav-b{display:flex;align-items:center;gap:11px;width:100%;border:0;background:transparent;color:inherit;padding:10px 12px;border-radius:11px;font-weight:500;font-size:14.5px;text-align:left;transition:background .2s,color .2s;position:relative}
+.nav-b svg{width:19px;height:19px;flex:none;opacity:.85}
+.nav-b:hover{background:rgba(255,255,255,.06);color:#fff}
+.nav-b[aria-current="page"]{background:var(--pop);color:#fff}
+.nav-b .badge{margin-left:auto;background:var(--bad);color:#fff;font-size:11px;font-weight:700;border-radius:999px;padding:1px 7px;min-width:20px;text-align:center}
+.nav-b .badge:empty{display:none}
+.side__foot{margin-top:auto;padding:14px 10px 0;border-top:1px solid #262b3d;font-size:12px;color:#8a90a2;display:grid;gap:10px}
+.side__foot button{border:1px solid #2c3247;background:transparent;color:#c9cede;border-radius:9px;padding:8px 10px;font-size:12.5px;text-align:left}
+.side__foot button:hover{border-color:#4a5372;color:#fff}
+.me{display:flex;align-items:center;gap:9px}
+.ava{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font:700 12px/1 var(--bd);color:#fff;background:var(--c,#6b7280);flex:none}
+.me b{color:#fff;display:block;font-size:13px}
+
+.main{padding:22px clamp(16px,2.4vw,30px) 30px;background:var(--soft);min-width:0}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.top h2{font-size:clamp(24px,2.6vw,30px)}
+.top p{color:var(--mu);font-size:14px;margin-top:4px}
+.top__r{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:500;white-space:nowrap}
+.chip i{width:8px;height:8px;border-radius:50%;background:var(--ok)}
+.chip.run i{background:var(--bad);animation:pulse 1.2s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 16px;border:0;border-radius:11px;background:var(--pop);color:#fff;font-weight:600;font-size:14px;transition:background .2s,transform .2s;white-space:nowrap}
+.btn:hover{background:var(--popd)}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.btn.ghost:hover{box-shadow:inset 0 0 0 1px #c8cddb;background:#fff}
+.btn.sm{min-height:32px;padding:0 11px;font-size:12.5px;border-radius:9px}
+.btn.ok{background:var(--ok)}
+.btn.ok:hover{background:#0d8657}
+.btn.bad{background:var(--bad)}
+.btn.bad:hover{background:#c9363b}
+.btn svg{width:16px;height:16px}
+
+.view{display:none}
+.view.is-on{display:block;animation:vin .35s cubic-bezier(.2,.7,.2,1)}
+@keyframes vin{from{opacity:0;transform:translateY(8px)}}
+.grid{display:grid;gap:14px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g2{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}
+.g2e{grid-template-columns:repeat(2,minmax(0,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;min-width:0}
+.card h3{font-size:17px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.card h3 small{font:500 12.5px var(--bd);color:var(--mu2);letter-spacing:0}
+.card .sub{color:var(--mu);font-size:13px;margin-top:3px}
+.kpi small{display:flex;align-items:center;gap:7px;color:var(--mu);font-size:13px;font-weight:500}
+.kpi small i{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:var(--popl);color:var(--pop)}
+.kpi small i svg{width:16px;height:16px}
+.kpi strong{display:block;font:700 clamp(24px,2.4vw,30px)/1.1 var(--hd);margin-top:12px;letter-spacing:-.02em}
+.kpi em{display:block;font-style:normal;font-size:12.5px;margin-top:6px;color:var(--mu)}
+.kpi em b{color:var(--ok)}
+.kpi em b.neg{color:var(--bad)}
+.kpi .bar{height:6px;border-radius:3px;background:var(--soft);margin-top:10px;overflow:hidden}
+.kpi .bar span{display:block;height:100%;background:var(--pop);border-radius:inherit;width:var(--w,0);transition:width .8s cubic-bezier(.2,.7,.2,1)}
+
+/* Umsatz-Diagramm */
+.chart{margin-top:14px;height:210px;position:relative}
+.chart svg{width:100%;height:100%;display:block;overflow:visible}
+.chart .gl{stroke:var(--line);stroke-width:1}
+.chart .lb{fill:var(--mu2);font:500 11px var(--bd)}
+.chart .bv{fill:var(--ink);font:600 11px var(--bd)}
+.chart rect.b{fill:#c9d4ff;transition:fill .2s}
+.chart rect.b.cur{fill:var(--pop)}
+.chart rect.b:hover{fill:var(--popd)}
+
+.list{list-style:none;margin:12px 0 0;padding:0;display:grid}
+.list li{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line);min-width:0}
+.list li:first-child{border-top:0}
+.list .t{font-weight:600;font-size:14px}
+.list .s{color:var(--mu);font-size:12.5px}
+.list .grow{flex:1 1 auto;min-width:0}
+.list .grow > *{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.time{font:600 13px var(--bd);font-variant-numeric:tabular-nums;color:var(--mu);width:46px;flex:none}
+.pill{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:3px 9px;font-size:12px;font-weight:600;white-space:nowrap}
+.pill.ok{background:var(--okl);color:#0b7a4f}
+.pill.warn{background:var(--warnl);color:#9a6700}
+.pill.bad{background:var(--badl);color:#b4262b}
+.pill.info{background:var(--popl);color:var(--popd)}
+.pill.mu{background:var(--soft);color:var(--mu)}
+.empty{color:var(--mu2);font-size:13.5px;padding:14px 0 4px}
+
+/* Zeiterfassung */
+.clock{background:linear-gradient(150deg,#16204a,#121625 60%);color:#fff;border:0;position:relative;overflow:hidden}
+.clock::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(closest-side,rgba(47,91,255,.55),transparent);pointer-events:none}
+.clock h3{color:#fff}
+.clock .sub{color:#a9b0c6}
+.clock__t{font:600 clamp(44px,5vw,60px)/1 var(--hd);letter-spacing:-.01em;margin:18px 0 6px;font-variant-numeric:tabular-nums}
+.clock__s{color:#a9b0c6;font-size:13px;min-height:20px}
+.clock__f{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+.clock label,.frm label{display:grid;gap:5px;font-size:12px;font-weight:600;color:var(--mu)}
+.clock label{color:#a9b0c6}
+.clock select{background:#1d2440;border:1px solid #303a62;color:#fff;border-radius:10px;padding:9px 10px;width:100%}
+.clock .btn{width:100%;min-height:50px;font-size:16px;position:relative;z-index:1}
+.frm{display:grid;gap:10px}
+.frm .row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.frm input,.frm select{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 10px;width:100%;font-size:14px;color:var(--ink)}
+.frm input:focus,.frm select:focus{border-color:var(--pop);outline:none;box-shadow:0 0 0 3px var(--popl)}
+
+.tbl-w{overflow-x:auto;margin:12px -18px -6px;padding:0 18px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{font-weight:600;color:var(--mu);font-size:12px;text-align:left;padding:8px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:10px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.r,th.r{text-align:right}
+td.today,th.today{background:var(--popl)}
+.who{display:flex;align-items:center;gap:9px}
+.who .ava{width:28px;height:28px;font-size:11px}
+.prog{height:6px;background:var(--soft);border-radius:3px;overflow:hidden;min-width:70px}
+.prog span{display:block;height:100%;background:var(--c,var(--pop));width:var(--w)}
+.prog.over span{background:var(--bad)}
+.prog.ot span{background:var(--warn)}
+.x{border:0;background:transparent;color:var(--mu2);width:28px;height:28px;border-radius:8px;display:grid;place-items:center}
+.x:hover{background:var(--badl);color:var(--bad)}
+.x svg{width:15px;height:15px}
+
+/* Aufträge */
+.kanban{display:grid;grid-template-columns:repeat(4,minmax(220px,1fr));gap:12px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x mandatory}
+.col{background:#e9edf6;border-radius:var(--r);padding:12px;min-height:200px;scroll-snap-align:start;transition:background .2s,box-shadow .2s}
+.col.is-over{background:var(--popl);box-shadow:inset 0 0 0 2px var(--pop)}
+.col h4{font-size:14px;display:flex;align-items:center;gap:8px;margin:2px 4px 10px}
+.col h4 i{width:9px;height:9px;border-radius:50%;background:var(--c)}
+.col h4 span{margin-left:auto;font:600 12px var(--bd);color:var(--mu)}
+.job{background:#fff;border:1px solid var(--line);border-radius:13px;padding:12px;margin-top:8px;cursor:grab;transition:box-shadow .2s,transform .2s}
+.job:hover{box-shadow:0 10px 24px -14px rgba(18,22,37,.35)}
+.job.is-drag{opacity:.45}
+.job.is-new{animation:pop .5s cubic-bezier(.2,.7,.2,1)}
+@keyframes pop{from{transform:scale(.9);opacity:0}}
+.job__id{font:600 11.5px var(--bd);color:var(--mu2);display:flex;justify-content:space-between}
+.job b{display:block;font-size:14.5px;margin-top:4px}
+.job p{color:var(--mu);font-size:12.5px;margin-top:2px}
+.job .prog{margin-top:10px}
+.job__m{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--mu);margin-top:6px;gap:6px}
+.job__a{display:flex;gap:6px;margin-top:10px}
+.job__a .btn{flex:1}
+.job__a .mv{flex:0 0 32px;padding:0}
+
+/* Rechnungen */
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 13px;font-size:13px;font-weight:600;color:var(--mu)}
+.tab[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+
+/* Lager */
+.stock{display:grid;grid-template-columns:minmax(0,1fr) 120px auto;gap:14px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.stock:first-of-type{border-top:0}
+.stock b{display:block;font-size:14px}
+.stock small{color:var(--mu);font-size:12.5px}
+.stock .lvl{height:8px;border-radius:4px;background:var(--soft);overflow:hidden;position:relative}
+.stock .lvl span{position:absolute;inset:0 auto 0 0;width:var(--w);background:var(--ok);border-radius:inherit;transition:width .4s,background .3s}
+.stock.low .lvl span{background:var(--bad)}
+.stock.mid .lvl span{background:var(--warn)}
+.step{display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+.step button{border:0;background:#fff;width:34px;height:34px;font-size:18px;line-height:1;color:var(--ink)}
+.step button:hover{background:var(--soft)}
+.step output{min-width:44px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums;font-size:14px}
+.order{background:var(--soft);border-radius:12px;padding:12px 14px;font:500 13px/1.7 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;margin-top:12px;color:var(--ink);min-height:60px}
+
+/* Termine */
+.week{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.day{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:12px;min-height:260px;min-width:0}
+.day.is-today{border-color:var(--pop);box-shadow:0 0 0 3px var(--popl)}
+.day h4{font-size:15px;display:flex;justify-content:space-between;align-items:baseline}
+.day h4 small{font:500 12px var(--bd);color:var(--mu)}
+.ev{border-left:3px solid var(--c);background:color-mix(in srgb,var(--c) 9%,#fff);border-radius:8px;padding:8px 9px;margin-top:8px;font-size:12.5px;animation:pop .4s}
+.ev b{display:block;font-size:13px}
+.ev span{color:var(--mu)}
+.ev .x{float:right;width:22px;height:22px;margin:-3px -4px 0 0}
+.legend{display:flex;gap:6px;flex-wrap:wrap}
+.legend button{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 11px 5px 6px;font-size:12.5px;font-weight:600}
+.legend button .ava{width:20px;height:20px;font-size:9px}
+.legend button[aria-pressed="false"]{opacity:.4}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,30px);background:var(--ink);color:#fff;padding:11px 18px;border-radius:12px;font-size:14px;font-weight:500;box-shadow:0 20px 40px -14px rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:1100;max-width:calc(100% - 32px)}
+.toast.is-on{opacity:1;transform:translate(-50%,0)}
+
+/* Was noch möglich ist */
+.more{padding:clamp(60px,8vw,100px) 0}
+.more h2{font-size:clamp(30px,4vw,48px);max-width:720px}
+.more .lead{color:var(--mu);max-width:640px;margin-top:12px;font-size:16.5px}
+.ideas{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:32px}
+.idea{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px;transition:transform .3s,box-shadow .3s}
+.idea:hover{transform:translateY(-3px);box-shadow:0 20px 40px -26px rgba(18,22,37,.4)}
+.idea i{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--popl);color:var(--pop)}
+.idea i svg{width:21px;height:21px}
+.idea h3{font-size:17px;margin-top:14px}
+.idea p{color:var(--mu);font-size:14px;margin-top:6px}
+.cta{margin-top:36px;background:var(--ink);color:#fff;border-radius:22px;padding:clamp(24px,4vw,40px);display:flex;flex-wrap:wrap;gap:18px 30px;align-items:center;justify-content:space-between}
+.cta h3{font-size:clamp(22px,2.6vw,30px)}
+.cta p{color:#a9b0c6;margin-top:6px;max-width:560px}
+.cta .btn{min-height:50px;padding:0 22px;font-size:15px}
+.foot{padding:26px 0 40px;color:var(--mu);font-size:13px;border-top:1px solid var(--line)}
+.foot .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+
+@media (max-width:1180px){
+  .g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ideas{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .week{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (max-width:960px){
+  .intro .wrap{grid-template-columns:1fr}
+  .g2,.g2e{grid-template-columns:1fr}
+  .app{grid-template-columns:1fr;min-height:0;border-radius:18px}
+  .side{position:sticky;bottom:0;order:2;flex-direction:row;padding:6px;gap:2px;z-index:20;border-top:1px solid #262b3d}
+  .brand,.side__foot{display:none}
+  .nav-b{flex-direction:column;gap:3px;padding:7px 2px;font-size:10.5px;text-align:center;justify-content:center;border-radius:10px;flex:1 1 0;min-width:0}
+  .nav-b span.l{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .nav-b .badge{position:absolute;top:2px;right:calc(50% - 22px);margin:0;font-size:9.5px;padding:0 5px;min-width:16px}
+  .main{order:1}
+  .reset-m{display:inline-flex !important}
+}
+@media (max-width:640px){
+  .wrap{padding:0 12px}
+  .intro{padding-top:30px}
+  .g4{gap:10px}
+  .card{padding:14px}
+  .tbl-w{margin:10px -14px -4px;padding:0 14px}
+  .kpi strong{font-size:22px}
+  .kpi small i{display:none}
+  .week{grid-template-columns:1fr}
+  .day{min-height:0}
+  .kanban{grid-template-columns:repeat(4,minmax(78vw,1fr))}
+  .ideas{grid-template-columns:1fr}
+  .stock{grid-template-columns:minmax(0,1fr) auto}
+  .stock .lvl{grid-column:1 / -1;order:3}
+  .frm .row,.clock__f{grid-template-columns:1fr}
+  .main{padding:16px 12px 20px}
+  .chart{height:180px}
+}
+.reset-m{display:none}
+</style></head><body>
+<div class="tk-demo-bar"><a href="/beispiele/#dashboard"><img src="/beispiele/_shared/tk-logo.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
+<span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musterdaten</span>
+<a class="tk-demo-bar__cta" href="/#anfrage">So eine Seite anfragen</a></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-jobs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></symbol>
+  <symbol id="i-inv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h3"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-euro" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 6.5A7 7 0 1 0 17 17.5M4 10h9M4 14h9"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-dl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-car" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 16V11l2-5h10l2 5v5M3 16h18v3H3zM7 19v1M17 19v1M5 11h14"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M5 19l1.5-1.5M17.5 6.5 19 5"/></symbol>
+  <symbol id="i-cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M14 6l4 4"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 13h6M9 17h6"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/></symbol>
+</svg>
+
+<main>
+<section class="intro">
+  <div class="wrap">
+    <div data-reveal>
+      <span class="kick"><i></i>Beispiel · Web-App für den Betrieb</span>
+      <h1>Dein ganzer Betrieb <span>in einem Fenster.</span></h1>
+    </div>
+    <div data-reveal style="--d:.1s">
+      <p class="lead">So ein Dashboard baue ich passend zu deinem Alltag: Stunden stempeln, Aufträge verschieben, Rechnungen abhaken, Lager zählen und Termine planen. Probier es aus, alles ist anklickbar.</p>
+      <ul><li><b>✓</b> Am Handy und am PC</li><li><b>✓</b> Ohne monatliche Lizenz</li><li><b>✓</b> Daten bleiben in deinem Browser</li></ul>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+<div class="app" id="app">
+  <nav class="side" aria-label="Dashboard-Bereiche">
+    <div class="brand"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#2f5bff"/><path d="M11 27V14l9 7 9-7v13" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="11" r="2.4" fill="#ffc83a"/></svg><span><b>Haustechnik Moser</b><small>Installateur &amp; Heizung</small></span></div>
+    <button class="nav-b" data-go="home" aria-current="page"><svg><use href="#i-home"/></svg><span class="l">Übersicht</span></button>
+    <button class="nav-b" data-go="zeit"><svg><use href="#i-clock"/></svg><span class="l">Stunden</span><span class="badge" id="b-zeit"></span></button>
+    <button class="nav-b" data-go="jobs"><svg><use href="#i-jobs"/></svg><span class="l">Aufträge</span><span class="badge" id="b-jobs"></span></button>
+    <button class="nav-b" data-go="inv"><svg><use href="#i-inv"/></svg><span class="l">Rechnungen</span><span class="badge" id="b-inv"></span></button>
+    <button class="nav-b" data-go="lager"><svg><use href="#i-box"/></svg><span class="l">Lager</span><span class="badge" id="b-lager"></span></button>
+    <button class="nav-b" data-go="cal"><svg><use href="#i-cal"/></svg><span class="l">Termine</span></button>
+    <div class="side__foot">
+      <div class="me"><span class="ava" style="--c:#c026d3">AM</span><span><b>Anna Moser</b>Büro</span></div>
+      <button type="button" data-reset>Demo zurücksetzen</button>
+    </div>
+  </nav>
+
+  <div class="main" aria-live="polite">
+    <!-- Übersicht -->
+    <section class="view is-on" id="v-home" aria-labelledby="h-home">
+      <div class="top"><div><h2 id="h-home">Guten Morgen, Anna</h2><p id="today-l">Heute</p></div>
+        <div class="top__r"><span class="chip" id="clock-chip"><i></i><span>Niemand eingestempelt</span></span><button class="btn ghost sm reset-m" type="button" data-reset>Zurücksetzen</button></div></div>
+      <div class="grid g4">
+        <div class="card kpi"><small><i><svg><use href="#i-euro"/></svg></i>Umsatz diesen Monat</small><strong class="num" id="k-rev">0 €</strong><em id="k-rev-s"></em></div>
+        <div class="card kpi"><small><i><svg><use href="#i-inv"/></svg></i>Offene Rechnungen</small><strong class="num" id="k-open">0 €</strong><em id="k-open-s"></em></div>
+        <div class="card kpi"><small><i><svg><use href="#i-clock"/></svg></i>Stunden diese Woche</small><strong class="num" id="k-hrs">0 h</strong><div class="bar"><span id="k-hrs-b"></span></div><em id="k-hrs-s"></em></div>
+        <div class="card kpi"><small><i><svg><use href="#i-jobs"/></svg></i>Aufträge in Arbeit</small><strong class="num" id="k-jobs">0</strong><em id="k-jobs-s"></em></div>
+      </div>
+      <div class="grid g2" style="margin-top:14px">
+        <div class="card"><h3>Umsatz <small>bezahlte Rechnungen, letzte 6 Monate</small></h3><div class="chart" id="chart"></div></div>
+        <div class="card"><h3 id="next-h">Heute im Einsatz <small id="next-d"></small></h3><ul class="list" id="next-l"></ul></div>
+      </div>
+      <div class="grid g2e" style="margin-top:14px">
+        <div class="card"><h3>Lager knapp <button class="btn ghost sm" data-go="lager" type="button">Zum Lager</button></h3><ul class="list" id="low-l"></ul></div>
+        <div class="card"><h3>Letzte Aktivitäten</h3><ul class="list" id="feed-l"></ul></div>
+      </div>
+    </section>
+
+    <!-- Stunden -->
+    <section class="view" id="v-zeit" aria-labelledby="h-zeit">
+      <div class="top"><div><h2 id="h-zeit">Stundenerfassung</h2><p>Einstempeln am Handy, direkt auf den Auftrag gebucht.</p></div>
+        <div class="top__r"><button class="btn ghost sm" type="button" id="csv"><svg><use href="#i-dl"/></svg>Für die Lohnverrechnung (CSV)</button></div></div>
+      <div class="grid g2">
+        <div class="card clock">
+          <h3>Stempeluhr</h3><p class="sub">Zeit läuft live mit, beim Ausstempeln wird sie gebucht.</p>
+          <div class="clock__t" id="clk-t">00:00:00</div>
+          <p class="clock__s" id="clk-s">Wer arbeitet woran?</p>
+          <div class="clock__f">
+            <label>Mitarbeiter<select id="clk-who"></select></label>
+            <label>Auftrag<select id="clk-job"></select></label>
+          </div>
+          <button class="btn ok" type="button" id="clk-b">Einstempeln</button>
+        </div>
+        <div class="card"><h3>Stunden nachtragen</h3><p class="sub">Für Arbeit ohne Handy, zum Beispiel am Vortag.</p>
+          <form class="frm" id="f-time" style="margin-top:14px">
+            <div class="row"><label>Mitarbeiter<select name="who" id="ft-who"></select></label><label>Datum<select name="date" id="ft-date"></select></label></div>
+            <label>Auftrag<select name="job" id="ft-job"></select></label>
+            <div class="row"><label>Stunden<input name="h" type="number" min="0.25" max="12" step="0.25" value="2" inputmode="decimal" required></label><label>Notiz<input name="note" placeholder="z. B. Material geholt" maxlength="60"></label></div>
+            <button class="btn" type="submit"><svg><use href="#i-plus"/></svg>Buchen</button>
+          </form>
+        </div>
+      </div>
+      <div class="card" style="margin-top:14px"><h3>Diese Woche <small id="wk-l"></small></h3>
+        <div class="tbl-w"><table id="wk-t"></table></div></div>
+      <div class="card" style="margin-top:14px"><h3>Letzte Buchungen <small>Tippe auf ✕ zum Löschen</small></h3>
+        <div class="tbl-w"><table id="en-t"></table></div></div>
+    </section>
+
+    <!-- Aufträge -->
+    <section class="view" id="v-jobs" aria-labelledby="h-jobs">
+      <div class="top"><div><h2 id="h-jobs">Aufträge</h2><p>Karten ziehen oder mit den Pfeilen weiterschieben. Stunden kommen aus der Zeiterfassung.</p></div>
+        <div class="top__r"><button class="btn sm" type="button" id="job-new"><svg><use href="#i-plus"/></svg>Neuer Auftrag</button></div></div>
+      <form class="card frm" id="f-job" hidden style="margin-bottom:14px">
+        <div class="row"><label>Kunde<input name="kunde" required maxlength="40" placeholder="z. B. Fam. Gruber"></label><label>Was ist zu tun?<input name="titel" required maxlength="50" placeholder="z. B. Heizkörper tauschen"></label></div>
+        <div class="row"><label>Ort<input name="ort" maxlength="30" value="Musterdorf"></label><label>Geplante Stunden<input name="std" type="number" min="1" max="200" value="8" required></label></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="submit">Auftrag anlegen</button><button class="btn ghost" type="button" id="job-cancel">Abbrechen</button></div>
+      </form>
+      <div class="kanban" id="kanban"></div>
+    </section>
+
+    <!-- Rechnungen -->
+    <section class="view" id="v-inv" aria-labelledby="h-inv">
+      <div class="top"><div><h2 id="h-inv">Rechnungen</h2><p>Aus fertigen Aufträgen mit einem Klick, Zahlungseingang abhaken.</p></div>
+        <div class="tabs" role="group" aria-label="Filter" id="inv-f"><button class="tab" aria-pressed="true" data-f="alle">Alle</button><button class="tab" aria-pressed="false" data-f="offen">Offen</button><button class="tab" aria-pressed="false" data-f="faellig">Überfällig</button><button class="tab" aria-pressed="false" data-f="bezahlt">Bezahlt</button></div></div>
+      <div class="grid g4" style="margin-bottom:14px">
+        <div class="card kpi"><small>Offen</small><strong class="num" id="i-open">0 €</strong></div>
+        <div class="card kpi"><small>Überfällig</small><strong class="num" id="i-due" style="color:var(--bad)">0 €</strong></div>
+        <div class="card kpi"><small>Bezahlt diesen Monat</small><strong class="num" id="i-paid">0 €</strong></div>
+        <div class="card kpi"><small>Fertig, noch nicht verrechnet</small><strong class="num" id="i-todo">0</strong><em><button class="btn ghost sm" type="button" data-go="jobs" style="margin-top:4px">Zu den Aufträgen</button></em></div>
+      </div>
+      <div class="card"><div class="tbl-w" style="margin-top:0"><table id="inv-t"></table></div></div>
+    </section>
+
+    <!-- Lager -->
+    <section class="view" id="v-lager" aria-labelledby="h-lager">
+      <div class="top"><div><h2 id="h-lager">Lager &amp; Material</h2><p>Mit + und − zählen. Unter dem Mindestbestand landet alles auf der Bestellliste.</p></div></div>
+      <div class="grid g2">
+        <div class="card"><h3>Bestand <small id="st-sum"></small></h3><div id="stock" style="margin-top:6px"></div></div>
+        <div class="card"><h3>Bestellliste <small>an den Großhandel</small></h3><p class="sub">Wird automatisch aus dem Bestand erstellt.</p>
+          <div class="order" id="order"></div>
+          <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><button class="btn" type="button" id="order-copy">Liste kopieren</button><button class="btn ghost" type="button" id="order-in">Lieferung ist da</button></div></div>
+      </div>
+    </section>
+
+    <!-- Termine -->
+    <section class="view" id="v-cal" aria-labelledby="h-cal">
+      <div class="top"><div><h2 id="h-cal">Termine &amp; Einsatzplan</h2><p>Die nächsten fünf Arbeitstage. Mitarbeiter antippen zum Ein- und Ausblenden.</p></div>
+        <div class="legend" id="legend"></div></div>
+      <div class="week" id="week"></div>
+      <form class="card frm" id="f-ev" style="margin-top:14px">
+        <h3>Termin eintragen</h3>
+        <div class="row"><label>Tag<select name="d" id="fe-d"></select></label><label>Uhrzeit<select name="t" id="fe-t"></select></label></div>
+        <div class="row"><label>Mitarbeiter<select name="who" id="fe-who"></select></label><label>Auftrag<select name="job" id="fe-job"></select></label></div>
+        <button class="btn" type="submit"><svg><use href="#i-plus"/></svg>Eintragen</button>
+      </form>
+    </section>
+  </div>
+</div>
+</div>
+
+<section class="more">
+  <div class="wrap">
+    <span class="kick" data-reveal><i></i>Was sich noch erfassen lässt</span>
+    <h2 data-reveal style="margin-top:14px">Jeder Betrieb hat seine eigenen Listen. Ich mache daraus ein Werkzeug.</h2>
+    <p class="lead" data-reveal>Das Dashboard oben ist nur ein Beispiel. Gebaut wird genau das, was dir im Alltag Zeit spart, und es läuft auf deinem normalen Webspace.</p>
+    <div class="ideas">
+      <div class="idea" data-reveal><i><svg><use href="#i-car"/></svg></i><h3>Fahrtenbuch</h3><p>Kilometer pro Fahrt und Auftrag, mit Monatsauswertung fürs Finanzamt.</p></div>
+      <div class="idea" data-reveal style="--d:.05s"><i><svg><use href="#i-sun"/></svg></i><h3>Urlaub &amp; Krankenstand</h3><p>Anträge per Handy, Übersicht für den Chef, Resturlaub immer aktuell.</p></div>
+      <div class="idea" data-reveal style="--d:.1s"><i><svg><use href="#i-cam"/></svg></i><h3>Baustellen-Fotos</h3><p>Fotos direkt beim Auftrag ablegen, als Nachweis und für die Doku.</p></div>
+      <div class="idea" data-reveal style="--d:.15s"><i><svg><use href="#i-pen"/></svg></i><h3>Regiebericht mit Unterschrift</h3><p>Der Kunde unterschreibt am Handy, das PDF geht automatisch ins Büro.</p></div>
+      <div class="idea" data-reveal><i><svg><use href="#i-file"/></svg></i><h3>Belege &amp; Kassabuch</h3><p>Belege fotografieren, Kategorie wählen, am Monatsende als Liste an den Steuerberater.</p></div>
+      <div class="idea" data-reveal style="--d:.05s"><i><svg><use href="#i-bell"/></svg></i><h3>Erinnerungen</h3><p>Wartungen, Pickerl oder Zahlungserinnerungen gehen von selbst per E-Mail raus.</p></div>
+      <div class="idea" data-reveal style="--d:.1s"><i><svg><use href="#i-users"/></svg></i><h3>Kundenkartei</h3><p>Alle Kontakte, Geräte und bisherigen Einsätze eines Kunden auf einer Seite.</p></div>
+      <div class="idea" data-reveal style="--d:.15s"><i><svg><use href="#i-phone"/></svg></i><h3>Login für Mitarbeiter</h3><p>Jeder sieht nur seine Termine und Stunden, der Chef sieht alles.</p></div>
+    </div>
+    <div class="cta" data-reveal>
+      <div><h3>Was macht dir im Alltag Arbeit?</h3><p>Erzähl mir, welche Zettel, Excel-Listen oder Programme du gerade benutzt. Ich sag dir, was sich als Web-App lösen lässt und was es kostet.</p></div>
+      <a class="btn" href="/#anfrage" data-paket="Web-App">Idee besprechen</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot"><div class="wrap"><span><b>Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb</b></span><span>Alle Namen, Preise und Zahlen sind frei erfunden. Eingaben werden nur in deinem Browser gespeichert.</span></div></footer>
+<div class="toast" id="toast" role="status"></div>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/dashboard/app.js" defer></script></body></html>
