@@ -363,3 +363,21 @@ h1 .lime, h2 .lime, h3 .lime { background: var(--hot-grad); -webkit-background-c
 .wa-box p { margin: 0 0 14px; font-size: .95rem; }
 .wa-btn { display: inline-flex; align-items: center; gap: 10px; }
 .wa-btn svg { width: 20px; height: 20px; color: var(--hot); }
+
+/* WhatsApp im Assistenten: Symbol und Text wechseln langsam zwischen TK und WhatsApp */
+.tk-chat-btn__ic, .tk-chat-btn__t { display: grid; }
+.tk-chat-btn__ic > *, .tk-chat-btn__t > * { grid-area: 1 / 1; }
+.tk-chat-btn__t > * { white-space: nowrap; }
+.tk-chat-btn__ic > :first-child, .tk-chat-btn__t > :first-child { animation: tk-wa-a 9s ease-in-out infinite; }
+.tk-chat-btn .tk-chat-btn__wa { opacity: 0; animation: tk-wa-b 9s ease-in-out infinite; }
+@keyframes tk-wa-a { 0%, 62%, 100% { opacity: 1; transform: none; } 67%, 95% { opacity: 0; transform: rotateY(90deg); } }
+@keyframes tk-wa-b { 0%, 62%, 100% { opacity: 0; transform: rotateY(-90deg); } 67%, 95% { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .tk-chat-btn__ic > :first-child, .tk-chat-btn__t > :first-child, .tk-chat-btn .tk-chat-btn__wa { animation: none; }
+}
+.tk-chat__wabar { flex: none; display: flex; align-items: center; gap: 10px; margin: 0 12px 10px; padding: 10px 12px; border: 1px solid rgba(37,211,102,.35); border-radius: 14px;
+  background: rgba(37,211,102,.08); color: var(--text); text-decoration: none; font-size: .86rem; line-height: 1.35; transition: border-color .2s, background .2s; }
+.tk-chat__wabar:hover { border-color: #25D366; background: rgba(37,211,102,.14); }
+.tk-chat__wabar img { width: 30px; height: 30px; flex: none; }
+.tk-chat__wabar b { display: block; }
+.tk-chat__wabar em { margin-left: auto; font-style: normal; color: #25D366; font-size: 1.1rem; }
