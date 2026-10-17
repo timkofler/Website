@@ -277,7 +277,7 @@ td.today,th.today{background:var(--popl)}
 }
 .reset-m{display:none}
 .h3d{padding-bottom:0}
-.h3d__box{position:relative;margin-top:30px;border-radius:22px;overflow:hidden;background:#0f1424;box-shadow:0 40px 80px -50px rgba(18,22,37,.8)}
+.h3d__box{position:relative;margin-top:30px;border-radius:22px;overflow:hidden;background:linear-gradient(#c9dbef,#f3efe7);box-shadow:0 40px 80px -50px rgba(18,22,37,.8)}
 .h3d__view{position:relative;aspect-ratio:16/8.5;min-height:420px}
 .h3d__view .s3d{position:absolute;inset:0;display:block;width:100%;height:100%;cursor:grab}
 .h3d__view .s3d.is-drag{cursor:grabbing}
@@ -459,7 +459,7 @@ td.today,th.today{background:var(--popl)}
     <div class="h3d__box" data-reveal>
       <div class="h3d__view" id="haus3d"><p class="h3d__no">Für die 3D-Ansicht braucht dein Browser WebGL.</p></div>
       <div class="h3d__legend" role="group" aria-label="Leitungen anzeigen">
-        <button type="button" data-sys="strom" style="--c:#ffc83d" aria-pressed="true">Strom</button><button type="button" data-sys="wasser" style="--c:#3ea6ff" aria-pressed="true">Wasser</button><button type="button" data-sys="heizung" style="--c:#ff6a3d" aria-pressed="true">Heizung</button><button type="button" data-sys="pv" style="--c:#37d67a" aria-pressed="true">Photovoltaik</button><button type="button" data-sys="abwasser" style="--c:#9aa6bd" aria-pressed="true">Abwasser</button>
+        <button type="button" data-sys="strom" style="--c:#ffb81c" aria-pressed="true">Strom</button><button type="button" data-sys="wasser" style="--c:#2f8cff" aria-pressed="true">Wasser</button><button type="button" data-sys="heizung" style="--c:#ff5a2e" aria-pressed="true">Heizung</button><button type="button" data-sys="pv" style="--c:#1fbf63" aria-pressed="true">Photovoltaik</button><button type="button" data-sys="abwasser" style="--c:#8a96ad" aria-pressed="true">Abwasser</button>
       </div>
       <p class="h3d__info" aria-live="polite"></p>
     </div>
@@ -490,4 +490,4 @@ td.today,th.today{background:var(--popl)}
 
 <footer class="foot"><div class="wrap"><span><b>Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb</b></span><span>Alle Namen, Preise und Zahlen sind frei erfunden. Eingaben werden nur in deinem Browser gespeichert.</span></div></footer>
 <div class="toast" id="toast" role="status"></div>
-<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/dashboard/app.js?v=20261017b" defer></script><script type="module" src="/beispiele/dashboard/haus3d.js?v=1"></script></body></html>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/dashboard/app.js?v=20261017b" defer></script><script type="module" src="/beispiele/dashboard/haus3d.js?v=2"></script></body></html>
