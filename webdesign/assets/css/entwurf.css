@@ -158,11 +158,6 @@
 .ew-foot a { color: var(--muted); }
 .ew-foot a:hover { color: var(--text); }
 
-/* Schwebender Knopf am Handy, solange das Formular nicht im Bild ist */
-.ew-float { position: fixed; left: 16px; right: 16px; bottom: max(14px, env(safe-area-inset-bottom)); z-index: 70; justify-content: center; min-height: 52px; box-shadow: 0 14px 40px rgba(0,0,0,.6), 0 8px 30px rgba(255,90,31,.35); transition: transform .3s, opacity .3s; }
-.ew-float.is-away { transform: translateY(140%); opacity: 0; pointer-events: none; }
-@media (min-width: 901px) { .ew-float { display: none !important; } }
-
 @media (max-width: 1000px) {
   .ew-form { grid-template-columns: 1fr; grid-template-areas: "a" "p" "b"; padding: 32px; }
   .ew-col--p { position: relative; top: 0; margin: 0 0 38px; }
@@ -184,11 +179,10 @@
   .ew-get { padding: 24px 20px; }
   .ew-get .ticks { grid-template-columns: 1fr; }
   .ew-ex { gap: 12px; }
-  .ew-end { padding: 72px 0 110px; }
-  .ew-page .footer { padding-bottom: 90px; }
+  .ew-end { padding: 72px 0 80px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .ew-prev, .ew-sw, .ew-ex a, .ew-float { transition: none; }
+  .ew-prev, .ew-sw, .ew-ex a { transition: none; }
   .ew-prev__blocks span, .ew-prev__label::before { animation: none; }
 }
 

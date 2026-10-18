@@ -1,4 +1,4 @@
-// Tim Kofler – Landingpage „Kostenloser Webseiten-Entwurf“: Live-Skizze, Vorausfüllen aus dem Link, schwebender Knopf.
+// Tim Kofler – Landingpage „Kostenloser Webseiten-Entwurf“: Live-Skizze und Vorausfüllen aus dem Link.
 // Ohne Cookies, ohne Datenübertragung. Abgeschickt wird das Formular von forms.js.
 (function () {
   var form = document.querySelector("[data-ew-form]");
@@ -121,15 +121,4 @@
   syncUrl();
   update();
 
-  // Schwebender Knopf am Handy: erst nach dem Kopfbereich, und weg, sobald das Formular zu sehen ist.
-  var fl = document.querySelector("[data-ew-float]");
-  var sec = document.getElementById("formular"), hero = document.querySelector(".ew-hero");
-  if (fl && sec && hero && "IntersectionObserver" in window) {
-    var inForm = false, inHero = true;
-    var sync = function () { fl.classList.toggle("is-away", inForm || inHero); };
-    fl.hidden = false;
-    fl.classList.add("is-away");
-    new IntersectionObserver(function (e) { inForm = e[0].isIntersecting; sync(); }, { rootMargin: "0px 0px -30% 0px" }).observe(sec);
-    new IntersectionObserver(function (e) { inHero = e[0].isIntersecting; sync(); }).observe(hero);
-  }
 })();
