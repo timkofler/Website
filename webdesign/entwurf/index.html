@@ -25,7 +25,7 @@
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/style.css?v=a9c5cddd">
   <link rel="stylesheet" href="/assets/css/tk.css?v=8e8abf35">
-  <link rel="stylesheet" href="/assets/css/entwurf.css?v=98c360bb">
+  <link rel="stylesheet" href="/assets/css/entwurf.css?v=31b03a8a">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Start", "item": "https://tim-kofler.at/"}, {"@type": "ListItem", "position": 2, "name": "Gratis-Entwurf", "item": "https://tim-kofler.at/entwurf/"}]}, {"@type": "Service", "@id": "https://tim-kofler.at/entwurf/#angebot", "name": "Kostenloser Webseiten-Entwurf", "serviceType": "Webdesign-Entwurf", "provider": {"@id": "https://tim-kofler.at/#unternehmen"}, "areaServed": {"@type": "Country", "name": "Österreich"}, "url": "https://tim-kofler.at/entwurf/", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}]}</script>
 </head>
 <body class="ew-page">
@@ -109,8 +109,18 @@
               <label class="ew-sw ew-sw--bw" style="--c:#262626"><input type="radio" name="farbe" value="anthrazit" data-hex="#262626"><span class="ew-sw__dot"></span><span class="ew-sw__t">Schwarz-Weiß</span></label>
             </div>
             <div class="ew-swatches ew-swatches--more">
-              <label class="ew-pill ew-pill--color"><input type="radio" name="farbe" value="eigene" data-ew-eigen-radio><span><input type="color" name="farbe_eigen" value="#1e88e5" aria-label="Eigene Farbe wählen" data-ew-eigen>Eigene Farbe</span></label>
               <label class="ew-pill"><input type="radio" name="farbe" value="vorschlag" data-hex=""><span>Weiß nicht, schlag mir was vor</span></label>
+              <label class="ew-pill ew-pill--color"><input type="radio" name="farbe" value="eigene" data-ew-eigen-radio aria-controls="ew-picker"><span><i class="ew-eigen-dot" data-ew-eigen-dot aria-hidden="true"></i>Eigene Farbe</span></label>
+            </div>
+            <div class="ew-picker" id="ew-picker" data-ew-picker hidden>
+              <input type="hidden" name="farbe_eigen" value="#1e88e5" data-ew-eigen>
+              <div class="ew-picker__top">
+                <span class="ew-picker__big" data-ew-pick-big aria-hidden="true"></span>
+                <label class="ew-picker__hex"><span>Farbcode</span><input type="text" value="#1e88e5" maxlength="7" autocapitalize="none" autocomplete="off" spellcheck="false" aria-label="Farbcode, zum Beispiel #1e88e5" data-ew-hex></label>
+              </div>
+              <label class="ew-slider"><span>Farbton</span><input type="range" class="ew-range ew-range--h" min="0" max="359" value="208" data-ew-h></label>
+              <label class="ew-slider"><span>Kräftig</span><input type="range" class="ew-range ew-range--s" min="0" max="100" value="79" data-ew-s></label>
+              <label class="ew-slider"><span>Hell oder dunkel</span><input type="range" class="ew-range ew-range--l" min="12" max="88" value="51" data-ew-l></label>
             </div>
           </div>
           <div class="form__field">
@@ -303,6 +313,6 @@
 <script src="/assets/js/main.js?v=5b686c25"></script>
 <script src="/assets/js/forms.js?v=3bb6bb7f"></script>
 <script src="/assets/js/tk-fx.js?v=d255dc7d"></script>
-<script src="/assets/js/entwurf.js?v=25bd6be4"></script>
+<script src="/assets/js/entwurf.js?v=3ea3e375"></script>
 </body>
 </html>

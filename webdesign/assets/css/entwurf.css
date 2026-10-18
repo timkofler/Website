@@ -54,7 +54,7 @@
 .ew-sw--bw:has(input:checked) { border-color: #f4f4f0; }
 .ew-sw input:checked ~ .ew-sw__dot::after { content: ""; position: absolute; left: 50%; top: 50%; width: 9px; height: 15px; margin: -10px 0 0 -5px; border: solid #fff; border-width: 0 3px 3px 0; transform: rotate(45deg); filter: drop-shadow(0 0 2px rgba(0,0,0,.6)); }
 .ew-sw input:checked ~ .ew-sw__t { color: var(--text); }
-.ew-swatches--more { grid-template-columns: auto 1fr; margin-top: 2px; }
+.ew-swatches--more { grid-template-columns: 1fr 1fr; margin-top: 2px; }
 
 /* Auswahl-Pillen (Stil, Inhalte, eigene Farbe) */
 .ew-chips { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -64,10 +64,24 @@
 .ew-pill input:checked + span { border-color: var(--hot); background: var(--hot-dim); color: #fff; }
 .ew-chips .ew-pill input[type=checkbox]:checked + span::before { content: ""; width: 6px; height: 11px; margin: -3px 2px 0 0; border: solid var(--hot-2); border-width: 0 2px 2px 0; transform: rotate(45deg); }
 .ew-swatches--more .ew-pill > span { width: 100%; justify-content: center; border-radius: 14px; min-height: 48px; }
-.ew-pill--color input[type=color] { width: 26px; height: 26px; padding: 0; border: 0; border-radius: 50%; background: none; cursor: pointer; overflow: hidden; }
-.ew-pill--color input[type=color]::-webkit-color-swatch-wrapper { padding: 0; }
-.ew-pill--color input[type=color]::-webkit-color-swatch { border: 1px solid rgba(255,255,255,.3); border-radius: 50%; }
-.ew-pill--color input[type=color]::-moz-color-swatch { border: 1px solid rgba(255,255,255,.3); border-radius: 50%; }
+.ew-eigen-dot { flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--eigen, #1e88e5); box-shadow: inset 0 0 0 1px rgba(255,255,255,.3); }
+
+/* Eigene Farbe: große Fläche, Regler statt des winzigen System-Farbwählers */
+.ew-picker { margin-top: 10px; padding: 16px; border: 1px solid var(--line-2); border-radius: 16px; background: var(--surface); display: grid; gap: 14px; }
+.ew-picker[hidden] { display: none; }
+.ew-picker__top { display: grid; grid-template-columns: 1fr minmax(0, 150px); gap: 14px; align-items: end; }
+.ew-picker__big { height: 72px; border-radius: 12px; background: var(--eigen, #1e88e5); box-shadow: inset 0 0 0 1px rgba(255,255,255,.18); }
+.ew-picker__hex { display: grid; gap: 6px; font-size: .85rem; color: var(--muted); }
+.ew-picker__hex input { width: 100%; min-height: 48px; padding: 0 12px; border: 1px solid var(--line-2); border-radius: 12px; background: var(--bg, #0b0b0b); color: var(--text); font: 500 1rem var(--mono); }
+.ew-picker__hex input:focus { outline: 2px solid var(--hot-2); outline-offset: 1px; }
+.ew-slider { display: grid; gap: 8px; font-size: .9rem; font-weight: 600; color: #d8d8d4; }
+.ew-range { -webkit-appearance: none; appearance: none; width: 100%; height: 44px; margin: 0; background: transparent; cursor: pointer; touch-action: pan-y; }
+.ew-range::-webkit-slider-runnable-track { height: 24px; border-radius: 999px; background: var(--track); box-shadow: inset 0 0 0 1px rgba(255,255,255,.15); }
+.ew-range::-moz-range-track { height: 24px; border-radius: 999px; background: var(--track); box-shadow: inset 0 0 0 1px rgba(255,255,255,.15); }
+.ew-range::-webkit-slider-thumb { -webkit-appearance: none; width: 34px; height: 34px; margin-top: -5px; border-radius: 50%; background: var(--eigen, #1e88e5); border: 4px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,.6); }
+.ew-range::-moz-range-thumb { width: 26px; height: 26px; border-radius: 50%; background: var(--eigen, #1e88e5); border: 4px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,.6); }
+.ew-range:focus-visible { outline: 2px solid var(--hot-2); outline-offset: 2px; border-radius: 999px; }
+.ew-range--h { --track: linear-gradient(90deg, #f00, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00); }
 
 /* Freiwillige Newsletter-Zustimmung, sichtbar getrennt von der Anfrage */
 .ew-optin { border: 1px dashed var(--line-2); border-radius: 14px; padding: 16px 16px 14px; background: rgba(255,255,255,.015); }
@@ -176,6 +190,8 @@
   .ew-submit { font-size: .95rem; padding: 0 18px; }
   .ew-pill > span { font-size: .88rem; min-height: 40px; padding: 7px 13px; }
   .ew-optin p { margin-left: 0; }
+  .ew-picker { padding: 14px 12px; }
+  .ew-picker__top { grid-template-columns: 1fr 120px; }
   .ew-get { padding: 24px 20px; }
   .ew-get .ticks { grid-template-columns: 1fr; }
   .ew-ex { gap: 12px; }
