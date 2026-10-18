@@ -20,7 +20,7 @@ if ($user !== '' && ($acc === null || empty($acc['aktiv']) || !hash_equals(kp_pw
 // Zu große Uploads: PHP verwirft dann das ganze Formular, auch den Formular-Schlüssel.
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && !$_POST && (int) ($_SERVER['CONTENT_LENGTH'] ?? 0) > 0) {
     kp_flash(false, 'Das waren zu viele Daten auf einmal (höchstens ' . kp_bytes(kp_max_post()) . ' pro Durchgang). Bitte lade die Dateien in mehreren kleineren Portionen hoch.');
-    kp_redirect('/kunden/');
+    kp_redirect('/kunden/#dateien');
 }
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
@@ -78,15 +78,15 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         $msg = kp_text('nachricht', 3000);
         if ($site === '') {
             kp_flash(false, 'Bitte gib an, für welche Webseite die Dateien sind.');
-            kp_redirect('/kunden/');
+            kp_redirect('/kunden/#dateien');
         }
         if (cx_field('rechte', 5) !== 'ja') {
             kp_flash(false, 'Bitte bestätige, dass du die Bilder und Texte verwenden darfst.');
-            kp_redirect('/kunden/');
+            kp_redirect('/kunden/#dateien');
         }
         [$ok, $text] = kp_store_upload($user, $acc, $site, $msg, kp_uploaded('dateien'));
         kp_flash($ok, $text);
-        kp_redirect('/kunden/');
+        kp_redirect('/kunden/#dateien');
     }
 
     if ($action === 'schreiben') {
@@ -124,7 +124,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
             $_SESSION['kunde_pw'] = kp_pw_tag($all[$user]['hash']);
             kp_flash(true, 'Dein Passwort wurde geändert.');
         }
-        kp_redirect('/kunden/');
+        kp_redirect('/kunden/#passwort');
     }
 
     kp_redirect('/kunden/');
@@ -166,8 +166,9 @@ $limit = 'Höchstens ' . $maxFileH . ' pro Datei' . ($maxPostH !== '' ? ' und ' 
 $maxFiles = KP_MAX_FILES;
 $postAttr = $maxPost < PHP_INT_MAX ? (string) $maxPost : '0';
 
+$batches = kp_batches($user);
 $history = '';
-foreach (kp_batches($user) as $b) {
+foreach ($batches as $b) {
     $files = '';
     $sum = 0;
     foreach ((array) ($b['dateien'] ?? []) as $d) {
@@ -176,13 +177,14 @@ foreach (kp_batches($user) as $b) {
     }
     $when = cx_h(date('d.m.Y, H:i', strtotime((string) ($b['zeit'] ?? 'now')) ?: time()));
     $n = count((array) ($b['dateien'] ?? []));
-    $history .= '<details class="kp-batch"><summary><b>' . $when . ' Uhr</b> · ' . cx_h((string) ($b['webseite'] ?? '')) . ' · '
-        . $n . ($n === 1 ? ' Datei' : ' Dateien') . ' (' . kp_bytes($sum) . ')</summary><ul>' . $files . '</ul>'
+    $history .= '<details class="kp-batch"><summary><span class="kp-batch__n">' . $n . '</span><span><span><b>' . ($n === 1 ? '1 Datei' : $n . ' Dateien') . '</b> · ' . kp_bytes($sum) . '</span>'
+        . '<small>' . $when . ' Uhr · ' . cx_h((string) ($b['webseite'] ?? '')) . '</small></span></summary><ul>' . $files . '</ul>'
         . (($b['nachricht'] ?? '') !== '' ? '<p>' . nl2br(cx_h((string) $b['nachricht'])) . '</p>' : '') . '</details>';
 }
 if ($history === '') {
-    $history = '<p class="muted">Noch keine Dateien hochgeladen.</p>';
+    $history = '<p class="muted kp-leer">Noch keine Dateien hochgeladen.</p>';
 }
+$nUploads = count($batches);
 
 // Nachrichten: erst anzeigen (mit „neu“), dann als gelesen merken.
 $msgs = kp_messages($user);
@@ -190,50 +192,86 @@ $unread = kp_unread($msgs, 'kunde');
 $chat = kp_render_messages($msgs, 'kunde', (string) ($acc['name'] ?? $user));
 $chatForm = kp_message_form('/kunden/#nachrichten', $csrf, 'z. B. Die Farbe vom Kopfbereich gefällt mir sehr. Können wir die Öffnungszeiten größer machen?');
 kp_mark_read($user, 'kunde');
-$hinweis = $unread > 0 ? '<a class="kp-neu" href="#nachrichten"><b>' . $unread . '</b> ' . ($unread === 1 ? 'neue Nachricht' : 'neue Nachrichten') . ' von Tim. Jetzt lesen</a>' : '';
 
-$logout = '<a class="btn btn--sm btn--line" href="#nachrichten">Nachrichten' . ($unread > 0 ? ' <span class="kp-badge">' . $unread . '</span>' : '') . '</a>'
+// Die beiden großen Kacheln oben sind zugleich die Reiter. Ohne JavaScript stehen beide Bereiche untereinander.
+$lastMsg = $msgs['liste'] ? end($msgs['liste']) : null;
+$msgSub = $unread > 0 ? '<b>' . ($unread === 1 ? '1 neue Nachricht' : $unread . ' neue Nachrichten') . '</b> von Tim'
+    : ($lastMsg ? 'Letzte Nachricht am ' . date('d.m.', strtotime((string) $lastMsg['zeit']) ?: 0) : 'Wünsche, Fragen und Feedback an Tim');
+$fileSub = $nUploads > 0 ? ($nUploads === 1 ? '1 Upload' : $nUploads . ' Uploads') . ' bisher, gern weitere' : 'Fotos, Logo, Texte, Preislisten';
+$badge = $unread > 0 ? '<span class="kp-badge">' . $unread . '</span>' : '';
+$default = $unread > 0 || $nUploads > 0 || $msgs['liste'] ? 'nachrichten' : 'dateien';
+$icoChat = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.2 3.6c-.5.4-1.3.1-1.3-.6V16A2.5 2.5 0 0 1 4 13.5z"/></svg>';
+$icoUp = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4m0 0L7.5 8.5M12 4l4.5 4.5M4.5 15v2.5A2.5 2.5 0 0 0 7 20h10a2.5 2.5 0 0 0 2.5-2.5V15"/></svg>';
+
+$logout = '<a class="btn btn--sm btn--line" href="#passwort">Passwort</a>'
     . '<form method="post" action="/kunden/">' . $csrf . '<input type="hidden" name="aktion" value="abmelden"><button class="btn btn--sm btn--line" type="submit">Abmelden</button></form>';
 
-kp_page('Dateien hochladen', <<<HTML
-<div class="kp-grid">
-  <div>
-    <span class="label"><b>●</b> Kundenportal</span>
-    <h1>Hallo {$name}!</h1>
-    {$hinweis}
-    <p class="lead">Lade hier alles hoch, was auf deine Webseite soll: Fotos, Logo, Texte, Speisekarte, Preislisten. Ich bekomme sofort Bescheid und melde mich, sobald es weitergeht.</p>
-    <form class="form" method="post" action="/kunden/" enctype="multipart/form-data" data-kp-upload data-max-file="{$maxFile}" data-max-post="{$postAttr}" data-max-count="{$maxFiles}">
+kp_page('Kundenportal', <<<HTML
+<span class="label"><b>●</b> Kundenportal</span>
+<h1 class="kp-hello">Hallo {$name}!</h1>
+<p class="lead kp-intro">Hier hast du alles zu deiner Webseite an einem Ort. Schreib mir, was dir gefällt oder was du dir wünschst, und lade Fotos, Logo und Texte hoch.</p>
+{$flash}
+<nav class="kp-tiles" data-kp-tabs data-default="{$default}" aria-label="Bereiche">
+  <a class="kp-tile" href="#nachrichten" data-kp-tab="nachrichten">
+    <span class="kp-tile__ico">{$icoChat}</span>
+    <span class="kp-tile__txt"><b>Nachrichten {$badge}</b><small>{$msgSub}</small></span>
+  </a>
+  <a class="kp-tile" href="#dateien" data-kp-tab="dateien">
+    <span class="kp-tile__ico">{$icoUp}</span>
+    <span class="kp-tile__txt"><b>Dateien hochladen</b><small>{$fileSub}</small></span>
+  </a>
+</nav>
+
+<section class="kp-panel" data-kp-panel="nachrichten">
+  <div class="kp-card kp-chat">
+    <div class="kp-card__kopf">
+      <h2>Nachrichten mit Tim</h2>
+      <p>Wähle aus, worum es geht: einen <b>Wunsch</b>, eine <b>Frage</b>, oder was dir <b>gefällt</b> bzw. <b>nicht gefällt</b>. Ich antworte hier, meistens noch am selben Tag.</p>
+    </div>
+    {$chat}
+    {$chatForm}
+  </div>
+</section>
+
+<section class="kp-panel" data-kp-panel="dateien">
+  <div class="kp-grid">
+    <form class="kp-card form kp-upload" method="post" action="/kunden/" enctype="multipart/form-data" data-kp-upload data-max-file="{$maxFile}" data-max-post="{$postAttr}" data-max-count="{$maxFiles}">
       {$csrf}
       <input type="hidden" name="aktion" value="hochladen">
-      {$flash}
-      <label class="form__field"><span>Für welche Webseite?</span><input type="text" name="webseite" required maxlength="200" value="{$site}" placeholder="z. B. baeckerei-muster.at"></label>
-      <div class="form__field"><span>Dateien</span>
-        <label class="kp-pick"><input type="file" name="dateien[]" multiple required accept="{$accept}"><b>Dateien auswählen</b><span class="kp-pick__info">Keine Datei ausgewählt</span></label></div>
+      <div class="kp-card__kopf">
+        <h2>Dateien hochladen</h2>
+        <p>Alles, was auf deine Webseite soll. Ich bekomme sofort Bescheid.</p>
+      </div>
+      <label class="kp-pick">
+        <input type="file" name="dateien[]" multiple required accept="{$accept}">
+        <span class="kp-pick__ico">{$icoUp}</span>
+        <b>Dateien auswählen</b>
+        <span class="kp-pick__oder">oder hierher ziehen</span>
+        <span class="kp-pick__info">Keine Datei ausgewählt</span>
+      </label>
       <p class="kp-hint">{$types}. {$limit}</p>
-      <label class="form__field"><span>Nachricht an Tim <em>(optional)</em></span><textarea name="nachricht" rows="4" maxlength="3000" placeholder="z. B. Das Foto mit dem Team bitte auf die Startseite, die Preise gelten ab Jänner."></textarea></label>
+      <label class="form__field"><span>Für welche Webseite?</span><input type="text" name="webseite" required maxlength="200" value="{$site}" placeholder="z. B. baeckerei-muster.at"></label>
+      <label class="form__field"><span>Kurze Notiz dazu <em>(optional)</em></span><textarea name="nachricht" rows="3" maxlength="3000" placeholder="z. B. Das Foto mit dem Team bitte auf die Startseite, die Preise gelten ab Jänner."></textarea></label>
       <label class="form__check"><input type="checkbox" name="rechte" value="ja" required><span>Ich darf diese Bilder und Texte für meine Webseite verwenden (z. B. selbst fotografiert oder mit Erlaubnis der Fotografin bzw. des Fotografen).</span></label>
       <div class="kp-progress" hidden><div class="kp-progress__bar"></div><span class="kp-progress__text"></span></div>
       <button class="btn" type="submit">Hochladen</button>
     </form>
+    <div class="kp-card">
+      <div class="kp-card__kopf"><h2>Bisher hochgeladen</h2></div>
+      {$history}
+    </div>
   </div>
-  <aside>
-    <section class="kp-chat" id="nachrichten">
-      <h2>Nachrichten mit Tim</h2>
-      <p class="kp-chat__info">Hier hast du alles zu deiner Webseite an einem Ort: Wünsche, Fragen und was dir gefällt oder nicht.</p>
-      {$chat}
-      {$chatForm}
-    </section>
-    <h2>Bisher hochgeladen</h2>
-    {$history}
-    <h2 id="passwort">Passwort ändern</h2>
-    <form class="form form--small" method="post" action="/kunden/#passwort">
-      {$csrf}
-      <input type="hidden" name="aktion" value="passwort">
-      <label class="form__field"><span>Bisheriges Passwort</span><input type="password" name="alt" required maxlength="200" autocomplete="current-password"></label>
-      <label class="form__field"><span>Neues Passwort <em>(mind. 10 Zeichen)</em></span><input type="password" name="neu" required minlength="10" maxlength="200" autocomplete="new-password"></label>
-      <label class="form__field"><span>Neues Passwort wiederholen</span><input type="password" name="neu2" required minlength="10" maxlength="200" autocomplete="new-password"></label>
-      <button class="btn btn--line" type="submit">Passwort ändern</button>
-    </form>
-  </aside>
-</div>
+</section>
+
+<details class="kp-card kp-konto" id="passwort">
+  <summary><h2>Passwort ändern</h2></summary>
+  <form class="form form--small" method="post" action="/kunden/#passwort">
+    {$csrf}
+    <input type="hidden" name="aktion" value="passwort">
+    <label class="form__field"><span>Bisheriges Passwort</span><input type="password" name="alt" required maxlength="200" autocomplete="current-password"></label>
+    <label class="form__field"><span>Neues Passwort <em>(mind. 10 Zeichen)</em></span><input type="password" name="neu" required minlength="10" maxlength="200" autocomplete="new-password"></label>
+    <label class="form__field"><span>Neues Passwort wiederholen</span><input type="password" name="neu2" required minlength="10" maxlength="200" autocomplete="new-password"></label>
+    <button class="btn btn--line" type="submit">Passwort ändern</button>
+  </form>
+</details>
 HTML, $logout);
