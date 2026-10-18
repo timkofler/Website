@@ -528,6 +528,16 @@ h1 .lime, h2 .lime, h3 .lime { background: var(--hot-grad); -webkit-background-c
 .tk-abo__hot { background: var(--hot-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .tk-abo__text > p { color: var(--muted); margin: 0 0 16px; }
 .tk-abo__text > p b { color: var(--text); font-weight: 600; }
+.tk-abo__once { position: relative; display: flex; align-items: center; gap: 14px; margin: 4px 0 18px; padding: 14px 18px; border-radius: 16px; border: 1px solid rgba(255,140,60,.55); background: linear-gradient(100deg, rgba(255,77,26,.20), rgba(255,178,63,.10)); box-shadow: 0 0 0 1px rgba(255,90,31,.12), 0 0 34px rgba(255,90,31,.28); animation: tkOnceGlow 3.2s ease-in-out infinite; }
+.tk-abo__once-ic { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--hot-grad); color: #1a0b03; box-shadow: 0 0 18px rgba(255,120,40,.6); }
+.tk-abo__once-ic svg { width: 22px; height: 22px; }
+.tk-abo__once p { margin: 0; color: var(--text); font-size: .98rem; line-height: 1.45; }
+.tk-abo__once strong { display: block; font-size: clamp(1.15rem, 2vw, 1.35rem); font-weight: 800; letter-spacing: -.01em; background: var(--hot-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.tk-once--prices { margin: 22px 0 0; }
+.price__once { display: inline-flex; align-items: center; gap: 7px; align-self: flex-start; margin: -2px 0 14px; padding: 5px 11px 5px 8px; border-radius: 999px; font-size: .84rem; font-weight: 600; color: #ffb27a; background: var(--hot-dim); border: 1px solid rgba(255,90,31,.4); box-shadow: 0 0 16px rgba(255,90,31,.18); }
+.price__once svg { width: 15px; height: 15px; flex: none; color: var(--hot); }
+@keyframes tkOnceGlow { 0%, 100% { box-shadow: 0 0 0 1px rgba(255,90,31,.12), 0 0 22px rgba(255,90,31,.18); } 50% { box-shadow: 0 0 0 1px rgba(255,90,31,.30), 0 0 42px rgba(255,90,31,.42); } }
+@media (prefers-reduced-motion: reduce) { .tk-abo__once { animation: none; } }
 .tk-abo__chips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; padding: 0; }
 .tk-abo__chips li { font-size: .85rem; color: var(--text); border: 1px solid var(--line-2); background: #181818; border-radius: 999px; padding: 6px 12px; }
 .tk-abo__text > p.tk-abo__deal { color: var(--text); border-left: 3px solid var(--hot); padding: 4px 0 4px 14px; }
