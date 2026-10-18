@@ -21,7 +21,7 @@
 
   // Links zur Anfrage behalten utm_source/gclid aus der Werbung, damit das Formular die Quelle kennt.
   var qs = /[?&](utm_source|gclid|gbraid|wbraid)=/.test(location.search) ? location.search : "?utm_source=betriebs-app";
-  $$('a[href="/#anfrage"]').forEach(function (a) { a.href = "/" + qs + "#anfrage"; });
+  $$('a[href="/#anfrage"]').forEach(function (a) { a.href = "/" + qs + "&paket=app#anfrage"; });
 
   /* ---------------- Kopfbereich ---------------- */
   var APPS = [
