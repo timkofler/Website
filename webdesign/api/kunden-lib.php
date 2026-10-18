@@ -712,7 +712,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <link rel="icon" href="/assets/img/tk-badge.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/css/style.css?v=a9c5cddd">
   <link rel="stylesheet" href="/assets/css/tk.css?v=efbd389d">
-  <link rel="stylesheet" href="/assets/css/portal.css?v=4714bff5">
+  <link rel="stylesheet" href="/assets/css/portal.css?v=99cdb261">
 </head>
 <body class="kp">
 <header class="header">
@@ -735,7 +735,6 @@ function kp_page(string $title, string $body, string $nav = ''): void
   </div>
 </footer>
 <script src="/assets/js/portal.js?v=56427507"></script>
-<script src="/assets/js/vorschau.js?v=450bd1e8"></script>
 </body>
 </html>
 HTML;

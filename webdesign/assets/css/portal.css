@@ -238,7 +238,6 @@
 .kp-main [data-kp-panel=zugang] .kp-grid--even { margin-top: 0; }
 .kp-panel .kp-table { margin-top: 24px; }
 .kp-panel > .muted:first-child { margin-top: 0; }
-[data-kp-panel=vorschau] .kp-new { margin-bottom: 0; }
 @media (max-width: 900px) { .kp-grid { grid-template-columns: 1fr; gap: 14px; } }
 @media (max-width: 680px) {
   .kp-main { padding: 36px 0 64px; }
