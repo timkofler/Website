@@ -82,7 +82,7 @@ h1 .lime, h2 .lime, h3 .lime {
 .tk-marquee span::after { content: ""; width: 9px; height: 9px; background: #6b6b6b; transform: rotate(45deg); display: inline-block; }
 @keyframes tk-marquee { to { transform: translateX(-50%); } }
 
-@media (max-width: 680px) { .tk-hero { padding: 96px 0 80px; } }
+@media (max-width: 680px) { .tk-hero { padding: 52px 0 68px; } }
 @media (prefers-reduced-motion: reduce) {
   .tk-hero h1 .lime, .price--hi, .tk-marquee__track { animation: none; }
   .btn:not(.btn--line)::after { display: none; }
@@ -110,8 +110,10 @@ p a:not(.btn):hover, li a:not(.btn):hover, .form__check a:hover { text-decoratio
   background: linear-gradient(115deg, rgba(255,255,255,.14) 0%, rgba(255,255,255,0) 32%, rgba(255,255,255,0) 70%, rgba(255,255,255,.05) 100%); }
 .tk-phone__screen { --sh: 588px; position: relative; width: 100%; height: 100%; border-radius: 38px; overflow: hidden; background: #111; }
 .tk-phone__screen > img { display: block; width: 100%; height: auto; pointer-events: none;
-  animation: tk-demo var(--d, 15s) ease-in-out infinite alternate; animation-play-state: paused; }
-.tk-car.is-visible .tk-phone__screen > img { animation-play-state: running; }
+  transition: transform .7s cubic-bezier(.2,.7,.2,1); }
+/* Nur das Handy in der Mitte scrollt, und erst, wenn es dort eingerastet ist (Klasse is-play aus tk-ui.js) */
+.tk-car__item.is-play .tk-phone__screen > img { transition: none; animation: tk-demo var(--d, 15s) ease-in-out infinite alternate; animation-play-state: paused; }
+.tk-car.is-visible .tk-car__item.is-play .tk-phone__screen > img { animation-play-state: running; }
 @keyframes tk-demo { 0%, 8% { transform: translateY(0); } 92%, 100% { transform: translateY(calc(-100% + var(--sh))); } }
 .tk-car__item.is-center .tk-phone { box-shadow: 0 0 0 1px #5a5a5a, 0 40px 90px rgba(0,0,0,.75), 0 0 90px rgba(255,255,255,.10), inset 0 0 0 2px #161616; }
 .tk-car__item figcaption { margin-top: 22px; text-align: center; transition: opacity .3s; }
@@ -145,7 +147,7 @@ p a:not(.btn):hover, li a:not(.btn):hover, .form__check a:hover { text-decoratio
   .tk-phone::after { inset: 9px; border-radius: 32px; }
   .tk-phone__screen { --sh: 472px; border-radius: 32px; }
 }
-@media (prefers-reduced-motion: reduce) { .tk-phone__screen > img { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .tk-phone__screen > img, .tk-car__item.is-play .tk-phone__screen > img { animation: none; transition: none; } }
 
 /* ---------- Antwort-Assistent ---------- */
 .tk-chat-btn { position: fixed; right: 20px; bottom: 20px; z-index: 60; display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px 10px 10px;
@@ -442,6 +444,23 @@ h1 .lime, h2 .lime, h3 .lime { background: var(--hot-grad); -webkit-background-c
 .tk-calc__opt.is-off:hover { border-color: var(--line-2); }
 .tk-calc__opt--ref em { color: var(--hot); }
 .tk-calc__opt em:empty { display: none; }
+/* Zusammenklappen (tk-rechner.js setzt is-closed; ohne JS bleibt der Rechner offen) */
+.tk-calc__bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; margin: -10px 0 28px; }
+.tk-calc__bar[hidden] { display: none; }
+.tk-calc__toggle svg, .tk-calc__toggle:hover svg { transition: transform .35s cubic-bezier(.2,.7,.2,1); transform: rotate(180deg); }
+.tk-calc__teaser { display: none; margin: 0; font-size: .92rem; color: var(--muted); }
+.tk-calc__teaser b { margin-left: 4px; color: var(--text); font-family: var(--display); font-weight: 600; font-variant-numeric: tabular-nums; }
+.tk-calc[data-modus="ohne"].is-closed .tk-calc__teaser { display: none; }
+.tk-calc__body { display: grid; grid-template-rows: 1fr; transition: grid-template-rows .55s cubic-bezier(.2,.7,.2,1), visibility 0s; }
+.tk-calc__body > .tk-calc__grid { min-height: 0; }
+.tk-calc.is-closed .tk-calc__body > .tk-calc__grid, .tk-calc.is-moving .tk-calc__body > .tk-calc__grid { overflow: hidden; }
+.tk-calc.is-closed .tk-calc__bar { margin-bottom: 0; }
+.tk-calc.is-closed .tk-calc__toggle svg { transform: none; }
+.tk-calc.is-closed .tk-calc__toggle:hover svg { transform: translateY(2px); }
+.tk-calc.is-closed .tk-calc__teaser { display: block; }
+.tk-calc.is-closed .tk-calc__body { grid-template-rows: 0fr; visibility: hidden; transition: grid-template-rows .45s cubic-bezier(.2,.7,.2,1), visibility 0s .45s; }
+.tk-calc.is-instant, .tk-calc.is-instant * { transition: none !important; }
+
 /* Modus "spanne": kleinere Zahl, da zwei Werte; Modus "ohne": kein Betrag */
 .tk-calc[data-modus="spanne"] .tk-calc__amount { font-size: clamp(1.5rem, 2.6vw, 2rem); }
 .tk-calc__ohne { display: none; margin: 0; font-size: 1.02rem; font-weight: 600; }
@@ -493,7 +512,7 @@ h1 .lime, h2 .lime, h3 .lime { background: var(--hot-grad); -webkit-background-c
   .tk-calc__sum { padding: 20px 18px 18px; }
   .tk-calc-bar { display: flex; }
 }
-@media (prefers-reduced-motion: reduce) { .tk-calc-bar, .tk-calc__opt, .tk-calc input[type=range]::-webkit-slider-thumb { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .tk-calc__body, .tk-calc__toggle svg, .tk-calc-bar, .tk-calc__opt, .tk-calc input[type=range]::-webkit-slider-thumb { transition: none; } }
 
 /* Zusatzleistung: eigene Betriebs-App statt Abos (im Abschnitt Web-Apps) */
 .tk-abo { position: relative; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 52px); align-items: center; margin-top: clamp(40px, 6vw, 72px); padding: clamp(18px, 3vw, 32px); border-radius: 26px; border: 1px solid transparent; background: linear-gradient(#121212, #121212) padding-box, linear-gradient(130deg, rgba(255,90,31,.75), rgba(255,178,63,.25) 40%, #2a2a2a 70%) border-box; box-shadow: 0 40px 100px rgba(0,0,0,.5); overflow: hidden; }

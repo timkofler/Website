@@ -711,7 +711,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <meta name="theme-color" content="#0b0b0b">
   <link rel="icon" href="/assets/img/tk-badge.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/css/style.css?v=a9c5cddd">
-  <link rel="stylesheet" href="/assets/css/tk.css?v=fa2af531">
+  <link rel="stylesheet" href="/assets/css/tk.css?v=efbd389d">
   <link rel="stylesheet" href="/assets/css/portal.css?v=4714bff5">
 </head>
 <body class="kp">
