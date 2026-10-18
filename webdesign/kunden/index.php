@@ -84,6 +84,16 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         kp_redirect('/kunden/');
     }
 
+    if ($action === 'schreiben') {
+        [$ok, $res] = kp_add_message($user, 'kunde', cx_field('art', 20), kp_text('text', KP_MSG_MAX));
+        if ($ok) {
+            kp_notify_message($user, $acc, $res);
+        } else {
+            kp_flash(false, $res);
+        }
+        kp_redirect('/kunden/#nachrichten');
+    }
+
     if ($action === 'passwort') {
         $old = (string) ($_POST['alt'] ?? '');
         $new = (string) ($_POST['neu'] ?? '');
@@ -164,13 +174,23 @@ if ($history === '') {
     $history = '<p class="muted">Noch keine Dateien hochgeladen.</p>';
 }
 
-$logout = '<form method="post" action="/kunden/">' . $csrf . '<input type="hidden" name="aktion" value="abmelden"><button class="btn btn--sm btn--line" type="submit">Abmelden</button></form>';
+// Nachrichten: erst anzeigen (mit „neu“), dann als gelesen merken.
+$msgs = kp_messages($user);
+$unread = kp_unread($msgs, 'kunde');
+$chat = kp_render_messages($msgs, 'kunde', (string) ($acc['name'] ?? $user));
+$chatForm = kp_message_form('/kunden/#nachrichten', $csrf, 'z. B. Die Farbe vom Kopfbereich gefällt mir sehr. Können wir die Öffnungszeiten größer machen?');
+kp_mark_read($user, 'kunde');
+$hinweis = $unread > 0 ? '<a class="kp-neu" href="#nachrichten"><b>' . $unread . '</b> ' . ($unread === 1 ? 'neue Nachricht' : 'neue Nachrichten') . ' von Tim. Jetzt lesen</a>' : '';
+
+$logout = '<a class="btn btn--sm btn--line" href="#nachrichten">Nachrichten' . ($unread > 0 ? ' <span class="kp-badge">' . $unread . '</span>' : '') . '</a>'
+    . '<form method="post" action="/kunden/">' . $csrf . '<input type="hidden" name="aktion" value="abmelden"><button class="btn btn--sm btn--line" type="submit">Abmelden</button></form>';
 
 kp_page('Dateien hochladen', <<<HTML
 <div class="kp-grid">
   <div>
     <span class="label"><b>●</b> Kundenportal</span>
     <h1>Hallo {$name}!</h1>
+    {$hinweis}
     <p class="lead">Lade hier alles hoch, was auf deine Webseite soll: Fotos, Logo, Texte, Speisekarte, Preislisten. Ich bekomme sofort Bescheid und melde mich, sobald es weitergeht.</p>
     <form class="form" method="post" action="/kunden/" enctype="multipart/form-data" data-kp-upload data-max-file="{$maxFile}" data-max-post="{$postAttr}" data-max-count="{$maxFiles}">
       {$csrf}
@@ -187,6 +207,12 @@ kp_page('Dateien hochladen', <<<HTML
     </form>
   </div>
   <aside>
+    <section class="kp-chat" id="nachrichten">
+      <h2>Nachrichten mit Tim</h2>
+      <p class="kp-chat__info">Hier hast du alles zu deiner Webseite an einem Ort: Wünsche, Fragen und was dir gefällt oder nicht.</p>
+      {$chat}
+      {$chatForm}
+    </section>
     <h2>Bisher hochgeladen</h2>
     {$history}
     <h2 id="passwort">Passwort ändern</h2>
