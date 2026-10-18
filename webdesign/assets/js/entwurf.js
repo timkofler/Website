@@ -44,7 +44,7 @@
   }
 
   // Eigene Farbe: eigene Regler statt des System-Farbwählers (der ist am Handy winzig).
-  var picker = $("[data-ew-picker]"), hexIn = $("[data-ew-hex]");
+  var picker = $("[data-ew-picker]"), hexIn = $("[data-ew-hex]"), pickerOpen = false;
   var hR = $("[data-ew-h]"), sR = $("[data-ew-s]"), lR = $("[data-ew-l]");
   function hslHex(h, s, l) {
     s /= 100; l /= 100;
@@ -68,6 +68,7 @@
     eigen.value = hslHex(+hR.value, +sR.value, +lR.value);
     hexIn.value = eigen.value;
     eigenRadio.checked = true;
+    pickerOpen = true;
     paintPicker();
   }
   if (eigen && picker) {
@@ -83,6 +84,21 @@
       paintPicker();
     });
     paintPicker();
+
+    // Auf- und zuklappen: erneut auf „Eigene Farbe“ tippen oder „Farbe übernehmen“ schließt die Auswahl, die Farbe bleibt.
+    var eigenPill = eigenRadio.closest("label");
+    eigenRadio.addEventListener("change", function () { pickerOpen = true; update(); });
+    eigenPill.addEventListener("click", function (e) {
+      if (e.target === eigenRadio || !eigenRadio.checked) return;
+      e.preventDefault();
+      pickerOpen = !pickerOpen;
+      update();
+    });
+    $("[data-ew-pick-ok]").addEventListener("click", function () {
+      pickerOpen = false;
+      update();
+      eigenPill.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    });
   }
 
   var LABEL = {
@@ -104,7 +120,10 @@
     var branche = $('[name="branche"]').value.trim(), ort = $('[name="ort"]').value.trim();
     var url = $('[name="url"]').value.trim().replace(/^https?:\/\//, "").replace(/\/.*$/, "");
     var c = currentColor();
-    if (picker) picker.hidden = !eigenRadio.checked;
+    if (picker) {
+      picker.hidden = !(eigenRadio.checked && pickerOpen);
+      eigenRadio.setAttribute("aria-expanded", String(!picker.hidden));
+    }
 
     prev.style.setProperty("--c", c.hex);
     prev.style.setProperty("--on", onColor(c.hex));
