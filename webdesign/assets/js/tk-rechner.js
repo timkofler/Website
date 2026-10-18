@@ -191,7 +191,13 @@
     var barBtn = bar.querySelector("[data-calc-bar-go]");
     if (barBtn) barBtn.addEventListener("click", sendToForm);
     var sumEl = root.querySelector(".tk-calc__sum"), rootIn = false, sumIn = false;
-    function barUpdate() { bar.classList.toggle("is-on", rootIn && !sumIn); }
+    function barUpdate() {
+      var on = rootIn && !sumIn;
+      bar.classList.toggle("is-on", on);
+      // Ausgeblendet: weder sichtbar noch per Tab erreichbar
+      bar.setAttribute("aria-hidden", String(!on));
+      if (on) bar.removeAttribute("inert"); else bar.setAttribute("inert", "");
+    }
     new IntersectionObserver(function (entries) { rootIn = entries[0].isIntersecting; barUpdate(); }, { threshold: 0 }).observe(root);
     if (sumEl) new IntersectionObserver(function (entries) { sumIn = entries[0].isIntersecting; barUpdate(); }, { threshold: 0.2 }).observe(sumEl);
   }

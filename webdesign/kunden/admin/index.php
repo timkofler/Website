@@ -16,7 +16,8 @@ kp_session();
 const KP_ADMIN = '/kunden/admin/';
 
 $hash = (string) (cx_config()['admin_password_hash'] ?? '');
-$isAdmin = $hash !== '' && !empty($_SESSION['admin']);
+// Die Anmeldung gilt nur für den Admin-Hash, mit dem sie gemacht wurde (neues Passwort in der config.php meldet alle ab).
+$isAdmin = $hash !== '' && is_string($_SESSION['admin'] ?? null) && hash_equals(kp_pw_tag($hash), $_SESSION['admin']);
 $k = (string) ($_GET['k'] ?? '');
 $k = kp_valid_user($k) ? $k : '';
 $ew = (string) ($_GET['entwurf'] ?? '');
@@ -97,19 +98,20 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 
     if ($action === 'anmelden' && $hash !== '') {
         $keys = ['ip:' . kp_ip_hash(), 'admin'];
-        if (kp_blocked($keys)) {
+        if (!kp_try($keys)) {
             kp_flash(false, 'Zu viele Fehlversuche. Bitte 15 Minuten warten.');
         } elseif (!password_verify((string) ($_POST['passwort'] ?? ''), $hash)) {
-            kp_fail($keys);
+            kp_fail_wait();
             kp_flash(false, 'Das Passwort stimmt nicht.');
         } elseif (tf_active()) {
-            // Fehlversuche bleiben stehen, bis auch der Code stimmt: sonst gäbe jedes richtige Passwort neue Rateversuche.
+            // Der Code-Schritt zählt seine Versuche selbst mit.
+            kp_untry($keys);
             session_regenerate_id(true);
             $_SESSION['admin_pw'] = time();
         } else {
-            kp_fail_reset('admin');
+            kp_untry($keys);
             session_regenerate_id(true);
-            $_SESSION['admin'] = true;
+            $_SESSION['admin'] = kp_pw_tag($hash);
         }
         kp_redirect(KP_ADMIN . ($k !== '' ? '?k=' . $k : ''));
     }
@@ -119,19 +121,19 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         if (!$codeStep) {
             unset($_SESSION['admin_pw']);
             kp_flash(false, 'Das hat zu lange gedauert. Bitte melde dich noch einmal mit dem Passwort an.');
-        } elseif (kp_blocked($keys)) {
+        } elseif (!kp_try($keys)) {
             kp_flash(false, 'Zu viele Fehlversuche. Bitte 15 Minuten warten.');
         } else {
             $input = trim((string) ($_POST['code'] ?? ''));
             $art = tf_active() ? tf_check($input) : 'aus';
             if ($art === '') {
-                kp_fail($keys);
+                kp_fail_wait();
                 kp_flash(false, $input !== '' && preg_match('/[a-z]/i', $input) ? 'Dieser Notfall-Code stimmt nicht oder wurde schon verwendet.' : 'Der Code stimmt nicht. Bitte den aktuellen Code aus der App eingeben.');
             } else {
-                kp_fail_reset('admin');
+                kp_untry($keys);
                 unset($_SESSION['admin_pw']);
                 session_regenerate_id(true);
-                $_SESSION['admin'] = true;
+                $_SESSION['admin'] = kp_pw_tag($hash);
                 if ($art === 'notfall') {
                     $left = tf_backups_left();
                     kp_flash($left > 2, 'Angemeldet mit einem Notfall-Code. Dieser Code ist jetzt verbraucht, ' . ($left === 1 ? 'einer ist' : $left . ' sind') . ' noch übrig.'
@@ -180,17 +182,19 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         }
         // Erneuern und Ausschalten nur mit einem aktuellen Code, damit eine offen gelassene Sitzung allein nicht reicht.
         $keys = ['ip:' . kp_ip_hash(), 'admin'];
-        if (kp_blocked($keys)) {
-            kp_flash(false, 'Zu viele Fehlversuche. Bitte 15 Minuten warten.');
-        } elseif ($action === 'tf_aus' && cx_field('sicher', 5) !== 'ja') {
+        if ($action === 'tf_aus' && cx_field('sicher', 5) !== 'ja') {
             kp_flash(false, 'Zum Ausschalten bitte das Häkchen setzen.');
+        } elseif (!kp_try($keys)) {
+            kp_flash(false, 'Zu viele Fehlversuche. Bitte 15 Minuten warten.');
         } elseif (tf_check($input, false) !== 'app') {
-            kp_fail($keys);
+            kp_fail_wait();
             kp_flash(false, 'Der Code stimmt nicht. Bitte den aktuellen Code aus der App eingeben.');
         } elseif ($action === 'tf_aus') {
+            kp_untry($keys);
             tf_disable();
             kp_flash(true, 'Die Zwei-Faktor-Anmeldung ist ausgeschaltet. Du kannst den Eintrag in der App jetzt löschen.');
         } else {
+            kp_untry($keys);
             $d = tf_state();
             $codes = tf_new_backups();
             $d['notfall'] = tf_hash_backups($codes);

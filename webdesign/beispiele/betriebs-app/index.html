@@ -1,7 +1,17 @@
-<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!doctype html><html lang="de-AT"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Eine App statt sieben Abos – Beispiel einer Betriebs-App | tim-kofler.at</title>
 <link rel="canonical" href="https://tim-kofler.at/beispiele/betriebs-app/">
-<meta name="description" content="Beispiel von Tim Kofler – Webdesign: Terminbuchung, Gutscheine, digitale Stempelkarte und Angebote mit Unterschrift in einer eigenen App statt vieler Software-Abos. Zum Ausprobieren, mit Abo-Rechner.">
+<meta name="description" content="Terminbuchung, Gutscheine, Stempelkarte und Angebote mit Unterschrift in einer eigenen App statt vieler Software-Abos. Zum Ausprobieren, mit Abo-Rechner.">
+<meta property="og:title" content="Eine App statt sieben Abos – Beispiel einer Betriebs-App">
+<meta property="og:description" content="Terminbuchung, Gutscheine, Stempelkarte und Angebote mit Unterschrift in einer eigenen App statt vieler Software-Abos.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="de_AT">
+<meta property="og:site_name" content="Tim Kofler – Webdesign">
+<meta property="og:url" content="https://tim-kofler.at/beispiele/betriebs-app/">
+<meta property="og:image" content="https://tim-kofler.at/assets/img/og-tk-2.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#070b16" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f4f6fb" media="(prefers-color-scheme: light)">
 <meta name="color-scheme" content="dark light">
@@ -24,7 +34,7 @@
 }
 @media (prefers-color-scheme: light){:root{
   --bg:#f4f6fb;--bg2:#ffffff;--card:#ffffff;--card2:#eef2fa;--line:#dfe5f0;--line2:#cbd4e4;
-  --ink:#0d1426;--mu:#4f5a72;--mu2:#6b7590;
+  --ink:#0d1426;--mu:#4f5a72;--mu2:#5f6986;
   --popt:#c2410c;--popl:rgba(255,90,31,.12);
   --blue:#2a5cf0;--bluel:rgba(42,92,240,.1);--ok:#0b8a5c;--okl:rgba(11,138,92,.1);--bad:#d33a3a;--badl:rgba(211,58,58,.1);
   --glow1:rgba(42,92,240,.16);--glow2:rgba(255,90,31,.14);
@@ -32,6 +42,7 @@
 }}
 *,*::before,*::after{box-sizing:border-box}
 [hidden]{display:none !important}
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--bd);-webkit-font-smoothing:antialiased;overflow-x:hidden;overflow-x:clip}
 a{color:inherit}
@@ -414,9 +425,10 @@ button{cursor:pointer}
   .hint{display:none}
 }
 </style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Start", "item": "https://tim-kofler.at/"}, {"@type": "ListItem", "position": 2, "name": "Beispielseiten", "item": "https://tim-kofler.at/beispiele/"}, {"@type": "ListItem", "position": 3, "name": "Betriebs-App", "item": "https://tim-kofler.at/beispiele/betriebs-app/"}]}, {"@type": "Service", "@id": "https://tim-kofler.at/beispiele/betriebs-app/#angebot", "name": "Eigene Betriebs-App statt Software-Abos", "serviceType": "Web-App-Entwicklung", "provider": {"@id": "https://tim-kofler.at/#unternehmen"}, "areaServed": {"@type": "Country", "name": "Österreich"}, "url": "https://tim-kofler.at/beispiele/betriebs-app/"}]}</script>
 </head>
 <body>
-<div class="tk-demo-bar"><a href="/"><img src="/beispiele/_shared/tk-logo.svg" alt="tim-kofler.at" width="34" height="17"><span>tim-kofler.at</span></a>
+<div class="tk-demo-bar"><a href="/"><img src="/beispiele/_shared/tk-logo.svg" alt="" width="34" height="17"><span>tim-kofler.at</span></a>
 <span class="tk-demo-bar__note">Beispiel von tim-kofler.at · erfundene Betriebe, Musterdaten, Preise als Richtwerte</span>
 <a class="tk-demo-bar__cta" href="/#anfrage">So eine App anfragen</a></div>
 
@@ -708,5 +720,5 @@ button{cursor:pointer}
 
 <script src="/beispiele/_shared/demo.js" defer></script>
 <script src="/beispiele/_shared/vendor/qrcode-generator-2.0.4/qrcode.js" defer></script>
-<script src="/beispiele/betriebs-app/app.js?v=2" defer></script>
+<script src="/beispiele/betriebs-app/app.js?v=3" defer></script>
 </body></html>

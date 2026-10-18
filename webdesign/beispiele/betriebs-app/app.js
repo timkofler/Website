@@ -259,7 +259,7 @@
     }).join("");
     $("[data-t-days]").innerHTML = dayList().map(function (d) {
       var closed = b.closed.indexOf(d.getDay()) >= 0, sel = T.day && dkey(T.day) === dkey(d);
-      return '<button type="button" class="day" data-day="' + dkey(d) + '"' + (closed ? ' disabled aria-label="' + WD[d.getDay()] + " " + d.getDate() + '. geschlossen"' : "") + ' aria-pressed="' + !!sel + '">' + WD[d.getDay()] + "<b>" + d.getDate() + "</b></button>";
+      return '<button type="button" class="day" data-day="' + dkey(d) + '"' + (closed ? " disabled" : "") + ' aria-pressed="' + !!sel + '">' + WD[d.getDay()] + "<b>" + d.getDate() + "</b>" + (closed ? '<span class="sr-only"> geschlossen</span>' : "") + "</button>";
     }).join("");
     renderSlots(); tCheck();
   };

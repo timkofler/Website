@@ -130,9 +130,12 @@ p a:not(.btn):hover, li a:not(.btn):hover, .form__check a:hover { text-decoratio
 .tk-car__ctrl { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 8px; }
 .tk-car__btn { width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--line-2); background: var(--bg-2); color: var(--text); font-size: 1.1rem; cursor: pointer; transition: border-color .2s, background .2s; }
 .tk-car__btn:hover { border-color: #8a8a8a; background: #1b1b1b; }
-.tk-car__dots { display: flex; gap: 8px; }
-.tk-car__dot { width: 22px; height: 4px; border-radius: 4px; border: 0; padding: 0; background: #3a3a3a; cursor: pointer; transition: background .3s, width .3s; }
-.tk-car__dot.is-on { width: 38px; background: #d9d9d9; }
+.tk-car__dots { display: flex; gap: 0; }
+/* Sichtbar bleibt der schmale Strich (::after), die Klickfläche ist 24 px hoch und breit genug für Finger */
+.tk-car__dot { position: relative; width: 30px; height: 24px; border: 0; padding: 0; background: none; cursor: pointer; transition: width .3s; }
+.tk-car__dot::after { content: ""; position: absolute; left: 4px; right: 4px; top: 10px; height: 4px; border-radius: 4px; background: #3a3a3a; transition: background .3s; }
+.tk-car__dot.is-on { width: 46px; }
+.tk-car__dot.is-on::after { background: #d9d9d9; }
 .tk-car__note { text-align: center; max-width: 620px; margin: 26px auto 0; }
 @media (max-width: 680px) {
   .tk-car__track { gap: 26px; padding: 16px calc(50% - 120px) 26px; }
@@ -238,7 +241,7 @@ p a:not(.btn):hover, li a:not(.btn):hover, .form__check a:hover { text-decoratio
 .tk-host--mini .tk-host__note { margin-top: 16px; }
 @media (max-width: 820px) { .tk-host { grid-template-columns: 1fr; } }
 
-@media (max-width: 560px) { .tk-car__ctrl { gap: 12px; } .tk-car__dots { gap: 6px; } .tk-car__dot { width: 14px; } .tk-car__dot.is-on { width: 26px; } }
+@media (max-width: 560px) { .tk-car__ctrl { gap: 12px; } .tk-car__btn { flex-shrink: 0; } .tk-car__dot { width: 20px; } .tk-car__dot::after { left: 3px; right: 3px; } .tk-car__dot.is-on { width: 32px; } }
 
 /* ================= Signalfarbe & neue Effekte (2026-10) ================= */
 :root { --hot: #ff5a1f; --hot-2: #ffb23f; --hot-dim: rgba(255,90,31,.14); --hot-grad: linear-gradient(100deg, #ff4d1a 0%, #ff7a2a 45%, #ffb23f 100%); }
@@ -254,7 +257,7 @@ h1 .lime, h2 .lime, h3 .lime { background: var(--hot-grad); -webkit-background-c
 .rule__k { color: var(--hot-2) !important; }
 .ticks li::before, .feature__text li::before { background: var(--hot) !important; }
 .tk-marquee span::after { background: var(--hot); box-shadow: 0 0 12px rgba(255,90,31,.7); }
-.tk-car__dot.is-on { background: var(--hot-grad); }
+.tk-car__dot.is-on::after { background: var(--hot-grad); }
 .price__tag { border-color: rgba(255,90,31,.5); }
 .price--hi .price__tag { background: var(--hot); border-color: var(--hot); color: #0b0b0b; }
 .price--hi { background:
@@ -317,7 +320,7 @@ h1 .lime, h2 .lime, h3 .lime { background: var(--hot-grad); -webkit-background-c
 .tk-dash__chart span:nth-child(6) { animation-delay: .30s !important; } .tk-dash__chart span:nth-child(7) { animation-delay: .36s !important; }
 @keyframes tk-grow { from { transform: scaleY(0); } }
 .tk-dash__days { display: flex; gap: 10px; padding: 0 4px; margin-top: -10px; }
-.tk-dash__days span { flex: 1; text-align: center; font: 500 .68rem var(--mono); color: #7a7a7a; }
+.tk-dash__days span { flex: 1; text-align: center; font: 500 .68rem var(--mono); color: #8a8a8a; }
 .tk-dash__menu { background: #161616; border: 1px solid #262626; border-radius: 12px; padding: 14px; }
 .tk-dash__menu-h { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: .9rem; }
 .tk-dash__menu-h span { color: var(--muted); font: 500 .72rem var(--mono); }

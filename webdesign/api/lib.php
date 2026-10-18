@@ -37,6 +37,27 @@ function cx_brand(): array
     ];
 }
 
+// Führt $fn unter einer exklusiven Dateisperre aus (Zähler und Grenzen bei parallelen Anfragen).
+function cx_locked(string $lockFile, callable $fn)
+{
+    $dir = dirname($lockFile);
+    if (!is_dir($dir)) {
+        @mkdir($dir, 0700, true);
+    }
+    $h = @fopen($lockFile, 'c');
+    if ($h) {
+        flock($h, LOCK_EX);
+    }
+    try {
+        return $fn();
+    } finally {
+        if ($h) {
+            flock($h, LOCK_UN);
+            fclose($h);
+        }
+    }
+}
+
 function cx_wants_json(): bool
 {
     return stripos($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json') !== false;
@@ -135,13 +156,16 @@ function cx_rate_ok(): bool
     $salt = (string) (cx_config()['secret'] ?? 'cx');
     $file = $dir . '/' . hash('sha256', $salt . ($_SERVER['REMOTE_ADDR'] ?? '')) . '.json';
     $now = time();
-    $hits = is_file($file) ? (json_decode((string) file_get_contents($file), true) ?: []) : [];
-    $hits = array_values(array_filter($hits, static fn($t) => is_int($t) && $t > $now - 3600));
-    if (count($hits) >= 6) {
-        return false;
-    }
-    $hits[] = $now;
-    @file_put_contents($file, json_encode($hits), LOCK_EX);
+    $ok = cx_locked($dir . '/.lock', static function () use ($file, $now) {
+        $hits = is_file($file) ? (json_decode((string) file_get_contents($file), true) ?: []) : [];
+        $hits = array_values(array_filter($hits, static fn($t) => is_int($t) && $t > $now - 3600));
+        if (count($hits) >= 6) {
+            return false;
+        }
+        $hits[] = $now;
+        @file_put_contents($file, json_encode($hits), LOCK_EX);
+        return true;
+    });
     // Alte Dateien gelegentlich aufräumen.
     if (random_int(1, 50) === 1) {
         foreach (glob($dir . '/*.json') ?: [] as $f) {
@@ -150,7 +174,14 @@ function cx_rate_ok(): bool
             }
         }
     }
-    return true;
+    return $ok;
+}
+
+// Enthält der Text Links, Domains, E-Mail-Adressen oder Telefonnummern (auch mit Unicode-Punkten oder [.])?
+// Für Felder, die in Mails an fremde Adressen oder auf öffentlichen Seiten erscheinen.
+function cx_has_link(string $s): bool
+{
+    return (bool) preg_match('~https?:|www\.|[/@]|[\p{L}\p{N}](?:[.\x{3002}\x{FF0E}\x{FF61}]|\s*\[\s*\.\s*\]\s*|\s*\(\s*\.\s*\)\s*)\p{L}{2,}\b|\d[\d /().-]{5,}\d~iu', $s);
 }
 
 // Aufruf der Brevo-API (https://api.brevo.com/v3). Der Schlüssel bleibt auf dem Server.

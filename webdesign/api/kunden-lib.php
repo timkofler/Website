@@ -51,6 +51,9 @@ function kp_session(): void
     ini_set('session.use_strict_mode', '1');
     ini_set('session.use_only_cookies', '1');
     ini_set('session.gc_maxlifetime', (string) KP_IDLE);
+    // Abgelaufene Sitzungsdateien selbst aufräumen (viele Server haben das für eigene Ordner abgeschaltet).
+    ini_set('session.gc_probability', '1');
+    ini_set('session.gc_divisor', '100');
     session_name('tk_portal');
     session_set_cookie_params(['lifetime' => 0, 'path' => '/kunden/', 'secure' => true, 'httponly' => true, 'samesite' => 'Lax']);
     session_start();
@@ -105,6 +108,19 @@ function kp_redirect(string $to): void
 {
     header('Location: ' . $to, true, 303);
     exit;
+}
+
+// Kurzer Fingerabdruck eines Passwort-Hashes für die Sitzung: Ändert sich das Passwort (neues Passwort
+// im Admin, selbst geändert, neuer Admin-Hash in der config.php), gelten ältere Anmeldungen nicht mehr.
+function kp_pw_tag(string $hash): string
+{
+    return substr(hash_hmac('sha256', $hash, (string) (cx_config()['secret'] ?? 'tk')), 0, 20);
+}
+
+// Gleich lange Prüfung, auch wenn es den Benutzer nicht gibt (verrät nicht über die Antwortzeit, welche Namen existieren).
+function kp_dummy_verify(string $pass): void
+{
+    password_verify($pass, '$2y$10$EzQWJzNwrsRD7Nie74R2Hu2w//FgVoQdgL8pTqj8efhLc7EjnQa5W');
 }
 
 function kp_ip_hash(): string
@@ -199,7 +215,8 @@ function kp_save_accounts(array $a): bool
 
 function kp_valid_user(string $u): bool
 {
-    return (bool) preg_match('/^[a-z0-9](?:[a-z0-9-]{1,38}[a-z0-9])$/', $u);
+    // „sitzungen“ und „sperre“ sind Ordner des Portals selbst und keine Benutzernamen.
+    return !in_array($u, ['sitzungen', 'sperre'], true) && (bool) preg_match('/^[a-z0-9](?:[a-z0-9-]{1,38}[a-z0-9])$/', $u);
 }
 
 function kp_account(string $u): ?array
@@ -238,24 +255,47 @@ function kp_fails(string $key): array
     return array_values(array_filter(kp_read_json(kp_fail_file($key)), static fn($t) => is_int($t) && $t > $now - KP_FAIL_WINDOW));
 }
 
-function kp_blocked(array $keys): bool
+// Höchstzahl je Schlüssel: pro Anschluss und Konto KP_FAILS, für den gemeinsamen Schlüssel „admin“ viel mehr,
+// damit Fremde Tim nicht mit ein paar falschen Passwörtern aussperren können.
+function kp_limit(string $key): int
 {
-    foreach ($keys as $k) {
-        if (count(kp_fails($k)) >= KP_FAILS) {
-            return true;
-        }
-    }
-    return false;
+    return $key === 'admin' ? 50 : KP_FAILS;
 }
 
-function kp_fail(array $keys): void
+// Reserviert einen Versuch für alle Schlüssel, unter Sperre (parallele Anfragen zählen einzeln mit).
+// false = zu viele Versuche, dann nicht prüfen. Nach Erfolg mit kp_untry() wieder freigeben.
+function kp_try(array $keys): bool
 {
-    foreach ($keys as $k) {
-        $f = kp_fails($k);
-        $f[] = time();
-        kp_write_json(kp_fail_file($k), $f);
-    }
-    // Ein Rest an Wartezeit macht automatisches Raten zusätzlich langsam.
+    return (bool) cx_locked(KP_DIR . '/sperre/.lock', static function () use ($keys) {
+        foreach ($keys as $k) {
+            if (count(kp_fails($k)) >= kp_limit($k)) {
+                return false;
+            }
+        }
+        foreach ($keys as $k) {
+            $f = kp_fails($k);
+            $f[] = time();
+            kp_write_json(kp_fail_file($k), $f);
+        }
+        return true;
+    });
+}
+
+function kp_untry(array $keys): void
+{
+    cx_locked(KP_DIR . '/sperre/.lock', static function () use ($keys) {
+        foreach ($keys as $k) {
+            $f = kp_fails($k);
+            array_pop($f);
+            $f ? kp_write_json(kp_fail_file($k), $f) : @unlink(kp_fail_file($k));
+        }
+        return true;
+    });
+}
+
+// Nach einem Fehlversuch: ein Rest an Wartezeit macht automatisches Raten zusätzlich langsam.
+function kp_fail_wait(): void
+{
     usleep(random_int(300000, 700000));
 }
 
@@ -671,7 +711,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <meta name="theme-color" content="#0b0b0b">
   <link rel="icon" href="/assets/img/tk-badge.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/css/style.css?v=a9c5cddd">
-  <link rel="stylesheet" href="/assets/css/tk.css?v=0bab137b">
+  <link rel="stylesheet" href="/assets/css/tk.css?v=fa2af531">
   <link rel="stylesheet" href="/assets/css/portal.css?v=5bb61926">
 </head>
 <body class="kp">
@@ -690,7 +730,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
 </main>
 <footer class="footer kp-foot">
   <div class="container footer__bottom">
-    <span>© Tim Kofler · Kundenportal · Nach der Anmeldung wird ein technisch notwendiges Sitzungs-Cookie gesetzt.</span>
+    <span>© Tim Kofler · Kundenportal · Hier wird nur ein technisch notwendiges Sitzungs-Cookie gesetzt.</span>
     <span><a href="/impressum/">Impressum</a> · <a href="/datenschutz/#kundenportal">Datenschutz</a></span>
   </div>
 </footer>

@@ -45,7 +45,9 @@ $fehler = vs_pruefen($firma, $branche, $ort);
 if ($fehler !== '') {
     cx_respond(false, $fehler);
 }
-vs_ip_zaehlen();
+if (!vs_ip_try()) {
+    cx_respond(false, 'Du hast heute schon ' . VS_IP_LIMIT . ' Vorschauen erzeugt. Morgen geht es weiter, oder schreib mir direkt.');
+}
 $r = vs_erstellen($firma, $branche, $ort, false);
 if (isset($r['fehler'])) {
     cx_respond(false, (string) $r['fehler']);

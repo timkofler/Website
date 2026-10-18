@@ -10,9 +10,9 @@ kp_session();
 
 $user = (string) ($_SESSION['kunde'] ?? '');
 $acc = $user !== '' ? kp_account($user) : null;
-if ($user !== '' && ($acc === null || empty($acc['aktiv']))) {
-    // Konto wurde inzwischen gelöscht oder gesperrt.
-    unset($_SESSION['kunde']);
+if ($user !== '' && ($acc === null || empty($acc['aktiv']) || !hash_equals(kp_pw_tag((string) ($acc['hash'] ?? '')), (string) ($_SESSION['kunde_pw'] ?? '')))) {
+    // Konto wurde inzwischen gelöscht, gesperrt oder das Passwort wurde geändert.
+    unset($_SESSION['kunde'], $_SESSION['kunde_pw']);
     $user = '';
     $acc = null;
 }
@@ -34,16 +34,20 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         $name = strtolower(cx_field('benutzer', 40));
         $pass = (string) ($_POST['passwort'] ?? '');
         $keys = ['ip:' . kp_ip_hash(), 'kunde:' . $name];
-        if (kp_blocked($keys)) {
+        if (!kp_try($keys)) {
             kp_flash(false, 'Zu viele Fehlversuche. Bitte warte 15 Minuten und versuche es dann noch einmal.');
             kp_redirect('/kunden/');
         }
         $a = kp_account($name);
+        if ($a === null) {
+            kp_dummy_verify($pass);
+        }
         if ($a === null || empty($a['aktiv']) || !password_verify($pass, (string) ($a['hash'] ?? ''))) {
-            kp_fail($keys);
+            kp_fail_wait();
             kp_flash(false, 'Benutzername oder Passwort stimmt nicht.');
             kp_redirect('/kunden/');
         }
+        kp_untry($keys);
         kp_fail_reset('kunde:' . $name);
         session_regenerate_id(true);
         $_SESSION['kunde'] = $name;
@@ -53,6 +57,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
             $all[$name]['hash'] = password_hash($pass, PASSWORD_DEFAULT);
         }
         kp_save_accounts($all);
+        $_SESSION['kunde_pw'] = kp_pw_tag((string) $all[$name]['hash']);
         kp_redirect('/kunden/');
     }
 
@@ -98,10 +103,14 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         $old = (string) ($_POST['alt'] ?? '');
         $new = (string) ($_POST['neu'] ?? '');
         $keys = ['ip:' . kp_ip_hash(), 'kunde:' . $user];
-        if (kp_blocked($keys)) {
+        $pwOk = kp_try($keys) ? password_verify($old, (string) $acc['hash']) : null;
+        if ($pwOk) {
+            kp_untry($keys);
+        }
+        if ($pwOk === null) {
             kp_flash(false, 'Zu viele Fehlversuche. Bitte warte 15 Minuten.');
-        } elseif (!password_verify($old, (string) $acc['hash'])) {
-            kp_fail($keys);
+        } elseif (!$pwOk) {
+            kp_fail_wait();
             kp_flash(false, 'Dein bisheriges Passwort stimmt nicht.');
         } elseif (strlen($new) < 10 || strlen($new) > 200) {
             kp_flash(false, 'Das neue Passwort muss mindestens 10 Zeichen lang sein.');
@@ -112,6 +121,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
             $all[$user]['hash'] = password_hash($new, PASSWORD_DEFAULT);
             kp_save_accounts($all);
             session_regenerate_id(true);
+            $_SESSION['kunde_pw'] = kp_pw_tag($all[$user]['hash']);
             kp_flash(true, 'Dein Passwort wurde geändert.');
         }
         kp_redirect('/kunden/');
