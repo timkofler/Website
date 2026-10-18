@@ -107,6 +107,19 @@ function kp_redirect(string $to): void
     exit;
 }
 
+// Kurzer Fingerabdruck eines Passwort-Hashes für die Sitzung: Ändert sich das Passwort (neues Passwort
+// im Admin, selbst geändert, neuer Admin-Hash in der config.php), gelten ältere Anmeldungen nicht mehr.
+function kp_pw_tag(string $hash): string
+{
+    return substr(hash_hmac('sha256', $hash, (string) (cx_config()['secret'] ?? 'tk')), 0, 20);
+}
+
+// Gleich lange Prüfung, auch wenn es den Benutzer nicht gibt (verrät nicht über die Antwortzeit, welche Namen existieren).
+function kp_dummy_verify(string $pass): void
+{
+    password_verify($pass, '$2y$10$EzQWJzNwrsRD7Nie74R2Hu2w//FgVoQdgL8pTqj8efhLc7EjnQa5W');
+}
+
 function kp_ip_hash(): string
 {
     return substr(hash('sha256', (string) (cx_config()['secret'] ?? 'tk') . ($_SERVER['REMOTE_ADDR'] ?? '')), 0, 32);
@@ -690,7 +703,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
 </main>
 <footer class="footer kp-foot">
   <div class="container footer__bottom">
-    <span>© Tim Kofler · Kundenportal · Nach der Anmeldung wird ein technisch notwendiges Sitzungs-Cookie gesetzt.</span>
+    <span>© Tim Kofler · Kundenportal · Hier wird nur ein technisch notwendiges Sitzungs-Cookie gesetzt.</span>
     <span><a href="/impressum/">Impressum</a> · <a href="/datenschutz/#kundenportal">Datenschutz</a></span>
   </div>
 </footer>

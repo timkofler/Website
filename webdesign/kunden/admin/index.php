@@ -16,7 +16,8 @@ kp_session();
 const KP_ADMIN = '/kunden/admin/';
 
 $hash = (string) (cx_config()['admin_password_hash'] ?? '');
-$isAdmin = $hash !== '' && !empty($_SESSION['admin']);
+// Die Anmeldung gilt nur für den Admin-Hash, mit dem sie gemacht wurde (neues Passwort in der config.php meldet alle ab).
+$isAdmin = $hash !== '' && is_string($_SESSION['admin'] ?? null) && hash_equals(kp_pw_tag($hash), $_SESSION['admin']);
 $k = (string) ($_GET['k'] ?? '');
 $k = kp_valid_user($k) ? $k : '';
 $ew = (string) ($_GET['entwurf'] ?? '');
@@ -109,7 +110,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         } else {
             kp_fail_reset('admin');
             session_regenerate_id(true);
-            $_SESSION['admin'] = true;
+            $_SESSION['admin'] = kp_pw_tag($hash);
         }
         kp_redirect(KP_ADMIN . ($k !== '' ? '?k=' . $k : ''));
     }
@@ -131,7 +132,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
                 kp_fail_reset('admin');
                 unset($_SESSION['admin_pw']);
                 session_regenerate_id(true);
-                $_SESSION['admin'] = true;
+                $_SESSION['admin'] = kp_pw_tag($hash);
                 if ($art === 'notfall') {
                     $left = tf_backups_left();
                     kp_flash($left > 2, 'Angemeldet mit einem Notfall-Code. Dieser Code ist jetzt verbraucht, ' . ($left === 1 ? 'einer ist' : $left . ' sind') . ' noch übrig.'
