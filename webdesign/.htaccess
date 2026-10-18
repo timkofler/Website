@@ -26,8 +26,11 @@ Options -Indexes
   RewriteRule ^app/?$ /beispiele/betriebs-app/ [R=302,L]
   # Kurzlink für Werbung (Story-Sticker, Google) zum kostenlosen Webseiten-Entwurf; ?utm_source=… bleibt erhalten
   RewriteRule ^gratis/?$ /entwurf/ [R=302,L]
-  # Teilbare Adresse einer erzeugten Vorschau (/vorschau/abc123xyz0/)
-  RewriteRule ^vorschau/([a-z0-9]{10})/?$ /vorschau/index.php?id=$1 [L,QSA]
+  # Die frühere „Vorschau in 60 Sekunden“ gibt es nicht mehr. /vorschau (QR-Code auf den gedruckten Briefen)
+  # und alte Vorschau-Links führen zum Gratis-Entwurf; ?utm_source=… bleibt erhalten.
+  RewriteRule ^vorschau(/.*)?$ /entwurf/ [R=302,L]
+  # Alte Vorschau-Endpunkte bleiben beim Hochladen auf dem Server liegen, sind aber nicht mehr erreichbar.
+  RewriteRule ^api/vorschau(-lib)?\.php$ - [G,L]
 </IfModule>
 <If "%{HTTP_HOST} =~ /^(www\.)?tim-kofler\.at$/i">
   DirectoryIndex index.html index.php

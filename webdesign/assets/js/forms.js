@@ -41,7 +41,7 @@
     // Empfehlungslink wie /?empfohlen=Maria%20Muster#anfrage trägt den Namen gleich ein.
     var ef = form.querySelector('input[name="empfohlen"]');
     if (ef && q.get("empfohlen") && !ef.value) ef.value = q.get("empfohlen").slice(0, 120);
-    // Von der Vorschau (/vorschau/…) kommen Betrieb, Paket und Nachricht schon ausgefüllt mit.
+    // Links wie /?firma=…&nachricht=…#anfrage füllen Betrieb und Nachricht schon aus.
     [["firma", 120], ["nachricht", 3000]].forEach(function (f) {
       var el = form.querySelector('[name="' + f[0] + '"]');
       if (el && q.get(f[0]) && !el.value) el.value = q.get(f[0]).slice(0, f[1]);
