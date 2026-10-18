@@ -20,6 +20,12 @@
   var resetBtn = root.querySelector("[data-calc-reset]");
   var bar = document.querySelector("[data-calc-bar]");
   var barAmount = bar ? bar.querySelector("[data-calc-bar-amount]") : null;
+  var toggleWrap = root.querySelector("[data-calc-toggle-wrap]");
+  var toggle = root.querySelector("[data-calc-toggle]");
+  var toggleText = root.querySelector("[data-calc-toggle-text]");
+  var body = root.querySelector("[data-calc-body]");
+  var teaser = root.querySelector("[data-calc-teaser]");
+  var isOpen = true;
 
   // Grundpreise der Pakete (wie auf der Seite) und Aufschlag je weiterer Seite über Business hinaus.
   var P = {
@@ -126,6 +132,7 @@
       monthEl.hidden = r.monthSum === 0;
       text(monthEl, r.monthSum ? "+ " + fmt(r.monthSum) + " € im Monat (" + r.monthNames.join(", ") + "), monatlich kündbar" : "");
     }
+    if (teaser) text(teaser, MODE === "genau" ? "ca. " + fmt(r.sum) + " €" : MODE === "spanne" ? "ca. " + fmt(r.lo) + " bis " + fmt(r.hi) + " €" : r.paketName);
     if (barAmount) text(barAmount, MODE === "genau" ? "ca. " + fmt(r.sum) + " €" : MODE === "spanne" ? "ca. " + fmt(r.lo) + "–" + fmt(r.hi) + " €" : r.paketName);
     root.setAttribute("data-paket", r.paket);
     return r;
@@ -186,18 +193,57 @@
   if (goBtn) goBtn.addEventListener("click", sendToForm);
   if (resetBtn) resetBtn.addEventListener("click", function (e) { e.preventDefault(); reset(); });
 
+  // Zusammenklappen: Der Rechner ist eingeklappt, damit die Seite kürzer bleibt. Links auf #rechner öffnen ihn.
+  // Ohne JavaScript bleibt er offen.
+  var barUpdate = function () {};
+  var moveTimer;
+  function setOpen(open, instant) {
+    isOpen = open;
+    if (instant) root.classList.add("is-instant");
+    else {
+      // Während des Auf- und Zuklappens abschneiden, danach wieder Schatten und Fokusrahmen zeigen
+      root.classList.add("is-moving");
+      clearTimeout(moveTimer);
+      moveTimer = setTimeout(function () { root.classList.remove("is-moving"); }, reduce ? 0 : 600);
+    }
+    root.classList.toggle("is-closed", !open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.classList.toggle("btn--line", open);
+    text(toggleText, open ? "Rechner einklappen" : "Rechner öffnen");
+    if (open) body.removeAttribute("inert"); else body.setAttribute("inert", "");
+    if (instant) { void root.offsetWidth; root.classList.remove("is-instant"); }
+    barUpdate();
+  }
+  if (toggle && body) {
+    toggleWrap.hidden = false;
+    setOpen(location.hash === "#rechner", true);
+    toggle.addEventListener("click", function () {
+      setOpen(!isOpen);
+      if (!isOpen) {
+        // Beim Einklappen nicht ins Leere schauen: den Kopf des Rechners im Bild halten
+        var top = root.getBoundingClientRect().top;
+        if (top < 0) root.scrollIntoView({ behavior: "auto", block: "start" });
+      }
+    });
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest && e.target.closest('a[href$="#rechner"]');
+      if (a && !isOpen) setOpen(true);
+    });
+    window.addEventListener("hashchange", function () { if (location.hash === "#rechner" && !isOpen) setOpen(true); });
+  }
+
   // Kleine Leiste am Handy: zeigt den Richtpreis, solange der Rechner im Bild ist, aber das Ergebnis selbst nicht.
   if (bar && "IntersectionObserver" in window) {
     var barBtn = bar.querySelector("[data-calc-bar-go]");
     if (barBtn) barBtn.addEventListener("click", sendToForm);
     var sumEl = root.querySelector(".tk-calc__sum"), rootIn = false, sumIn = false;
-    function barUpdate() {
-      var on = rootIn && !sumIn;
+    barUpdate = function () {
+      var on = isOpen && rootIn && !sumIn;
       bar.classList.toggle("is-on", on);
       // Ausgeblendet: weder sichtbar noch per Tab erreichbar
       bar.setAttribute("aria-hidden", String(!on));
       if (on) bar.removeAttribute("inert"); else bar.setAttribute("inert", "");
-    }
+    };
     new IntersectionObserver(function (entries) { rootIn = entries[0].isIntersecting; barUpdate(); }, { threshold: 0 }).observe(root);
     if (sumEl) new IntersectionObserver(function (entries) { sumIn = entries[0].isIntersecting; barUpdate(); }, { threshold: 0.2 }).observe(sumEl);
   }
