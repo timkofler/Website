@@ -51,6 +51,9 @@ function kp_session(): void
     ini_set('session.use_strict_mode', '1');
     ini_set('session.use_only_cookies', '1');
     ini_set('session.gc_maxlifetime', (string) KP_IDLE);
+    // Abgelaufene Sitzungsdateien selbst aufräumen (viele Server haben das für eigene Ordner abgeschaltet).
+    ini_set('session.gc_probability', '1');
+    ini_set('session.gc_divisor', '100');
     session_name('tk_portal');
     session_set_cookie_params(['lifetime' => 0, 'path' => '/kunden/', 'secure' => true, 'httponly' => true, 'samesite' => 'Lax']);
     session_start();
@@ -212,7 +215,8 @@ function kp_save_accounts(array $a): bool
 
 function kp_valid_user(string $u): bool
 {
-    return (bool) preg_match('/^[a-z0-9](?:[a-z0-9-]{1,38}[a-z0-9])$/', $u);
+    // „sitzungen“ und „sperre“ sind Ordner des Portals selbst und keine Benutzernamen.
+    return !in_array($u, ['sitzungen', 'sperre'], true) && (bool) preg_match('/^[a-z0-9](?:[a-z0-9-]{1,38}[a-z0-9])$/', $u);
 }
 
 function kp_account(string $u): ?array
@@ -251,24 +255,47 @@ function kp_fails(string $key): array
     return array_values(array_filter(kp_read_json(kp_fail_file($key)), static fn($t) => is_int($t) && $t > $now - KP_FAIL_WINDOW));
 }
 
-function kp_blocked(array $keys): bool
+// Höchstzahl je Schlüssel: pro Anschluss und Konto KP_FAILS, für den gemeinsamen Schlüssel „admin“ viel mehr,
+// damit Fremde Tim nicht mit ein paar falschen Passwörtern aussperren können.
+function kp_limit(string $key): int
 {
-    foreach ($keys as $k) {
-        if (count(kp_fails($k)) >= KP_FAILS) {
-            return true;
-        }
-    }
-    return false;
+    return $key === 'admin' ? 50 : KP_FAILS;
 }
 
-function kp_fail(array $keys): void
+// Reserviert einen Versuch für alle Schlüssel, unter Sperre (parallele Anfragen zählen einzeln mit).
+// false = zu viele Versuche, dann nicht prüfen. Nach Erfolg mit kp_untry() wieder freigeben.
+function kp_try(array $keys): bool
 {
-    foreach ($keys as $k) {
-        $f = kp_fails($k);
-        $f[] = time();
-        kp_write_json(kp_fail_file($k), $f);
-    }
-    // Ein Rest an Wartezeit macht automatisches Raten zusätzlich langsam.
+    return (bool) cx_locked(KP_DIR . '/sperre/.lock', static function () use ($keys) {
+        foreach ($keys as $k) {
+            if (count(kp_fails($k)) >= kp_limit($k)) {
+                return false;
+            }
+        }
+        foreach ($keys as $k) {
+            $f = kp_fails($k);
+            $f[] = time();
+            kp_write_json(kp_fail_file($k), $f);
+        }
+        return true;
+    });
+}
+
+function kp_untry(array $keys): void
+{
+    cx_locked(KP_DIR . '/sperre/.lock', static function () use ($keys) {
+        foreach ($keys as $k) {
+            $f = kp_fails($k);
+            array_pop($f);
+            $f ? kp_write_json(kp_fail_file($k), $f) : @unlink(kp_fail_file($k));
+        }
+        return true;
+    });
+}
+
+// Nach einem Fehlversuch: ein Rest an Wartezeit macht automatisches Raten zusätzlich langsam.
+function kp_fail_wait(): void
+{
     usleep(random_int(300000, 700000));
 }
 

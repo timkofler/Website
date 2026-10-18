@@ -136,10 +136,16 @@ function vs_tag_ok(bool $admin): bool
     return vs_tag_count($admin) < vs_tag_limit($admin);
 }
 
-function vs_tag_zaehlen(bool $admin): void
+// Prüfen und Zählen in einem Schritt unter Sperre (parallele Anfragen überschreiten das Tageslimit nicht).
+function vs_tag_try(bool $admin): bool
 {
-    $f = vs_zaehler_datei(($admin ? 'admin-' : 'tag-') . date('Y-m-d'));
-    vs_write($f, ['n' => vs_tag_count($admin) + 1]);
+    return (bool) cx_locked(VS_DIR . '/zaehler/.lock', static function () use ($admin) {
+        if (!vs_tag_ok($admin)) {
+            return false;
+        }
+        vs_write(vs_zaehler_datei(($admin ? 'admin-' : 'tag-') . date('Y-m-d')), ['n' => vs_tag_count($admin) + 1]);
+        return true;
+    });
 }
 
 // Höchstens VS_IP_LIMIT Vorschauen je Anschluss in 24 Stunden. Gespeichert wird nur ein Hash der IP-Adresse, der nach 3 Tagen gelöscht wird.
@@ -157,11 +163,17 @@ function vs_ip_hits(): array
     return array_values(array_filter($hits, static fn($t) => is_int($t) && $t > $now - 86400));
 }
 
-function vs_ip_zaehlen(): void
+function vs_ip_try(): bool
 {
-    $hits = vs_ip_hits();
-    $hits[] = time();
-    vs_write(vs_zaehler_datei('ip-' . kp_ip_hash_vs()), $hits);
+    return (bool) cx_locked(VS_DIR . '/zaehler/.lock', static function () {
+        $hits = vs_ip_hits();
+        if (count($hits) >= VS_IP_LIMIT) {
+            return false;
+        }
+        $hits[] = time();
+        vs_write(vs_zaehler_datei('ip-' . kp_ip_hash_vs()), $hits);
+        return true;
+    });
 }
 
 function kp_ip_hash_vs(): string
@@ -187,8 +199,12 @@ function vs_pruefen(string &$firma, string &$branche, string &$ort): string
     if (mb_strlen($ort) < 2) {
         return 'Bitte gib den Ort ein, z. B. „Oberndorf an der Melk“.';
     }
-    if (preg_match('~https?:|www\.|[/@]|\w\.[a-z]{2,}\b~i', $firma . ' ' . $branche . ' ' . $ort)) {
-        return 'Bitte ohne Links oder E-Mail-Adressen, nur Name, Branche und Ort.';
+    if (cx_has_link($firma) || cx_has_link($branche) || cx_has_link($ort)) {
+        return 'Bitte ohne Links, E-Mail-Adressen oder Telefonnummern, nur Name, Branche und Ort.';
+    }
+    // Die Vorschau liegt öffentlich unter tim-kofler.at: keine Texte, die nach Betrug oder fremden Marken klingen.
+    if (preg_match('~gesperrt|hotline|passwort|kennwort|\bpin\b|\btan\b|\bkonto\b|login|verifizier|sicherheitsteam|kundendienst|paypal|amazon|apple|google|microsoft|netflix|sparkasse|raiffeisen|erste bank|bawag|volksbank|polizei|finanzamt|\bzoll\b|gewinn|bitcoin|krypto~iu', $firma . ' ' . $branche . ' ' . $ort)) {
+        return 'Für diese Angaben kann ich keine automatische Vorschau erzeugen. Schreib mir an office@tim-kofler.at, dann schaue ich mir das persönlich an.';
     }
     return '';
 }
@@ -337,12 +353,11 @@ function vs_erstellen(string $firma, string $branche, string $ort, bool $admin):
     if ($fehler !== '') {
         return ['fehler' => $fehler];
     }
-    if (!vs_tag_ok($admin)) {
+    if (!vs_tag_try($admin)) {
         return ['fehler' => $admin
             ? 'Das Tageslimit für Admin-Vorschauen ist erreicht (' . vs_tag_limit(true) . '). In der config.php mit vorschau_tageslimit_admin erhöhen.'
             : 'Für heute sind alle kostenlosen Vorschauen vergeben. Morgen geht es weiter, oder schreib mir direkt, dann baue ich dir eine.'];
     }
-    vs_tag_zaehlen($admin);
     $inhalt = vs_generate($firma, $branche, $ort);
     if (is_string($inhalt)) {
         return ['fehler' => $inhalt];
@@ -375,8 +390,8 @@ function vs_saeubern(array $i): array
 {
     // Keine Links, E-Mail-Adressen oder Telefonnummern aus der KI-Antwort übernehmen (die Seite liegt unter tim-kofler.at).
     $str = static fn($v, int $max) => mb_substr(trim(preg_replace(
-        ['~(?:https?://|www\.)\S+~iu', '~[\w.+-]+@[\w-]+(?:\.[\w-]+)+~u', '~\+?\d[\d /()-]{6,}\d~u', '~\s{2,}~u'],
-        ['', '', '', ' '],
+        ['~(?:https?://|www\.)\S+~iu', '~[\w.+-]+@[\w-]+(?:\.[\w-]+)+~u', '~\b[\w-]+(?:\.[\w-]+)*\.(?:at|de|ch|com|net|org|info|eu|io|ly|me|biz|online|shop|app)\b~iu', '~\+?\d[\d /()-]{6,}\d~u', '~\s{2,}~u'],
+        ['', '', '', '', ' '],
         strip_tags(is_scalar($v) ? (string) $v : '')
     ) ?? ''), 0, $max);
     $list = static function ($v, int $n, int $max) use ($str) {

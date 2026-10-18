@@ -160,6 +160,12 @@ function tf_disable(): void
 // Rückgabe: 'app', 'notfall' oder '' (falsch). Ohne $backup zählt nur der Code aus der App.
 function tf_check(string $input, bool $backup = true): string
 {
+    // Unter Sperre, damit ein Code bei gleichzeitigen Anfragen nicht mehrfach gilt.
+    return (string) cx_locked(KP_DIR . '/admin-2fa.lock', static fn() => tf_check_unlocked($input, $backup));
+}
+
+function tf_check_unlocked(string $input, bool $backup): string
+{
     $d = tf_state();
     if (!$d) {
         return '';

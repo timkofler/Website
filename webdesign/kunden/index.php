@@ -34,7 +34,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         $name = strtolower(cx_field('benutzer', 40));
         $pass = (string) ($_POST['passwort'] ?? '');
         $keys = ['ip:' . kp_ip_hash(), 'kunde:' . $name];
-        if (kp_blocked($keys)) {
+        if (!kp_try($keys)) {
             kp_flash(false, 'Zu viele Fehlversuche. Bitte warte 15 Minuten und versuche es dann noch einmal.');
             kp_redirect('/kunden/');
         }
@@ -43,10 +43,11 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
             kp_dummy_verify($pass);
         }
         if ($a === null || empty($a['aktiv']) || !password_verify($pass, (string) ($a['hash'] ?? ''))) {
-            kp_fail($keys);
+            kp_fail_wait();
             kp_flash(false, 'Benutzername oder Passwort stimmt nicht.');
             kp_redirect('/kunden/');
         }
+        kp_untry($keys);
         kp_fail_reset('kunde:' . $name);
         session_regenerate_id(true);
         $_SESSION['kunde'] = $name;
@@ -102,10 +103,14 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         $old = (string) ($_POST['alt'] ?? '');
         $new = (string) ($_POST['neu'] ?? '');
         $keys = ['ip:' . kp_ip_hash(), 'kunde:' . $user];
-        if (kp_blocked($keys)) {
+        $pwOk = kp_try($keys) ? password_verify($old, (string) $acc['hash']) : null;
+        if ($pwOk) {
+            kp_untry($keys);
+        }
+        if ($pwOk === null) {
             kp_flash(false, 'Zu viele Fehlversuche. Bitte warte 15 Minuten.');
-        } elseif (!password_verify($old, (string) $acc['hash'])) {
-            kp_fail($keys);
+        } elseif (!$pwOk) {
+            kp_fail_wait();
             kp_flash(false, 'Dein bisheriges Passwort stimmt nicht.');
         } elseif (strlen($new) < 10 || strlen($new) > 200) {
             kp_flash(false, 'Das neue Passwort muss mindestens 10 Zeichen lang sein.');

@@ -18,8 +18,8 @@ $form = cx_field('form', 20);
 $email = cx_email(cx_field('email', 254));
 $name = str_replace(['<', '>', '"'], '', cx_field('name', 80));
 // Keine Links oder Domains im Namen: er steht in der Bestätigungsmail an die angegebene Adresse.
-if (preg_match('~https?:|www\.|[/@]|\w\.[a-z]{2,}\b~i', $name)) {
-    cx_respond(false, 'Bitte gib nur deinen Namen an, ohne Links oder Adressen.');
+if (cx_has_link($name)) {
+    cx_respond(false, 'Bitte gib nur deinen Namen an, ohne Links, Adressen oder Telefonnummern.');
 }
 
 if ($email === '') {

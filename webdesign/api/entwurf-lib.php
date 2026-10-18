@@ -108,14 +108,13 @@ function ew_from_post(): array
     $email = cx_email(cx_field('email', 254));
     $firma = str_replace(['<', '>', '"'], '', cx_field('firma', 120));
     $name = str_replace(['<', '>', '"'], '', cx_field('name', 80));
-    // Keine Links in Feldern, die in der Bestätigungsmail an die angegebene Adresse stehen.
-    $link = '~https?:|www\.|[/@]|\w\.[a-z]{2,}\b~i';
+    // Keine Links, Domains oder Telefonnummern in Feldern, die in der Bestätigungsmail an die angegebene Adresse stehen.
 
     if ($firma === '') {
         return [[], 'Bitte gib den Namen deines Betriebs an.'];
     }
-    if (preg_match($link, $firma) || preg_match($link, $name)) {
-        return [[], 'Bitte gib Betrieb und Namen ohne Links oder Adressen an. Deine Webseite hat ein eigenes Feld.'];
+    if (cx_has_link($firma) || cx_has_link($name)) {
+        return [[], 'Bitte gib Betrieb und Namen ohne Links, Adressen oder Telefonnummern an. Dafür gibt es eigene Felder.'];
     }
     if ($email === '') {
         return [[], 'Bitte gib eine gültige E-Mail-Adresse ein, damit ich dir den Entwurf schicken kann.'];
@@ -223,7 +222,7 @@ function ew_handle(array $c, string $fallback): void
         . '<p style="margin:0 0 14px">In der Regel bekommst du ihn innerhalb einer Woche per E-Mail, als Bild für Handy und PC. Hast du ein Logo oder schöne Fotos? Dann antworte einfach auf diese E-Mail und häng sie an.</p>'
         . '<p style="margin:0 0 14px">Der Entwurf ist kostenlos und unverbindlich. Ob du danach etwas machen lassen willst, entscheidest du ganz in Ruhe.</p>'
         . '<p style="margin:0 0 4px">Viele Grüße<br>Tim</p>';
-    cx_mail($d['email'], $d['name'], 'Dein kostenloser Webseiten-Entwurf für ' . $d['firma'], cx_mail_layout('Danke, ich lege los', $inner), $notify);
+    cx_mail($d['email'], $d['name'], 'Dein kostenloser Webseiten-Entwurf', cx_mail_layout('Danke, ich lege los', $inner), $notify);
 
     // Newsletter nur nach eigener Bestätigung (Double-Opt-in), getrennt von der Anfrage.
     $nl = $d['newsletter'] && array_key_exists('list_newsletter', $c) && cx_send_optin($d['email'], $d['name'], 'entwurf');
