@@ -672,7 +672,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <link rel="icon" href="/assets/img/tk-badge.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/css/style.css">
   <link rel="stylesheet" href="/assets/css/tk.css">
-  <link rel="stylesheet" href="/assets/css/portal.css?v=07771e6d">
+  <link rel="stylesheet" href="/assets/css/portal.css?v=2ba7894a">
 </head>
 <body class="kp">
 <header class="header">

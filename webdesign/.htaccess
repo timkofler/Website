@@ -20,6 +20,8 @@ Options -Indexes
   RewriteRule ^checkliste/?$ /newsletter/ [R=302,L]
   # Kurzlink für Werbung (Story, Google) zur Beispiel-Betriebs-App; ?utm_source=… bleibt erhalten
   RewriteRule ^app/?$ /beispiele/betriebs-app/ [R=302,L]
+  # Kurzlink für Werbung (Story-Sticker, Google) zum kostenlosen Webseiten-Entwurf; ?utm_source=… bleibt erhalten
+  RewriteRule ^gratis/?$ /entwurf/ [R=302,L]
 </IfModule>
 <If "%{HTTP_HOST} =~ /^(www\.)?tim-kofler\.at$/i">
   DirectoryIndex index.html index.php
