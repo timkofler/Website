@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="de-AT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kostenloser Webseiten-Entwurf für deinen Betrieb | Tim Kofler – Webdesign</title>
+  <meta name="description" content="Wie könnte deine neue Webseite aussehen? Firmenname, Wunschfarbe und Inhalte eintragen und einen persönlichen Entwurf gratis bekommen. Auch ohne bestehende Webseite. Unverbindlich, aus Niederösterreich.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://tim-kofler.at/entwurf/">
+  <meta property="og:title" content="Kostenloser Webseiten-Entwurf für deinen Betrieb">
+  <meta property="og:description" content="Firmenname, Wunschfarbe und Inhalte eintragen, persönlichen Entwurf gratis bekommen. Auch ohne bestehende Webseite. Unverbindlich.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="de_AT">
+  <meta property="og:site_name" content="Tim Kofler – Webdesign">
+  <meta property="og:url" content="https://tim-kofler.at/entwurf/">
+  <meta property="og:image" content="https://tim-kofler.at/assets/img/og-tk-2.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#0b0b0b">
+  <link rel="icon" href="/assets/img/tk-badge.svg" type="image/svg+xml">
+  <link rel="icon" href="/assets/img/tk-badge-256.png" type="image/png" sizes="256x256">
+  <link rel="apple-touch-icon" href="/assets/img/tk-badge-256.png">
+  <link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/style.css?v=a9c5cddd">
+  <link rel="stylesheet" href="/assets/css/tk.css?v=0bab137b">
+  <link rel="stylesheet" href="/assets/css/entwurf.css?v=1">
+</head>
+<body class="ew-page">
+
+<header class="header">
+  <div class="container header__inner">
+    <a href="/" class="tk-logo" aria-label="Tim Kofler Webdesign – Startseite"><img src="/assets/img/tk-logo.svg" alt="Tim Kofler Webdesign" width="71" height="36"></a>
+    <div class="ew-head">
+      <a class="ew-head__tel" href="tel:+4367761773118"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><span>+43 677 61773118</span></a>
+      <a href="#formular" class="btn btn--sm">Entwurf anfordern</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section class="section tk-hero ew-hero">
+  <canvas class="tk-field" aria-hidden="true"></canvas>
+  <div class="container" style="position:relative">
+    <span class="label"><b>[0 €]</b> Kostenlos und unverbindlich</span>
+    <h1>Wie könnte deine neue Webseite aussehen? <span class="lime">Ich zeig's dir gratis.</span></h1>
+    <p class="lead">Trag Firmenname, Wunschfarbe und das Wichtigste ein. Ich gestalte dir einen persönlichen Entwurf, egal ob du schon eine Webseite hast oder noch gar keine. Kein Abo, kein Kaufzwang.</p>
+    <div class="btn-row" style="margin-top:34px">
+      <a href="#formular" class="btn">Gratis-Entwurf anfordern <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a href="/beispiele/" class="btn btn--line">Beispiele ansehen</a>
+    </div>
+    <ul class="ew-trust">
+      <li><b>2 Minuten</b> ausfüllen</li>
+      <li><b>Entwurf</b> für Handy und PC</li>
+      <li><b>Persönlich</b> gestaltet</li>
+      <li><b>Kein Tracking</b>, keine Cookies</li>
+    </ul>
+  </div>
+</section>
+
+<section class="section section--line ew-form-sec" id="formular">
+  <div class="container">
+    <div class="ew-intro">
+      <span class="label"><b>[01]</b> Dein Entwurf</span>
+      <h2>Erzähl mir kurz von deinem <span class="lime">Betrieb</span>.</h2>
+      <p class="muted">Rechts siehst du schon beim Ausfüllen eine grobe Skizze. Den richtigen Entwurf gestalte ich danach von Hand für dich.</p>
+    </div>
+
+    <form class="form ew-form" action="/api/anmelden.php" method="post" data-cx-form data-ew-form>
+      <input type="hidden" name="form" value="entwurf"><input type="hidden" name="quelle" value="">
+      <div class="form__hp" aria-hidden="true"><label>Webseite<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+      <input type="hidden" name="ts" value="">
+
+      <div class="ew-col ew-col--a">
+        <fieldset class="ew-step">
+          <legend><span class="ew-step__n">1</span> Dein Betrieb</legend>
+          <label class="form__field"><span>Firmenname</span><input type="text" name="firma" required maxlength="120" placeholder="z. B. Tischlerei Huber" autocomplete="organization" data-ew="firma"></label>
+          <div class="form__row">
+            <label class="form__field"><span>Branche <em>(optional)</em></span><input type="text" name="branche" maxlength="80" placeholder="z. B. Tischlerei, Friseur, Gasthaus" data-ew="branche"></label>
+            <label class="form__field"><span>Ort <em>(optional)</em></span><input type="text" name="ort" maxlength="80" placeholder="z. B. Melk" autocomplete="address-level2" data-ew="ort"></label>
+          </div>
+          <div class="form__field">
+            <span id="ew-hat">Hast du schon eine Webseite?</span>
+            <div class="ew-seg" role="radiogroup" aria-labelledby="ew-hat">
+              <label><input type="radio" name="hat_webseite" value="ja"><span>Ja, bitte überarbeiten</span></label>
+              <label><input type="radio" name="hat_webseite" value="nein"><span>Nein, noch keine</span></label>
+            </div>
+          </div>
+          <label class="form__field" data-ew-url><span>Adresse deiner Webseite <em>(optional)</em></span><input type="text" name="url" maxlength="200" placeholder="www.beispiel.at" inputmode="url" autocapitalize="none" spellcheck="false"></label>
+        </fieldset>
+
+        <fieldset class="ew-step">
+          <legend><span class="ew-step__n">2</span> Farbe und Stil</legend>
+          <div class="form__field">
+            <span id="ew-farbe">Wunschfarbe <output class="ew-farbname" data-ew-farbname></output></span>
+            <div class="ew-swatches" role="radiogroup" aria-labelledby="ew-farbe">
+              <label class="ew-sw" style="--c:#ff5a1f"><input type="radio" name="farbe" value="orange" required data-hex="#ff5a1f"><span class="ew-sw__dot"></span><span class="ew-sw__t">Orange</span></label>
+              <label class="ew-sw" style="--c:#d62f2f"><input type="radio" name="farbe" value="rot" data-hex="#d62f2f"><span class="ew-sw__dot"></span><span class="ew-sw__t">Rot</span></label>
+              <label class="ew-sw" style="--c:#7d1f3a"><input type="radio" name="farbe" value="bordeaux" data-hex="#7d1f3a"><span class="ew-sw__dot"></span><span class="ew-sw__t">Bordeaux</span></label>
+              <label class="ew-sw" style="--c:#c99a2e"><input type="radio" name="farbe" value="gold" data-hex="#c99a2e"><span class="ew-sw__dot"></span><span class="ew-sw__t">Gold</span></label>
+              <label class="ew-sw" style="--c:#2f8f4e"><input type="radio" name="farbe" value="gruen" data-hex="#2f8f4e"><span class="ew-sw__dot"></span><span class="ew-sw__t">Grün</span></label>
+              <label class="ew-sw" style="--c:#7f9f86"><input type="radio" name="farbe" value="salbei" data-hex="#7f9f86"><span class="ew-sw__dot"></span><span class="ew-sw__t">Salbei</span></label>
+              <label class="ew-sw" style="--c:#11707a"><input type="radio" name="farbe" value="petrol" data-hex="#11707a"><span class="ew-sw__dot"></span><span class="ew-sw__t">Petrol</span></label>
+              <label class="ew-sw" style="--c:#2459d6"><input type="radio" name="farbe" value="blau" data-hex="#2459d6"><span class="ew-sw__dot"></span><span class="ew-sw__t">Blau</span></label>
+              <label class="ew-sw" style="--c:#6b3fc4"><input type="radio" name="farbe" value="lila" data-hex="#6b3fc4"><span class="ew-sw__dot"></span><span class="ew-sw__t">Lila</span></label>
+              <label class="ew-sw ew-sw--bw" style="--c:#262626"><input type="radio" name="farbe" value="anthrazit" data-hex="#262626"><span class="ew-sw__dot"></span><span class="ew-sw__t">Schwarz-Weiß</span></label>
+            </div>
+            <div class="ew-swatches ew-swatches--more">
+              <label class="ew-pill ew-pill--color"><input type="radio" name="farbe" value="eigene" data-ew-eigen-radio><span><input type="color" name="farbe_eigen" value="#1e88e5" aria-label="Eigene Farbe wählen" data-ew-eigen>Eigene Farbe</span></label>
+              <label class="ew-pill"><input type="radio" name="farbe" value="vorschlag" data-hex=""><span>Weiß nicht, schlag mir was vor</span></label>
+            </div>
+          </div>
+          <div class="form__field">
+            <span id="ew-stil">Welcher Stil passt zu dir? <em>(optional)</em></span>
+            <div class="ew-chips" role="radiogroup" aria-labelledby="ew-stil">
+              <label class="ew-pill"><input type="radio" name="stil" value="modern"><span>Modern &amp; klar</span></label>
+              <label class="ew-pill"><input type="radio" name="stil" value="warm"><span>Warm &amp; gemütlich</span></label>
+              <label class="ew-pill"><input type="radio" name="stil" value="edel"><span>Edel</span></label>
+              <label class="ew-pill"><input type="radio" name="stil" value="natur"><span>Natürlich</span></label>
+              <label class="ew-pill"><input type="radio" name="stil" value="frech"><span>Frisch &amp; frech</span></label>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+
+      <aside class="ew-col ew-col--p" aria-label="Skizze deiner Webseite">
+        <div class="ew-prev-wrap">
+          <div class="ew-prev__top">
+            <span class="ew-prev__label">Live-Skizze</span>
+            <div class="ew-prev__dev" role="group" aria-label="Ansicht">
+              <button type="button" class="is-on" data-ew-dev="pc" aria-pressed="true">PC</button>
+              <button type="button" data-ew-dev="handy" aria-pressed="false">Handy</button>
+            </div>
+          </div>
+          <div class="ew-prev" data-ew-prev data-stil="modern" style="--c:#ff5a1f;--on:#0b0b0b">
+            <div class="ew-prev__bar"><i></i><i></i><i></i><span data-ew-domain>dein-betrieb.at</span></div>
+            <div class="ew-prev__site">
+              <div class="ew-prev__nav">
+                <b class="ew-prev__logo" data-ew-initial>D</b>
+                <span class="ew-prev__name" data-ew-name>Dein Betrieb</span>
+                <span class="ew-prev__links" data-ew-links><i>Leistungen</i><i>Über uns</i><i>Kontakt</i></span>
+                <span class="ew-prev__burger" aria-hidden="true"></span>
+              </div>
+              <div class="ew-prev__hero">
+                <small data-ew-kicker>Dein Betrieb in deiner Region</small>
+                <strong data-ew-title>Dein Betrieb</strong>
+                <p>Hier steht in ein, zwei Sätzen, was dich besonders macht.</p>
+                <span class="ew-prev__cta">Jetzt anfragen</span>
+              </div>
+              <div class="ew-prev__blocks" data-ew-blocks>
+                <span>Leistungen</span><span>Über uns</span><span>Kontakt</span>
+              </div>
+            </div>
+          </div>
+          <p class="ew-prev__note">Nur eine grobe Skizze. Dein echter Entwurf wird individuell gestaltet, mit passenden Bildern und Texten.</p>
+        </div>
+      </aside>
+
+      <div class="ew-col ew-col--b">
+        <fieldset class="ew-step">
+          <legend><span class="ew-step__n">3</span> Was soll ungefähr drauf?</legend>
+          <p class="ew-hint">Tipp alles an, was passt. Mindestens eins oder ein paar eigene Worte.</p>
+          <div class="ew-chips" data-ew-inhalt>
+            <label class="ew-pill"><input type="checkbox" name="inhalt[]" value="leistungen"><span>Leistungen</span></label>
+            <label class="ew-pill"><input type="checkbox" name="inhalt[]" value="preise"><span>Preise</span></label>
+            <label class="ew-pill"><input type="checkbox" name="inhalt[]" value="oeffnungszeiten"><span>Öffnungszeiten</span></label>
+            <label class="ew-pill"><input type="checkbox" name="inhalt[]" value="speisekarte"><span>Speisekarte</span></label>
+            <label class="ew-pill"><input type="checkbox" name="inhalt[]" value="galerie"><span>Bildergalerie</span></label>
+            <label class="ew-pill"><input type="checkbox" name="inhalt[]" value="team"><span>Über uns / Team</span></label>
+            <label class="ew-pill"><input type="checkbox" name="inhalt[]" value="termin"><span>Online-Termin</span></label>
+            <label class="ew-pill"><input type="checkbox" name="inhalt[]" value="kontakt"><span>Kontaktformular</span></label>
+            <label class="ew-pill"><input type="checkbox" name="inhalt[]" value="anfahrt"><span>Anfahrt &amp; Karte</span></label>
+            <label class="ew-pill"><input type="checkbox" name="inhalt[]" value="bewertungen"><span>Bewertungen</span></label>
+            <label class="ew-pill"><input type="checkbox" name="inhalt[]" value="gutscheine"><span>Gutscheine</span></label>
+            <label class="ew-pill"><input type="checkbox" name="inhalt[]" value="jobs"><span>Jobs</span></label>
+          </div>
+          <label class="form__field"><span>Sonst noch Wünsche? <em>(optional)</em></span><textarea name="wuensche" rows="3" maxlength="2000" placeholder="z. B. Fotos von unseren Arbeiten, eher hell, Logo habe ich schon"></textarea></label>
+        </fieldset>
+
+        <fieldset class="ew-step">
+          <legend><span class="ew-step__n">4</span> Wohin darf ich den Entwurf schicken?</legend>
+          <div class="form__row">
+            <label class="form__field"><span>E-Mail</span><input type="email" name="email" required maxlength="254" autocomplete="email" inputmode="email"></label>
+            <label class="form__field"><span>Dein Name <em>(optional)</em></span><input type="text" name="name" maxlength="80" autocomplete="name"></label>
+          </div>
+          <label class="form__field"><span>Telefon <em>(optional, für Rückfragen)</em></span><input type="tel" name="telefon" maxlength="40" autocomplete="tel" inputmode="tel"></label>
+
+          <label class="form__check"><input type="checkbox" name="datenschutz" value="ja" required><span>Ich bin einverstanden, dass Tim Kofler meine Angaben speichert, um den Entwurf zu erstellen, ihn mir per E-Mail zu schicken und Rückfragen dazu zu stellen. Infos in der <a href="/datenschutz/#entwurf">Datenschutzerklärung</a>.</span></label>
+
+          <div class="ew-optin">
+            <label class="form__check"><input type="checkbox" name="newsletter" value="ja"><span><b>Freiwillig:</b> Ja, ich möchte zusätzlich den Newsletter von Tim Kofler – Webdesign per E-Mail bekommen, mit Tipps für Webseite und Google-Profil und gelegentlich Angeboten. Dafür kommt eine eigene Bestätigungs-E-Mail. Abmelden geht jederzeit mit einem Klick. Infos in der <a href="/datenschutz/#newsletter">Datenschutzerklärung</a>.</span></label>
+            <p>Für deinen Entwurf brauchst du das Häkchen nicht.</p>
+          </div>
+        </fieldset>
+
+        <button class="btn ew-submit" type="submit">Kostenlosen Entwurf anfordern <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <p class="form__status" role="status" aria-live="polite" hidden></p>
+        <p class="form__alt">Kein Abo, keine Verpflichtung. Fragen? <a href="mailto:office@tim-kofler.at">office@tim-kofler.at</a> oder <a href="https://wa.me/4367761773118?text=Hallo%20Tim%2C%20ich%20h%C3%A4tte%20gern%20einen%20Gratis-Entwurf%20f%C3%BCr%20meine%20Webseite." rel="noopener">WhatsApp</a></p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="section section--line" id="ablauf">
+  <div class="container">
+    <div class="head">
+      <div>
+        <span class="label"><b>[02]</b> So läuft's</span>
+        <h2>Von der Idee zum <span class="lime">Entwurf</span> in drei Schritten.</h2>
+      </div>
+      <p>Ich gestalte jeden Entwurf persönlich und nehme mir dafür Zeit. Deshalb kann ich pro Woche nur eine begrenzte Zahl annehmen.</p>
+    </div>
+    <ol class="steps ew-steps">
+      <li class="step"><h3>Formular ausfüllen</h3><p>Firmenname, Wunschfarbe, was drauf soll. Zwei Minuten, mehr braucht es nicht.</p></li>
+      <li class="step"><h3>Ich gestalte</h3><p>Hast du schon eine Seite, schaue ich sie mir an und mache sie moderner. Wenn nicht, starte ich von null.</p></li>
+      <li class="step"><h3>Entwurf per E-Mail</h3><p>In der Regel innerhalb einer Woche, als Bild für Handy und PC. Gefällt er dir, reden wir weiter. Wenn nicht, ist das auch okay.</p></li>
+    </ol>
+    <div class="ew-get">
+      <h3>Das bekommst du</h3>
+      <ul class="ticks">
+        <li>Die Startseite deines Betriebs in deinen Farben, für Handy und PC</li>
+        <li>Einen Vorschlag für Aufbau und Unterseiten, passend zu deiner Branche</li>
+        <li>Bei einer bestehenden Seite: drei konkrete Punkte, die ich verbessern würde</li>
+        <li>Einen fixen Preis, falls du die Seite umsetzen lassen möchtest. Ganz ohne Druck.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section section--line" id="beispiele">
+  <div class="container">
+    <div class="head">
+      <div>
+        <span class="label"><b>[03]</b> Beispiele</span>
+        <h2>So sehen meine <span class="lime">Seiten</span> aus.</h2>
+      </div>
+      <p>Alle Beispiele sind individuell programmiert, schnell am Handy und ohne Tracking. Tipp eins an, es öffnet sich die echte Seite.</p>
+    </div>
+    <div class="ew-ex">
+      <a href="/beispiele/gasthaus/"><img src="/assets/img/demos/gasthaus.webp" alt="Beispiel Gasthaus" width="560" height="4200" loading="lazy"><span>Gasthaus</span></a>
+      <a href="/beispiele/tischlerei/"><img src="/assets/img/demos/tischlerei.webp" alt="Beispiel Tischlerei" width="560" height="4200" loading="lazy"><span>Tischlerei</span></a>
+      <a href="/beispiele/friseur/"><img src="/assets/img/demos/friseur.webp" alt="Beispiel Friseur" width="560" height="4200" loading="lazy"><span>Friseur</span></a>
+      <a href="/beispiele/baeckerei/"><img src="/assets/img/demos/baeckerei.webp" alt="Beispiel Bäckerei" width="560" height="4200" loading="lazy"><span>Bäckerei</span></a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--line" id="fragen">
+  <div class="container">
+    <div class="head">
+      <div>
+        <span class="label"><b>[04]</b> Häufige Fragen</span>
+        <h2>Gut zu wissen.</h2>
+      </div>
+      <p>Noch etwas offen? Schreib mir an <a href="mailto:office@tim-kofler.at">office@tim-kofler.at</a> oder ruf an: <a href="tel:+4367761773118">+43 677 61773118</a>.</p>
+    </div>
+    <div class="faq">
+      <details class="faq__item">
+        <summary>Kostet der Entwurf wirklich nichts?</summary>
+        <p>Ja. Der Entwurf ist kostenlos und unverbindlich, du gehst damit keinen Vertrag ein. Ich mache das, weil viele Betriebe erst dann wissen, ob ihnen eine neue Webseite gefällt, wenn sie sie sehen.</p>
+      </details>
+      <details class="faq__item">
+        <summary>Ich habe noch gar keine Webseite. Geht das trotzdem?</summary>
+        <p>Natürlich. Dann starte ich von null und schlage dir einen Aufbau vor, der zu deiner Branche passt. Ein Logo oder Fotos brauchst du dafür nicht, kannst sie mir aber gerne nachschicken.</p>
+      </details>
+      <details class="faq__item">
+        <summary>Was passiert mit meinen Angaben?</summary>
+        <p>Ich nutze sie nur für deinen Entwurf und Rückfragen dazu. Keine Weitergabe, kein Tracking. Den Newsletter bekommst du nur, wenn du das freiwillige Häkchen setzt und die Anmeldung per E-Mail bestätigst. Alles Weitere steht in der <a href="/datenschutz/#entwurf">Datenschutzerklärung</a>.</p>
+      </details>
+      <details class="faq__item">
+        <summary>Was kostet es, wenn mir der Entwurf gefällt?</summary>
+        <p>Das Paket Start gibt es ab 590 €, Business ab 1.190 €, für die ersten Referenzkunden eine einfache Seite ab 290 €. Als Kleinunternehmer verrechne ich keine Umsatzsteuer. Mit dem Entwurf bekommst du einen fixen Preis, ohne versteckte Kosten. Details findest du bei den <a href="/#pakete">Paketen</a>.</p>
+      </details>
+      <details class="faq__item">
+        <summary>Wer steckt dahinter?</summary>
+        <p>Ich bin Tim Kofler aus Oberndorf an der Melk in Niederösterreich und programmiere Webseiten für Selbstständige und kleine Betriebe, ohne Baukasten. Mehr <a href="/#ueber">über mich</a>.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="section section--line ew-end">
+  <div class="container">
+    <h2>Neugierig, wie deine Seite <span class="lime">aussehen könnte</span>?</h2>
+    <div class="btn-row"><a href="#formular" class="btn">Jetzt Gratis-Entwurf anfordern <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+  </div>
+</section>
+
+</main>
+
+<a href="#formular" class="btn ew-float" data-ew-float hidden>Gratis-Entwurf anfordern</a>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom ew-foot">
+      <span>© <span data-year>2026</span> Tim Kofler · Webdesign aus Niederösterreich · Keine Cookies · Kein Tracking</span>
+      <span><a href="/">Startseite</a> · <a href="/impressum/">Impressum</a> · <a href="/datenschutz/">Datenschutz</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/js/main.js?v=5b686c25"></script>
+<script src="/assets/js/forms.js?v=64f80ca0"></script>
+<script src="/assets/js/tk-fx.js?v=d255dc7d"></script>
+<script src="/assets/js/entwurf.js?v=1"></script>
+</body>
+</html>

@@ -55,3 +55,10 @@
 .kp-foot .footer__bottom { margin: 0; padding-top: 0; padding-bottom: 0; border: 0; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; }
 @media (max-width: 900px) { .kp-grid, .kp-grid--even { grid-template-columns: 1fr; gap: 36px; } .kp-main { padding: 48px 0 72px; } }
 .kp-user { color: var(--hot, #ff5a1f); font-family: var(--mono); font-size: 1.05em; }
+
+/* Gratis-Entwürfe (/entwurf/) im Admin */
+.kp-badge { display: inline-block; vertical-align: middle; margin-left: 8px; font: 600 .72rem var(--mono); padding: 3px 9px; border-radius: 999px; background: #ff5a1f; color: #0b0b0b; }
+.kp-table tr.is-new td:nth-child(2) a { font-weight: 700; }
+.kp-ew th { width: 160px; vertical-align: top; }
+.kp-ew td { white-space: normal; overflow-wrap: anywhere; }
+.kp-ew + .kp-actions { margin: -20px 0 0; }

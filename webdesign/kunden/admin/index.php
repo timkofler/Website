@@ -1,9 +1,11 @@
 <?php
-// Tim Kofler – Kundenportal, Admin-Bereich: Kunden anlegen, Zugänge verwalten, Uploads ansehen und herunterladen.
+// Tim Kofler – Kundenportal, Admin-Bereich: Kunden anlegen, Zugänge verwalten, Uploads ansehen und herunterladen,
+// dazu die Anfragen für einen Gratis-Entwurf von /entwurf/.
 
 declare(strict_types=1);
 
 require __DIR__ . '/../../api/kunden-lib.php';
+require __DIR__ . '/../../api/entwurf-lib.php';
 
 kp_headers();
 kp_session();
@@ -14,6 +16,8 @@ $hash = (string) (cx_config()['admin_password_hash'] ?? '');
 $isAdmin = $hash !== '' && !empty($_SESSION['admin']);
 $k = (string) ($_GET['k'] ?? '');
 $k = kp_valid_user($k) ? $k : '';
+$ew = (string) ($_GET['entwurf'] ?? '');
+$ew = ew_valid_id($ew) ? $ew : '';
 
 // ---------------- Herunterladen und Vorschau (nur angemeldet) ----------------
 if ($isAdmin && $k !== '' && isset($_GET['e']) && is_string($_GET['e']) && kp_valid_batch($_GET['e'])) {
@@ -107,6 +111,32 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         $_SESSION = [];
         session_regenerate_id(true);
         kp_redirect(KP_ADMIN);
+    }
+
+    // Gratis-Entwurf: Status setzen oder Anfrage löschen
+    if ($action === 'ew_status' || $action === 'ew_loeschen') {
+        $d = ew_read($ew);
+        if (!$d) {
+            kp_redirect(KP_ADMIN . '#entwuerfe');
+        }
+        if ($action === 'ew_loeschen') {
+            if (cx_field('sicher', 5) === 'ja') {
+                ew_delete($ew);
+                kp_flash(true, 'Anfrage von „' . $d['firma'] . '“ gelöscht.');
+                kp_redirect(KP_ADMIN . '#entwuerfe');
+            }
+            kp_flash(false, 'Zum Löschen bitte das Häkchen setzen.');
+        } else {
+            $st = cx_field('status', 20);
+            if (isset(EW_STATUS[$st])) {
+                $d['status'] = $st;
+                $d['geaendert'] = date('c');
+                $d['notiz'] = kp_text('notiz', 2000);
+                ew_write($ew, $d);
+                kp_flash(true, 'Gespeichert.');
+            }
+        }
+        kp_redirect(KP_ADMIN . '?entwurf=' . $ew);
     }
 
     $all = kp_accounts();
@@ -259,6 +289,64 @@ if (!empty($_SESSION['zugang'])) {
         . '<pre data-kp-copy>' . cx_h($text) . '</pre><button class="btn btn--sm" type="button" data-kp-copy-btn>Kopieren</button></div>';
 }
 
+// ---------------- Gratis-Entwurf im Detail ----------------
+if ($ew !== '' && ($d = ew_read($ew))) {
+    $v = static fn($key) => cx_h(is_array($d[$key] ?? '') ? implode(', ', $d[$key]) : (string) ($d[$key] ?? ''));
+    $rows = '';
+    $web = ($d['webseite'] ?? '') !== '' ? $d['webseite'] : (($d['hat_webseite'] ?? '') === 'nein' ? 'noch keine' : '');
+    $webHtml = cx_h($web);
+    if (($d['webseite'] ?? '') !== '') {
+        $href = preg_match('~^https?://~i', $d['webseite']) ? $d['webseite'] : 'https://' . $d['webseite'];
+        $webHtml = '<a href="' . cx_h($href) . '" target="_blank" rel="noopener noreferrer">' . cx_h($d['webseite']) . '</a>';
+    }
+    foreach ([
+        'Eingang' => cx_h(date('d.m.Y, H:i', strtotime((string) $d['zeit']) ?: 0)) . ' Uhr',
+        'Betrieb' => $v('firma'), 'Branche' => $v('branche'), 'Ort' => $v('ort'), 'Webseite' => $webHtml,
+        'Wunschfarbe' => ew_swatch((string) ($d['farbe_hex'] ?? '')) . $v('farbe') . (($d['farbe_hex'] ?? '') !== '' ? ' <code>' . $v('farbe_hex') . '</code>' : ''),
+        'Stil' => $v('stil'), 'Soll drauf' => $v('inhalt'), 'Wünsche' => nl2br($v('wuensche')),
+        'Name' => $v('name'), 'E-Mail' => '<a href="mailto:' . $v('email') . '">' . $v('email') . '</a>',
+        'Telefon' => ($d['telefon'] ?? '') !== '' ? '<a href="tel:' . $v('telefon') . '">' . $v('telefon') . '</a>' : '',
+        'Newsletter' => !empty($d['newsletter']) ? 'ja angehakt (zählt erst nach Bestätigung per Mail)' : 'nein, nur Mails zum Entwurf',
+        'Gefunden über' => $v('quelle'),
+    ] as $key => $val) {
+        $rows .= '<tr><th>' . cx_h($key) . '</th><td>' . ($val !== '' ? $val : '–') . '</td></tr>';
+    }
+    $opts = '';
+    foreach (EW_STATUS as $key => $label) {
+        $opts .= '<option value="' . $key . '"' . (($d['status'] ?? 'neu') === $key ? ' selected' : '') . '>' . cx_h($label) . '</option>';
+    }
+    $subject = rawurlencode('Dein Webseiten-Entwurf für ' . $d['firma']);
+    $hallo = ($d['name'] ?? '') !== '' ? 'Hallo ' . $d['name'] . ',' : 'Hallo,';
+    $body = rawurlencode($hallo . "\n\nwie versprochen hier dein kostenloser Entwurf für " . $d['firma'] . ".\n\n\n\nViele Grüße\nTim");
+    $mailto = 'mailto:' . cx_h($d['email']) . '?subject=' . $subject . '&amp;body=' . $body;
+    $form = KP_ADMIN . '?entwurf=' . $ew;
+    kp_page('Entwurf: ' . $d['firma'], <<<HTML
+<div class="crumbs"><a href="/kunden/admin/#entwuerfe">Gratis-Entwürfe</a> / {$v('firma')}</div>
+<h1>{$v('firma')}</h1>
+{$flash}
+<div class="kp-table kp-ew"><table><tbody>{$rows}</tbody></table></div>
+<div class="kp-actions"><a class="btn" href="{$mailto}">Entwurf per E-Mail schicken</a></div>
+<div class="kp-grid kp-grid--even">
+  <form class="form form--small" method="post" action="{$form}">
+    {$csrf}
+    <input type="hidden" name="aktion" value="ew_status">
+    <h2>Status</h2>
+    <label class="form__field"><span>Stand</span><select name="status">{$opts}</select></label>
+    <label class="form__field"><span>Notiz <em>(nur für dich)</em></span><textarea name="notiz" rows="3" maxlength="2000">{$v('notiz')}</textarea></label>
+    <button class="btn btn--line" type="submit">Speichern</button>
+  </form>
+  <form class="form form--small kp-danger" method="post" action="{$form}">
+    {$csrf}
+    <input type="hidden" name="aktion" value="ew_loeschen">
+    <h2>Löschen</h2>
+    <p class="muted">Ohne Auftrag wird die Anfrage 12 Monate nach der letzten Änderung automatisch gelöscht.</p>
+    <label class="kp-confirm"><input type="checkbox" name="sicher" value="ja" required> sicher</label>
+    <button class="btn btn--line" type="submit">Anfrage löschen</button>
+  </form>
+</div>
+HTML, $logout);
+}
+
 // ---------------- Kunde im Detail ----------------
 if ($k !== '' && isset($all[$k])) {
     $a = $all[$k];
@@ -337,12 +425,28 @@ foreach ($all as $u => $a) {
 $table = $rows === '' ? '<p class="muted">Noch keine Kunden angelegt.</p>'
     : '<div class="kp-table"><table><thead><tr><th>Benutzer</th><th>Name</th><th>Betrieb</th><th>Webseite</th><th>Uploads</th><th>Zuletzt</th><th>Status</th></tr></thead><tbody>' . $rows . '</tbody></table></div>';
 
+$ewRows = '';
+$ewNeu = 0;
+foreach (ew_all() as $id => $d) {
+    $st = (string) ($d['status'] ?? 'neu');
+    $ewNeu += $st === 'neu' ? 1 : 0;
+    $ewRows .= '<tr' . ($st === 'neu' ? ' class="is-new"' : '') . '><td>' . cx_h(date('d.m.Y', strtotime((string) $d['zeit']) ?: 0)) . '</td><td><a href="/kunden/admin/?entwurf=' . $id . '">' . cx_h((string) $d['firma']) . '</a></td><td>'
+        . cx_h((string) ($d['ort'] ?? '')) . '</td><td>' . ew_swatch((string) ($d['farbe_hex'] ?? '')) . cx_h((string) ($d['farbe'] ?? '')) . '</td><td>'
+        . cx_h(($d['webseite'] ?? '') !== '' ? (string) $d['webseite'] : (($d['hat_webseite'] ?? '') === 'nein' ? 'keine' : '–')) . '</td><td>'
+        . (!empty($d['newsletter']) ? 'ja' : '–') . '</td><td>' . cx_h(EW_STATUS[$st] ?? $st) . '</td></tr>';
+}
+$ewTable = $ewRows === '' ? '<p class="muted">Noch keine Anfragen über <a href="/entwurf/">tim-kofler.at/entwurf/</a>.</p>'
+    : '<div class="kp-table"><table><thead><tr><th>Eingang</th><th>Betrieb</th><th>Ort</th><th>Farbe</th><th>Webseite</th><th>Newsletter</th><th>Status</th></tr></thead><tbody>' . $ewRows . '</tbody></table></div>';
+$ewBadge = $ewNeu > 0 ? ' <span class="kp-badge">' . $ewNeu . ' neu</span>' : '';
+
 kp_page('Kunden', <<<HTML
 <span class="label"><b>●</b> Kundenportal · Admin</span>
 <h1>Kunden</h1>
 {$zugang}
 {$flash}
 {$table}
+<h2 id="entwuerfe">Gratis-Entwürfe{$ewBadge}</h2>
+{$ewTable}
 <form class="form kp-new" method="post" action="/kunden/admin/">
   {$csrf}
   <input type="hidden" name="aktion" value="anlegen">

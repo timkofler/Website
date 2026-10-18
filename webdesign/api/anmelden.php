@@ -27,8 +27,8 @@ if ($email === '') {
 }
 
 // Nur Formulare annehmen, deren Liste in der config.php dieses Webspace steht
-// (tim-kofler.at kennt Webseiten-Anfrage und Newsletter, crypto-x.at Beta und Newsletter).
-$lists = ['newsletter' => 'list_newsletter', 'beta' => 'list_beta', 'webseite' => 'list_webdesign'];
+// (tim-kofler.at kennt Webseiten-Anfrage, Gratis-Entwurf und Newsletter, crypto-x.at Beta und Newsletter).
+$lists = ['newsletter' => 'list_newsletter', 'beta' => 'list_beta', 'webseite' => 'list_webdesign', 'entwurf' => 'list_webdesign'];
 if (!isset($lists[$form]) || !array_key_exists($lists[$form], $c)) {
     cx_respond(false, 'Ungültige Anfrage.');
 }
@@ -41,6 +41,11 @@ if ($form === 'newsletter') {
         cx_respond(false, 'Die Bestätigungsmail konnte gerade nicht verschickt werden. ' . $fallback);
     }
     cx_respond(true, 'Fast geschafft! Bitte bestätige deine Anmeldung über den Link in der E-Mail, die wir dir gerade geschickt haben.', '/newsletter/danke/');
+}
+
+if ($form === 'entwurf') {
+    require __DIR__ . '/entwurf-lib.php';
+    ew_handle($c, $fallback);
 }
 
 if ($form === 'webseite') {
