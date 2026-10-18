@@ -297,3 +297,12 @@
   if (document.readyState === "complete") setTimeout(boot, 300);
   else window.addEventListener("load", function () { setTimeout(boot, 300); });
 })();
+
+// Unten beim Schriftzug „Tim Kofler" die schwebenden Knöpfe ausblenden (Klasse tk-at-end, Rest macht CSS)
+(function () {
+  var sign = document.querySelector(".tk-sign");
+  if (!sign || !("IntersectionObserver" in window)) return;
+  new IntersectionObserver(function (e) {
+    document.documentElement.classList.toggle("tk-at-end", e[0].isIntersecting);
+  }, { rootMargin: "0px 0px -15% 0px" }).observe(sign);
+})();
