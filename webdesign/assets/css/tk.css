@@ -597,3 +597,9 @@ h1 .lime, h2 .lime, h3 .lime { background: var(--hot-grad); -webkit-background-c
   .header a.tk-logo::after { opacity: .6; }
   .nav-toggle path { transition: none; }
 }
+
+/* Unten beim Schriftzug: schwebende Knöpfe ausblenden, damit „Tim Kofler" frei steht */
+.tk-chat-btn { transition: transform .2s, border-color .2s, opacity .3s, visibility .3s; }
+html.tk-at-end .tk-float, html.tk-at-end .tk-chat-btn { opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(24px); transition: opacity .3s, transform .3s, visibility .3s; }
+.tk-sign { padding-bottom: 24px; }
+@media (max-width: 680px) { .tk-sign { padding-bottom: 40px; } }
