@@ -26,6 +26,13 @@
     });
   });
 
+  // Link wie /?paket=app#anfrage (von der Beispiel-App) wählt die Zusatzleistung vor.
+  var PAKET_Q = { app: "Eigene App (Zusatzleistung)" };
+  if (PAKET_Q[q.get("paket")]) {
+    var ps = document.querySelector('select[name="paket"]');
+    if (ps && !ps.value) ps.value = PAKET_Q[q.get("paket")];
+  }
+
   forms.forEach(function (form) {
     var ts = form.querySelector('input[name="ts"]');
     if (ts) ts.value = String(Date.now());

@@ -491,3 +491,25 @@ h1 .lime, h2 .lime, h3 .lime { background: var(--hot-grad); -webkit-background-c
   .tk-calc-bar { display: flex; }
 }
 @media (prefers-reduced-motion: reduce) { .tk-calc-bar, .tk-calc__opt, .tk-calc input[type=range]::-webkit-slider-thumb { transition: none; } }
+
+/* Zusatzleistung: eigene Betriebs-App statt Abos (im Abschnitt Web-Apps) */
+.tk-abo { position: relative; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 52px); align-items: center; margin-top: clamp(40px, 6vw, 72px); padding: clamp(18px, 3vw, 32px); border-radius: 26px; border: 1px solid transparent; background: linear-gradient(#121212, #121212) padding-box, linear-gradient(130deg, rgba(255,90,31,.75), rgba(255,178,63,.25) 40%, #2a2a2a 70%) border-box; box-shadow: 0 40px 100px rgba(0,0,0,.5); overflow: hidden; }
+.tk-abo::before { content: ""; position: absolute; width: 520px; height: 520px; right: -180px; top: -220px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255,90,31,.16), transparent); pointer-events: none; }
+.tk-abo__media { display: block; position: relative; border-radius: 16px; overflow: hidden; border: 1px solid #2c2c2c; background: #111; aspect-ratio: 16 / 10; box-shadow: 0 30px 70px rgba(0,0,0,.55); transition: transform .5s cubic-bezier(.2,.7,.2,1); }
+.tk-abo__media:hover { transform: translateY(-4px); }
+.tk-abo__media video { position: absolute; inset: 34px 0 0; width: 100%; height: calc(100% - 34px); object-fit: cover; display: block; }
+.tk-abo__text { position: relative; }
+.tk-abo { scroll-margin-top: 96px; }
+.tk-abo__tag { display: inline-block; font: 600 .72rem/1 var(--mono, monospace); letter-spacing: .08em; text-transform: uppercase; color: #ffb27a; background: var(--hot-dim); border: 1px solid rgba(255,90,31,.35); border-radius: 999px; padding: 7px 11px; }
+.tk-abo h3 { font-size: clamp(1.7rem, 3.2vw, 2.5rem); margin: 16px 0 14px; }
+.tk-abo__hot { background: var(--hot-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.tk-abo__text > p { color: var(--muted); margin: 0 0 16px; }
+.tk-abo__text > p b { color: var(--text); font-weight: 600; }
+.tk-abo__chips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; padding: 0; }
+.tk-abo__chips li { font-size: .85rem; color: var(--text); border: 1px solid var(--line-2); background: #181818; border-radius: 999px; padding: 6px 12px; }
+.tk-abo__text > p.tk-abo__deal { color: var(--text); border-left: 3px solid var(--hot); padding: 4px 0 4px 14px; }
+.tk-abo__text > p.tk-abo__deal b { color: #ffb27a; display: block; }
+.tk-abo .btn-row { margin: 4px 0 14px; }
+.tk-abo .note-legal { margin: 0; }
+@media (max-width: 1000px) { .tk-abo { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .tk-abo { padding: 14px; border-radius: 20px; } .tk-abo__chips li { font-size: .8rem; padding: 5px 10px; } .tk-abo__media { aspect-ratio: 16 / 10.4; } }
