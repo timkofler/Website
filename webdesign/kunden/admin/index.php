@@ -1,11 +1,13 @@
 <?php
 // Tim Kofler – Kundenportal, Admin-Bereich: Kunden anlegen, Zugänge verwalten, Uploads ansehen und herunterladen,
-// dazu die Anfragen für einen Gratis-Entwurf von /entwurf/.
+// dazu die Anfragen für einen Gratis-Entwurf von /entwurf/. Anmeldung mit Passwort und, wenn eingerichtet,
+// einem zweiten Faktor (Code aus der Authenticator-App oder Notfall-Code).
 
 declare(strict_types=1);
 
 require __DIR__ . '/../../api/kunden-lib.php';
 require __DIR__ . '/../../api/entwurf-lib.php';
+require __DIR__ . '/../../api/admin-2fa-lib.php';
 
 kp_headers();
 kp_session();
@@ -18,6 +20,10 @@ $k = (string) ($_GET['k'] ?? '');
 $k = kp_valid_user($k) ? $k : '';
 $ew = (string) ($_GET['entwurf'] ?? '');
 $ew = ew_valid_id($ew) ? $ew : '';
+$sicherheit = $isAdmin && isset($_GET['sicherheit']);
+// Passwort war richtig, der Code aus der App fehlt noch (zweiter Schritt der Anmeldung).
+$pwOk = (int) ($_SESSION['admin_pw'] ?? 0);
+$codeStep = !$isAdmin && $hash !== '' && $pwOk > 0 && time() - $pwOk <= TF_STEP_TTL;
 
 // ---------------- Herunterladen und Vorschau (nur angemeldet) ----------------
 if ($isAdmin && $k !== '' && isset($_GET['e']) && is_string($_GET['e']) && kp_valid_batch($_GET['e'])) {
@@ -95,12 +101,49 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         } elseif (!password_verify((string) ($_POST['passwort'] ?? ''), $hash)) {
             kp_fail($keys);
             kp_flash(false, 'Das Passwort stimmt nicht.');
+        } elseif (tf_active()) {
+            // Fehlversuche bleiben stehen, bis auch der Code stimmt: sonst gäbe jedes richtige Passwort neue Rateversuche.
+            session_regenerate_id(true);
+            $_SESSION['admin_pw'] = time();
         } else {
             kp_fail_reset('admin');
             session_regenerate_id(true);
             $_SESSION['admin'] = true;
         }
         kp_redirect(KP_ADMIN . ($k !== '' ? '?k=' . $k : ''));
+    }
+
+    if ($action === 'code' && $hash !== '') {
+        $keys = ['ip:' . kp_ip_hash(), 'admin'];
+        if (!$codeStep) {
+            unset($_SESSION['admin_pw']);
+            kp_flash(false, 'Das hat zu lange gedauert. Bitte melde dich noch einmal mit dem Passwort an.');
+        } elseif (kp_blocked($keys)) {
+            kp_flash(false, 'Zu viele Fehlversuche. Bitte 15 Minuten warten.');
+        } else {
+            $input = trim((string) ($_POST['code'] ?? ''));
+            $art = tf_active() ? tf_check($input) : 'aus';
+            if ($art === '') {
+                kp_fail($keys);
+                kp_flash(false, $input !== '' && preg_match('/[a-z]/i', $input) ? 'Dieser Notfall-Code stimmt nicht oder wurde schon verwendet.' : 'Der Code stimmt nicht. Bitte den aktuellen Code aus der App eingeben.');
+            } else {
+                kp_fail_reset('admin');
+                unset($_SESSION['admin_pw']);
+                session_regenerate_id(true);
+                $_SESSION['admin'] = true;
+                if ($art === 'notfall') {
+                    $left = tf_backups_left();
+                    kp_flash($left > 2, 'Angemeldet mit einem Notfall-Code. Dieser Code ist jetzt verbraucht, ' . ($left === 1 ? 'einer ist' : $left . ' sind') . ' noch übrig.'
+                        . ($left <= 2 ? ' Bitte unter „Sicherheit“ neue Notfall-Codes erzeugen.' : ''));
+                }
+            }
+        }
+        kp_redirect(KP_ADMIN . ($k !== '' ? '?k=' . $k : ''));
+    }
+
+    if ($action === 'zurueck') {
+        unset($_SESSION['admin_pw']);
+        kp_redirect(KP_ADMIN);
     }
 
     if (!$isAdmin) {
@@ -111,6 +154,50 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         $_SESSION = [];
         session_regenerate_id(true);
         kp_redirect(KP_ADMIN);
+    }
+
+    // Zwei-Faktor-Anmeldung einschalten, Notfall-Codes erneuern, ausschalten
+    if ($action === 'tf_ein' || $action === 'tf_neu' || $action === 'tf_aus') {
+        $back = KP_ADMIN . '?sicherheit';
+        $input = (string) ($_POST['code'] ?? '');
+        if ($action === 'tf_ein') {
+            $secret = (string) ($_SESSION['tf_neu'] ?? '');
+            $step = tf_active() ? null : tf_match($secret, $input);
+            if ($step === null) {
+                kp_flash(false, 'Der Code stimmt nicht. Bitte den 6-stelligen Code eingeben, der gerade in der App steht.');
+            } else {
+                $codes = tf_new_backups();
+                if (tf_enable($secret, $step, $codes)) {
+                    unset($_SESSION['tf_neu']);
+                    $_SESSION['tf_codes'] = $codes;
+                    kp_flash(true, 'Die Zwei-Faktor-Anmeldung ist eingeschaltet. Ab jetzt fragt die Anmeldung nach dem Passwort zusätzlich den Code aus der App ab.');
+                } else {
+                    kp_flash(false, 'Konnte nicht gespeichert werden (Schreibrechte im Ordner api/_data prüfen).');
+                }
+            }
+            kp_redirect($back);
+        }
+        // Erneuern und Ausschalten nur mit einem aktuellen Code, damit eine offen gelassene Sitzung allein nicht reicht.
+        $keys = ['ip:' . kp_ip_hash(), 'admin'];
+        if (kp_blocked($keys)) {
+            kp_flash(false, 'Zu viele Fehlversuche. Bitte 15 Minuten warten.');
+        } elseif ($action === 'tf_aus' && cx_field('sicher', 5) !== 'ja') {
+            kp_flash(false, 'Zum Ausschalten bitte das Häkchen setzen.');
+        } elseif (tf_check($input, false) !== 'app') {
+            kp_fail($keys);
+            kp_flash(false, 'Der Code stimmt nicht. Bitte den aktuellen Code aus der App eingeben.');
+        } elseif ($action === 'tf_aus') {
+            tf_disable();
+            kp_flash(true, 'Die Zwei-Faktor-Anmeldung ist ausgeschaltet. Du kannst den Eintrag in der App jetzt löschen.');
+        } else {
+            $d = tf_state();
+            $codes = tf_new_backups();
+            $d['notfall'] = tf_hash_backups($codes);
+            tf_save($d);
+            $_SESSION['tf_codes'] = $codes;
+            kp_flash(true, 'Neue Notfall-Codes erzeugt. Die alten gelten ab sofort nicht mehr.');
+        }
+        kp_redirect($back);
     }
 
     // Gratis-Entwurf: Status setzen oder Anfrage löschen
@@ -272,6 +359,36 @@ if ($hash === '') {
 HTML);
 }
 
+// ---------------- Anmeldung, zweiter Schritt: Code aus der App ----------------
+if ($codeStep) {
+    $action = KP_ADMIN . ($k !== '' ? '?k=' . $k : '');
+    kp_page('Bestätigen', <<<HTML
+<div class="kp-narrow">
+  <span class="label"><b>●</b> Kundenportal · Admin</span>
+  <h1>Code bestätigen</h1>
+  <p class="lead">Öffne Google Authenticator auf deinem Handy und gib den 6-stelligen Code für <b>tim-kofler.at</b> ein.</p>
+  <form class="form" method="post" action="{$action}">
+    {$csrf}
+    <input type="hidden" name="aktion" value="code">
+    {$flash}
+    <label class="form__field"><span>Code aus der App</span><input class="kp-otp" type="text" name="code" required inputmode="numeric" autocomplete="one-time-code" pattern="[0-9 ]{6,7}" maxlength="7" placeholder="123 456" autofocus></label>
+    <button class="btn" type="submit">Anmelden</button>
+  </form>
+  <details class="kp-more">
+    <summary>Handy nicht zur Hand?</summary>
+    <form class="form form--small" method="post" action="{$action}">
+      {$csrf}
+      <input type="hidden" name="aktion" value="code">
+      <p class="kp-hint">Gib einen deiner Notfall-Codes ein. Jeder funktioniert nur ein einziges Mal.</p>
+      <label class="form__field"><span>Notfall-Code</span><input class="kp-otp" type="text" name="code" required autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="12" placeholder="abcd-efgh"></label>
+      <button class="btn btn--line" type="submit">Mit Notfall-Code anmelden</button>
+    </form>
+  </details>
+  <form class="kp-back" method="post" action="/kunden/admin/">{$csrf}<input type="hidden" name="aktion" value="zurueck"><button type="submit">← Zurück zur Passwort-Eingabe</button></form>
+</div>
+HTML);
+}
+
 // ---------------- Anmeldung ----------------
 if (!$isAdmin) {
     $action = KP_ADMIN . ($k !== '' ? '?k=' . $k : '');
@@ -290,7 +407,7 @@ if (!$isAdmin) {
 HTML);
 }
 
-$logout = '<a class="btn btn--sm btn--line" href="/kunden/admin/">Übersicht</a><form method="post" action="/kunden/admin/">' . $csrf
+$logout = '<a class="btn btn--sm btn--line" href="/kunden/admin/">Übersicht</a><a class="btn btn--sm btn--line" href="/kunden/admin/?sicherheit">Sicherheit</a><form method="post" action="/kunden/admin/">' . $csrf
     . '<input type="hidden" name="aktion" value="abmelden"><button class="btn btn--sm btn--line" type="submit">Abmelden</button></form>';
 $all = kp_accounts();
 
@@ -302,6 +419,99 @@ if (!empty($_SESSION['zugang'])) {
     $text = "Dein Zugang zum Kundenportal\nAdresse: " . kp_portal_url() . "\nBenutzername: " . $z['benutzer'] . "\nPasswort: " . $z['passwort'];
     $zugang = '<div class="kp-secret"><p><b>Zugangsdaten für den Kunden</b> – werden nur jetzt angezeigt. Bitte persönlich, per Brief oder Telefon weitergeben, nicht ungeschützt per Mail mit dem Benutzernamen zusammen.</p>'
         . '<pre data-kp-copy>' . cx_h($text) . '</pre><button class="btn btn--sm" type="button" data-kp-copy-btn>Kopieren</button></div>';
+}
+
+// ---------------- Sicherheit: Zwei-Faktor-Anmeldung ----------------
+if ($sicherheit) {
+    $form = KP_ADMIN . '?sicherheit';
+    $codes = '';
+    if (!empty($_SESSION['tf_codes'])) {
+        $list = (array) $_SESSION['tf_codes'];
+        unset($_SESSION['tf_codes']);
+        $items = implode('', array_map(static fn($c) => '<li>' . cx_h((string) $c) . '</li>', $list));
+        $text = "Notfall-Codes für tim-kofler.at/kunden/admin/ (je einmal verwendbar, erzeugt am " . date('d.m.Y') . ")\n" . implode("\n", $list);
+        $codes = '<div class="kp-secret kp-codes"><p><b>Deine Notfall-Codes</b> – werden nur jetzt angezeigt.</p>'
+            . '<p>Damit kommst du hinein, wenn das Handy weg oder kaputt ist. Jeder Code funktioniert einmal. Am besten ausdrucken oder in deinen Passwort-Manager kopieren, nicht im selben Handy wie die App speichern.</p>'
+            . '<ol class="kp-codes__list">' . $items . '</ol><pre hidden data-kp-copy>' . cx_h($text) . '</pre>'
+            . '<button class="btn btn--sm" type="button" data-kp-copy-btn>Alle kopieren</button></div>';
+    }
+    $st = tf_state();
+    if ($st) {
+        $seit = cx_h(date('d.m.Y', strtotime((string) ($st['seit'] ?? '')) ?: time()));
+        $left = count((array) ($st['notfall'] ?? []));
+        $leftTxt = $left === 1 ? '1 Notfall-Code' : $left . ' Notfall-Codes';
+        $warn = $left <= 2 ? ' <span class="kp-badge">bald neue erzeugen</span>' : '';
+        $content = <<<HTML
+<p class="kp-on"><span class="kp-on__dot" aria-hidden="true"></span><span><b>Eingeschaltet</b> seit {$seit} · noch {$leftTxt} übrig{$warn}</span></p>
+<p class="lead">Bei jeder Anmeldung fragt das Portal nach dem Passwort zusätzlich den 6-stelligen Code aus Google Authenticator ab.</p>
+<div class="kp-grid kp-grid--even kp-tf-actions">
+  <form class="form form--small" method="post" action="{$form}">
+    {$csrf}
+    <input type="hidden" name="aktion" value="tf_neu">
+    <h2>Notfall-Codes erneuern</h2>
+    <p class="kp-hint">Erzeugt zehn neue Codes. Die alten gelten danach nicht mehr.</p>
+    <label class="form__field"><span>Aktueller Code aus der App</span><input class="kp-otp" type="text" name="code" required inputmode="numeric" autocomplete="one-time-code" pattern="[0-9 ]{6,7}" maxlength="7" placeholder="123 456"></label>
+    <button class="btn" type="submit">Neue Codes erzeugen</button>
+  </form>
+  <form class="form form--small" method="post" action="{$form}">
+    {$csrf}
+    <input type="hidden" name="aktion" value="tf_aus">
+    <h2>Ausschalten</h2>
+    <p class="kp-hint">Danach reicht wieder das Passwort allein. Für ein neues Handy einfach ausschalten und neu einrichten.</p>
+    <label class="form__field"><span>Aktueller Code aus der App</span><input class="kp-otp" type="text" name="code" required inputmode="numeric" autocomplete="one-time-code" pattern="[0-9 ]{6,7}" maxlength="7" placeholder="123 456"></label>
+    <label class="kp-confirm"><input type="checkbox" name="sicher" value="ja" required> Ja, ausschalten</label>
+    <button class="btn btn--line" type="submit">Ausschalten</button>
+  </form>
+</div>
+HTML;
+    } else {
+        if (empty($_SESSION['tf_neu'])) {
+            $_SESSION['tf_neu'] = tf_new_secret();
+        }
+        $secret = (string) $_SESSION['tf_neu'];
+        $uri = cx_h(tf_uri($secret));
+        $pretty = cx_h(tf_pretty($secret));
+        $issuer = cx_h(TF_ISSUER);
+        $content = <<<HTML
+<p class="lead">Schützt deinen Admin-Zugang zusätzlich zum Passwort: Wer sich anmelden will, braucht auch den Code, den nur dein Handy anzeigt. Die Einrichtung dauert etwa zwei Minuten.</p>
+<ol class="kp-steps">
+  <li>
+    <h2>App installieren</h2>
+    <p>Lade <b>Google Authenticator</b> aus dem App Store (iPhone) oder Google Play (Android). Andere Authenticator-Apps funktionieren genauso.</p>
+  </li>
+  <li>
+    <h2>QR-Code scannen</h2>
+    <p>In der App auf <b>+</b> tippen, dann <b>QR-Code scannen</b> und die Kamera auf diesen Code halten.</p>
+    <div class="kp-qr" data-kp-qr="{$uri}" role="img" aria-label="QR-Code für die Authenticator-App"><noscript>Der QR-Code braucht JavaScript. Nimm stattdessen den Schlüssel darunter.</noscript></div>
+    <details class="kp-more">
+      <summary>Scannen geht nicht? Schlüssel abtippen</summary>
+      <p class="kp-hint">In der App <b>Einrichtungsschlüssel eingeben</b> wählen. Konto: <b>{$issuer}</b>, Art: <b>zeitbasiert</b>.</p>
+      <code class="kp-key">{$pretty}</code>
+    </details>
+  </li>
+  <li>
+    <h2>Code bestätigen</h2>
+    <p>Die App zeigt jetzt bei <b>{$issuer}</b> einen 6-stelligen Code, der alle 30 Sekunden wechselt. Gib den aktuellen Code hier ein.</p>
+    <form class="form form--small" method="post" action="{$form}">
+      {$csrf}
+      <input type="hidden" name="aktion" value="tf_ein">
+      <label class="form__field"><span>Code aus der App</span><input class="kp-otp" type="text" name="code" required inputmode="numeric" autocomplete="one-time-code" pattern="[0-9 ]{6,7}" maxlength="7" placeholder="123 456"></label>
+      <button class="btn" type="submit">Bestätigen und einschalten</button>
+    </form>
+  </li>
+</ol>
+<script src="/beispiele/_shared/vendor/qrcode-generator-2.0.4/qrcode.js"></script>
+HTML;
+    }
+    kp_page('Sicherheit', <<<HTML
+<div class="kp-narrow kp-tf">
+  <span class="label"><b>●</b> Kundenportal · Admin</span>
+  <h1>Zwei-Faktor-Anmeldung</h1>
+  {$flash}
+  {$codes}
+  {$content}
+</div>
+HTML, $logout);
 }
 
 // ---------------- Gratis-Entwurf im Detail ----------------
@@ -477,6 +687,7 @@ foreach (ew_all() as $id => $d) {
 }
 $ewTable = $ewRows === '' ? '<p class="muted">Noch keine Anfragen über <a href="/entwurf/">tim-kofler.at/entwurf/</a>.</p>'
     : '<div class="kp-table"><table><thead><tr><th>Eingang</th><th>Betrieb</th><th>Ort</th><th>Farbe</th><th>Webseite</th><th>Newsletter</th><th>Status</th></tr></thead><tbody>' . $ewRows . '</tbody></table></div>';
+$tfHint = tf_active() ? '' : '<a class="kp-neu" href="/kunden/admin/?sicherheit"><b>●</b> Zwei-Faktor-Anmeldung ist noch nicht eingerichtet. Jetzt mit Google Authenticator absichern →</a>';
 $ewBadge = $ewNeu > 0 ? ' <span class="kp-badge">' . $ewNeu . ' neu</span>' : '';
 
 kp_page('Kunden', <<<HTML
@@ -484,6 +695,7 @@ kp_page('Kunden', <<<HTML
 <h1>Kunden</h1>
 {$zugang}
 {$flash}
+{$tfHint}
 {$table}
 <h2 id="entwuerfe">Gratis-Entwürfe{$ewBadge}</h2>
 {$ewTable}
