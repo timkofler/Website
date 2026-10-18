@@ -27,8 +27,8 @@ if ($email === '') {
 }
 
 // Nur Formulare annehmen, deren Liste in der config.php dieses Webspace steht
-// (tim-kofler.at kennt Webseiten-Anfrage und Newsletter, crypto-x.at Beta und Newsletter).
-$lists = ['newsletter' => 'list_newsletter', 'beta' => 'list_beta', 'webseite' => 'list_webdesign'];
+// (tim-kofler.at kennt Webseiten-Anfrage, Gratis-Entwurf und Newsletter, crypto-x.at Beta und Newsletter).
+$lists = ['newsletter' => 'list_newsletter', 'beta' => 'list_beta', 'webseite' => 'list_webdesign', 'entwurf' => 'list_webdesign'];
 if (!isset($lists[$form]) || !array_key_exists($lists[$form], $c)) {
     cx_respond(false, 'Ungültige Anfrage.');
 }
@@ -41,6 +41,11 @@ if ($form === 'newsletter') {
         cx_respond(false, 'Die Bestätigungsmail konnte gerade nicht verschickt werden. ' . $fallback);
     }
     cx_respond(true, 'Fast geschafft! Bitte bestätige deine Anmeldung über den Link in der E-Mail, die wir dir gerade geschickt haben.', '/newsletter/danke/');
+}
+
+if ($form === 'entwurf') {
+    require __DIR__ . '/entwurf-lib.php';
+    ew_handle($c, $fallback);
 }
 
 if ($form === 'webseite') {
@@ -118,6 +123,7 @@ function cx_webseite(array $c, string $email, string $name, string $fallback): v
         'Domain vorhanden' => cx_field('domain', 20),
         'Zeitrahmen' => cx_field('zeit', 40),
         'Nachricht' => cx_field('nachricht', 3000),
+        'Rechner (nur für dich)' => cx_field('rechner', 1000),
         'Empfohlen von' => cx_field('empfohlen', 120),
         'Gefunden über' => cx_field('quelle', 120),
     ];

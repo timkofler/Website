@@ -1,4 +1,4 @@
-// Kundenportal: Fortschrittsanzeige beim Hochladen und Kopieren der Zugangsdaten.
+// Kundenportal: Fortschrittsanzeige beim Hochladen, Kopieren der Zugangsdaten und QR-Code für die Authenticator-App.
 // Ohne JavaScript funktioniert alles genauso, nur ohne Fortschrittsbalken.
 (function () {
   function size(b) {
@@ -52,6 +52,27 @@
       xhr.send(new FormData(form));
     });
   }
+
+  // Nachrichtenverlauf: neueste Nachricht sichtbar.
+  var chat = document.querySelector('[data-kp-chat]');
+  if (chat) chat.scrollTop = chat.scrollHeight;
+
+  // QR-Code für die Zwei-Faktor-Einrichtung, direkt im Browser erzeugt (der Schlüssel geht an keinen fremden Dienst).
+  var qr = document.querySelector('[data-kp-qr]');
+  if (qr && window.qrcode) {
+    var q = window.qrcode(0, 'M');
+    q.addData(qr.getAttribute('data-kp-qr'));
+    q.make();
+    qr.innerHTML = q.createSvgTag({ cellSize: 6, margin: 0, scalable: true });
+  }
+
+  // Codefelder: Leerzeichen beim Tippen erlaubt, Ziffern werden in Dreiergruppen angezeigt.
+  Array.prototype.forEach.call(document.querySelectorAll('input.kp-otp[inputmode=numeric]'), function (el) {
+    el.addEventListener('input', function () {
+      var d = el.value.replace(/\D/g, '').slice(0, 6);
+      el.value = d.length > 3 ? d.slice(0, 3) + ' ' + d.slice(3) : d;
+    });
+  });
 
   var copy = document.querySelector('[data-kp-copy-btn]');
   var src = document.querySelector('[data-kp-copy]');

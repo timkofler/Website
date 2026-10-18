@@ -470,6 +470,190 @@ function kp_delete_dir(string $dir): void
     @rmdir($dir);
 }
 
+// ---------------- Nachrichten zwischen Kunde und Tim ----------------
+
+const KP_ARTEN = ['nachricht' => 'Nachricht', 'wunsch' => 'Wunsch', 'gefaellt' => 'Gefällt mir', 'gefaellt-nicht' => 'Gefällt mir nicht', 'frage' => 'Frage'];
+const KP_MSG_MAX = 3000;      // Zeichen pro Nachricht
+const KP_MSG_HOUR = 30;       // Nachrichten pro Stunde und Kunde (Schutz vor Versehen und Missbrauch)
+
+function kp_msg_file(string $u): string
+{
+    return kp_user_dir($u) . '/nachrichten.json';
+}
+
+// Verlauf eines Kunden: liste (älteste zuerst, wird nur ergänzt) und gelesen (je Seite kunde/tim: wie viele Einträge schon gesehen).
+function kp_messages(string $u): array
+{
+    $d = kp_read_json(kp_msg_file($u));
+    return ['liste' => array_values((array) ($d['liste'] ?? [])), 'gelesen' => (array) ($d['gelesen'] ?? [])];
+}
+
+// Ändern unter Sperre, damit sich gleichzeitige Nachrichten von Kunde und Tim nicht überschreiben.
+// $fn bekommt den Verlauf und gibt den neuen zurück (oder null, wenn nichts zu speichern ist).
+function kp_msg_update(string $u, callable $fn): ?array
+{
+    $dir = kp_user_dir($u);
+    if (!is_dir($dir) && !@mkdir($dir, 0700, true)) {
+        return null;
+    }
+    $lock = @fopen($dir . '/nachrichten.lock', 'c');
+    if ($lock) {
+        flock($lock, LOCK_EX);
+    }
+    $new = $fn(kp_messages($u));
+    if (is_array($new) && !kp_write_json(kp_msg_file($u), $new)) {
+        $new = null;
+    }
+    if ($lock) {
+        flock($lock, LOCK_UN);
+        fclose($lock);
+    }
+    return $new;
+}
+
+// Neue Nachricht speichern. $von ist 'kunde' oder 'tim'. Gibt [ok, Fehlertext] zurück.
+function kp_add_message(string $u, string $von, string $art, string $text): array
+{
+    $art = isset(KP_ARTEN[$art]) ? $art : 'nachricht';
+    if ($text === '') {
+        return [false, 'Bitte schreib zuerst etwas.'];
+    }
+    $err = '';
+    $msg = ['id' => bin2hex(random_bytes(5)), 'zeit' => date('c'), 'von' => $von, 'art' => $art, 'text' => $text];
+    $saved = kp_msg_update($u, static function (array $d) use ($von, $msg, &$err) {
+        $recent = array_filter($d['liste'], static fn($m) => ($m['von'] ?? '') === $von && strtotime((string) ($m['zeit'] ?? '')) > time() - 3600);
+        if (count($recent) >= KP_MSG_HOUR) {
+            $err = 'Das waren sehr viele Nachrichten in kurzer Zeit. Bitte versuch es in einer Stunde noch einmal.';
+            return null;
+        }
+        $d['liste'][] = $msg;
+        $d['gelesen'][$von] = count($d['liste']);
+        return $d;
+    });
+    if ($saved === null) {
+        return [false, $err !== '' ? $err : 'Die Nachricht konnte nicht gespeichert werden. Bitte versuch es noch einmal.'];
+    }
+    return [true, $msg];
+}
+
+// Ungelesene Nachrichten der Gegenseite für $wer ('kunde' oder 'tim').
+function kp_unread(array $d, string $wer): int
+{
+    $n = 0;
+    foreach ($d['liste'] as $i => $m) {
+        if ($i >= (int) ($d['gelesen'][$wer] ?? 0) && ($m['von'] ?? '') !== $wer) {
+            $n++;
+        }
+    }
+    return $n;
+}
+
+function kp_mark_read(string $u, string $wer): void
+{
+    kp_msg_update($u, static function (array $d) use ($wer) {
+        if (kp_unread($d, $wer) === 0) {
+            return null;
+        }
+        $d['gelesen'][$wer] = count($d['liste']);
+        return $d;
+    });
+}
+
+// Wünsche, die Tim noch nicht als erledigt markiert hat.
+function kp_open_wishes(array $d): array
+{
+    return array_values(array_filter($d['liste'], static fn($m) => ($m['art'] ?? '') === 'wunsch' && empty($m['erledigt'])));
+}
+
+function kp_toggle_done(string $u, string $id): bool
+{
+    return kp_msg_update($u, static function (array $d) use ($id) {
+        foreach ($d['liste'] as $i => $m) {
+            if (($m['id'] ?? '') === $id && ($m['art'] ?? '') === 'wunsch') {
+                $d['liste'][$i]['erledigt'] = empty($m['erledigt']) ? date('c') : null;
+                return $d;
+            }
+        }
+        return null;
+    }) !== null;
+}
+
+// Verlauf als HTML. $ich ist die Seite, die gerade schaut; was sie noch nicht gesehen hat, ist als „neu“ markiert.
+// $doneForm erzeugt für Tim den Knopf „erledigt“ bei Wünschen (null für die Kundenseite).
+function kp_render_messages(array $d, string $ich, string $kundeName, ?callable $doneForm = null): string
+{
+    if (!$d['liste']) {
+        return '<p class="muted kp-chat__leer">' . ($ich === 'kunde'
+            ? 'Noch keine Nachrichten. Schreib mir hier alles, was dir zur Webseite einfällt: Wünsche, was dir gefällt und was nicht.'
+            : 'Noch keine Nachrichten mit diesem Kunden.') . '</p>';
+    }
+    $seen = (int) ($d['gelesen'][$ich] ?? 0);
+    $out = '';
+    foreach ($d['liste'] as $i => $m) {
+        $von = (string) ($m['von'] ?? '');
+        $mine = $von === $ich;
+        $t = strtotime((string) ($m['zeit'] ?? '')) ?: 0;
+        $who = $mine ? 'Du' : ($von === 'tim' ? 'Tim' : $kundeName);
+        $art = (string) ($m['art'] ?? 'nachricht');
+        $tag = $art !== 'nachricht' && isset(KP_ARTEN[$art]) ? '<span class="kp-tag kp-tag--' . $art . '">' . cx_h(KP_ARTEN[$art]) . '</span>' : '';
+        $done = $art === 'wunsch' && !empty($m['erledigt']) ? '<span class="kp-tag kp-tag--erledigt">✓ erledigt</span>' : '';
+        $new = !$mine && $i >= $seen ? '<span class="kp-tag kp-tag--neu">neu</span>' : '';
+        $btn = $doneForm && $art === 'wunsch' ? $doneForm((string) $m['id'], !empty($m['erledigt'])) : '';
+        $out .= '<li class="kp-m' . ($mine ? ' kp-m--ich' : '') . (!empty($m['erledigt']) ? ' kp-m--erledigt' : '') . '" id="n-' . cx_h((string) $m['id']) . '">'
+            . '<div class="kp-m__kopf"><b>' . cx_h($who) . '</b> <time datetime="' . cx_h(date('c', $t)) . '">' . date('d.m.Y, H:i', $t) . '</time>' . $tag . $done . $new . '</div>'
+            . '<p>' . nl2br(cx_h((string) ($m['text'] ?? ''))) . '</p>' . $btn . '</li>';
+    }
+    return '<ol class="kp-chat__liste" data-kp-chat>' . $out . '</ol>';
+}
+
+// Eingabefeld unter dem Verlauf.
+function kp_message_form(string $action, string $csrf, string $placeholder): string
+{
+    $chips = '';
+    foreach (KP_ARTEN as $key => $label) {
+        $chips .= '<label class="kp-chip kp-chip--' . $key . '"><input type="radio" name="art" value="' . $key . '"' . ($key === 'nachricht' ? ' checked' : '') . '><span>' . cx_h($label) . '</span></label>';
+    }
+    $max = KP_MSG_MAX;
+    $ph = cx_h($placeholder);
+    return <<<HTML
+<form class="kp-chat__form" method="post" action="{$action}">
+  {$csrf}
+  <input type="hidden" name="aktion" value="schreiben">
+  <div class="kp-chips" role="radiogroup" aria-label="Art der Nachricht">{$chips}</div>
+  <label class="form__field"><span class="sr-only">Nachricht</span><textarea name="text" rows="3" required maxlength="{$max}" placeholder="{$ph}"></textarea></label>
+  <button class="btn" type="submit">Senden</button>
+</form>
+HTML;
+}
+
+// E-Mail an die Gegenseite. Tim bekommt jede Kundennachricht, der Kunde nur, wenn eine E-Mail hinterlegt ist.
+function kp_notify_message(string $u, array $acc, array $msg): void
+{
+    $c = cx_config();
+    if (empty($c['brevo_api_key'])) {
+        cx_log('Kundenportal: Nachricht von/an ' . $u . ' ohne E-Mail (kein Brevo-Schlüssel)');
+        return;
+    }
+    $art = KP_ARTEN[$msg['art']] ?? 'Nachricht';
+    $text = '<div style="margin:0 0 6px;font-size:13px;color:#a1a1a1">' . cx_h($art) . '</div>'
+        . '<div style="padding:14px 16px;border-left:3px solid #ff5a1f;background:#161616;color:#f4f4f0;font-size:15px">' . nl2br(cx_h((string) $msg['text'])) . '</div>';
+    $notify = (string) ($c['notify_email'] ?? 'office@tim-kofler.at');
+    $email = (string) ($acc['email'] ?? '');
+    if ($msg['von'] === 'kunde') {
+        $who = trim((string) ($acc['firma'] ?? '')) !== '' ? $acc['firma'] . ' (' . ($acc['name'] ?? $u) . ')' : (string) ($acc['name'] ?? $u);
+        $inner = '<p style="margin:0 0 14px">' . cx_h($who) . ' hat dir im Kundenportal geschrieben:</p>' . $text
+            . cx_button(kp_portal_url('/kunden/admin/?k=' . rawurlencode($u) . '#nachrichten'), 'Antworten');
+        if (!cx_mail($notify, 'Tim', $art . ' von ' . $who, cx_mail_layout('Neue Nachricht im Kundenportal', $inner), $email)) {
+            cx_log('Kundenportal: Nachricht von ' . $u . ' nicht per E-Mail gemeldet');
+        }
+    } elseif ($email !== '') {
+        $inner = '<p style="margin:0 0 14px">Hallo ' . cx_h((string) ($acc['name'] ?? '')) . ',</p><p style="margin:0 0 14px">ich habe dir im Kundenportal geschrieben:</p>' . $text
+            . cx_button(kp_portal_url('/kunden/#nachrichten'), 'Im Kundenportal antworten')
+            . '<p style="margin:18px 0 0;font-size:13px;color:#a1a1a1">Bitte antworte im Kundenportal, dann bleibt alles zu deiner Webseite an einem Ort.</p>';
+        cx_mail($email, (string) ($acc['name'] ?? ''), 'Neue Nachricht von Tim zu deiner Webseite', cx_mail_layout('Neue Nachricht von Tim', $inner), $notify);
+    }
+}
+
 // ---------------- Seitenrahmen ----------------
 
 function kp_page(string $title, string $body, string $nav = ''): void
@@ -486,9 +670,9 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#0b0b0b">
   <link rel="icon" href="/assets/img/tk-badge.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/css/style.css">
-  <link rel="stylesheet" href="/assets/css/tk.css">
-  <link rel="stylesheet" href="/assets/css/portal.css?v=a450b2be">
+  <link rel="stylesheet" href="/assets/css/style.css?v=a9c5cddd">
+  <link rel="stylesheet" href="/assets/css/tk.css?v=0bab137b">
+  <link rel="stylesheet" href="/assets/css/portal.css?v=5bb61926">
 </head>
 <body class="kp">
 <header class="header">
@@ -510,8 +694,8 @@ function kp_page(string $title, string $body, string $nav = ''): void
     <span><a href="/impressum/">Impressum</a> · <a href="/datenschutz/#kundenportal">Datenschutz</a></span>
   </div>
 </footer>
-<script src="/assets/js/portal.js"></script>
-<script src="/assets/js/vorschau.js?v=1"></script>
+<script src="/assets/js/portal.js?v=9574142f"></script>
+<script src="/assets/js/vorschau.js?v=450bd1e8"></script>
 </body>
 </html>
 HTML;

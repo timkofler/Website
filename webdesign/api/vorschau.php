@@ -40,9 +40,14 @@ if ($branche === 'Sonstiges' || $branche === '') {
 }
 $ort = cx_field('ort', 80);
 
+// Erst prüfen, dann zählen (vor dem teuren KI-Aufruf), damit parallele Anfragen die Grenze je Anschluss nicht umgehen.
+$fehler = vs_pruefen($firma, $branche, $ort);
+if ($fehler !== '') {
+    cx_respond(false, $fehler);
+}
+vs_ip_zaehlen();
 $r = vs_erstellen($firma, $branche, $ort, false);
 if (isset($r['fehler'])) {
     cx_respond(false, (string) $r['fehler']);
 }
-vs_ip_zaehlen();
 cx_respond(true, 'Deine Vorschau ist fertig.', '/vorschau/' . $r['id'] . '/');

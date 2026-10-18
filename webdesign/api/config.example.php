@@ -10,6 +10,8 @@ return [
     'secret'           => '',
     // Liste für Webseiten-Anfragen in Brevo (Kontakte → Listen)
     'list_webdesign'   => 0,
+    // Optional: eigene Brevo-Liste für Anfragen über /entwurf/ (Gratis-Entwurf). Ohne diese Zeile landen sie in list_webdesign.
+    // 'list_entwurf'   => 0,
     // Newsletter-Liste in Brevo (Kontakte → Listen → neue Liste "Newsletter tim-kofler.at", deren ID hier eintragen).
     // Erst wenn diese Zeile in der config.php steht, nimmt tim-kofler.at/newsletter/ Anmeldungen an.
     'list_newsletter'  => 0,

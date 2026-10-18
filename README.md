@@ -74,12 +74,14 @@ webdesign/kunden/index.php         Anmeldung und Upload für Kunden
 webdesign/kunden/admin/index.php   Admin: Kunden anlegen, Passwörter, Uploads ansehen/herunterladen/löschen
 webdesign/api/kunden-lib.php       Logik (Konten, Schutz vor Passwort-Raten, Upload-Prüfung, Benachrichtigung)
 webdesign/assets/css/portal.css    Design des Portals
-webdesign/assets/js/portal.js      Fortschrittsbalken beim Hochladen
+webdesign/api/admin-2fa-lib.php    Zwei-Faktor-Anmeldung für den Admin (TOTP nach RFC 6238, Notfall-Codes)
+webdesign/assets/js/portal.js      Fortschrittsbalken beim Hochladen, QR-Code für die Authenticator-App
 kunden/                            Pro Kunde ein Ordner im Repo, Vorlage in kunden/_vorlage/
 ```
 
 - Konten und hochgeladene Dateien liegen nur auf dem Webspace unter `api/_data/kunden/` (für Besucher gesperrt, nicht im Repo). Passwörter nur als Hash.
 - Einrichten: `tim-kofler.at/kunden/admin/` aufrufen, Admin-Passwort wählen, den angezeigten Hash als `admin_password_hash` in `api/_data/config.php` auf dem Webspace eintragen (siehe `config.example.php`).
+- Zwei-Faktor-Anmeldung (nur Admin): Im Admin auf **Sicherheit** gehen, QR-Code mit Google Authenticator scannen, Code bestätigen, die zehn Notfall-Codes sicher aufheben. Danach fragt die Anmeldung nach dem Passwort den 6-stelligen Code ab. Das Geheimnis liegt nur auf dem Webspace in `api/_data/kunden/admin-2fa.json`. Handy und Notfall-Codes weg: diese Datei im KAS-Dateimanager löschen, dann reicht wieder das Passwort, und neu einrichten.
 - Die PHP-Grenzen fürs Hochladen (200 MB pro Datei, 1 GB pro Durchgang, 10 Minuten Laufzeit) setzt `webdesign/kunden/.user.ini`. Sie wirken nach etwa 5 Minuten. Das Portal zeigt den Kunden automatisch die tatsächlich erlaubte Größe, daran sieht man, ob die Werte greifen.
 
 ## Newsletter auf tim-kofler.at

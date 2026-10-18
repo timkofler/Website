@@ -373,7 +373,12 @@ function vs_neue_id(): string
 // Alles auf Strings/Listen in erwarteter Form bringen, Farbe prüfen.
 function vs_saeubern(array $i): array
 {
-    $str = static fn($v, int $max) => mb_substr(trim(strip_tags(is_scalar($v) ? (string) $v : '')), 0, $max);
+    // Keine Links, E-Mail-Adressen oder Telefonnummern aus der KI-Antwort übernehmen (die Seite liegt unter tim-kofler.at).
+    $str = static fn($v, int $max) => mb_substr(trim(preg_replace(
+        ['~(?:https?://|www\.)\S+~iu', '~[\w.+-]+@[\w-]+(?:\.[\w-]+)+~u', '~\+?\d[\d /()-]{6,}\d~u', '~\s{2,}~u'],
+        ['', '', '', ' '],
+        strip_tags(is_scalar($v) ? (string) $v : '')
+    ) ?? ''), 0, $max);
     $list = static function ($v, int $n, int $max) use ($str) {
         $out = [];
         foreach ((array) $v as $x) {
@@ -557,8 +562,8 @@ function vs_page(string $title, string $description, string $body, string $canon
   <link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/style.css?v=a9c5cddd">
-  <link rel="stylesheet" href="/assets/css/tk.css?v=77762936">
-  <link rel="stylesheet" href="/assets/css/vorschau.css?v=1">
+  <link rel="stylesheet" href="/assets/css/tk.css?v=0bab137b">
+  <link rel="stylesheet" href="/assets/css/vorschau.css?v=c72a87c6">
 </head>
 <body>
 
@@ -569,7 +574,8 @@ function vs_page(string $title, string $description, string $body, string $canon
       <a href="/#leistungen">Leistungen</a>
       <a href="/#beispiele">Beispiele</a>
       <a href="/#pakete">Pakete</a>
-      <a href="/vorschau/" class="is-active">Vorschau</a>
+      <a href="/#email">Landingpages</a>
+      <a href="/#extras">Web-Apps</a>
       <a href="/#ablauf">Ablauf</a>
       <a href="/#ueber">Über mich</a>
       <a href="/#anfrage" class="btn nav__cta">Anfragen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -595,7 +601,7 @@ function vs_page(string $title, string $description, string $body, string $canon
 </footer>
 
 <script src="/assets/js/main.js?v=5b686c25"></script>
-<script src="/assets/js/vorschau.js?v=1"></script>
+<script src="/assets/js/vorschau.js?v=450bd1e8"></script>
 </body>
 </html>
 HTML;

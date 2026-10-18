@@ -26,6 +26,13 @@
     });
   });
 
+  // Link wie /?paket=app#anfrage (von der Beispiel-App) wählt die Zusatzleistung vor.
+  var PAKET_Q = { app: "Eigene App (Zusatzleistung)" };
+  if (PAKET_Q[q.get("paket")]) {
+    var ps = document.querySelector('select[name="paket"]');
+    if (ps && !ps.value) ps.value = PAKET_Q[q.get("paket")];
+  }
+
   forms.forEach(function (form) {
     var ts = form.querySelector('input[name="ts"]');
     if (ts) ts.value = String(Date.now());
@@ -39,8 +46,9 @@
       var el = form.querySelector('[name="' + f[0] + '"]');
       if (el && q.get(f[0]) && !el.value) el.value = q.get(f[0]).slice(0, f[1]);
     });
-    var ps = form.querySelector('select[name="paket"]');
-    if (ps && q.get("paket")) ps.value = q.get("paket");
+    // Nur echte Optionen übernehmen, sonst würde die Auswahl leer (z. B. ?paket=app ist schon oben erledigt).
+    var fp = form.querySelector('select[name="paket"]'), pv = q.get("paket");
+    if (fp && pv && !PAKET_Q[pv] && Array.prototype.some.call(fp.options, function (o) { return o.value === pv; })) fp.value = pv;
     var status = form.querySelector(".form__status");
     var button = form.querySelector('button[type="submit"]');
     var mailLink = form.querySelector('a[href^="mailto:"]');

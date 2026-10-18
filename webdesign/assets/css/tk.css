@@ -385,3 +385,131 @@ h1 .lime, h2 .lime, h3 .lime { background: var(--hot-grad); -webkit-background-c
 .tk-chat__wabar img { width: 30px; height: 30px; flex: none; }
 .tk-chat__wabar b { display: block; }
 .tk-chat__wabar em { margin-left: auto; font-style: normal; color: #25D366; font-size: 1.1rem; }
+
+/* ---------- Angebots-Rechner (#rechner) ---------- */
+.tk-calc { position: relative; margin-top: 22px; padding: clamp(22px, 4vw, 40px); border: 1px solid var(--line-2); border-radius: 22px; background: linear-gradient(160deg, rgba(255,90,31,.07), rgba(255,255,255,.02) 45%, var(--bg-2)); scroll-margin-top: 90px; overflow: hidden; }
+.tk-calc::before { content: ""; position: absolute; width: 520px; height: 520px; right: -200px; top: -260px; border-radius: 50%; background: radial-gradient(circle, rgba(255,90,31,.18), transparent 65%); filter: blur(20px); pointer-events: none; }
+.tk-calc > * { position: relative; }
+.tk-calc__head { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 48px; align-items: end; margin-bottom: 34px; }
+.tk-calc__head .label { margin-bottom: 12px; }
+.tk-calc__head h3 { margin: 0; font-family: var(--display); font-size: clamp(1.5rem, 3vw, 2.1rem); line-height: 1.12; letter-spacing: -.01em; }
+.tk-calc__head p { margin: 0; color: var(--muted); max-width: 520px; justify-self: end; }
+.tk-calc__grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr); gap: 28px; align-items: start; }
+.tk-calc__opts { display: grid; gap: 18px; min-width: 0; }
+.tk-calc__block { border: 1px solid var(--line); border-radius: 18px; background: rgba(11,11,11,.55); padding: 20px 22px; }
+.tk-calc__block--row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0; border: 0; background: none; }
+.tk-calc__row { display: flex; justify-content: space-between; gap: 18px; align-items: flex-start; margin-bottom: 14px; }
+.tk-calc__row label { display: grid; gap: 4px; }
+.tk-calc__row label b { font-weight: 700; }
+.tk-calc__row label span { font-size: .9rem; color: var(--muted); }
+.tk-calc__row output { flex: none; font-family: var(--mono); font-size: 1rem; color: var(--hot-2); border: 1px solid rgba(255,90,31,.45); border-radius: 999px; padding: 6px 14px; white-space: nowrap; }
+.tk-calc__k { margin: 0 0 14px; font-weight: 700; }
+.tk-calc__k em { font-style: normal; font-weight: 400; color: var(--muted); font-size: .9rem; margin-left: 6px; }
+.tk-calc__scale { display: flex; justify-content: space-between; gap: 8px; margin-top: 10px; font-family: var(--mono); font-size: .7rem; color: var(--muted); letter-spacing: .02em; }
+.tk-calc__scale span:nth-child(2), .tk-calc__scale span:nth-child(3) { text-align: center; }
+.tk-calc__scale span:last-child { text-align: right; }
+
+/* Schieberegler in Signalfarbe, groß genug für den Daumen */
+.tk-calc input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 34px; margin: 0; background: transparent; cursor: pointer; }
+.tk-calc input[type=range]:focus { outline: none; }
+.tk-calc input[type=range]::-webkit-slider-runnable-track { height: 6px; border-radius: 999px; background: linear-gradient(90deg, var(--hot) 0%, var(--hot-2) 100%); }
+.tk-calc input[type=range]::-moz-range-track { height: 6px; border-radius: 999px; background: var(--line-2); }
+.tk-calc input[type=range]::-moz-range-progress { height: 6px; border-radius: 999px; background: linear-gradient(90deg, var(--hot), var(--hot-2)); }
+.tk-calc input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; margin-top: -11px; border-radius: 50%; background: #fff; border: 3px solid var(--hot); box-shadow: 0 4px 18px rgba(255,90,31,.45); transition: transform .15s; }
+.tk-calc input[type=range]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: #fff; border: 3px solid var(--hot); box-shadow: 0 4px 18px rgba(255,90,31,.45); }
+.tk-calc input[type=range]:active::-webkit-slider-thumb, .tk-calc input[type=range]:focus-visible::-webkit-slider-thumb { transform: scale(1.12); box-shadow: 0 0 0 6px var(--hot-dim), 0 4px 18px rgba(255,90,31,.45); }
+.tk-calc input[type=range]:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 6px var(--hot-dim), 0 4px 18px rgba(255,90,31,.45); }
+
+/* Extras als anklickbare Karten */
+.tk-calc__extras { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.tk-calc__opt { position: relative; display: grid; grid-template-columns: 22px 1fr auto; gap: 12px; align-items: start; padding: 13px 14px; border: 1px solid var(--line-2); border-radius: 14px; background: var(--bg-2); cursor: pointer; transition: border-color .25s, background .25s, transform .25s; min-height: 64px; }
+.tk-calc__opt:hover { border-color: rgba(255,90,31,.55); }
+.tk-calc__opt:has(input:checked) { border-color: var(--hot); background: linear-gradient(135deg, rgba(255,90,31,.16), rgba(255,178,63,.05)); }
+.tk-calc__opt.is-on { border-color: var(--hot); background: linear-gradient(135deg, rgba(255,90,31,.16), rgba(255,178,63,.05)); }
+.tk-calc__opt:has(input:focus-visible) { outline: 2px solid var(--hot); outline-offset: 2px; }
+.tk-calc__opt input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--hot); cursor: pointer; flex: none; }
+.tk-calc__opt > span { display: grid; gap: 3px; min-width: 0; }
+.tk-calc__opt b { font-size: .95rem; line-height: 1.3; }
+.tk-calc__opt small { font-size: .82rem; color: var(--muted); line-height: 1.45; }
+.tk-calc__opt em { font-style: normal; font-family: var(--mono); font-size: .78rem; color: var(--hot-2); white-space: nowrap; padding-top: 3px; }
+.tk-calc__opt.is-inkl em { color: var(--muted); }
+.tk-calc__opt.is-inkl:has(input:checked) { border-color: var(--line-2); background: var(--bg-2); }
+.tk-calc__opt.is-inkl.is-on { border-color: var(--line-2); background: var(--bg-2); }
+.tk-calc__opt.is-off { opacity: .5; cursor: not-allowed; }
+.tk-calc__opt.is-off:hover { border-color: var(--line-2); }
+.tk-calc__opt--ref em { color: var(--hot); }
+.tk-calc__opt em:empty { display: none; }
+/* Modus "spanne": kleinere Zahl, da zwei Werte; Modus "ohne": kein Betrag */
+.tk-calc[data-modus="spanne"] .tk-calc__amount { font-size: clamp(1.5rem, 2.6vw, 2rem); }
+.tk-calc__ohne { display: none; margin: 0; font-size: 1.02rem; font-weight: 600; }
+.tk-calc[data-modus="ohne"] .tk-calc__amount, .tk-calc[data-modus="ohne"] .tk-calc__sk { display: none; }
+.tk-calc[data-modus="ohne"] .tk-calc__ohne { display: block; }
+
+/* Ergebnis */
+.tk-calc__sum { position: sticky; top: 96px; display: grid; gap: 10px; padding: 26px 26px 22px; border: 1px solid rgba(255,90,31,.45); border-radius: 20px; background: linear-gradient(180deg, #171717, #101010); box-shadow: 0 30px 70px rgba(0,0,0,.45), 0 0 60px rgba(255,90,31,.10); }
+.tk-calc__sk { margin: 0; font-family: var(--mono); font-size: .76rem; letter-spacing: .03em; color: var(--muted); }
+.tk-calc__amount { margin: 0; font-family: var(--display); font-weight: 700; font-size: clamp(2.2rem, 4vw, 3rem); line-height: 1.05; letter-spacing: -.02em; color: var(--text); font-variant-numeric: tabular-nums; }
+.tk-calc__amount small { font-family: var(--body); font-size: 1rem; font-weight: 500; color: var(--muted); margin-right: 2px; }
+.tk-calc__amount span { background: var(--hot-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.tk-calc__pkg { margin: 0; font-size: .92rem; color: var(--muted); }
+.tk-calc__list { list-style: none; margin: 8px 0 0; padding: 12px 0 0; border-top: 1px dashed var(--line-2); display: grid; gap: 7px; font-size: .9rem; }
+.tk-calc__list li { display: flex; justify-content: space-between; gap: 14px; }
+.tk-calc__list li span { color: var(--muted); }
+.tk-calc__list li b { font-family: var(--mono); font-weight: 500; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tk-calc__month { margin: 0; padding: 10px 12px; border-radius: 10px; background: var(--hot-dim); font-size: .88rem; color: var(--text); }
+.tk-calc__sum .btn { justify-self: stretch; justify-content: center; margin-top: 6px; }
+.tk-calc__hint { margin: 0; font-size: .82rem; color: var(--muted); }
+.tk-calc__hint a { color: var(--hot-2); text-decoration: underline; text-underline-offset: 3px; }
+.tk-calc__legal { margin: 4px 0 0; padding-top: 10px; border-top: 1px dashed var(--line-2); font-size: .78rem; line-height: 1.5; color: var(--muted); }
+
+/* Hinweis im Formular, wenn der Rechner Text eingetragen hat */
+.form textarea.is-filled { border-color: var(--hot); box-shadow: 0 0 0 3px var(--hot-dim); transition: box-shadow .4s, border-color .4s; }
+
+/* Leiste am Handy mit dem aktuellen Richtpreis, direkt unter dem Seitenkopf (unten sitzen schon Chat und Beispiel-Hinweis) */
+.tk-calc-bar { position: fixed; left: 12px; right: 12px; top: 84px; z-index: 58; display: none; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 8px 8px 16px; border-radius: 999px; border: 1px solid rgba(255,90,31,.5); background: rgba(16,16,16,.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 16px 40px rgba(0,0,0,.5); transform: translateY(-24px); opacity: 0; pointer-events: none; transition: transform .35s cubic-bezier(.2,.7,.2,1), opacity .35s; }
+.tk-calc-bar span { font-size: .78rem; color: var(--muted); white-space: nowrap; line-height: 1.2; }
+.tk-calc-bar b { display: block; font-family: var(--display); font-size: 1rem; color: var(--text); font-variant-numeric: tabular-nums; }
+.tk-calc-bar .btn { min-height: 38px; padding: 0 16px; }
+.tk-calc-bar.is-on { transform: none; opacity: 1; pointer-events: auto; }
+
+@media (max-width: 1000px) {
+  .tk-calc__grid { grid-template-columns: 1fr; }
+  .tk-calc__sum { position: static; }
+  .tk-calc__head { grid-template-columns: 1fr; gap: 14px; }
+  .tk-calc__head p { justify-self: start; }
+}
+@media (max-width: 680px) {
+  .tk-calc { border-radius: 18px; }
+  .tk-calc__extras, .tk-calc__block--row { grid-template-columns: 1fr; }
+  .tk-calc__block { padding: 16px 14px; }
+  .tk-calc__opt { padding: 12px; }
+  .tk-calc__opt em { grid-column: 2; white-space: normal; padding-top: 2px; }
+  .tk-calc__row { flex-direction: column; gap: 10px; }
+  .tk-calc__row output { align-self: flex-start; }
+  .tk-calc__scale span:nth-child(2), .tk-calc__scale span:nth-child(3) { display: none; }
+  .tk-calc__sum { padding: 20px 18px 18px; }
+  .tk-calc-bar { display: flex; }
+}
+@media (prefers-reduced-motion: reduce) { .tk-calc-bar, .tk-calc__opt, .tk-calc input[type=range]::-webkit-slider-thumb { transition: none; } }
+
+/* Zusatzleistung: eigene Betriebs-App statt Abos (im Abschnitt Web-Apps) */
+.tk-abo { position: relative; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 52px); align-items: center; margin-top: clamp(40px, 6vw, 72px); padding: clamp(18px, 3vw, 32px); border-radius: 26px; border: 1px solid transparent; background: linear-gradient(#121212, #121212) padding-box, linear-gradient(130deg, rgba(255,90,31,.75), rgba(255,178,63,.25) 40%, #2a2a2a 70%) border-box; box-shadow: 0 40px 100px rgba(0,0,0,.5); overflow: hidden; }
+.tk-abo::before { content: ""; position: absolute; width: 520px; height: 520px; right: -180px; top: -220px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255,90,31,.16), transparent); pointer-events: none; }
+.tk-abo__media { display: block; position: relative; border-radius: 16px; overflow: hidden; border: 1px solid #2c2c2c; background: #111; aspect-ratio: 16 / 10; box-shadow: 0 30px 70px rgba(0,0,0,.55); transition: transform .5s cubic-bezier(.2,.7,.2,1); }
+.tk-abo__media:hover { transform: translateY(-4px); }
+.tk-abo__media video { position: absolute; inset: 34px 0 0; width: 100%; height: calc(100% - 34px); object-fit: cover; display: block; }
+.tk-abo__text { position: relative; }
+.tk-abo { scroll-margin-top: 96px; }
+.tk-abo__tag { display: inline-block; font: 600 .72rem/1 var(--mono, monospace); letter-spacing: .08em; text-transform: uppercase; color: #ffb27a; background: var(--hot-dim); border: 1px solid rgba(255,90,31,.35); border-radius: 999px; padding: 7px 11px; }
+.tk-abo h3 { font-size: clamp(1.7rem, 3.2vw, 2.5rem); margin: 16px 0 14px; }
+.tk-abo__hot { background: var(--hot-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.tk-abo__text > p { color: var(--muted); margin: 0 0 16px; }
+.tk-abo__text > p b { color: var(--text); font-weight: 600; }
+.tk-abo__chips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; padding: 0; }
+.tk-abo__chips li { font-size: .85rem; color: var(--text); border: 1px solid var(--line-2); background: #181818; border-radius: 999px; padding: 6px 12px; }
+.tk-abo__text > p.tk-abo__deal { color: var(--text); border-left: 3px solid var(--hot); padding: 4px 0 4px 14px; }
+.tk-abo__text > p.tk-abo__deal b { color: #ffb27a; display: block; }
+.tk-abo .btn-row { margin: 4px 0 14px; }
+.tk-abo .note-legal { margin: 0; }
+@media (max-width: 1000px) { .tk-abo { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .tk-abo { padding: 14px; border-radius: 20px; } .tk-abo__chips li { font-size: .8rem; padding: 5px 10px; } .tk-abo__media { aspect-ratio: 16 / 10.4; } }
