@@ -28,6 +28,27 @@
       var ni = clampIdx(Math.round(c));
       if (ni !== idx) idx = ni;
       dots.forEach(function (dot, i) { dot.classList.toggle("is-on", i === idx); dot.setAttribute("aria-current", i === idx ? "true" : "false"); });
+      updatePlay();
+    };
+
+    // Die Seite im Handy scrollt erst, wenn es in der Mitte eingerastet ist; vorher bleibt der Seitenanfang stehen.
+    // Wird ein Handy weggezogen, gleitet seine Seite wieder nach oben, beim nächsten Mal beginnt sie von vorn.
+    var playing = -1;
+    var updatePlay = function () {
+      var p = (!(dragging && moved) && Math.abs(x + idx * step) < 1) ? idx : -1;
+      if (p === playing) return;
+      if (playing >= 0) {
+        var img = items[playing].querySelector(".tk-phone__screen > img");
+        if (img) img.style.transform = window.getComputedStyle(img).transform;
+        items[playing].classList.remove("is-play");
+        if (img) { void img.offsetWidth; img.style.transform = "translateY(0)"; }
+      }
+      playing = p;
+      if (p >= 0) {
+        var pi = items[p].querySelector(".tk-phone__screen > img");
+        if (pi) pi.style.transform = "";
+        items[p].classList.add("is-play");
+      }
     };
 
     var animate = function () {
@@ -112,7 +133,7 @@
     });
     // Seiten in den Handys scrollen nur, solange das Karussell sichtbar ist
     if ("IntersectionObserver" in window) {
-      new IntersectionObserver(function (es) { root.classList.toggle("is-visible", es[0].isIntersecting); }, { rootMargin: "100px" }).observe(root);
+      new IntersectionObserver(function (es) { root.classList.toggle("is-visible", es[0].isIntersecting); }, { rootMargin: "0px 0px -15% 0px" }).observe(root);
     } else {
       root.classList.add("is-visible");
     }
