@@ -256,7 +256,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
             }
             kp_flash(false, 'Das Konto konnte nicht gespeichert werden (Schreibrechte im Ordner api/_data prüfen).');
         }
-        kp_redirect(KP_ADMIN);
+        kp_redirect(KP_ADMIN . '#neu');
     }
 
     if ($k === '' || !isset($all[$k])) {
@@ -276,7 +276,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         $all[$k]['webseite'] = kp_text('webseite', 200);
         kp_save_accounts($all);
         kp_flash(true, 'Gespeichert.');
-        kp_redirect($back);
+        kp_redirect($back . '#zugang');
     }
 
     if ($action === 'passwort') {
@@ -285,14 +285,14 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         kp_save_accounts($all);
         kp_fail_reset('kunde:' . $k);
         $_SESSION['zugang'] = ['benutzer' => $k, 'passwort' => $pw];
-        kp_redirect($back);
+        kp_redirect($back . '#zugang');
     }
 
     if ($action === 'sperren') {
         $all[$k]['aktiv'] = empty($all[$k]['aktiv']);
         kp_save_accounts($all);
         kp_flash(true, $all[$k]['aktiv'] ? 'Zugang ist wieder aktiv.' : 'Zugang ist gesperrt. Die Dateien bleiben erhalten.');
-        kp_redirect($back);
+        kp_redirect($back . '#zugang');
     }
 
     if ($action === 'schreiben') {
@@ -318,13 +318,13 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         } else {
             kp_flash(false, 'Zum Löschen bitte das Häkchen setzen.');
         }
-        kp_redirect($back);
+        kp_redirect($back . '#uploads');
     }
 
     if ($action === 'kunde_loeschen') {
         if (strtolower(cx_field('sicher', 40)) !== $k) {
             kp_flash(false, 'Zum Löschen bitte den Benutzernamen genau eintippen.');
-            kp_redirect($back);
+            kp_redirect($back . '#zugang');
         }
         kp_delete_dir(kp_user_dir($k));
         unset($all[$k]);
@@ -576,6 +576,13 @@ if ($ew !== '' && ($d = ew_read($ew))) {
 HTML, $logout);
 }
 
+// Zwei Anfangsbuchstaben für den runden Kreis vor dem Namen.
+$initials = static function (string $n): string {
+    $w = preg_split('/[\s\-]+/u', trim($n), -1, PREG_SPLIT_NO_EMPTY) ?: ['?'];
+    $i = mb_substr($w[0], 0, 1) . (count($w) > 1 ? mb_substr((string) end($w), 0, 1) : '');
+    return cx_h(mb_strtoupper($i));
+};
+
 // ---------------- Kunde im Detail ----------------
 if ($k !== '' && isset($all[$k])) {
     $a = $all[$k];
@@ -585,8 +592,9 @@ if ($k !== '' && isset($all[$k])) {
     $lock = !empty($a['aktiv']) ? 'Zugang sperren' : 'Zugang wieder freigeben';
     $used = kp_bytes(kp_used_bytes($k));
 
+    $batchList = kp_batches($k);
     $batches = '';
-    foreach (kp_batches($k) as $id => $b) {
+    foreach ($batchList as $id => $b) {
         $base = KP_ADMIN . '?k=' . rawurlencode($k) . '&amp;e=' . rawurlencode($id);
         $items = '';
         foreach ((array) $b['dateien'] as $d) {
@@ -598,20 +606,22 @@ if ($k !== '' && isset($all[$k])) {
         $when = cx_h(date('d.m.Y, H:i', strtotime((string) ($b['zeit'] ?? '')) ?: 0));
         $n = count((array) $b['dateien']);
         $msg = ($b['nachricht'] ?? '') !== '' ? '<p class="kp-msg">' . nl2br(cx_h((string) $b['nachricht'])) . '</p>' : '';
-        $batches .= '<div class="kp-batch kp-batch--open"><h3>' . $when . ' Uhr · ' . cx_h((string) ($b['webseite'] ?? '')) . ' · ' . $n . ($n === 1 ? ' Datei' : ' Dateien') . '</h3>'
+        $batches .= '<div class="kp-card kp-batch--open"><div class="kp-batch__kopf"><h3>' . $when . ' Uhr</h3><span class="muted">' . cx_h((string) ($b['webseite'] ?? '')) . ' · ' . $n . ($n === 1 ? ' Datei' : ' Dateien') . '</span></div>'
             . $msg . '<ul class="kp-files">' . $items . '</ul>'
             . '<div class="kp-actions"><a class="btn btn--sm" href="' . $base . '&amp;zip=1">Alle als ZIP</a>'
             . '<form method="post" action="' . KP_ADMIN . '?k=' . cx_h($k) . '">' . $csrf . '<input type="hidden" name="aktion" value="eingang_loeschen"><input type="hidden" name="e" value="' . cx_h($id) . '">'
             . '<label class="kp-confirm"><input type="checkbox" name="sicher" value="ja" required> sicher</label><button class="btn btn--sm btn--line" type="submit">Löschen</button></form></div></div>';
     }
     if ($batches === '') {
-        $batches = '<p class="muted">Noch keine Uploads.</p>';
+        $batches = '<p class="muted kp-leer">Noch keine Uploads.</p>';
     }
+    $nUploads = count($batchList);
     $form = KP_ADMIN . '?k=' . cx_h($k);
     $hk = cx_h($k);
 
     // Nachrichten: erst mit „neu“ anzeigen, dann als gelesen merken.
     $msgs = kp_messages($k);
+    $unread = kp_unread($msgs, 'tim');
     $doneForm = static fn(string $id, bool $done) => '<form method="post" action="' . $form . '" class="kp-m__aktion">' . $csrf
         . '<input type="hidden" name="aktion" value="erledigt"><input type="hidden" name="id" value="' . cx_h($id) . '">'
         . '<button class="btn btn--sm btn--line" type="submit">' . ($done ? 'Wieder offen' : '✓ Erledigt') . '</button></form>';
@@ -625,98 +635,166 @@ if ($k !== '' && isset($all[$k])) {
     $wishes = $wishes !== '' ? '<div class="kp-wishes"><h3>Offene Wünsche (' . count($open) . ')</h3><ul>' . $wishes . '</ul></div>' : '';
     kp_mark_read($k, 'tim');
 
+    $webLink = ($a['webseite'] ?? '') !== ''
+        ? '<a href="' . cx_h(preg_match('~^https?://~i', (string) $a['webseite']) ? (string) $a['webseite'] : 'https://' . $a['webseite']) . '" target="_blank" rel="noopener noreferrer">' . $h('webseite') . '</a>' : '';
+    $sub = implode(' · ', array_filter([$h('firma'), $webLink]));
+    $statusChip = '<span class="kp-chip-st kp-chip-st--' . $status . '">' . $status . '</span>';
+    $msgSub = $unread > 0 ? '<b>' . $unread . ' neu</b>' . ($open ? ' · ' . count($open) . ' offen' : '')
+        : ($open ? count($open) . (count($open) === 1 ? ' Wunsch offen' : ' Wünsche offen') : ($msgs['liste'] ? count($msgs['liste']) . ' im Verlauf' : 'noch keine'));
+    $badge = $unread > 0 ? '<span class="kp-badge">' . $unread . '</span>' : '';
+    $upSub = $nUploads > 0 ? ($nUploads === 1 ? '1 Upload' : $nUploads . ' Uploads') . ' · ' . $used : 'noch keine';
+
     kp_page($a['name'] ?? $k, <<<HTML
 <div class="crumbs"><a href="/kunden/admin/">Kunden</a> / {$hk}</div>
-<h1>{$h('name')}</h1>
-<p class="lead">{$h('firma')} · {$h('webseite')} · Zugang {$status} · letzte Anmeldung {$last} · {$used} belegt</p>
-{$zugang}
-{$flash}
-<section class="kp-chat kp-chat--admin" id="nachrichten">
-  <h2>Nachrichten</h2>
-  {$wishes}
-  {$chat}
-  {$chatForm}
-</section>
-<h2>Uploads</h2>
-{$batches}
-<div class="kp-grid kp-grid--even">
-  <form class="form form--small" method="post" action="{$form}">
-    {$csrf}
-    <input type="hidden" name="aktion" value="bearbeiten">
-    <h2>Daten</h2>
-    <label class="form__field"><span>Name</span><input type="text" name="name" required maxlength="80" value="{$h('name')}"></label>
-    <label class="form__field"><span>Betrieb</span><input type="text" name="firma" maxlength="120" value="{$h('firma')}"></label>
-    <label class="form__field"><span>E-Mail <em>(für die Eingangsbestätigung)</em></span><input type="email" name="email" maxlength="254" value="{$h('email')}"></label>
-    <label class="form__field"><span>Webseite</span><input type="text" name="webseite" maxlength="200" value="{$h('webseite')}"></label>
-    <button class="btn btn--line" type="submit">Speichern</button>
-  </form>
-  <div class="form form--small">
-    <h2>Zugang</h2>
-    <form method="post" action="{$form}">{$csrf}<input type="hidden" name="aktion" value="passwort"><button class="btn btn--line" type="submit">Neues Passwort erzeugen</button></form>
-    <form method="post" action="{$form}">{$csrf}<input type="hidden" name="aktion" value="sperren"><button class="btn btn--line" type="submit">{$lock}</button></form>
-    <form method="post" action="{$form}" class="kp-danger">{$csrf}<input type="hidden" name="aktion" value="kunde_loeschen">
-      <label class="form__field"><span>Kunde und alle Dateien löschen: zur Bestätigung <b class="kp-user">{$hk}</b> eintippen</span><input type="text" name="sicher" required placeholder="{$hk}" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false"></label>
-      <button class="btn btn--line" type="submit">Endgültig löschen</button></form>
+<div class="kp-head">
+  <span class="kp-ava kp-ava--gross" aria-hidden="true">{$initials($a['name'] ?? $k)}</span>
+  <div>
+    <h1>{$h('name')}</h1>
+    <p class="kp-head__sub">{$sub}</p>
+    <p class="kp-head__facts">{$statusChip}<span>Benutzer <code>{$hk}</code></span><span>Letzte Anmeldung {$last}</span></p>
   </div>
 </div>
+{$zugang}
+{$flash}
+<nav class="kp-tiles kp-tiles--3" data-kp-tabs data-default="nachrichten" aria-label="Bereiche">
+  <a class="kp-tile" href="#nachrichten" data-kp-tab="nachrichten"><span class="kp-tile__txt"><b>Nachrichten {$badge}</b><small>{$msgSub}</small></span></a>
+  <a class="kp-tile" href="#uploads" data-kp-tab="uploads"><span class="kp-tile__txt"><b>Uploads</b><small>{$upSub}</small></span></a>
+  <a class="kp-tile" href="#zugang" data-kp-tab="zugang"><span class="kp-tile__txt"><b>Zugang</b><small>Daten, Passwort · {$status}</small></span></a>
+</nav>
+<section class="kp-panel" data-kp-panel="nachrichten">
+  <div class="kp-card kp-chat kp-chat--admin">
+    {$wishes}
+    {$chat}
+    {$chatForm}
+  </div>
+</section>
+<section class="kp-panel" data-kp-panel="uploads">
+  {$batches}
+</section>
+<section class="kp-panel" data-kp-panel="zugang">
+  <div class="kp-grid kp-grid--even">
+    <form class="form form--small" method="post" action="{$form}">
+      {$csrf}
+      <input type="hidden" name="aktion" value="bearbeiten">
+      <h2>Daten</h2>
+      <label class="form__field"><span>Name</span><input type="text" name="name" required maxlength="80" value="{$h('name')}"></label>
+      <label class="form__field"><span>Betrieb</span><input type="text" name="firma" maxlength="120" value="{$h('firma')}"></label>
+      <label class="form__field"><span>E-Mail <em>(für Benachrichtigungen)</em></span><input type="email" name="email" maxlength="254" value="{$h('email')}"></label>
+      <label class="form__field"><span>Webseite</span><input type="text" name="webseite" maxlength="200" value="{$h('webseite')}"></label>
+      <button class="btn btn--line" type="submit">Speichern</button>
+    </form>
+    <div class="form form--small">
+      <h2>Zugang</h2>
+      <p class="kp-hint kp-hint--top">Zugang {$status} · letzte Anmeldung {$last} · {$used} belegt</p>
+      <form method="post" action="{$form}">{$csrf}<input type="hidden" name="aktion" value="passwort"><button class="btn btn--line" type="submit">Neues Passwort erzeugen</button></form>
+      <form method="post" action="{$form}">{$csrf}<input type="hidden" name="aktion" value="sperren"><button class="btn btn--line" type="submit">{$lock}</button></form>
+      <form method="post" action="{$form}" class="kp-danger">{$csrf}<input type="hidden" name="aktion" value="kunde_loeschen">
+        <label class="form__field"><span>Kunde und alle Dateien löschen: zur Bestätigung <b class="kp-user">{$hk}</b> eintippen</span><input type="text" name="sicher" required placeholder="{$hk}" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false"></label>
+        <button class="btn btn--line" type="submit">Endgültig löschen</button></form>
+    </div>
+  </div>
+</section>
 HTML, $logout);
 }
 
 // ---------------- Übersicht ----------------
-$rows = '';
+// Jede Zeile ist als Ganzes ein Link in die Kundenkartei. Wer etwas Neues geschrieben hat, steht oben.
+$list = [];
+$sumNeu = 0;
+$sumOffen = 0;
 foreach ($all as $u => $a) {
-    $b = kp_batches((string) $u);
+    $u = (string) $u;
+    $b = kp_batches($u);
     $first = $b ? reset($b) : null;
-    $last = $first ? cx_h(date('d.m.Y', strtotime((string) $first['zeit']) ?: 0)) : '–';
-    $m = kp_messages((string) $u);
+    $m = kp_messages($u);
+    $lastM = $m['liste'] ? end($m['liste']) : null;
+    $akt = max(strtotime((string) ($first['zeit'] ?? '')) ?: 0, strtotime((string) ($lastM['zeit'] ?? '')) ?: 0, strtotime((string) ($a['erstellt'] ?? '')) ?: 0);
     $neu = kp_unread($m, 'tim');
     $offen = count(kp_open_wishes($m));
-    $info = ($neu > 0 ? '<span class="kp-badge">' . $neu . ' neu</span> ' : '') . ($offen > 0 ? $offen . ($offen === 1 ? ' Wunsch offen' : ' Wünsche offen') : ($neu > 0 ? '' : '–'));
-    $rows .= '<tr><td><a href="/kunden/admin/?k=' . rawurlencode((string) $u) . '">' . cx_h((string) $u) . '</a></td><td>' . cx_h((string) ($a['name'] ?? ''))
-        . '</td><td>' . cx_h((string) ($a['firma'] ?? '')) . '</td><td>' . cx_h((string) ($a['webseite'] ?? '')) . '</td><td>' . count($b) . '</td><td>' . $info . '</td><td>' . $last
-        . '</td><td>' . (!empty($a['aktiv']) ? 'aktiv' : 'gesperrt') . '</td></tr>';
+    $sumNeu += $neu;
+    $sumOffen += $offen;
+    $list[] = ['u' => $u, 'a' => $a, 'uploads' => count($b), 'neu' => $neu, 'offen' => $offen, 'akt' => $akt];
 }
-$table = $rows === '' ? '<p class="muted">Noch keine Kunden angelegt.</p>'
-    : '<div class="kp-table"><table><thead><tr><th>Benutzer</th><th>Name</th><th>Betrieb</th><th>Webseite</th><th>Uploads</th><th>Nachrichten</th><th>Zuletzt</th><th>Status</th></tr></thead><tbody>' . $rows . '</tbody></table></div>';
+usort($list, static fn($x, $y) => [$y['neu'], $y['offen'], $y['akt']] <=> [$x['neu'], $x['offen'], $x['akt']]);
+$rows = '';
+foreach ($list as $r) {
+    $a = $r['a'];
+    $aktiv = !empty($a['aktiv']);
+    $sub = implode(' · ', array_filter([cx_h((string) ($a['firma'] ?? '')), cx_h((string) ($a['webseite'] ?? ''))]));
+    $tags = ($r['neu'] > 0 ? '<span class="kp-badge">' . $r['neu'] . ' neu</span>' : '')
+        . ($r['offen'] > 0 ? '<span class="kp-pill kp-pill--hot">' . $r['offen'] . ($r['offen'] === 1 ? ' Wunsch offen' : ' Wünsche offen') . '</span>' : '')
+        . '<span class="kp-pill">' . ($r['uploads'] === 1 ? '1 Upload' : $r['uploads'] . ' Uploads') . '</span>'
+        . (!$aktiv ? '<span class="kp-pill kp-pill--aus">gesperrt</span>' : '');
+    $when = $r['akt'] ? date('d.m.Y', $r['akt']) : '–';
+    $rows .= '<li><a class="kp-row' . ($r['neu'] > 0 ? ' is-new' : '') . '" href="/kunden/admin/?k=' . rawurlencode($r['u']) . '">'
+        . '<span class="kp-ava" aria-hidden="true">' . $initials((string) ($a['name'] ?? $r['u'])) . '</span>'
+        . '<span class="kp-row__main"><b>' . cx_h((string) ($a['name'] ?? $r['u'])) . '</b><small>' . ($sub !== '' ? $sub . ' · ' : '') . '<code>' . cx_h($r['u']) . '</code></small></span>'
+        . '<span class="kp-row__tags">' . $tags . '</span>'
+        . '<span class="kp-row__when">' . $when . '</span>'
+        . '<span class="kp-row__go" aria-hidden="true">›</span></a></li>';
+}
+
+$table = $rows === '' ? '<p class="muted kp-leer">Noch keine Kunden angelegt.</p>' : '<ul class="kp-rows">' . $rows . '</ul>';
 
 $ewRows = '';
 $ewNeu = 0;
 foreach (ew_all() as $id => $d) {
     $st = (string) ($d['status'] ?? 'neu');
     $ewNeu += $st === 'neu' ? 1 : 0;
-    $ewRows .= '<tr' . ($st === 'neu' ? ' class="is-new"' : '') . '><td>' . cx_h(date('d.m.Y', strtotime((string) $d['zeit']) ?: 0)) . '</td><td><a href="/kunden/admin/?entwurf=' . $id . '">' . cx_h((string) $d['firma']) . '</a></td><td>'
-        . cx_h((string) ($d['ort'] ?? '')) . '</td><td>' . ew_swatch((string) ($d['farbe_hex'] ?? '')) . cx_h((string) ($d['farbe'] ?? '')) . '</td><td>'
-        . cx_h(($d['webseite'] ?? '') !== '' ? (string) $d['webseite'] : (($d['hat_webseite'] ?? '') === 'nein' ? 'keine' : '–')) . '</td><td>'
-        . (!empty($d['newsletter']) ? 'ja' : '–') . '</td><td>' . cx_h(EW_STATUS[$st] ?? $st) . '</td></tr>';
+    $web = ($d['webseite'] ?? '') !== '' ? (string) $d['webseite'] : (($d['hat_webseite'] ?? '') === 'nein' ? 'noch keine Webseite' : '');
+    $sub = implode(' · ', array_filter([cx_h((string) ($d['ort'] ?? '')), cx_h((string) ($d['branche'] ?? '')), cx_h($web)]));
+    $tags = '<span class="kp-pill' . ($st === 'neu' ? ' kp-pill--hot' : '') . '">' . cx_h(EW_STATUS[$st] ?? $st) . '</span>'
+        . (($d['farbe'] ?? '') !== '' ? '<span class="kp-pill">' . ew_swatch((string) ($d['farbe_hex'] ?? '')) . cx_h((string) $d['farbe']) . '</span>' : '')
+        . (!empty($d['newsletter']) ? '<span class="kp-pill">Newsletter</span>' : '');
+    $ewRows .= '<li><a class="kp-row' . ($st === 'neu' ? ' is-new' : '') . '" href="/kunden/admin/?entwurf=' . $id . '">'
+        . '<span class="kp-ava kp-ava--ew" aria-hidden="true">' . $initials((string) $d['firma']) . '</span>'
+        . '<span class="kp-row__main"><b>' . cx_h((string) $d['firma']) . '</b><small>' . $sub . '</small></span>'
+        . '<span class="kp-row__tags">' . $tags . '</span>'
+        . '<span class="kp-row__when">' . cx_h(date('d.m.Y', strtotime((string) $d['zeit']) ?: 0)) . '</span>'
+        . '<span class="kp-row__go" aria-hidden="true">›</span></a></li>';
 }
-$ewTable = $ewRows === '' ? '<p class="muted">Noch keine Anfragen über <a href="/entwurf/">tim-kofler.at/entwurf/</a>.</p>'
-    : '<div class="kp-table"><table><thead><tr><th>Eingang</th><th>Betrieb</th><th>Ort</th><th>Farbe</th><th>Webseite</th><th>Newsletter</th><th>Status</th></tr></thead><tbody>' . $ewRows . '</tbody></table></div>';
+$ewTable = $ewRows === '' ? '<p class="muted kp-leer">Noch keine Anfragen über <a href="/entwurf/">tim-kofler.at/entwurf/</a>.</p>' : '<ul class="kp-rows">' . $ewRows . '</ul>';
 $tfHint = tf_active() ? '' : '<a class="kp-neu" href="/kunden/admin/?sicherheit"><b>●</b> Zwei-Faktor-Anmeldung ist noch nicht eingerichtet. Jetzt mit Google Authenticator absichern →</a>';
-$ewBadge = $ewNeu > 0 ? ' <span class="kp-badge">' . $ewNeu . ' neu</span>' : '';
+$ewBadge = $ewNeu > 0 ? '<span class="kp-badge">' . $ewNeu . '</span>' : '';
+$kBadge = $sumNeu > 0 ? '<span class="kp-badge">' . $sumNeu . '</span>' : '';
+$nK = count($list);
+$kSub = ($nK === 1 ? '1 Kunde' : $nK . ' Kunden') . ($sumNeu > 0 ? ' · <b>' . $sumNeu . ($sumNeu === 1 ? ' neue Nachricht' : ' neue Nachrichten') . '</b>' : '') . ($sumOffen > 0 ? ' · ' . $sumOffen . ($sumOffen === 1 ? ' Wunsch offen' : ' Wünsche offen') : '');
+$ewSub = $ewNeu > 0 ? '<b>' . ($ewNeu === 1 ? '1 neue Anfrage' : $ewNeu . ' neue Anfragen') . '</b>' : 'Gratis-Entwürfe von /entwurf/';
+$neuOpen = $nK === 0 ? ' open' : '';
 
 kp_page('Kunden', <<<HTML
 <span class="label"><b>●</b> Kundenportal · Admin</span>
-<h1>Kunden</h1>
+<h1 class="kp-hello">Übersicht</h1>
 {$zugang}
 {$flash}
 {$tfHint}
-{$table}
-<h2 id="entwuerfe">Gratis-Entwürfe{$ewBadge}</h2>
-{$ewTable}
-<form class="form kp-new" method="post" action="/kunden/admin/">
-  {$csrf}
-  <input type="hidden" name="aktion" value="anlegen">
-  <h2>Neuen Kunden anlegen</h2>
-  <div class="form__row">
-    <label class="form__field"><span>Benutzername <em>(wie der Ordner im Repo)</em></span><input type="text" name="benutzer" required maxlength="40" pattern="[a-z0-9][a-z0-9\-]{1,38}[a-z0-9]" placeholder="baeckerei-muster" autocapitalize="none" spellcheck="false"></label>
-    <label class="form__field"><span>Name</span><input type="text" name="name" required maxlength="80" placeholder="Maria Muster"></label>
-  </div>
-  <div class="form__row">
-    <label class="form__field"><span>Betrieb</span><input type="text" name="firma" maxlength="120" placeholder="Bäckerei Muster"></label>
-    <label class="form__field"><span>Webseite</span><input type="text" name="webseite" maxlength="200" placeholder="baeckerei-muster.at"></label>
-  </div>
-  <label class="form__field"><span>E-Mail <em>(optional, für die Eingangsbestätigung)</em></span><input type="email" name="email" maxlength="254"></label>
-  <button class="btn" type="submit">Anlegen und Passwort erzeugen</button>
-</form>
+<nav class="kp-tiles" data-kp-tabs data-default="kunden" aria-label="Bereiche">
+  <a class="kp-tile" href="#kunden" data-kp-tab="kunden"><span class="kp-tile__txt"><b>Kunden {$kBadge}</b><small>{$kSub}</small></span></a>
+  <a class="kp-tile" href="#entwuerfe" data-kp-tab="entwuerfe"><span class="kp-tile__txt"><b>Entwürfe {$ewBadge}</b><small>{$ewSub}</small></span></a>
+</nav>
 
+<section class="kp-panel" data-kp-panel="kunden">
+  {$table}
+  <details class="kp-card kp-konto" id="neu"{$neuOpen}>
+    <summary><h2>+ Neuen Kunden anlegen</h2></summary>
+    <form class="form form--small kp-new" method="post" action="/kunden/admin/">
+      {$csrf}
+      <input type="hidden" name="aktion" value="anlegen">
+      <div class="form__row">
+        <label class="form__field"><span>Benutzername <em>(wie der Ordner im Repo)</em></span><input type="text" name="benutzer" required maxlength="40" pattern="[a-z0-9][a-z0-9\-]{1,38}[a-z0-9]" placeholder="baeckerei-muster" autocapitalize="none" spellcheck="false"></label>
+        <label class="form__field"><span>Name</span><input type="text" name="name" required maxlength="80" placeholder="Maria Muster"></label>
+      </div>
+      <div class="form__row">
+        <label class="form__field"><span>Betrieb</span><input type="text" name="firma" maxlength="120" placeholder="Bäckerei Muster"></label>
+        <label class="form__field"><span>Webseite</span><input type="text" name="webseite" maxlength="200" placeholder="baeckerei-muster.at"></label>
+      </div>
+      <label class="form__field"><span>E-Mail <em>(optional, für Benachrichtigungen)</em></span><input type="email" name="email" maxlength="254"></label>
+      <button class="btn" type="submit">Anlegen und Passwort erzeugen</button>
+    </form>
+  </details>
+</section>
+
+<section class="kp-panel" data-kp-panel="entwuerfe">
+  {$ewTable}
+</section>
 HTML, $logout);
