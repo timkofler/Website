@@ -1,6 +1,6 @@
-# Nur die beiden Endpunkte sind von außen erreichbar.
+# Nur die Endpunkte (anmelden.php, bestaetigen.php) sind von außen erreichbar, Bibliotheken nie.
 Options -Indexes
-<FilesMatch "^(lib\.php|entwurf-lib\.php|config\.example\.php)$">
+<FilesMatch "^(lib\.php|[a-z0-9-]+-lib\.php|config\.example\.php)$">
   Require all denied
 </FilesMatch>
 <IfModule mod_headers.c>
