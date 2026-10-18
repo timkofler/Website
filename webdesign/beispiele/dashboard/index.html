@@ -1,7 +1,7 @@
 <!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Betriebs-Dashboard Haustechnik Kofler – Beispiel-Entwurf | tim-kofler.at</title>
 <meta name="robots" content="noindex">
-<meta name="description" content="Beispiel-Entwurf eines Betriebs-Dashboards von Tim Kofler – Webdesign: Stundenerfassung, Aufträge, Rechnungen, Lager und Termine in einer Web-App. Erfundener Betrieb.">
+<meta name="description" content="Beispiel-Entwurf eines Betriebs-Dashboards von Tim Kofler – Webdesign: Plantafel, Projektmappe mit Fotos und Chat, Nachkalkulation, Monteur-App, Stundenerfassung, Rechnungen und Lager in einer Web-App. Erfundener Betrieb.">
 <meta name="theme-color" content="#2f5bff">
 <link rel="icon" href="/assets/img/tk-badge.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/beispiele/_shared/demo.css">
@@ -203,20 +203,184 @@ td.today,th.today{background:var(--popl)}
 .step output{min-width:44px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums;font-size:14px}
 .order{background:var(--soft);border-radius:12px;padding:12px 14px;font:500 13px/1.7 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;margin-top:12px;color:var(--ink);min-height:60px}
 
-/* Termine */
-.week{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
-.day{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:12px;min-height:260px;min-width:0}
-.day.is-today{border-color:var(--pop);box-shadow:0 0 0 3px var(--popl)}
-.day h4{font-size:15px;display:flex;justify-content:space-between;align-items:baseline}
-.day h4 small{font:500 12px var(--bd);color:var(--mu)}
-.ev{border-left:3px solid var(--c);background:color-mix(in srgb,var(--c) 9%,#fff);border-radius:8px;padding:8px 9px;margin-top:8px;font-size:12.5px;animation:pop .4s}
-.ev b{display:block;font-size:13px}
-.ev span{color:var(--mu)}
-.ev .x{float:right;width:22px;height:22px;margin:-3px -4px 0 0}
+/* Plantafel */
+.board-w{overflow-x:auto;border-radius:var(--r);border:1px solid var(--line);background:#fff}
+.board{display:grid;grid-template-columns:210px repeat(5,minmax(132px,1fr));min-width:900px}
+.board > div{border-left:1px solid var(--line);border-top:1px solid var(--line);min-width:0}
+.bh{padding:10px 12px;font:700 14px/1.2 var(--hd);border-top:0 !important;background:var(--soft)}
+.bh small{display:block;font:500 12px var(--bd);color:var(--mu);margin-top:2px}
+.bh.is-today{background:var(--popl);color:var(--popd)}
+.bh.corner{border-left:0 !important;position:sticky;left:0;z-index:3}
+.bp{border-left:0 !important;padding:12px;position:sticky;left:0;z-index:2;background:#fff;box-shadow:1px 0 0 var(--line)}
+.bp .who{font-weight:600;font-size:13.5px}
+.bp .who small{display:block;font-weight:500;color:var(--mu);font-size:11.5px}
+.load{margin-top:10px}
+.load__b{height:7px;border-radius:4px;background:var(--soft);overflow:hidden}
+.load__b span{display:block;height:100%;width:var(--w);background:var(--c);border-radius:inherit;transition:width .5s cubic-bezier(.2,.7,.2,1)}
+.load__t{display:flex;justify-content:space-between;flex-wrap:wrap;gap:2px 6px;font-size:11.5px;color:var(--mu);margin-top:5px;font-variant-numeric:tabular-nums}
+.load__t b{color:var(--c)}
+.bp .load__t{flex-direction:column}
+.cell{padding:7px;min-height:118px;transition:background .15s,box-shadow .15s;position:relative}
+.cell.is-today{background:#f8faff}
+.cell.abs{background:repeating-linear-gradient(135deg,#f4f6fb 0 8px,#eceff6 8px 16px);display:grid;place-items:center;color:var(--mu);font-size:12px;font-weight:600;text-align:center}
+.cell .sum{position:absolute;right:6px;bottom:4px;font:700 10.5px var(--bd);color:var(--bad)}
+.board.is-picking .cell:not(.abs){cursor:copy}
+.board.is-picking .cell:not(.abs):hover,.cell.is-over{background:var(--popl);box-shadow:inset 0 0 0 2px var(--pop)}
+.ev{border-left:3px solid var(--c);background:color-mix(in srgb,var(--c) 10%,#fff);border-radius:8px;padding:7px 8px;margin-bottom:6px;font-size:12px;line-height:1.35;animation:pop .4s;cursor:grab;user-select:none;-webkit-user-select:none;position:relative;transition:box-shadow .2s,transform .2s}
+.ev:hover{box-shadow:0 8px 18px -12px rgba(18,22,37,.45)}
+.ev b{display:block;font-size:12.5px;padding-right:20px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ev span{color:var(--mu);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ev em{font-style:normal;font-weight:600;color:var(--ink)}
+.ev .op{position:absolute;right:3px;top:3px;width:22px;height:22px;border:0;border-radius:6px;background:transparent;color:var(--mu);display:grid;place-items:center}
+.ev .op:hover{background:#fff;color:var(--pop)}
+.ev .op svg{width:14px;height:14px}
+.ev.is-picked{box-shadow:0 0 0 2px var(--pop),0 12px 24px -12px rgba(47,91,255,.6);transform:scale(1.03)}
+.ev.is-ghost{position:fixed;z-index:1300;pointer-events:none;width:150px;opacity:.92;box-shadow:0 20px 40px -12px rgba(18,22,37,.5);transform:rotate(-2deg);margin:0}
+.ev.is-src{opacity:.35}
+.ev.is-moved{animation:flash 1s}
+@keyframes flash{0%{box-shadow:0 0 0 3px var(--pop)}100%{box-shadow:0 0 0 0 rgba(47,91,255,0)}}
+
+/* Monteur-App */
+.mont{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:28px;align-items:start}
+.mont__intro{background:linear-gradient(150deg,#16204a,#121625 62%);color:#fff;border:0;position:relative;overflow:hidden}
+.mont__intro::after{content:"";position:absolute;right:-70px;bottom:-90px;width:260px;height:260px;border-radius:50%;background:radial-gradient(closest-side,rgba(47,91,255,.5),transparent);pointer-events:none}
+.mont__intro h3{color:#fff;font-size:22px}
+.mont__intro .sub{color:#a9b0c6;font-size:14px}
+.ticks{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:9px;font-size:14px;position:relative;z-index:1}
+.ticks li{display:flex;gap:10px;align-items:flex-start}
+.ticks li::before{content:"✓";flex:none;width:20px;height:20px;border-radius:50%;background:var(--ok);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;margin-top:1px}
+.mfeed{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+.mfeed .pic span{padding:6px 8px;font-size:11px}
+.mfeed .pic span b{font-size:11.5px}
+.mfeed-m{margin-top:12px;display:flex;gap:10px;align-items:flex-start;background:var(--soft);border-radius:12px;padding:10px 12px;font-size:13px;cursor:pointer;border:0;width:100%;text-align:left}
+.mfeed-m .ava{width:28px;height:28px;font-size:10.5px}
+.mfeed-m small{display:block;color:var(--mu);font-size:11.5px;margin-bottom:1px}
+.mp-sec .sub{font-size:12.5px;color:var(--mu)}
+.nav-b .s{display:none}
+.legend button.is-on{border-color:var(--pop);box-shadow:0 0 0 2px var(--popl);color:var(--popd)}
+.phone{width:360px;height:740px;border-radius:52px;background:#0b0e18;padding:11px;box-shadow:0 40px 80px -30px rgba(18,22,37,.55),inset 0 0 0 2px #2a3044;position:sticky;top:70px}
+.phone__scr{position:relative;height:100%;border-radius:42px;overflow:hidden;background:var(--soft);display:flex;flex-direction:column}
+.m-status{display:flex;justify-content:space-between;align-items:center;padding:14px 26px 6px;font:600 13px var(--bd);color:var(--ink);flex:none}
+.m-isl{width:96px;height:28px;border-radius:20px;background:#0b0e18}
+.m-body{flex:1;overflow-y:auto;padding:6px 14px 18px;scrollbar-width:none}
+.m-body::-webkit-scrollbar{display:none}
+.m-hi{display:flex;align-items:center;gap:10px;margin:6px 2px 12px}
+.m-hi h4{font-size:20px}
+.m-hi small{display:block;color:var(--mu);font-size:12px;margin-top:2px}
+.m-clk{background:linear-gradient(150deg,#16204a,#121625 70%);color:#fff;border-radius:20px;padding:14px;display:flex;align-items:center;gap:12px}
+.m-clk .t{font:600 26px/1 var(--hd);font-variant-numeric:tabular-nums}
+.m-clk small{display:block;color:#a9b0c6;font-size:11.5px;margin-top:5px;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.m-clk button{margin-left:auto;width:74px;height:74px;border-radius:50%;border:0;background:var(--ok);color:#fff;font:700 12.5px/1.15 var(--bd);flex:none;box-shadow:0 0 0 6px rgba(18,163,107,.22);transition:transform .2s,background .2s}
+.m-clk button:active{transform:scale(.94)}
+.m-clk button.run{background:var(--bad);box-shadow:0 0 0 6px rgba(229,72,77,.25);animation:ring 1.6s infinite}
+@keyframes ring{50%{box-shadow:0 0 0 11px rgba(229,72,77,.08)}}
+.m-h{font:700 13px var(--hd);color:var(--mu);text-transform:uppercase;letter-spacing:.08em;margin:18px 4px 8px;display:flex;justify-content:space-between}
+.m-h small{text-transform:none;letter-spacing:0;font:500 12px var(--bd)}
+.m-job{background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px;margin-bottom:9px}
+.m-job.is-now{border-color:var(--pop);box-shadow:0 0 0 3px var(--popl)}
+.m-job .row1{display:flex;justify-content:space-between;font:600 12px var(--bd);color:var(--mu)}
+.m-job .row1 b{color:var(--pop)}
+.m-job h5{font:700 16px/1.2 var(--hd);margin:5px 0 2px}
+.m-job p{color:var(--mu);font-size:12.5px;display:flex;align-items:center;gap:4px}
+.m-job p svg{width:13px;height:13px;flex:none}
+.m-acts{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:11px}
+.m-acts button{border:0;background:var(--soft);border-radius:12px;padding:9px 4px;font:600 12px var(--bd);color:var(--ink);display:flex;flex-direction:column;align-items:center;gap:4px;position:relative}
+.m-acts button:hover{background:var(--popl);color:var(--popd)}
+.m-acts svg{width:18px;height:18px}
+.m-acts i{position:absolute;top:5px;right:calc(50% - 20px);background:var(--pop);color:#fff;font:700 10px/16px var(--bd);font-style:normal;min-width:16px;height:16px;border-radius:8px;padding:0 4px}
+.m-day{display:flex;gap:10px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:9px 12px;margin-bottom:6px;font-size:12.5px}
+.m-day b{width:30px;flex:none;font:700 13px var(--hd)}
+.m-day span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--mu)}
+.m-day span em{font-style:normal;color:var(--ink);font-weight:600}
+.m-wk{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px}
+.m-wk .load{margin-top:0}
+.m-sheet{position:absolute;left:0;right:0;bottom:0;top:52px;background:#fff;border-radius:24px 24px 0 0;box-shadow:0 -20px 40px -20px rgba(18,22,37,.35);transform:translateY(102%);transition:transform .38s cubic-bezier(.2,.7,.2,1);display:flex;flex-direction:column;z-index:5;visibility:hidden}
+.m-sheet.is-on{transform:none;visibility:visible}
+
+/* Projektmappe */
+.scrim{position:fixed;inset:0;background:rgba(12,15,26,.45);z-index:1150;animation:fade .25s;backdrop-filter:blur(2px)}
+@keyframes fade{from{opacity:0}}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(580px,100%);background:#fff;z-index:1160;display:flex;flex-direction:column;box-shadow:-30px 0 60px -30px rgba(18,22,37,.5);animation:slide .35s cubic-bezier(.2,.7,.2,1)}
+@keyframes slide{from{transform:translateX(40px);opacity:0}}
+.mp-h{padding:18px 20px 0;flex:none}
+.mp-h .row1{display:flex;align-items:center;gap:8px;font:600 12px var(--bd);color:var(--mu2)}
+.mp-h .row1 .x{margin-left:auto;width:34px;height:34px;background:var(--soft);color:var(--ink)}
+.mp-h h3{font-size:24px;margin-top:6px}
+.mp-h p{color:var(--mu);font-size:13.5px;margin-top:3px}
+.m-sheet .mp-h{padding:8px 16px 0}
+.m-sheet .mp-h h3{font-size:19px}
+.m-sheet .row1 .mp-lab{display:none}
+.m-sheet .grab{width:40px;height:5px;border-radius:3px;background:var(--line);margin:0 auto 8px}
+.mp-tabs{display:flex;gap:4px;margin-top:14px;border-bottom:1px solid var(--line)}
+.mp-tabs button{border:0;background:transparent;padding:10px 12px;font:600 13.5px var(--bd);color:var(--mu);border-bottom:2.5px solid transparent;margin-bottom:-1px;display:inline-flex;gap:6px;align-items:center}
+.mp-tabs button span{background:var(--soft);color:var(--mu);border-radius:999px;font-size:11px;padding:1px 7px}
+.mp-tabs button[aria-selected="true"]{color:var(--pop);border-color:var(--pop)}
+.mp-tabs button[aria-selected="true"] span{background:var(--popl);color:var(--popd)}
+.mp-b{flex:1;overflow-y:auto;padding:16px 20px 20px;background:var(--soft)}
+.m-sheet .mp-b{padding:12px 14px}
+.nk{display:grid;gap:14px}
+.nk-r .lab{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:13px;font-weight:600}
+.nk-r .lab small{color:var(--mu);font-weight:500;font-variant-numeric:tabular-nums}
+.dual{position:relative;height:10px;border-radius:5px;background:var(--soft);margin-top:7px;overflow:hidden}
+.dual span{position:absolute;inset:0 auto 0 0;width:var(--w);background:var(--c,var(--pop));border-radius:inherit;transition:width .7s cubic-bezier(.2,.7,.2,1)}
+.dual i{position:absolute;top:-2px;bottom:-2px;left:var(--p);width:2px;background:var(--ink);opacity:.55}
+.big-dev{display:flex;align-items:center;gap:14px;padding:14px;border-radius:14px;margin-top:2px}
+.big-dev strong{font:700 30px/1 var(--hd);letter-spacing:-.02em}
+.big-dev p{font-size:13px;color:var(--mu)}
+.big-dev.ok{background:var(--okl)}.big-dev.ok strong{color:#0b7a4f}
+.big-dev.warn{background:var(--warnl)}.big-dev.warn strong{color:#9a6700}
+.big-dev.bad{background:var(--badl)}.big-dev.bad strong{color:#b4262b}
+.big-dev.mu{background:var(--soft)}.big-dev.mu strong{color:var(--mu)}
+.pics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.pic{border:0;padding:0;background:#fff;border-radius:14px;overflow:hidden;text-align:left;box-shadow:0 0 0 1px var(--line);transition:transform .2s,box-shadow .2s}
+.pic:hover{transform:translateY(-2px);box-shadow:0 0 0 1px var(--line),0 14px 30px -18px rgba(18,22,37,.5)}
+.pic img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--line)}
+.pic span{display:block;padding:8px 10px;font-size:12px;color:var(--mu);line-height:1.35}
+.pic span b{display:block;color:var(--ink);font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pic.add{display:grid;place-items:center;align-content:center;gap:6px;min-height:150px;color:var(--pop);font:600 13px var(--bd);background:#fff;box-shadow:inset 0 0 0 2px var(--popl);border:2px dashed #c9d4ff}
+.pic.add svg{width:26px;height:26px}
+.chat{display:flex;flex-direction:column;gap:10px}
+.msg{display:flex;gap:8px;align-items:flex-end;max-width:88%}
+.msg .ava{width:26px;height:26px;font-size:10px}
+.msg .bub{background:#fff;border:1px solid var(--line);border-radius:16px 16px 16px 4px;padding:8px 11px;font-size:13.5px;line-height:1.4}
+.msg .bub small{display:block;font-size:11px;color:var(--mu2);margin-bottom:2px;font-weight:600}
+.msg.me{align-self:flex-end;flex-direction:row-reverse}
+.msg.me .bub{background:var(--pop);border-color:var(--pop);color:#fff;border-radius:16px 16px 4px 16px}
+.msg.me .bub small{color:#c9d4ff}
+.msg.typing .bub{display:flex;gap:4px;padding:12px}
+.msg.typing .bub i{width:6px;height:6px;border-radius:50%;background:var(--mu2);animation:dot 1s infinite}
+.msg.typing .bub i:nth-child(2){animation-delay:.15s}.msg.typing .bub i:nth-child(3){animation-delay:.3s}
+@keyframes dot{50%{transform:translateY(-4px);opacity:.4}}
+.msg.is-new{animation:pop .35s cubic-bezier(.2,.7,.2,1)}
+.chat-day{align-self:center;font-size:11.5px;color:var(--mu2);font-weight:600;background:#fff;border-radius:999px;padding:3px 10px;border:1px solid var(--line)}
+.chat-f{display:flex;gap:8px;padding:10px 14px 14px;border-top:1px solid var(--line);background:#fff;flex:none}
+.chat-f input{flex:1;min-width:0;border:1px solid var(--line);border-radius:999px;padding:10px 14px;font-size:14px}
+.chat-f input:focus{outline:none;border-color:var(--pop);box-shadow:0 0 0 3px var(--popl)}
+.chat-f button{width:42px;height:42px;border-radius:50%;border:0;background:var(--pop);color:#fff;display:grid;place-items:center;flex:none}
+.chat-f button svg{width:18px;height:18px}
+.mp-sec{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:12px}
+.mp-sec:first-child{margin-top:0}
+.mp-sec h4{font-size:15px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:baseline}
+.mp-sec h4 small{font:500 12px var(--bd);color:var(--mu)}
+.mp-sec .list{margin-top:0}
+.lbox{position:fixed;inset:0;z-index:1250;background:rgba(8,10,18,.88);display:grid;place-items:center;align-content:center;gap:12px;padding:20px;animation:fade .2s}
+.lbox img{max-width:min(1000px,100%);max-height:78vh;border-radius:14px;display:block}
+.lbox p{color:#c9cede;font-size:14px;text-align:center}
+.lbox .x{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.1);color:#fff;width:42px;height:42px}
+.job{cursor:pointer}
+.job__ic{display:flex;gap:10px;font-size:11.5px;color:var(--mu);margin-top:6px}
+.job__ic span{display:inline-flex;align-items:center;gap:3px}
+.job__ic svg{width:13px;height:13px}
+#nk-t tr[data-open]{cursor:pointer}
+#nk-t tr[data-open]:hover td{background:var(--soft)}
+.nkbar{display:flex;align-items:center;gap:8px;min-width:150px}
+.nkbar .dual{flex:1;margin:0;height:8px}
+#next-l li[data-open]{cursor:pointer}
+#next-l li[data-open]:hover .t{color:var(--pop)}
 .legend{display:flex;gap:6px;flex-wrap:wrap}
 .legend button{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 11px 5px 6px;font-size:12.5px;font-weight:600}
 .legend button .ava{width:20px;height:20px;font-size:9px}
-.legend button[aria-pressed="false"]{opacity:.4}
+#legend button[aria-pressed="false"]{opacity:.4}
 
 .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,30px);background:var(--ink);color:#fff;padding:11px 18px;border-radius:12px;font-size:14px;font-weight:500;box-shadow:0 20px 40px -14px rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:1100;max-width:calc(100% - 32px)}
 .toast.is-on{opacity:1;transform:translate(-50%,0)}
@@ -241,17 +405,26 @@ td.today,th.today{background:var(--popl)}
 
 @media (max-width:1180px){
   .g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mont{grid-template-columns:minmax(0,1fr) 340px;gap:18px}
+  .phone{width:340px;height:720px}
   .ideas{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .week{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media (max-width:960px){
   .intro .wrap{grid-template-columns:1fr}
   .g2,.g2e{grid-template-columns:1fr}
+  .mont{grid-template-columns:1fr}
+  .phone{margin:0 auto;position:relative;top:0}
+  .mont__l{display:contents}
+  .mont__who{order:1;margin-top:0 !important}
+  .phone{order:2}
+  .mont__intro{order:3}
+  .mont__feed{order:4}
   .app{grid-template-columns:minmax(0,1fr);min-height:0;border-radius:18px}
   .side{position:sticky;bottom:0;order:2;flex-direction:row;padding:6px;gap:2px;z-index:20;border-top:1px solid #262b3d}
   .brand,.side__foot{display:none}
-  .nav-b{flex-direction:column;gap:3px;padding:7px 2px;font-size:10.5px;text-align:center;justify-content:center;border-radius:10px;flex:1 1 0;min-width:0}
-  .nav-b span.l{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  .nav-b{flex-direction:column;gap:3px;padding:7px 0;font-size:10.5px;text-align:center;justify-content:center;border-radius:10px;flex:1 1 0;min-width:0}
+  .nav-b span.l{display:none}
+  .nav-b span.s{display:block;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
   .nav-b .badge{position:absolute;top:2px;right:calc(50% - 22px);margin:0;font-size:9.5px;padding:0 5px;min-width:16px}
   .main{order:1}
   .reset-m{display:inline-flex !important}
@@ -264,8 +437,18 @@ td.today,th.today{background:var(--popl)}
   .tbl-w{margin:10px -14px -4px;padding:0 14px}
   .kpi strong{font-size:22px}
   .kpi small i{display:none}
-  .week{grid-template-columns:1fr}
-  .day{min-height:0}
+  .board{grid-template-columns:118px repeat(5,minmax(122px,1fr));min-width:730px}
+  .bp{padding:9px}
+  .bp .who .ava{display:none}
+  .pics{gap:8px}
+  .drawer{width:100%}
+  .mp-h{padding:14px 14px 0}
+  .mp-b{padding:12px}
+  .phone{width:100%;max-width:380px;height:auto;padding:0;background:none;box-shadow:none;border-radius:0}
+  .phone__scr{border-radius:22px;border:1px solid var(--line);height:auto;overflow:visible}
+  .m-status{display:none}
+  .m-body{overflow:visible;padding:14px 12px}
+  .m-sheet{position:fixed;inset:0;top:0;border-radius:0;z-index:1200}
   .kanban{grid-template-columns:repeat(4,minmax(78vw,1fr))}
   .ideas{grid-template-columns:1fr}
   .stock{grid-template-columns:minmax(0,1fr) auto}
@@ -319,6 +502,12 @@ td.today,th.today{background:var(--popl)}
   <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/></symbol>
   <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 13h6M9 17h6"/></symbol>
   <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6a1 1 0 0 1 1-1h5l2 2h9a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12 20 4l-6 16-3-7z"/></symbol>
+  <symbol id="i-ruler" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 16 13-13 5 5L8 21z"/><path d="m7 12 2 2M10 9l2 2M13 6l2 2"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
   <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/></symbol>
 </svg>
 
@@ -331,8 +520,8 @@ td.today,th.today{background:var(--popl)}
       <h1>Dein ganzer Betrieb <span>in einem Fenster.</span></h1>
     </div>
     <div data-reveal style="--d:.1s">
-      <p class="lead">So ein Dashboard baue ich passend zu deinem Alltag: Stunden stempeln, Aufträge verschieben, Rechnungen abhaken, Lager zählen und Termine planen. Probier es aus, alles ist anklickbar.</p>
-      <ul><li><b>✓</b> Am Handy und am PC</li><li><b>✓</b> Ohne monatliche Lizenz</li><li><b>✓</b> Daten bleiben in deinem Browser</li></ul>
+      <p class="lead">So ein Dashboard baue ich passend zu deinem Alltag: Einsätze auf der Plantafel verschieben, Fotos und Nachrichten direkt beim Auftrag, sehen ob ein Auftrag im Plan liegt, und eine eigene Ansicht fürs Handy der Monteure. Probier es aus, alles ist anklickbar.</p>
+      <ul><li><b>✓</b> Am Handy und am PC</li><li><b>✓</b> Einmal zahlen, keine Lizenz pro Mitarbeiter</li><li><b>✓</b> Daten bleiben in deinem Browser</li></ul>
     </div>
   </div>
 </section>
@@ -341,12 +530,13 @@ td.today,th.today{background:var(--popl)}
 <div class="app" id="app">
   <nav class="side" aria-label="Dashboard-Bereiche">
     <div class="brand"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#2f5bff"/><path d="M14 11v18M27 11l-9.5 9L27 29" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 4l-3 6h4l-3 6" fill="none" stroke="#ffc83a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Haustechnik Kofler</b><small>Elektro, Sanitär &amp; Heizung</small></span></div>
-    <button class="nav-b" data-go="home" aria-current="page"><svg><use href="#i-home"/></svg><span class="l">Übersicht</span></button>
-    <button class="nav-b" data-go="zeit"><svg><use href="#i-clock"/></svg><span class="l">Stunden</span><span class="badge" id="b-zeit"></span></button>
-    <button class="nav-b" data-go="jobs"><svg><use href="#i-jobs"/></svg><span class="l">Aufträge</span><span class="badge" id="b-jobs"></span></button>
-    <button class="nav-b" data-go="inv"><svg><use href="#i-inv"/></svg><span class="l">Rechnungen</span><span class="badge" id="b-inv"></span></button>
-    <button class="nav-b" data-go="lager"><svg><use href="#i-box"/></svg><span class="l">Lager</span><span class="badge" id="b-lager"></span></button>
-    <button class="nav-b" data-go="cal"><svg><use href="#i-cal"/></svg><span class="l">Termine</span></button>
+    <button class="nav-b" data-go="home" aria-current="page"><svg><use href="#i-home"/></svg><span class="l">Übersicht</span><span class="s">Start</span></button>
+    <button class="nav-b" data-go="cal"><svg><use href="#i-cal"/></svg><span class="l">Plantafel</span><span class="s">Plan</span></button>
+    <button class="nav-b" data-go="jobs"><svg><use href="#i-jobs"/></svg><span class="l">Aufträge</span><span class="s">Aufträge</span><span class="badge" id="b-jobs"></span></button>
+    <button class="nav-b" data-go="zeit"><svg><use href="#i-clock"/></svg><span class="l">Stunden</span><span class="s">Stunden</span><span class="badge" id="b-zeit"></span></button>
+    <button class="nav-b" data-go="inv"><svg><use href="#i-inv"/></svg><span class="l">Rechnungen</span><span class="s">Faktura</span><span class="badge" id="b-inv"></span></button>
+    <button class="nav-b" data-go="lager"><svg><use href="#i-box"/></svg><span class="l">Lager</span><span class="s">Lager</span><span class="badge" id="b-lager"></span></button>
+    <button class="nav-b" data-go="mont"><svg><use href="#i-phone"/></svg><span class="l">Monteur-App</span><span class="s">Handy</span></button>
     <div class="side__foot">
       <div class="me"><span class="ava" style="--c:#c026d3">AK</span><span><b>Anna Kofler</b>Büro</span></div>
       <button type="button" data-reset>Demo zurücksetzen</button>
@@ -414,6 +604,8 @@ td.today,th.today{background:var(--popl)}
         <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="submit">Auftrag anlegen</button><button class="btn ghost" type="button" id="job-cancel">Abbrechen</button></div>
       </form>
       <div class="kanban" id="kanban"></div>
+      <div class="card" style="margin-top:14px"><h3>Nachkalkulation <small>Plan gegen Ist, laufend aus Stunden und Material</small></h3>
+        <div class="tbl-w"><table id="nk-t"></table></div></div>
     </section>
 
     <!-- Rechnungen -->
@@ -440,17 +632,40 @@ td.today,th.today{background:var(--popl)}
       </div>
     </section>
 
-    <!-- Termine -->
+    <!-- Plantafel -->
     <section class="view" id="v-cal" aria-labelledby="h-cal">
-      <div class="top"><div><h2 id="h-cal">Termine &amp; Einsatzplan</h2><p>Die nächsten fünf Arbeitstage. Mitarbeiter antippen zum Ein- und Ausblenden.</p></div>
-        <div class="legend" id="legend"></div></div>
-      <div class="week" id="week"></div>
+      <div class="top"><div><h2 id="h-cal">Plantafel</h2><p id="pl-hint">Einsätze mit der Maus ziehen, oder antippen und dann auf ein freies Feld tippen.</p></div>
+        <div class="top__r"><span class="chip" id="pl-chip"><i></i><span>Auslastung</span></span></div></div>
+      <div class="board-w"><div class="board" id="board"></div></div>
       <form class="card frm" id="f-ev" style="margin-top:14px">
-        <h3>Termin eintragen</h3>
-        <div class="row"><label>Tag<select name="d" id="fe-d"></select></label><label>Uhrzeit<select name="t" id="fe-t"></select></label></div>
-        <div class="row"><label>Mitarbeiter<select name="who" id="fe-who"></select></label><label>Auftrag<select name="job" id="fe-job"></select></label></div>
-        <button class="btn" type="submit"><svg><use href="#i-plus"/></svg>Eintragen</button>
+        <h3>Einsatz einplanen</h3>
+        <div class="row"><label>Tag<select name="d" id="fe-d"></select></label><label>Beginn<select name="t" id="fe-t"></select></label></div>
+        <div class="row"><label>Mitarbeiter<select name="who" id="fe-who"></select></label><label>Dauer<select name="dur" id="fe-dur"><option value="1">1 Stunde</option><option value="2">2 Stunden</option><option value="3">3 Stunden</option><option value="4" selected>4 Stunden</option><option value="6">6 Stunden</option><option value="8">Ganzer Tag (8 h)</option></select></label></div>
+        <label>Auftrag<select name="job" id="fe-job"></select></label>
+        <button class="btn" type="submit"><svg><use href="#i-plus"/></svg>Einplanen</button>
       </form>
+    </section>
+
+    <!-- Monteur-App -->
+    <section class="view" id="v-mont" aria-labelledby="h-mont">
+      <div class="top"><div><h2 id="h-mont">Monteur-App</h2><p>So sieht das Dashboard am Handy deiner Mitarbeiter aus.</p></div></div>
+      <div class="mont">
+        <div class="mont__l">
+          <div class="card mont__intro">
+            <h3>Jeder sieht nur, was er braucht</h3>
+            <p class="sub">Die Monteure öffnen die App am Handy wie eine Webseite. Ohne Installation, ohne Lizenz pro Kopf.</p>
+            <ul class="ticks"><li>Die eigenen Einsätze von heute und der Woche</li><li>Stempeln mit einem Tipp, direkt auf den Auftrag</li><li>Fotos von der Baustelle und Nachrichten ans Büro</li><li>Alles landet sofort in der Projektmappe im Büro</li></ul>
+          </div>
+          <div class="card mont__who" style="margin-top:14px"><h3>Angemeldet als</h3><p class="sub">Tipp auf einen Mitarbeiter, die Handy-Ansicht wechselt mit.</p>
+            <div class="legend" id="m-who" style="margin-top:12px"></div></div>
+          <div class="card mont__feed" style="margin-top:14px"><h3>Kommt sofort im Büro an <small>neu aus der App</small></h3><div id="m-feed"></div></div>
+        </div>
+        <div class="phone"><div class="phone__scr" id="m-scr">
+          <div class="m-status"><span id="m-clock">9:41</span><span class="m-isl"></span><span>5G ▮▮▮</span></div>
+          <div class="m-body" id="m-body"></div>
+          <div class="m-sheet" id="m-sheet" role="dialog" aria-modal="false" aria-label="Projektmappe"></div>
+        </div></div>
+      </div>
     </section>
   </div>
 </div>
@@ -478,12 +693,12 @@ td.today,th.today{background:var(--popl)}
     <div class="ideas">
       <div class="idea" data-reveal><i><svg><use href="#i-car"/></svg></i><h3>Fahrtenbuch</h3><p>Kilometer pro Fahrt und Auftrag, mit Monatsauswertung fürs Finanzamt.</p></div>
       <div class="idea" data-reveal style="--d:.05s"><i><svg><use href="#i-sun"/></svg></i><h3>Urlaub &amp; Krankenstand</h3><p>Anträge per Handy, Übersicht für den Chef, Resturlaub immer aktuell.</p></div>
-      <div class="idea" data-reveal style="--d:.1s"><i><svg><use href="#i-cam"/></svg></i><h3>Baustellen-Fotos</h3><p>Fotos direkt beim Auftrag ablegen, als Nachweis und für die Doku.</p></div>
+      <div class="idea" data-reveal style="--d:.1s"><i><svg><use href="#i-ruler"/></svg></i><h3>Aufmaß am Handy</h3><p>Räume vor Ort abmessen, die Flächen gehen direkt ins Angebot.</p></div>
       <div class="idea" data-reveal style="--d:.15s"><i><svg><use href="#i-pen"/></svg></i><h3>Regiebericht mit Unterschrift</h3><p>Der Kunde unterschreibt am Handy, das PDF geht automatisch ins Büro.</p></div>
       <div class="idea" data-reveal><i><svg><use href="#i-file"/></svg></i><h3>Belege &amp; Kassabuch</h3><p>Belege fotografieren, Kategorie wählen, am Monatsende als Liste an den Steuerberater.</p></div>
       <div class="idea" data-reveal style="--d:.05s"><i><svg><use href="#i-bell"/></svg></i><h3>Erinnerungen</h3><p>Wartungen, Pickerl oder Zahlungserinnerungen gehen von selbst per E-Mail raus.</p></div>
       <div class="idea" data-reveal style="--d:.1s"><i><svg><use href="#i-users"/></svg></i><h3>Kundenkartei</h3><p>Alle Kontakte, Geräte und bisherigen Einsätze eines Kunden auf einer Seite.</p></div>
-      <div class="idea" data-reveal style="--d:.15s"><i><svg><use href="#i-phone"/></svg></i><h3>Login für Mitarbeiter</h3><p>Jeder sieht nur seine Termine und Stunden, der Chef sieht alles.</p></div>
+      <div class="idea" data-reveal style="--d:.15s"><i><svg><use href="#i-link"/></svg></i><h3>Link für den Kunden</h3><p>Der Kunde sieht Fotos und Fortschritt seiner Baustelle über einen eigenen Link.</p></div>
     </div>
     <div class="cta" data-reveal>
       <div><h3>Was macht dir im Alltag Arbeit?</h3><p>Erzähl mir, welche Zettel, Excel-Listen oder Programme du gerade benutzt. Ich sag dir, was sich als Web-App lösen lässt und was es kostet.</p></div>
@@ -493,6 +708,10 @@ td.today,th.today{background:var(--popl)}
 </section>
 </main>
 
-<footer class="foot"><div class="wrap"><span><b>Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb</b></span><span>Alle Namen, Preise und Zahlen sind frei erfunden. Eingaben werden nur in deinem Browser gespeichert.</span></div></footer>
+<footer class="foot"><div class="wrap"><span><b>Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb</b></span><span>Alle Namen, Preise und Zahlen sind frei erfunden. Eingaben werden nur in deinem Browser gespeichert. Baustellenfotos: Pexels.</span></div></footer>
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="mappe" role="dialog" aria-modal="true" aria-label="Projektmappe" hidden></aside>
+<div class="lbox" id="lbox" hidden><button class="x" type="button" data-lbox-close aria-label="Schließen"><svg><use href="#i-x"/></svg></button><img alt=""><p></p></div>
+<input type="file" id="pic-in" accept="image/*" capture="environment" hidden>
 <div class="toast" id="toast" role="status"></div>
-<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/dashboard/app.js?v=20261017b" defer></script><script type="module" src="/beispiele/dashboard/haus3d.js?v=2"></script></body></html>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/dashboard/app.js?v=20261019a" defer></script><script type="module" src="/beispiele/dashboard/haus3d.js?v=2"></script></body></html>
