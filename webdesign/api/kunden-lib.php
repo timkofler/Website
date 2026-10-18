@@ -672,7 +672,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <link rel="icon" href="/assets/img/tk-badge.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/css/style.css">
   <link rel="stylesheet" href="/assets/css/tk.css">
-  <link rel="stylesheet" href="/assets/css/portal.css?v=2ba7894a">
+  <link rel="stylesheet" href="/assets/css/portal.css?v=5bb61926">
 </head>
 <body class="kp">
 <header class="header">
@@ -694,7 +694,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
     <span><a href="/impressum/">Impressum</a> · <a href="/datenschutz/#kundenportal">Datenschutz</a></span>
   </div>
 </footer>
-<script src="/assets/js/portal.js?v=6cb658e5"></script>
+<script src="/assets/js/portal.js?v=9574142f"></script>
 </body>
 </html>
 HTML;
