@@ -53,6 +53,10 @@
     });
   }
 
+  // Nachrichtenverlauf: neueste Nachricht sichtbar.
+  var chat = document.querySelector('[data-kp-chat]');
+  if (chat) chat.scrollTop = chat.scrollHeight;
+
   var copy = document.querySelector('[data-kp-copy-btn]');
   var src = document.querySelector('[data-kp-copy]');
   if (copy && src && navigator.clipboard) {

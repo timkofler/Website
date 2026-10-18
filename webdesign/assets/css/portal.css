@@ -55,3 +55,43 @@
 .kp-foot .footer__bottom { margin: 0; padding-top: 0; padding-bottom: 0; border: 0; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; }
 @media (max-width: 900px) { .kp-grid, .kp-grid--even { grid-template-columns: 1fr; gap: 36px; } .kp-main { padding: 48px 0 72px; } }
 .kp-user { color: var(--hot, #ff5a1f); font-family: var(--mono); font-size: 1.05em; }
+/* Nachrichten zwischen Kunde und Tim */
+.kp-chat { margin: 0 0 40px; }
+.kp-chat h2 { margin-top: 0; }
+.kp-chat__info { margin: -6px 0 14px; color: var(--muted); font-size: .92rem; }
+.kp-chat__liste { list-style: none; margin: 0 0 14px; padding: 4px; display: grid; gap: 10px; max-height: 460px; overflow-y: auto; overscroll-behavior: contain; }
+.kp-chat__leer { margin: 0 0 14px; padding: 16px; border: 1px dashed var(--line-2); border-radius: 14px; }
+.kp-m { max-width: 88%; padding: 10px 14px; border-radius: 16px 16px 16px 4px; background: var(--bg-2); border: 1px solid var(--line); font-size: .95rem; }
+.kp-m--ich { justify-self: end; border-radius: 16px 16px 4px 16px; background: var(--hot-dim, rgba(255,90,31,.14)); border-color: rgba(255,90,31,.35); }
+.kp-m--erledigt p { color: var(--muted); }
+.kp-m p { margin: 4px 0 0; overflow-wrap: anywhere; }
+.kp-m__kopf { display: flex; flex-wrap: wrap; gap: 6px 8px; align-items: center; font-size: .8rem; color: var(--muted); }
+.kp-m__kopf b { color: var(--text); font-weight: 600; }
+.kp-m__aktion { margin: 8px 0 0; }
+.kp-tag { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: .74rem; line-height: 1.5; border: 1px solid var(--line-2); color: var(--text); }
+.kp-tag--wunsch { border-color: var(--hot, #ff5a1f); color: var(--hot, #ff5a1f); }
+.kp-tag--gefaellt { border-color: #4cc38a; color: #4cc38a; }
+.kp-tag--gefaellt-nicht { border-color: #ff6b6b; color: #ff6b6b; }
+.kp-tag--frage { border-color: #6fb3ff; color: #6fb3ff; }
+.kp-tag--erledigt { border-color: #4cc38a; background: rgba(76,195,138,.12); color: #4cc38a; }
+.kp-tag--neu { border: 0; background: var(--hot, #ff5a1f); color: #111; font-weight: 700; }
+.kp-chat__form { display: grid; gap: 10px; }
+.kp-chat__form .form__field { margin: 0; }
+.kp-chat__form textarea { width: 100%; font: inherit; font-size: 16px; color: var(--text); background: var(--surface); border: 1px solid var(--line-2); border-radius: 12px; padding: 12px 14px; resize: vertical; }
+.kp-chat__form .btn { justify-self: start; }
+.kp-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.kp-chip { position: relative; cursor: pointer; }
+.kp-chip input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.kp-chip span { display: inline-block; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); font-size: .85rem; color: var(--muted); }
+.kp-chip input:checked + span { border-color: var(--hot, #ff5a1f); background: var(--hot-dim, rgba(255,90,31,.14)); color: var(--text); }
+.kp-chip input:focus-visible + span { outline: 2px solid var(--hot, #ff5a1f); outline-offset: 2px; }
+.kp-badge { display: inline-block; min-width: 1.4em; padding: 0 6px; border-radius: 999px; background: var(--hot, #ff5a1f); color: #111; font-size: .78rem; font-weight: 700; text-align: center; }
+.kp-neu { display: inline-flex; gap: 6px; align-items: center; margin: 0 0 18px; padding: 10px 16px; border-radius: 999px; background: var(--hot-dim, rgba(255,90,31,.14)); border: 1px solid rgba(255,90,31,.45); color: var(--text); text-decoration: none; }
+.kp-neu b { color: var(--hot, #ff5a1f); }
+.kp-chat--admin { max-width: 760px; }
+.kp-wishes { margin: 0 0 16px; padding: 14px 18px; border: 1px solid rgba(255,90,31,.45); border-radius: 14px; background: var(--hot-dim, rgba(255,90,31,.08)); }
+.kp-wishes h3 { margin: 0 0 8px; font-size: 1rem; color: var(--hot, #ff5a1f); }
+.kp-wishes ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; font-size: .93rem; }
+.kp-wishes a { color: var(--text); }
+.kp-wishes em { font-style: normal; color: var(--muted); font-size: .85em; }
+.kp-chat { scroll-margin-top: 96px; }

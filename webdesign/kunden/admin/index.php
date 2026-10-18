@@ -174,6 +174,21 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         kp_redirect($back);
     }
 
+    if ($action === 'schreiben') {
+        [$ok, $res] = kp_add_message($k, 'tim', cx_field('art', 20), kp_text('text', KP_MSG_MAX));
+        if ($ok) {
+            kp_notify_message($k, $all[$k], $res);
+        } else {
+            kp_flash(false, $res);
+        }
+        kp_redirect($back . '#nachrichten');
+    }
+
+    if ($action === 'erledigt') {
+        kp_toggle_done($k, cx_field('id', 20));
+        kp_redirect($back . '#nachrichten');
+    }
+
     if ($action === 'eingang_loeschen') {
         $e = cx_field('e', 30);
         if (kp_valid_batch($e) && cx_field('sicher', 5) === 'ja') {
@@ -293,12 +308,33 @@ if ($k !== '' && isset($all[$k])) {
     $form = KP_ADMIN . '?k=' . cx_h($k);
     $hk = cx_h($k);
 
+    // Nachrichten: erst mit „neu“ anzeigen, dann als gelesen merken.
+    $msgs = kp_messages($k);
+    $doneForm = static fn(string $id, bool $done) => '<form method="post" action="' . $form . '" class="kp-m__aktion">' . $csrf
+        . '<input type="hidden" name="aktion" value="erledigt"><input type="hidden" name="id" value="' . cx_h($id) . '">'
+        . '<button class="btn btn--sm btn--line" type="submit">' . ($done ? 'Wieder offen' : '✓ Erledigt') . '</button></form>';
+    $chat = kp_render_messages($msgs, 'tim', (string) ($a['name'] ?? $k), $doneForm);
+    $chatForm = kp_message_form($form . '#nachrichten', $csrf, 'Antwort an ' . ($a['name'] ?? $k) . ' …');
+    $open = kp_open_wishes($msgs);
+    $wishes = '';
+    foreach ($open as $m) {
+        $wishes .= '<li><a href="#n-' . cx_h((string) $m['id']) . '">' . cx_h(mb_strimwidth((string) $m['text'], 0, 140, ' …')) . '</a> <em>' . date('d.m.', strtotime((string) $m['zeit']) ?: 0) . '</em></li>';
+    }
+    $wishes = $wishes !== '' ? '<div class="kp-wishes"><h3>Offene Wünsche (' . count($open) . ')</h3><ul>' . $wishes . '</ul></div>' : '';
+    kp_mark_read($k, 'tim');
+
     kp_page($a['name'] ?? $k, <<<HTML
 <div class="crumbs"><a href="/kunden/admin/">Kunden</a> / {$hk}</div>
 <h1>{$h('name')}</h1>
 <p class="lead">{$h('firma')} · {$h('webseite')} · Zugang {$status} · letzte Anmeldung {$last} · {$used} belegt</p>
 {$zugang}
 {$flash}
+<section class="kp-chat kp-chat--admin" id="nachrichten">
+  <h2>Nachrichten</h2>
+  {$wishes}
+  {$chat}
+  {$chatForm}
+</section>
 <h2>Uploads</h2>
 {$batches}
 <div class="kp-grid kp-grid--even">
@@ -330,12 +366,16 @@ foreach ($all as $u => $a) {
     $b = kp_batches((string) $u);
     $first = $b ? reset($b) : null;
     $last = $first ? cx_h(date('d.m.Y', strtotime((string) $first['zeit']) ?: 0)) : '–';
+    $m = kp_messages((string) $u);
+    $neu = kp_unread($m, 'tim');
+    $offen = count(kp_open_wishes($m));
+    $info = ($neu > 0 ? '<span class="kp-badge">' . $neu . ' neu</span> ' : '') . ($offen > 0 ? $offen . ($offen === 1 ? ' Wunsch offen' : ' Wünsche offen') : ($neu > 0 ? '' : '–'));
     $rows .= '<tr><td><a href="/kunden/admin/?k=' . rawurlencode((string) $u) . '">' . cx_h((string) $u) . '</a></td><td>' . cx_h((string) ($a['name'] ?? ''))
-        . '</td><td>' . cx_h((string) ($a['firma'] ?? '')) . '</td><td>' . cx_h((string) ($a['webseite'] ?? '')) . '</td><td>' . count($b) . '</td><td>' . $last
+        . '</td><td>' . cx_h((string) ($a['firma'] ?? '')) . '</td><td>' . cx_h((string) ($a['webseite'] ?? '')) . '</td><td>' . count($b) . '</td><td>' . $info . '</td><td>' . $last
         . '</td><td>' . (!empty($a['aktiv']) ? 'aktiv' : 'gesperrt') . '</td></tr>';
 }
 $table = $rows === '' ? '<p class="muted">Noch keine Kunden angelegt.</p>'
-    : '<div class="kp-table"><table><thead><tr><th>Benutzer</th><th>Name</th><th>Betrieb</th><th>Webseite</th><th>Uploads</th><th>Zuletzt</th><th>Status</th></tr></thead><tbody>' . $rows . '</tbody></table></div>';
+    : '<div class="kp-table"><table><thead><tr><th>Benutzer</th><th>Name</th><th>Betrieb</th><th>Webseite</th><th>Uploads</th><th>Nachrichten</th><th>Zuletzt</th><th>Status</th></tr></thead><tbody>' . $rows . '</tbody></table></div>';
 
 kp_page('Kunden', <<<HTML
 <span class="label"><b>●</b> Kundenportal · Admin</span>
