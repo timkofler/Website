@@ -670,8 +670,8 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#0b0b0b">
   <link rel="icon" href="/assets/img/tk-badge.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/css/style.css">
-  <link rel="stylesheet" href="/assets/css/tk.css">
+  <link rel="stylesheet" href="/assets/css/style.css?v=a9c5cddd">
+  <link rel="stylesheet" href="/assets/css/tk.css?v=0bab137b">
   <link rel="stylesheet" href="/assets/css/portal.css?v=5bb61926">
 </head>
 <body class="kp">
@@ -695,6 +695,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
   </div>
 </footer>
 <script src="/assets/js/portal.js?v=9574142f"></script>
+<script src="/assets/js/vorschau.js?v=450bd1e8"></script>
 </body>
 </html>
 HTML;

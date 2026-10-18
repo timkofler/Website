@@ -3,7 +3,7 @@
 (function () {
   // Links wie "/#anfrage" laden die Startseite ohne "?gclid=…" bzw. "?utm_source=…" neu,
   // dann ginge die Herkunft verloren. Deshalb hängen wir die Adresszeile an diese Links an.
-  if (/[?&](gclid|gbraid|wbraid|utm_source|empfohlen)=/.test(location.search)) {
+  if (/[?&](gclid|gbraid|wbraid|utm_source|empfohlen|firma)=/.test(location.search)) {
     document.querySelectorAll('a[href^="/#"]').forEach(function (a) {
       a.setAttribute("href", "/" + location.search + a.getAttribute("href").slice(1));
     });
@@ -41,6 +41,14 @@
     // Empfehlungslink wie /?empfohlen=Maria%20Muster#anfrage trägt den Namen gleich ein.
     var ef = form.querySelector('input[name="empfohlen"]');
     if (ef && q.get("empfohlen") && !ef.value) ef.value = q.get("empfohlen").slice(0, 120);
+    // Von der Vorschau (/vorschau/…) kommen Betrieb, Paket und Nachricht schon ausgefüllt mit.
+    [["firma", 120], ["nachricht", 3000]].forEach(function (f) {
+      var el = form.querySelector('[name="' + f[0] + '"]');
+      if (el && q.get(f[0]) && !el.value) el.value = q.get(f[0]).slice(0, f[1]);
+    });
+    // Nur echte Optionen übernehmen, sonst würde die Auswahl leer (z. B. ?paket=app ist schon oben erledigt).
+    var fp = form.querySelector('select[name="paket"]'), pv = q.get("paket");
+    if (fp && pv && !PAKET_Q[pv] && Array.prototype.some.call(fp.options, function (o) { return o.value === pv; })) fp.value = pv;
     var status = form.querySelector(".form__status");
     var button = form.querySelector('button[type="submit"]');
     var mailLink = form.querySelector('a[href^="mailto:"]');

@@ -8,6 +8,7 @@ declare(strict_types=1);
 require __DIR__ . '/../../api/kunden-lib.php';
 require __DIR__ . '/../../api/entwurf-lib.php';
 require __DIR__ . '/../../api/admin-2fa-lib.php';
+require __DIR__ . '/../../api/vorschau-lib.php';
 
 kp_headers();
 kp_session();
@@ -227,6 +228,27 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     }
 
     $all = kp_accounts();
+
+    // Vorschau in 60 Sekunden für einen Lead erzeugen (ohne IP-Grenze, eigenes Tageslimit).
+    if ($action === 'vorschau') {
+        set_time_limit(120);
+        $branche = cx_field('branche', 80);
+        if ($branche === 'Sonstiges' || $branche === '') {
+            $branche = cx_field('branche_frei', 80) ?: $branche;
+        }
+        $r = vs_erstellen(cx_field('firma', 80), $branche, cx_field('ort', 80), true);
+        if (isset($r['fehler'])) {
+            kp_flash(false, (string) $r['fehler']);
+        } else {
+            $_SESSION['vorschau_neu'] = (string) $r['id'];
+        }
+        kp_redirect(KP_ADMIN . '#vorschau');
+    }
+
+    if ($action === 'vorschau_loeschen') {
+        kp_flash(vs_delete(cx_field('id', 10)), 'Vorschau gelöscht.');
+        kp_redirect(KP_ADMIN . '#vorschau');
+    }
 
     if ($action === 'anlegen') {
         $u = strtolower(cx_field('benutzer', 40));
@@ -672,6 +694,32 @@ foreach ($all as $u => $a) {
         . '</td><td>' . cx_h((string) ($a['firma'] ?? '')) . '</td><td>' . cx_h((string) ($a['webseite'] ?? '')) . '</td><td>' . count($b) . '</td><td>' . $info . '</td><td>' . $last
         . '</td><td>' . (!empty($a['aktiv']) ? 'aktiv' : 'gesperrt') . '</td></tr>';
 }
+// ---------------- Vorschauen ----------------
+$vsNeu = '';
+if (!empty($_SESSION['vorschau_neu'])) {
+    $u = vs_url((string) $_SESSION['vorschau_neu']);
+    unset($_SESSION['vorschau_neu']);
+    $vsNeu = '<div class="kp-secret"><p><b>Vorschau ist fertig.</b> Diesen Link kannst du in Brief oder Mail einsetzen:</p>'
+        . '<code data-kp-copy>' . cx_h($u) . '</code><div class="kp-actions"><a class="btn btn--sm" href="' . cx_h($u) . '" target="_blank" rel="noopener">Ansehen</a><button class="btn btn--sm btn--line" type="button" data-kp-copy-btn>Kopieren</button></div></div>';
+}
+$vsRows = '';
+foreach (vs_list() as $vid => $v) {
+    $u = vs_url((string) $vid);
+    $vsRows .= '<tr><td><a href="' . cx_h($u) . '" target="_blank" rel="noopener">' . cx_h((string) $vid) . '</a></td><td>' . cx_h((string) ($v['firma'] ?? '')) . '</td><td>' . cx_h((string) ($v['branche'] ?? ''))
+        . '</td><td>' . cx_h((string) ($v['ort'] ?? '')) . '</td><td>' . cx_h(date('d.m.Y', strtotime((string) ($v['zeit'] ?? '')) ?: 0)) . '</td><td>' . (($v['quelle'] ?? '') === 'admin' ? 'du' : 'Besucher')
+        . '</td><td><form method="post" action="/kunden/admin/">' . $csrf . '<input type="hidden" name="aktion" value="vorschau_loeschen"><input type="hidden" name="id" value="' . cx_h((string) $vid) . '"><button class="btn btn--sm btn--line" type="submit">Löschen</button></form></td></tr>';
+}
+$vsTable = $vsRows === '' ? '<p class="muted">Noch keine Vorschauen.</p>'
+    : '<div class="kp-table"><table><thead><tr><th>Link</th><th>Betrieb</th><th>Branche</th><th>Ort</th><th>Erzeugt</th><th>Von</th><th></th></tr></thead><tbody>' . $vsRows . '</tbody></table></div>';
+$vsOpts = '';
+foreach (VS_BRANCHEN as $b) {
+    $vsOpts .= '<option>' . cx_h($b) . '</option>';
+}
+$vsStand = vs_ready()
+    ? 'Heute: ' . vs_tag_count(false) . ' von ' . vs_tag_limit(false) . ' Besucher-Vorschauen, ' . vs_tag_count(true) . ' von ' . vs_tag_limit(true) . ' eigene. Modell: ' . cx_h((string) vs_config('vorschau_model', VS_MODEL)) . '.'
+    : 'Noch nicht freigeschaltet: <code>anthropic_api_key</code> in <code>api/_data/config.php</code> eintragen (siehe config.example.php).';
+$vsDisabled = vs_ready() ? '' : ' disabled';
+
 $table = $rows === '' ? '<p class="muted">Noch keine Kunden angelegt.</p>'
     : '<div class="kp-table"><table><thead><tr><th>Benutzer</th><th>Name</th><th>Betrieb</th><th>Webseite</th><th>Uploads</th><th>Nachrichten</th><th>Zuletzt</th><th>Status</th></tr></thead><tbody>' . $rows . '</tbody></table></div>';
 
@@ -714,4 +762,23 @@ kp_page('Kunden', <<<HTML
   <label class="form__field"><span>E-Mail <em>(optional, für die Eingangsbestätigung)</em></span><input type="email" name="email" maxlength="254"></label>
   <button class="btn" type="submit">Anlegen und Passwort erzeugen</button>
 </form>
+
+<h2 id="vorschau" style="margin-top:56px">Vorschau in 60 Sekunden</h2>
+<p class="muted">{$vsStand}</p>
+{$vsNeu}
+<form class="form kp-new" method="post" action="/kunden/admin/" data-vs-form>
+  {$csrf}
+  <input type="hidden" name="aktion" value="vorschau">
+  <h2>Vorschau für einen Lead erzeugen</h2>
+  <div class="form__row">
+    <label class="form__field"><span>Betrieb</span><input type="text" name="firma" required minlength="2" maxlength="80" placeholder="Tischlerei Huber"{$vsDisabled}></label>
+    <label class="form__field"><span>Ort</span><input type="text" name="ort" required minlength="2" maxlength="80" placeholder="Oberndorf an der Melk"{$vsDisabled}></label>
+  </div>
+  <div class="form__row">
+    <label class="form__field"><span>Branche</span><select name="branche" required data-vs-branche{$vsDisabled}><option value="">Bitte wählen</option>{$vsOpts}</select></label>
+    <label class="form__field" data-vs-frei hidden><span>Branche genauer</span><input type="text" name="branche_frei" maxlength="80" placeholder="z. B. Hufschmied"{$vsDisabled}></label>
+  </div>
+  <button class="btn" type="submit"{$vsDisabled}>Vorschau erzeugen (dauert bis zu einer Minute)</button>
+</form>
+{$vsTable}
 HTML, $logout);
