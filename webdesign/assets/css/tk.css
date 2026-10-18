@@ -112,9 +112,10 @@ p a:not(.btn):hover, li a:not(.btn):hover, .form__check a:hover { text-decoratio
 .tk-phone__screen > img { display: block; width: 100%; height: auto; pointer-events: none;
   transition: transform .7s cubic-bezier(.2,.7,.2,1); }
 /* Nur das Handy in der Mitte scrollt, und erst, wenn es dort eingerastet ist (Klasse is-play aus tk-ui.js) */
-.tk-car__item.is-play .tk-phone__screen > img { transition: none; animation: tk-demo var(--d, 15s) ease-in-out infinite alternate; animation-play-state: paused; }
+.tk-car__item.is-play .tk-phone__screen > img { transition: none; animation: tk-demo var(--d, 15s) linear infinite alternate; animation-play-state: paused; }
 .tk-car.is-visible .tk-car__item.is-play .tk-phone__screen > img { animation-play-state: running; }
-@keyframes tk-demo { 0%, 8% { transform: translateY(0); } 92%, 100% { transform: translateY(calc(-100% + var(--sh))); } }
+/* Kurz stehen lassen, dann gleich gleichmäßig scrollen (mit ease-in-out war der Anfang so langsam, dass es wie Stillstand aussah) */
+@keyframes tk-demo { 0%, 5% { transform: translateY(0); animation-timing-function: cubic-bezier(.45,0,.55,1); } 12% { transform: translateY(calc((-100% + var(--sh)) * .08)); } 95%, 100% { transform: translateY(calc(-100% + var(--sh))); } }
 .tk-car__item.is-center .tk-phone { box-shadow: 0 0 0 1px #5a5a5a, 0 40px 90px rgba(0,0,0,.75), 0 0 90px rgba(255,255,255,.10), inset 0 0 0 2px #161616; }
 .tk-car__item figcaption { margin-top: 22px; text-align: center; transition: opacity .3s; }
 .tk-car__item figcaption b { display: block; font-family: var(--display); font-size: 1.1rem; font-weight: 600; }
