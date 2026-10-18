@@ -577,7 +577,7 @@ function vs_page(string $title, string $description, string $body, string $canon
   <link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/style.css?v=a9c5cddd">
-  <link rel="stylesheet" href="/assets/css/tk.css?v=26bae6cd">
+  <link rel="stylesheet" href="/assets/css/tk.css?v=efbd389d">
   <link rel="stylesheet" href="/assets/css/vorschau.css?v=c72a87c6">
 </head>
 <body>

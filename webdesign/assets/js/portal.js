@@ -1,4 +1,4 @@
-// Kundenportal: Fortschrittsanzeige beim Hochladen, Kopieren der Zugangsdaten und QR-Code für die Authenticator-App.
+// Kundenportal: Reiter, Fortschrittsanzeige beim Hochladen, Kopieren der Zugangsdaten und QR-Code für die Authenticator-App.
 // Ohne JavaScript funktioniert alles genauso, nur ohne Fortschrittsbalken.
 (function () {
   function size(b) {
@@ -53,9 +53,60 @@
     });
   }
 
-  // Nachrichtenverlauf: neueste Nachricht sichtbar.
-  var chat = document.querySelector('[data-kp-chat]');
-  if (chat) chat.scrollTop = chat.scrollHeight;
+  // Nachrichtenverlauf: neueste Nachricht sichtbar (geht erst, wenn der Bereich sichtbar ist).
+  function chatDown() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-kp-chat]'), function (c) {
+      if (c.offsetParent && !location.hash.match(/^#n-/)) c.scrollTop = c.scrollHeight;
+    });
+  }
+
+  // Große Kacheln als Reiter: immer nur ein Bereich sichtbar. Die Adresse (#nachrichten, #dateien …) merkt sich den Reiter,
+  // damit man nach dem Absenden wieder im selben Bereich landet. Die Bereiche haben dafür bewusst keine id, sonst
+  // springt der Browser beim Laden hinunter und die Kacheln sind weg. Ohne JavaScript stehen alle Bereiche untereinander.
+  var tabs = document.querySelector('[data-kp-tabs]');
+  var panels = Array.prototype.slice.call(document.querySelectorAll('[data-kp-panel]'));
+  if (tabs && panels.length) {
+    document.documentElement.classList.add('kp-tabs-on');
+    var show = function (id) {
+      panels.forEach(function (p) { p.classList.toggle('is-active', p.getAttribute('data-kp-panel') === id); });
+      Array.prototype.forEach.call(tabs.querySelectorAll('[data-kp-tab]'), function (t) {
+        var on = t.getAttribute('data-kp-tab') === id;
+        t.classList.toggle('is-active', on);
+        if (on) t.setAttribute('aria-current', 'page'); else t.removeAttribute('aria-current');
+      });
+      chatDown();
+    };
+    // Zu welchem Bereich gehört die Adresse? Auch Sprungziele innerhalb eines Bereichs (z. B. eine einzelne Nachricht).
+    var fromHash = function () {
+      var h = decodeURIComponent(location.hash.slice(1));
+      if (!h) return null;
+      if (document.querySelector('[data-kp-panel="' + h.replace(/[^a-z0-9-]/gi, '') + '"]')) return h;
+      var el = document.getElementById(h);
+      if (el && el.tagName === 'DETAILS') el.open = true;
+      var p = el && el.closest('[data-kp-panel]');
+      return p ? p.getAttribute('data-kp-panel') : null;
+    };
+    show(fromHash() || tabs.getAttribute('data-default') || panels[0].getAttribute('data-kp-panel'));
+    tabs.addEventListener('click', function (e) {
+      var t = e.target.closest('[data-kp-tab]');
+      if (!t) return;
+      e.preventDefault();
+      show(t.getAttribute('data-kp-tab'));
+      if (history.replaceState) history.replaceState(null, '', '#' + t.getAttribute('data-kp-tab'));
+    });
+    window.addEventListener('hashchange', function () {
+      var id = fromHash();
+      if (id) show(id);
+    });
+  } else {
+    chatDown();
+  }
+  // Links auf ein zugeklapptes Feld (z. B. „Passwort“ oben) klappen es auf.
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href^="#"]');
+    var el = a && a.getAttribute('href').length > 1 ? document.getElementById(a.getAttribute('href').slice(1)) : null;
+    if (el && el.tagName === 'DETAILS') el.open = true;
+  });
 
   // QR-Code für die Zwei-Faktor-Einrichtung, direkt im Browser erzeugt (der Schlüssel geht an keinen fremden Dienst).
   var qr = document.querySelector('[data-kp-qr]');
