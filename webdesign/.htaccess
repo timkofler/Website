@@ -57,6 +57,8 @@ Options -Indexes
     ExpiresByType image/webp "access plus 30 days"
     ExpiresByType image/svg+xml "access plus 30 days"
     ExpiresByType image/jpeg "access plus 30 days"
+    ExpiresByType image/png "access plus 30 days"
+    ExpiresByType image/x-icon "access plus 30 days"
     ExpiresByType video/mp4 "access plus 30 days"
   </IfModule>
 </If>
