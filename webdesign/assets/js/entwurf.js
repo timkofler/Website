@@ -42,9 +42,47 @@
     if (!r.getAttribute("data-hex")) return { hex: "#ff5a1f", name: "Vorschlag von mir" };
     return { hex: r.getAttribute("data-hex"), name: r.parentNode.querySelector(".ew-sw__t").textContent };
   }
-  if (eigen) {
-    eigen.addEventListener("input", function () { eigenRadio.checked = true; update(); });
-    eigen.addEventListener("click", function () { eigenRadio.checked = true; update(); });
+
+  // Eigene Farbe: eigene Regler statt des System-Farbwählers (der ist am Handy winzig).
+  var picker = $("[data-ew-picker]"), hexIn = $("[data-ew-hex]");
+  var hR = $("[data-ew-h]"), sR = $("[data-ew-s]"), lR = $("[data-ew-l]");
+  function hslHex(h, s, l) {
+    s /= 100; l /= 100;
+    var k = function (n) { return (n + h / 30) % 12; }, a = s * Math.min(l, 1 - l);
+    var f = function (n) { return Math.round(255 * (l - a * Math.max(-1, Math.min(k(n) - 3, 9 - k(n), 1)))).toString(16).padStart(2, "0"); };
+    return "#" + f(0) + f(8) + f(4);
+  }
+  function hexHsl(hex) {
+    var n = parseInt(hex.slice(1), 16), r = (n >> 16 & 255) / 255, g = (n >> 8 & 255) / 255, b = (n & 255) / 255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b), d = max - min, h = 0, l = (max + min) / 2;
+    if (d) h = max === r ? ((g - b) / d + 6) % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
+    return [Math.round(h * 60) % 360, Math.round(d ? d / (1 - Math.abs(2 * l - 1)) * 100 : 0), Math.round(l * 100)];
+  }
+  function paintPicker() {
+    var h = hR.value, s = sR.value, l = lR.value;
+    form.style.setProperty("--eigen", eigen.value);
+    sR.style.setProperty("--track", "linear-gradient(90deg, hsl(" + h + ",0%," + l + "%), hsl(" + h + ",100%," + l + "%))");
+    lR.style.setProperty("--track", "linear-gradient(90deg, #000, hsl(" + h + "," + s + "%,50%), #fff)");
+  }
+  function fromSliders() {
+    eigen.value = hslHex(+hR.value, +sR.value, +lR.value);
+    hexIn.value = eigen.value;
+    eigenRadio.checked = true;
+    paintPicker();
+  }
+  if (eigen && picker) {
+    [hR, sR, lR].forEach(function (r) { r.addEventListener("input", fromSliders); });
+    hexIn.addEventListener("input", function () {
+      var v = hexIn.value.trim().toLowerCase();
+      if (v.charAt(0) !== "#") v = "#" + v;
+      if (/^#[0-9a-f]{3}$/.test(v)) v = "#" + v[1] + v[1] + v[2] + v[2] + v[3] + v[3];
+      if (!/^#[0-9a-f]{6}$/.test(v)) return;
+      eigen.value = v;
+      var hsl = hexHsl(v); hR.value = hsl[0]; sR.value = hsl[1]; lR.value = hsl[2];
+      eigenRadio.checked = true;
+      paintPicker();
+    });
+    paintPicker();
   }
 
   var LABEL = {
@@ -66,6 +104,7 @@
     var branche = $('[name="branche"]').value.trim(), ort = $('[name="ort"]').value.trim();
     var url = $('[name="url"]').value.trim().replace(/^https?:\/\//, "").replace(/\/.*$/, "");
     var c = currentColor();
+    if (picker) picker.hidden = !eigenRadio.checked;
 
     prev.style.setProperty("--c", c.hex);
     prev.style.setProperty("--on", onColor(c.hex));
