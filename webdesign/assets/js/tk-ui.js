@@ -35,7 +35,8 @@
     // Wird ein Handy weggezogen, gleitet seine Seite wieder nach oben, beim nächsten Mal beginnt sie von vorn.
     var playing = -1;
     var updatePlay = function () {
-      var p = (!(dragging && moved) && Math.abs(x + idx * step) < 1) ? idx : -1;
+      // Kleines Zucken beim senkrechten Scrollen über dem Karussell setzt die Seite nicht zurück, erst echtes Wegziehen
+      var p = Math.abs(x + idx * step) < step * 0.2 ? idx : -1;
       if (p === playing) return;
       if (playing >= 0) {
         var img = items[playing].querySelector(".tk-phone__screen > img");
