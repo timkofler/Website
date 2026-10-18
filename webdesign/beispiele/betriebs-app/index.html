@@ -1,0 +1,712 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Eine App statt sieben Abos – Beispiel einer Betriebs-App | tim-kofler.at</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Beispiel von Tim Kofler – Webdesign: Terminbuchung, Gutscheine, digitale Stempelkarte und Angebote mit Unterschrift in einer eigenen App statt vieler Software-Abos. Zum Ausprobieren, mit Abo-Rechner.">
+<meta name="theme-color" content="#070b16" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f4f6fb" media="(prefers-color-scheme: light)">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="/assets/img/tk-badge.svg" type="image/svg+xml">
+<link rel="preload" href="/beispiele/_shared/fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/beispiele/_shared/demo.css">
+<style>
+@font-face{font-family:"Bricolage";src:url(/beispiele/_shared/fonts/bricolage.woff2) format("woff2");font-weight:200 800;font-display:swap}
+@font-face{font-family:"Inter";src:url(/beispiele/_shared/fonts/inter.woff2) format("woff2");font-weight:100 900;font-display:swap}
+
+/* Farben: dunkel ist der Standard, hell folgt der Einstellung am Gerät. */
+:root{
+  --bg:#070b16;--bg2:#0b1122;--card:#101a30;--card2:#16223d;--line:rgba(160,180,230,.14);--line2:rgba(160,180,230,.24);
+  --ink:#eef2fb;--mu:#a7b1c6;--mu2:#7f8aa3;
+  --pop:#ff5a1f;--pop2:#ffb23f;--popt:#ff7a45;--popl:rgba(255,90,31,.14);--on-pop:#1a0a03;
+  --blue:#5b8cff;--bluel:rgba(91,140,255,.16);--ok:#2fd39a;--okl:rgba(47,211,154,.14);--bad:#ff6b6b;--badl:rgba(255,107,107,.14);
+  --glow1:rgba(91,140,255,.32);--glow2:rgba(255,90,31,.22);
+  --shadow:0 40px 90px -40px rgba(0,0,0,.85);--shadow2:0 18px 40px -18px rgba(0,0,0,.7);
+  --hd:"Bricolage",system-ui,-apple-system,"Segoe UI",sans-serif;--bd:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: light){:root{
+  --bg:#f4f6fb;--bg2:#ffffff;--card:#ffffff;--card2:#eef2fa;--line:#dfe5f0;--line2:#cbd4e4;
+  --ink:#0d1426;--mu:#4f5a72;--mu2:#6b7590;
+  --popt:#c2410c;--popl:rgba(255,90,31,.12);
+  --blue:#2a5cf0;--bluel:rgba(42,92,240,.1);--ok:#0b8a5c;--okl:rgba(11,138,92,.1);--bad:#d33a3a;--badl:rgba(211,58,58,.1);
+  --glow1:rgba(42,92,240,.16);--glow2:rgba(255,90,31,.14);
+  --shadow:0 40px 90px -40px rgba(20,32,70,.4);--shadow2:0 18px 40px -20px rgba(20,32,70,.35);
+}}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none !important}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--bd);-webkit-font-smoothing:antialiased;overflow-x:hidden;overflow-x:clip}
+a{color:inherit}
+h1,h2,h3,h4{font-family:var(--hd);font-weight:800;line-height:1.02;margin:0;letter-spacing:-.025em}
+p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:8px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+.num{font-variant-numeric:tabular-nums}
+.kick{display:inline-flex;align-items:center;gap:9px;font:600 12px/1 var(--bd);letter-spacing:.14em;text-transform:uppercase;color:var(--mu);border:1px solid var(--line2);background:color-mix(in srgb,var(--card) 70%,transparent);padding:8px 13px;border-radius:999px;backdrop-filter:blur(8px)}
+.kick i{width:7px;height:7px;border-radius:50%;background:var(--pop);box-shadow:0 0 0 4px var(--popl)}
+.grad{background:linear-gradient(100deg,#ff4d1a 0%,#ff7a2a 45%,#ffb23f 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+@media (prefers-color-scheme: light){.grad{background-image:linear-gradient(100deg,#e63e0c 0%,#e8590c 50%,#d97706 100%)}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:50px;padding:0 22px;border:0;border-radius:14px;background:linear-gradient(100deg,#ff4d1a,#ff7a2a 55%,#ffa03a);color:var(--on-pop);font-weight:700;font-size:15.5px;text-decoration:none;box-shadow:0 14px 30px -14px rgba(255,90,31,.8),inset 0 1px 0 rgba(255,255,255,.35);transition:transform .2s,box-shadow .2s,filter .2s;white-space:nowrap}
+.btn:hover{transform:translateY(-2px);filter:saturate(1.1)}
+.btn:active{transform:scale(.97)}
+.btn svg{width:18px;height:18px}
+.btn.line{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line2)}
+.btn.line:hover{box-shadow:inset 0 0 0 1.5px var(--mu2)}
+.btn.sm{min-height:40px;padding:0 15px;font-size:14px;border-radius:11px}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none;filter:grayscale(.4)}
+.sec{padding:clamp(72px,10vw,130px) 0}
+.sec__head{max-width:760px;margin-bottom:clamp(30px,4vw,48px)}
+.sec__head h2{font-size:clamp(34px,5vw,58px);margin-top:16px}
+.sec__head p{color:var(--mu);font-size:clamp(16px,1.6vw,18.5px);margin-top:16px;max-width:640px}
+
+/* ---------- Kopfbereich: aus vielen Abos wird eine App ---------- */
+.hero{position:relative;height:270vh;background:
+  radial-gradient(60% 50% at 78% 30%,var(--glow1),transparent 70%),
+  radial-gradient(45% 40% at 15% 70%,var(--glow2),transparent 70%),var(--bg)}
+.hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:radial-gradient(70% 60% at 50% 40%,#000 20%,transparent 75%);mask-image:radial-gradient(70% 60% at 50% 40%,#000 20%,transparent 75%);opacity:.55;pointer-events:none}
+.hero__pin{position:sticky;top:var(--bar,41px);height:calc(100vh - var(--bar,41px));height:calc(100svh - var(--bar,41px));display:flex;flex-direction:column;overflow:hidden}
+.hero__head{position:relative;z-index:4;padding-top:clamp(28px,5vh,64px);text-align:center;display:flex;flex-direction:column;align-items:center}
+.hero__t{display:grid;margin-top:18px;font-size:clamp(38px,5.6vw,80px);letter-spacing:-.022em}
+.hero__t > span{grid-area:1/1;transition:opacity .5s,transform .6s cubic-bezier(.2,.7,.2,1)}
+.hero__t .t2{opacity:0;transform:translateY(24px)}
+.hero.is-done .hero__t .t1{opacity:0;transform:translateY(-24px)}
+.hero.is-done .hero__t .t2{opacity:1;transform:none}
+.hero__t b{font-weight:800}
+.hero__lead{color:var(--mu);font-size:clamp(16px,1.7vw,19.5px);max-width:620px;margin-top:16px;display:grid}
+.hero__lead > span{grid-area:1/1;transition:opacity .5s}
+.hero__lead .l2{opacity:0}
+.hero.is-done .hero__lead .l1{opacity:0}
+.hero.is-done .hero__lead .l2{opacity:1}
+.hero__lead strong{color:var(--ink)}
+.stage{position:relative;flex:1 1 auto;min-height:0;margin:10px auto 0;width:100%;max-width:1240px;margin-bottom:clamp(64px,10vh,96px)}
+.hint{position:absolute;right:28px;bottom:26px;z-index:4;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mu);transition:opacity .4s}
+.hint svg{width:18px;height:18px;animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(4px)}}
+.hero.is-moving .hint{opacity:0}
+
+/* Abo-Fenster */
+.win{position:absolute;z-index:3;left:0;top:0;width:200px;height:128px;border-radius:14px;background:var(--card);border:1px solid var(--line2);box-shadow:var(--shadow2);transform-origin:50% 50%;will-change:transform,opacity;overflow:visible}
+.win__bar{display:flex;align-items:center;gap:7px;height:30px;padding:0 10px;border-bottom:1px solid var(--line);font:600 11.5px/1 var(--bd);color:var(--ink);white-space:nowrap;border-radius:14px 14px 0 0;background:color-mix(in srgb,var(--c) 10%,var(--card))}
+.win__bar i{width:16px;height:16px;border-radius:5px;background:var(--c);display:grid;place-items:center;flex:none}
+.win__bar i svg{width:11px;height:11px;color:#fff}
+.win__body{padding:10px;display:grid;gap:6px}
+.win__body u{display:block;height:7px;border-radius:4px;background:var(--line2);text-decoration:none}
+.win__body u:nth-child(2){width:72%}
+.win__body u:nth-child(3){width:54%;background:color-mix(in srgb,var(--c) 45%,transparent)}
+.win__body u:nth-child(4){width:84%}
+.win__tag{position:absolute;right:-10px;bottom:-12px;background:#e5484d;color:#fff;font:700 12px/1 var(--bd);padding:7px 9px;border-radius:9px;box-shadow:0 8px 18px -8px rgba(229,72,77,.9);white-space:nowrap;will-change:transform,opacity}
+.win__tag s{text-decoration-thickness:2px}
+.sum{position:absolute;z-index:5;left:50%;bottom:clamp(14px,2.4vh,26px);transform:translateX(-50%);display:flex;align-items:center;gap:12px;background:color-mix(in srgb,var(--card) 88%,transparent);backdrop-filter:blur(10px);border:1px solid var(--line2);border-radius:999px;padding:9px 18px 9px 10px;box-shadow:var(--shadow2);white-space:nowrap}
+.sum__ic{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--badl);color:var(--bad);transition:background .4s,color .4s}
+.sum__ic svg{width:18px;height:18px}
+.sum small{display:block;font-size:11.5px;color:var(--mu);line-height:1.2}
+.sum b{display:block;font:800 20px/1.1 var(--hd);letter-spacing:-.01em}
+.hero.is-done .sum__ic{background:var(--okl);color:var(--ok)}
+
+/* Handy (auch im Demo-Bereich) */
+.phone{position:relative;width:var(--pw,280px);aspect-ratio:9/19;border-radius:calc(var(--pw,280px)*.16);padding:calc(var(--pw,280px)*.035);
+  background:linear-gradient(145deg,#3b4254,#14171f 40%,#2a2f3b 70%,#0d0f14);box-shadow:var(--shadow),inset 0 0 0 1.5px rgba(255,255,255,.12),inset 0 0 0 4px #0b0d12}
+.phone::before{content:"";position:absolute;right:-3px;top:24%;width:3px;height:12%;border-radius:0 3px 3px 0;background:#2a2f3b}
+.phone::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(115deg,rgba(255,255,255,.14) 0%,rgba(255,255,255,0) 28%,rgba(255,255,255,0) 70%,rgba(255,255,255,.05) 100%)}
+.phone__scr{position:relative;width:100%;height:100%;border-radius:calc(var(--pw,280px)*.125);overflow:hidden;background:var(--ps-bg,#f6f7fb);color:#111827;isolation:isolate}
+.phone__isl{position:absolute;left:50%;top:calc(var(--pw,280px)*.03);transform:translateX(-50%);width:32%;height:calc(var(--pw,280px)*.085);border-radius:999px;background:#05060a;z-index:30}
+.phone__st{display:flex;justify-content:space-between;align-items:center;padding:calc(var(--pw,280px)*.04) calc(var(--pw,280px)*.08) 0;height:calc(var(--pw,280px)*.14);font:600 calc(var(--pw,280px)*.045)/1 var(--bd);position:relative;z-index:2}
+.phone__st span:last-child{display:flex;gap:4px;align-items:center}
+.phone__st svg{width:calc(var(--pw,280px)*.055);height:auto}
+
+/* Startbildschirm der App im Kopfbereich */
+.stage .phone{position:absolute;left:50%;top:50%;--pw:var(--fit,230px);transform:translate(-50%,-50%) scale(var(--ps,1));opacity:var(--po,1);z-index:2}
+.home{padding:calc(var(--pw)*.015) calc(var(--pw)*.06) 0;display:flex;flex-direction:column;gap:calc(var(--pw)*.045);height:calc(100% - var(--pw)*.14)}
+.home__hd{display:flex;align-items:center;gap:9px}
+.home__lg{width:calc(var(--pw)*.14);height:calc(var(--pw)*.14);border-radius:30%;background:linear-gradient(135deg,#ff5a1f,#ffb23f);display:grid;place-items:center;color:#1a0a03;font:800 calc(var(--pw)*.065)/1 var(--hd)}
+.home__hd b{display:block;font:700 calc(var(--pw)*.062)/1.1 var(--hd)}
+.home__hd small{display:block;font-size:calc(var(--pw)*.045);color:#6b7280}
+.home__w{border-radius:calc(var(--pw)*.06);padding:calc(var(--pw)*.045) calc(var(--pw)*.05);background:linear-gradient(135deg,#101a30,#1c2b52);color:#fff}
+.home__w small{display:block;font-size:calc(var(--pw)*.042);opacity:.75}
+.home__w b{display:block;font:800 calc(var(--pw)*.072)/1.15 var(--hd)}
+.home__w span{display:inline-block;margin-top:calc(var(--pw)*.025);font-size:calc(var(--pw)*.042);background:rgba(47,211,154,.2);color:#7ff0c6;padding:3px 7px;border-radius:999px}
+.home__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:calc(var(--pw)*.045) calc(var(--pw)*.02)}
+.slot{min-width:0;display:flex;flex-direction:column;align-items:center;gap:calc(var(--pw)*.02);font-size:calc(var(--pw)*.04);font-weight:600;color:#374151;text-align:center;line-height:1.15}
+.slot i{width:calc(var(--pw)*.19);height:calc(var(--pw)*.19);border-radius:24%;background:var(--c);display:grid;place-items:center;box-shadow:0 6px 12px -6px var(--c);opacity:var(--io,1);transform:scale(calc(.6 + var(--io,1)*.4))}
+.slot i svg{width:calc(var(--pw)*.088);height:calc(var(--pw)*.088);color:#fff}
+.slot span{opacity:var(--io,1);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ---------- Ausprobieren ---------- */
+.demo{background:var(--bg2);border-top:1px solid var(--line)}
+.switch{display:inline-flex;flex-wrap:wrap;gap:6px;padding:6px;border-radius:16px;background:var(--card2);border:1px solid var(--line);margin-bottom:26px}
+.switch button{border:0;background:transparent;padding:10px 15px;border-radius:11px;font-weight:600;font-size:14.5px;color:var(--mu);display:inline-flex;align-items:center;gap:8px;transition:background .2s,color .2s}
+.switch button svg{width:17px;height:17px}
+.switch button[aria-pressed="true"]{background:var(--card);color:var(--ink);box-shadow:0 6px 16px -10px rgba(0,0,0,.5),inset 0 0 0 1px var(--line2)}
+.play{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start}
+.play__phone{position:relative;display:flex;justify-content:center;padding:10px 0}
+.play__phone::before{content:"";position:absolute;inset:8% 0;background:radial-gradient(closest-side,var(--glow1),transparent);filter:blur(10px);z-index:0}
+.play .phone{--pw:330px;z-index:1}
+.app{position:relative;height:calc(100% - var(--pw)*.14);display:flex;flex-direction:column;--a:#ff5a1f;--al:#fff1ea;--ad:#c2410c}
+.app__hd{display:flex;align-items:center;gap:10px;padding:2px 16px 10px}
+.app__lg{width:38px;height:38px;border-radius:12px;background:var(--a);color:#fff;display:grid;place-items:center;font:800 16px/1 var(--hd);flex:none}
+.app__hd b{display:block;font:700 15.5px/1.15 var(--hd);color:#111827}
+.app__hd small{display:flex;align-items:center;gap:5px;font-size:11.5px;color:#4b5563}
+.app__hd small i{width:6px;height:6px;border-radius:50%;background:#16a34a}
+.app__body{flex:1 1 auto;min-height:0;overflow-y:auto;padding:4px 16px 16px;scrollbar-width:none;overscroll-behavior:contain}
+.app__body::-webkit-scrollbar{display:none}
+.app__tabs{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #e5e7eb;background:#fff;padding:7px 6px calc(7px + var(--pw)*.03)}
+.app__tabs button{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;font-weight:600;color:#6b7280;padding:4px 0;border-radius:10px}
+.app__tabs svg{width:21px;height:21px}
+.app__tabs button[aria-selected="true"]{color:var(--ad)}
+.app__tabs button[aria-selected="true"] svg{color:var(--a)}
+.v{display:none;animation:vin .35s cubic-bezier(.2,.7,.2,1)}
+.v.on{display:block}
+@keyframes vin{from{opacity:0;transform:translateY(8px)}}
+.v h3{font:800 19px/1.15 var(--hd);color:#111827;margin:4px 0 10px;letter-spacing:-.015em}
+.lbl{display:block;font-size:11.5px;font-weight:700;color:#4b5563;letter-spacing:.04em;text-transform:uppercase;margin:12px 0 7px}
+.opts{display:grid;gap:7px}
+.opt{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;border:1.5px solid #e5e7eb;background:#fff;border-radius:12px;padding:10px 12px;text-align:left;color:#111827;font-size:13.5px;transition:border-color .2s,background .2s}
+.opt small{display:block;color:#6b7280;font-size:11.5px}
+.opt em{font-style:normal;font-weight:700;white-space:nowrap}
+.opt[aria-pressed="true"]{border-color:var(--a);background:var(--al)}
+.days{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;margin:0 -16px;padding-left:16px;padding-right:16px;scroll-padding:0 16px}
+.days::-webkit-scrollbar{display:none}
+.day{flex:none;width:50px;border:1.5px solid #e5e7eb;background:#fff;border-radius:12px;padding:7px 0;display:flex;flex-direction:column;align-items:center;font-size:11px;color:#4b5563;line-height:1.2}
+.day b{font:700 17px/1.2 var(--hd);color:#111827}
+.day[disabled]{opacity:.4;cursor:not-allowed;background:#f3f4f6}
+.day[aria-pressed="true"]{border-color:var(--a);background:var(--a);color:#fff}
+.day[aria-pressed="true"] b{color:#fff}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.slots button{border:1.5px solid #e5e7eb;background:#fff;border-radius:10px;padding:8px 0;font-size:13px;font-weight:600;color:#111827}
+.slots button[disabled]{color:#9ca3af;text-decoration:line-through;background:#f3f4f6;cursor:not-allowed}
+.slots button[aria-pressed="true"]{border-color:var(--a);background:var(--al);color:var(--ad)}
+.fld{display:block;width:100%;border:1.5px solid #e5e7eb;border-radius:12px;padding:11px 12px;background:#fff;color:#111827;font-size:14.5px}
+.fld:focus{outline:none;border-color:var(--a);box-shadow:0 0 0 3px var(--al)}
+.abtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;text-decoration:none;min-height:48px;border:0;border-radius:13px;background:var(--a);color:#fff;font-weight:700;font-size:15px;margin-top:14px;transition:filter .2s,opacity .2s}
+.abtn:hover{filter:brightness(1.06)}
+.abtn[disabled]{opacity:.45;cursor:not-allowed}
+.abtn.ghost{background:#fff;color:#111827;box-shadow:inset 0 0 0 1.5px #e5e7eb;margin-top:8px}
+.abtn svg{width:18px;height:18px}
+.done{text-align:center;padding:12px 4px}
+.done__ic{width:64px;height:64px;margin:6px auto 12px;border-radius:50%;background:#dcfce7;color:#16a34a;display:grid;place-items:center;animation:pop .5s cubic-bezier(.2,1.6,.4,1)}
+.done__ic svg{width:32px;height:32px}
+@keyframes pop{from{transform:scale(.3);opacity:0}}
+.done p{color:#4b5563;font-size:13.5px}
+.done .card{margin-top:14px;text-align:left;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:12px 14px;font-size:13.5px;color:#111827;display:grid;gap:4px}
+.done .card span{color:#6b7280}
+.note{font-size:11.5px;color:#6b7280;margin-top:10px;text-align:center}
+/* Gutschein */
+.vimg{display:block;width:100%;height:auto;border-radius:14px;box-shadow:0 18px 30px -18px rgba(0,0,0,.5);margin-top:4px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{border:1.5px solid #e5e7eb;background:#fff;border-radius:999px;padding:8px 14px;font-weight:700;font-size:13.5px;color:#111827}
+.chips button[aria-pressed="true"]{border-color:var(--a);background:var(--a);color:#fff}
+/* Stempelkarte */
+.loy{position:relative;border-radius:18px;padding:16px;color:#fff;background:radial-gradient(120% 90% at 100% 0%,rgba(255,255,255,.22),transparent 55%),linear-gradient(140deg,var(--a),color-mix(in srgb,var(--a) 55%,#1b1030));box-shadow:0 20px 34px -20px var(--a);overflow:hidden}
+.loy::after{content:"";position:absolute;right:-30px;bottom:-40px;width:140px;height:140px;border-radius:50%;border:18px solid rgba(255,255,255,.1)}
+.loy small{font-size:11px;opacity:.85;letter-spacing:.06em;text-transform:uppercase}
+.loy b{display:block;font:800 18px/1.2 var(--hd);margin-top:2px}
+.stamps{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px;position:relative;z-index:1}
+.stamp{aspect-ratio:1;border-radius:50%;border:2px dashed rgba(255,255,255,.55);display:grid;place-items:center;font:700 12px/1 var(--bd);color:rgba(255,255,255,.7)}
+.stamp.on{border:0;background:#fff;color:var(--a);box-shadow:0 6px 12px -6px rgba(0,0,0,.4)}
+.stamp.on svg{width:56%;height:56%}
+.stamp.new{animation:stampin .55s cubic-bezier(.2,1.5,.4,1)}
+@keyframes stampin{0%{transform:scale(1.9) rotate(-25deg);opacity:0}60%{opacity:1}100%{transform:none}}
+.stamp.gift{border-color:#fff;border-style:solid;color:#fff}
+.stamp.gift svg{width:52%;height:52%}
+.stamp.ready{background:#fde68a;color:#92400e;border:0;box-shadow:0 0 0 4px rgba(253,230,138,.35);animation:stampin .55s cubic-bezier(.2,1.5,.4,1)}
+.stamp.ready svg{width:56%;height:56%}
+.loy__qr{display:flex;align-items:center;gap:12px;margin-top:14px;background:#fff;border-radius:14px;padding:10px 12px;color:#111827;font-size:12px}
+.loy__qr canvas{width:64px;height:64px;flex:none;image-rendering:pixelated}
+.loy__qr b{display:block;font:700 14px/1.2 var(--hd)}
+.reward{margin-top:12px;border-radius:14px;padding:12px 14px;background:#fef3c7;color:#78350f;font-size:13.5px;font-weight:600;display:flex;gap:10px;align-items:center;animation:pop .5s cubic-bezier(.2,1.6,.4,1)}
+.reward svg{width:22px;height:22px;flex:none}
+/* Angebot */
+.doc{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:14px;font-size:12.5px;color:#111827;box-shadow:0 12px 26px -20px rgba(0,0,0,.5)}
+.doc__hd{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;border-bottom:1px solid #e5e7eb;padding-bottom:9px;margin-bottom:8px}
+.doc__hd b{font:800 14px/1.2 var(--hd)}
+.doc__hd small{display:block;color:#6b7280;font-size:11px}
+.doc__st{font-size:10.5px;font-weight:700;padding:4px 8px;border-radius:999px;background:#fef3c7;color:#92400e;white-space:nowrap}
+.doc__st.ok{background:#dcfce7;color:#166534}
+.doc table{width:100%;border-collapse:collapse}
+.doc td{padding:5px 0;vertical-align:top;border-bottom:1px dashed #eef0f4}
+.doc td:last-child{text-align:right;white-space:nowrap;padding-left:8px;font-variant-numeric:tabular-nums}
+.doc td small{display:block;color:#6b7280;font-size:10.5px}
+.doc__sum{display:flex;justify-content:space-between;margin-top:8px;font:800 15px/1.2 var(--hd)}
+.doc__tax{color:#6b7280;font-size:10.5px;text-align:right}
+.sig{position:relative;margin-top:10px;border:1.5px dashed #cbd5e1;border-radius:12px;background:#fbfcfe;height:110px;touch-action:none}
+.sig canvas{position:absolute;inset:0;width:100%;height:100%;border-radius:12px;cursor:crosshair}
+.sig span{position:absolute;left:12px;right:12px;bottom:26px;border-bottom:1.5px solid #cbd5e1;pointer-events:none}
+.sig em{position:absolute;left:12px;bottom:8px;font-style:normal;font-size:10.5px;color:#6b7280;pointer-events:none}
+.sig__clr{position:absolute;right:8px;top:8px;border:0;background:#eef2f7;color:#374151;border-radius:8px;font-size:11px;font-weight:600;padding:4px 8px}
+.sigimg{display:block;max-width:100%;height:60px;margin:4px 0 0}
+
+/* Büro-Ansicht */
+.office{min-width:0;border-radius:20px;background:var(--card);border:1px solid var(--line2);box-shadow:var(--shadow);overflow:hidden}
+.office__bar{display:flex;align-items:center;gap:8px;height:42px;padding:0 14px;border-bottom:1px solid var(--line);background:var(--card2)}
+.office__bar i{width:11px;height:11px;border-radius:50%;background:#ff5f57}.office__bar i:nth-child(2){background:#febc2e}.office__bar i:nth-child(3){background:#28c840}
+.office__bar span{margin-left:10px;flex:1 1 auto;min-width:0;max-width:340px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:5px 10px;font-size:12px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.office__in{padding:clamp(16px,2.4vw,26px)}
+.office__top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.office__top h3{font-size:clamp(22px,2.4vw,28px);letter-spacing:-.02em}
+.office__top p{color:var(--mu);font-size:14px;margin-top:4px}
+.live{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--ok);background:var(--okl);padding:6px 11px;border-radius:999px}
+.live i{width:7px;height:7px;border-radius:50%;background:currentColor;animation:pulse 1.4s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.tile{border:1px solid var(--line);background:var(--bg2);border-radius:14px;padding:13px 14px;min-width:0;transition:border-color .3s,box-shadow .3s}
+.tile small{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--mu);font-weight:600}
+.tile small svg{width:15px;height:15px;color:var(--c)}
+.tile b{display:block;font:800 clamp(22px,2.4vw,28px)/1.1 var(--hd);margin-top:8px;letter-spacing:-.02em}
+.tile em{display:block;font-style:normal;font-size:12px;color:var(--mu2);margin-top:2px}
+.tile.flash{border-color:var(--pop);box-shadow:0 0 0 3px var(--popl)}
+.feed{margin-top:16px;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.feed__hd{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-bottom:1px solid var(--line);font-weight:700;font-size:14px}
+.feed__hd button{border:0;background:transparent;color:var(--mu);font-size:12.5px;text-decoration:underline;text-underline-offset:3px}
+.feed ul{list-style:none;margin:0;padding:0;max-height:300px;overflow:auto}
+.feed li{display:flex;gap:12px;align-items:flex-start;padding:11px 14px;border-bottom:1px solid var(--line);font-size:14px}
+.feed li:last-child{border-bottom:0}
+.feed li.new{animation:feedin .6s cubic-bezier(.2,.7,.2,1)}
+@keyframes feedin{from{background:var(--popl);transform:translateX(-10px);opacity:0}}
+.feed li i{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;flex:none;background:color-mix(in srgb,var(--c) 16%,transparent);color:var(--c)}
+.feed li i svg{width:17px;height:17px}
+.feed li b{display:block;font-weight:600}
+.feed li span{color:var(--mu);font-size:13px}
+.feed li time{margin-left:auto;font-size:12px;color:var(--mu2);white-space:nowrap}
+.feed__empty{padding:22px 14px;color:var(--mu);font-size:14px;text-align:center}
+.office__note{margin-top:14px;font-size:12.5px;color:var(--mu2)}
+.toast{position:fixed;z-index:60;left:50%;bottom:20px;transform:translate(-50%,140%);display:flex;align-items:center;gap:12px;max-width:min(420px,calc(100vw - 32px));background:var(--card);color:var(--ink);border:1px solid var(--line2);border-radius:16px;padding:12px 16px 12px 12px;box-shadow:var(--shadow);transition:transform .45s cubic-bezier(.2,.7,.2,1);font-size:14px}
+.toast.on{transform:translate(-50%,0)}
+.toast i{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:var(--popl);color:var(--popt);flex:none}
+.toast i svg{width:18px;height:18px}
+.toast b{display:block}
+.toast span{color:var(--mu);font-size:13px}
+
+/* Funktions-Karten unter dem Handy */
+.feats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:clamp(28px,4vw,44px)}
+.feat{text-align:left;border:1px solid var(--line);background:var(--card);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:8px;transition:border-color .2s,transform .2s,box-shadow .2s;color:var(--ink)}
+.feat:hover{transform:translateY(-3px);border-color:var(--line2)}
+.feat[aria-pressed="true"]{border-color:var(--pop);box-shadow:0 0 0 3px var(--popl)}
+.feat i{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,var(--c) 16%,transparent);color:var(--c)}
+.feat i svg{width:21px;height:21px}
+.feat b{font:700 17px/1.2 var(--hd);letter-spacing:-.01em}
+.feat span{font-size:14px;color:var(--mu);line-height:1.5}
+.feat em{margin-top:auto;padding-top:6px;font-style:normal;font-size:12.5px;font-weight:600;color:var(--mu2)}
+.feat em s{color:var(--bad);text-decoration-thickness:1.5px}
+
+/* ---------- Abo-Rechner ---------- */
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(20px,3vw,36px);align-items:start}
+.subs{border:1px solid var(--line);background:var(--card);border-radius:20px;padding:8px}
+.sub{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 10px;border-radius:13px;transition:background .2s}
+.sub:hover{background:var(--card2)}
+.sub input[type=checkbox]{appearance:none;-webkit-appearance:none;width:24px;height:24px;border-radius:8px;border:2px solid var(--line2);background:transparent;display:grid;place-items:center;margin:0;cursor:pointer;transition:background .2s,border-color .2s}
+.sub input[type=checkbox]:checked{background:var(--pop);border-color:var(--pop)}
+.sub input[type=checkbox]:checked::after{content:"";width:11px;height:6px;border-left:2.5px solid var(--on-pop);border-bottom:2.5px solid var(--on-pop);transform:translateY(-1px) rotate(-45deg)}
+.sub label{font-weight:600;font-size:15px;cursor:pointer;line-height:1.3}
+.sub label small{display:block;color:var(--mu);font-weight:400;font-size:12.5px}
+.sub__p{display:flex;align-items:center;gap:6px;color:var(--mu);font-size:13px;white-space:nowrap}
+.sub__p input{width:64px;border:1.5px solid var(--line2);background:var(--bg);color:var(--ink);border-radius:10px;padding:7px 8px;text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.sub__p input:focus{outline:none;border-color:var(--blue)}
+.sub.off label,.sub.off .sub__p{opacity:.5}
+.res{position:sticky;top:64px;border-radius:22px;padding:clamp(20px,3vw,30px);background:radial-gradient(90% 80% at 100% 0%,var(--glow1),transparent 60%),linear-gradient(160deg,var(--card),var(--bg2));border:1px solid var(--line2);box-shadow:var(--shadow)}
+.res__row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.res__row div{border:1px solid var(--line);border-radius:14px;padding:12px;background:color-mix(in srgb,var(--bg) 50%,transparent);min-width:0}
+.res__row small{display:block;color:var(--mu);font-size:12.5px;font-weight:600}
+.res__row b{display:block;font:800 clamp(20px,2.4vw,27px)/1.15 var(--hd);margin-top:4px;letter-spacing:-.02em;white-space:nowrap}
+.res__big{margin-top:18px}
+.res__big small{color:var(--mu);font-weight:600;font-size:14px}
+.res__big b{display:block;font:800 clamp(46px,6.4vw,80px)/1 var(--hd);letter-spacing:-.04em;margin-top:6px}
+.res__big p{color:var(--mu);font-size:14.5px;margin-top:10px;max-width:460px}
+.chart{margin-top:18px}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart .ax{stroke:var(--line2);stroke-width:1}
+.chart .gl{stroke:var(--line);stroke-width:1}
+.chart text{fill:var(--mu2);font:500 11px var(--bd)}
+.chart .a1{fill:url(#ga)}
+.chart .l1{fill:none;stroke:var(--bad);stroke-width:3;stroke-linejoin:round}
+.chart .l2{fill:none;stroke:var(--ok);stroke-width:3;stroke-dasharray:7 6}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:10px;font-size:13px;color:var(--mu)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.legend i{width:18px;height:3px;border-radius:2px;background:var(--bad)}
+.legend span + span i{background:repeating-linear-gradient(90deg,var(--ok) 0 6px,transparent 6px 10px)}
+.res__cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.fine{font-size:12.5px;color:var(--mu2);margin-top:14px;line-height:1.5}
+
+/* ---------- Was alles geht ---------- */
+.more{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.cell{position:relative;border:1px solid var(--line);background:var(--card);border-radius:18px;padding:20px;overflow:hidden}
+.cell i{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:color-mix(in srgb,var(--c) 15%,transparent);color:var(--c);margin-bottom:14px}
+.cell i svg{width:22px;height:22px}
+.cell h3{font:700 18px/1.2 var(--hd);letter-spacing:-.01em}
+.cell p{color:var(--mu);font-size:14.5px;margin-top:6px}
+.cell a{color:var(--popt);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- Ehrlich gesagt ---------- */
+.fair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.fair > div{border-radius:20px;padding:clamp(20px,3vw,28px);border:1px solid var(--line);background:var(--card)}
+.fair h3{display:flex;align-items:center;gap:10px;font:700 20px/1.2 var(--hd)}
+.fair h3 i{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;flex:none}
+.fair h3 i svg{width:18px;height:18px}
+.fair .y h3 i{background:var(--okl);color:var(--ok)}
+.fair .n h3 i{background:var(--badl);color:var(--bad)}
+.fair ul{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:10px}
+.fair li{position:relative;padding-left:20px;color:var(--mu);font-size:15px}
+.fair li::before{content:"";position:absolute;left:2px;top:.62em;width:7px;height:7px;border-radius:50%;background:var(--c)}
+.fair li b{color:var(--ink);font-weight:600}
+
+/* ---------- Abschluss ---------- */
+.end{position:relative;overflow:hidden;text-align:center;background:radial-gradient(50% 70% at 50% 100%,var(--glow2),transparent 70%),radial-gradient(40% 60% at 80% 0%,var(--glow1),transparent 70%),var(--bg)}
+.end h2{font-size:clamp(36px,6vw,74px);max-width:900px;margin:18px auto 0}
+.end p{color:var(--mu);font-size:clamp(16px,1.7vw,19px);max-width:600px;margin:18px auto 0}
+.end .row{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:30px}
+.checks{display:flex;justify-content:center;flex-wrap:wrap;gap:10px 24px;margin-top:36px;color:var(--mu);font-size:14px}
+.checks span{display:inline-flex;align-items:center;gap:8px}
+.checks svg{width:18px;height:18px;color:var(--ok)}
+.foot{border-top:1px solid var(--line);padding:22px 0 30px;color:var(--mu2);font-size:13px}
+.foot .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
+.foot a{color:var(--mu)}
+
+/* ---------- Kleinere Bildschirme ---------- */
+@media (max-width:1080px){
+  .tiles{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .feats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:920px){
+  .play{grid-template-columns:minmax(0,1fr)}
+  .calc{grid-template-columns:minmax(0,1fr)}
+  .res{position:relative;top:0}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:640px){
+  .hero{height:240vh}
+  .hero__head{padding-top:22px}
+  .hero__t{font-size:clamp(34px,10.4vw,48px)}
+  .hero__lead{font-size:15.5px;margin-top:12px}
+  .win{width:132px;height:86px;border-radius:11px}
+  .win__bar{height:24px;font-size:9.5px;gap:5px;padding:0 7px;border-radius:11px 11px 0 0}
+  .win__bar i{width:13px;height:13px;border-radius:4px}
+  .win__bar i svg{width:9px;height:9px}
+  .win__body{padding:7px;gap:5px}
+  .win__body u{height:5px}
+  .win__tag{font-size:10.5px;padding:5px 7px;right:-6px;bottom:-10px}
+  .sum{bottom:12px;padding:7px 14px 7px 8px}
+  .stage{margin-bottom:62px}
+  .sum b{font-size:17px}
+  .hint{display:none}
+  .play .phone{--pw:min(330px,calc(100vw - 48px))}
+  .feats{grid-template-columns:minmax(0,1fr)}
+  .tiles{gap:8px}
+  .tile{padding:11px 12px}
+  .res__row{grid-template-columns:minmax(0,1fr)}
+  .res__row div{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+  .res__row b{margin-top:0}
+  .grid{grid-template-columns:minmax(0,1fr)}
+  .fair{grid-template-columns:minmax(0,1fr)}
+  .sub{gap:10px;padding:10px 6px}
+  .sub__p input{width:54px;padding:7px 6px}
+  .sub__p .mo{display:none}
+  .sub label{font-size:14.5px}
+  .switch{display:flex}
+  .switch .lg{display:none}
+  .switch button{flex:1 1 auto;justify-content:center;padding:10px 10px;font-size:13.5px}
+  .feed li time{display:none}
+}
+@media (max-height:620px) and (min-width:641px){ .hero__lead{display:none} }
+@media (prefers-reduced-motion: reduce){
+  .hero{height:auto}
+  .hero__pin{position:relative;height:auto;min-height:100svh}
+  .stage{min-height:520px}
+  .hint{display:none}
+}
+</style>
+</head>
+<body>
+<div class="tk-demo-bar"><a href="/"><img src="/beispiele/_shared/tk-logo.svg" alt="tim-kofler.at" width="34" height="17"><span>tim-kofler.at</span></a>
+<span class="tk-demo-bar__note">Beispiel von tim-kofler.at · erfundene Betriebe, Musterdaten, Preise als Richtwerte</span>
+<a class="tk-demo-bar__cta" href="/#anfrage">So eine App anfragen</a></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4M8 14h2M14 14h2M8 17.5h2"/></symbol>
+  <symbol id="i-gift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4.5" rx="1"/><path d="M5 12.5V21h14v-8.5M12 8v13M12 8S10.5 3 7.8 3.6C5.6 4.1 6.4 8 12 8zM12 8s1.5-5 4.2-4.4C18.4 4.1 17.6 8 12 8z"/></symbol>
+  <symbol id="i-stamp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="3"/><circle cx="8" cy="12" r="2"/><circle cx="14" cy="12" r="2"/><path d="M19 10.5v3"/></symbol>
+  <symbol id="i-sign" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M8.5 17c1.2-2 2-2.2 2.6-.8.5 1.2 1.2 1.1 2-.2.6-1 1.3-1 2.4 1"/></symbol>
+  <symbol id="i-inv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6M9 16h3"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></symbol>
+  <symbol id="i-web" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></symbol>
+  <symbol id="i-euro" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 6.5A7 7 0 1 0 17.5 17.5M4 10h9M4 14h9"/></symbol>
+  <symbol id="i-scis" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12"/></symbol>
+  <symbol id="i-cup" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h13v5a6 6 0 0 1-6 6h-1a6 6 0 0 1-6-6z"/><path d="M17 10.5h1.5a2.5 2.5 0 0 1 0 5H17M8 2.5c-.8 1 .8 2 0 3.2M12 2.5c-.8 1 .8 2 0 3.2"/></symbol>
+  <symbol id="i-tool" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0 5 5L21 13l-8 8-1.3-1.3a4 4 0 0 0-5-5L3 11l8-8z" transform="rotate(0)"/><path d="m9 15 6-6"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.6a3.5 3.5 0 0 1 0 6.8M18.5 14a6.5 6.5 0 0 1 3 6"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9M10 20.5a2.2 2.2 0 0 0 4 0"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.7 5.6 6.1.8-4.5 4.3 1.1 6.1L12 17l-5.4 2.8 1.1-6.1-4.5-4.3 6.1-.8z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10.5" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10.5 18.5h3"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/></symbol>
+  <symbol id="i-dl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10.5l5 5 5-5M4 20h16"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 16" fill="currentColor"><path d="M12 15.5 8.6 12a4.8 4.8 0 0 1 6.8 0zM5.7 9.2a8.9 8.9 0 0 1 12.6 0l-1.8 1.8a6.3 6.3 0 0 0-9 0zM2.8 6.3a13 13 0 0 1 18.4 0l-1.8 1.8a10.4 10.4 0 0 0-14.8 0z"/></symbol>
+  <symbol id="i-bat" viewBox="0 0 28 14" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="1.5" width="22" height="11" rx="3.2"/><rect x="3" y="3.5" width="16" height="7" rx="1.6" fill="currentColor" stroke="none"/><path d="M25.5 5.5v3" stroke-linecap="round"/></symbol>
+</svg>
+
+<main>
+<!-- Kopfbereich: Abo-Fenster fliegen beim Scrollen in eine einzige App -->
+<section class="hero" id="start">
+  <div class="hero__pin">
+    <div class="wrap hero__head">
+      <span class="kick"><i></i>Beispiel · Eigene Betriebs-App</span>
+      <h1 class="hero__t">
+        <span class="t1"><b class="num" data-hero-sum>188&nbsp;€</b> im Monat<br><span class="grad">für Software?</span></span>
+        <span class="t2" aria-hidden="true">Oder einmal deine<br><span class="grad">eigene App.</span></span>
+      </h1>
+      <p class="hero__lead">
+        <span class="l1">Terminbuchung, Gutscheine, Stempelkarte, Angebote, Rechnungen: Für jedes Werkzeug ein eigenes Abo. Jeden Monat.</span>
+        <span class="l2" aria-hidden="true">Alles in einer App mit deinem Namen. <strong>Einmal gebaut, gehört dir.</strong> Laufend nur dein Webspace.</span>
+      </p>
+    </div>
+    <div class="stage" data-stage aria-hidden="true">
+      <div class="phone" data-hero-phone>
+        <div class="phone__scr">
+          <div class="phone__isl"></div>
+          <div class="phone__st"><span>9:41</span><span><svg viewBox="0 0 24 16"><use href="#i-wifi"/></svg><svg viewBox="0 0 28 14" style="width:calc(var(--pw)*.08)"><use href="#i-bat"/></svg></span></div>
+          <div class="home">
+            <div class="home__hd"><span class="home__lg">D</span><span><b>Dein Betrieb</b><small>Deine eigene App</small></span></div>
+            <div class="home__w"><small>Heute</small><b>6 Termine<br>2 Gutscheine</b><span>Alles an einem Ort</span></div>
+            <div class="home__grid" data-slots></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sum" data-hero-sumbox aria-hidden="true"><span class="sum__ic"><svg><use href="#i-euro"/></svg></span><span><small data-hero-sumlbl>Abo-Kosten pro Monat</small><b class="num" data-hero-sum2>188 €</b></span></div>
+    <div class="hint" aria-hidden="true"><svg><use href="#i-down"/></svg>Scrollen</div>
+  </div>
+</section>
+
+<!-- Ausprobieren: Kunden-App links, Büro rechts -->
+<section class="sec demo" id="ausprobieren">
+  <div class="wrap">
+    <div class="sec__head" data-reveal>
+      <span class="kick"><i></i>Zum Ausprobieren</span>
+      <h2>Dein Kunde bucht. <span class="grad">Du siehst es sofort.</span></h2>
+      <p>Die App, wie sie deine Kunden am Handy sehen, und daneben deine Ansicht im Büro. Buch einen Termin, kauf einen Gutschein oder unterschreib das Angebot und schau, was passiert.</p>
+    </div>
+    <div class="switch" role="group" aria-label="Branche wählen" data-switch>
+      <button type="button" data-br="beauty" aria-pressed="true"><svg><use href="#i-scis"/></svg>Friseur<span class="lg">&nbsp;&amp; Kosmetik</span></button>
+      <button type="button" data-br="gastro" aria-pressed="false"><svg><use href="#i-cup"/></svg>Gasthaus<span class="lg">&nbsp;&amp; Café</span></button>
+      <button type="button" data-br="hand" aria-pressed="false"><svg><use href="#i-tool"/></svg>Handwerk</button>
+    </div>
+    <div class="play">
+      <div class="play__phone">
+        <div class="phone">
+          <div class="phone__scr">
+            <div class="phone__isl"></div>
+            <div class="phone__st"><span data-clock>9:41</span><span><svg viewBox="0 0 24 16"><use href="#i-wifi"/></svg><svg viewBox="0 0 28 14" style="width:calc(var(--pw)*.08)"><use href="#i-bat"/></svg></span></div>
+            <div class="app" data-app>
+              <div class="app__hd"><span class="app__lg" data-b-logo>G</span><span><b data-b-name>Studio Glanz</b><small><i></i><span data-b-open>Heute geöffnet bis 18 Uhr</span></small></span></div>
+              <div class="app__body" data-body>
+                <!-- Termin -->
+                <div class="v on" data-v="termin" role="tabpanel" aria-label="Termin">
+                  <div data-t-form>
+                    <h3 data-t-title>Termin buchen</h3>
+                    <span class="lbl" data-t-what>Leistung</span>
+                    <div class="opts" data-t-svc></div>
+                    <span class="lbl">Tag</span>
+                    <div class="days" data-t-days></div>
+                    <span class="lbl">Uhrzeit</span>
+                    <div class="slots" data-t-slots></div>
+                    <span class="lbl">Dein Name</span>
+                    <input class="fld" data-t-name autocomplete="off" placeholder="z. B. Anna Huber" maxlength="40">
+                    <button class="abtn" type="button" data-t-go disabled>Verbindlich buchen</button>
+                    <p class="note">Musterdaten · nichts wird gesendet</p>
+                  </div>
+                  <div class="done" data-t-done hidden>
+                    <div class="done__ic"><svg><use href="#i-check"/></svg></div>
+                    <h3>Gebucht!</h3>
+                    <p data-t-msg>Eine Bestätigung kommt per E-Mail, am Vortag eine Erinnerung.</p>
+                    <div class="card" data-t-card></div>
+                    <a class="abtn" data-t-ics download="termin.ics" href="#"><svg><use href="#i-cal"/></svg>In meinen Kalender</a>
+                    <button class="abtn ghost" type="button" data-t-again>Noch einen Termin</button>
+                  </div>
+                </div>
+                <!-- Gutschein -->
+                <div class="v" data-v="gutschein" role="tabpanel" aria-label="Gutschein">
+                  <div data-g-form>
+                    <h3>Gutschein schenken</h3>
+                    <span class="lbl">Betrag</span>
+                    <div class="chips" data-g-amt></div>
+                    <span class="lbl">Für</span>
+                    <input class="fld" data-g-for autocomplete="off" placeholder="z. B. Mama" maxlength="24">
+                    <span class="lbl">Von</span>
+                    <input class="fld" data-g-from autocomplete="off" placeholder="z. B. Lisa" maxlength="24">
+                    <button class="abtn" type="button" data-g-go disabled>Gutschein erstellen</button>
+                    <p class="note">Bezahlt wird im echten Betrieb per Überweisung oder Zahlungsdienst</p>
+                  </div>
+                  <div data-g-done hidden>
+                    <h3>Dein Gutschein</h3>
+                    <img class="vimg" data-g-img alt="Gutschein mit QR-Code">
+                    <a class="abtn" data-g-dl download="gutschein.png" href="#"><svg><use href="#i-dl"/></svg>Als Bild speichern</a>
+                    <button class="abtn ghost" type="button" data-g-again>Noch einen Gutschein</button>
+                    <p class="note">Der QR-Code ist echt: Im Betrieb wird er beim Einlösen gescannt.</p>
+                  </div>
+                </div>
+                <!-- Stempelkarte -->
+                <div class="v" data-v="treue" role="tabpanel" aria-label="Stempelkarte">
+                  <h3>Deine Stempelkarte</h3>
+                  <div class="loy">
+                    <small data-l-title>Treuekarte</small>
+                    <b data-l-rule>Jeder 10. Haarschnitt gratis</b>
+                    <div class="stamps" data-l-stamps></div>
+                  </div>
+                  <div class="reward" data-l-reward hidden><svg><use href="#i-gift"/></svg><span data-l-rtext>Voll! Dein nächster Haarschnitt ist gratis.</span></div>
+                  <div class="loy__qr"><canvas width="29" height="29" data-l-qr></canvas><span><b>Beim Bezahlen herzeigen</b>Der Betrieb scannt den Code, der Stempel kommt sofort.</span></div>
+                  <button class="abtn" type="button" data-l-go><svg><use href="#i-stamp"/></svg><span data-l-btn>Code an der Kasse scannen</span></button>
+                  <p class="note">Statt Papierkärtchen, die in der Geldtasche verschwinden</p>
+                </div>
+                <!-- Angebot -->
+                <div class="v" data-v="angebot" role="tabpanel" aria-label="Angebot">
+                  <h3>Dein Angebot</h3>
+                  <div class="doc">
+                    <div class="doc__hd"><span><b data-a-title>Brautstyling</b><small data-a-no>Angebot Nr. 2026-041</small></span><span class="doc__st" data-a-st>Offen</span></div>
+                    <table><tbody data-a-items></tbody></table>
+                    <div class="doc__sum"><span>Gesamt</span><span class="num" data-a-sum>0 €</span></div>
+                    <div class="doc__tax" data-a-tax>inkl. 20 % USt.</div>
+                    <div data-a-signwrap>
+                      <div class="sig"><canvas data-a-sig></canvas><span></span><em>Hier mit dem Finger unterschreiben</em><button type="button" class="sig__clr" data-a-clr>Löschen</button></div>
+                    </div>
+                    <div data-a-signed hidden><img class="sigimg" data-a-sigimg alt="Unterschrift"><small style="color:#6b7280" data-a-when></small></div>
+                  </div>
+                  <button class="abtn" type="button" data-a-go disabled>Angebot annehmen</button>
+                  <button class="abtn ghost" type="button" data-a-again hidden>Zurücksetzen</button>
+                  <p class="note">Kein Ausdrucken, Unterschreiben und Einscannen mehr</p>
+                </div>
+              </div>
+              <div class="app__tabs" role="tablist" aria-label="Bereiche der App" data-tabs>
+                <button type="button" role="tab" aria-selected="true" data-tab="termin"><svg><use href="#i-cal"/></svg><span data-tab-l="termin">Termin</span></button>
+                <button type="button" role="tab" aria-selected="false" data-tab="gutschein"><svg><use href="#i-gift"/></svg>Gutschein</button>
+                <button type="button" role="tab" aria-selected="false" data-tab="treue"><svg><use href="#i-stamp"/></svg>Treue</button>
+                <button type="button" role="tab" aria-selected="false" data-tab="angebot"><svg><use href="#i-sign"/></svg>Angebot</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="office" data-reveal>
+        <div class="office__bar"><i></i><i></i><i></i><span data-o-url>app.studio-glanz.at/buero</span></div>
+        <div class="office__in">
+          <div class="office__top">
+            <div><h3>Deine Ansicht im Büro</h3><p data-o-sub>Studio Glanz · heute</p></div>
+            <span class="live"><i></i>Live</span>
+          </div>
+          <div class="tiles">
+            <div class="tile" data-tile="termin" style="--c:var(--blue)"><small><svg><use href="#i-cal"/></svg><span data-o-tl>Termine</span></small><b class="num" data-o-n="termin">6</b><em data-o-e="termin">heute</em></div>
+            <div class="tile" data-tile="gutschein" style="--c:var(--pop)"><small><svg><use href="#i-gift"/></svg>Gutscheine</small><b class="num" data-o-n="gutschein">150 €</b><em>diese Woche verkauft</em></div>
+            <div class="tile" data-tile="treue" style="--c:#b26bff"><small><svg><use href="#i-stamp"/></svg>Stammkunden</small><b class="num" data-o-n="treue">84</b><em>mit Stempelkarte</em></div>
+            <div class="tile" data-tile="angebot" style="--c:var(--ok)"><small><svg><use href="#i-sign"/></svg>Angebote</small><b class="num" data-o-n="angebot">2 offen</b><em data-o-e="angebot">1 angenommen</em></div>
+          </div>
+          <div class="feed">
+            <div class="feed__hd"><span>Neu eingegangen</span><button type="button" data-o-reset>Beispiel zurücksetzen</button></div>
+            <ul data-o-feed></ul>
+          </div>
+          <p class="office__note">Alles läuft nur in deinem Browser. Im echten Betrieb kommt dazu eine E-Mail an dich und an den Kunden.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="feats" data-feats>
+      <button type="button" class="feat" data-feat="termin" aria-pressed="true" style="--c:var(--blue)"><i><svg><use href="#i-cal"/></svg></i><b>Online-Termine</b><span>Kunden buchen rund um die Uhr. Freie Zeiten, Urlaub und Pausen stellst du selbst ein.</span><em>statt Abo um ca. <s>39 € / Monat</s></em></button>
+      <button type="button" class="feat" data-feat="gutschein" aria-pressed="false" style="--c:var(--pop)"><i><svg><use href="#i-gift"/></svg></i><b>Gutscheine</b><span>Verkauf auch um Mitternacht. Jeder Gutschein hat eine eigene Nummer und einen QR-Code.</span><em>statt Abo um ca. <s>29 € / Monat</s></em></button>
+      <button type="button" class="feat" data-feat="treue" aria-pressed="false" style="--c:#b26bff"><i><svg><use href="#i-stamp"/></svg></i><b>Stempelkarte</b><span>Die Treuekarte am Handy. Geht nie verloren, und du siehst, wer wiederkommt.</span><em>statt Abo um ca. <s>35 € / Monat</s></em></button>
+      <button type="button" class="feat" data-feat="angebot" aria-pressed="false" style="--c:var(--ok)"><i><svg><use href="#i-sign"/></svg></i><b>Angebot mit Unterschrift</b><span>Der Kunde unterschreibt am Handy, du bekommst die Zusage sofort ins Büro.</span><em>statt Abo um ca. <s>25 € / Monat</s></em></button>
+    </div>
+  </div>
+</section>
+
+<!-- Abo-Rechner -->
+<section class="sec" id="rechner">
+  <div class="wrap">
+    <div class="sec__head" data-reveal>
+      <span class="kick"><i></i>Abo-Rechner</span>
+      <h2>Was zahlst du heute <span class="grad">für Software?</span></h2>
+      <p>Hak an, was dein Betrieb nutzt, und trag deine echten Preise pro Monat ein. Die Werte sind Richtwerte für typische Einstiegstarife, gerundet.</p>
+    </div>
+    <div class="calc">
+      <div class="subs" data-subs data-reveal></div>
+      <div class="res" data-reveal style="--d:.08s">
+        <div class="res__row">
+          <div><small>Pro Monat</small><b class="num" data-r-m>0 €</b></div>
+          <div><small>Pro Jahr</small><b class="num" data-r-y>0 €</b></div>
+          <div><small>Abos aktiv</small><b class="num" data-r-n>0</b></div>
+        </div>
+        <div class="res__big">
+          <small>In 5 Jahren zahlst du für Abos</small>
+          <b class="num grad" data-r-5>0 €</b>
+          <p>Und danach geht es weiter, Jahr für Jahr. Eine eigene App programmiere ich einmal. Sie gehört dir, laufend zahlst du nur deinen Webspace (je nach Anbieter ca. 5–10&nbsp;€ im Monat).</p>
+        </div>
+        <div class="chart" aria-hidden="true"><svg viewBox="0 0 520 210" data-r-chart></svg></div>
+        <div class="legend"><span><i></i>Laufende Kosten mit Abos</span><span><i></i>Laufende Kosten eigene App (Webspace ca. 8 €)</span></div>
+        <div class="res__cta"><a class="btn" href="/#anfrage" data-r-cta>Eigene App besprechen <svg><use href="#i-arrow"/></svg></a><a class="btn line" href="#ausprobieren">Nochmal ausprobieren</a></div>
+        <p class="fine">Den Preis für deine eigene App bekommst du nach einem kurzen Gespräch als Fixpreis-Angebot, abhängig davon, was sie können soll. Als Kleinunternehmer verrechne ich keine Umsatzsteuer.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Was alles geht -->
+<section class="sec more" id="moeglich">
+  <div class="wrap">
+    <div class="sec__head" data-reveal>
+      <span class="kick"><i></i>Was alles möglich ist</span>
+      <h2>Werkzeuge wie bei den Großen. <span class="grad">Gebaut für deinen Betrieb.</span></h2>
+      <p>Du nimmst nur, was du wirklich brauchst. Alles läuft unter deinem Namen und auf deinem Webspace, ohne Werbung fremder Anbieter.</p>
+    </div>
+    <div class="grid">
+      <div class="cell" data-reveal style="--c:var(--blue)"><i><svg><use href="#i-cal"/></svg></i><h3>Termine &amp; Reservierungen</h3><p>Mit Pausen, Urlaub, mehreren Mitarbeitern und Erinnerung per E-Mail am Vortag. Weniger Leute, die vergessen zu kommen.</p></div>
+      <div class="cell" data-reveal style="--d:.05s;--c:var(--pop)"><i><svg><use href="#i-gift"/></svg></i><h3>Gutscheine</h3><p>Online verkaufen, als schönes PDF verschicken, beim Einlösen scannen. Restbeträge rechnet die App mit.</p></div>
+      <div class="cell" data-reveal style="--d:.1s;--c:#b26bff"><i><svg><use href="#i-stamp"/></svg></i><h3>Stempelkarte &amp; Stammkunden</h3><p>Digitale Treuekarte ohne eigene App aus dem App Store. Läuft direkt im Browser am Handy.</p></div>
+      <div class="cell" data-reveal style="--c:var(--ok)"><i><svg><use href="#i-sign"/></svg></i><h3>Angebote &amp; Unterschrift</h3><p>Angebot als Link schicken, der Kunde unterschreibt am Handy. Du siehst sofort, was offen und was zugesagt ist.</p></div>
+      <div class="cell" data-reveal style="--d:.05s;--c:#f5b301"><i><svg><use href="#i-inv"/></svg></i><h3>Rechnungen</h3><p>Aus dem Auftrag mit einem Klick, fortlaufend nummeriert, mit Zahlungserinnerung. <a href="/beispiele/dashboard/">Im Dashboard ausprobieren</a></p></div>
+      <div class="cell" data-reveal style="--d:.1s;--c:#22b8cf"><i><svg><use href="#i-clock"/></svg></i><h3>Stunden &amp; Einsatzplan</h3><p>Stempeluhr am Handy, Export für die Lohnverrechnung, Wochenplan für das Team.</p></div>
+      <div class="cell" data-reveal style="--c:#ff6b9a"><i><svg><use href="#i-mail"/></svg></i><h3>Newsletter</h3><p>Anmeldung mit Bestätigung per E-Mail (Double-Opt-in), Versand über einen E-Mail-Dienst aus der EU.</p></div>
+      <div class="cell" data-reveal style="--d:.05s;--c:#8b9cff"><i><svg><use href="#i-users"/></svg></i><h3>Kundenkartei</h3><p>Wer war wann da, was wurde gemacht, welche Farbe oder welches Teil. Nur für dich sichtbar, mit Passwort.</p></div>
+      <div class="cell" data-reveal style="--d:.1s;--c:#9ccf3f"><i><svg><use href="#i-box"/></svg></i><h3>Lager &amp; Bestellliste</h3><p>Mindestbestand festlegen, die App sagt dir, was nachbestellt werden muss.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Ehrlich gesagt -->
+<section class="sec" id="ehrlich">
+  <div class="wrap">
+    <div class="sec__head" data-reveal>
+      <span class="kick"><i></i>Ehrlich gesagt</span>
+      <h2>Nicht jedes Abo <span class="grad">muss weg.</span></h2>
+      <p>Eine eigene App lohnt sich dort, wo du für Standard-Funktionen jeden Monat zahlst. Manches bleibt besser beim Spezialisten.</p>
+    </div>
+    <div class="fair">
+      <div class="y" data-reveal style="--c:var(--ok)"><h3><i><svg><use href="#i-check"/></svg></i>Lohnt sich als eigene App</h3>
+        <ul><li><b>Termine, Gutscheine, Stempelkarte</b>, Angebote und Kundenkartei: viel Abo-Geld für wenig Technik.</li><li><b>Abläufe, die genau zu dir passen</b>, statt Funktionen, die du nie nutzt.</li><li><b>Alles unter deinem Namen</b>, ohne fremdes Logo und ohne Werbung anderer Betriebe.</li><li><b>Deine Daten bleiben bei dir</b> auf deinem Webspace, nicht beim Plattform-Anbieter.</li></ul></div>
+      <div class="n" data-reveal style="--d:.08s;--c:var(--bad)"><h3><i><svg><use href="#i-x"/></svg></i>Bleibt besser beim Anbieter</h3>
+        <ul><li><b>Registrierkasse</b> mit Belegpflicht: Das regelt die Registrierkassenpflicht, dafür gibt es zertifizierte Kassen.</li><li><b>Buchhaltung und Lohnverrechnung</b> macht weiter dein Steuerberater.</li><li><b>Kartenzahlung</b> läuft über einen Zahlungsdienst, die Gebühren pro Zahlung bleiben.</li><li><b>SMS</b> kosten pro Nachricht. Erinnerungen per E-Mail sind gratis.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec end">
+  <div class="wrap">
+    <span class="kick" data-reveal><i></i>Dein nächster Schritt</span>
+    <h2 data-reveal>Was kostet dich <span class="grad">jeden Monat Geld?</span></h2>
+    <p data-reveal>Schreib mir kurz, welche Programme du heute nutzt und was dich nervt. Du bekommst eine ehrliche Einschätzung, ob sich eine eigene App für dich rechnet.</p>
+    <div class="row" data-reveal><a class="btn" href="/#anfrage">Kostenlos anfragen <svg><use href="#i-arrow"/></svg></a><a class="btn line" href="/beispiele/">Alle Beispiele ansehen</a></div>
+    <div class="checks" data-reveal><span><svg><use href="#i-check"/></svg>Fixpreis nach kurzem Gespräch</span><span><svg><use href="#i-check"/></svg>Gehört dir, ohne Abo</span><span><svg><use href="#i-check"/></svg>Ohne Tracking</span></div>
+  </div>
+</section>
+</main>
+
+<footer class="foot"><div class="wrap"><span>Beispiel von <a href="/">Tim Kofler – Webdesign</a>. Betriebe und Daten sind erfunden, Abo-Preise sind Richtwerte.</span><span><a href="/impressum/">Impressum</a> · <a href="/datenschutz/">Datenschutz</a></span></div></footer>
+
+<div class="toast" data-toast role="status" aria-live="polite"><i><svg><use href="#i-bell"/></svg></i><span><b data-toast-t>Neu</b><span data-toast-s></span></span></div>
+
+<script src="/beispiele/_shared/demo.js" defer></script>
+<script src="/beispiele/_shared/vendor/qrcode-generator-2.0.4/qrcode.js" defer></script>
+<script src="/beispiele/betriebs-app/app.js?v=1" defer></script>
+</body></html>
