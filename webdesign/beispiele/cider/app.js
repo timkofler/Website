@@ -39,7 +39,8 @@ if (sc.on) {
 }
 document.addEventListener("click", function (e) {
   var a = e.target.closest && e.target.closest('a[href^="#"]'); if (!a) return;
-  var id = a.getAttribute("href"), el = id === "#start" ? document.body : document.querySelector(id); if (!el) return;
+  var id = a.getAttribute("href"); if (id.length < 2) return;
+  var el = id === "#start" ? document.body : document.querySelector(id); if (!el) return;
   e.preventDefault();
   var to = clamp(el === document.body ? 0 : el.getBoundingClientRect().top + scrollY - BAR, 0, maxY());
   if (sc.on) { if (!sc.busy) sc.y = scrollY; sc.to = to; sc.busy = true; }
@@ -231,6 +232,8 @@ function build(THREE, D, RoomEnvironment) {
     // Most: liegt in Weltkoordinaten (nicht an der Dose), die Seite hebt und senkt die Oberfläche.
     var most = D.liquid(THREE, { w: 18, bubbles: mobile ? 160 : 280 }); scene.add(most);
     var MU = most.userData.u;
+    // Für die Brechung: die Szene ohne Most in halber Auflösung, nur solange der Most im Bild ist.
+    var rt = new THREE.WebGLRenderTarget(2, 2, { depthBuffer: true }); MU.uScene.value = rt.texture;
     var splash = D.burst(THREE, mobile ? 140 : 240, "up"), drip = D.burst(THREE, 90, "drip"); scene.add(splash); scene.add(drip);
     // Schaumring an der Wasserlinie und warmer Schein um die eingetauchte Dose.
     var foam = D.glowTube(THREE, D.ellipse(THREE, .44, .17), { closed: true, r: .014, speed: .3, tail: 1.2, heads: 4, base: .7, halo: .5, seg: 120, color: "#ffe2a6" }); scene.add(foam);
@@ -263,6 +266,7 @@ function build(THREE, D, RoomEnvironment) {
       // Am Handy ändert die ein- und ausfahrende Adressleiste die Höhe; nur bei echten Änderungen neu aufbauen.
       if (w === W && Math.abs(h - H) < 120) return;
       W = w; H = h; R.setSize(w, h, false); aspect = w / h; cam.aspect = aspect; cam.updateProjectionMatrix();
+      rt.setSize(Math.round(w * R.getPixelRatio() * .5), Math.round(h * R.getPixelRatio() * .5)); MU.uRes.value.set(w * R.getPixelRatio(), h * R.getPixelRatio());
       sp.material.uniforms.uPx.value = h * R.getPixelRatio(); MU.uPx.value = h * R.getPixelRatio(); splash.material.uniforms.uPx.value = drip.material.uniforms.uPx.value = h * R.getPixelRatio();
     }
     size(); addEventListener("resize", size);
@@ -278,8 +282,8 @@ function build(THREE, D, RoomEnvironment) {
       var scl = (narrow ? q.sm * clamp(aspect * 1.55, .62, 1) : q.s) * (.86 + .14 * ie);
       var cy = (narrow ? q.ym : q.y) * halfH - q.dive * (narrow ? 1.1 : 1.5) * halfH - (1 - ie) * 1.2 + Math.sin(t * .9) * .035;
       var cx = (narrow ? q.xm : q.x) * halfW + ptr.px * .12;
-      // Am Handy steht die Dose beim Kaufen über dem Text; scrollt man weiter zum Fußbereich, wandert sie mit dem Inhalt nach oben.
-      if (narrow && S.y > marks.kauf) cy += (S.y - marks.kauf) * 2 * halfH / H;
+      // Beim Kaufen steht die Dose im Bild; scrollt man weiter zu Partnern und Logo, wandert sie mit dem Inhalt nach oben weg.
+      if (S.y > marks.kauf) cy += (S.y - marks.kauf) * 2 * halfH / H;
       rig.position.set(cx, cy, 0); rig.scale.setScalar(scl);
       tilt.rotation.set(q.rx + ptr.py * .12, 0, q.rz);
       // Beim Sortenwechsel dreht sich die Dose einmal, während die neue Farbe von unten hochläuft.
@@ -324,6 +328,7 @@ function build(THREE, D, RoomEnvironment) {
       // Schaumring, solange die Wasserlinie über die Dose läuft; Schein, solange sie unter Wasser ist.
       var wet = geo.surf > geo.bottom && geo.surf < geo.top;
       foam.position.set(cx, geo.surf + .01, .15); foam.scale.setScalar(scl); foam.visible = wet;
+      MU.uWet.value = wet ? 1 : 0; MU.uWX.value = cx; MU.uWR.value = .34 * scl;
       if (wet) dose.userData.edge(amber);
       if (wet) foam.userData.mats.forEach(function (m, k) { m.uniforms.uAlpha.value = foam.userData.k[k]; m.uniforms.uT.value = t; });
       uglow.position.set(cx, Math.min(geo.surf - .2, cy + .3), .2); glowM.opacity = under ? .35 : (wet ? .18 : 0); uglow.visible = glowM.opacity > 0;
@@ -332,6 +337,11 @@ function build(THREE, D, RoomEnvironment) {
       rimL.color.copy(col); rimR.color.copy(col); rimL.intensity = 3 + q.rings * 2.5; rimR.intensity = 2.5 + q.ped * 1.5;
       if (q.sign > .01) { rimL.color.lerp(gold, q.sign); rimR.color.lerp(white, q.sign * .5); }
 
+      if (most.visible) {
+        most.visible = false; splash.visible = drip.visible = false;
+        R.setRenderTarget(rt); R.clear(); R.render(scene, cam); R.setRenderTarget(null);
+        most.visible = true; splash.visible = drip.visible = true; MU.uHas.value = 1;
+      } else MU.uHas.value = 0;
       R.render(scene, cam);
       // Schwaches Gerät: nach ein paar Sekunden die Auflösung senken, damit es flüssig bleibt.
       if (t - t0 < 4) { frames++; slow += dt; }

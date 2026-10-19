@@ -253,41 +253,60 @@ export function beam(THREE, o) {
   return new THREE.Mesh(geo, mat);
 }
 
-// Most als Flüssigkeit: Vorderwand (bernsteinfarben, durchscheinend), Oberfläche mit Wellen und Ringen, Bläschen.
-// Die Gruppe liegt mit y = 0 auf der Oberfläche; die Seite verschiebt sie. userData.u sind die gemeinsamen Uniforms.
+// Most als Flüssigkeit. Die Vorderwand bricht das Bild dahinter (uScene = die Szene ohne Most, von der Seite gerendert),
+// färbt es nach Tiefe bernsteinfarben ein und legt Lichtfäden und einen hellen Meniskus an die Wasserlinie. Die Oberfläche
+// ist ein feines Netz, das Wellen, die Verdrängungswelle beim Eintauchen (uRip/uRipX) und einen Wulst um die Dose (uWet)
+// wirklich verformen; dazu Glanzlichter und Bläschen. Gruppe liegt mit y = 0 auf der Oberfläche; userData.u sind die Uniforms.
 export function liquid(THREE, o) {
   o = o || {};
-  var g = new THREE.Group(), w = o.w || 16, d = o.d || 4;
-  var U = { uT: { value: 0 }, uA: { value: 1 }, uRip: { value: 9 }, uRipX: { value: 0 }, uTop: { value: new THREE.Color("#f3b549") }, uDeep: { value: new THREE.Color("#4a1f05") } };
-  var wave = "float wave(float x, float t){ return sin(x * 2.1 + t * 1.6) * .028 + sin(x * 4.7 - t * 2.2) * .013 + sin(x * 9.3 + t * 3.1) * .005; }\n";
-  var front = new THREE.Mesh(new THREE.PlaneGeometry(w, 8, 160, 1).translate(0, -4, 0), new THREE.ShaderMaterial({
+  var g = new THREE.Group(), w = o.w || 16, d = o.d || 4, z = o.z || .85;
+  var U = { uT: { value: 0 }, uA: { value: 1 }, uRip: { value: 9 }, uRipX: { value: 0 }, uWet: { value: 0 }, uWX: { value: 0 }, uWR: { value: .35 },
+    uTop: { value: new THREE.Color("#d9922e") }, uDeep: { value: new THREE.Color("#170901") }, uScene: { value: null }, uHas: { value: 0 }, uRes: { value: new THREE.Vector2(1, 1) },
+    uPx: { value: 300 }, uBurst: { value: 0 }, uBX: { value: 0 } };
+  // Höhe der Oberfläche an (x, zz): Grundwellen, Verdrängungswelle, Wulst um die Dose.
+  var surf = "uniform float uT, uRip, uRipX, uWet, uWX, uWR;\n" +
+    "float surfH(float x, float zz){ float h = sin(x * 2.1 + uT * 1.6) * .022 + sin(x * 4.7 - uT * 2.2 + zz * 3.0) * .011 + sin(x * 9.3 + uT * 3.1 + zz * 7.0) * .005;\n" +
+    " float r = length(vec2(x - uRipX, zz * 1.4)); h += sin(r * 9.0 - uRip * 9.0) * .14 * exp(-uRip * 1.6) * smoothstep(2.4, .0, abs(r - uRip * 1.4));\n" +
+    " h += exp(-r * r * 6.0) * .22 * exp(-uRip * 4.0) * sin(uRip * 18.0);\n" +
+    " float rw = length(vec2(x - uWX, zz)); h += uWet * .05 * exp(-pow(max(rw - uWR, 0.0) * 3.5, 2.0)); return h; }\n";
+  var front = new THREE.Mesh(new THREE.PlaneGeometry(w, 8, 200, 1).translate(0, -4, 0), new THREE.ShaderMaterial({
     uniforms: U, transparent: true, depthWrite: false,
-    vertexShader: "uniform float uT, uRip, uRipX; varying vec2 vP;\n" + wave +
-      "void main(){ vec3 p = position; if (p.y > -.01) { float r = abs(p.x - uRipX); p.y += wave(p.x, uT) + sin(r * 9.0 - uRip * 9.0) * .13 * exp(-uRip * 1.5) * smoothstep(2.2, .0, abs(r - uRip * 1.3)); }\n" +
-      " vP = p.xy; gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0); }",
-    fragmentShader: "uniform float uT, uA; uniform vec3 uTop, uDeep; varying vec2 vP;\n" +
-      "void main(){ float dep = clamp(-vP.y / 2.6, 0.0, 1.0); vec3 c = mix(uTop, uDeep, pow(dep, .7));\n" +
-      " float ca = (pow(abs(sin(vP.x * 6.0 + uT * .7 + sin(vP.y * 7.0 + uT * .5) * 1.2)), 28.0) + pow(abs(sin(vP.x * 9.0 - uT * .5 + sin(vP.y * 5.0 - uT * .4) * 1.5)), 32.0)) * (1.0 - dep) * .12;\n" +
-      " float lip = smoothstep(.05, .0, -vP.y) * .7;\n" +
-      " gl_FragColor = vec4(c + ca + lip * vec3(1.0, .9, .7), (.74 + dep * .2) * uA); }"
+    vertexShader: surf + "varying vec2 vP;\n" +
+      "void main(){ vec3 p = position; if (p.y > -.01) p.y += surfH(p.x, 0.0); vP = p.xy; gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0); }",
+    fragmentShader: "uniform float uT, uA, uHas; uniform vec2 uRes; uniform vec3 uTop, uDeep; uniform sampler2D uScene; varying vec2 vP;\n" +
+      "float hsh(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }\n" +
+      "float nz(vec2 p){ vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f); return mix(mix(hsh(i), hsh(i + vec2(1, 0)), f.x), mix(hsh(i + vec2(0, 1)), hsh(i + vec2(1, 1)), f.x), f.y); }\n" +
+      "void main(){ float dep = clamp(-vP.y / 2.2, 0.0, 1.0);\n" +
+      " vec2 uv = gl_FragCoord.xy / uRes;\n" +
+      " vec2 dist = vec2(nz(vP * 3.0 + vec2(uT * .5, -uT * .3)) - .5, nz(vP * 2.5 + vec2(-uT * .4, uT * .6)) - .5) * .035;\n" +
+      " dist.y += .018; // Versatz: unter Wasser sitzt alles ein Stück höher, wie beim Strohhalm im Glas\n" +
+      " vec4 sc = uHas > .5 ? texture2D(uScene, clamp(uv + dist, 0.0, 1.0)) : vec4(0.0);\n" +
+      " vec3 water = mix(uTop, uDeep, pow(dep, .55));\n" +
+      " vec3 seen = mix(water * .85, sc.rgb * vec3(1.0, .72, .4) + water * .3, sc.a * (1.0 - dep * .8) * .9);\n" +
+      " float shaft = pow(abs(sin(vP.x * 6.0 + uT * .7 + sin(vP.y * 7.0 + uT * .5) * 1.2)), 24.0) + pow(abs(sin(vP.x * 9.0 - uT * .5 + sin(vP.y * 5.0 - uT * .4) * 1.5)), 32.0);\n" +
+      " seen += shaft * (1.0 - dep) * .1 * vec3(1.0, .85, .55);\n" +
+      " float lip = smoothstep(.07, .0, -vP.y); seen += lip * vec3(1.0, .93, .72) * .9;\n" +
+      " float a = (.82 + dep * .16) * uA; a = max(a, lip * uA);\n" +
+      " gl_FragColor = vec4(seen, a); }"
   }));
-  front.position.z = o.z || .85; front.renderOrder = 3; g.add(front);
-  var top = new THREE.Mesh(new THREE.PlaneGeometry(w, d, 1, 1).rotateX(-Math.PI / 2), new THREE.ShaderMaterial({
+  front.position.z = z; front.renderOrder = 3; g.add(front);
+  var top = new THREE.Mesh(new THREE.PlaneGeometry(w, d, 160, 30).rotateX(-Math.PI / 2), new THREE.ShaderMaterial({
     uniforms: U, transparent: true, depthWrite: false,
-    vertexShader: "varying vec3 vP; void main(){ vP = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }",
-    fragmentShader: "uniform float uT, uA, uRip, uRipX; uniform vec3 uTop; varying vec3 vP;\n" +
-      "void main(){ float r = length(vec2(vP.x - uRipX, (vP.z + " + (d / 2 - (o.z || .85)).toFixed(3) + ") * 1.4));\n" +
-      " float ring = smoothstep(.09, .0, abs(r - uRip * 1.3)) * exp(-uRip * 1.3) * 1.4 + smoothstep(.07, .0, abs(r - uRip * .8)) * exp(-uRip * 1.8) + smoothstep(.06, .0, abs(r - uRip * 1.9)) * exp(-uRip * 1.6) * .6;\n" +
+    vertexShader: surf + "varying vec3 vP; varying float vH;\n" +
+      "void main(){ vec3 p = position; float zz = p.z + " + (d / 2 - z).toFixed(3) + "; p.y += surfH(p.x, zz); vH = p.y; vP = p; gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0); }",
+    fragmentShader: "uniform float uT, uA, uRip, uRipX; uniform vec3 uTop; varying vec3 vP; varying float vH;\n" +
+      "void main(){ float zz = vP.z + " + (d / 2 - z).toFixed(3) + "; float r = length(vec2(vP.x - uRipX, zz * 1.4));\n" +
+      " float ring = smoothstep(.09, .0, abs(r - uRip * 1.4)) * exp(-uRip * 1.3) * 1.2 + smoothstep(.06, .0, abs(r - uRip * 2.0)) * exp(-uRip * 1.6) * .6;\n" +
       " float far = smoothstep(" + (-d / 2).toFixed(2) + ", " + (d / 2).toFixed(2) + ", vP.z);\n" +
-      " float sh = pow(abs(sin(vP.x * 3.0 + vP.z * 5.0 + uT)), 20.0) * .25;\n" +
-      " gl_FragColor = vec4(uTop * 1.15 + ring * .9 + sh, (.35 + far * .4 + ring * .5) * uA); }"
+      " float sh = pow(abs(sin(vP.x * 3.0 + zz * 5.0 + uT)), 20.0) * .25 + smoothstep(.015, .05, vH) * .9;\n" +
+      " float fres = mix(.5, 1.0, far);\n" +
+      " gl_FragColor = vec4(uTop * (.85 + fres * .3) + ring * .8 + sh * .8, (.38 + far * .34 + ring * .5 + sh * .3) * uA); }"
   }));
-  top.position.z = (o.z || .85) - d / 2; top.renderOrder = 2; g.add(top);
-  // Bläschen steigen auf und verschwinden an der Oberfläche.
+  top.position.z = z - d / 2; top.renderOrder = 2; g.add(top);
+  // Bläschen steigen auf und verschwinden an der Oberfläche; beim Eintauchen quillt ein Schwall um die Dose.
   var n = o.bubbles || 160, pos = new Float32Array(n * 3), sz = new Float32Array(n), r = rng(41);
   for (var i = 0; i < n; i++) { pos[i * 3] = (r() - .5) * 6; pos[i * 3 + 1] = -r() * 3; pos[i * 3 + 2] = -r() * 1.6 + .8; sz[i] = r(); }
   var bg = new THREE.BufferGeometry(); bg.setAttribute("position", new THREE.BufferAttribute(pos, 3)); bg.setAttribute("aS", new THREE.BufferAttribute(sz, 1));
-  U.uPx = { value: 300 }; U.uBurst = { value: 0 }; U.uBX = { value: 0 };
   var bub = new THREE.Points(bg, new THREE.ShaderMaterial({
     uniforms: U, transparent: true, depthWrite: false,
     vertexShader: "attribute float aS; uniform float uT, uPx, uBurst, uBX; varying float vA;\n" +
