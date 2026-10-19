@@ -1,4 +1,4 @@
-// Kundenportal: Reiter, Fortschrittsanzeige beim Hochladen, Kopieren der Zugangsdaten und QR-Code für die Authenticator-App.
+// Kundenportal: Reiter, Fortschrittsanzeige beim Hochladen, Nachrichtenfeld, Passwort anzeigen, Kopieren der Zugangsdaten und QR-Code für die Authenticator-App.
 // Ohne JavaScript funktioniert alles genauso, nur ohne Fortschrittsbalken.
 (function () {
   function size(b) {
@@ -123,6 +123,43 @@
       var d = el.value.replace(/\D/g, '').slice(0, 6);
       el.value = d.length > 3 ? d.slice(0, 3) + ' ' + d.slice(3) : d;
     });
+  });
+
+  // Nachrichtenfeld wächst mit dem Text mit, Strg/Cmd + Enter schickt ab.
+  Array.prototype.forEach.call(document.querySelectorAll('textarea[data-kp-grow]'), function (ta) {
+    var grow = function () { ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight + 2, 320) + 'px'; };
+    ta.addEventListener('input', grow);
+    ta.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey) && ta.form) {
+        e.preventDefault();
+        if (ta.form.reportValidity()) ta.form.submit();
+      }
+    });
+  });
+
+  // Passwort bei der Anmeldung kurz anzeigen (hilft beim Abtippen der Zugangsdaten vom Brief).
+  Array.prototype.forEach.call(document.querySelectorAll('input[data-kp-reveal]'), function (pw) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'kp-pw__btn';
+    b.textContent = 'Zeigen';
+    b.setAttribute('aria-label', 'Passwort anzeigen');
+    b.addEventListener('click', function () {
+      var show = pw.type === 'password';
+      pw.type = show ? 'text' : 'password';
+      b.textContent = show ? 'Verbergen' : 'Zeigen';
+      b.setAttribute('aria-label', show ? 'Passwort verbergen' : 'Passwort anzeigen');
+      pw.focus();
+    });
+    // Vor dem Absenden wieder verbergen, damit der Browser es nicht als normales Textfeld merkt.
+    if (pw.form) pw.form.addEventListener('submit', function () { pw.type = 'password'; });
+    pw.parentNode.appendChild(b);
+  });
+
+  // Löschen nur nach Rückfrage.
+  document.addEventListener('submit', function (e) {
+    var f = e.target.closest && e.target.closest('form[data-kp-confirm]');
+    if (f && !window.confirm(f.getAttribute('data-kp-confirm'))) e.preventDefault();
   });
 
   var copy = document.querySelector('[data-kp-copy-btn]');

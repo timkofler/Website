@@ -7,6 +7,9 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/lib.php';
 
+// Alle Uhrzeiten im Portal in österreichischer Zeit, egal wie der Server eingestellt ist.
+date_default_timezone_set('Europe/Vienna');
+
 const KP_DIR = CX_DATA . '/kunden';
 const KP_IDLE = 7200;          // Abmeldung nach 2 Stunden ohne Aktivität
 const KP_FAILS = 5;            // Fehlversuche ...
@@ -330,6 +333,20 @@ function kp_batches(string $u): array
     return $out;
 }
 
+// Uploads, die Tim im Admin noch nicht gesehen hat (wie ungelesene Nachrichten). Gemerkt werden die gesehenen IDs.
+function kp_new_uploads(string $u, array $batches): array
+{
+    $seen = (array) (kp_read_json(kp_user_dir($u) . '/gesehen.json')['uploads'] ?? []);
+    return array_values(array_diff(array_keys($batches), $seen));
+}
+
+function kp_mark_uploads_seen(string $u, array $batches): void
+{
+    if ($batches && kp_new_uploads($u, $batches)) {
+        kp_write_json(kp_user_dir($u) . '/gesehen.json', ['uploads' => array_keys($batches)]);
+    }
+}
+
 function kp_used_bytes(string $u): int
 {
     $sum = 0;
@@ -502,6 +519,46 @@ function kp_notify(string $u, array $acc, array $batch): void
     }
 }
 
+// Der Kunde löscht eine einzelne Datei ($datei) oder den ganzen Upload ($datei leer). Nur Dateien, die im
+// eingang.json dieses Uploads stehen, sonst passiert nichts. Gibt [ok, Meldung] zurück.
+function kp_delete_upload(string $u, string $id, string $datei = ''): array
+{
+    $dir = kp_user_dir($u) . '/' . $id;
+    $batch = kp_valid_batch($id) ? kp_read_json($dir . '/eingang.json') : [];
+    $files = (array) ($batch['dateien'] ?? []);
+    if (!$files) {
+        return [false, 'Diesen Upload gibt es nicht mehr.'];
+    }
+    if ($datei === '') {
+        kp_delete_dir($dir);
+        cx_log('Kundenportal: ' . $u . ' hat den Upload ' . $id . ' gelöscht');
+        return [true, count($files) === 1 ? 'Die Datei wurde gelöscht.' : 'Der Upload mit ' . count($files) . ' Dateien wurde gelöscht.'];
+    }
+    $keep = [];
+    $gone = null;
+    foreach ($files as $d) {
+        if ($gone === null && ($d['datei'] ?? '') === $datei) {
+            $gone = $d;
+        } else {
+            $keep[] = $d;
+        }
+    }
+    if ($gone === null) {
+        return [false, 'Diese Datei gibt es nicht mehr.'];
+    }
+    if (!$keep) {
+        kp_delete_dir($dir);
+    } else {
+        $batch['dateien'] = $keep;
+        if (!kp_write_json($dir . '/eingang.json', $batch)) {
+            return [false, 'Die Datei konnte gerade nicht gelöscht werden. Bitte versuche es noch einmal.'];
+        }
+        @unlink($dir . '/' . basename((string) $gone['datei']));
+    }
+    cx_log('Kundenportal: ' . $u . ' hat ' . $gone['datei'] . ' aus ' . $id . ' gelöscht');
+    return [true, '„' . $gone['original'] . '“ wurde gelöscht.'];
+}
+
 function kp_delete_dir(string $dir): void
 {
     foreach (glob($dir . '/{,.}[!.,!..]*', GLOB_BRACE) ?: [] as $f) {
@@ -629,21 +686,110 @@ function kp_render_messages(array $d, string $ich, string $kundeName, ?callable 
     }
     $seen = (int) ($d['gelesen'][$ich] ?? 0);
     $out = '';
+    $day = '';
     foreach ($d['liste'] as $i => $m) {
         $von = (string) ($m['von'] ?? '');
         $mine = $von === $ich;
         $t = strtotime((string) ($m['zeit'] ?? '')) ?: 0;
+        // Trennlinie mit dem Datum, sobald ein neuer Tag beginnt; an der Nachricht selbst steht dann nur die Uhrzeit.
+        if (date('Y-m-d', $t) !== $day) {
+            $day = date('Y-m-d', $t);
+            $out .= '<li class="kp-day"><span>' . cx_h(kp_day_label($t)) . '</span></li>';
+        }
         $who = $mine ? 'Du' : ($von === 'tim' ? 'Tim' : $kundeName);
+        $ava = $von === 'tim' ? '<img class="kp-m__ava" src="/assets/img/team/tim-portrait.webp" alt="" width="22" height="22">'
+            : '<span class="kp-m__ava">' . kp_initials($kundeName) . '</span>';
         $art = (string) ($m['art'] ?? 'nachricht');
         $tag = $art !== 'nachricht' && isset(KP_ARTEN[$art]) ? '<span class="kp-tag kp-tag--' . $art . '">' . cx_h(KP_ARTEN[$art]) . '</span>' : '';
         $done = $art === 'wunsch' && !empty($m['erledigt']) ? '<span class="kp-tag kp-tag--erledigt">✓ erledigt</span>' : '';
         $new = !$mine && $i >= $seen ? '<span class="kp-tag kp-tag--neu">neu</span>' : '';
         $btn = $doneForm && $art === 'wunsch' ? $doneForm((string) $m['id'], !empty($m['erledigt'])) : '';
         $out .= '<li class="kp-m' . ($mine ? ' kp-m--ich' : '') . (!empty($m['erledigt']) ? ' kp-m--erledigt' : '') . '" id="n-' . cx_h((string) $m['id']) . '">'
-            . '<div class="kp-m__kopf"><b>' . cx_h($who) . '</b> <time datetime="' . cx_h(date('c', $t)) . '">' . date('d.m.Y, H:i', $t) . '</time>' . $tag . $done . $new . '</div>'
+            . '<div class="kp-m__kopf">' . $ava . '<b>' . cx_h($who) . '</b> <time datetime="' . cx_h(date('c', $t)) . '" title="' . date('d.m.Y, H:i', $t) . ' Uhr">' . date('H:i', $t) . '</time>' . $tag . $done . $new . '</div>'
             . '<p>' . nl2br(cx_h((string) ($m['text'] ?? ''))) . '</p>' . $btn . '</li>';
     }
     return '<ol class="kp-chat__liste" data-kp-chat>' . $out . '</ol>';
+}
+
+// Zwei Anfangsbuchstaben für den runden Kreis vor dem Namen.
+function kp_initials(string $n): string
+{
+    $w = preg_split('/[\s\-]+/u', trim($n), -1, PREG_SPLIT_NO_EMPTY) ?: ['?'];
+    $i = mb_substr($w[0], 0, 1) . (count($w) > 1 ? mb_substr((string) end($w), 0, 1) : '');
+    return cx_h(mb_strtoupper($i));
+}
+
+// „Heute“, „Gestern“ oder z. B. „Fr., 16. Oktober“ (mit Jahr, wenn es nicht das aktuelle ist).
+function kp_day_label(int $t): string
+{
+    $d = date('Y-m-d', $t);
+    if ($d === date('Y-m-d')) {
+        return 'Heute';
+    }
+    if ($d === date('Y-m-d', strtotime('-1 day'))) {
+        return 'Gestern';
+    }
+    $wd = ['So.', 'Mo.', 'Di.', 'Mi.', 'Do.', 'Fr.', 'Sa.'][(int) date('w', $t)];
+    $mo = ['Jänner', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'][(int) date('n', $t) - 1];
+    return $wd . ', ' . date('j', $t) . '. ' . $mo . (date('Y', $t) !== date('Y') ? ' ' . date('Y', $t) : '');
+}
+
+// ---------------- Projektstand ----------------
+// Tim stellt im Admin ein, wo das Projekt steht. Der Kunde sieht oben im Portal die Schritte, den Link zur Vorschau
+// und was als Nächstes passiert.
+const KP_PHASEN = [
+    'start' => ['Start', 'Wir legen los', 'Ich richte alles für deine Webseite ein und melde mich hier mit den nächsten Schritten.'],
+    'inhalte' => ['Inhalte', 'Inhalte sammeln', 'Lade Logo, Fotos und Texte hoch. Was mir noch fehlt, steht unten bei „Als Nächstes“.'],
+    'entwurf' => ['Entwurf', 'Entwurf in Arbeit', 'Ich baue gerade deine Seite. Sobald es etwas zu sehen gibt, findest du hier den Link zur Vorschau.'],
+    'feinschliff' => ['Feinschliff', 'Feinschliff', 'Schau dir die Vorschau in Ruhe an und schreib mir, was dir gefällt und was du anders haben möchtest.'],
+    'online' => ['Online', 'Deine Webseite ist online', 'Geschafft! Wenn du später etwas ändern möchtest, schreib mir einfach hier.'],
+];
+
+function kp_phase(array $acc): string
+{
+    $p = (string) ($acc['phase'] ?? '');
+    return isset(KP_PHASEN[$p]) ? $p : 'start';
+}
+
+// Nur echte Webadressen (http/https) als Vorschau-Link, nie javascript: oder Ähnliches.
+function kp_clean_url(string $u): string
+{
+    $u = trim($u);
+    if ($u === '') {
+        return '';
+    }
+    if (!preg_match('~^https?://~i', $u)) {
+        $u = 'https://' . $u;
+    }
+    return filter_var($u, FILTER_VALIDATE_URL) && preg_match('~^https?://[^\s/$.?#][^\s]*$~i', $u) ? $u : '';
+}
+
+// Karte „Stand deiner Webseite“. $edit ist im Admin das Formular zum Ändern (leer für die Kundenseite).
+function kp_project_card(array $acc, bool $forKunde, string $edit = ''): string
+{
+    $phase = kp_phase($acc);
+    $keys = array_keys(KP_PHASEN);
+    $pos = (int) array_search($phase, $keys, true);
+    [, $title, $text] = KP_PHASEN[$phase];
+    $steps = '';
+    foreach ($keys as $i => $key) {
+        $cls = $i < $pos ? 'is-done' : ($i === $pos ? 'is-now' : '');
+        $mark = $i < $pos ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>' : (string) ($i + 1);
+        $steps .= '<li class="' . $cls . '"' . ($i === $pos ? ' aria-current="step"' : '') . '><span class="kp-phasen__dot">' . $mark . '</span><span class="kp-phasen__name">' . cx_h(KP_PHASEN[$key][0]) . '</span></li>';
+    }
+    $fill = round($pos / (count($keys) - 1) * 100);
+    $url = kp_clean_url((string) ($acc['vorschau'] ?? ''));
+    $btn = $url !== '' ? '<a class="btn kp-projekt__btn" href="' . cx_h($url) . '" target="_blank" rel="noopener noreferrer">' . ($phase === 'online' ? 'Webseite ansehen' : 'Vorschau ansehen')
+        . ' <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a>' : '';
+    $next = trim((string) ($acc['naechstes'] ?? ''));
+    $nextHtml = $next !== '' ? '<p class="kp-next"><b>Als Nächstes</b><span>' . nl2br(cx_h($next)) . '</span></p>' : '';
+    if (!$forKunde) {
+        $text = 'So sieht ' . cx_h((string) ($acc['name'] ?? 'der Kunde')) . ' den Stand oben im Portal.';
+    }
+    return '<section class="kp-card kp-projekt" aria-label="Stand der Webseite">'
+        . '<div class="kp-projekt__kopf"><div><span class="kp-eyebrow">Stand deiner Webseite · Schritt ' . ($pos + 1) . ' von ' . count($keys) . '</span>'
+        . '<h2>' . cx_h($title) . '</h2><p>' . ($forKunde ? cx_h($text) : $text) . '</p></div>' . $btn . '</div>'
+        . '<ol class="kp-phasen" style="--fill:' . $fill . '%">' . $steps . '</ol>' . $nextHtml . $edit . '</section>';
 }
 
 // Eingabefeld unter dem Verlauf.
@@ -660,8 +806,8 @@ function kp_message_form(string $action, string $csrf, string $placeholder): str
   {$csrf}
   <input type="hidden" name="aktion" value="schreiben">
   <div class="kp-chips" role="radiogroup" aria-label="Art der Nachricht">{$chips}</div>
-  <label class="form__field"><span class="sr-only">Nachricht</span><textarea name="text" rows="3" required maxlength="{$max}" placeholder="{$ph}"></textarea></label>
-  <button class="btn" type="submit">Senden</button>
+  <label class="form__field"><span class="sr-only">Nachricht</span><textarea name="text" rows="3" required maxlength="{$max}" placeholder="{$ph}" data-kp-grow></textarea></label>
+  <div class="kp-chat__senden"><button class="btn" type="submit">Senden</button><span class="kp-chat__tipp">oder Strg + Enter</span></div>
 </form>
 HTML;
 }
@@ -712,7 +858,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/css/style.css?v=17ee6a2e">
   <link rel="stylesheet" href="/assets/css/tk.css?v=d0173691">
-  <link rel="stylesheet" href="/assets/css/portal.css?v=99cdb261">
+  <link rel="stylesheet" href="/assets/css/portal.css?v=244cf7e9">
 </head>
 <body class="kp">
 <header class="header">
@@ -734,7 +880,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
     <span><a href="/impressum/">Impressum</a> · <a href="/datenschutz/#kundenportal">Datenschutz</a></span>
   </div>
 </footer>
-<script src="/assets/js/portal.js?v=1a022837"></script>
+<script src="/assets/js/portal.js?v=b168dae9"></script>
 </body>
 </html>
 HTML;
