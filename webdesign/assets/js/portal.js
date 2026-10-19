@@ -156,6 +156,12 @@
     pw.parentNode.appendChild(b);
   });
 
+  // Löschen nur nach Rückfrage.
+  document.addEventListener('submit', function (e) {
+    var f = e.target.closest && e.target.closest('form[data-kp-confirm]');
+    if (f && !window.confirm(f.getAttribute('data-kp-confirm'))) e.preventDefault();
+  });
+
   var copy = document.querySelector('[data-kp-copy-btn]');
   var src = document.querySelector('[data-kp-copy]');
   if (copy && src && navigator.clipboard) {

@@ -607,6 +607,7 @@ if ($k !== '' && isset($all[$k])) {
 
     $batchList = kp_batches($k);
     $batches = '';
+    $newUps = kp_new_uploads($k, $batchList);
     foreach ($batchList as $id => $b) {
         $base = KP_ADMIN . '?k=' . rawurlencode($k) . '&amp;e=' . rawurlencode($id);
         $items = '';
@@ -619,7 +620,7 @@ if ($k !== '' && isset($all[$k])) {
         $when = cx_h(date('d.m.Y, H:i', strtotime((string) ($b['zeit'] ?? '')) ?: 0));
         $n = count((array) $b['dateien']);
         $msg = ($b['nachricht'] ?? '') !== '' ? '<p class="kp-msg">' . nl2br(cx_h((string) $b['nachricht'])) . '</p>' : '';
-        $batches .= '<div class="kp-card kp-batch--open"><div class="kp-batch__kopf"><h3>' . $when . ' Uhr</h3><span class="muted">' . cx_h((string) ($b['webseite'] ?? '')) . ' · ' . $n . ($n === 1 ? ' Datei' : ' Dateien') . '</span></div>'
+        $batches .= '<div class="kp-card kp-batch--open' . (in_array($id, $newUps, true) ? ' is-new' : '') . '"><div class="kp-batch__kopf"><h3>' . $when . ' Uhr' . (in_array($id, $newUps, true) ? ' <span class="kp-tag kp-tag--neu">neu</span>' : '') . '</h3><span class="muted">' . cx_h((string) ($b['webseite'] ?? '')) . ' · ' . $n . ($n === 1 ? ' Datei' : ' Dateien') . '</span></div>'
             . $msg . '<ul class="kp-files">' . $items . '</ul>'
             . '<div class="kp-actions"><a class="btn btn--sm" href="' . $base . '&amp;zip=1">Alle als ZIP</a>'
             . '<form method="post" action="' . KP_ADMIN . '?k=' . cx_h($k) . '">' . $csrf . '<input type="hidden" name="aktion" value="eingang_loeschen"><input type="hidden" name="e" value="' . cx_h($id) . '">'
@@ -655,7 +656,10 @@ if ($k !== '' && isset($all[$k])) {
     $msgSub = $unread > 0 ? '<b>' . $unread . ' neu</b>' . ($open ? ' · ' . count($open) . ' offen' : '')
         : ($open ? count($open) . (count($open) === 1 ? ' Wunsch offen' : ' Wünsche offen') : ($msgs['liste'] ? count($msgs['liste']) . ' im Verlauf' : 'noch keine'));
     $badge = $unread > 0 ? '<span class="kp-badge">' . $unread . '</span>' : '';
-    $upSub = $nUploads > 0 ? ($nUploads === 1 ? '1 Upload' : $nUploads . ' Uploads') . ' · ' . $used : 'noch keine';
+    $upSub = ($newUps ? '<b>' . count($newUps) . ' neu</b> · ' : '') . ($nUploads > 0 ? ($nUploads === 1 ? '1 Upload' : $nUploads . ' Uploads') . ' · ' . $used : 'noch keine');
+    $upBadge = $newUps ? '<span class="kp-badge">' . count($newUps) . '</span>' : '';
+    // Wie bei den Nachrichten: einmal angezeigt, gilt der Upload als gesehen.
+    kp_mark_uploads_seen($k, $batchList);
 
     // Projektstand: dieselbe Karte, die der Kunde sieht, dazu das Formular zum Ändern.
     $phOpts = '';
@@ -685,7 +689,7 @@ if ($k !== '' && isset($all[$k])) {
 {$project}
 <nav class="kp-tiles kp-tiles--3" data-kp-tabs data-default="nachrichten" aria-label="Bereiche">
   <a class="kp-tile" href="#nachrichten" data-kp-tab="nachrichten"><span class="kp-tile__txt"><b>Nachrichten {$badge}</b><small>{$msgSub}</small></span></a>
-  <a class="kp-tile" href="#uploads" data-kp-tab="uploads"><span class="kp-tile__txt"><b>Uploads</b><small>{$upSub}</small></span></a>
+  <a class="kp-tile" href="#uploads" data-kp-tab="uploads"><span class="kp-tile__txt"><b>Uploads {$upBadge}</b><small>{$upSub}</small></span></a>
   <a class="kp-tile" href="#zugang" data-kp-tab="zugang"><span class="kp-tile__txt"><b>Zugang</b><small>Daten, Passwort · {$status}</small></span></a>
 </nav>
 <section class="kp-panel" data-kp-panel="nachrichten">
@@ -725,9 +729,10 @@ HTML, $logout);
 }
 
 // ---------------- Übersicht ----------------
-// Jede Zeile ist als Ganzes ein Link in die Kundenkartei. Wer etwas Neues geschrieben hat, steht oben.
+// Jede Zeile ist als Ganzes ein Link in die Kundenkartei. Wer etwas Neues geschrieben oder hochgeladen hat, steht oben.
 $list = [];
 $sumNeu = 0;
+$sumUp = 0;
 $sumOffen = 0;
 foreach ($all as $u => $a) {
     $u = (string) $u;
@@ -737,24 +742,27 @@ foreach ($all as $u => $a) {
     $lastM = $m['liste'] ? end($m['liste']) : null;
     $akt = max(strtotime((string) ($first['zeit'] ?? '')) ?: 0, strtotime((string) ($lastM['zeit'] ?? '')) ?: 0, strtotime((string) ($a['erstellt'] ?? '')) ?: 0);
     $neu = kp_unread($m, 'tim');
+    $neuUp = count(kp_new_uploads($u, $b));
     $offen = count(kp_open_wishes($m));
     $sumNeu += $neu;
+    $sumUp += $neuUp;
     $sumOffen += $offen;
-    $list[] = ['u' => $u, 'a' => $a, 'uploads' => count($b), 'neu' => $neu, 'offen' => $offen, 'akt' => $akt];
+    $list[] = ['u' => $u, 'a' => $a, 'uploads' => count($b), 'neu' => $neu, 'neuUp' => $neuUp, 'offen' => $offen, 'akt' => $akt];
 }
-usort($list, static fn($x, $y) => [$y['neu'], $y['offen'], $y['akt']] <=> [$x['neu'], $x['offen'], $x['akt']]);
+usort($list, static fn($x, $y) => [$y['neu'] + $y['neuUp'], $y['offen'], $y['akt']] <=> [$x['neu'] + $x['neuUp'], $x['offen'], $x['akt']]);
 $rows = '';
 foreach ($list as $r) {
     $a = $r['a'];
     $aktiv = !empty($a['aktiv']);
     $sub = implode(' · ', array_filter([cx_h((string) ($a['firma'] ?? '')), cx_h((string) ($a['webseite'] ?? ''))]));
-    $tags = ($r['neu'] > 0 ? '<span class="kp-badge">' . $r['neu'] . ' neu</span>' : '')
+    $tags = ($r['neu'] > 0 ? '<span class="kp-badge">' . ($r['neu'] === 1 ? '1 neue Nachricht' : $r['neu'] . ' neue Nachrichten') . '</span>' : '')
+        . ($r['neuUp'] > 0 ? '<span class="kp-badge">' . ($r['neuUp'] === 1 ? '1 neuer Upload' : $r['neuUp'] . ' neue Uploads') . '</span>' : '')
         . ($r['offen'] > 0 ? '<span class="kp-pill kp-pill--hot">' . $r['offen'] . ($r['offen'] === 1 ? ' Wunsch offen' : ' Wünsche offen') . '</span>' : '')
         . '<span class="kp-pill kp-pill--phase' . (kp_phase($a) === 'online' ? ' kp-pill--ok' : '') . '">' . cx_h(KP_PHASEN[kp_phase($a)][0]) . '</span>'
         . '<span class="kp-pill">' . ($r['uploads'] === 1 ? '1 Upload' : $r['uploads'] . ' Uploads') . '</span>'
         . (!$aktiv ? '<span class="kp-pill kp-pill--aus">gesperrt</span>' : '');
     $when = $r['akt'] ? date('d.m.Y', $r['akt']) : '–';
-    $rows .= '<li><a class="kp-row' . ($r['neu'] > 0 ? ' is-new' : '') . '" href="/kunden/admin/?k=' . rawurlencode($r['u']) . '">'
+    $rows .= '<li><a class="kp-row' . ($r['neu'] + $r['neuUp'] > 0 ? ' is-new' : '') . '" href="/kunden/admin/?k=' . rawurlencode($r['u']) . '">'
         . '<span class="kp-ava" aria-hidden="true">' . $initials((string) ($a['name'] ?? $r['u'])) . '</span>'
         . '<span class="kp-row__main"><b>' . cx_h((string) ($a['name'] ?? $r['u'])) . '</b><small>' . ($sub !== '' ? $sub . ' · ' : '') . '<code>' . cx_h($r['u']) . '</code></small></span>'
         . '<span class="kp-row__tags">' . $tags . '</span>'
@@ -784,9 +792,9 @@ foreach (ew_all() as $id => $d) {
 $ewTable = $ewRows === '' ? '<p class="muted kp-leer">Noch keine Anfragen über <a href="/entwurf/">tim-kofler.at/entwurf/</a>.</p>' : '<ul class="kp-rows">' . $ewRows . '</ul>';
 $tfHint = tf_active() ? '' : '<a class="kp-neu" href="/kunden/admin/?sicherheit"><b>●</b> Zwei-Faktor-Anmeldung ist noch nicht eingerichtet. Jetzt mit Google Authenticator absichern →</a>';
 $ewBadge = $ewNeu > 0 ? '<span class="kp-badge">' . $ewNeu . '</span>' : '';
-$kBadge = $sumNeu > 0 ? '<span class="kp-badge">' . $sumNeu . '</span>' : '';
+$kBadge = $sumNeu + $sumUp > 0 ? '<span class="kp-badge">' . ($sumNeu + $sumUp) . '</span>' : '';
 $nK = count($list);
-$kSub = ($nK === 1 ? '1 Kunde' : $nK . ' Kunden') . ($sumNeu > 0 ? ' · <b>' . $sumNeu . ($sumNeu === 1 ? ' neue Nachricht' : ' neue Nachrichten') . '</b>' : '') . ($sumOffen > 0 ? ' · ' . $sumOffen . ($sumOffen === 1 ? ' Wunsch offen' : ' Wünsche offen') : '');
+$kSub = ($nK === 1 ? '1 Kunde' : $nK . ' Kunden') . ($sumNeu > 0 ? ' · <b>' . $sumNeu . ($sumNeu === 1 ? ' neue Nachricht' : ' neue Nachrichten') . '</b>' : '') . ($sumUp > 0 ? ' · <b>' . $sumUp . ($sumUp === 1 ? ' neuer Upload' : ' neue Uploads') . '</b>' : '') . ($sumOffen > 0 ? ' · ' . $sumOffen . ($sumOffen === 1 ? ' Wunsch offen' : ' Wünsche offen') : '');
 $ewSub = $ewNeu > 0 ? '<b>' . ($ewNeu === 1 ? '1 neue Anfrage' : $ewNeu . ' neue Anfragen') . '</b>' : 'Gratis-Entwürfe von /entwurf/';
 $neuOpen = $nK === 0 ? ' open' : '';
 

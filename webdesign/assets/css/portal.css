@@ -361,3 +361,16 @@
 }
 .kp-m--ich .kp-m__ava { display: none; }
 @media (max-width: 680px) { .kp-chat__tipp { display: none; } }
+
+/* Eigene Uploads löschen */
+.kp-batch__name { flex: 1; min-width: 0; }
+.kp-del { margin: 0 0 0 auto; flex: none; }
+.kp-del__btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px; border: 1px solid transparent; border-radius: 8px; background: none; color: var(--muted); font: 600 .8rem var(--body); cursor: pointer; transition: color .2s, border-color .2s, background .2s; }
+.kp-del__btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.kp-del__btn:hover, .kp-del__btn:focus-visible { color: var(--bad); border-color: rgba(255,122,122,.45); background: rgba(255,122,122,.08); outline: none; }
+.kp-del__btn--text { padding: 6px 10px; border-color: var(--line-2); }
+.kp-batch__alle { margin: 0 0 14px 48px; }
+@media (max-width: 680px) { .kp-batch ul, .kp-batch p, .kp-batch__alle { margin-left: 0; } }
+@media (max-width: 680px) { .kp-del__btn { padding: 9px; } .kp-del__btn--text { padding: 9px 12px; } }
+.kp-batch--open.is-new { border-color: rgba(255,90,31,.45); box-shadow: inset 3px 0 0 var(--hot); }
+.kp-batch__kopf h3 .kp-tag { margin-left: 6px; vertical-align: 2px; }

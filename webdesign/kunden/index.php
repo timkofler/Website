@@ -89,6 +89,12 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         kp_redirect('/kunden/#dateien');
     }
 
+    if ($action === 'loeschen') {
+        [$ok, $text] = kp_delete_upload($user, cx_field('e', 30), cx_field('f', 120));
+        kp_flash($ok, $text);
+        kp_redirect('/kunden/#dateien');
+    }
+
     if ($action === 'schreiben') {
         [$ok, $res] = kp_add_message($user, 'kunde', cx_field('art', 20), kp_text('text', KP_MSG_MAX));
         if ($ok) {
@@ -185,16 +191,23 @@ $history = '';
 foreach ($batches as $b) {
     $files = '';
     $sum = 0;
+    $del = static fn(string $f, string $label, string $ask) => '<form method="post" action="/kunden/#dateien" class="kp-del" data-kp-confirm="' . cx_h($ask) . '">' . $csrf
+        . '<input type="hidden" name="aktion" value="loeschen"><input type="hidden" name="e" value="' . cx_h((string) $b['id']) . '"><input type="hidden" name="f" value="' . cx_h($f) . '">'
+        . '<button type="submit" class="kp-del__btn" aria-label="' . cx_h($label) . '" title="' . cx_h($label) . '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12"/></svg></button></form>';
     foreach ((array) ($b['dateien'] ?? []) as $d) {
         $ext = strtoupper(pathinfo((string) $d['original'], PATHINFO_EXTENSION));
-        $files .= '<li><span class="kp-ext">' . cx_h(substr($ext, 0, 4)) . '</span><span>' . cx_h((string) $d['original']) . ' <em>' . kp_bytes((int) $d['bytes']) . '</em></span></li>';
+        $orig = (string) $d['original'];
+        $files .= '<li><span class="kp-ext">' . cx_h(substr($ext, 0, 4)) . '</span><span class="kp-batch__name">' . cx_h($orig) . ' <em>' . kp_bytes((int) $d['bytes']) . '</em></span>'
+            . $del((string) $d['datei'], '„' . $orig . '“ löschen', '„' . $orig . '“ wirklich löschen? Das kann nicht rückgängig gemacht werden.') . '</li>';
         $sum += (int) $d['bytes'];
     }
     $when = cx_h(date('d.m.Y, H:i', strtotime((string) ($b['zeit'] ?? 'now')) ?: time()));
     $n = count((array) ($b['dateien'] ?? []));
     $history .= '<details class="kp-batch"><summary><span class="kp-batch__n">' . $n . '</span><span><span><b>' . ($n === 1 ? '1 Datei' : $n . ' Dateien') . '</b> · ' . kp_bytes($sum) . '</span>'
         . '<small>' . $when . ' Uhr · ' . cx_h((string) ($b['webseite'] ?? '')) . '</small></span></summary><ul>' . $files . '</ul>'
-        . (($b['nachricht'] ?? '') !== '' ? '<p>' . nl2br(cx_h((string) $b['nachricht'])) . '</p>' : '') . '</details>';
+        . (($b['nachricht'] ?? '') !== '' ? '<p>' . nl2br(cx_h((string) $b['nachricht'])) . '</p>' : '')
+        . ($n > 1 ? '<div class="kp-batch__alle">' . str_replace(['kp-del__btn" aria-label', '</svg></button>'], ['kp-del__btn kp-del__btn--text" aria-label', '</svg>Ganzen Upload löschen</button>'],
+            $del('', 'Ganzen Upload löschen', 'Alle ' . $n . ' Dateien dieses Uploads löschen? Das kann nicht rückgängig gemacht werden.')) . '</div>' : '') . '</details>';
 }
 if ($history === '') {
     $history = '<p class="muted kp-leer">Noch keine Dateien hochgeladen.</p>';
