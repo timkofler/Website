@@ -95,7 +95,7 @@ ul,ol{list-style:none;padding:0}
 .coffin__pin{position:sticky;top:var(--bar);height:calc(100svh - var(--bar));overflow:hidden;display:grid;place-items:center}
 .coffin__k{position:absolute;left:var(--pad);top:clamp(70px,10vh,110px)}
 .coffin__txt{position:absolute;left:var(--pad);right:var(--pad);top:clamp(110px,16vh,160px);pointer-events:none}
-.coffin__t1,.coffin__t2{position:absolute;left:0;top:0;transition:opacity .6s,transform .8s var(--ease)}
+.coffin__t1,.coffin__t2{position:absolute;left:0;right:0;top:0;transition:opacity .6s,transform .8s var(--ease)}
 .coffin__t2{opacity:0;transform:translateY(20px)}
 .coffin.is-s2 .coffin__t1{opacity:0;transform:translateY(-20px)}
 .coffin.is-s2 .coffin__t2{opacity:1;transform:none}
