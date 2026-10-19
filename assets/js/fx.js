@@ -39,6 +39,24 @@
     });
   }
 
+  // Dashboard-Screenshot liegt beim Laden schräg nach hinten und richtet sich beim Scrollen auf
+  if (shot && !reduce) {
+    shot.classList.add("is-tilt");
+    var tiltTick = false;
+    var tilt = function () {
+      tiltTick = false;
+      var r = shot.getBoundingClientRect(), vh = window.innerHeight;
+      // 1 solange die Oberkante im unteren Drittel liegt, 0 sobald sie ein Fünftel unter dem oberen Rand ist
+      var k = Math.max(0, Math.min(1, (r.top - vh * 0.2) / (vh * 0.5)));
+      k = k * k * (3 - 2 * k);
+      shot.style.setProperty("--sx", (k * 24).toFixed(2) + "deg");
+      shot.style.setProperty("--ss", (1 - k * 0.08).toFixed(4));
+    };
+    window.addEventListener("scroll", function () { if (!tiltTick) { tiltTick = true; requestAnimationFrame(tilt); } }, { passive: true });
+    window.addEventListener("resize", tilt);
+    tilt();
+  }
+
   // Lesefortschritt als dünne Linie am oberen Rand
   var bar = document.createElement("div");
   bar.className = "fx-progress";
