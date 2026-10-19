@@ -29,7 +29,7 @@
 .sf.is-on .sf__bar i { display: block; height: 100%; width: 0; background: var(--sf-accent); }
 @media (max-width: 760px) {
   .sf.is-on { height: 380vh; }
-  .sf.is-on .sf__word { left: 50%; top: var(--sf-word-y-m, 52%); font-size: 29vw; }
+  .sf.is-on .sf__word { left: 50%; top: var(--sf-word-y-m, 52%); font-size: 29vw; color: var(--sf-word-m, var(--sf-word)); }
   .sf.is-on .sf__step { left: 20px; right: 20px; top: var(--sf-copy-y-m, 128px); width: auto; }
   .sf__step h2 { font-size: 32px; }
 }
