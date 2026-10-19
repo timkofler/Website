@@ -1,6 +1,6 @@
 // Umschalter für die drei Friseur-Entwürfe: kleine Leiste unten links, Tasten 1 bis 3 wechseln ebenfalls.
 (function () {
-  var V = [["1", "/beispiele/friseur/", "Haarwerk Studio"], ["2", "/beispiele/friseur/v2/", "Seide"], ["3", "/beispiele/friseur/v3/", "Atelier Nº 9"]];
+  var V = [["1", "/beispiele/friseur/", "Haarwerk Studio"], ["2", "/beispiele/friseur/v2/", "Seide"], ["3", "/beispiele/friseur/v3/", "Mähne"]];
   var path = location.pathname.replace(/index\.html$/, ""), cur = path.indexOf("/v3/") > 0 ? 2 : path.indexOf("/v2/") > 0 ? 1 : 0;
   var nav = document.createElement("nav");
   nav.className = "tkv"; nav.setAttribute("aria-label", "Entwurf wechseln");

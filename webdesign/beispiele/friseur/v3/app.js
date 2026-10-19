@@ -1,6 +1,6 @@
-// Atelier Nº 9: Spiegel mit Beispielfoto. Eine Farbe antippen färbt das Haar live um (Haarmaske vorab berechnet,
-// das Umfärben passiert im Browser auf einer Leinwand, nichts wird hochgeladen). Die neue Farbe läuft von oben ein.
-// Am Computer kommt der Spiegel beim Scrollen in die Mitte und näher, Sätze tauchen daneben auf.
+// Mähne: Oben schaltet man Haarfarben durch. Jede Farbe ist ein echter Look (freigestelltes Foto), die ganze Bühne
+// wechselt in einem Kreis vom angetippten Knopf aus, die Seitenfarben ziehen mit. Darunter stapeln sich die
+// Leistungen als Karten und die Looks laufen am Computer beim Scrollen quer durch.
 import { SERVICES, euro, fillLive } from "/beispiele/friseur/gemeinsam/buchung.js?v=1";
 
 var root = document.documentElement;
@@ -8,7 +8,7 @@ root.classList.add("cx");
 var reduce = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
 var $ = function (s) { return document.querySelector(s); }, $$ = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
 function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
-function smooth(t) { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); }
+var IMG = "/beispiele/friseur/v3/bilder/";
 
 // ---------- Live-Angaben ----------
 function live() {
@@ -18,138 +18,173 @@ function live() {
 }
 live(); setInterval(live, 60000);
 
-// ---------- Farbe am Foto ----------
-// c: Zielfarbe, g/l: Helligkeit anheben (Platin braucht viel), grad: nur die Längen (Balayage).
-var TONES = {
-  natur: { name: "Natur", svc: "f-gloss", btn: "Glossing buchen" },
-  balayage: { name: "Balayage", c: [222, 184, 128], g: 1.9, l: .06, grad: true, svc: "f-balayage", btn: "Balayage buchen" },
-  kupfer: { name: "Kupfer", c: [184, 82, 38], g: 1.55, l: .03, svc: "f-ansatz", btn: "Kupfer buchen" },
-  schoko: { name: "Schoko", c: [84, 48, 30], g: .95, l: 0, svc: "f-ansatz", btn: "Schoko buchen" },
-  platin: { name: "Platin", c: [236, 224, 202], g: 2.2, l: .16, svc: "f-straehnen", btn: "Platin buchen" },
-  rose: { name: "Rosé", c: [214, 150, 152], g: 2.0, l: .08, svc: "f-straehnen", btn: "Rosé buchen" }
-};
-var cvA = $("#cvA"), cvB = $("#cvB"), toneName = $("#toneName"), toneBook = $("#toneBook"), sw = $$("[data-tone]");
-var pix = null, W = 0, H = 0, running = false, cur = "natur";
-function loadImg(src) { return new Promise(function (ok, no) { var i = new Image(); i.onload = function () { ok(i); }; i.onerror = no; i.src = src; }); }
-Promise.all([loadImg($(".arch__img").currentSrc || $(".arch__img").src), loadImg("/beispiele/friseur/v3/bilder/spiegel-haar.png")]).then(function (r) {
-  var img = r[0], mask = r[1]; W = img.naturalWidth; H = img.naturalHeight;
-  [cvA, cvB].forEach(function (c) { c.width = W; c.height = H; });
-  var g = cvA.getContext("2d"); g.drawImage(img, 0, 0);
-  var orig = g.getImageData(0, 0, W, H).data;
-  var t = document.createElement("canvas"); t.width = W; t.height = H; var tg = t.getContext("2d"); tg.drawImage(mask, 0, 0, W, H);
-  var md = tg.getImageData(0, 0, W, H).data, m = new Float32Array(W * H);
-  for (var i = 0; i < W * H; i++) { var x = md[i * 4] / 255; x = clamp((x - .18) / .5, 0, 1); m[i] = x * x * (3 - 2 * x); }
-  pix = { orig: orig, m: m };
-}).catch(function () { sw.forEach(function (b) { b.disabled = true; }); });
+// ---------- Farben ----------
+// bg: Bühne, ink: Schrift darauf, word: großes Wort hinter dem Model, acc: Akzent für den Rest der Seite.
+var TONES = [
+  { k: "kupfer", wide: true, name: "Kupfer", line: "Warm wie Herbstlaub.", svc: "f-ansatz", bg: "#12524c", ink: "#fff3e6", word: "#ff8a5b", acc: "#ff8a5b" },
+  { k: "platin", name: "Platin", line: "Kühl, hell und mutig.", svc: "f-straehnen", bg: "#2141c9", ink: "#ffffff", word: "#f3e7cf", acc: "#8fa6ff" },
+  { k: "schwarz", name: "Schwarz", line: "Glänzt wie Lack.", svc: "f-gloss", bg: "#ff5a36", ink: "#1a0f0b", word: "#ffcfbf", acc: "#ff5a36" },
+  { k: "balayage", name: "Balayage", line: "Sonne, von Hand gemalt.", svc: "f-balayage", bg: "#f4c542", ink: "#1f1608", word: "#ffe48f", acc: "#f4c542" },
+  { k: "rose", name: "Rosé", line: "Zart, aber mit Ansage.", svc: "f-straehnen", bg: "#2b1f5c", ink: "#ffe9f1", word: "#e98ab0", acc: "#e98ab0" },
+  { k: "kirsch", name: "Kirschrot", line: "Kurz, frech und knallig.", svc: "f-ansatz", bg: "#bfe8d6", ink: "#10261f", word: "#e0244b", acc: "#e0244b" }
+];
+function svc(id) { for (var i = 0; i < SERVICES.length; i++) if (SERVICES[i].id === id) return SERVICES[i]; }
+var stage = $("#farben"), layA = $("#layA"), layB = $("#layB"), chips = $$("[data-tone]");
+var cur = 0, busy = false, doneT = 0;
 
-function paint(key) {
-  var T = TONES[key], g = cvB.getContext("2d"), out = g.createImageData(W, H), o = pix.orig, d = out.data, m = pix.m;
-  d.set(o);
-  if (T.c) {
-    var cr = T.c[0] / 255, cg = T.c[1] / 255, cb = T.c[2] / 255;
-    for (var y = 0; y < H; y++) {
-      var ramp = T.grad ? smooth((y / H - .28) / .55) : 1;
-      for (var x = 0; x < W; x++) {
-        var i = y * W + x, k = m[i] * ramp; if (k < .01) continue;
-        var p = i * 4, r = o[p] / 255, gg = o[p + 1] / 255, b = o[p + 2] / 255;
-        var L = .299 * r + .587 * gg + .114 * b, Ln = clamp(L * T.g + T.l, 0, 1), f = .3 + 1.15 * Ln;
-        k *= .88;
-        d[p] = 255 * clamp(r + (clamp(cr * f, 0, 1) - r) * k, 0, 1);
-        d[p + 1] = 255 * clamp(gg + (clamp(cg * f, 0, 1) - gg) * k, 0, 1);
-        d[p + 2] = 255 * clamp(b + (clamp(cb * f, 0, 1) - b) * k, 0, 1);
-      }
-    }
-  }
-  g.putImageData(out, 0, 0);
+function fill(layer, t) {
+  layer.style.setProperty("--l-bg", t.bg); layer.classList.toggle("is-wide", !!t.wide); layer.dataset.k = t.k;
+  layer.style.setProperty("--l-word", t.word);
+  layer.style.setProperty("--l-line", t.ink === "#ffffff" || t.ink.charAt(1) === "f" ? "rgba(255,255,255,.55)" : "rgba(20,12,8,.45)");
+  var chars = t.name.toUpperCase().split("").map(function (c, i) { return '<span style="--i:' + i + '">' + c + "</span>"; }).join("");
+  layer.querySelectorAll(".layer__word").forEach(function (w) { w.innerHTML = chars; });
+  var img = layer.querySelector(".layer__img");
+  if (img.getAttribute("src") !== IMG + "farbe-" + t.k + ".webp") img.src = IMG + "farbe-" + t.k + ".webp";
+  fit(layer);
 }
-function settle() { cvA.getContext("2d").drawImage(cvB, 0, 0); cvB.classList.remove("is-run"); running = false; }
-function tone(key) {
-  if (!pix || key === cur) return;
-  if (running) settle();
-  cur = key; paint(key);
-  sw.forEach(function (b) { b.setAttribute("aria-checked", b.dataset.tone === key); });
-  toneName.textContent = TONES[key].name;
-  toneBook.dataset.svc = TONES[key].svc; toneBook.textContent = TONES[key].btn;
+// Das große Wort füllt die Breite, wird aber nie höher als etwa 40 % der Bühne.
+function fit(layer) {
+  var w = layer.querySelector(".layer__word"); if (!w) return;
+  var W = stage.clientWidth, H = stage.clientHeight;
+  w.style.setProperty("--fs", "100px");
+  var nat = w.scrollWidth || 1, fs = Math.min(100 * W * .94 / nat, H * (innerWidth <= 860 ? .42 : .55));
+  layer.style.setProperty("--fs", fs.toFixed(1) + "px");
+  layer.querySelectorAll(".layer__word").forEach(function (x) { x.style.removeProperty("--fs"); });
+  layer.style.setProperty("--wy", (innerWidth <= 860 ? 40 : 37) + "%");
+}
+function theme(t) {
+  var s = root.style;
+  s.setProperty("--st-bg", t.bg); s.setProperty("--st-ink", t.ink); s.setProperty("--st-acc", t.acc);
+  var m = $('meta[name="theme-color"]'); if (m) m.setAttribute("content", t.bg);
+  chips.forEach(function (b, i) { b.setAttribute("aria-checked", i === cur); });
+  $("#toneNo").textContent = String(cur + 1).padStart(2, "0");
+  $("#toneName").textContent = t.name; $("#toneLine").textContent = t.line;
+  var sv = svc(t.svc); $("#tonePrice").textContent = sv ? euro(sv.price, sv.from) : "";
+  $("#toneBook").dataset.svc = t.svc;
+}
+function settle() {
+  clearTimeout(doneT);
+  fill(layA, TONES[cur]);
+  layB.classList.remove("is-run"); busy = false;
+}
+function tone(i, x, y) {
+  if (i === cur && !busy) return;
+  if (busy) settle();
+  cur = i; var t = TONES[i];
+  fill(layB, t); theme(t);
   if (reduce) { settle(); return; }
-  running = true; void cvB.offsetWidth; cvB.classList.add("is-run");
-  clearTimeout(tone._t); tone._t = setTimeout(settle, 1200);
+  var r = stage.getBoundingClientRect(); x = x == null ? r.width / 2 : x; y = y == null ? r.height * .85 : y;
+  var R = Math.hypot(Math.max(x, r.width - x), Math.max(y, r.height - y)) + 20;
+  layB.style.setProperty("--x", x + "px"); layB.style.setProperty("--y", y + "px"); layB.style.setProperty("--r", R + "px");
+  busy = true;
+  var img = layB.querySelector(".layer__img");
+  var go = function () { if (cur !== i) return; layB.classList.remove("is-run"); void layB.offsetWidth; layB.classList.add("is-run"); doneT = setTimeout(settle, 1250); };
+  if (img.decode) img.decode().then(go, go); else go();
 }
-sw.forEach(function (b) { b.addEventListener("click", function () { tone(b.dataset.tone); }); });
+fill(layA, TONES[0]); theme(TONES[0]);
+chips.forEach(function (b, i) {
+  b.addEventListener("click", function (e) {
+    stopAuto(); stage.classList.add("is-touched");
+    var r = stage.getBoundingClientRect(), br = b.getBoundingClientRect();
+    tone(i, e.clientX ? e.clientX - r.left : br.left + br.width / 2 - r.left, e.clientY ? e.clientY - r.top : br.top + br.height / 2 - r.top);
+  });
+});
+// Pfeiltasten in der Farbauswahl
+$(".chips").addEventListener("keydown", function (e) {
+  var d = e.key === "ArrowRight" || e.key === "ArrowDown" ? 1 : e.key === "ArrowLeft" || e.key === "ArrowUp" ? -1 : 0; if (!d) return;
+  e.preventDefault(); stopAuto(); var n = (cur + d + TONES.length) % TONES.length; chips[n].focus(); chips[n].click();
+});
+addEventListener("load", function () { TONES.forEach(function (t) { var im = new Image(); im.src = IMG + "farbe-" + t.k + ".webp"; }); });
 
-// ---------- Leistungen aus der gemeinsamen Liste ----------
-var GROUPS = { Damen: ["Schnitt, Föhnen, Hochsteck", "schnitt"], Farbe: ["Für dich gemischt", "farbe"], Herren: ["Schnitt und Bart", "herren"], Kinder: ["Bis 16 Jahre", "locken"] };
+// Von selbst weiterschalten, bis jemand selbst eine Farbe wählt. Pausiert, wenn die Bühne nicht zu sehen ist.
+var autoT = 0, autoOn = !reduce && !/standbild/.test(location.search), stageVis = true;
+function next() {
+  if (!autoOn) return;
+  if (stageVis && !document.hidden && !busy) {
+    var n = (cur + 1) % TONES.length, r = stage.getBoundingClientRect(), br = chips[n].getBoundingClientRect();
+    tone(n, br.left + br.width / 2 - r.left, br.top + br.height / 2 - r.top);
+  }
+  autoT = setTimeout(next, 4200);
+}
+function stopAuto() { autoOn = false; clearTimeout(autoT); }
+if (autoOn) autoT = setTimeout(next, 3200);
+if ("IntersectionObserver" in window) new IntersectionObserver(function (es) { stageVis = es[0].isIntersecting; }, { threshold: .35 }).observe(stage);
+
+// Maus verschiebt Wort und Model leicht gegeneinander.
+var mouse = { x: 0, y: 0, tx: 0, ty: 0 };
+if (!reduce && matchMedia("(pointer: fine)").matches) {
+  stage.addEventListener("pointermove", function (e) { var r = stage.getBoundingClientRect(); mouse.tx = (e.clientX - r.left) / r.width - .5; mouse.ty = (e.clientY - r.top) / r.height - .5; });
+  stage.addEventListener("pointerleave", function () { mouse.tx = mouse.ty = 0; });
+}
+
+// ---------- Leistungen als Karten ----------
+var CARDS = [
+  { g: "Damen", t: "Schnitt", sub: "Waschen, Schneiden, Föhnen. Mit Beratung, die dich ernst nimmt.", img: "svc-schnitt.webp", cap: "Schnitt mit Lena", bg: "#ff5a36", ink: "#1a0f0b" },
+  { g: "Farbe", t: "Farbe", sub: "Für dich gemischt, nie aus der Tube. Den genauen Preis sagen wir dir vorher.", img: "svc-farbe.webp", cap: "Balayage mit Sophie", bg: "#2141c9", ink: "#ffffff" },
+  { g: "Herren", t: "Herren", sub: "Klassisch, Fade oder einfach kürzer. Samstag schon ab acht Uhr.", img: "svc-herren.webp", cap: "Schnitt & Bart mit Jonas", bg: "#12524c", ink: "#fff3e6" },
+  { g: "Kinder", t: "Kids", sub: "Mit Geduld, Zöpfen und einem Lolli für danach.", img: "look-zoepfe.webp", cap: "Zöpfe flechten", bg: "#f4c542", ink: "#1f1608" }
+];
 (function () {
   var html = "";
-  Object.keys(GROUPS).forEach(function (g) {
-    html += '<div class="svc__g" data-peek="' + GROUPS[g][1] + '"><h3>' + g + '<small>' + GROUPS[g][0] + '</small></h3><div>';
-    SERVICES.filter(function (s) { return s.g === g; }).forEach(function (s) {
-      html += '<div class="svc__row" data-book data-svc="' + s.id + '"><span class="svc__n">' + s.name + '</span><span class="svc__m">' + s.min + ' Min.</span><span class="svc__p">' + euro(s.price, s.from) + '</span><button type="button" class="svc__b" aria-label="' + s.name + ' buchen">→</button></div>';
+  CARDS.forEach(function (c, k) {
+    html += '<article class="card" style="--k:' + k + ";--cb:" + c.bg + ";--ci:" + c.ink + '"><div><h3 class="card__h">' + c.t + '</h3><p class="card__sub">' + c.sub + '</p><div class="card__rows">';
+    SERVICES.filter(function (s) { return s.g === c.g; }).forEach(function (s) {
+      html += '<div class="row" role="button" tabindex="0" data-book data-svc="' + s.id + '" aria-label="' + s.name + ' buchen"><span class="row__n">' + s.name + '</span><span class="row__m">' + s.min + ' Min.</span><span class="row__p">' + euro(s.price, s.from) + "</span></div>";
     });
-    html += "</div></div>";
+    html += '</div></div><div class="card__img"><img src="' + IMG + c.img + '" alt="" width="512" height="640" loading="lazy"><span>' + c.cap + "</span></div></article>";
   });
-  $("#svcList").innerHTML = html;
+  $("#stack").innerHTML = html;
+  $("#stack").addEventListener("keydown", function (e) { if ((e.key === "Enter" || e.key === " ") && e.target.matches(".row")) { e.preventDefault(); e.target.click(); } });
 })();
-// Vorschaubild folgt der Maus über den Leistungen.
-var peek = $("#peek"), peekImg = $("#peekImg"), pk = { x: 0, y: 0, tx: 0, ty: 0, on: false };
-if (matchMedia("(pointer: fine)").matches && !reduce) {
-  $("#svcList").addEventListener("pointermove", function (e) {
-    var g = e.target.closest(".svc__g"); pk.tx = e.clientX + 150; pk.ty = e.clientY;
-    if (!pk.on) { pk.x = pk.tx; pk.y = pk.ty; }
-    if (g) { var src = "/beispiele/friseur/v3/bilder/" + g.dataset.peek + ".webp"; if (peekImg.getAttribute("src") !== src) peekImg.src = src; }
-    pk.on = !!e.target.closest(".svc__row"); peek.classList.toggle("is-on", pk.on);
-  });
-  $("#svcList").addEventListener("pointerleave", function () { pk.on = false; peek.classList.remove("is-on"); });
-}
+var cards = $$(".card");
 
-// ---------- Stimmen ----------
-var Q = [
-  ["„Ich hab im Spiegel zuerst meine Mama gesehen, dann mich. Das Platin war genau das, was ich mich nie getraut hätte.“", "Anna, Musterort"],
-  ["„Endlich jemand, der mit Locken umgehen kann. Mira hat mir gezeigt, wie ich sie ohne Föhn in Form bringe.“", "Theresa, Nachbarort"],
-  ["„Online gebucht, pünktlich drangekommen, und der Bart war nie so sauber. Ich komm wieder.“", "Florian, Musterort"]
-], qi = 0, voice = $("#voice");
-function quote(d) {
-  qi = (qi + d + Q.length) % Q.length; voice.classList.add("is-swap");
-  setTimeout(function () { voice.querySelector("[data-q]").textContent = Q[qi][0]; voice.querySelector("[data-c]").textContent = Q[qi][1]; $("#vNo").textContent = (qi + 1) + " / " + Q.length; voice.classList.remove("is-swap"); }, 380);
+// ---------- Looks quer (nur Computer) ----------
+var looks = $("#looks"), track = $("#looksTrack"), pin = { on: false, dist: 0, top: 0 };
+function pinOn() { return !reduce && innerWidth > 860; }
+function measureLooks() {
+  pin.on = pinOn(); root.classList.toggle("cx-pin", pin.on);
+  if (!pin.on) { track.style.transform = ""; looks.style.removeProperty("--lh"); return; }
+  track.style.transform = "";
+  pin.dist = Math.max(0, track.scrollWidth - innerWidth);
+  looks.style.setProperty("--lh", (innerHeight + pin.dist) + "px");
+  pin.top = looks.getBoundingClientRect().top + scrollY;
 }
-$$("[data-v]").forEach(function (b) { b.addEventListener("click", function () { clearInterval(quote._t); quote(+b.dataset.v); }); });
-if (!reduce) quote._t = setInterval(function () { quote(1); }, 8000);
 
 // ---------- Einblenden ----------
-var ins = $$(".intro__big, .nums li, .head > *, .svc__g, .steps__list li, .steps__side > *, .who, .salon__in > *");
-ins.forEach(function (el, k) { el.setAttribute("data-in", ""); el.style.transitionDelay = (k % 4) * .08 + "s"; });
+var ins = $$("[data-in]");
 if (reduce || !("IntersectionObserver" in window)) ins.forEach(function (el) { el.classList.add("is-in"); });
 else {
   var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); } }); }, { threshold: .15 });
-  ins.forEach(function (el) { io.observe(el); });
+  ins.forEach(function (el, k) { el.style.transitionDelay = (k % 3) * .08 + "s"; io.observe(el); });
 }
 
-// ---------- Spiegel kommt näher (nur Computer) ----------
-var mirror = $(".mirror"), arch = $("#arch"), copy = $(".mirror__copy"), after = $$(".mirror__after p"), nav = $(".nav"), sticky = $("#sticky");
-var geo = { dx: 0, s: 1.25 };
-function zoomOn() { return !reduce && innerWidth > 900; }
-function measure() {
-  arch.style.transform = "";
-  var r = arch.getBoundingClientRect(), pin = $(".mirror__pin").getBoundingClientRect();
-  geo.dx = (pin.left + pin.width / 2) - (r.left + r.width / 2);
-  var frame = arch.querySelector(".arch__frame").getBoundingClientRect();
-  geo.s = clamp((pin.height * .9) / frame.height, 1, 1.32);
-  geo.top = mirror.getBoundingClientRect().top + scrollY; geo.h = mirror.offsetHeight;
-}
-function frame() {
-  var y = scrollY;
-  nav.classList.toggle("is-line", y > 10);
-  sticky.classList.toggle("is-on", y > innerHeight * .7);
-  if (pk.on || peek.classList.contains("is-on")) { pk.x += (pk.tx - pk.x) * .18; pk.y += (pk.ty - pk.y) * .18; peek.style.transform = "translate(" + (pk.x - 120) + "px," + (pk.y - 150) + "px) scale(" + (pk.on ? 1 : .7) + ")"; }
-  if (zoomOn()) {
-    var p = clamp((y - geo.top) / (geo.h - innerHeight), 0, 1), e = smooth(p / .6);
-    arch.style.transform = "translateX(" + (geo.dx * e).toFixed(1) + "px) scale(" + (1 + (geo.s - 1) * e).toFixed(4) + ")";
-    copy.style.opacity = (1 - smooth(e * 1.7)).toFixed(3);
-    copy.style.transform = "translateX(" + (-80 * e).toFixed(1) + "px)";
-    copy.style.pointerEvents = e > .4 ? "none" : "";
-    after.forEach(function (el, k) { var a = smooth((p - .45 - k * .1) / .2); el.style.opacity = a.toFixed(3); el.style.transform = "translateY(" + (24 * (1 - a)).toFixed(1) + "px)"; });
+// ---------- Ein Takt für alles ----------
+var nav = $("#nav"), sticky = $("#sticky"), band = $("#band"), layers = $(".stage__layers"), bandX = 0, lastY = scrollY, t0 = performance.now();
+function frame(now) {
+  var y = scrollY, dt = Math.min(50, now - t0); t0 = now;
+  var sh = stage.offsetHeight;
+  nav.classList.toggle("is-solid", y > sh - 70); nav.classList.toggle("is-tint", y > 8);
+  sticky.classList.toggle("is-on", y > sh * .8);
+  if (!reduce) {
+    if (y < sh) layers.style.transform = "translateY(" + (y * .28).toFixed(1) + "px)";
+    mouse.x += (mouse.tx - mouse.x) * .06; mouse.y += (mouse.ty - mouse.y) * .06;
+    $$(".layer__word").forEach(function (w) { w.style.translate = (mouse.x * -26).toFixed(1) + "px " + (mouse.y * -14).toFixed(1) + "px"; });
+    $$(".layer__img").forEach(function (im) { im.style.translate = (mouse.x * 18).toFixed(1) + "px " + (mouse.y * 8).toFixed(1) + "px"; });
+    // Laufband: läuft langsam und zieht beim Scrollen an
+    var v = Math.abs(y - lastY); bandX -= dt * .045 + v * .6; var half = band.scrollWidth / 2; if (-bandX > half) bandX += half;
+    band.style.transform = "translateX(" + bandX.toFixed(1) + "px)";
+    // Karten werden kleiner, sobald die nächste drüberrutscht
+    for (var k = 0; k < cards.length - 1; k++) {
+      var a = cards[k].getBoundingClientRect(), b = cards[k + 1].getBoundingClientRect();
+      var p = clamp((a.bottom - b.top) / a.height, 0, 1);
+      cards[k].style.setProperty("--s", (1 - p * .06).toFixed(4));
+    }
+    if (pin.on) { var pp = clamp((y - pin.top) / Math.max(1, looks.offsetHeight - innerHeight), 0, 1); track.style.transform = "translateX(" + (-pp * pin.dist).toFixed(1) + "px)"; }
   }
+  lastY = y;
   requestAnimationFrame(frame);
 }
-function reset() { if (!zoomOn()) { arch.style.transform = ""; copy.style.opacity = ""; copy.style.transform = ""; } measure(); }
-addEventListener("resize", reset); addEventListener("load", measure);
-measure(); requestAnimationFrame(frame);
+function resize() { fit(layA); fit(layB); measureLooks(); }
+addEventListener("resize", resize); addEventListener("load", resize);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(resize);
+resize(); requestAnimationFrame(frame);
