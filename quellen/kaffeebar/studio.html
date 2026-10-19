@@ -1,0 +1,38 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:"Inter";src:url(/beispiele/_shared/fonts/inter.woff2) format("woff2");font-weight:100 900}
+@font-face{font-family:"Delafield";src:url(/beispiele/_shared/fonts/delafield.woff2) format("woff2")}
+@font-face{font-family:"SpaceMono";src:url(/beispiele/_shared/fonts/spacemono-700.woff2) format("woff2");font-weight:700}
+@font-face{font-family:"SpaceMono";src:url(/beispiele/_shared/fonts/spacemono-400.woff2) format("woff2");font-weight:400}
+html,body{margin:0;background:transparent}#h{width:var(--w,900px);height:var(--h,900px)}
+</style></head><body><div id="h"></div>
+<script type="module">
+import * as THREE from "/beispiele/_shared/vendor/three-r180/three.module.min.js";
+import { RoomEnvironment } from "/beispiele/_shared/vendor/three-r180/RoomEnvironment.js";
+import * as P from "/beispiele/kaffeebar/produkte.js";
+const q = new URLSearchParams(location.search), kind = q.get("p") || "cup";
+document.documentElement.style.setProperty("--w", (q.get("w")||900)+"px"); document.documentElement.style.setProperty("--h", (q.get("h")||900)+"px");
+await P.fontsReady();
+const host = document.getElementById("h"), W = host.clientWidth, H = host.clientHeight;
+const r = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+r.setSize(W, H); r.setPixelRatio(1); r.outputColorSpace = THREE.SRGBColorSpace; r.toneMapping = THREE.ACESFilmicToneMapping; r.toneMappingExposure = 1;
+host.appendChild(r.domElement);
+const scene = new THREE.Scene(), pm = new THREE.PMREMGenerator(r);
+scene.environment = pm.fromScene(new RoomEnvironment(), .04).texture; scene.environmentIntensity = +(q.get("env")||.3);
+const key = new THREE.DirectionalLight("#fff1dc", +(q.get("key")||3.2)); key.position.set(-4, 3, 2.5); scene.add(key);
+const rim = new THREE.DirectionalLight("#ffd2a0", 1.2); rim.position.set(4, 2, -3); scene.add(rim);
+const cam = new THREE.PerspectiveCamera(24, W / H, .1, 100);
+let obj;
+if (kind === "cup") obj = P.cup(THREE, {});
+if (kind === "espresso") obj = P.cup(THREE, { lid: false, h: .8, r0: .27, r1: .38, top: P.surface(THREE, "crema"), size: "120 ML" });
+if (kind === "melange") obj = P.cup(THREE, { lid: false, top: P.surface(THREE, "latte") });
+if (kind === "iced") obj = P.iced(THREE, {});
+if (kind === "matcha") obj = P.iced(THREE, { matcha: true });
+if (kind === "bag") obj = P.bag(THREE, {});
+scene.add(obj);
+const hh = obj.userData.h || 1.3, tilt = +(q.get("tilt") || 0.12);
+obj.rotation.y = +(q.get("ry") || 0);
+cam.position.set(0, hh * .5 + hh * tilt * 4, hh * 4.6); cam.lookAt(0, hh * .47, 0);
+r.render(scene, cam);
+window.done = true;
+</script></body></html>
