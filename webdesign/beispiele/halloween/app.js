@@ -1,22 +1,56 @@
-// Spukhof: Countdown, Fledermäuse, Blitze, Spinne, Sarg beim Scrollen, Gäste, Taschenlampe, Kürbisse, Kerzen, Hexe, Tickets, Sound.
-// Alles ohne Bibliotheken, alles ohne Tracking. Bei "weniger Bewegung" bleibt vieles still.
+// Gruselnacht in der Villa Hollerbach – Beispiel-Entwurf.
+// Alles hier ist Spielerei ohne Server: Videos laufen nur in Sichtweite, Ton erst nach Klick.
 (function () {
   var reduce = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
-  var fine = !!(window.matchMedia && matchMedia("(pointer: fine)").matches);
-  var BAR = 45, $ = function (s) { return document.querySelector(s); }, $$ = function (s) { return document.querySelectorAll(s); };
+  var $ = function (s) { return document.querySelector(s); }, $$ = function (s) { return document.querySelectorAll(s); };
   function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
-  function damp(cur, to, k, dt) { return cur + (to - cur) * (1 - Math.exp(-k * dt)); }
   function onView(els, cb, th, once) {
-    if (!("IntersectionObserver" in window)) { els.forEach(cb); return; }
-    var o = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { cb(e.target); if (once !== false) o.unobserve(e.target); } }); }, { threshold: th || .3 });
-    els.forEach(function (el) { o.observe(el); });
+    if (!("IntersectionObserver" in window)) { els.forEach(function (el) { cb(el, true); }); return; }
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { cb(e.target, e.isIntersecting); if (e.isIntersecting && once) io.unobserve(e.target); }); }, { threshold: th || 0 });
+    els.forEach(function (el) { io.observe(el); });
   }
 
-  // ---------- Titel: Buchstaben einzeln, damit sie zittern ----------
-  $$("[data-split]").forEach(function (el) {
+  // ---------- Hintergrundvideos: spielen nur, solange sie im Bild sind ----------
+  onView([].slice.call($$(".bgv")), function (v, on) {
+    if (on) { if (v.preload === "none") v.preload = "auto"; var p = v.play(); if (p && p.catch) p.catch(function () {}); } else v.pause();
+  }, 0);
+
+  // ---------- Titel: Buchstaben einzeln, damit sie flackern ----------
+  $$("[data-split]").forEach(function (el, wi) {
     var t = el.textContent; el.textContent = "";
     t.split("").forEach(function (c, i) { var s = document.createElement("span"); s.className = "ch"; s.style.setProperty("--i", i); s.textContent = c; el.appendChild(s); });
+    // Ein paar Tropfen, die aus dem Titel laufen
+    if (!reduce) [.12, .31, .5, .72, .9].forEach(function (x, i) { var d = document.createElement("i"); d.className = "drop"; d.style.left = (x * 100) + "%"; d.style.setProperty("--dd", (-(i * 1.3 + wi * .7)) + "s"); el.appendChild(d); });
   });
+
+  // ---------- Schreibmaschine (Kicker im Hero, Brief) ----------
+  function typeInto(el, text, speed, done) {
+    var i = 0; el.textContent = "";
+    (function step() {
+      el.textContent = text.slice(0, ++i);
+      if (i < text.length) setTimeout(step, speed + (text[i - 1] === "." || text[i - 1] === ":" ? 220 : Math.random() * 40));
+      else { el.classList.add("is-done"); if (done) done(); }
+    })();
+  }
+  $$(".type[data-type]").forEach(function (el) { if (reduce) { el.textContent = el.dataset.type; el.classList.add("is-done"); } else setTimeout(function () { typeInto(el, el.dataset.type, 38); }, 600); });
+
+  // Brief: Zeile für Zeile, Buchstabe für Buchstabe
+  var letter = $("#letter"), lines = [].slice.call($$("#lbody [data-line]")), typed = false;
+  lines.forEach(function (p) { var t = p.textContent; p.textContent = ""; t.split("").forEach(function (c) { var s = document.createElement("span"); s.textContent = c; p.appendChild(s); }); });
+  function typeLetter() {
+    if (typed) return; typed = true;
+    if (reduce) { $$("#lbody span").forEach(function (s) { s.classList.add("is-on"); }); letter.classList.add("is-done"); return; }
+    var li = 0;
+    (function nextLine() {
+      if (li >= lines.length) { letter.classList.add("is-done"); return; }
+      var spans = lines[li].children, k = 0;
+      (function tick() {
+        if (k < spans.length) { spans[k].classList.add("is-on"); if (k % 3 === 0) key(); k++; setTimeout(tick, 22 + Math.random() * 30); }
+        else { li++; setTimeout(nextLine, 420); }
+      })();
+    })();
+  }
+  onView([letter], function (el, on) { if (on) typeLetter(); }, .35, true);
 
   // ---------- Countdown bis zum nächsten 31. Oktober, 19 Uhr ----------
   var cd = { d: $("#cd-d"), h: $("#cd-h"), m: $("#cd-m"), s: $("#cd-s") };
@@ -29,161 +63,135 @@
   }
   tickCd(); setInterval(tickCd, 1000);
 
-  // ---------- Fledermäuse auf einer Leinwand, weichen der Maus aus ----------
-  var cv = $("#bats"), ctx = cv.getContext("2d"), bats = [], mx = -999, my = -999, W = 0, H = 0;
-  function sizeBats() { W = cv.width = cv.clientWidth; H = cv.height = cv.clientHeight; }
-  sizeBats(); addEventListener("resize", sizeBats);
-  var NB = innerWidth < 700 ? 14 : 26;
-  for (var i = 0; i < NB; i++) bats.push({ x: Math.random() * 1600, y: Math.random() * 500, vx: .6 + Math.random() * 1.2, vy: 0, s: .5 + Math.random() * .8, f: Math.random() * 6, fs: .25 + Math.random() * .25 });
-  $("#hero").addEventListener("pointermove", function (e) { var r = cv.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; });
-  function drawBat(b, t) {
-    var flap = Math.sin(t * 9 * b.fs + b.f) * .9, s = 14 * b.s;
-    ctx.save(); ctx.translate(b.x, b.y); ctx.scale(s / 14, s / 14); ctx.fillStyle = "#090612";
-    ctx.beginPath(); ctx.ellipse(0, 0, 3.2, 5, 0, 0, 7); ctx.fill();
-    [1, -1].forEach(function (d) {
-      ctx.save(); ctx.scale(d, 1); ctx.rotate(flap * .5);
-      ctx.beginPath(); ctx.moveTo(2, -1); ctx.quadraticCurveTo(10, -14, 24, -8); ctx.quadraticCurveTo(18, -3, 20, 2); ctx.quadraticCurveTo(14, -1, 12, 4); ctx.quadraticCurveTo(8, 1, 4, 5); ctx.closePath(); ctx.fill(); ctx.restore();
-    });
-    ctx.restore();
-  }
-  var heroVis = true;
-  onView([$("#hero")], function () {}, 0, false);
-  new IntersectionObserver(function (es) { heroVis = es[0].isIntersecting; }).observe($("#hero"));
-  function batsFrame(t) {
-    if (heroVis && !reduce) {
-      ctx.clearRect(0, 0, W, H);
-      for (var i = 0; i < bats.length; i++) {
-        var b = bats[i], dx = b.x - mx, dy = b.y - my, dd = dx * dx + dy * dy;
-        if (dd < 22000) { var l = Math.sqrt(dd) || 1; b.vx += dx / l * .5; b.vy += dy / l * .5; }
-        b.vy += Math.sin(t * .001 + b.f) * .02; b.vy *= .96; b.vx = damp(b.vx, .6 + b.s, .02, 1);
-        b.x += b.vx * (1 + b.s); b.y += b.vy;
-        if (b.x > W + 40) { b.x = -40; b.y = Math.random() * H * .6; } if (b.y < -20) b.y = -20; if (b.y > H * .8) b.y = H * .8;
-        drawBat(b, t * .001);
-      }
-    }
-    requestAnimationFrame(batsFrame);
-  }
-  requestAnimationFrame(batsFrame);
-
-  // ---------- Blitze in unregelmäßigen Abständen ----------
-  var flash = $("#flash"), bolt = $("#bolt");
+  // ---------- Blitze in unregelmäßigen Abständen, Augen im Dunkel ----------
+  var flash = $("#flash"), eyes = $("#eyes"), heroVis = true;
+  onView([$("#hero")], function (el, on) { heroVis = on; }, 0);
   function lightning() {
-    if (!reduce && heroVis && !document.hidden) {
-      bolt.style.left = (10 + Math.random() * 70) + "%";
-      flash.classList.remove("is-on"); bolt.classList.remove("is-on"); void flash.offsetWidth;
-      flash.classList.add("is-on"); bolt.classList.add("is-on"); thunder();
+    if (heroVis && !reduce && !document.hidden) { flash.classList.remove("is-on"); void flash.offsetWidth; flash.classList.add("is-on"); thunder(); }
+    setTimeout(lightning, 9000 + Math.random() * 14000);
+  }
+  setTimeout(lightning, 4500);
+  function peek() { if (heroVis && !document.hidden) { eyes.classList.add("is-on"); setTimeout(function () { eyes.classList.remove("is-on"); }, 2600 + Math.random() * 2000); } setTimeout(peek, 12000 + Math.random() * 16000); }
+  setTimeout(peek, 7000);
+
+  // ---------- Das Grab: Film aus Einzelbildern, läuft mit dem Scrollen ----------
+  var gsec = $("#grab"), gpin = gsec.querySelector(".grave__pin"), gc = $("#gravec"), gx = gc.getContext("2d"), gbar = $("#gravebar"), gtxt = [].slice.call($$(".grave__t"));
+  var FR = 75, frames = [], gLoaded = false, gShown = -1, gStep = -1, gp = 0, gTarget = 0;
+  function loadFrames() {
+    if (gLoaded) return; gLoaded = true;
+    for (var i = 1; i <= FR; i++) { var im = new Image(); im.decoding = "async"; im.src = "/beispiele/halloween/media/film/f" + String(i).padStart(2, "0") + ".webp"; frames.push(im); }
+    frames[0].onload = function () { gShown = -1; };
+  }
+  function sizeG() { var r = Math.min(1.5, window.devicePixelRatio || 1); gc.width = Math.round(gc.clientWidth * r); gc.height = Math.round(gc.clientHeight * r); gShown = -1; }
+  function paintG(p) {
+    var n = frames.length; if (!n) return;
+    var i = Math.round(p * (n - 1)), im = frames[i];
+    if (!im.naturalWidth) { for (var k = i; k >= 0; k--) if (frames[k].naturalWidth) { im = frames[k]; i = k; break; } }
+    if (!im.naturalWidth || i === gShown) return; gShown = i;
+    var W = gc.width, H = gc.height, iw = im.naturalWidth, ih = im.naturalHeight, mob = W < H;
+    var s = mob ? Math.max(W / iw, H / ih) : H / ih, w = iw * s, h = ih * s, X = (W - w) / 2, Y = (H - h) / 2;
+    gx.fillStyle = "#000"; gx.fillRect(0, 0, W, H);
+    gx.drawImage(im, X, Y, w, h);
+    if (!mob) { // Seitlich weich ins Schwarz auslaufen lassen
+      var g1 = gx.createLinearGradient(X, 0, X + w * .3, 0); g1.addColorStop(0, "rgba(0,0,0,1)"); g1.addColorStop(1, "rgba(0,0,0,0)"); gx.fillStyle = g1; gx.fillRect(X, 0, w * .3, H);
+      var g2 = gx.createLinearGradient(X + w, 0, X + w * .7, 0); g2.addColorStop(0, "rgba(0,0,0,1)"); g2.addColorStop(1, "rgba(0,0,0,0)"); gx.fillStyle = g2; gx.fillRect(X + w * .7, 0, w * .3, H);
     }
-    setTimeout(lightning, 5000 + Math.random() * 9000);
+    var g3 = gx.createLinearGradient(0, H * .55, 0, H); g3.addColorStop(0, "rgba(0,0,0,0)"); g3.addColorStop(1, "rgba(0,0,0,.85)"); gx.fillStyle = g3; gx.fillRect(0, H * .55, W, H * .45);
   }
-  setTimeout(lightning, 2500);
-
-  // ---------- Spinne: beim Antippen lässt sie sich fallen ----------
-  var spider = $("#spider");
-  spider.addEventListener("click", function () {
-    spider.style.setProperty("--spy", (30 + Math.random() * 30) + "vh"); spider.classList.add("is-drop"); squeak();
-    setTimeout(function () { spider.classList.remove("is-drop"); }, 2600);
-  });
-
-  // ---------- Sarg: Fortschritt im Abschnitt → wackeln, Deckel auf, Vampir steigt auf ----------
-  var cofSec = $("#sarg"), cof = $("#cof"), cofBar = $("#cofbar"), pos = {};
-  var band = $(".band__track"), bandSec = $(".band");
-  function measure() {
-    var r = cofSec.getBoundingClientRect(); pos.cof = { top: r.top + scrollY, h: r.height, span: Math.max(1, r.height - (innerHeight - BAR)) };
-    var b = bandSec.getBoundingClientRect(); pos.band = { top: b.top + scrollY, h: b.height };
+  function textsG(p) {
+    var k = clamp(Math.floor(p * 4), 0, 3);
+    if (k !== gStep) { gStep = k; gtxt.forEach(function (t, i) { t.classList.toggle("is-on", i === k); }); if (k === 3) growlLow(); }
   }
-  measure(); addEventListener("resize", measure); addEventListener("load", measure);
-  if ("ResizeObserver" in window) new ResizeObserver(measure).observe(document.body);
-  var S = { cof: 0, vel: 0, band: 0 }, lastY = scrollY, last = performance.now(), nav = $("#nav"), navSolid = false, stage2 = false, creaked = false;
-  var links = $$(".nav__l a"), linkOn = -1;
+  onView([gsec], function (el, on) { if (on) loadFrames(); }, 0);
+  if (!reduce) { sizeG(); addEventListener("resize", sizeG); }
+
+  // ---------- Ein Takt für alles, was vom Scrollen abhängt ----------
+  var nav = $("#nav"), navSolid = false, links = $$(".nav__l a"), linkOn = -1, last = performance.now();
+  var secs = ["warnung", "grab", "bewohner", "programm", "tickets"].map(function (id) { return document.getElementById(id); });
   function tick(now) {
     var dt = Math.min(.05, (now - last) / 1000); last = now;
-    var y = scrollY, vh = innerHeight, v = dt > 0 ? (y - lastY) / dt : 0; lastY = y;
-    S.vel = damp(S.vel, clamp(v, -4000, 4000), 6, dt);
+    var y = scrollY;
     if ((y > 10) !== navSolid) { navSolid = y > 10; nav.classList.toggle("is-solid", navSolid); }
-    var on = -1; links.forEach(function (a, k) { var t = $(a.getAttribute("href")); if (t && t.getBoundingClientRect().top < vh * .4) on = k; });
-    if (on !== linkOn) { linkOn = on; links.forEach(function (a, k) { a.classList.toggle("is-cur", k === on); }); }
+    // Grab
     if (!reduce) {
-      var p = pos.cof ? clamp((y - pos.cof.top + BAR) / pos.cof.span, 0, 1) : 0;
-      S.cof = damp(S.cof, p, 7, dt);
-      if (y + vh > pos.cof.top && y < pos.cof.top + pos.cof.h) {
-        var q = S.cof;
-        // 0–.3 wackeln, .3–.6 Deckel geht auf, .5–1 Vampir steigt heraus.
-        var shake = q < .32 ? Math.sin(now * .04) * 6 * clamp(q / .1, 0, 1) * (1 - clamp((q - .22) / .1, 0, 1)) : 0;
-        var lid = clamp((q - .3) / .3, 0, 1), le = 1 - Math.pow(1 - lid, 3);
-        var vp = clamp((q - .5) / .4, 0, 1), ve = 1 - Math.pow(1 - vp, 2);
-        cof.style.setProperty("--shx", shake.toFixed(1) + "px"); cof.style.setProperty("--shr", (shake * .3).toFixed(2) + "deg");
-        cof.style.setProperty("--lid", (-le * 150).toFixed(1) + "deg");
-        cof.style.setProperty("--vy", (70 - ve * 70).toFixed(1) + "%"); cof.style.setProperty("--vs", (.8 + ve * .3).toFixed(3));
-        cof.style.setProperty("--mist", le.toFixed(2));
-        cofBar.style.transform = "scaleX(" + q.toFixed(3) + ")";
-        if ((q > .45) !== stage2) { stage2 = q > .45; cofSec.classList.toggle("is-s2", stage2); }
-        if (lid > .05 && !creaked) { creaked = true; creak(); }
-        if (lid < .02) creaked = false;
-      }
-      if (pos.band && y + vh > pos.band.top - 200 && y < pos.band.top + pos.band.h + 200) {
-        S.band -= (50 + Math.abs(S.vel) * .3) * dt * (S.vel < -5 ? -1 : 1);
-        var w = band.scrollWidth / 2; if (w) S.band = ((S.band % w) - w) % w;
-        band.style.transform = "translate3d(" + S.band.toFixed(1) + "px,0,0)";
-      }
+      var r = gsec.getBoundingClientRect(), total = gsec.offsetHeight - gpin.offsetHeight;
+      gTarget = clamp(-r.top / total, 0, 1);
+      gp += (gTarget - gp) * (1 - Math.exp(-9 * dt));
+      if (r.bottom > 0 && r.top < innerHeight) { paintG(gp); textsG(gp); gbar.style.transform = "scaleX(" + gp.toFixed(3) + ")"; }
     }
-    if (tk.on) { tk.cx = damp(tk.cx, tk.x, 12, dt); tk.cy = damp(tk.cy, tk.y, 12, dt); dark.style.setProperty("--tx", tk.cx.toFixed(1) + "px"); dark.style.setProperty("--ty", tk.cy.toFixed(1) + "px"); }
+    // Aktiver Menüpunkt
+    var on = -1; secs.forEach(function (s, i) { if (s && s.getBoundingClientRect().top < innerHeight * .45) on = i; });
+    if (on !== linkOn) { linkOn = on; links.forEach(function (a, i) { a.classList.toggle("is-on", i === on); }); }
     requestAnimationFrame(tick);
   }
 
-  // ---------- Gäste: Antippen hält die Reaktion kurz fest (für Handy ohne Hover) ----------
-  $$(".mon").forEach(function (m) {
-    function go() { m.classList.add("is-on"); growl(m.className); clearTimeout(m._t); m._t = setTimeout(function () { m.classList.remove("is-on"); }, 1800); }
-    m.addEventListener("click", go);
-    m.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+  // ---------- Akten: Video läuft beim Berühren, am Handy beim Antippen ----------
+  var files = [].slice.call($$(".file"));
+  function fileOn(f, on) { var v = f.querySelector("video"); if (on) { if (v.preload === "none") v.preload = "auto"; var p = v.play(); if (p && p.catch) p.catch(function () {}); } else v.pause(); }
+  files.forEach(function (f) {
+    f.addEventListener("mouseenter", function () { fileOn(f, true); growl(f.dataset.snd); });
+    f.addEventListener("mouseleave", function () { fileOn(f, false); });
+    f.addEventListener("focus", function () { fileOn(f, true); });
+    f.addEventListener("blur", function () { fileOn(f, false); });
+    f.addEventListener("click", function () {
+      var was = f.classList.contains("is-on");
+      files.forEach(function (o) { if (o !== f) { o.classList.remove("is-on"); fileOn(o, false); } });
+      f.classList.toggle("is-on", !was); fileOn(f, !was); if (!was) growl(f.dataset.snd);
+    });
   });
+  // Posterbilder der Akten vorladen, sobald der Abschnitt in die Nähe kommt
+  onView([$("#bewohner")], function (el, on) { if (on) files.forEach(function (f) { f.querySelector("video").preload = "metadata"; }); }, 0, true);
 
-  // ---------- Taschenlampe ----------
-  var torch = $("#torch"), dark = $("#dark"), tk = { on: false, x: 0, y: 0, cx: 0, cy: 0 };
+  // ---------- Taschenlampe: der Raum ist dunkel, irgendwo steht er ----------
+  var torch = $("#lampe"), dark = $("#dark"), who = $("#who"), tk = { on: false, x: 0, y: 0, cx: 0, cy: 0 }, found = false;
+  var spots = [[62, 38], [22, 52], [78, 64], [40, 30]], sp = spots[Math.floor(Math.random() * spots.length)];
+  torch.style.setProperty("--wx", sp[0] + "%"); torch.style.setProperty("--wy", sp[1] + "%");
   function torchPos(e) { var r = torch.getBoundingClientRect(); tk.x = e.clientX - r.left; tk.y = e.clientY - r.top; if (!tk.on) { tk.cx = tk.x; tk.cy = tk.y; } tk.on = true; torch.classList.add("is-lit"); }
   torch.addEventListener("pointermove", torchPos); torch.addEventListener("pointerdown", torchPos);
-  torch.addEventListener("pointerleave", function () { tk.on = false; });
-  torch.addEventListener("touchmove", function (e) { if (e.cancelable) e.preventDefault(); }, { passive: false });
-  if (!fine) { dark.style.setProperty("--r", "130px"); $("#torchhint").textContent = "Finger drauf und durch den Gang wischen. Nicht erschrecken."; }
-  // Ohne Maus zeigt die Lampe anfangs ein Stück, damit man weiß, was zu tun ist.
-  dark.style.setProperty("--tx", "50%"); dark.style.setProperty("--ty", "60%");
-
-  // ---------- Kürbisse: fünf Gesichter, alle anzünden ----------
-  var pks = $("#pks"), FACES = [
-    "M66 128l20-24 20 24ZM114 128l20-24 20 24ZM104 148l6-10 6 10ZM58 164q52 46 104 0l-10 4-6 12-10-10-10 12-12-10-12 10-10-12-10 10-6-12Z",
-    "M62 120l26-10 2 26ZM158 120l-26-10-2 26ZM100 150h20l-10 12ZM60 170q50-30 100 0l-8 12-10-8-12 10-10-8-10 8-12-10-10 8-10-8Z",
-    "M70 110a14 14 0 1 0 28 0a14 14 0 1 0-28 0ZM122 110a14 14 0 1 0 28 0a14 14 0 1 0-28 0ZM102 140l8-14 8 14ZM74 160q36 40 72 0q-36 12-72 0Z",
-    "M64 126l24-16-4 24ZM156 126l-24-16 4 24ZM100 150l10-12 10 12ZM70 170l16-12 8 14 16-16 16 16 8-14 16 12-6 14H76Z",
-    "M60 124q24-26 48 0q-24 2-48 0ZM112 124q24-26 48 0q-24 2-48 0ZM102 146l8-10 8 10ZM60 160l16 14 10-14 12 18 12-18 10 14 16-14q-6 34-38 34t-38-34Z"
-  ];
-  var lit = 0, prize = $("#prize");
-  FACES.forEach(function (d, k) {
-    var b = document.createElement("button"); b.className = "pk"; b.type = "button"; b.setAttribute("aria-label", "Kürbis " + (k + 1) + " anzünden"); b.setAttribute("aria-pressed", "false");
-    b.innerHTML = '<svg viewBox="0 0 220 220" aria-hidden="true"><path d="M104 46c-2-18 6-30 20-36l8 8c-12 6-14 16-12 28Z" fill="#3d5a1e"/><ellipse cx="72" cy="128" rx="54" ry="74" fill="#c9530b"/><ellipse cx="148" cy="128" rx="54" ry="74" fill="#c9530b"/><ellipse cx="110" cy="128" rx="56" ry="80" fill="#f07818"/><path d="M96 56q-8 72 0 148M124 56q8 72 0 148" stroke="#c9530b" stroke-width="3" fill="none"/><path class="pf" d="' + d + '"/></svg>';
-    b.addEventListener("click", function () {
-      var on = !b.classList.contains("is-lit"); b.classList.toggle("is-lit", on); b.setAttribute("aria-pressed", on); lit += on ? 1 : -1; pop(on);
-      if (lit === FACES.length) { prize.innerHTML = "Alle fünf brennen. Du bekommst einen Gratis-Hexenpunsch!<small>Zeig diesen Bildschirm an der Bar. Code: KÜRBIS-666</small>"; batBurst(prize); cackle(); }
-      else prize.textContent = lit ? lit + " von 5 … weiter!" : "";
-    });
-    pks.appendChild(b);
-  });
-  // Kleiner Fledermausschwarm aus dem Text heraus, als Belohnung.
-  function batBurst(from) {
-    if (reduce) return;
-    var r = from.getBoundingClientRect();
-    for (var i = 0; i < 14; i++) {
-      var b = document.createElement("i"); b.textContent = "🦇"; b.style.cssText = "position:fixed;left:" + (r.left + r.width / 2) + "px;top:" + (r.top + r.height / 2) + "px;font-size:" + (18 + Math.random() * 22) + "px;z-index:500;pointer-events:none";
-      document.body.appendChild(b);
-      b.animate([{ transform: "translate(0,0) rotate(0)", opacity: 1 }, { transform: "translate(" + ((Math.random() - .5) * 700) + "px," + (-200 - Math.random() * 400) + "px) rotate(" + ((Math.random() - .5) * 360) + "deg)", opacity: 0 }], { duration: 1400 + Math.random() * 800, easing: "cubic-bezier(.2,.7,.3,1)" }).onfinish = (function (el) { return function () { el.remove(); }; })(b);
+  torch.addEventListener("pointerleave", function () { tk.on = false; torch.classList.remove("is-lit"); });
+  torch.addEventListener("touchmove", function (e) { if (tk.on) e.preventDefault(); }, { passive: false });
+  function torchFrame() {
+    if (tk.on) {
+      tk.cx += (tk.x - tk.cx) * .18; tk.cy += (tk.y - tk.cy) * .18;
+      dark.style.setProperty("--tx", tk.cx.toFixed(1) + "px"); dark.style.setProperty("--ty", tk.cy.toFixed(1) + "px");
+      if (!found) {
+        var r = torch.getBoundingClientRect(), wx = r.width * sp[0] / 100, wy = r.height * sp[1] / 100;
+        if (Math.hypot(tk.cx - wx, tk.cy - wy) < Math.min(r.width, r.height) * .14) {
+          found = true; torch.classList.add("is-found"); $("#found").textContent = "Er hat dich gesehen."; scream(.5);
+          setTimeout(function () { torch.classList.remove("is-found"); found = false; sp = spots[Math.floor(Math.random() * spots.length)]; torch.style.setProperty("--wx", sp[0] + "%"); torch.style.setProperty("--wy", sp[1] + "%"); }, 4000);
+        }
+      }
     }
+    requestAnimationFrame(torchFrame);
   }
+  requestAnimationFrame(torchFrame);
+  // Ohne Maus zeigt die Lampe anfangs ein Stück, damit man weiß, was zu tun ist.
+  onView([torch], function (el, on) { if (on && !tk.on) { var r = torch.getBoundingClientRect(); tk.x = tk.cx = r.width * .3; tk.y = tk.cy = r.height * .55; tk.on = true; torch.classList.add("is-lit"); } }, .4, true);
 
-  // ---------- Programm: Kerzen gehen nacheinander an, Hexe fliegt einmal durch ----------
-  onView($$("#tl li"), function (li) { li.classList.add("is-lit"); }, .5);
-  var witch = $("#witchfly"), flown = false;
-  onView([$("#programm")], function () { if (!flown && !reduce) { flown = true; witch.classList.add("is-fly"); cackle(); } }, .2);
+  // ---------- Der Knopf: nicht drücken ----------
+  var scare = $("#scare"), scarev = $("#scarev"), nopeafter = $("#nopeafter"), presses = 0, scaring = false;
+  var AFTER = ["Du hast es gewusst. Und trotzdem.", "Noch einmal? Er merkt sich Gesichter.", "Gut. Jetzt weiß er, wo du wohnst.", "Es reicht. Wirklich."];
+  function doScare() {
+    if (scaring) return; scaring = true;
+    scarev.currentTime = 0; scarev.preload = "auto";
+    scare.classList.add("is-on"); scare.setAttribute("aria-hidden", "false");
+    var p = scarev.play(); if (p && p.catch) p.catch(function () {});
+    if (!reduce) document.body.classList.add("is-shaking");
+    scream(1);
+    // Blut an der Scheibe: Spritzer verteilen, Rinnsal von oben
+    var sp = $("#splats"); sp.innerHTML = "";
+    for (var i = 0; i < 7; i++) { var el = document.createElementNS("http://www.w3.org/2000/svg", "svg"); el.innerHTML = '<use href="#s' + (1 + i % 3) + '"/>'; el.style.left = (5 + Math.random() * 80) + "%"; el.style.top = (Math.random() * 75) + "%"; el.style.setProperty("--s", (90 + Math.random() * 220) + "px"); el.style.setProperty("--r", (Math.random() * 360) + "deg"); el.style.animationDelay = (.9 + Math.random() * .8) + "s, " + (6 + Math.random() * 2) + "s"; sp.appendChild(el); }
+    var bt = $("#bloodtop"); bt.classList.remove("is-off"); setTimeout(function () { bt.classList.add("is-on"); }, 1700); setTimeout(function () { bt.classList.remove("is-on"); bt.classList.add("is-off"); }, 7500);
+    setTimeout(function () {
+      scare.classList.remove("is-on"); scare.setAttribute("aria-hidden", "true"); scarev.pause(); document.body.classList.remove("is-shaking"); scaring = false;
+      nopeafter.textContent = AFTER[Math.min(presses, AFTER.length - 1)]; presses++;
+    }, 1900);
+  }
+  $("#nopebtn").addEventListener("click", doScare);
+  onView([$("#nicht")], function (el, on) { if (on) scarev.preload = "auto"; }, 0, true);
 
-  // ---------- Friedhof: Hände kommen beim Sichtbarwerden heraus ----------
-  onView([$("#yard")], function (el) { el.classList.add("is-in"); }, .3);
+  // ---------- Programm: Kerzen flackern nur im Bild ----------
+  onView([].slice.call($$(".tl__c video")), function (v, on) { if (on) { if (v.preload === "none") v.preload = "auto"; var p = v.play(); if (p && p.catch) p.catch(function () {}); } else v.pause(); }, 0);
 
   // ---------- Tickets ----------
   var dlg = $("#tdlg"), tq = $("#tq"), tsum = $("#tsum"), qty = 1, price = 0;
@@ -197,43 +205,48 @@
   });
   $("#tform").addEventListener("submit", function (e) {
     e.preventDefault(); var n = e.target.name.value.trim(); if (!n) { e.target.name.focus(); return; }
-    $("#tname").textContent = n; $("#tdlgform").hidden = true; $("#tdone").hidden = false; cackle();
+    $("#tname").textContent = n; $("#tdlgform").hidden = true; $("#tdone").hidden = false; growlLow();
   });
 
-  // ---------- Sound: alles synthetisch (Wind, Donner, Knarzen, Quietschen, Lachen), erst nach Klick ----------
-  var AC = window.AudioContext || window.webkitAudioContext, ac = null, wind = null, sndOn = false, sndBtn = $("#snd");
+  // ---------- Ton: alles synthetisch (Wind, Herzschlag, Donner, Schrei, Knurren), erst nach Klick ----------
+  var AC = window.AudioContext || window.webkitAudioContext, ac = null, wind = null, heart = null, sndOn = false, sndBtn = $("#snd");
   function audio() { if (!ac && AC) ac = new AC(); if (ac && ac.state === "suspended") ac.resume(); return ac; }
   function noise(dur) { var a = audio(), buf = a.createBuffer(1, a.sampleRate * dur, a.sampleRate), d = buf.getChannelData(0); for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; var s = a.createBufferSource(); s.buffer = buf; return s; }
   function startWind() {
     var a = audio(); if (!a) return;
-    var s = noise(4); s.loop = true; var f = a.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = 400; f.Q.value = .6;
-    var g = a.createGain(); g.gain.value = .0; s.connect(f); f.connect(g); g.connect(a.destination); s.start();
-    var lfo = a.createOscillator(), lg = a.createGain(); lfo.frequency.value = .13; lg.gain.value = 250; lfo.connect(lg); lg.connect(f.frequency); lfo.start();
-    g.gain.linearRampToValueAtTime(.06, a.currentTime + 2); wind = { s: s, g: g, lfo: lfo };
+    var s = noise(4); s.loop = true; var f = a.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = 320; f.Q.value = .5;
+    var g = a.createGain(); g.gain.value = 0; s.connect(f); f.connect(g); g.connect(a.destination); s.start();
+    var lfo = a.createOscillator(), lg = a.createGain(); lfo.frequency.value = .11; lg.gain.value = 200; lfo.connect(lg); lg.connect(f.frequency); lfo.start();
+    g.gain.linearRampToValueAtTime(.05, a.currentTime + 2); wind = { s: s, g: g, lfo: lfo };
+    heart = setInterval(function () { if (!document.hidden) { beat(); setTimeout(beat, 260); } }, 1100);
   }
-  function stopWind() { if (!wind) return; wind.g.gain.linearRampToValueAtTime(0, ac.currentTime + .8); var w = wind; setTimeout(function () { w.s.stop(); w.lfo.stop(); }, 900); wind = null; }
+  function stopWind() { if (!wind) return; wind.g.gain.linearRampToValueAtTime(0, ac.currentTime + .8); var w = wind; setTimeout(function () { w.s.stop(); w.lfo.stop(); }, 900); wind = null; clearInterval(heart); heart = null; }
+  function beat() { var a = audio(), o = a.createOscillator(), g = a.createGain(); o.type = "sine"; o.frequency.setValueAtTime(70, a.currentTime); o.frequency.exponentialRampToValueAtTime(40, a.currentTime + .18); g.gain.setValueAtTime(.001, a.currentTime); g.gain.exponentialRampToValueAtTime(.35, a.currentTime + .02); g.gain.exponentialRampToValueAtTime(.001, a.currentTime + .2); o.connect(g); g.connect(a.destination); o.start(); o.stop(a.currentTime + .22); }
   function thunder() {
     if (!sndOn) return; var a = audio(), s = noise(2.5), f = a.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = 120;
     var g = a.createGain(); g.gain.setValueAtTime(.001, a.currentTime); g.gain.exponentialRampToValueAtTime(.5, a.currentTime + .08); g.gain.exponentialRampToValueAtTime(.001, a.currentTime + 2.4);
     s.connect(f); f.connect(g); g.connect(a.destination); s.start();
   }
-  function creak() {
-    if (!sndOn) return; var a = audio(), o = a.createOscillator(), g = a.createGain(); o.type = "sawtooth"; o.frequency.setValueAtTime(90, a.currentTime); o.frequency.linearRampToValueAtTime(160, a.currentTime + 1.2); o.frequency.linearRampToValueAtTime(70, a.currentTime + 1.8);
-    var f = a.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = 500; g.gain.setValueAtTime(.0001, a.currentTime); g.gain.exponentialRampToValueAtTime(.08, a.currentTime + .1); g.gain.exponentialRampToValueAtTime(.0001, a.currentTime + 1.9);
-    var lfo = a.createOscillator(), lg = a.createGain(); lfo.frequency.value = 18; lg.gain.value = 30; lfo.connect(lg); lg.connect(o.frequency); lfo.start();
-    o.connect(f); f.connect(g); g.connect(a.destination); o.start(); o.stop(a.currentTime + 2); lfo.stop(a.currentTime + 2);
-  }
-  function squeak() { blip(1400, 600, .25, "square", .05); }
-  function pop(on) { blip(on ? 300 : 500, on ? 700 : 150, .12, "triangle", .08); }
+  function key() { if (!sndOn) return; var a = audio(), s = noise(.04), f = a.createBiquadFilter(); f.type = "highpass"; f.frequency.value = 2500; var g = a.createGain(); g.gain.setValueAtTime(.05, a.currentTime); g.gain.exponentialRampToValueAtTime(.001, a.currentTime + .04); s.connect(f); f.connect(g); g.connect(a.destination); s.start(); }
   function blip(f0, f1, dur, type, vol) {
     if (!sndOn) return; var a = audio(), o = a.createOscillator(), g = a.createGain(); o.type = type; o.frequency.setValueAtTime(f0, a.currentTime); o.frequency.exponentialRampToValueAtTime(f1, a.currentTime + dur);
     g.gain.setValueAtTime(vol, a.currentTime); g.gain.exponentialRampToValueAtTime(.0001, a.currentTime + dur); o.connect(g); g.connect(a.destination); o.start(); o.stop(a.currentTime + dur);
   }
-  function cackle() { if (!sndOn) return; [0, .13, .26, .42, .6].forEach(function (t, i) { setTimeout(function () { blip(500 - i * 40, 380 - i * 40, .12, "sawtooth", .05); }, t * 1000); }); }
-  function growl(cls) {
+  function growlLow() { blip(110, 60, 1.4, "sawtooth", .08); }
+  function growl(kind) {
     if (!sndOn) return;
-    if (cls.indexOf("wolf") > -1) blip(180, 420, 1.1, "sawtooth", .07); else if (cls.indexOf("ghost") > -1) blip(600, 250, .8, "sine", .06); else if (cls.indexOf("witch") > -1) cackle();
-    else if (cls.indexOf("zombie") > -1) blip(120, 90, .7, "sawtooth", .08); else blip(260, 180, .3, "square", .05);
+    if (kind === "zombie") blip(120, 80, .8, "sawtooth", .09); else if (kind === "clown") { [0, .14, .3].forEach(function (t, i) { setTimeout(function () { blip(420 - i * 50, 300 - i * 50, .14, "sawtooth", .05); }, t * 1000); }); }
+    else if (kind === "bride") blip(700, 260, 1.2, "sine", .05); else if (kind === "doll") blip(1800, 900, .3, "square", .035);
+    else if (kind === "window") { [0, .22, .44].forEach(function (t) { setTimeout(function () { blip(160, 90, .1, "triangle", .12); }, t * 1000); }); }
+    else growlLow();
+  }
+  // Schrei: Rauschen plus steigender Ton, kurz und unangenehm
+  function scream(vol) {
+    if (!sndOn) return; var a = audio(), t = a.currentTime;
+    var s = noise(1.2), f = a.createBiquadFilter(); f.type = "bandpass"; f.frequency.setValueAtTime(900, t); f.frequency.exponentialRampToValueAtTime(2600, t + .6); f.Q.value = 1.2;
+    var g = a.createGain(); g.gain.setValueAtTime(.001, t); g.gain.exponentialRampToValueAtTime(.35 * vol, t + .05); g.gain.exponentialRampToValueAtTime(.001, t + 1.1); s.connect(f); f.connect(g); g.connect(a.destination); s.start();
+    var o = a.createOscillator(), og = a.createGain(); o.type = "sawtooth"; o.frequency.setValueAtTime(380, t); o.frequency.exponentialRampToValueAtTime(1500, t + .5); o.frequency.exponentialRampToValueAtTime(700, t + 1);
+    og.gain.setValueAtTime(.001, t); og.gain.exponentialRampToValueAtTime(.12 * vol, t + .08); og.gain.exponentialRampToValueAtTime(.001, t + 1); o.connect(og); og.connect(a.destination); o.start(); o.stop(t + 1.05);
   }
   sndBtn.addEventListener("click", function () {
     sndOn = !sndOn; sndBtn.setAttribute("aria-pressed", sndOn); sndBtn.querySelector(".snd__ic").textContent = sndOn ? "🔊" : "🔇";
