@@ -42,7 +42,7 @@
   // Schwebender Hinweis auf die Beispielseiten (nicht auf den Beispielseiten selbst)
   if (/^\/beispiele\//.test(location.pathname)) return;
   try { if (sessionStorage.getItem("tk-float-zu") === "1") return; } catch (e) {}
-  var pics = ["cafe", "friseur", "werkstatt", "gasthaus", "baeckerei", "fleischerei", "tischlerei", "maler", "massage"];
+  var pics = ["cafe", "friseur", "werkstatt", "gasthaus", "baeckerei", "fleischerei", "tischlerei", "maler", "massage", "kaffeebar"];
   var a = document.createElement("a");
   a.className = "tk-float";
   a.href = "/beispiele/";
