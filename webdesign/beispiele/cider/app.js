@@ -132,7 +132,7 @@ function pose(y) {
 }
 
 // ---------- Ein Takt für alles ----------
-var rauchSec = $("#reserve"), prog = $("#prog"), bgs = $$(".bg__l"), gl = null, last = 0, S = { y: scrollY, b: false };
+var rauchSec = $("#reserve"), prog = $("#prog"), bgs = $$(".bg__l"), gl = null, glErr = 0, last = 0, S = { y: scrollY, b: false };
 var ptr = { x: 0, y: 0, px: 0, py: 0 };
 if (fine) addEventListener("pointermove", function (e) { ptr.x = e.clientX / innerWidth - .5; ptr.y = e.clientY / innerHeight - .5; }, { passive: true });
 function tick(t) {
@@ -149,7 +149,8 @@ function tick(t) {
   for (var k = 0; k < 4; k++) { var o = p["b" + k].toFixed(3); if (bgs[k]._o !== o) { bgs[k]._o = o; bgs[k].style.opacity = o; } }
   var b = y >= marks.b; if (b !== S.b) { S.b = b; rauchSec.classList.toggle("is-b", b); }
   prog.style.transform = "scaleX(" + (y / Math.max(1, maxY())).toFixed(4) + ")";
-  if (gl) gl(dt, t / 1000, p);
+  // Ein Fehler in einem Bild darf den Takt nicht beenden: dann steht die Dose für immer.
+  if (gl) { try { gl(dt, t / 1000, p); } catch (err) { glErr++; if (glErr > 3) gl = null; } }
   requestAnimationFrame(tick);
 }
 requestAnimationFrame(tick);
@@ -175,7 +176,7 @@ function labels(y, t, geo) {
 
 // ---------- 3D ----------
 if (!reduce && webglOk()) {
-  var start = function () { Promise.all([loadThree(), import("/beispiele/cider/dose.js?v=3"), import("/beispiele/_shared/vendor/three-r180/RoomEnvironment.js")]).then(function (m) { build(m[0], m[1], m[2].RoomEnvironment); }).catch(function () {}); };
+  var start = function () { Promise.all([loadThree(), import("/beispiele/cider/dose.js?v=5"), import("/beispiele/_shared/vendor/three-r180/RoomEnvironment.js")]).then(function (m) { build(m[0], m[1], m[2].RoomEnvironment); }).catch(function () {}); };
   if (document.readyState === "complete") start(); else addEventListener("load", start);
 }
 
@@ -186,6 +187,8 @@ function build(THREE, D, RoomEnvironment) {
     var dpr = Math.min(window.devicePixelRatio || 1, mobile ? 1.5 : 1.25);
     R.setPixelRatio(dpr); R.outputColorSpace = THREE.SRGBColorSpace; R.toneMapping = THREE.ACESFilmicToneMapping; R.toneMappingExposure = 1.1;
     host.appendChild(R.domElement);
+    // Verliert das Handy den Grafikkontext (Speicher knapp), läuft es nach der Wiederherstellung weiter statt einzufrieren.
+    R.domElement.addEventListener("webglcontextlost", function (e) { e.preventDefault(); }, false);
     var scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(30, 1, .1, 60);
     cam.position.set(0, .12, 6); cam.lookAt(0, 0, 0);
     var pm = new THREE.PMREMGenerator(R); scene.environment = pm.fromScene(new RoomEnvironment(), .04).texture; scene.environmentIntensity = .55; pm.dispose();
@@ -266,12 +269,12 @@ function build(THREE, D, RoomEnvironment) {
       // Am Handy ändert die ein- und ausfahrende Adressleiste die Höhe; nur bei echten Änderungen neu aufbauen.
       if (w === W && Math.abs(h - H) < 120) return;
       W = w; H = h; R.setSize(w, h, false); aspect = w / h; cam.aspect = aspect; cam.updateProjectionMatrix();
-      rt.setSize(Math.round(w * R.getPixelRatio() * .5), Math.round(h * R.getPixelRatio() * .5)); MU.uRes.value.set(w * R.getPixelRatio(), h * R.getPixelRatio());
+      rt.setSize(Math.max(2, Math.round(w * R.getPixelRatio() * (mobile ? .4 : .5))), Math.max(2, Math.round(h * R.getPixelRatio() * (mobile ? .4 : .5)))); MU.uRes.value.set(w * R.getPixelRatio(), h * R.getPixelRatio());
       sp.material.uniforms.uPx.value = h * R.getPixelRatio(); MU.uPx.value = h * R.getPixelRatio(); splash.material.uniforms.uPx.value = drip.material.uniforms.uPx.value = h * R.getPixelRatio();
     }
     size(); addEventListener("resize", size);
 
-    var intro = 0, frames = 0, slow = 0, t0 = performance.now() / 1000, wasUnder = false, ripT = 9, dripT = 0, cssKey = "";
+    var rtOk = true, intro = 0, frames = 0, slow = 0, t0 = performance.now() / 1000, wasUnder = false, ripT = 9, dripT = 0, cssKey = "";
     var geo = { top: 0, bottom: 0, surf: -99 };
     gl = function (dt, t, q) {
       size();
@@ -337,10 +340,13 @@ function build(THREE, D, RoomEnvironment) {
       rimL.color.copy(col); rimR.color.copy(col); rimL.intensity = 3 + q.rings * 2.5; rimR.intensity = 2.5 + q.ped * 1.5;
       if (q.sign > .01) { rimL.color.lerp(gold, q.sign); rimR.color.lerp(white, q.sign * .5); }
 
-      if (most.visible) {
-        most.visible = false; splash.visible = drip.visible = false;
-        R.setRenderTarget(rt); R.clear(); R.render(scene, cam); R.setRenderTarget(null);
-        most.visible = true; splash.visible = drip.visible = true; MU.uHas.value = 1;
+      if (most.visible && rtOk) {
+        try {
+          most.visible = false; splash.visible = drip.visible = false;
+          R.setRenderTarget(rt); R.clear(); R.render(scene, cam); R.setRenderTarget(null);
+          MU.uHas.value = 1;
+        } catch (err) { rtOk = false; R.setRenderTarget(null); MU.uHas.value = 0; }
+        most.visible = true; splash.visible = drip.visible = true;
       } else MU.uHas.value = 0;
       R.render(scene, cam);
       // Schwaches Gerät: nach ein paar Sekunden die Auflösung senken, damit es flüssig bleibt.
