@@ -1,0 +1,75 @@
+/* Tim Kofler – Vorher/Nachher-Regler auf /entwurf/: alte Beispielseite links, neue Version rechts */
+
+.vn .head { margin-bottom: 40px; }
+.vn-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+.vn-tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.vn-tabs button { min-height: 42px; padding: 8px 18px; border: 1px solid var(--line-2); border-radius: 999px; background: var(--surface); color: #d8d8d4; font: 600 .93rem var(--body); cursor: pointer; transition: border-color .2s, background .2s, color .2s; }
+.vn-tabs button:hover { border-color: #555; color: var(--text); }
+.vn-tabs button.is-on { border-color: var(--hot); background: var(--hot-dim); color: #fff; }
+.vn-dev button { min-height: 34px; }
+
+/* Rahmen wie ein Browserfenster */
+.vn-wrap { max-width: min(100%, 1120px, max(520px, calc((100svh - 150px) * 1.6))); margin: 0 auto; }
+.vn-frame { --pos: 50%; margin: 0 auto; border: 1px solid var(--line-2); border-radius: 18px; overflow: hidden; background: #181818; box-shadow: 0 30px 80px -30px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.02); transition: max-width .45s cubic-bezier(.2,.7,.2,1); }
+.vn-frame__bar { display: flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-bottom: 1px solid #2a2a2a; }
+.vn-frame__bar i { width: 10px; height: 10px; border-radius: 50%; background: #3a3a3a; flex: none; }
+.vn-frame__bar span { margin-left: 10px; min-width: 0; font: 500 12px var(--mono); color: #9a9a9a; background: #101010; border: 1px solid #2a2a2a; border-radius: 6px; padding: 3px 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.vn-stage { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #fff; cursor: ew-resize; touch-action: pan-y; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+.vn-img, .vn-img img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.vn-img img { object-fit: cover; object-position: top center; pointer-events: none; -webkit-user-drag: none; }
+.vn-img--nachher { clip-path: inset(0 0 0 var(--pos)); }
+
+.vn-tag { position: absolute; bottom: 14px; z-index: 2; padding: 6px 12px; border-radius: 999px; font: 600 .78rem var(--mono); letter-spacing: .06em; text-transform: uppercase; pointer-events: none; transition: opacity .25s; }
+.vn-tag--vorher { left: 14px; background: rgba(11,11,11,.82); color: #e8e8e4; border: 1px solid rgba(255,255,255,.18); }
+.vn-tag--nachher { right: 14px; background: var(--hot-grad); color: #0b0b0b; }
+.vn-frame[data-low] .vn-tag--vorher, .vn-frame[data-high] .vn-tag--nachher { opacity: 0; }
+
+/* Trennlinie mit Griff */
+.vn-handle { position: absolute; top: 0; bottom: 0; left: var(--pos); z-index: 3; width: 44px; margin-left: -22px; display: flex; align-items: center; justify-content: center; cursor: ew-resize; outline: none; }
+.vn-handle::before { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 3px; margin-left: -1.5px; background: #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.25), 0 0 18px rgba(255,90,31,.55); }
+.vn-handle__knob { position: absolute; left: -4px; top: var(--ky, 50%); margin-top: -26px; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: var(--hot-grad); color: #0b0b0b; box-shadow: 0 0 0 4px rgba(255,255,255,.95), 0 10px 30px rgba(0,0,0,.45); transition: transform .2s; }
+.vn-handle__knob svg { width: 24px; height: 24px; }
+.vn-stage:hover .vn-handle__knob, .vn-frame.is-drag .vn-handle__knob { transform: scale(1.08); }
+.vn-handle:focus-visible .vn-handle__knob { box-shadow: 0 0 0 4px #fff, 0 0 0 7px var(--hot-2), 0 10px 30px rgba(0,0,0,.45); }
+.vn-frame.is-hint .vn-handle__knob { animation: vn-puls 1.6s ease-in-out 2; }
+@keyframes vn-puls { 50% { box-shadow: 0 0 0 4px rgba(255,255,255,.95), 0 0 0 14px rgba(255,90,31,.25), 0 10px 30px rgba(0,0,0,.45); } }
+
+/* Handy-Ansicht: schmaler Rahmen wie ein Telefon */
+.vn-frame.is-handy { max-width: min(100%, 400px, max(280px, calc((100svh - 140px) * .513 + 20px))); border-radius: 34px; padding: 10px; background: #111; border-color: #3a3a3a; }
+.vn-frame.is-handy .vn-frame__bar { height: 30px; justify-content: center; border: 0; padding: 0 0 6px; }
+.vn-frame.is-handy .vn-frame__bar i { display: none; }
+.vn-frame.is-handy .vn-frame__bar span { margin: 0; font-size: 11px; }
+.vn-frame.is-handy .vn-stage { aspect-ratio: 390 / 760; border-radius: 24px; }
+.vn-frame.is-handy .vn-handle { --ky: 40%; }
+
+.vn-info { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px 40px; align-items: start; margin-top: 26px; }
+.vn-diff { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.vn-diff li { display: grid; gap: 6px; padding: 16px 18px; border: 1px solid var(--line-2); border-radius: 14px; background: var(--surface); font-size: .95rem; color: #d8d8d4; line-height: 1.5; }
+.vn-diff b { font: 600 .78rem var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.vn-diff li + li { border-color: rgba(255,90,31,.45); background: linear-gradient(var(--hot-dim), var(--hot-dim)), var(--surface); }
+.vn-diff li + li b { color: var(--hot-2); }
+.vn-note { margin: 0; max-width: 260px; font-size: .88rem; color: var(--muted); line-height: 1.5; }
+.vn-note a { color: var(--text); text-decoration: underline; text-decoration-color: var(--hot); text-underline-offset: 3px; }
+.vn-cta { margin-top: 30px; }
+
+@media (max-width: 860px) {
+  .vn-info { grid-template-columns: 1fr; }
+  .vn-note { max-width: none; }
+}
+@media (max-width: 699px) {
+  .vn .head { margin-bottom: 28px; }
+  .vn-bar { gap: 10px; }
+  .vn-tabs { width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .vn-tabs button { padding: 8px 6px; font-size: .88rem; }
+  .vn-diff { grid-template-columns: 1fr; gap: 10px; }
+  .vn-diff li { padding: 14px 16px; }
+  .vn-handle__knob { width: 46px; height: 46px; left: -1px; margin-top: -23px; }
+  .vn-tag { bottom: 10px; padding: 5px 10px; font-size: .7rem; }
+  .vn-tag--vorher { left: 10px; } .vn-tag--nachher { right: 10px; }
+  .vn-cta .btn { width: 100%; justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vn-frame, .vn-handle__knob { transition: none; }
+  .vn-frame.is-hint .vn-handle__knob { animation: none; }
+}
