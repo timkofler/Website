@@ -13,7 +13,7 @@
 
   document.querySelectorAll(".sf[data-frames]").forEach(function (sec) {
     var count = +sec.getAttribute("data-count"), pattern = sec.getAttribute("data-frames");
-    var fit = sec.getAttribute("data-fit") || "cover", scale = +(sec.getAttribute("data-scale") || .86), valign = sec.getAttribute("data-valign") || "center", focus = +(sec.getAttribute("data-focus") || .5), target = +(sec.getAttribute("data-target") || .5);
+    var fit = sec.getAttribute("data-fit") || "cover", scale = +(sec.getAttribute("data-scale") || .86), valign = sec.getAttribute("data-valign") || "center", focus = +(sec.getAttribute("data-focus") || .5), target = +(sec.getAttribute("data-target") || .5), scaleM = +(sec.getAttribute("data-scale-m") || 0);
     var canvas = sec.querySelector(".sf__canvas"), x = canvas.getContext("2d"), word = sec.querySelector(".sf__word");
     var steps = [].slice.call(sec.querySelectorAll(".sf__step")), bar = sec.querySelector(".sf__bar i");
     var phone = matchMedia("(max-width: 760px)").matches, every = phone ? 2 : 1;
@@ -56,7 +56,7 @@
       if (!a.naturalWidth) { for (var k = i; k >= 0; k--) if (imgs[k].naturalWidth) { a = imgs[k]; t = 0; break; } }
       if (!a.naturalWidth) return;
       var W = canvas.width, H = canvas.height, iw = a.naturalWidth, ih = a.naturalHeight, z = 1.06 - .06 * p, w, h, X, Y;
-      if (W / H < 1) { h = H * .5 * z; w = h * iw / ih; X = W / 2 - focus * w; Y = H - h - H * .08; }
+      if (W / H < 1) { if (scaleM) { w = W * scaleM * z; h = w * ih / iw; } else { h = H * .5 * z; w = h * iw / ih; } X = W / 2 - focus * w; Y = H - h - H * .08; }
       else if (fit === "inset") { w = W * scale * z; h = w * ih / iw; X = W * target - focus * w; Y = valign === "bottom" ? H - h : (H - h) / 2 + H * .04; }
       else { var s = Math.max(W / iw, H / ih) * z; w = iw * s; h = ih * s; X = Math.min(0, Math.max(W - w, W * target - focus * w)); Y = (H - h) / 2; }
       X = Math.round(X); Y = Math.round(Y); w = Math.round(w); h = Math.round(h);
