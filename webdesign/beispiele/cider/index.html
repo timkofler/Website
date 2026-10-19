@@ -1,0 +1,115 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Birnstoff Cider – Beispiel-Entwurf | tim-kofler.at</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Beispiel-Entwurf einer Produktseite für einen Birnen-Cider aus dem Mostviertel von Tim Kofler – Webdesign. Erfundene Marke.">
+<meta name="theme-color" content="#050604">
+<link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/beispiele/_shared/demo.css">
+<link rel="preload" href="/beispiele/_shared/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/beispiele/_shared/fonts/outfit.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/beispiele/cider/style.css?v=1">
+</head><body>
+<div class="tk-demo-bar"><a href="/#beispiele"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
+<span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundene Marke, Musteradresse</span>
+<a class="tk-demo-bar__cta" href="/#anfrage">So eine Seite anfragen</a></div>
+
+<!-- Bühne: Hintergründe je Szene und die 3D-Dose bleiben stehen, die Abschnitte gleiten darüber. -->
+<div class="bg" aria-hidden="true"><i class="bg__l bg--wald"></i><i class="bg__l bg--kern"></i><i class="bg__l bg--halle"></i><i class="bg__l bg--spot"></i><i class="bg__grain"></i></div>
+<div class="gl" id="gl" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="nav__logo" href="#start" aria-label="Birnstoff Startseite"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.6c1.6 0 1.8 2.4 2.2 3.6 2.2 1.7 2.4 6 -2.2 6-4.6 0-4.4-4.3-2.2-6 .4-1.2.6-3.6 2.2-3.6Z" transform="translate(0 3.2) scale(1 1.18)"/><path d="M12 7.6c0-1.6.4-2.6 1-3.4" fill="none" stroke-width="1.4" stroke-linecap="round"/><ellipse cx="14.8" cy="3.6" rx="1.9" ry=".8" transform="rotate(-25 14.8 3.6)"/></svg>BIRNSTOFF</a>
+  <nav class="nav__links" aria-label="Hauptmenü"><a href="#sorten">Sorten</a><a href="#kern">Herkunft</a><a href="#reserve">Reserve</a><a href="#kaufen">Kaufen</a></nav>
+  <a class="nav__btn" href="#kaufen">Wo kaufen?</a>
+</header>
+
+<nav class="dots" id="dots" aria-label="Abschnitte">
+  <a href="#start" aria-label="Start"><span>Start</span></a><a href="#sorten" aria-label="Sorten"><span>Sorten</span></a><a href="#kern" aria-label="Der Kern"><span>Kern</span></a><a href="#perlage" aria-label="Perlage"><span>Perlage</span></a><a href="#warum" aria-label="Warum Birnstoff"><span>Warum</span></a><a href="#reserve" aria-label="Reserve"><span>Reserve</span></a><a href="#kaufen" aria-label="Kaufen"><span>Kaufen</span></a>
+</nav>
+<p class="count" aria-hidden="true"><b id="countN">01</b> / 07</p>
+
+<main>
+<section class="scene hero" id="start">
+  <div class="copy">
+    <p class="kick"><span class="kick__dot"></span>Mostviertler Birnen-Cider</p>
+    <h1 class="big">BIRNSTOFF</h1>
+    <p class="lead">Aus alten Mostbirnen von den Streuobstwiesen rund um den Ötscher. Kalt vergoren, natürlich spritzig, in der Dose für unterwegs.</p>
+    <div class="btns"><a class="btn" href="#sorten">Sorten entdecken</a><a class="btn btn--ghost" href="#kaufen">Wo kaufen?</a></div>
+  </div>
+  <img class="hero__fb" src="/beispiele/cider/bilder/pur.webp" alt="" width="376" height="938" aria-hidden="true">
+  <p class="hint" aria-hidden="true"><i></i>Scrollen</p>
+</section>
+
+<section class="scene sorten" id="sorten">
+  <div class="sorten__head">
+    <h2 class="mid">Die Sorten</h2>
+    <div class="rail__nav"><button type="button" class="rbtn" data-dir="-1" aria-label="Vorige Sorte">←</button><button type="button" class="rbtn" data-dir="1" aria-label="Nächste Sorte">→</button></div>
+  </div>
+  <ul class="rail" id="rail">
+    <li class="card" style="--c:#d4f53c"><span class="card__tag">Am liebsten getrunken</span><img src="/beispiele/cider/bilder/pur.webp" alt="Birnstoff Pur: schwarze Dose mit grün leuchtender Birne" width="376" height="938" loading="lazy"><b class="card__n">Pur</b><span class="card__s">Birne · spritzig · 4,5 %</span><span class="card__p">€ 2,90</span></li>
+    <li class="card" style="--c:#c3a0ff"><span class="card__tag">Neu</span><img src="/beispiele/cider/bilder/holler.webp" alt="Birnstoff Holler: dunkelviolette Dose mit lila Birne" width="376" height="938" loading="lazy"><b class="card__n">Holler</b><span class="card__s">Birne · Holunderblüte · 4,0 %</span><span class="card__p">€ 2,90</span></li>
+    <li class="card" style="--c:#ffb04a"><span class="card__tag">Trocken</span><img src="/beispiele/cider/bilder/herb.webp" alt="Birnstoff Herb: dunkle Dose mit orange leuchtender Birne" width="376" height="938" loading="lazy"><b class="card__n">Herb</b><span class="card__s">Mostbirne · trocken · 5,5 %</span><span class="card__p">€ 3,20</span></li>
+    <li class="card" style="--c:#79e6ff"><span class="card__tag">0,0 %</span><img src="/beispiele/cider/bilder/null.webp" alt="Birnstoff Null: dunkle Dose mit hellblauer Birne, alkoholfrei" width="376" height="938" loading="lazy"><b class="card__n">Null</b><span class="card__s">alkoholfrei · 0,0 %</span><span class="card__p">€ 2,60</span></li>
+  </ul>
+</section>
+
+<section class="scene kern" id="kern">
+  <div class="copy">
+    <p class="kick"><span class="kick__dot"></span>Der Kern</p>
+    <h2 class="big big--m">100 % Birne</h2>
+    <p class="lead">Kein Konzentrat, kein Zuckerzusatz, kein Aroma aus dem Labor. Nur der Saft von Mostbirnen, die wir im eigenen Hof pressen, und viel Zeit.</p>
+    <ul class="facts">
+      <li><b data-count="6">6</b><span>Wochen Gärung</span></li>
+      <li><b data-count="12">12</b><span>Bauernhöfe</span></li>
+      <li><b>0 g</b><span>Zucker dazu</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="scene perlage" id="perlage">
+  <div class="copy">
+    <p class="kick"><span class="kick__dot"></span>Natürlich spritzig</p>
+    <h2 class="big big--m">Perlt von selbst</h2>
+    <p class="lead">Die Kohlensäure entsteht bei der zweiten Gärung. Deshalb perlt Birnstoff feiner und länger als Limonade aus dem Zapfhahn.</p>
+    <a class="btn" href="#warum">Wie wir arbeiten</a>
+  </div>
+</section>
+
+<section class="scene warum" id="warum">
+  <h2 class="mid">Warum Birnstoff</h2>
+  <ul class="tiles">
+    <li class="tile"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 10c3 0 3.4 4.6 4.2 6.8 4.2 3.2 4.6 11.4-4.2 11.4s-8.4-8.2-4.2-11.4C20.6 14.6 21 10 24 10Z" transform="translate(0 6)"/><path d="M24 16c0-3 .8-5 2-6.5M27 8.5c2-1.6 4.4-1.8 6-1-1.2 1.6-3.6 2.4-6 1Z"/></svg><b>Streuobst</b><p>Speckbirne, Dorschbirne, Grüne Pichlbirne: alte Sorten von hohen Bäumen statt Plantage.</p></li>
+    <li class="tile"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6v24M17 13l7-7 7 7M12 36h24M16 42h16"/><circle cx="24" cy="30" r="2"/></svg><b>Kalt vergoren</b><p>Sechs Wochen bei 12 Grad. So bleibt das Birnenaroma im Glas und landet nicht in der Luft.</p></li>
+    <li class="tile"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 38l12-18 8 10 6-8 10 16Z"/><circle cx="34" cy="12" r="4"/></svg><b>Kurze Wege</b><p>Alle zwölf Höfe liegen keine 30 Kilometer von der Presse entfernt. Geerntet wird von Hand.</p></li>
+    <li class="tile"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M16 8h16l2 4v26l-2 4H16l-2-4V12Z"/><path d="M14 16h20M14 34h20M21 24h6"/></svg><b>Dose statt Flasche</b><p>Leicht, schnell kalt, ohne Licht im Inneren. Aluminium lässt sich immer wieder verwerten.</p></li>
+  </ul>
+</section>
+
+<section class="scene reserve" id="reserve">
+  <div class="copy">
+    <p class="kick kick--gold"><span class="kick__dot"></span>Limitiert · 1.200 Dosen</p>
+    <h2 class="big big--m">Birnstoff<br>Reserve</h2>
+    <p class="lead">Zwölf Monate im Eichenfass gereift, mit 7 % vol und einem Nachhall von Vanille und Quitte. Nur einmal im Jahr, nur solange der Keller reicht.</p>
+    <a class="btn btn--gold" href="#kaufen">Reserve vormerken</a>
+  </div>
+</section>
+
+<section class="scene kaufen" id="kaufen">
+  <div class="finale">
+    <p class="kick kick--c"><span class="kick__dot"></span>Ab Hof und im Handel</p>
+    <h2 class="serif">Finde deinen Birnstoff.</h2>
+    <p class="lead lead--c">Im Hofladen gibt es alle Sorten gekühlt und den Karton zum Hofpreis. Dazu in ausgewählten Gasthäusern und Märkten im Mostviertel.</p>
+    <div class="btns btns--c"><a class="btn" href="#kaufen">Händler in der Nähe</a><a class="btn btn--ghost" href="#kaufen">Hofladen: Fr &amp; Sa</a></div>
+  </div>
+  <footer class="foot">
+    <div><b>Birnstoff</b><span>Mostpresse am Musterhof</span><span>Musterweg 7, 3300 Musterort</span></div>
+    <div><b>Sorten</b><a href="#sorten">Pur</a><a href="#sorten">Holler</a><a href="#sorten">Herb</a><a href="#sorten">Null</a></div>
+    <div><b>Kontakt</b><span>hallo@birnstoff.example</span><span>+43 1234 567 89</span></div>
+    <div><b>Rechtliches</b><span>Erfundene Marke</span><span>Beispiel-Entwurf von tim-kofler.at</span><span>Genuss ab 16, verantwortungsvoll trinken</span></div>
+  </footer>
+</section>
+</main>
+
+<script src="/beispiele/_shared/demo.js" defer></script>
+<script type="module" src="/beispiele/cider/app.js?v=1"></script>
+</body></html>

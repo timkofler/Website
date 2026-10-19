@@ -1,0 +1,24 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><title>Birnstoff Studio</title>
+<link rel="stylesheet" href="/beispiele/cider/style.css">
+<style>html,body{margin:0;background:transparent}canvas{display:block}</style></head><body>
+<script type="module">
+// Rendert eine Dose freigestellt (transparenter Hintergrund) für die Sorten-Karten und das Ersatzbild.
+import * as THREE from "/beispiele/_shared/vendor/three-r180/three.module.min.js";
+import { RoomEnvironment } from "/beispiele/_shared/vendor/three-r180/RoomEnvironment.js";
+import * as D from "/beispiele/cider/dose.js";
+var q = new URLSearchParams(location.search), key = q.get("p") || "pur", w = +q.get("w") || 520, h = +q.get("h") || 1080;
+D.fontsReady().then(function () {
+  var R = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+  R.setPixelRatio(1); R.setSize(w, h); R.outputColorSpace = THREE.SRGBColorSpace; R.toneMapping = THREE.ACESFilmicToneMapping; R.toneMappingExposure = 1.1;
+  document.body.appendChild(R.domElement);
+  var scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(22, w / h, .1, 50);
+  cam.position.set(0, .35, 5.1); cam.lookAt(0, 0, 0);
+  var pm = new THREE.PMREMGenerator(R); scene.environment = pm.fromScene(new RoomEnvironment(), .04).texture; scene.environmentIntensity = .55;
+  var glow = D.SORTEN[key].glow;
+  var k = new THREE.DirectionalLight("#fff", 1.6); k.position.set(-3, 2, 4); scene.add(k);
+  var a = new THREE.DirectionalLight(glow, 6); a.position.set(-4, 1, -3); scene.add(a);
+  var b = new THREE.DirectionalLight(glow, 4.5); b.position.set(4, 2.5, -2.5); scene.add(b);
+  var c = D.can(THREE, key, { seg: 128 }); c.rotation.y = +(q.get("ry") || -.32); c.rotation.z = +(q.get("rz") || 0); scene.add(c);
+  R.render(scene, cam); document.title = "fertig";
+});
+</script></body></html>
