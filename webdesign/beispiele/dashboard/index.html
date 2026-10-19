@@ -1,7 +1,7 @@
 <!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Betriebs-Dashboard Haustechnik Kofler – Beispiel-Entwurf | tim-kofler.at</title>
 <meta name="robots" content="noindex">
-<meta name="description" content="Beispiel-Entwurf eines Betriebs-Dashboards von Tim Kofler – Webdesign: Plantafel, Projektmappe mit Fotos und Chat, Nachkalkulation, Monteur-App, Stundenerfassung, Rechnungen und Lager in einer Web-App. Erfundener Betrieb.">
+<meta name="description" content="Beispiel-Entwurf eines Betriebs-Dashboards von Tim Kofler – Webdesign: Vertrieb mit Anfragen, Angeboten, Kundenkartei und Aufgaben, Plantafel, Projektmappe mit Fotos und Chat, Nachkalkulation, Monteur-App, Stundenerfassung, Rechnungen und Lager in einer Web-App. Erfundener Betrieb.">
 <meta name="theme-color" content="#2f5bff">
 <link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/beispiele/_shared/demo.css">
@@ -479,6 +479,191 @@ td.today,th.today{background:var(--popl)}
 .h3d__info:empty{display:none}
 .h3d__info b{display:block;color:#fff;font-size:16px;margin-bottom:2px}
 @media (max-width:700px){.h3d__view{aspect-ratio:auto;height:520px;min-height:0}.h3d__legend{left:10px;right:10px;top:10px;gap:6px}.h3d__legend button{min-height:34px;padding:0 11px;font-size:12px}.h3d__info{left:10px;right:10px;bottom:10px;font-size:13px}}
+/* Vertrieb */
+.flow{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
+.fl{position:relative;display:block;text-align:left;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 12px 11px;min-width:0;font:inherit;color:inherit;border-top:3px solid var(--c)}
+button.fl{cursor:pointer;transition:box-shadow .2s,transform .2s}
+button.fl:hover{box-shadow:0 12px 26px -16px rgba(18,22,37,.45);transform:translateY(-1px)}
+.fl:not(:last-child)::after{content:"";position:absolute;right:-7px;top:50%;width:8px;height:8px;border-top:2px solid #c3c8d6;border-right:2px solid #c3c8d6;transform:translateY(-50%) rotate(45deg);z-index:1;background:var(--soft)}
+.fl small{display:block;font-size:12px;font-weight:600;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fl strong{display:block;font:700 26px/1.1 var(--hd);margin-top:4px;color:var(--ink)}
+.fl span{display:block;font-size:11.5px;color:var(--mu);margin-top:2px;line-height:1.3}
+.sl-tabs{margin:18px 0 12px}
+.tab__n{display:inline-grid;place-items:center;min-width:18px;height:18px;border-radius:9px;background:var(--bad);color:#fff;font-size:11px;padding:0 5px;margin-left:3px}
+.tab[aria-pressed="true"] .tab__n{background:#fff;color:var(--ink)}
+.lead{background:#fff;border:1px solid var(--line);border-radius:13px;padding:12px;margin-top:8px;cursor:pointer;transition:box-shadow .2s}
+.lead:hover{box-shadow:0 10px 24px -14px rgba(18,22,37,.35)}
+.lead.is-new{animation:pop .5s cubic-bezier(.2,.7,.2,1)}
+.lead b{display:block;font-size:14.5px;margin-top:6px}
+.lead p{color:var(--mu);font-size:12.5px;margin-top:2px}
+.lead__v{display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-top:9px;font-size:12.5px;font-weight:600}
+.lead__t{display:inline-flex;align-items:center;gap:6px;margin-top:8px;border:0;background:var(--warnl);color:#8a5d00;border-radius:8px;padding:5px 8px;font:600 12px var(--bd)}
+.lead__t svg{width:13px;height:13px}
+.lead .job__a{flex-wrap:wrap}
+.lead .job__a .pill{margin-top:2px}
+.src{display:inline-block;border-radius:6px;padding:2px 7px;font-size:11px;font-weight:700;letter-spacing:.01em;background:var(--soft);color:var(--mu)}
+.src-web{background:#fff1e8;color:#c2410c}.src-tel{background:var(--popl);color:var(--popd)}.src-mail{background:#f3e8ff;color:#7e22ce}.src-emp{background:var(--okl);color:#0b7a4f}
+.col__f{font-size:12px;color:var(--mu);margin:10px 4px 0}
+table.rows tbody tr{cursor:pointer}
+table.rows tbody tr:hover td{background:var(--soft)}
+.stat{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px 18px;align-items:center;margin-top:14px}
+.ring{--p:0;width:118px;height:118px;border-radius:50%;background:conic-gradient(var(--ok) calc(var(--p)*1%),var(--soft) 0);display:grid;place-items:center}
+.ring > div{width:90px;height:90px;border-radius:50%;background:#fff;display:grid;place-items:center;align-content:center;text-align:center}
+.ring strong{font:700 24px/1 var(--hd)}
+.ring small{font-size:10.5px;color:var(--mu);font-weight:600;margin-top:3px}
+.stat__r p{font-size:13.5px;color:var(--mu)}
+.stat__r p + p{margin-top:6px}
+.stat__r b{color:var(--ink)}
+.stat__h{grid-column:1 / -1;font-size:14px;margin-top:4px}
+.srcbar{grid-column:1 / -1;display:grid;grid-template-columns:86px minmax(0,1fr) 22px;gap:10px;align-items:center;font-size:13px;margin-top:-6px}
+.srcbar div{height:9px;border-radius:5px;background:var(--soft);overflow:hidden}
+.srcbar i{display:block;height:100%;width:var(--w);border-radius:inherit;transition:width .6s cubic-bezier(.2,.7,.2,1)}
+.srcbar i.src-web{background:#f97316}.srcbar i.src-tel{background:var(--pop)}.srcbar i.src-mail{background:#a855f7}.srcbar i.src-emp{background:var(--ok)}
+.srcbar b{text-align:right}
+.search{width:100%;margin-top:12px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14px;background:#fff}
+.search:focus{outline:none;border-color:var(--pop);box-shadow:0 0 0 3px var(--popl)}
+#todo-f .tab{padding:4px 11px;font-size:12px}
+.todo .chk{width:26px;height:26px;border-radius:8px;border:2px solid #c3c8d6;background:#fff;display:grid;place-items:center;flex:none;color:transparent;padding:0;transition:background .2s,border-color .2s}
+.todo .chk:hover{border-color:var(--ok)}
+.todo .chk svg{width:15px;height:15px}
+.todo .chk[aria-pressed="true"]{background:var(--ok);border-color:var(--ok);color:#fff}
+.todo.is-done .t{text-decoration:line-through;color:var(--mu)}
+.todo.is-new{animation:pop .4s}
+.todo .ava{width:26px;height:26px;font-size:10px}
+.todo .grow > .t{white-space:normal}
+.auto .ticks{color:var(--ink);font-size:13.5px}
+.auto .ticks b{font-weight:600}
+.frm textarea{border:1px solid var(--line);border-radius:10px;padding:9px 10px;width:100%;font-size:14px}
+/* Dokument-Fenster: Angebot, Kunde, E-Mail */
+.doc .mp-b{padding-bottom:24px}
+.doc-f{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;padding:12px 16px 14px;border-top:1px solid var(--line);background:#fff;flex:none}
+.doc-f .btn{flex:1 1 auto}
+.ask{background:#fffaf0;border-color:#f6e2b8;font-size:14px;line-height:1.5}
+.ask small{display:block;font-size:12px;font-weight:600;color:#9a6700;margin-bottom:4px}
+.pos{display:grid;grid-template-columns:auto auto minmax(0,1fr) 28px;gap:8px 12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.pos:first-of-type{border-top:0}
+.pos input{border:1px solid var(--line);border-radius:8px;padding:7px 8px;font-size:13.5px;width:100%;background:#fff;min-width:0}
+.pos input:focus{outline:none;border-color:var(--pop);box-shadow:0 0 0 3px var(--popl)}
+.pos input:disabled{background:var(--soft);color:var(--ink);border-color:transparent}
+.pos__t{grid-column:1 / 4}
+.pos .x{grid-column:4;grid-row:1}
+.pos label{display:flex;align-items:center;gap:6px;min-width:0}
+.pos label span{font-size:11.5px;color:var(--mu);font-weight:600;flex:none}
+.pos label input{width:78px;text-align:right;font-variant-numeric:tabular-nums}
+.pos.is-h .pos__t{border-left:3px solid var(--pop)}
+.pos__u{font-style:normal;font-size:12px;color:var(--mu);min-width:52px}
+.pos__s{text-align:right;font-size:13.5px}
+.addpos select{margin-top:10px;width:100%;border:1.5px dashed #c9d4ff;border-radius:10px;padding:10px;background:#f8faff;color:var(--popd);font-weight:600;font-size:13.5px}
+.tot{display:grid;grid-template-columns:1fr auto;gap:4px 18px;margin:14px 0 0 auto;max-width:260px;font-size:13.5px}
+.tot span{color:var(--mu)}
+.tot b{text-align:right;font-weight:600}
+.tot .g{font:700 17px var(--hd);color:var(--ink);padding-top:6px;border-top:1px solid var(--line);margin-top:4px}
+.paper{background:#fff;border-radius:6px;box-shadow:0 1px 2px rgba(18,22,37,.08),0 20px 40px -24px rgba(18,22,37,.35);padding:28px 26px;font-size:13px;color:#1d2130}
+.paper__hd{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding-bottom:16px;border-bottom:2px solid var(--pop)}
+.paper__hd b{font:700 17px var(--hd)}
+.paper__hd small{display:block;color:var(--mu);font-size:11.5px;margin-top:3px;line-height:1.4}
+.paper__hd svg{width:38px;height:38px;flex:none}
+.paper__to{margin-top:18px;line-height:1.45}
+.paper__meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:16px;font-size:12px;color:var(--mu)}
+.paper__meta b{color:var(--ink)}
+.paper h4{font-size:17px;margin:10px 0 6px}
+.paper table{margin-top:12px;font-size:12.5px}
+.paper td{white-space:normal}
+.paper td:first-child{width:52%}
+.paper .tot{max-width:240px}
+.paper > p{margin-top:12px;line-height:1.5}
+.paper .paper__ft{margin-top:22px;padding-top:10px;border-top:1px solid var(--line);font-size:11px;color:var(--mu2)}
+.mail{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.mail__h{display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px 12px;padding:12px 14px;border-bottom:1px solid var(--line);font-size:13px}
+.mail__h span{color:var(--mu)}
+.mail__h b{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mail textarea{display:block;width:100%;min-height:270px;border:0;padding:14px;font:14px/1.6 var(--bd);resize:vertical;color:var(--ink)}
+.mail textarea:focus{outline:none;box-shadow:inset 0 0 0 2px var(--popl)}
+.kd-k{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.kd-k > div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;min-width:0}
+.kd-k small{display:block;font-size:11.5px;color:var(--mu);font-weight:600}
+.kd-k b{display:block;font:700 18px var(--hd);margin-top:3px}
+.li-i{width:17px;height:17px;color:var(--mu);flex:none}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg label{display:block}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:block;border:1px solid var(--line);border-radius:999px;padding:5px 13px;font-size:13px;font-weight:600;color:var(--mu);cursor:pointer}
+.seg input:checked + span{background:var(--ink);border-color:var(--ink);color:#fff}
+.seg input:focus-visible + span{outline:3px solid var(--pop);outline-offset:2px}
+.frm .cb{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--ink)}
+.frm .cb input{width:18px;height:18px;flex:none;accent-color:var(--pop)}
+.tl{list-style:none;margin:0;padding:0 0 0 18px;position:relative}
+.tl::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl li{position:relative;padding:7px 0;font-size:13.5px;line-height:1.4}
+.tl li i{position:absolute;left:-18px;top:12px;width:12px;height:12px;border-radius:50%;background:#fff;border:2.5px solid var(--mu2)}
+.tl li small{display:block;color:var(--mu);font-size:11.5px;font-weight:600}
+.tl li[role=button]{cursor:pointer}
+.tl li[role=button]:hover{color:var(--pop)}
+.tl-tel i{border-color:var(--pop) !important}.tl-mail i{border-color:#a855f7 !important}.tl-web i{border-color:#f97316 !important}
+.tl-ang i{border-color:var(--pop) !important;background:var(--popl) !important}.tl-ok i{border-color:var(--ok) !important;background:var(--okl) !important}
+.tl-bad i{border-color:var(--bad) !important;background:var(--badl) !important}.tl-inv i{border-color:var(--warn) !important}
+#print{display:none}
+@media print{
+  body > *:not(#print){display:none !important}
+  body{background:#fff}
+  #print{display:block}
+  #print .paper{box-shadow:none;padding:0;font-size:12pt}
+  @page{margin:18mm}
+}
+@media (max-width:1180px){
+  .flow{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .fl:nth-child(4)::after{display:none}
+}
+@media (max-width:640px){
+  .flow{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:46%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px;margin:0 -12px;padding:0 12px 4px;scroll-padding:0 12px}
+  .fl{scroll-snap-align:start}
+  .fl:nth-child(4)::after{display:block}
+  .fl strong{font-size:22px}
+  .sl-tabs{flex-wrap:nowrap;overflow-x:auto;margin:14px -12px 10px;padding:0 12px}
+  .sl-tabs .tab{white-space:nowrap}
+  .top__r #ld-sim,.top__r #ld-new{flex:1 1 auto}
+  .stat{grid-template-columns:auto minmax(0,1fr);gap:12px 14px}
+  .ring{width:100px;height:100px}.ring > div{width:76px;height:76px}.ring strong{font-size:20px}
+  .pos{grid-template-columns:auto minmax(0,1fr) 28px}
+  .pos__t{grid-column:1 / 3}
+  .pos .x{grid-column:3}
+  .pos label input{width:64px}
+  .pos__u{min-width:0}
+  .pos__s{grid-column:1 / 3}
+  .paper{padding:20px 16px;font-size:12.5px}
+  .paper td,.paper th{padding:8px 4px}
+  .kd-k b{font-size:15px}
+  .doc-f{padding:10px 12px 12px}
+}
+.om{display:none}
+.pipe-m{display:none}
+.more-b{margin-top:12px;width:100%}
+.pipe-m .tab b{font-weight:700;margin-left:2px;opacity:.7}
+#ang-t td.kcell,#kd-t td:first-child{white-space:normal;min-width:200px}
+.lead .job__id span{white-space:nowrap}
+.stat__r h4{font-size:15px;margin-bottom:6px}
+.doc .mp-h .row1{flex-wrap:wrap}
+button.fl{display:flex;flex-direction:column;justify-content:flex-start}
+.col h4 span{white-space:nowrap}
+.paper td.num{white-space:nowrap}
+@media (max-width:640px){
+  .hm{display:none}
+  .om{display:block;color:var(--mu2);font-size:11.5px;margin-top:2px}
+  #ang-t td.kcell,#kd-t td:first-child{min-width:0}
+  #ang-t td{padding:9px 6px}
+  #ang-t .pill{font-size:11.5px;padding:3px 8px}
+  .pipe-m{display:flex;flex-wrap:nowrap;overflow-x:auto;margin:0 -12px 10px;padding:0 12px}
+  .pipe-m .tab{white-space:nowrap}
+  .kanban.pipe{grid-template-columns:minmax(0,1fr);overflow:visible}
+  .pipe .col{min-height:0}
+  .pipe[data-on=anfrage] .col:not([data-stage=anfrage]),.pipe[data-on=termin] .col:not([data-stage=termin]),.pipe[data-on=angebot] .col:not([data-stage=angebot]),.pipe[data-on=gewonnen] .col:not([data-stage=gewonnen]){display:none}
+  .doc .mp-lab{display:none}
+}
+@media (max-width:440px){
+  .side{gap:0;padding:6px 4px}
+  .nav-b{font-size:9.5px}
+  .nav-b span.s{letter-spacing:-.03em}
+}
 </style></head><body>
 <div class="tk-demo-bar"><a href="/beispiele/#dashboard"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
 <span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musterdaten</span>
@@ -508,6 +693,8 @@ td.today,th.today{background:var(--popl)}
   <symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12 20 4l-6 16-3-7z"/></symbol>
   <symbol id="i-ruler" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 16 13-13 5 5L8 21z"/><path d="m7 12 2 2M10 9l2 2M13 6l2 2"/></symbol>
   <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+  <symbol id="i-funnel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18l-7 8.5V19l-4 2v-8.5z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
   <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/></symbol>
 </svg>
 
@@ -520,7 +707,7 @@ td.today,th.today{background:var(--popl)}
       <h1>Dein ganzer Betrieb <span>in einem Fenster.</span></h1>
     </div>
     <div data-reveal style="--d:.1s">
-      <p class="lead">So ein Dashboard baue ich passend zu deinem Alltag: Einsätze auf der Plantafel verschieben, Fotos und Nachrichten direkt beim Auftrag, sehen ob ein Auftrag im Plan liegt, und eine eigene Ansicht fürs Handy der Monteure. Probier es aus, alles ist anklickbar.</p>
+      <p class="lead">So ein Dashboard baue ich passend zu deinem Alltag: Anfragen bis zum Angebot verfolgen, Einsätze auf der Plantafel verschieben, Fotos und Nachrichten direkt beim Auftrag, sehen ob ein Auftrag im Plan liegt, und eine eigene Ansicht fürs Handy der Monteure. Probier es aus, alles ist anklickbar.</p>
       <ul><li><b>✓</b> Am Handy und am PC</li><li><b>✓</b> Einmal zahlen, keine Lizenz pro Mitarbeiter</li><li><b>✓</b> Daten bleiben in deinem Browser</li></ul>
     </div>
   </div>
@@ -531,9 +718,10 @@ td.today,th.today{background:var(--popl)}
   <nav class="side" aria-label="Dashboard-Bereiche">
     <div class="brand"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#2f5bff"/><path d="M14 11v18M27 11l-9.5 9L27 29" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 4l-3 6h4l-3 6" fill="none" stroke="#ffc83a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Haustechnik Kofler</b><small>Elektro, Sanitär &amp; Heizung</small></span></div>
     <button class="nav-b" data-go="home" aria-current="page"><svg><use href="#i-home"/></svg><span class="l">Übersicht</span><span class="s">Start</span></button>
+    <button class="nav-b" data-go="sales"><svg><use href="#i-funnel"/></svg><span class="l">Vertrieb</span><span class="s">Vertrieb</span><span class="badge" id="b-sales"></span></button>
     <button class="nav-b" data-go="cal"><svg><use href="#i-cal"/></svg><span class="l">Plantafel</span><span class="s">Plan</span></button>
     <button class="nav-b" data-go="jobs"><svg><use href="#i-jobs"/></svg><span class="l">Aufträge</span><span class="s">Aufträge</span><span class="badge" id="b-jobs"></span></button>
-    <button class="nav-b" data-go="zeit"><svg><use href="#i-clock"/></svg><span class="l">Stunden</span><span class="s">Stunden</span><span class="badge" id="b-zeit"></span></button>
+    <button class="nav-b" data-go="zeit"><svg><use href="#i-clock"/></svg><span class="l">Stunden</span><span class="s">Zeit</span><span class="badge" id="b-zeit"></span></button>
     <button class="nav-b" data-go="inv"><svg><use href="#i-inv"/></svg><span class="l">Rechnungen</span><span class="s">Faktura</span><span class="badge" id="b-inv"></span></button>
     <button class="nav-b" data-go="lager"><svg><use href="#i-box"/></svg><span class="l">Lager</span><span class="s">Lager</span><span class="badge" id="b-lager"></span></button>
     <button class="nav-b" data-go="mont"><svg><use href="#i-phone"/></svg><span class="l">Monteur-App</span><span class="s">Handy</span></button>
@@ -561,6 +749,56 @@ td.today,th.today{background:var(--popl)}
       <div class="grid g2e" style="margin-top:14px">
         <div class="card"><h3>Lager knapp <button class="btn ghost sm" data-go="lager" type="button">Zum Lager</button></h3><ul class="list" id="low-l"></ul></div>
         <div class="card"><h3>Letzte Aktivitäten</h3><ul class="list" id="feed-l"></ul></div>
+      </div>
+    </section>
+
+    <!-- Vertrieb -->
+    <section class="view" id="v-sales" aria-labelledby="h-sales">
+      <div class="top"><div><h2 id="h-sales">Vertrieb</h2><p>Von der Anfrage über Angebot und Auftrag bis zur bezahlten Rechnung.</p></div>
+        <div class="top__r"><button class="btn ghost sm" type="button" id="ld-sim"><svg><use href="#i-bell"/></svg>Anfrage über die Webseite testen</button><button class="btn sm" type="button" id="ld-new"><svg><use href="#i-plus"/></svg>Neue Anfrage</button></div></div>
+      <div class="flow" id="flow"></div>
+      <form class="card frm" id="f-lead" hidden style="margin-top:14px">
+        <h3>Neue Anfrage <small>zum Beispiel nach einem Anruf</small></h3>
+        <div class="row"><label>Kunde<input name="kunde" list="kd-list" required maxlength="40" placeholder="z. B. Fam. Huber oder neuer Name"></label><label>Anliegen<input name="titel" required maxlength="60" placeholder="z. B. Boiler tropft"></label></div>
+        <div class="row"><label>Woher<select name="src"><option value="tel">Telefon</option><option value="mail">E-Mail</option><option value="web">Webseite</option><option value="emp">Empfehlung</option></select></label><label>Ort<input name="ort" maxlength="30" placeholder="Musterdorf"></label></div>
+        <label>Notiz<input name="msg" maxlength="160" placeholder="Was hat der Kunde gesagt?"></label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="submit">Anfrage anlegen</button><button class="btn ghost" type="button" id="ld-cancel">Abbrechen</button></div>
+      </form>
+      <datalist id="kd-list"></datalist>
+      <div class="tabs sl-tabs" role="group" aria-label="Bereich" id="sl-tabs"><button class="tab" type="button" data-st="pipe" aria-pressed="true">Anfragen &amp; Angebote</button><button class="tab" type="button" data-st="kunden" aria-pressed="false">Kunden</button><button class="tab" type="button" data-st="todo" aria-pressed="false">Aufgaben <span class="tab__n" id="todo-n"></span></button></div>
+      <div id="sl-pipe">
+        <div class="tabs pipe-m" role="group" aria-label="Spalte" id="pipe-m"></div>
+        <div class="kanban pipe" id="pipe"></div>
+        <div class="grid g2" style="margin-top:14px">
+          <div class="card"><h3>Angebote <small>antippen zum Öffnen</small></h3><div class="tbl-w"><table id="ang-t" class="rows"></table></div><button class="btn ghost sm more-b" type="button" id="ang-more" hidden></button></div>
+          <div class="card"><h3>Auswertung <small>letzte 90 Tage</small></h3><div class="stat" id="stat"></div></div>
+        </div>
+      </div>
+      <div id="sl-kunden" hidden>
+        <div class="card"><h3>Kundenkartei <small id="kd-n"></small></h3>
+          <input class="search" id="kd-q" type="search" placeholder="Kunde, Ort oder E-Mail suchen" aria-label="Kunden suchen">
+          <div class="tbl-w"><table id="kd-t" class="rows"></table></div></div>
+      </div>
+      <div id="sl-todo" hidden>
+        <div class="grid g2">
+          <div class="card"><h3>Aufgaben <span class="tabs" role="group" aria-label="Filter" id="todo-f"><button class="tab" type="button" data-tf="offen" aria-pressed="true">Offen</button><button class="tab" type="button" data-tf="erledigt" aria-pressed="false">Erledigt</button></span></h3><ul class="list" id="todo-l"></ul></div>
+          <div>
+            <form class="card frm" id="f-todo"><h3>Neue Aufgabe</h3>
+              <label>Was ist zu tun?<input name="txt" maxlength="80" placeholder="z. B. Fliesenmuster zu Fam. Huber bringen"></label>
+              <div class="row"><label>Kunde<select name="k" id="ft2-k"></select></label><label>Fällig<select name="due"><option value="0">heute</option><option value="1" selected>morgen</option><option value="3">in 3 Tagen</option><option value="7">in einer Woche</option></select></label></div>
+              <label>Für<select name="who"><option value="an">Anna (Büro)</option><option value="st">Stefan (Meister)</option></select></label>
+              <button class="btn" type="submit">Aufgabe anlegen</button></form>
+            <div class="card auto" style="margin-top:14px"><h3>Läuft von selbst <small>automatische Schritte</small></h3>
+              <ul class="ticks">
+                <li><span><b>Anfrage über die Webseite</b> → Rückruf steht morgen in den Aufgaben</span></li>
+                <li><span><b>Besichtigung</b> → freier Platz beim Meister auf der Plantafel</span></li>
+                <li><span><b>Angebot verschickt</b> → nach 7 Tagen nachfassen</span></li>
+                <li><span><b>Zusage</b> → Auftrag mit Stunden und Material aus dem Angebot</span></li>
+                <li><span><b>Auftrag fertig</b> → Rechnung mit einem Klick</span></li>
+                <li><span><b>Rechnung überfällig</b> → Erinnerung, dann 1. und 2. Mahnung</span></li>
+              </ul></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -696,8 +934,8 @@ td.today,th.today{background:var(--popl)}
       <div class="idea" data-reveal style="--d:.1s"><i><svg><use href="#i-ruler"/></svg></i><h3>Aufmaß am Handy</h3><p>Räume vor Ort abmessen, die Flächen gehen direkt ins Angebot.</p></div>
       <div class="idea" data-reveal style="--d:.15s"><i><svg><use href="#i-pen"/></svg></i><h3>Regiebericht mit Unterschrift</h3><p>Der Kunde unterschreibt am Handy, das PDF geht automatisch ins Büro.</p></div>
       <div class="idea" data-reveal><i><svg><use href="#i-file"/></svg></i><h3>Belege &amp; Kassabuch</h3><p>Belege fotografieren, Kategorie wählen, am Monatsende als Liste an den Steuerberater.</p></div>
-      <div class="idea" data-reveal style="--d:.05s"><i><svg><use href="#i-bell"/></svg></i><h3>Erinnerungen</h3><p>Wartungen, Pickerl oder Zahlungserinnerungen gehen von selbst per E-Mail raus.</p></div>
-      <div class="idea" data-reveal style="--d:.1s"><i><svg><use href="#i-users"/></svg></i><h3>Kundenkartei</h3><p>Alle Kontakte, Geräte und bisherigen Einsätze eines Kunden auf einer Seite.</p></div>
+      <div class="idea" data-reveal style="--d:.05s"><i><svg><use href="#i-bell"/></svg></i><h3>Wartung &amp; Pickerl</h3><p>Jährliche Wartungen und Pickerl-Termine erinnern den Kunden von selbst per E-Mail.</p></div>
+      <div class="idea" data-reveal style="--d:.1s"><i><svg><use href="#i-mail"/></svg></i><h3>Anfragen aus dem Postfach</h3><p>E-Mails und Formulare landen von selbst als neue Anfrage im Vertrieb.</p></div>
       <div class="idea" data-reveal style="--d:.15s"><i><svg><use href="#i-link"/></svg></i><h3>Link für den Kunden</h3><p>Der Kunde sieht Fotos und Fortschritt seiner Baustelle über einen eigenen Link.</p></div>
     </div>
     <div class="cta" data-reveal>
@@ -711,7 +949,9 @@ td.today,th.today{background:var(--popl)}
 <footer class="foot"><div class="wrap"><span><b>Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb</b></span><span>Alle Namen, Preise und Zahlen sind frei erfunden. Eingaben werden nur in deinem Browser gespeichert. Baustellenfotos: Pexels.</span></div></footer>
 <div class="scrim" id="scrim" hidden></div>
 <aside class="drawer" id="mappe" role="dialog" aria-modal="true" aria-label="Projektmappe" hidden></aside>
+<aside class="drawer doc" id="doc" role="dialog" aria-modal="true" aria-label="Angebot, Kunde oder E-Mail" hidden></aside>
+<div id="print" aria-hidden="true"></div>
 <div class="lbox" id="lbox" hidden><button class="x" type="button" data-lbox-close aria-label="Schließen"><svg><use href="#i-x"/></svg></button><img alt=""><p></p></div>
 <input type="file" id="pic-in" accept="image/*" capture="environment" hidden>
 <div class="toast" id="toast" role="status"></div>
-<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/dashboard/app.js?v=20261019a" defer></script><script type="module" src="/beispiele/dashboard/haus3d.js?v=2"></script></body></html>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/dashboard/app.js?v=20261019v" defer></script><script type="module" src="/beispiele/dashboard/haus3d.js?v=2"></script></body></html>
