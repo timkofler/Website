@@ -135,26 +135,40 @@ $csrf = kp_csrf_field();
 
 // ---------------- Anmeldung ----------------
 if ($acc === null) {
+    $lock = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
     kp_page('Anmelden', <<<HTML
-<div class="kp-narrow">
-  <span class="label"><b>●</b> Kundenportal</span>
-  <h1>Anmelden</h1>
-  <p class="lead">Hier lädst du Bilder, Logos und Texte für deine neue Webseite hoch. Deine Zugangsdaten bekommst du von mir persönlich.</p>
-  <form class="form" method="post" action="/kunden/">
-    {$csrf}
-    <input type="hidden" name="aktion" value="anmelden">
-    {$flash}
-    <label class="form__field"><span>Benutzername</span><input type="text" name="benutzer" required maxlength="40" autocomplete="username" autocapitalize="none" spellcheck="false"></label>
-    <label class="form__field"><span>Passwort</span><input type="password" name="passwort" required maxlength="200" autocomplete="current-password"></label>
-    <button class="btn" type="submit">Anmelden</button>
-    <p class="form__alt">Passwort vergessen? Schreib mir an <a href="mailto:office@tim-kofler.at">office@tim-kofler.at</a> oder ruf mich an unter <a href="tel:+4367761773118">+43 677 61773118</a>.</p>
-  </form>
+<div class="kp-login">
+  <div class="kp-login__form">
+    <span class="label"><b>●</b> Kundenportal</span>
+    <h1>Anmelden</h1>
+    <p class="lead">Dein persönlicher Bereich für deine neue Webseite. Die Zugangsdaten bekommst du von mir persönlich.</p>
+    <form class="form" method="post" action="/kunden/">
+      {$csrf}
+      <input type="hidden" name="aktion" value="anmelden">
+      {$flash}
+      <label class="form__field"><span>Benutzername</span><input type="text" name="benutzer" required maxlength="40" autocomplete="username" autocapitalize="none" spellcheck="false"></label>
+      <label class="form__field"><span>Passwort</span><span class="kp-pw"><input type="password" name="passwort" required maxlength="200" autocomplete="current-password" data-kp-reveal></span></label>
+      <button class="btn" type="submit">Anmelden</button>
+      <p class="form__alt">Passwort vergessen? Schreib mir an <a href="mailto:office@tim-kofler.at">office@tim-kofler.at</a> oder ruf mich an unter <a href="tel:+4367761773118">+43 677 61773118</a>.</p>
+    </form>
+  </div>
+  <aside class="kp-login__info" aria-label="Was dich im Kundenportal erwartet">
+    <h2>Alles zu deiner Webseite an einem Ort</h2>
+    <ul class="kp-features">
+      <li><span class="kp-features__ico">1</span><span><b>Stand deiner Webseite</b>Du siehst jederzeit, in welchem Schritt wir gerade sind, und öffnest die Vorschau mit einem Klick.</span></li>
+      <li><span class="kp-features__ico">2</span><span><b>Direkt mit mir schreiben</b>Wünsche, Fragen und Feedback landen sofort bei mir, ohne lange E-Mail-Ketten.</span></li>
+      <li><span class="kp-features__ico">3</span><span><b>Dateien einfach hochladen</b>Logo, Fotos und Texte direkt vom Handy oder PC, auch viele auf einmal.</span></li>
+    </ul>
+    <p class="kp-secure">{$lock}<span>Verschlüsselte Verbindung. Deine Daten sehen nur du und ich, sie liegen auf einem Server in Deutschland.</span></p>
+  </aside>
 </div>
 HTML);
 }
 
 // ---------------- Upload ----------------
 $name = cx_h((string) ($acc['name'] ?? $user));
+// Begrüßt wird mit dem Vornamen, wie im Gespräch.
+$first = cx_h((string) (preg_split('/\s+/u', trim((string) ($acc['name'] ?? ''))) ?: [''])[0]) ?: $name;
 $site = cx_h((string) ($acc['webseite'] ?? ''));
 $maxFile = kp_max_file();
 $maxPost = kp_max_post();
@@ -172,7 +186,8 @@ foreach ($batches as $b) {
     $files = '';
     $sum = 0;
     foreach ((array) ($b['dateien'] ?? []) as $d) {
-        $files .= '<li>' . cx_h((string) $d['original']) . ' <em>' . kp_bytes((int) $d['bytes']) . '</em></li>';
+        $ext = strtoupper(pathinfo((string) $d['original'], PATHINFO_EXTENSION));
+        $files .= '<li><span class="kp-ext">' . cx_h(substr($ext, 0, 4)) . '</span><span>' . cx_h((string) $d['original']) . ' <em>' . kp_bytes((int) $d['bytes']) . '</em></span></li>';
         $sum += (int) $d['bytes'];
     }
     $when = cx_h(date('d.m.Y, H:i', strtotime((string) ($b['zeit'] ?? 'now')) ?: time()));
@@ -203,14 +218,17 @@ $default = $unread > 0 || $nUploads > 0 || $msgs['liste'] ? 'nachrichten' : 'dat
 $icoChat = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.2 3.6c-.5.4-1.3.1-1.3-.6V16A2.5 2.5 0 0 1 4 13.5z"/></svg>';
 $icoUp = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4m0 0L7.5 8.5M12 4l4.5 4.5M4.5 15v2.5A2.5 2.5 0 0 0 7 20h10a2.5 2.5 0 0 0 2.5-2.5V15"/></svg>';
 
+$project = kp_project_card($acc, true);
+
 $logout = '<a class="btn btn--sm btn--line" href="#passwort">Passwort</a>'
     . '<form method="post" action="/kunden/">' . $csrf . '<input type="hidden" name="aktion" value="abmelden"><button class="btn btn--sm btn--line" type="submit">Abmelden</button></form>';
 
 kp_page('Kundenportal', <<<HTML
 <span class="label"><b>●</b> Kundenportal</span>
-<h1 class="kp-hello">Hallo {$name}!</h1>
-<p class="lead kp-intro">Hier hast du alles zu deiner Webseite an einem Ort. Schreib mir, was dir gefällt oder was du dir wünschst, und lade Fotos, Logo und Texte hoch.</p>
+<h1 class="kp-hello">Hallo {$first}!</h1>
+<p class="lead kp-intro">Hier hast du alles zu deiner Webseite an einem Ort: wie weit wir sind, unsere Nachrichten und deine Dateien.</p>
 {$flash}
+{$project}
 <nav class="kp-tiles" data-kp-tabs data-default="{$default}" aria-label="Bereiche">
   <a class="kp-tile" href="#nachrichten" data-kp-tab="nachrichten">
     <span class="kp-tile__ico">{$icoChat}</span>
@@ -262,6 +280,16 @@ kp_page('Kundenportal', <<<HTML
     </div>
   </div>
 </section>
+
+<aside class="kp-card kp-tim" aria-label="Dein Ansprechpartner">
+  <img class="kp-tim__foto" src="/assets/img/team/tim-portrait.webp" alt="Tim Kofler" width="64" height="64" loading="lazy">
+  <div class="kp-tim__txt"><b>Tim Kofler</b><small>Dein Ansprechpartner für die Webseite. Lieber reden als schreiben? Ruf mich einfach an.</small></div>
+  <div class="kp-tim__links">
+    <a class="btn btn--sm btn--line" href="tel:+4367761773118">Anrufen</a>
+    <a class="btn btn--sm btn--line" href="https://wa.me/4367761773118" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+    <a class="btn btn--sm btn--line" href="mailto:office@tim-kofler.at">E-Mail</a>
+  </div>
+</aside>
 
 <details class="kp-card kp-konto" id="passwort">
   <summary><h2>Passwort ändern</h2></summary>
