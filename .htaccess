@@ -52,6 +52,9 @@ Options -Indexes
   RewriteRule ^webseite/?$ https://tim-kofler.at/?utm_source=instagram&utm_campaign=webdesign#anfrage [R=302,L,NE]
   RewriteCond %{HTTP_HOST} ^crypto-x\.at$ [NC]
   RewriteRule ^webseite-erstellen-lassen(/.*)?$ https://tim-kofler.at/ [R=301,L]
+  # Alte Kopie von tim-kofler.at unter /webdesign/ (bis 2026-10-15), sonst doppelter Inhalt bei Google
+  RewriteCond %{HTTP_HOST} ^crypto-x\.at$ [NC]
+  RewriteRule ^webdesign(?:/(.*))?$ https://tim-kofler.at/$1 [R=301,L]
 </IfModule>
 
 # --- Nur für die Hauptdomain: Fehlerseite, Sicherheits-Header, Cache ---
