@@ -13,14 +13,16 @@ function webglOk() {
   catch (e) { return false; }
 }
 
-if (stages.length && !reduce && webglOk()) {
+function off(el) { el.classList.add("x3d-off"); }
+if (stages.length && (reduce || !webglOk())) stages.forEach(off);
+else if (stages.length) {
   var lib = null;
   var load = function () {
     if (!lib) lib = Promise.all([import(V + "three.module.min.js"), import(V + "RoomEnvironment.js")]);
     return lib;
   };
   stages.forEach(function (el) {
-    var go = function () { load().then(function (m) { mount(m[0], m[1].RoomEnvironment, el); }).catch(function () {}); };
+    var go = function () { load().then(function (m) { mount(m[0], m[1].RoomEnvironment, el); }).catch(function () { off(el); }); };
     if (!("IntersectionObserver" in window)) { go(); return; }
     var io = new IntersectionObserver(function (es) {
       if (es.some(function (e) { return e.isIntersecting; })) { io.disconnect(); go(); }
@@ -115,7 +117,7 @@ function mount(THREE, RoomEnvironment, el) {
   var light = el.getAttribute("data-x3d") === "light";
   var R;
   try { R = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" }); }
-  catch (e) { return; }
+  catch (e) { off(el); return; }
   var dpr = Math.min(window.devicePixelRatio || 1, small ? 1.5 : 1.5);
   R.setPixelRatio(dpr); R.outputColorSpace = THREE.SRGBColorSpace; R.toneMapping = THREE.ACESFilmicToneMapping; R.toneMappingExposure = 1.05;
   R.setClearColor(0x000000, 0);
@@ -196,7 +198,7 @@ function mount(THREE, RoomEnvironment, el) {
       glowM.opacity = (light ? .35 : .45) * a;
       R.render(scene, cam);
       if (first) { first = false; el.classList.add("is-3d"); }
-    } catch (e) { visible = false; return; }
+    } catch (e) { visible = false; if (first) off(el); return; }
     raf = requestAnimationFrame(frame);
   }
   function start() { if (visible && !raf) { last = 0; raf = requestAnimationFrame(frame); } }
