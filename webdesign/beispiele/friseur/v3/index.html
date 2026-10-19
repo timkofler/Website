@@ -1,0 +1,146 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Atelier Nº 9 – Beispiel-Entwurf 3 | tim-kofler.at</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Dritter Beispiel-Entwurf einer Friseur-Webseite von Tim Kofler – Webdesign: neue Haarfarbe live am Foto ausprobieren, Spiegel-Effekt beim Scrollen und Online-Terminbuchung. Erfundener Salon.">
+<meta name="theme-color" content="#f3eee7">
+<link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/beispiele/_shared/demo.css">
+<link rel="preload" href="/beispiele/_shared/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/beispiele/_shared/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/beispiele/friseur/gemeinsam/buchung.css?v=1">
+<link rel="stylesheet" href="/beispiele/friseur/gemeinsam/umschalter.css?v=1">
+<link rel="stylesheet" href="/beispiele/friseur/v3/style.css?v=1">
+</head><body>
+<div class="tk-demo-bar"><a href="/beispiele/#friseur"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
+<span class="tk-demo-bar__note">Beispiel-Entwurf 3 von tim-kofler.at · erfundener Salon, Musteradresse</span>
+<a class="tk-demo-bar__cta" href="/#anfrage">So eine Seite anfragen</a></div>
+
+<header class="nav">
+  <a class="nav__logo" href="#start" aria-label="Atelier Nº 9 Startseite"><span class="nav__mark">9</span>Atelier Nº 9</a>
+  <nav class="nav__links" aria-label="Hauptmenü"><a href="#farbe">Farbe probieren</a><a href="#leistungen">Leistungen</a><a href="#ablauf">Ablauf</a><a href="#team">Team</a><a href="#salon">Salon</a></nav>
+  <button class="nav__btn" type="button" data-book>Termin buchen</button>
+</header>
+
+<main>
+<!-- Start: Spiegel mit Foto. Farbe antippen, das Haar färbt sich live um. Beim Scrollen kommt der Spiegel näher. -->
+<section class="mirror" id="start">
+  <div class="mirror__pin">
+    <div class="mirror__copy" id="farbe">
+      <p class="kick"><span class="dot" data-status-dot></span><span data-status>Di–Sa geöffnet</span></p>
+      <h1 class="big">Probier deine <i>neue Farbe.</i></h1>
+      <p class="lead">Tipp auf eine Farbe und sieh sofort, wie sie wirkt. Im Atelier mischen wir sie dann genau für dein Haar, deinen Hautton und deinen Alltag.</p>
+      <div class="swatches" role="radiogroup" aria-label="Haarfarbe ausprobieren">
+        <button type="button" role="radio" aria-checked="true" data-tone="natur" style="--s:#5b3a26"><i></i><span>Natur</span></button>
+        <button type="button" role="radio" aria-checked="false" data-tone="balayage" style="--s:linear-gradient(#5b3a26,#e3bd84)"><i></i><span>Balayage</span></button>
+        <button type="button" role="radio" aria-checked="false" data-tone="kupfer" style="--s:#c4581f"><i></i><span>Kupfer</span></button>
+        <button type="button" role="radio" aria-checked="false" data-tone="schoko" style="--s:#3a2016"><i></i><span>Schoko</span></button>
+        <button type="button" role="radio" aria-checked="false" data-tone="platin" style="--s:#ebe2d2"><i></i><span>Platin</span></button>
+        <button type="button" role="radio" aria-checked="false" data-tone="rose" style="--s:#d99a9c"><i></i><span>Rosé</span></button>
+      </div>
+      <div class="btns"><button class="btn" type="button" data-book data-svc="f-ansatz" id="toneBook">Farbtermin buchen</button><a class="btn btn--line" href="#leistungen">Alle Leistungen</a></div>
+    </div>
+    <figure class="arch" id="arch">
+      <div class="arch__frame">
+        <img class="arch__img" src="/beispiele/friseur/v3/bilder/spiegel.jpg" alt="Frau mit langen braunen Haaren vor grünen Blättern" width="720" height="960" fetchpriority="high">
+        <canvas class="arch__cv" id="cvA" aria-hidden="true"></canvas>
+        <canvas class="arch__cv arch__cv--b" id="cvB" aria-hidden="true"></canvas>
+      </div>
+      <figcaption class="arch__cap"><span id="toneName">Natur</span> · Live-Vorschau am Beispielfoto</figcaption>
+    </figure>
+    <div class="mirror__after" aria-hidden="true"><p>Im Spiegel</p><p><i>schaut's gut aus.</i></p><p>Bei uns wird's echt.</p></div>
+  </div>
+</section>
+
+<section class="intro">
+  <div class="wrap intro__in">
+    <p class="intro__big">Ein kleines Atelier am Hauptplatz. <i>Vier Stühle,</i> viel Zeit und Farben, die wir für jede Kundin und jeden Kunden <i>selbst mischen.</i></p>
+    <ul class="nums">
+      <li><b>9</b><span>Jahre am Hauptplatz</span></li>
+      <li><b>4,9</b><span>Sterne aus 214 Bewertungen</span></li>
+      <li><b>1</b><span>Minute zum Online-Termin</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="services" id="leistungen">
+  <div class="wrap">
+    <div class="head"><p class="kick">Leistungen &amp; Preise</p><h2 class="h2">Was wir <i>gerne</i> machen.</h2></div>
+    <div class="svc" id="svcList"></div>
+    <p class="note">Alle Preise inklusive Beratung, Waschen und Pflege. Bei Farbe nennen wir dir vorher den genauen Preis.</p>
+  </div>
+  <div class="peek" id="peek" aria-hidden="true"><img alt="" id="peekImg"></div>
+</section>
+
+<section class="steps" id="ablauf">
+  <div class="wrap steps__in">
+    <div class="steps__side"><p class="kick">So läuft's</p><h2 class="h2">Vom Wunsch zum <i>Spiegelblick.</i></h2><p class="lead">Kein Fließband, kein Zeitdruck. So schaut ein Termin bei uns aus.</p></div>
+    <ol class="steps__list">
+      <li><span>01</span><h3>Online buchen</h3><p>Leistung, Friseurin und freie Zeit auswählen. Du bekommst sofort eine Bestätigung und am Vortag eine Erinnerung.</p></li>
+      <li><span>02</span><h3>Reden, bevor wir schneiden</h3><p>Bring gern Fotos mit. Wir schauen gemeinsam, was zu deinem Haar und deinem Alltag passt, und sagen dir ehrlich, was geht.</p></li>
+      <li><span>03</span><h3>Schneiden, färben, pflegen</h3><p>Mit Produkten, die das Haar schützen, und mit einer Kopfmassage beim Waschen, die man nicht so schnell vergisst.</p></li>
+      <li><span>04</span><h3>Für zu Hause</h3><p>Wir zeigen dir, wie du den Look in fünf Minuten selbst hinbekommst, und schreiben dir die Farbe für das nächste Mal auf.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="team" id="team">
+  <div class="wrap">
+    <div class="head"><p class="kick">Team</p><h2 class="h2">Die Hände <i>hinter</i> dem Spiegel.</h2></div>
+    <div class="people">
+      <article class="who"><img src="/beispiele/friseur/v2/bilder/hochsteck.webp" alt="Hochsteckfrisur mit Locken, schwarz-weiß" width="741" height="865" loading="lazy"><div><h3>Lena Gruber</h3><p>Inhaberin · Schnitt &amp; Hochsteck</p><p class="who__n" data-next="lena">Frei bald</p><button type="button" class="link" data-book data-who="lena">Bei Lena buchen →</button></div></article>
+      <article class="who"><img src="/beispiele/friseur/v3/bilder/farbe.webp" alt="Lange blonde Haare von hinten" width="762" height="800" loading="lazy"><div><h3>Sophie Wagner</h3><p>Farbe &amp; Balayage</p><p class="who__n" data-next="sophie">Frei bald</p><button type="button" class="link" data-book data-who="sophie">Bei Sophie buchen →</button></div></article>
+      <article class="who"><img src="/beispiele/friseur/v3/bilder/locken.webp" alt="Rotbraune Locken" width="480" height="540" loading="lazy"><div><h3>Mira Hofer</h3><p>Locken &amp; Naturhaar</p><p class="who__n" data-next="mira">Frei bald</p><button type="button" class="link" data-book data-who="mira">Bei Mira buchen →</button></div></article>
+      <article class="who"><img src="/beispiele/friseur/v3/bilder/herren.webp" alt="Herrenschnitt mit der Maschine" width="666" height="683" loading="lazy"><div><h3>Jonas Leitner</h3><p>Herren &amp; Bart</p><p class="who__n" data-next="jonas">Frei bald</p><button type="button" class="link" data-book data-who="jonas">Bei Jonas buchen →</button></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="voices">
+  <div class="wrap">
+    <figure class="voice" id="voice">
+      <blockquote><p data-q>„Ich hab im Spiegel zuerst meine Mama gesehen, dann mich. Das Platin war genau das, was ich mich nie getraut hätte.“</p></blockquote>
+      <figcaption><span data-c>Anna, Musterort</span> · <span class="stars" aria-label="5 von 5 Sternen">★★★★★</span></figcaption>
+    </figure>
+    <div class="voice__nav"><button type="button" data-v="-1" aria-label="Vorige Stimme">←</button><span id="vNo">1 / 3</span><button type="button" data-v="1" aria-label="Nächste Stimme">→</button></div>
+  </div>
+</section>
+
+<section class="salon" id="salon">
+  <div class="wrap salon__in">
+    <div>
+      <p class="kick">Salon</p><h2 class="h2">Hauptplatz 9, <i>Musterort.</i></h2>
+      <p class="live"><span class="dot" data-status-dot></span><span data-status>Öffnungszeiten</span></p>
+      <dl class="hours">
+        <div data-dow="1"><dt>Montag</dt><dd>geschlossen</dd></div>
+        <div data-dow="2"><dt>Dienstag</dt><dd>8:30 – 18:00</dd></div>
+        <div data-dow="3"><dt>Mittwoch</dt><dd>8:30 – 18:00</dd></div>
+        <div data-dow="4"><dt>Donnerstag</dt><dd>8:30 – 20:00</dd></div>
+        <div data-dow="5"><dt>Freitag</dt><dd>8:30 – 18:00</dd></div>
+        <div data-dow="6"><dt>Samstag</dt><dd>8:00 – 13:00</dd></div>
+      </dl>
+    </div>
+    <div class="card">
+      <p class="card__big">Lieber anrufen?</p>
+      <p><a href="tel:+43123456789">+43 1234 567 89</a></p>
+      <p class="card__s">Parken gratis am Hauptplatz · barrierefreier Eingang · Kartenzahlung</p>
+      <button class="btn" type="button" data-book>Online-Termin buchen</button>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <p class="foot__mark" aria-hidden="true">Atelier <i>Nº 9</i></p>
+  <div class="foot__cols">
+    <div><b>Atelier Nº 9</b><span>Friseur &amp; Farbe</span><span>Hauptplatz 9, 3270 Musterort</span></div>
+    <div><b>Kontakt</b><span>+43 1234 567 89</span><span>hallo@atelier9.example</span></div>
+    <div><b>Rechtliches</b><span>Erfundener Salon</span><span>Beispiel-Entwurf von tim-kofler.at</span><span>Fotos: StockSnap und rawpixel (CC0)</span></div>
+  </div>
+</footer>
+
+<button class="sticky" id="sticky" type="button" data-book>Termin buchen</button>
+
+<script src="/beispiele/_shared/demo.js" defer></script>
+<script src="/beispiele/friseur/gemeinsam/umschalter.js?v=1" defer></script>
+<script type="module" src="/beispiele/friseur/v3/app.js?v=1"></script>
+</body></html>
