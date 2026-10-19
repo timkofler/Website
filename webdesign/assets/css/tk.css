@@ -551,6 +551,12 @@ h1 .lime, h2 .lime, h3 .lime { background: var(--hot-grad); -webkit-background-c
 /* Kopf: TK-Logo wie am Briefkopf, T weiß, K orange, ohne Ring */
 .header a.tk-logo { flex: 0 0 auto; transition: transform .35s cubic-bezier(.2,.7,.2,1); }
 .header a.tk-logo:hover { transform: scale(1.05); }
+/* Das orange K schimmert wie der große Schriftzug unten (gleicher Verlauf, gleiche Bewegung) */
+.tk-logo { position: relative; }
+.tk-logo::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  -webkit-mask: url("/assets/img/tk-logo-k.svg") center / 100% 100% no-repeat; mask: url("/assets/img/tk-logo-k.svg") center / 100% 100% no-repeat;
+  background: linear-gradient(100deg, #ff4d1a 0%, #ff7a2a 30%, #ffd9a0 46%, #ff7a2a 58%, #ff4d1a 80%, #ff4d1a 100%); background-size: 260% 100%; background-position: 100% 0;
+  animation: tk-shine 7s ease-in-out infinite; }
 
 /* Menü-Knopf: mittlerer Strich in Signalfarbe, offen wird daraus ein oranges X */
 .nav-toggle { border-color: rgba(255,90,31,.38); transition: border-color .3s, box-shadow .3s; }
@@ -584,7 +590,7 @@ h1 .lime, h2 .lime, h3 .lime { background: var(--hot-grad); -webkit-background-c
 @media (max-width: 680px) { .tk-sign { margin-top: 48px; } .tk-sign .footer__big { font-size: 15vw; } .tk-sign__kicker { font-size: .66rem; letter-spacing: .26em; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .tk-sign .footer__big span { animation: none; }
+  .tk-sign .footer__big span, .tk-logo::after { animation: none; }
   .header a.tk-logo { transition: none; }
   .nav-toggle path { transition: none; }
 }
