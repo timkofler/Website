@@ -1,210 +1,146 @@
 <!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Seide Haar &amp; Farbe – Beispiel-Entwurf 2 | tim-kofler.at</title>
+<title>Mähne – Beispiel-Entwurf 2 | tim-kofler.at</title>
 <meta name="robots" content="noindex">
-<meta name="description" content="Zweiter Beispiel-Entwurf einer Friseur-Webseite von Tim Kofler – Webdesign: Haarsträhnen in 3D, die man mit der Maus kämmt, Farbe live wechseln und Online-Terminbuchung. Erfundener Salon.">
-<meta name="theme-color" content="#0e0b0a">
+<meta name="description" content="Dritter Beispiel-Entwurf einer Friseur-Webseite von Tim Kofler – Webdesign: Haarfarben an echten Looks durchschalten, die ganze Seite wechselt mit, dazu Leistungen, Looks und Online-Terminbuchung. Erfundener Salon.">
+<meta name="theme-color" content="#f4c542">
 <link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/beispiele/_shared/demo.css">
-<link rel="preload" href="/beispiele/_shared/fonts/cormorant-italic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/beispiele/_shared/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/beispiele/_shared/fonts/anton.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/beispiele/_shared/fonts/outfit.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/beispiele/friseur/v2/bilder/farbe-balayage.webp" as="image" fetchpriority="high">
 <link rel="stylesheet" href="/beispiele/friseur/gemeinsam/buchung.css?v=1">
 <link rel="stylesheet" href="/beispiele/friseur/gemeinsam/umschalter.css?v=1">
-<link rel="stylesheet" href="/beispiele/friseur/v2/style.css?v=1">
+<link rel="stylesheet" href="/beispiele/friseur/v2/style.css?v=5">
 </head><body>
 <div class="tk-demo-bar"><a href="/beispiele/#friseur"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
 <span class="tk-demo-bar__note">Beispiel-Entwurf 2 von tim-kofler.at · erfundener Salon, Musteradresse</span>
 <a class="tk-demo-bar__cta" href="/#anfrage">So eine Seite anfragen</a></div>
 
-<!-- Bühne: Hintergrund und Haar stehen fest, der Inhalt scrollt darüber. -->
-<div class="bg" aria-hidden="true"><i class="bg__l bg--a"></i><i class="bg__l bg--b"></i><i class="bg__grain"></i></div>
-<div class="gl" id="gl" aria-hidden="true"></div>
-<!-- Schere für den Schnitt-Abschnitt, JavaScript setzt Lage und Öffnung. -->
-<div class="blade" id="blade" aria-hidden="true"><i class="blade__line"></i>
-  <svg viewBox="0 0 120 60"><g class="blade__a"><path d="M58 30 L118 26 L118 30 Z"/><circle cx="22" cy="40" r="12"/><path d="M33 36 L58 30"/></g><g class="blade__b"><path d="M58 30 L118 34 L118 30 Z"/><circle cx="22" cy="20" r="12"/><path d="M33 24 L58 30"/></g><circle class="blade__pin" cx="58" cy="30" r="2.6"/></svg>
-</div>
-
-<header class="nav">
-  <a class="nav__logo" href="#start" aria-label="Seide Startseite">Seide<span>Haar &amp; Farbe</span></a>
-  <nav class="nav__links" aria-label="Hauptmenü"><a href="#schnitt">Schnitt</a><a href="#farbe">Farbe</a><a href="#preise">Preise</a><a href="#team">Team</a><a href="#salon">Salon</a></nav>
+<header class="nav" id="nav">
+  <a class="nav__logo" href="#farben" aria-label="Mähne Startseite">Mähne<span>Haar &amp; Farbe</span></a>
+  <nav class="nav__links" aria-label="Hauptmenü"><a href="#farben">Farben</a><a href="#leistungen">Leistungen</a><a href="#looks">Looks</a><a href="#team">Team</a><a href="#salon">Salon</a></nav>
   <button class="nav__btn" type="button" data-book>Termin buchen</button>
 </header>
 
 <main>
-<section class="hero" id="start">
-  <div class="copy">
-    <p class="kick"><span class="dot" data-status-dot></span><span data-status>Di–Fr 8:30–18 Uhr · Sa 8–13 Uhr</span></p>
-    <h1 class="big">Haar wie <em>Seide.</em></h1>
-    <p class="lead">Friseur für Schnitt, Farbe und Styling am Hauptplatz in Musterort. Wir nehmen uns Zeit, hören zu und schneiden erst, wenn klar ist, was du willst.</p>
-    <div class="btns"><button class="btn" type="button" data-book>Termin buchen</button><a class="btn btn--ghost" href="#preise">Preise ansehen</a></div>
+<!-- Start: Farbe antippen, die ganze Bühne wechselt in einem Kreis vom Finger aus. Echte Looks statt umgefärbter Fotos. -->
+<section class="stage" id="farben" aria-label="Haarfarben durchschalten">
+  <div class="stage__layers" aria-hidden="true">
+    <div class="layer is-base" id="layA"><p class="layer__word"></p><img class="layer__img" alt="" width="720" height="900" fetchpriority="high"><p class="layer__word layer__word--line"></p></div>
+    <div class="layer" id="layB"><p class="layer__word"></p><img class="layer__img" alt="" width="720" height="900"><p class="layer__word layer__word--line"></p></div>
   </div>
-  <p class="hint" aria-hidden="true"><span class="hint__m">Fahr mit der Maus durchs Haar</span><span class="hint__t">Wisch durchs Haar</span></p>
-  <img class="hero__fb" src="/beispiele/friseur/v2/bilder/haar.webp" alt="" width="740" height="770" loading="lazy" aria-hidden="true">
-</section>
-
-<section class="pinned" id="schnitt">
-  <div class="pin">
-    <div class="copy">
-      <p class="kick">01 · Der Schnitt</p>
-      <h2 class="big big--m">Auf den <em>Millimeter.</em></h2>
-      <p class="lead">Zuerst reden wir: Wie fällt dein Haar, wie viel Zeit hast du morgens, was hat dich zuletzt gestört? Dann schneiden wir trocken nach, bis die Linie sitzt.</p>
-      <ul class="facts"><li><b>15</b><span>Minuten Beratung inklusive</span></li><li><b>2×</b><span>nachgeschnitten, trocken</span></li><li><b>0 €</b><span>Nachbessern in 14 Tagen</span></li></ul>
+  <div class="stage__ui">
+    <div class="stage__head">
+      <p class="tag"><span class="dot" data-status-dot></span><span data-status>Di–Sa geöffnet</span></p>
+      <h1 class="stage__h">Welche Farbe<br>bist <em>du?</em></h1>
+    </div>
+    <div class="stage__card" aria-live="polite">
+      <p class="stage__no"><span id="toneNo">01</span> / 06</p>
+      <p class="stage__name" id="toneName">Balayage</p>
+      <p class="stage__line" id="toneLine">Sonne, von Hand gemalt.</p>
+      <p class="stage__price" id="tonePrice">ab € 149</p>
+      <button class="btn btn--ink" type="button" data-book data-svc="f-balayage" id="toneBook">Diese Farbe buchen</button>
+    </div>
+    <div class="chips" role="radiogroup" aria-label="Haarfarbe wählen">
+      <button type="button" role="radio" aria-checked="true" data-tone="balayage" style="--c:linear-gradient(160deg,#4a3022 30%,#e2bf8a)"><i></i><span>Balayage</span></button>
+      <button type="button" role="radio" aria-checked="false" data-tone="schwarz" style="--c:#17120f"><i></i><span>Schwarz</span></button>
+      <button type="button" role="radio" aria-checked="false" data-tone="platin" style="--c:#eadfc8"><i></i><span>Platin</span></button>
+      <button type="button" role="radio" aria-checked="false" data-tone="kupfer" style="--c:#b5532a"><i></i><span>Kupfer</span></button>
+      <button type="button" role="radio" aria-checked="false" data-tone="rose" style="--c:#e98ab0"><i></i><span>Rosé</span></button>
+      <button type="button" role="radio" aria-checked="false" data-tone="kirsch" style="--c:#d8324f"><i></i><span>Kirschrot</span></button>
     </div>
   </div>
 </section>
 
-<section class="pinned pinned--l" id="farbe">
-  <div class="pin">
-    <div class="copy">
-      <p class="kick">02 · Die Farbe</p>
-      <h2 class="big big--m">Farbe, die <em>lebt.</em></h2>
-      <p class="lead">Balayage, Kupfer, kühles Blond oder dein Naturton mit mehr Glanz. Wir mischen jede Farbe für dich und arbeiten mit Pflege, die das Haar schützt.</p>
-      <div class="chips" role="radiogroup" aria-label="Farbe ausprobieren">
-        <button type="button" role="radio" aria-checked="true" data-col="0" style="--a:#3a2416;--b:#d9b382"><i></i>Balayage</button>
-        <button type="button" role="radio" aria-checked="false" data-col="1" style="--a:#7a2a10;--b:#e0803f"><i></i>Kupfer</button>
-        <button type="button" role="radio" aria-checked="false" data-col="2" style="--a:#24150e;--b:#6f4329"><i></i>Schoko</button>
-        <button type="button" role="radio" aria-checked="false" data-col="3" style="--a:#9b8a74;--b:#f2eadc"><i></i>Platin</button>
-      </div>
-      <p class="chips__note">Tipp drauf, die Farbe läuft vom Ansatz in die Spitzen.</p>
+<div class="band" aria-hidden="true"><div class="band__in" id="band"><span>Schnitt</span><b>✦</b><span>Farbe</span><b>✦</b><span>Balayage</span><b>✦</b><span>Locken</span><b>✦</b><span>Hochsteck</span><b>✦</b><span>Herren</span><b>✦</b><span>Schnitt</span><b>✦</b><span>Farbe</span><b>✦</b><span>Balayage</span><b>✦</b><span>Locken</span><b>✦</b><span>Hochsteck</span><b>✦</b><span>Herren</span><b>✦</b></div></div>
+
+<section class="intro">
+  <div class="wrap intro__in">
+    <p class="intro__big" data-in>Wir sind ein kleiner Salon mit <em>großer Farbpalette.</em> Vier Stühle, gute Musik und Zeit für dich, statt Fließband.</p>
+    <ul class="facts">
+      <li data-in><b>4,9</b><span>★ aus 214 Bewertungen</span></li>
+      <li data-in><b>60</b><span>Farbtöne, für dich gemischt</span></li>
+      <li data-in><b>24/7</b><span>online Termin buchen</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- Leistungen: farbige Karten, die beim Scrollen übereinander stapeln. -->
+<section class="stack" id="leistungen" aria-labelledby="svc-h">
+  <div class="wrap"><h2 class="h2" id="svc-h" data-in>Leistungen <em>&amp; Preise</em></h2></div>
+  <div class="wrap stack__list" id="stack"></div>
+</section>
+
+<!-- Looks: am Computer läuft die Reihe beim Scrollen quer, am Handy wischen. -->
+<section class="looks" id="looks" aria-labelledby="looks-h">
+  <div class="looks__pin">
+    <div class="wrap looks__head"><h2 class="h2" id="looks-h">Looks <em>aus dem Salon</em></h2><p class="looks__sub">Zum Nachmachen. Tippen bucht genau diesen Look.</p></div>
+    <div class="looks__track" id="looksTrack">
+      <button type="button" class="look" data-book data-svc="d-kurz"><img src="/beispiele/friseur/v2/bilder/look-pixie.webp" alt="Kurzer Pixie-Schnitt in Rot" width="512" height="640" loading="lazy"><span class="look__t">Pixie Rot</span><span class="look__p">€ 49 + Farbe</span></button>
+      <button type="button" class="look" data-book data-svc="d-lang" data-who="mira"><img src="/beispiele/friseur/v2/bilder/look-locken.webp" alt="Lange Naturlocken" width="512" height="640" loading="lazy"><span class="look__t">Naturlocken</span><span class="look__p">€ 59</span></button>
+      <button type="button" class="look" data-book data-svc="f-straehnen"><img src="/beispiele/friseur/v2/bilder/look-lang.webp" alt="Lange Haare in Kupferrot" width="532" height="665" loading="lazy"><span class="look__t">Lang &amp; Kupfer</span><span class="look__p">ab € 89</span></button>
+      <button type="button" class="look" data-book data-svc="d-hoch" data-who="lena"><img src="/beispiele/friseur/v2/bilder/look-knoten.webp" alt="Viele kleine Haarknoten mit Zöpfen" width="640" height="800" loading="lazy"><span class="look__t">Space Buns</span><span class="look__p">ab € 65</span></button>
+      <button type="button" class="look" data-book data-svc="h-maschine" data-who="jonas"><img src="/beispiele/friseur/v2/bilder/look-fade.webp" alt="Herrenschnitt mit Fade von hinten" width="640" height="800" loading="lazy"><span class="look__t">Skin Fade</span><span class="look__p">€ 19</span></button>
+      <button type="button" class="look" data-book data-svc="f-ansatz"><img src="/beispiele/friseur/v2/bilder/look-burgund.webp" alt="Lange Haare in Burgunderrot" width="512" height="641" loading="lazy"><span class="look__t">Burgund</span><span class="look__p">ab € 58</span></button>
+      <button type="button" class="look" data-book data-svc="d-hoch" data-who="mira"><img src="/beispiele/friseur/v2/bilder/look-zoepfe.webp" alt="Zwei geflochtene Zöpfe am Oberkopf" width="640" height="800" loading="lazy"><span class="look__t">Boxer Braids</span><span class="look__p">ab € 65</span></button>
+      <button type="button" class="look" data-book data-svc="h-schnitt" data-who="jonas"><img src="/beispiele/friseur/v2/bilder/look-tolle.webp" alt="Herrenschnitt mit Tolle, schwarz-weiß" width="510" height="638" loading="lazy"><span class="look__t">Tolle</span><span class="look__p">€ 29</span></button>
     </div>
   </div>
 </section>
 
-<section class="pinned" id="styling">
-  <div class="pin">
-    <div class="copy">
-      <p class="kick">03 · Das Styling</p>
-      <h2 class="big big--m">Glatt, Wellen <em>oder Locken.</em></h2>
-      <p class="lead">Für den Alltag, die Hochzeit oder einfach so. Und wir zeigen dir, wie du es zu Hause in fünf Minuten selbst hinbekommst.</p>
-      <div class="chips chips--txt" role="radiogroup" aria-label="Styling ausprobieren">
-        <button type="button" role="radio" aria-checked="true" data-sty="0">Glatt</button>
-        <button type="button" role="radio" aria-checked="false" data-sty="1">Wellen</button>
-        <button type="button" role="radio" aria-checked="false" data-sty="2">Locken</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="sheet" id="preise">
+<section class="team" id="team" aria-labelledby="team-h">
   <div class="wrap">
-    <div class="sheet__head">
-      <div><p class="kick">Leistungen &amp; Preise</p><h2 class="h2">Klare Preise, <em>keine Überraschung.</em></h2></div>
-      <p class="lead">Alle Preise inklusive Beratung und Pflege. Bei Farbe sagen wir dir den genauen Preis vorher, je nach Länge und Aufwand.</p>
-    </div>
-    <div class="tabs" role="tablist" aria-label="Bereiche">
-      <button type="button" role="tab" aria-selected="true" aria-controls="t-damen" id="tb-damen">Damen</button>
-      <button type="button" role="tab" aria-selected="false" aria-controls="t-farbe" id="tb-farbe" tabindex="-1">Farbe</button>
-      <button type="button" role="tab" aria-selected="false" aria-controls="t-herren" id="tb-herren" tabindex="-1">Herren</button>
-      <button type="button" role="tab" aria-selected="false" aria-controls="t-kinder" id="tb-kinder" tabindex="-1">Kinder</button>
-    </div>
-    <div class="menu" id="t-damen" role="tabpanel" aria-labelledby="tb-damen">
-      <div class="row"><span class="row__n">Waschen, Schneiden, Föhnen · kurz</span><span class="row__m">60 Min.</span><b>€ 49</b><button type="button" class="row__b" data-book data-svc="d-kurz" aria-label="Kurzhaarschnitt buchen">Buchen</button></div>
-      <div class="row"><span class="row__n">Waschen, Schneiden, Föhnen · lang</span><span class="row__m">75 Min.</span><b>€ 59</b><button type="button" class="row__b" data-book data-svc="d-lang" aria-label="Langhaarschnitt buchen">Buchen</button></div>
-      <div class="row"><span class="row__n">Föhnen &amp; Styling</span><span class="row__m">45 Min.</span><b>€ 32</b><button type="button" class="row__b" data-book data-svc="d-foehn" aria-label="Föhnen und Styling buchen">Buchen</button></div>
-      <div class="row"><span class="row__n">Hochsteckfrisur</span><span class="row__m">60 Min.</span><b>ab € 65</b><button type="button" class="row__b" data-book data-svc="d-hoch" aria-label="Hochsteckfrisur buchen">Buchen</button></div>
-      <div class="row"><span class="row__n">Pony nachschneiden</span><span class="row__m">15 Min.</span><b>€ 9</b><button type="button" class="row__b" data-book data-svc="d-pony" aria-label="Pony nachschneiden buchen">Buchen</button></div>
-    </div>
-    <div class="menu" id="t-farbe" role="tabpanel" aria-labelledby="tb-farbe" hidden>
-      <div class="row"><span class="row__n">Ansatzfarbe inkl. Föhnen</span><span class="row__m">90 Min.</span><b>ab € 58</b><button type="button" class="row__b" data-book data-svc="f-ansatz" aria-label="Ansatzfarbe buchen">Buchen</button></div>
-      <div class="row"><span class="row__n">Balayage inkl. Schnitt</span><span class="row__m">180 Min.</span><b>ab € 149</b><button type="button" class="row__b" data-book data-svc="f-balayage" aria-label="Balayage buchen">Buchen</button></div>
-      <div class="row"><span class="row__n">Strähnen mit Folie</span><span class="row__m">120 Min.</span><b>ab € 89</b><button type="button" class="row__b" data-book data-svc="f-straehnen" aria-label="Strähnen buchen">Buchen</button></div>
-      <div class="row"><span class="row__n">Glossing für mehr Glanz</span><span class="row__m">30 Min.</span><b>€ 35</b><button type="button" class="row__b" data-book data-svc="f-gloss" aria-label="Glossing buchen">Buchen</button></div>
-    </div>
-    <div class="menu" id="t-herren" role="tabpanel" aria-labelledby="tb-herren" hidden>
-      <div class="row"><span class="row__n">Herrenschnitt</span><span class="row__m">30 Min.</span><b>€ 29</b><button type="button" class="row__b" data-book data-svc="h-schnitt" aria-label="Herrenschnitt buchen">Buchen</button></div>
-      <div class="row"><span class="row__n">Schnitt &amp; Bart</span><span class="row__m">45 Min.</span><b>€ 39</b><button type="button" class="row__b" data-book data-svc="h-bart" aria-label="Schnitt und Bart buchen">Buchen</button></div>
-      <div class="row"><span class="row__n">Maschinenschnitt</span><span class="row__m">15 Min.</span><b>€ 19</b><button type="button" class="row__b" data-book data-svc="h-maschine" aria-label="Maschinenschnitt buchen">Buchen</button></div>
-    </div>
-    <div class="menu" id="t-kinder" role="tabpanel" aria-labelledby="tb-kinder" hidden>
-      <div class="row"><span class="row__n">Kinder bis 10 Jahre</span><span class="row__m">30 Min.</span><b>€ 18</b><button type="button" class="row__b" data-book data-svc="k-klein" aria-label="Kinderhaarschnitt buchen">Buchen</button></div>
-      <div class="row"><span class="row__n">Jugendliche bis 16 Jahre</span><span class="row__m">30 Min.</span><b>€ 26</b><button type="button" class="row__b" data-book data-svc="k-teen" aria-label="Jugendhaarschnitt buchen">Buchen</button></div>
+    <h2 class="h2" id="team-h" data-in>Crew <em>Wer dir bei uns die Haare macht</em></h2>
+    <div class="crew">
+      <article class="mate" data-in style="--m:#ff5a36"><img src="/beispiele/friseur/v2/bilder/team-lena.webp" alt="Lena Gruber" width="512" height="640" loading="lazy"><h3>Lena</h3><p>Inhaberin · Schnitt &amp; Hochsteck</p><p class="mate__n" data-next="lena">Frei bald</p><button type="button" class="mate__b" data-book data-who="lena">Bei Lena buchen</button></article>
+      <article class="mate" data-in style="--m:#f4c542"><img src="/beispiele/friseur/v2/bilder/team-sophie.webp" alt="Sophie Wagner" width="512" height="640" loading="lazy"><h3>Sophie</h3><p>Farbe &amp; Balayage</p><p class="mate__n" data-next="sophie">Frei bald</p><button type="button" class="mate__b" data-book data-who="sophie">Bei Sophie buchen</button></article>
+      <article class="mate" data-in style="--m:#ff9fc4"><img src="/beispiele/friseur/v2/bilder/team-mira.webp" alt="Mira Hofer" width="512" height="640" loading="lazy"><h3>Mira</h3><p>Locken &amp; Naturhaar</p><p class="mate__n" data-next="mira">Frei bald</p><button type="button" class="mate__b" data-book data-who="mira">Bei Mira buchen</button></article>
+      <article class="mate" data-in style="--m:#2141c9"><img src="/beispiele/friseur/v2/bilder/team-jonas.webp" alt="Jonas Leitner" width="512" height="640" loading="lazy"><h3>Jonas</h3><p>Herren &amp; Bart</p><p class="mate__n" data-next="jonas">Frei bald</p><button type="button" class="mate__b" data-book data-who="jonas">Bei Jonas buchen</button></article>
     </div>
   </div>
 </section>
 
-<section class="sheet sheet--looks" id="looks" aria-label="Looks aus dem Salon">
-  <div class="wrap sheet__head sheet__head--row">
-    <div><p class="kick">Looks</p><h2 class="h2">Frisch aus <em>dem Salon.</em></h2></div>
-    <div class="looks__nav"><button type="button" class="rbtn" data-looks="-1" aria-label="Zurück">←</button><button type="button" class="rbtn" data-looks="1" aria-label="Weiter">→</button></div>
-  </div>
-  <div class="looks" id="looksRow" tabindex="0" aria-label="Looks, seitlich wischen">
-    <figure class="look"><img src="/beispiele/friseur/v2/bilder/wellen.webp" alt="Lange braune Wellen mit Glanz" width="567" height="631" loading="lazy"><figcaption><b>Weiche Wellen</b><span>Schnitt &amp; Glossing · Sophie</span></figcaption></figure>
-    <figure class="look"><img src="/beispiele/friseur/v2/bilder/kupfer.webp" alt="Kupferrote Locken" width="480" height="640" loading="lazy"><figcaption><b>Kupfer-Locken</b><span>Farbe &amp; Lockenschnitt · Mira</span></figcaption></figure>
-    <figure class="look"><img src="/beispiele/friseur/v2/bilder/pixie.webp" alt="Kurzer Pixie-Schnitt in Rot" width="528" height="640" loading="lazy"><figcaption><b>Pixie in Rot</b><span>Kurzhaar &amp; Farbe · Lena</span></figcaption></figure>
-    <figure class="look"><img src="/beispiele/friseur/v2/bilder/beach.webp" alt="Blonde lange Beach Waves" width="750" height="900" loading="lazy"><figcaption><b>Beach Waves Blond</b><span>Balayage · Sophie</span></figcaption></figure>
-    <figure class="look"><img src="/beispiele/friseur/v2/bilder/locken.webp" alt="Dunkle Naturlocken" width="432" height="540" loading="lazy"><figcaption><b>Naturlocken</b><span>Curly-Schnitt · Mira</span></figcaption></figure>
-    <figure class="look"><img src="/beispiele/friseur/v2/bilder/hochsteck.webp" alt="Hochsteckfrisur mit Locken, schwarz-weiß" width="741" height="865" loading="lazy"><figcaption><b>Hochzeit</b><span>Hochsteckfrisur · Lena</span></figcaption></figure>
-    <figure class="look"><img src="/beispiele/friseur/v2/bilder/herren.webp" alt="Herrenschnitt mit Bart" width="800" height="900" loading="lazy"><figcaption><b>Fade &amp; Bart</b><span>Herrenschnitt · Jonas</span></figcaption></figure>
+<section class="voices" aria-label="Stimmen">
+  <div class="wrap voices__in">
+    <figure class="voice" data-in style="--v:#f4c542"><blockquote>„Ich wollte nur Spitzen schneiden. Rausgegangen bin ich mit Kupfer und hab's keine Sekunde bereut.“</blockquote><figcaption>Anna · ★★★★★</figcaption></figure>
+    <figure class="voice" data-in style="--v:#ff9fc4"><blockquote>„Mira ist die Erste, die meine Locken nicht glatt föhnen wollte.“</blockquote><figcaption>Theresa · ★★★★★</figcaption></figure>
+    <figure class="voice" data-in style="--v:#bfe3d9"><blockquote>„Abends online gebucht, Samstag um acht dran. Bart war nie so sauber.“</blockquote><figcaption>Florian · ★★★★★</figcaption></figure>
   </div>
 </section>
 
-<section class="sheet" id="team">
-  <div class="wrap">
-    <div class="sheet__head"><div><p class="kick">Team</p><h2 class="h2">Vier Leute, <em>ein Anspruch.</em></h2></div>
-      <p class="lead">Jede und jeder von uns hat ein Lieblingsthema. Du kannst gezielt buchen oder einfach die nächste freie Zeit nehmen.</p></div>
-    <div class="team">
-      <article class="person" style="--c:#c9a27e"><span class="person__i" aria-hidden="true">L</span><h3>Lena Gruber</h3><p>Inhaberin · Schnitt &amp; Hochsteck</p><p class="person__n" data-next="lena">Frei bald</p><button type="button" class="btn btn--sm" data-book data-who="lena">Bei Lena buchen</button></article>
-      <article class="person" style="--c:#d98b6a"><span class="person__i" aria-hidden="true">S</span><h3>Sophie Wagner</h3><p>Farbe &amp; Balayage</p><p class="person__n" data-next="sophie">Frei bald</p><button type="button" class="btn btn--sm" data-book data-who="sophie">Bei Sophie buchen</button></article>
-      <article class="person" style="--c:#a3b18a"><span class="person__i" aria-hidden="true">M</span><h3>Mira Hofer</h3><p>Locken &amp; Naturhaar</p><p class="person__n" data-next="mira">Frei bald</p><button type="button" class="btn btn--sm" data-book data-who="mira">Bei Mira buchen</button></article>
-      <article class="person" style="--c:#8fa3bf"><span class="person__i" aria-hidden="true">J</span><h3>Jonas Leitner</h3><p>Herren &amp; Bart</p><p class="person__n" data-next="jonas">Frei bald</p><button type="button" class="btn btn--sm" data-book data-who="jonas">Bei Jonas buchen</button></article>
+<section class="salon" id="salon" aria-labelledby="salon-h">
+  <div class="wrap salon__in">
+    <div data-in>
+      <h2 class="salon__h" id="salon-h">Komm <em>vorbei.</em></h2>
+      <p class="salon__addr">Hauptplatz 9, 3270 Musterort</p>
+      <p class="tag tag--dark"><span class="dot" data-status-dot></span><span data-status>Öffnungszeiten</span></p>
+      <button class="btn btn--ink" type="button" data-book>Online-Termin buchen</button>
     </div>
+    <dl class="hours" data-in>
+      <div data-dow="1"><dt>Montag</dt><dd>geschlossen</dd></div>
+      <div data-dow="2"><dt>Dienstag</dt><dd>8:30 – 18:00</dd></div>
+      <div data-dow="3"><dt>Mittwoch</dt><dd>8:30 – 18:00</dd></div>
+      <div data-dow="4"><dt>Donnerstag</dt><dd>8:30 – 20:00</dd></div>
+      <div data-dow="5"><dt>Freitag</dt><dd>8:30 – 18:00</dd></div>
+      <div data-dow="6"><dt>Samstag</dt><dd>8:00 – 13:00</dd></div>
+      <div data-dow="0"><dt>Sonntag</dt><dd>geschlossen</dd></div>
+    </dl>
   </div>
-</section>
-
-<section class="sheet sheet--quote" id="stimmen">
-  <div class="wrap">
-    <p class="stars" aria-label="4,9 von 5 Sternen">★★★★★ <span>4,9 aus 214 Bewertungen</span></p>
-    <div class="quotes">
-      <blockquote><p>„Zum ersten Mal hat mir jemand erklärt, warum meine Locken nie gehalten haben. Seitdem föhne ich sie nicht mehr kaputt.“</p><cite>Katharina, Musterort</cite></blockquote>
-      <blockquote><p>„Balayage von Sophie, ein halbes Jahr später schaut der Ansatz immer noch gewollt aus. Genau so wollte ich das.“</p><cite>Julia, Nachbarort</cite></blockquote>
-      <blockquote><p>„Online gebucht, pünktlich drangekommen, in 30 Minuten wieder draußen. Mehr brauch ich nicht.“</p><cite>Martin, Musterort</cite></blockquote>
-    </div>
-  </div>
-</section>
-
-<section class="sheet" id="salon">
-  <div class="wrap salon">
-    <div>
-      <p class="kick">Salon</p><h2 class="h2">Am Hauptplatz, <em>mitten im Ort.</em></h2>
-      <p class="live"><span class="dot" data-status-dot></span><span data-status>Öffnungszeiten</span></p>
-      <dl class="hours">
-        <div data-dow="1"><dt>Montag</dt><dd>geschlossen</dd></div>
-        <div data-dow="2"><dt>Dienstag</dt><dd>8:30 – 18:00</dd></div>
-        <div data-dow="3"><dt>Mittwoch</dt><dd>8:30 – 18:00</dd></div>
-        <div data-dow="4"><dt>Donnerstag</dt><dd>8:30 – 20:00</dd></div>
-        <div data-dow="5"><dt>Freitag</dt><dd>8:30 – 18:00</dd></div>
-        <div data-dow="6"><dt>Samstag</dt><dd>8:00 – 13:00</dd></div>
-      </dl>
-    </div>
-    <div class="where">
-      <svg class="map" viewBox="0 0 400 300" aria-hidden="true">
-        <path class="map__r" d="M-10 180 C80 170 140 120 230 130 S360 90 410 70"/><path class="map__r map__r--s" d="M150 -10 C160 80 200 140 210 310"/><path class="map__r map__r--s" d="M-10 60 C90 80 200 70 260 40"/><path class="map__w" d="M-10 250 C100 230 220 270 410 220"/>
-        <rect class="map__sq" x="168" y="100" width="70" height="52" rx="6"/><circle class="map__pin" cx="203" cy="126" r="9"/><circle class="map__pulse" cx="203" cy="126" r="9"/>
-      </svg>
-      <p><b>Seide Haar &amp; Farbe</b><br>Hauptplatz 9, 3270 Musterort<br>Parken gratis am Platz, 30 Minuten</p>
-      <p><a href="tel:+43123456789">+43 1234 567 89</a><br><a href="mailto:hallo@seide.example">hallo@seide.example</a></p>
-    </div>
-  </div>
-</section>
-
-<section class="finale" id="termin">
-  <div class="finale__in">
-    <p class="kick">Dein Termin</p>
-    <h2 class="big big--m">Zeit für <em>dich.</em></h2>
-    <p class="lead">Online buchen dauert eine Minute. Lieber reden? Ruf an, wir sind von Dienstag bis Samstag für dich da.</p>
-    <div class="btns"><button class="btn" type="button" data-book>Termin buchen</button><a class="btn btn--ghost" href="tel:+43123456789">Anrufen</a></div>
-  </div>
-  <p class="mark" aria-hidden="true">Seide</p>
-  <footer class="foot">
-    <div><b>Seide Haar &amp; Farbe</b><span>Hauptplatz 9, 3270 Musterort</span></div>
-    <div><b>Kontakt</b><span>+43 1234 567 89</span><span>hallo@seide.example</span></div>
-    <div><b>Rechtliches</b><span>Erfundener Salon</span><span>Beispiel-Entwurf von tim-kofler.at</span><span>Fotos: StockSnap und rawpixel (CC0)</span></div>
-  </footer>
 </section>
 </main>
+
+<footer class="foot">
+  <p class="foot__mark" aria-hidden="true">Mähne</p>
+  <div class="wrap foot__cols">
+    <div><b>Mähne · Haar &amp; Farbe</b><span>Hauptplatz 9, 3270 Musterort</span></div>
+    <div><b>Kontakt</b><span>+43 1234 567 89</span><span>hallo@maehne.example</span></div>
+    <div><b>Hinweis</b><span>Erfundener Salon, Beispiel-Entwurf von tim-kofler.at</span><span>Fotos: StockSnap (CC0)</span></div>
+  </div>
+</footer>
 
 <button class="sticky" id="sticky" type="button" data-book>Termin buchen</button>
 
 <script src="/beispiele/_shared/demo.js" defer></script>
-<script src="/beispiele/friseur/gemeinsam/umschalter.js?v=2" defer></script>
-<script type="module" src="/beispiele/friseur/v2/app.js?v=1"></script>
+<script src="/beispiele/friseur/gemeinsam/umschalter.js?v=3" defer></script>
+<script type="module" src="/beispiele/friseur/v2/app.js?v=5"></script>
 </body></html>
