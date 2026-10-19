@@ -6,16 +6,16 @@
 <link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/beispiele/_shared/demo.css">
 <link rel="preload" href="/beispiele/_shared/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/beispiele/kaffeebar/style.css?v=2">
+<link rel="stylesheet" href="/beispiele/kaffeebar/style.css?v=3">
 </head><body>
 <div class="tk-demo-bar"><a href="/#beispiele"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
 <span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musteradresse</span>
 <a class="tk-demo-bar__cta" href="/#anfrage">So eine Seite anfragen</a></div>
 
 <header class="nav" id="nav">
-  <nav class="nav__l" aria-label="Hauptmenü"><a href="#karte">Karte</a><a href="#haltung">Haltung</a><a href="#standorte">Standorte</a><a href="#bestellen">Bestellen</a></nav>
-  <a class="nav__logo" href="#top" aria-label="röstzeit Startseite">röstzeit<sup>°</sup></a>
-  <a class="nav__r" href="#bestellen">Vorbestellen <span aria-hidden="true">↗</span></a>
+  <a class="nav__logo logo" href="#top" aria-label="röstzeit Startseite"><span aria-hidden="true">r<span class="logo__o">o<i></i><i></i></span>stzeit</span><small class="logo__sub" aria-hidden="true">Kaffeehaus<br>&amp; Rösterei</small></a>
+  <nav class="nav__l" aria-label="Hauptmenü"><a href="#karte">Karte</a><a href="#roesterei">Rösterei</a><a href="#stimmen">Gäste</a><a href="#standorte">Standorte</a></nav>
+  <button class="nav__r" type="button" data-order>Vorbestellen <span class="nav__count" id="navcount" hidden>0</span></button>
 </header>
 
 <main id="top">
@@ -30,7 +30,10 @@
       <span class="ln ln--script"><span class="script">Moment</span></span>
     </h1>
     <p class="mono hero__lead" data-reveal style="--d:.5s">Bohnen aus fairem Handel, bei uns im Haus langsam geröstet und so zubereitet, dass jede Tasse nach mehr schmeckt.</p>
-    <a class="mono link" href="#karte" data-reveal style="--d:.65s">Karte ansehen <span aria-hidden="true">↗</span></a>
+    <div class="hero__cta" data-reveal style="--d:.65s">
+      <button class="btn btn--glow magnet" type="button" data-order>Online vorbestellen <span aria-hidden="true">↗</span></button>
+      <a class="mono link" href="#karte">Karte ansehen <span aria-hidden="true">↓</span></a>
+    </div>
   </div>
   <div class="hero__stage" id="stage">
     <div class="hero__fallback" aria-hidden="true">
@@ -44,13 +47,24 @@
     </div>
   </div>
   <div class="hero__foot mono">
-    <span>Täglich geöffnet<br>07:00 – 19:00</span>
-    <span>Musterplatz 12<br>3270 Musterstadt</span>
-    <span>Instagram<br>TikTok</span>
+    <span><i class="live" id="live"></i><b id="livetxt">Täglich geöffnet</b><br>07:00 – 19:00</span>
+    <span>3 Standorte<br>im Mostviertel</span>
+    <span class="hide-s">Instagram<br>TikTok</span>
+  </div>
+  <a class="hero__scroll mono" href="#zahlen" aria-label="Weiter nach unten"><i></i>Scroll</a>
+</section>
+
+<!-- Zahlen: zählen hoch, sobald sie im Bild sind -->
+<section class="nums dark" id="zahlen">
+  <div class="nums__in">
+    <p class="nums__i" data-reveal><b><span data-count="48">48</span> h</b><span class="mono">ruhen die Bohnen nach dem Rösten</span></p>
+    <p class="nums__i" data-reveal style="--d:.08s"><b><span data-count="12">12</span></b><span class="mono">Sorten im Jahr, je nach Ernte</span></p>
+    <p class="nums__i" data-reveal style="--d:.16s"><b><span data-count="3">3</span></b><span class="mono">Kaffeehäuser im Mostviertel</span></p>
+    <p class="nums__i" data-reveal style="--d:.24s"><b>0</b><span class="mono">Kapseln, Sirup-Bomben oder Getue</span></p>
   </div>
 </section>
 
-<!-- Karte: helle Fläche, Überschrift schiebt sich Zeile für Zeile hoch, Preise rollen ein -->
+<!-- Karte: helle Fläche, Lieblinge als große Karten, darunter die ganze Karte mit Reitern -->
 <section class="menu light" id="karte">
   <div class="swash" aria-hidden="true">r</div>
   <div class="menu__head">
@@ -59,16 +73,68 @@
       <h2 class="display" data-lines><span class="ln"><span>Lieblinge</span></span><span class="ln"><span>jeden Tag</span></span><span class="ln"><span>frisch</span></span></h2>
     </div>
     <div class="menu__side">
-      <p class="mono" data-reveal>Gute Zutaten, sorgfältig zubereitet. Einfach, ausgewogen und gemacht zum Genießen.</p>
-      <a class="mono link" href="#bestellen" data-reveal style="--d:.1s">Ganze Karte <span aria-hidden="true">↗</span></a>
+      <p class="mono" data-reveal>Gute Zutaten, sorgfältig zubereitet. Einfach, ausgewogen und gemacht zum Genießen. Tippe auf ＋ und dein Becher wartet auf dich.</p>
+      <a class="mono link" href="#ganzekarte" data-reveal style="--d:.1s">Ganze Karte <span aria-hidden="true">↓</span></a>
     </div>
   </div>
   <ul class="cards">
-    <li class="card" data-reveal style="--d:0s"><div class="card__in"><i class="card__glare" aria-hidden="true"></i><span class="mono card__n">01</span><img src="/beispiele/kaffeebar/bilder/espresso.webp" alt="Espresso im kleinen röstzeit-Becher, mit Crema" width="754" height="904" loading="lazy"><span class="card__row mono"><b>Espresso</b><b data-scramble data-on-view>€ 2,60</b></span></div></li>
-    <li class="card" data-reveal style="--d:.08s"><div class="card__in"><i class="card__glare" aria-hidden="true"></i><span class="mono card__n">02</span><img src="/beispiele/kaffeebar/bilder/melange.webp" alt="Melange mit Milchschaum-Herz im röstzeit-Becher" width="598" height="852" loading="lazy"><span class="card__row mono"><b>Melange</b><b data-scramble data-on-view>€ 4,20</b></span></div></li>
-    <li class="card" data-reveal style="--d:.16s"><div class="card__in"><i class="card__glare" aria-hidden="true"></i><span class="mono card__n">03</span><img src="/beispiele/kaffeebar/bilder/matcha.webp" alt="Eisgekühlter Matcha Latte im Klarbecher mit Strohhalm" width="558" height="1080" loading="lazy"><span class="card__row mono"><b>Iced Matcha</b><b data-scramble data-on-view>€ 4,80</b></span></div></li>
-    <li class="card" data-reveal style="--d:.24s"><div class="card__in"><i class="card__glare" aria-hidden="true"></i><span class="mono card__n">04</span><img src="/beispiele/kaffeebar/bilder/bohnen.webp" alt="Kaffeesack röstzeit, langsam geröstet, 250 Gramm" width="608" height="935" loading="lazy"><span class="card__row mono"><b>Hausröstung</b><b data-scramble data-on-view>€ 14,90</b></span></div></li>
+    <li class="card" data-reveal style="--d:0s"><div class="card__in"><i class="card__glare" aria-hidden="true"></i><span class="mono card__n">01 · Klassiker</span><img src="/beispiele/kaffeebar/bilder/espresso.webp" alt="Espresso im kleinen röstzeit-Becher, mit Crema" width="754" height="904" loading="lazy"><span class="card__row mono"><b>Espresso</b><b data-scramble data-on-view>€ 2,60</b></span><button class="card__add" type="button" data-add="espresso" aria-label="Espresso zur Bestellung">＋</button></div></li>
+    <li class="card" data-reveal style="--d:.08s"><div class="card__in"><i class="card__glare" aria-hidden="true"></i><span class="mono card__n">02 · Wiener Art</span><img src="/beispiele/kaffeebar/bilder/melange.webp" alt="Melange mit Milchschaum-Herz im röstzeit-Becher" width="598" height="852" loading="lazy"><span class="card__row mono"><b>Melange</b><b data-scramble data-on-view>€ 4,20</b></span><button class="card__add" type="button" data-add="melange" aria-label="Melange zur Bestellung">＋</button></div></li>
+    <li class="card" data-reveal style="--d:.16s"><div class="card__in"><i class="card__glare" aria-hidden="true"></i><span class="mono card__n">03 · Eiskalt</span><img src="/beispiele/kaffeebar/bilder/matcha.webp" alt="Eisgekühlter Matcha Latte im Klarbecher mit Strohhalm" width="558" height="1080" loading="lazy"><span class="card__row mono"><b>Iced Matcha</b><b data-scramble data-on-view>€ 4,80</b></span><button class="card__add" type="button" data-add="matcha-iced" aria-label="Iced Matcha zur Bestellung">＋</button></div></li>
+    <li class="card" data-reveal style="--d:.24s"><div class="card__in"><i class="card__glare" aria-hidden="true"></i><span class="mono card__n">04 · Für zuhause</span><img src="/beispiele/kaffeebar/bilder/bohnen.webp" alt="Kaffeesack röstzeit, langsam geröstet, 250 Gramm" width="608" height="935" loading="lazy"><span class="card__row mono"><b>Hausröstung</b><b data-scramble data-on-view>€ 14,90</b></span><button class="card__add" type="button" data-add="haus" aria-label="Hausröstung zur Bestellung">＋</button></div></li>
   </ul>
+
+  <div class="full" id="ganzekarte">
+    <div class="full__head">
+      <h3 class="display display--s" data-lines><span class="ln"><span>Die ganze Karte</span></span></h3>
+      <div class="tabs mono" role="tablist" aria-label="Kategorien">
+        <button role="tab" aria-selected="true" aria-controls="t-kaffee" id="tb-kaffee">Kaffee</button>
+        <button role="tab" aria-selected="false" aria-controls="t-kalt" id="tb-kalt" tabindex="-1">Kalt</button>
+        <button role="tab" aria-selected="false" aria-controls="t-ohne" id="tb-ohne" tabindex="-1">Ohne Kaffee</button>
+        <button role="tab" aria-selected="false" aria-controls="t-suess" id="tb-suess" tabindex="-1">Süßes</button>
+        <button role="tab" aria-selected="false" aria-controls="t-bohnen" id="tb-bohnen" tabindex="-1">Bohnen</button>
+        <i class="tabs__ink" aria-hidden="true"></i>
+      </div>
+    </div>
+    <ul class="rows" role="tabpanel" id="t-kaffee" aria-labelledby="tb-kaffee">
+      <li class="row" data-id="espresso" data-price="2.60" data-img="espresso"><b>Espresso</b><span>Kurz, dicht, haselnussige Crema. Unsere Hausmischung.</span><em>€ 2,60</em><button type="button" data-add="espresso" aria-label="Espresso hinzufügen">＋</button></li>
+      <li class="row" data-id="doppio" data-price="3.40" data-img="espresso"><b>Doppio</b><span>Zwei Schuss für lange Tage.</span><em>€ 3,40</em><button type="button" data-add="doppio" aria-label="Doppio hinzufügen">＋</button></li>
+      <li class="row" data-id="verlaengerter" data-price="3.60" data-img="becher"><b>Verlängerter</b><span>Espresso mit heißem Wasser, wie in Wien.</span><em>€ 3,60</em><button type="button" data-add="verlaengerter" aria-label="Verlängerter hinzufügen">＋</button></li>
+      <li class="row" data-id="melange" data-price="4.20" data-img="melange"><b>Melange</b><span>Halb Kaffee, halb Milch, viel Schaum.</span><em>€ 4,20</em><button type="button" data-add="melange" aria-label="Melange hinzufügen">＋</button></li>
+      <li class="row" data-id="cappuccino" data-price="4.20" data-img="melange"><b>Cappuccino</b><span>Feiner Milchschaum, Latte-Art inklusive.</span><em>€ 4,20</em><button type="button" data-add="cappuccino" aria-label="Cappuccino hinzufügen">＋</button></li>
+      <li class="row" data-id="flatwhite" data-price="4.60" data-img="melange"><b>Flat White <i class="mono pill">Beliebt</i></b><span>Doppelter Espresso, samtige Milch, wenig Schaum.</span><em>€ 4,60</em><button type="button" data-add="flatwhite" aria-label="Flat White hinzufügen">＋</button></li>
+      <li class="row" data-id="filter" data-price="3.90" data-img="becher"><b>Filter des Tages</b><span>Handgebrüht, wechselnde Bohne. Frag uns, was heute läuft.</span><em>€ 3,90</em><button type="button" data-add="filter" aria-label="Filter des Tages hinzufügen">＋</button></li>
+    </ul>
+    <ul class="rows" role="tabpanel" id="t-kalt" aria-labelledby="tb-kalt" hidden>
+      <li class="row" data-id="eiskaffee" data-price="4.90" data-img="eiskaffee"><b>Eiskaffee <i class="mono pill">Sommer</i></b><span>Cold Brew, Milch, Eis. Ohne Schlagobers-Turm.</span><em>€ 4,90</em><button type="button" data-add="eiskaffee" aria-label="Eiskaffee hinzufügen">＋</button></li>
+      <li class="row" data-id="coldbrew" data-price="4.40" data-img="eiskaffee"><b>Cold Brew</b><span>18 Stunden kalt gezogen, mild und schokoladig.</span><em>€ 4,40</em><button type="button" data-add="coldbrew" aria-label="Cold Brew hinzufügen">＋</button></li>
+      <li class="row" data-id="tonic" data-price="4.80" data-img="eiskaffee"><b>Espresso Tonic</b><span>Tonic, Eis, Orangenzeste, Espresso obendrauf.</span><em>€ 4,80</em><button type="button" data-add="tonic" aria-label="Espresso Tonic hinzufügen">＋</button></li>
+      <li class="row" data-id="icedlatte" data-price="4.60" data-img="eiskaffee"><b>Iced Latte</b><span>Doppelter Espresso über kalter Milch.</span><em>€ 4,60</em><button type="button" data-add="icedlatte" aria-label="Iced Latte hinzufügen">＋</button></li>
+      <li class="row" data-id="matcha-iced" data-price="4.80" data-img="matcha"><b>Iced Matcha</b><span>Zeremonie-Matcha, Hafermilch, Eis.</span><em>€ 4,80</em><button type="button" data-add="matcha-iced" aria-label="Iced Matcha hinzufügen">＋</button></li>
+    </ul>
+    <ul class="rows" role="tabpanel" id="t-ohne" aria-labelledby="tb-ohne" hidden>
+      <li class="row" data-id="matcha" data-price="4.60" data-img="matcha"><b>Matcha Latte <i class="mono pill">Vegan möglich</i></b><span>Warm, cremig, leicht grasig.</span><em>€ 4,60</em><button type="button" data-add="matcha" aria-label="Matcha Latte hinzufügen">＋</button></li>
+      <li class="row" data-id="chai" data-price="4.40" data-img="becher"><b>Chai Latte</b><span>Selbst gekochter Gewürzsud, nicht aus dem Pulver.</span><em>€ 4,40</em><button type="button" data-add="chai" aria-label="Chai Latte hinzufügen">＋</button></li>
+      <li class="row" data-id="schoko" data-price="4.20" data-img="becher"><b>Heiße Schokolade</b><span>70 % Kakao, auf Wunsch mit Hafermilch.</span><em>€ 4,20</em><button type="button" data-add="schoko" aria-label="Heiße Schokolade hinzufügen">＋</button></li>
+      <li class="row" data-id="tee" data-price="3.20" data-img="becher"><b>Kräutertee</b><span>Kräuter von einem Hof bei Musterstadt.</span><em>€ 3,20</em><button type="button" data-add="tee" aria-label="Kräutertee hinzufügen">＋</button></li>
+      <li class="row" data-id="limo" data-price="3.90"><b>Hauslimonade</b><span>Holunder oder Zitrone-Minze, wenig Zucker.</span><em>€ 3,90</em><button type="button" data-add="limo" aria-label="Hauslimonade hinzufügen">＋</button></li>
+    </ul>
+    <ul class="rows" role="tabpanel" id="t-suess" aria-labelledby="tb-suess" hidden>
+      <li class="row" data-id="zimt" data-price="3.60"><b>Zimtschnecke <i class="mono pill">Frisch 9 Uhr</i></b><span>Jeden Morgen frisch aus dem Ofen.</span><em>€ 3,60</em><button type="button" data-add="zimt" aria-label="Zimtschnecke hinzufügen">＋</button></li>
+      <li class="row" data-id="mohn" data-price="3.90"><b>Mohnkuchen</b><span>Waldviertler Graumohn, saftig.</span><em>€ 3,90</em><button type="button" data-add="mohn" aria-label="Mohnkuchen hinzufügen">＋</button></li>
+      <li class="row" data-id="strudel" data-price="4.20"><b>Topfenstrudel</b><span>Nach Omas Rezept, warm serviert.</span><em>€ 4,20</em><button type="button" data-add="strudel" aria-label="Topfenstrudel hinzufügen">＋</button></li>
+      <li class="row" data-id="bananenbrot" data-price="3.40"><b>Bananenbrot</b><span>Vegan, mit Walnüssen.</span><em>€ 3,40</em><button type="button" data-add="bananenbrot" aria-label="Bananenbrot hinzufügen">＋</button></li>
+      <li class="row" data-id="croissant" data-price="2.80"><b>Buttercroissant</b><span>Vom Bäcker ums Eck, knusprig.</span><em>€ 2,80</em><button type="button" data-add="croissant" aria-label="Buttercroissant hinzufügen">＋</button></li>
+    </ul>
+    <ul class="rows" role="tabpanel" id="t-bohnen" aria-labelledby="tb-bohnen" hidden>
+      <li class="row" data-id="haus" data-price="14.90" data-img="bohnen"><b>Hausröstung</b><span>250 g · Schokolade, Haselnuss · für Siebträger und Vollautomat.</span><em>€ 14,90</em><button type="button" data-add="haus" aria-label="Hausröstung hinzufügen">＋</button></li>
+      <li class="row" data-id="mostviertel" data-price="15.90" data-img="bohnen"><b>Espresso Mostviertel</b><span>250 g · dunkel, kräftig, wenig Säure.</span><em>€ 15,90</em><button type="button" data-add="mostviertel" aria-label="Espresso Mostviertel hinzufügen">＋</button></li>
+      <li class="row" data-id="hell" data-price="13.90" data-img="bohnen"><b>Filter hell <i class="mono pill">Neu</i></b><span>250 g · Beeren, Blüten · für Handfilter und French Press.</span><em>€ 13,90</em><button type="button" data-add="hell" aria-label="Filter hell hinzufügen">＋</button></li>
+      <li class="row" data-id="decaf" data-price="14.50" data-img="bohnen"><b>Entkoffeiniert</b><span>250 g · schonend mit Wasser entkoffeiniert.</span><em>€ 14,50</em><button type="button" data-add="decaf" aria-label="Entkoffeiniert hinzufügen">＋</button></li>
+    </ul>
+    <p class="mono full__note">Alle Milchgetränke auch mit Hafer- oder Mandelmilch (+ € 0,40). Allergene auf Nachfrage.</p>
+  </div>
+  <div class="peek" id="peek" aria-hidden="true"><img alt="" width="300" height="400"></div>
 </section>
 
 <!-- Laufband: läuft immer, beim Scrollen schneller und schräg -->
@@ -76,11 +142,49 @@
   <div class="band__track"><span>Frisch geröstet <i>✺</i> Jeden Tag <i>✺</i> Im Mostviertel <i>✺</i> Zum Mitnehmen <i>✺</i> </span><span>Frisch geröstet <i>✺</i> Jeden Tag <i>✺</i> Im Mostviertel <i>✺</i> Zum Mitnehmen <i>✺</i> </span></div>
 </section>
 
-<!-- Standorte: Uhr bleibt stehen, beim Scrollen laufen die Zeiger von 7 bis 19 Uhr -->
-<section class="clock light" id="standorte">
+<!-- Rösterei: vier Schritte von der Bohne in den Becher, waagrecht beim Scrollen -->
+<section class="proc dark" id="roesterei">
+  <div class="proc__pin">
+    <div class="proc__bar" aria-hidden="true"><i id="procbar"></i></div>
+    <div class="proc__track" id="proctrack">
+      <div class="proc__intro">
+        <p class="mono kick">// Unsere Rösterei</p>
+        <h2 class="display display--m" data-lines><span class="ln"><span>Von der Bohne</span></span><span class="ln"><span>in deinen</span></span><span class="ln"><span class="script">Becher</span></span></h2>
+        <p class="mono proc__hint">Vier Schritte, alle bei uns im Haus. <span aria-hidden="true">→</span></p>
+      </div>
+      <article class="step">
+        <span class="step__n" aria-hidden="true">01</span>
+        <svg class="step__ic" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 58V26M32 40c-10 0-16-7-16-16 10 0 16 6 16 16Zm0-8c8 0 14-6 14-14-8 0-14 5-14 14Z"/><circle cx="24" cy="50" r="3"/><circle cx="40" cy="48" r="3"/></svg>
+        <h3>Ausgesucht</h3>
+        <p class="mono">Wir kaufen direkt bei kleinen Farmen in Kolumbien, Äthiopien und Brasilien und zahlen deutlich über dem Fairtrade-Preis.</p>
+      </article>
+      <article class="step">
+        <span class="step__n" aria-hidden="true">02</span>
+        <svg class="step__ic" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6c4 10 14 14 14 28a14 14 0 0 1-28 0c0-8 4-12 7-16 1 6 4 8 7 8-3-8-2-14 0-20Z"/></svg>
+        <h3>Langsam geröstet</h3>
+        <p class="mono">Kleine Mengen, 14 bis 16 Minuten im Trommelröster. So schmeckt der Kaffee rund und nicht bitter.</p>
+      </article>
+      <article class="step">
+        <span class="step__n" aria-hidden="true">03</span>
+        <svg class="step__ic" viewBox="0 0 64 64" aria-hidden="true"><rect x="16" y="26" width="32" height="30" rx="3"/><path d="M20 26l4-14h16l4 14M32 12V6M24 6h16M26 40h12"/></svg>
+        <h3>Frisch gemahlen</h3>
+        <p class="mono">Erst ruhen die Bohnen 48 Stunden, dann mahlen wir für jede Tasse einzeln. Nichts liegt herum.</p>
+      </article>
+      <article class="step">
+        <span class="step__n" aria-hidden="true">04</span>
+        <svg class="step__ic" viewBox="0 0 64 64" aria-hidden="true"><path d="M14 24h32v14a16 16 0 0 1-32 0V24Zm32 4h4a6 6 0 0 1 0 12h-5M22 8c-2 4 2 6 0 10M30 8c-2 4 2 6 0 10M38 8c-2 4 2 6 0 10"/></svg>
+        <h3>In deinem Becher</h3>
+        <p class="mono">Gebrüht von Leuten, die das gern machen. Und wenn du vorbestellst, steht er genau dann bereit, wenn du kommst.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Öffnungszeiten: Uhr bleibt stehen, beim Scrollen laufen die Zeiger von 7 bis 19 Uhr -->
+<section class="clock light" id="zeiten">
   <div class="clock__pin">
     <div class="swash swash--b" aria-hidden="true">z</div>
-    <p class="mono kick clock__kick">// Unsere Standorte</p>
+    <p class="mono kick clock__kick">// Ein Tag bei röstzeit</p>
     <div class="dial" id="dial">
       <svg viewBox="0 0 400 400" aria-hidden="true" id="dialsvg"></svg>
       <i class="dial__shadow" aria-hidden="true"></i>
@@ -88,9 +192,11 @@
       <i class="hand hand--h" id="hh"></i><i class="hand hand--m" id="hm"></i><i class="hand hand--s" id="hs"></i>
     </div>
     <ul class="places mono" id="places">
-      <li class="is-on">Musterplatz 12<br>3270 Musterstadt</li>
-      <li>Bahnhofstraße 4<br>3250 Musterdorf</li>
-      <li>Am Markt 9<br>3300 Musterort</li>
+      <li class="is-on"><b>07:00</b> Türen auf, erste Röstung</li>
+      <li><b>09:00</b> Zimtschnecken aus dem Ofen</li>
+      <li><b>12:00</b> Mittags-Espresso</li>
+      <li><b>15:00</b> Kuchen und Cold Brew</li>
+      <li><b>18:30</b> Letzte Bestellung</li>
     </ul>
     <p class="open mono"><span>Täglich geöffnet</span><b id="time">07:00</b></p>
   </div>
@@ -111,20 +217,35 @@
  </div>
 </section>
 
+<!-- Gäste: Karten fächern sich beim Scrollen auf -->
+<section class="voices light" id="stimmen">
+  <div class="voices__head">
+    <p class="mono kick">// Was Gäste sagen</p>
+    <h2 class="display display--m" data-lines><span class="ln"><span>Lieber vorbei</span></span><span class="ln"><span>als <span class="script">vorbei</span>.</span></span></h2>
+    <p class="voices__score"><b>4,9</b><span class="stars" aria-hidden="true">★★★★★</span><span class="mono">Beispielwerte · erfundene Stimmen</span></p>
+  </div>
+  <div class="voices__fan" id="fan">
+    <figure class="vc"><blockquote>„Der beste Flat White zwischen Wien und Linz. Und sie merken sich, wie ich ihn mag.“</blockquote><figcaption class="mono">Lena · Stammgast</figcaption></figure>
+    <figure class="vc vc--o"><blockquote>„Vorbestellt im Zug, beim Aussteigen stand der Becher bereit. Genau so.“</blockquote><figcaption class="mono">Markus · Pendler</figcaption></figure>
+    <figure class="vc"><blockquote>„Ich hab die Hausröstung für daheim gekauft und trink keinen anderen mehr.“</blockquote><figcaption class="mono">Sabine · seit 2026 dabei</figcaption></figure>
+    <figure class="vc vc--d"><blockquote>„Ruhig, freundlich, kein Getue. Die Zimtschnecke um neun ist Pflicht.“</blockquote><figcaption class="mono">Jonas · Frühaufsteher</figcaption></figure>
+  </div>
+</section>
+
 <!-- Bestellen: Bon wird beim Scrollen aus dem Drucker geschoben -->
 <section class="order dark" id="bestellen">
   <div class="order__pin">
     <h2 class="display display--m order__h" data-lines><span class="ln"><span>Kaffee für</span></span><span class="ln"><span>genau jetzt.</span></span></h2>
-    <div class="printer" aria-hidden="true">
-      <div class="printer__slot"></div>
-      <div class="printer__paper">
+    <div class="printer" id="printer" aria-hidden="true">
+      <div class="printer__slot"><i class="printer__led"></i></div>
+      <div class="printer__paper" id="paper">
         <div class="bon" id="bon">
           <p class="bon__t">röstzeit° Kaffeehaus</p>
           <img src="/beispiele/kaffeebar/bilder/matcha.webp" alt="" width="558" height="1080" loading="lazy">
           <div class="bon__dash"></div>
-          <p class="bon__l"><span>1 × Iced Matcha</span><span>4,80</span></p>
-          <p class="bon__l"><span>1 × Melange</span><span>4,20</span></p>
-          <p class="bon__l bon__sum"><span>Summe</span><span>9,00</span></p>
+          <div id="bonlines"><p class="bon__l"><span>1 × Iced Matcha</span><span>4,80</span></p>
+          <p class="bon__l"><span>1 × Melange</span><span>4,20</span></p></div>
+          <p class="bon__l bon__sum"><span>Summe</span><span id="bonsum">9,00</span></p>
           <div class="bon__dash"></div>
           <p class="bon__msg">Danke, dass du bei röstzeit warst.<br>Bis morgen!</p>
           <p class="bon__big">Schlange sparen.<br>Vorbestellen.</p>
@@ -135,23 +256,96 @@
       </div>
     </div>
     <div class="order__side">
-      <p class="mono" data-reveal>Wir richten uns nach deinem Zeitplan: Bestell vorher und dein Becher wird fertig, wenn du kommst. Du wartest nicht, er wartet auch nicht, weil er genau dann gemacht wird, wenn du es eilig hast.</p>
-      <a class="btn" href="#bestellen" data-reveal style="--d:.1s">Jetzt vorbestellen <span aria-hidden="true">↗</span></a>
+      <p class="mono" data-reveal>Wir richten uns nach deinem Zeitplan: Bestell vorher und dein Becher wird fertig, wenn du kommst. Du wartest nicht, er wartet auch nicht.</p>
+      <ol class="order__steps mono" data-reveal style="--d:.08s"><li>Getränke wählen</li><li>Standort und Abholzeit</li><li>Abholen, ohne anzustehen</li></ol>
+      <button class="btn btn--glow magnet" type="button" data-order data-reveal style="--d:.16s">Jetzt vorbestellen <span aria-hidden="true">↗</span></button>
     </div>
+  </div>
+</section>
+
+<!-- Standorte: Karte mit Stecknadeln, Live-Status je Haus -->
+<section class="locs light" id="standorte">
+  <div class="locs__head">
+    <p class="mono kick">// Unsere Standorte</p>
+    <h2 class="display display--m" data-lines><span class="ln"><span>Drei Mal</span></span><span class="ln"><span>ums Eck.</span></span></h2>
+  </div>
+  <div class="locs__grid">
+    <div class="map" id="map" data-reveal>
+      <svg viewBox="0 0 600 460" aria-hidden="true">
+        <path class="map__river" d="M-10 330C80 300 120 360 210 340S330 250 420 270 540 330 610 300"/>
+        <path class="map__road map__road--b" d="M40 -10 120 470M-10 120 610 60M260 -10 300 470M-10 410 610 380M470 -10 520 470"/>
+        <path class="map__road" d="M0 230C150 220 240 180 330 200S520 170 610 150M160 -10C170 120 200 250 180 470"/>
+        <path class="map__route" id="route" d="M150 150C200 190 260 200 330 200S440 190 470 260"/>
+        <g class="pin" data-pin="0" transform="translate(150 150)"><circle r="26" class="pin__pulse"/><path d="M0 0c-10-14-16-22-16-30a16 16 0 0 1 32 0c0 8-6 16-16 30Z"/><circle cy="-30" r="6" class="pin__dot"/></g>
+        <g class="pin" data-pin="1" transform="translate(330 200)"><circle r="26" class="pin__pulse"/><path d="M0 0c-10-14-16-22-16-30a16 16 0 0 1 32 0c0 8-6 16-16 30Z"/><circle cy="-30" r="6" class="pin__dot"/></g>
+        <g class="pin" data-pin="2" transform="translate(470 260)"><circle r="26" class="pin__pulse"/><path d="M0 0c-10-14-16-22-16-30a16 16 0 0 1 32 0c0 8-6 16-16 30Z"/><circle cy="-30" r="6" class="pin__dot"/></g>
+        <text x="380" y="300" class="map__lbl">Mustfluss</text>
+      </svg>
+    </div>
+    <ul class="shops">
+      <li class="shop is-on" data-shop="0" tabindex="0" data-reveal><span class="mono shop__n">01 · Stammhaus mit Rösterei</span><b>Musterplatz 12</b><span class="mono">3270 Musterstadt</span><span class="mono shop__h"><i class="live"></i><em data-status>Täglich 07:00 – 19:00</em></span><a class="mono link" href="#standorte">Route planen <span aria-hidden="true">↗</span></a></li>
+      <li class="shop" data-shop="1" tabindex="0" data-reveal style="--d:.08s"><span class="mono shop__n">02 · Am Bahnhof</span><b>Bahnhofstraße 4</b><span class="mono">3250 Musterdorf</span><span class="mono shop__h"><i class="live"></i><em data-status>Mo–Fr 06:30 – 19:00 · Sa–So 08:00 – 17:00</em></span><a class="mono link" href="#standorte">Route planen <span aria-hidden="true">↗</span></a></li>
+      <li class="shop" data-shop="2" tabindex="0" data-reveal style="--d:.16s"><span class="mono shop__n">03 · Am Markt</span><b>Am Markt 9</b><span class="mono">3300 Musterort</span><span class="mono shop__h"><i class="live"></i><em data-status>Di–So 08:00 – 18:00</em></span><a class="mono link" href="#standorte">Route planen <span aria-hidden="true">↗</span></a></li>
+    </ul>
   </div>
 </section>
 </main>
 
 <footer class="foot dark">
+  <div class="foot__top">
+    <p class="foot__claim display display--m">Bis gleich<br>auf einen <span class="script">Kaffee</span>.</p>
+    <button class="btn btn--glow magnet" type="button" data-order>Vorbestellen <span aria-hidden="true">↗</span></button>
+  </div>
   <div class="foot__cols mono">
-    <div><b>Karte</b><a href="#karte">Kaffee</a><a href="#karte">Ohne Kaffee</a><a href="#karte">Bohnen</a></div>
-    <div><b>Über uns</b><a href="#haltung">Haltung</a><a href="#standorte">Standorte</a><a href="#bestellen">Vorbestellen</a></div>
+    <div><b>Karte</b><a href="#karte">Kaffee</a><a href="#ganzekarte">Ganze Karte</a><a href="#ganzekarte">Bohnen</a></div>
+    <div><b>Über uns</b><a href="#roesterei">Rösterei</a><a href="#haltung">Haltung</a><a href="#standorte">Standorte</a></div>
     <div><b>Kontakt</b><span>hallo@roestzeit.example</span><span>+43 1234 567 89</span></div>
     <div><b>Rechtliches</b><span>Erfundener Betrieb</span><span>Beispiel-Entwurf von tim-kofler.at</span></div>
   </div>
-  <p class="foot__mark" aria-hidden="true">röstzeit<sup>°</sup></p>
+  <p class="foot__mark logo" aria-hidden="true">r<span class="logo__o">o<i></i><i></i></span>stzeit</p>
 </footer>
 
+<!-- Warenkorb unten rechts, sobald etwas drin ist -->
+<button class="cart" id="cart" type="button" data-order inert><span class="cart__n" id="cartn">0</span><span class="mono">Deine Bestellung</span><b id="cartsum">€ 0,00</b></button>
+
+<!-- Bestellfenster -->
+<dialog class="panel" id="panel" aria-labelledby="panel-h">
+  <form method="dialog" class="panel__in" id="orderform" novalidate>
+    <div class="panel__head">
+      <div><p class="mono kick">// Vorbestellen</p><h2 id="panel-h">Deine Bestellung</h2></div>
+      <button class="panel__x" type="button" data-close aria-label="Schließen">✕</button>
+    </div>
+    <div class="panel__body" id="panelbody">
+      <fieldset class="seg"><legend class="mono">Wo holst du ab?</legend>
+        <label><input type="radio" name="shop" value="Musterplatz 12" checked><span>Musterplatz</span></label>
+        <label><input type="radio" name="shop" value="Bahnhofstraße 4"><span>Bahnhof</span></label>
+        <label><input type="radio" name="shop" value="Am Markt 9"><span>Am Markt</span></label>
+      </fieldset>
+      <fieldset class="seg"><legend class="mono">Wann?</legend>
+        <label><input type="radio" name="when" value="10" checked><span>In 10 Min</span></label>
+        <label><input type="radio" name="when" value="20"><span>In 20 Min</span></label>
+        <label><input type="radio" name="when" value="45"><span>In 45 Min</span></label>
+      </fieldset>
+      <div class="lines" id="lines"><p class="mono lines__empty" id="empty">Noch leer. Tippe unten auf ＋ oder in der Karte.</p></div>
+      <p class="mono quick__h">Schnell dazu</p>
+      <div class="quick" id="quick"></div>
+      <label class="field"><span class="mono">Name für den Becher</span><input name="name" autocomplete="given-name" placeholder="z. B. Lena" required></label>
+    </div>
+    <div class="panel__foot">
+      <p class="panel__sum"><span class="mono">Summe</span><b id="sum">€ 0,00</b></p>
+      <button class="btn btn--glow panel__go" type="submit" id="go" value="send">Bestellung abschicken <span aria-hidden="true">→</span></button>
+      <p class="mono panel__demo">Beispiel-Entwurf: Es wird nichts verschickt oder bezahlt.</p>
+    </div>
+    <div class="done" id="done" hidden>
+      <svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="36"/><path d="M24 41l11 11 21-24"/></svg>
+      <h3>Danke, <span id="donename">du</span>!</h3>
+      <p class="mono" id="donetxt">Dein Becher ist um 08:10 am Musterplatz fertig.</p>
+      <p class="mono done__nr">Abholnummer <b id="donenr">042</b></p>
+      <button class="btn" type="button" data-close>Schließen</button>
+    </div>
+  </form>
+</dialog>
+
 <script src="/beispiele/_shared/demo.js" defer></script>
-<script type="module" src="/beispiele/kaffeebar/app.js?v=2"></script>
+<script type="module" src="/beispiele/kaffeebar/app.js?v=3"></script>
 </body></html>
