@@ -44,9 +44,11 @@ function text(g, t, x, y, font, color, align, spacing) {
 
 // Rundum-Etikett: u läuft einmal um die Dose (Vorderseite bei u = 0,5), v von unten nach oben.
 // Zweite Leinwand mit denselben Linien auf Schwarz ist die Leuchtkarte (Birne, Streifen, Sortenname glühen).
-export function label(THREE, key) {
-  var S = SORTEN[key], W = 2048, H = 1328, fx = W * .5;
-  var a = canvas(W, H), c = a[0], g = a[1], b = canvas(W, H), ce = b[0], e = b[1];
+// q: Auflösung (1 = 2048 Pixel rundum); die Leuchtkarte reicht in einem Viertel davon.
+export function label(THREE, key, q) {
+  var S = SORTEN[key], W = 2048, H = 1328, fx = W * .5, f = q || 1, fe = .25;
+  var a = canvas(Math.round(W * f), Math.round(H * f)), c = a[0], g = a[1], b = canvas(W * fe, H * fe), ce = b[0], e = b[1];
+  g.scale(f, f); e.scale(fe, fe);
   var gr = g.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, S.base[0]); gr.addColorStop(1, S.base[1]);
   g.fillStyle = gr; g.fillRect(0, 0, W, H);
   e.fillStyle = "#000"; e.fillRect(0, 0, W, H);
@@ -92,15 +94,31 @@ function lathe(THREE, pts, seg) {
 }
 
 // Dose (330 ml, schlank). Mittelpunkt liegt bei y = 0, Höhe etwa 1,62.
-// can.userData.set(key) tauscht das Etikett, can.userData.glow(k) regelt das Leuchten.
+// Das Etikett kann zwischen zwei Sorten "füllen": unterhalb der Höhe uFillY (Weltkoordinate) zeigt es die zweite Sorte,
+// an der Grenze leuchtet ein welliger Rand. So wechselt die Farbe wie beim Eingießen statt mit einem Sprung.
+// can.userData.show(a, b, fillY, band) setzt beide Sorten und die Grenze, glow(k) regelt das Leuchten.
 export function can(THREE, key, o) {
   o = o || {};
-  var seg = o.seg || 72, grp = new THREE.Group(), inner = new THREE.Group(); inner.position.y = -.81; grp.add(inner);
-  var labels = {}, cur = null;
-  function get(k) { return labels[k] || (labels[k] = label(THREE, k)); }
+  var seg = o.seg || 72, q = o.q || 1, grp = new THREE.Group(), inner = new THREE.Group(); inner.position.y = -.81; grp.add(inner);
+  var labels = {};
+  function get(k) { return labels[k] || (labels[k] = label(THREE, k, q)); }
   var L = get(key);
-  var body = new THREE.Mesh(lathe(THREE, [[.33, .075], [.33, 1.42]], seg),
-    new THREE.MeshStandardMaterial({ map: L.map, emissiveMap: L.emissive, emissive: "#ffffff", emissiveIntensity: .9, metalness: .55, roughness: .34 }));
+  var U = { map2: { value: L.map }, emissive2: { value: L.emissive }, uFillY: { value: -99 }, uEdgeC: { value: new THREE.Color("#ffffff") }, uBand: { value: 0 }, uT: { value: 0 } };
+  var mat = new THREE.MeshStandardMaterial({ map: L.map, emissiveMap: L.emissive, emissive: "#ffffff", emissiveIntensity: .9, metalness: .55, roughness: .34 });
+  mat.onBeforeCompile = function (sh) {
+    Object.assign(sh.uniforms, U);
+    sh.vertexShader = sh.vertexShader.replace("#include <common>", "#include <common>\nvarying float vWY;")
+      .replace("#include <project_vertex>", "#include <project_vertex>\nvWY = (modelMatrix * vec4(transformed, 1.0)).y;");
+    sh.fragmentShader = sh.fragmentShader.replace("#include <common>", "#include <common>\nvarying float vWY; uniform sampler2D map2; uniform sampler2D emissive2; uniform float uFillY, uBand, uT; uniform vec3 uEdgeC;")
+      .replace("#include <map_fragment>",
+        "float fillE = uFillY + sin(vMapUv.x * 25.13 + uT * 3.0) * .012 + sin(vMapUv.x * 62.8 - uT * 5.0) * .005;\n" +
+        "float fillK = step(vWY, fillE);\n" +
+        "diffuseColor *= mix(texture2D(map, vMapUv), texture2D(map2, vMapUv), fillK);")
+      .replace("#include <emissivemap_fragment>",
+        "totalEmissiveRadiance *= mix(texture2D(emissiveMap, vEmissiveMapUv), texture2D(emissive2, vEmissiveMapUv), fillK).rgb;\n" +
+        "totalEmissiveRadiance += uEdgeC * smoothstep(.035, .0, abs(vWY - fillE)) * uBand * 2.5;");
+  };
+  var body = new THREE.Mesh(lathe(THREE, [[.33, .075], [.33, 1.42]], seg), mat);
   body.rotation.y = Math.PI; inner.add(body);
   var alu = new THREE.MeshStandardMaterial({ color: "#c9ccd1", metalness: 1, roughness: .26 });
   inner.add(new THREE.Mesh(lathe(THREE, [[0, .045], [.18, .03], [.24, 0], [.29, 0], [.318, .025], [.33, .075]], seg), alu));
@@ -112,15 +130,18 @@ export function can(THREE, key, o) {
   var rivet = new THREE.Mesh(new THREE.CylinderGeometry(.018, .018, .014, 16), tabM); rivet.position.set(0, 1.594, 0); inner.add(rivet);
   var score = new THREE.Mesh(new THREE.TorusGeometry(.06, .004, 6, 32), new THREE.MeshStandardMaterial({ color: "#8f9399", metalness: 1, roughness: .4 }));
   score.rotation.x = Math.PI / 2; score.scale.set(1, 1.3, 1); score.position.set(0, 1.589, -.12); inner.add(score);
-  grp.userData.set = function (k) {
-    if (k === cur) return; cur = k; var l = get(k);
-    body.material.map = l.map; body.material.emissiveMap = l.emissive; body.material.metalness = SORTEN[k].gold ? .85 : .55;
-    body.material.roughness = SORTEN[k].gold ? .28 : .34; body.material.needsUpdate = true;
+  var cur = [key, key];
+  grp.userData.show = function (a, b, fillY, band, t) {
+    if (a !== cur[0]) { cur[0] = a; var la = get(a); mat.map = la.map; mat.emissiveMap = la.emissive; }
+    if (b !== cur[1]) { cur[1] = b; var lb = get(b); U.map2.value = lb.map; U.emissive2.value = lb.emissive; }
+    U.uFillY.value = fillY; U.uBand.value = band || 0; U.uT.value = t || 0;
+    // Gold glänzt stärker; beim Füllen zählt die Sorte, die gerade mehr Fläche hat.
+    mat.metalness = SORTEN[fillY > grp.position.y ? b : a].gold ? .8 : .55;
   };
-  // Etikett vorab zeichnen und hochladen, damit der Wechsel mitten im Scrollen nicht hakt.
+  grp.userData.edge = function (c) { U.uEdgeC.value.copy(c); };
+  grp.userData.glow = function (k) { mat.emissiveIntensity = k; };
+  // Etiketten vorab zeichnen und hochladen, damit ein Wechsel mitten im Scrollen nicht hakt.
   grp.userData.preload = function (k, renderer) { var l = get(k); if (renderer) { renderer.initTexture(l.map); renderer.initTexture(l.emissive); } };
-  grp.userData.glow = function (k) { body.material.emissiveIntensity = k; };
-  grp.userData.set(key);
   return grp;
 }
 
@@ -165,18 +186,6 @@ export function ellipse(THREE, a, b) {
   var c = new THREE.Curve();
   c.getPoint = function (t, out) { out = out || new THREE.Vector3(); var p = t * Math.PI * 2; return out.set(Math.cos(p) * a, 0, Math.sin(p) * b); };
   return c;
-}
-
-// Spirale, die sich von unten außen um die Dose nach oben schraubt und oben wieder ausschwingt.
-export function helix(THREE, o) {
-  o = o || {};
-  var pts = [], n = 60, turns = o.turns || 2.2;
-  for (var i = 0; i <= n; i++) {
-    var t = i / n, ang = t * Math.PI * 2 * turns + (o.phase || 0), out = Math.pow(Math.abs(t - .5) * 2, 3);
-    var r = (o.r || .55) + .12 * Math.sin(t * 9) + out * (o.flare || 1.4);
-    pts.push(new THREE.Vector3(Math.cos(ang) * r, -1.25 + t * 2.6 + Math.sin(t * 5) * .08, Math.sin(ang) * r * .85));
-  }
-  return new THREE.CatmullRomCurve3(pts, false, "catmullrom", .4);
 }
 
 // Weicher runder Lichtfleck als Textur (für Glühkern, Bodenschein, Funken).
@@ -235,4 +244,55 @@ export function beam(THREE, o) {
     transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide
   });
   return new THREE.Mesh(geo, mat);
+}
+
+// Most als Flüssigkeit: Vorderwand (bernsteinfarben, durchscheinend), Oberfläche mit Wellen und Ringen, Bläschen.
+// Die Gruppe liegt mit y = 0 auf der Oberfläche; die Seite verschiebt sie. userData.u sind die gemeinsamen Uniforms.
+export function liquid(THREE, o) {
+  o = o || {};
+  var g = new THREE.Group(), w = o.w || 16, d = o.d || 4;
+  var U = { uT: { value: 0 }, uA: { value: 1 }, uRip: { value: 9 }, uRipX: { value: 0 }, uTop: { value: new THREE.Color("#f3b549") }, uDeep: { value: new THREE.Color("#4a1f05") } };
+  var wave = "float wave(float x, float t){ return sin(x * 2.1 + t * 1.6) * .028 + sin(x * 4.7 - t * 2.2) * .013 + sin(x * 9.3 + t * 3.1) * .005; }\n";
+  var front = new THREE.Mesh(new THREE.PlaneGeometry(w, 8, 160, 1).translate(0, -4, 0), new THREE.ShaderMaterial({
+    uniforms: U, transparent: true, depthWrite: false,
+    vertexShader: "uniform float uT, uRip, uRipX; varying vec2 vP;\n" + wave +
+      "void main(){ vec3 p = position; if (p.y > -.01) { float r = abs(p.x - uRipX); p.y += wave(p.x, uT) + sin(r * 9.0 - uRip * 9.0) * .06 * exp(-uRip * 2.2) * smoothstep(1.6, .0, abs(r - uRip * 1.3)); }\n" +
+      " vP = p.xy; gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0); }",
+    fragmentShader: "uniform float uT, uA; uniform vec3 uTop, uDeep; varying vec2 vP;\n" +
+      "void main(){ float dep = clamp(-vP.y / 2.6, 0.0, 1.0); vec3 c = mix(uTop, uDeep, pow(dep, .7));\n" +
+      " float ca = (pow(abs(sin(vP.x * 6.0 + uT * .7 + sin(vP.y * 7.0 + uT * .5) * 1.2)), 28.0) + pow(abs(sin(vP.x * 9.0 - uT * .5 + sin(vP.y * 5.0 - uT * .4) * 1.5)), 32.0)) * (1.0 - dep) * .12;\n" +
+      " float lip = smoothstep(.05, .0, -vP.y) * .7;\n" +
+      " gl_FragColor = vec4(c + ca + lip * vec3(1.0, .9, .7), (.74 + dep * .2) * uA); }"
+  }));
+  front.position.z = o.z || .85; front.renderOrder = 3; g.add(front);
+  var top = new THREE.Mesh(new THREE.PlaneGeometry(w, d, 1, 1).rotateX(-Math.PI / 2), new THREE.ShaderMaterial({
+    uniforms: U, transparent: true, depthWrite: false,
+    vertexShader: "varying vec3 vP; void main(){ vP = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }",
+    fragmentShader: "uniform float uT, uA, uRip, uRipX; uniform vec3 uTop; varying vec3 vP;\n" +
+      "void main(){ float r = length(vec2(vP.x - uRipX, (vP.z + " + (d / 2 - (o.z || .85)).toFixed(3) + ") * 1.4));\n" +
+      " float ring = smoothstep(.06, .0, abs(r - uRip * 1.3)) * exp(-uRip * 1.8) + smoothstep(.05, .0, abs(r - uRip * .8)) * exp(-uRip * 2.4) * .6;\n" +
+      " float far = smoothstep(" + (-d / 2).toFixed(2) + ", " + (d / 2).toFixed(2) + ", vP.z);\n" +
+      " float sh = pow(abs(sin(vP.x * 3.0 + vP.z * 5.0 + uT)), 20.0) * .25;\n" +
+      " gl_FragColor = vec4(uTop * 1.15 + ring * .9 + sh, (.35 + far * .4 + ring * .5) * uA); }"
+  }));
+  top.position.z = (o.z || .85) - d / 2; top.renderOrder = 2; g.add(top);
+  // Bläschen steigen auf und verschwinden an der Oberfläche.
+  var n = o.bubbles || 160, pos = new Float32Array(n * 3), sz = new Float32Array(n), r = rng(41);
+  for (var i = 0; i < n; i++) { pos[i * 3] = (r() - .5) * 6; pos[i * 3 + 1] = -r() * 3; pos[i * 3 + 2] = -r() * 1.6 + .8; sz[i] = r(); }
+  var bg = new THREE.BufferGeometry(); bg.setAttribute("position", new THREE.BufferAttribute(pos, 3)); bg.setAttribute("aS", new THREE.BufferAttribute(sz, 1));
+  U.uPx = { value: 300 }; U.uBurst = { value: 0 }; U.uBX = { value: 0 };
+  var bub = new THREE.Points(bg, new THREE.ShaderMaterial({
+    uniforms: U, transparent: true, depthWrite: false,
+    vertexShader: "attribute float aS; uniform float uT, uPx, uBurst, uBX; varying float vA;\n" +
+      "void main(){ vec3 p = position; float sp = .25 + aS * .55 + uBurst * 1.5; p.y = mod(p.y + uT * sp, 3.0) - 3.0;\n" +
+      " p.x = mix(p.x, uBX + (p.x * .12), uBurst * step(.5, aS)) + sin(uT * 2.0 + aS * 30.0) * .04;\n" +
+      " vA = smoothstep(.0, -.12, p.y) * (.35 + aS * .65); vec4 mv = modelViewMatrix * vec4(p, 1.0);\n" +
+      " gl_PointSize = uPx * (.006 + aS * .014) / -mv.z; gl_Position = projectionMatrix * mv; }",
+    fragmentShader: "uniform float uA; varying float vA;\n" +
+      "void main(){ float d = length(gl_PointCoord - .5); float ring = smoothstep(.5, .38, d) * (.35 + smoothstep(.2, .45, d)); float hi = smoothstep(.18, .0, length(gl_PointCoord - vec2(.35)));\n" +
+      " gl_FragColor = vec4(vec3(1.0, .93, .78), (ring * .7 + hi) * vA * uA); }"
+  }));
+  bub.renderOrder = 4; g.add(bub);
+  g.userData.u = U;
+  return g;
 }
