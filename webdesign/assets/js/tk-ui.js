@@ -34,11 +34,22 @@
     // Die Seite im Handy scrollt erst, wenn es in der Mitte eingerastet ist; vorher bleibt der Seitenanfang stehen.
     // Wird ein Handy weggezogen, gleitet seine Seite wieder nach oben, beim nächsten Mal beginnt sie von vorn.
     var playing = -1;
+    // Ein Video im Handy (z. B. Birnstoff) läuft nur in der Mitte und nur, solange das Karussell zu sehen ist
+    var playVideo = function () {
+      if (playing < 0) return;
+      var vd = items[playing].querySelector(".tk-phone__screen > video");
+      if (!vd) return;
+      if (reduce || !root.classList.contains("is-visible") || (navigator.connection && navigator.connection.saveData)) { vd.pause(); return; }
+      vd.muted = true; if (vd.preload === "none") vd.preload = "auto";
+      vd.play().catch(function () {});
+    };
     var updatePlay = function () {
       // Kleines Zucken beim senkrechten Scrollen über dem Karussell setzt die Seite nicht zurück, erst echtes Wegziehen
       var p = Math.abs(x + idx * step) < step * 0.2 ? idx : -1;
       if (p === playing) return;
       if (playing >= 0) {
+        var vo = items[playing].querySelector(".tk-phone__screen > video");
+        if (vo) { vo.pause(); try { vo.currentTime = 0; } catch (e) {} }
         var img = items[playing].querySelector(".tk-phone__screen > img");
         if (img) img.style.transform = window.getComputedStyle(img).transform;
         items[playing].classList.remove("is-play");
@@ -49,6 +60,7 @@
         var pi = items[p].querySelector(".tk-phone__screen > img");
         if (pi) pi.style.transform = "";
         items[p].classList.add("is-play");
+        playVideo();
       }
     };
 
@@ -141,7 +153,7 @@
     });
     // Seiten in den Handys scrollen nur, solange das Karussell sichtbar ist
     if ("IntersectionObserver" in window) {
-      new IntersectionObserver(function (es) { root.classList.toggle("is-visible", es[0].isIntersecting); }, { rootMargin: "0px 0px -15% 0px" }).observe(root);
+      new IntersectionObserver(function (es) { root.classList.toggle("is-visible", es[0].isIntersecting); playVideo(); }, { rootMargin: "0px 0px -15% 0px" }).observe(root);
     } else {
       root.classList.add("is-visible");
     }
