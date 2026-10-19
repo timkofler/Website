@@ -276,9 +276,9 @@ ul,ol{list-style:none;padding:0}
 
 /* Handy */
 @media (min-width:861px){
-  .coffin__txt{right:auto;max-width:48%}
+  .coffin__txt{right:auto;width:40%}
   .coffin__txt .h2{font-size:clamp(40px,5.2vw,76px)}
-  .cof{margin-left:34vw}
+  .cof{margin-left:46vw}
 }
 @media (max-width:860px){
   .nav{grid-template-columns:1fr auto}
