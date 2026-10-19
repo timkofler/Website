@@ -266,3 +266,98 @@
   .kp-konto > summary { padding: 16px 18px; }
   .kp-konto > .form { padding: 18px; }
 }
+
+/* Feinschliff (2026-10-19): Projektstand, Anmeldung, Ansprechpartner, Nachrichten nach Tagen */
+.kp-eyebrow { display: block; margin: 0 0 8px; font: 600 .72rem/1.2 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: #ffb27a; }
+.kp-projekt { position: relative; overflow: hidden; margin: 0 0 14px; padding: 26px 28px 24px; border-color: rgba(255,90,31,.32); background: radial-gradient(120% 140% at 100% 0%, rgba(255,90,31,.13), transparent 55%), var(--bg-2); }
+.kp-projekt__kopf { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+.kp-projekt__kopf h2, .kp-main .kp-projekt__kopf h2 { margin: 0 0 6px; font-size: clamp(1.35rem, 2.6vw, 1.7rem); line-height: 1.15; }
+.kp-projekt__kopf p { margin: 0; max-width: 620px; color: var(--muted); font-size: .95rem; }
+.kp-projekt__btn { flex: none; gap: 8px; }
+.kp-projekt__btn svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.kp-phasen { --fill: 0%; position: relative; list-style: none; margin: 26px 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.kp-phasen::before, .kp-phasen::after { content: ""; position: absolute; top: 15px; left: 10%; height: 2px; border-radius: 2px; }
+.kp-phasen::before { right: 10%; background: var(--line-2); }
+.kp-phasen::after { width: calc(var(--fill) * .8); background: var(--hot-grad); box-shadow: 0 0 12px rgba(255,90,31,.5); }
+.kp-phasen li { position: relative; z-index: 1; display: grid; justify-items: center; gap: 8px; text-align: center; }
+.kp-phasen__dot { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font: 600 .82rem var(--mono); color: var(--muted); background: var(--bg-2); border: 1.5px solid var(--line-2); }
+.kp-phasen__dot svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.kp-phasen__name { font-size: .82rem; color: var(--muted); line-height: 1.25; }
+.kp-phasen .is-done .kp-phasen__dot { background: var(--hot); border-color: var(--hot); color: #0b0b0b; }
+.kp-phasen .is-done .kp-phasen__name { color: var(--text); }
+.kp-phasen .is-now .kp-phasen__dot { color: #0b0b0b; background: var(--hot-grad); border-color: transparent; box-shadow: 0 0 0 5px rgba(255,90,31,.18), 0 0 22px rgba(255,90,31,.55); animation: kp-puls 2.4s ease-in-out infinite; }
+.kp-phasen .is-now .kp-phasen__name { color: var(--text); font-weight: 700; }
+@keyframes kp-puls { 50% { box-shadow: 0 0 0 9px rgba(255,90,31,.08), 0 0 28px rgba(255,90,31,.6); } }
+@media (prefers-reduced-motion: reduce) { .kp-phasen .is-now .kp-phasen__dot { animation: none; } }
+.kp-next { display: flex; gap: 12px; align-items: baseline; margin: 22px 0 0; padding: 14px 16px; border-radius: 14px; background: rgba(255,90,31,.08); border: 1px solid rgba(255,90,31,.3); font-size: .95rem; }
+.kp-next b { flex: none; font: 600 .72rem/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: #ffb27a; }
+.kp-projekt__edit { margin: 18px 0 0; padding: 14px 0 0; border-top: 1px solid var(--line); }
+.kp-projekt__edit .form--small { padding: 0; background: none; border: 0; box-shadow: none; max-width: none; }
+.kp-projekt__edit select { width: 100%; font: inherit; font-size: 16px; color: var(--text); border: 1px solid var(--line-2); border-radius: 12px; padding: 12px 40px 12px 14px; appearance: none; cursor: pointer; background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23a1a1a1%27 stroke-width=%272%27 stroke-linecap=%27round%27%3E%3Cpath d=%27M6 9l6 6 6-6%27/%3E%3C/svg%3E") no-repeat right 14px center / 18px; }
+.kp-pill--ok { border-color: rgba(76,195,138,.5); color: #4cc38a; }
+
+/* Nachrichten: Datum als Trennlinie, kleines Bild bzw. Kürzel vor dem Namen */
+.kp-day { justify-self: stretch; display: flex; align-items: center; gap: 12px; margin: 6px 0 2px; font: 600 .72rem var(--mono); letter-spacing: .05em; color: var(--muted); }
+.kp-day::before, .kp-day::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.kp-day:first-child { margin-top: 0; }
+.kp-m__ava { flex: none; width: 22px; height: 22px; border-radius: 50%; object-fit: cover; object-position: 50% 18%; display: inline-grid; place-items: center; background: var(--surface-2); border: 1px solid var(--line-2); font: 700 .6rem var(--mono); letter-spacing: -.02em; color: var(--text); }
+.kp-m__kopf time { font-variant-numeric: tabular-nums; }
+.kp-m--ich { box-shadow: 0 6px 20px -14px rgba(255,90,31,.6); }
+.kp-chat__form textarea { min-height: 88px; max-height: 320px; transition: border-color .2s, box-shadow .2s; }
+.kp-chat__form textarea:focus { outline: none; border-color: var(--hot); box-shadow: 0 0 0 3px var(--hot-dim); }
+.kp-chat__senden { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.kp-chat__tipp { font-size: .8rem; color: var(--muted); }
+@media (hover: none) { .kp-chat__tipp { display: none; } }
+
+/* Bisher hochgeladen: Dateityp vor dem Namen */
+.kp-batch ul { list-style: none; padding-left: 0; display: grid; gap: 6px; }
+.kp-batch li { display: flex; align-items: center; gap: 10px; min-width: 0; overflow-wrap: anywhere; }
+.kp-ext { flex: none; min-width: 42px; padding: 3px 6px; border-radius: 6px; text-align: center; font: 600 .66rem/1.3 var(--mono); color: #ffb27a; background: var(--hot-dim); }
+
+/* Ansprechpartner */
+.kp-tim { display: flex; align-items: center; gap: 18px; margin-top: 28px; }
+.kp-tim__foto { flex: none; width: 64px; height: 64px; border-radius: 50%; object-fit: cover; object-position: 50% 18%; box-shadow: 0 0 0 2px var(--bg-2), 0 0 0 4px var(--hot); }
+.kp-tim__txt { display: grid; gap: 3px; min-width: 0; flex: 1; }
+.kp-tim__txt b { font-size: 1.05rem; }
+.kp-tim__txt small { color: var(--muted); font-size: .9rem; line-height: 1.4; }
+.kp-tim__links { display: flex; flex-wrap: wrap; gap: 8px; }
+.kp-tim + .kp-konto { margin-top: 14px; }
+
+/* Anmeldung: Formular links, was das Portal kann rechts */
+.kp-login { display: grid; grid-template-columns: minmax(0, 560px) minmax(0, 1fr); gap: 56px; align-items: center; }
+.kp-login__form .lead { margin-bottom: 28px; }
+.kp-login__info { position: relative; padding: 32px; border-radius: 24px; border: 1px solid rgba(255,90,31,.3); background: radial-gradient(120% 120% at 100% 0%, rgba(255,90,31,.16), transparent 60%), var(--bg-2); }
+.kp-login__info h2, .kp-main .kp-login__info h2 { margin: 0 0 22px; font-size: 1.35rem; line-height: 1.2; }
+.kp-features { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
+.kp-features li { display: flex; gap: 14px; align-items: flex-start; }
+.kp-features li > span:last-child { display: grid; gap: 3px; color: var(--muted); font-size: .93rem; line-height: 1.45; }
+.kp-features b { color: var(--text); font-size: 1rem; }
+.kp-features__ico { flex: none; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; font: 700 .85rem var(--mono); background: var(--hot); color: #0b0b0b; }
+.kp-secure { display: flex; gap: 10px; align-items: flex-start; margin: 24px 0 0; padding: 14px 0 0; border-top: 1px solid var(--line); font-size: .84rem; color: var(--muted); }
+.kp-secure svg { flex: none; width: 18px; height: 18px; margin-top: 1px; fill: none; stroke: #4cc38a; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.kp-pw { position: relative; display: block; }
+.kp-pw input { padding-right: 92px !important; }
+.kp-pw__btn { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); padding: 6px 10px; border: 0; border-radius: 8px; background: var(--surface-2); color: var(--muted); font: 600 .78rem var(--body, inherit); cursor: pointer; }
+.kp-pw__btn:hover, .kp-pw__btn:focus-visible { color: var(--text); }
+
+@media (max-width: 900px) {
+  .kp-login { grid-template-columns: 1fr; gap: 28px; }
+}
+@media (max-width: 680px) {
+  .kp-projekt { padding: 20px 18px; }
+  .kp-projekt__kopf { flex-direction: column; gap: 14px; }
+  .kp-projekt__btn { align-self: stretch; justify-content: center; }
+  .kp-phasen { margin-top: 22px; }
+  .kp-phasen::before, .kp-phasen::after { top: 13px; }
+  .kp-phasen__dot { width: 28px; height: 28px; font-size: .74rem; }
+  .kp-phasen__name { font-size: .7rem; }
+  .kp-next { flex-direction: column; gap: 4px; }
+  .kp-tim { flex-wrap: wrap; gap: 14px; }
+  .kp-tim__foto { width: 52px; height: 52px; }
+  .kp-tim__txt { flex: 1 1 180px; }
+  .kp-tim__links { width: 100%; }
+  .kp-tim__links .btn { flex: 1; justify-content: center; }
+  .kp-login__info { padding: 22px 20px; }
+}
+.kp-m--ich .kp-m__ava { display: none; }
+@media (max-width: 680px) { .kp-chat__tipp { display: none; } }

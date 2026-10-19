@@ -1,0 +1,172 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Vorher-Beispiel (erfunden)</title>
+<!-- Absichtlich veraltete Beispielseite für den Vorher/Nachher-Regler auf /entwurf/.
+     Kein viewport-Meta: so zeigt das Handy die Seite wie früher verkleinert an.
+     Aufruf: vorher.html?b=tischlerei | gasthaus | friseur | baeckerei -->
+<style>
+body{margin:0;padding:14px 0 30px;font:12px/1.45 Verdana,"DejaVu Sans",sans-serif;color:#222;background:#6f8fb3}
+#seite{width:900px;margin:0 auto;background:#fff;border:1px solid #333;box-shadow:4px 4px 0 rgba(0,0,0,.35)}
+#kopf{height:128px;position:relative;overflow:hidden;border-bottom:3px double #333}
+#kopf h1{position:absolute;left:24px;top:22px;margin:0;font:bold italic 44px/1 "Times New Roman","Liberation Serif",serif;letter-spacing:1px}
+#kopf .sub{position:absolute;left:28px;top:80px;font:italic 15px "Times New Roman","Liberation Serif",serif}
+#kopf .tel{position:absolute;right:20px;top:18px;font:bold 13px Arial,"Liberation Sans",sans-serif;text-align:right}
+#kopf img{position:absolute;right:20px;bottom:10px;border:2px solid #fff;outline:1px solid #555;height:66px;width:120px}
+#nav{background:linear-gradient(#f4f4f4,#bdbdbd);border-bottom:1px solid #777;padding:0;margin:0;display:flex}
+#nav a{display:block;padding:6px 15px;font:bold 12px Arial,"Liberation Sans",sans-serif;color:#003399;text-decoration:none;border-right:1px solid #888;border-left:1px solid #fff}
+#nav a.akt{background:#fff8c4;color:#c00}
+#lauf{background:#ffffcc;border-bottom:1px solid #cc9;color:#c00;font:bold 12px Arial,"Liberation Sans",sans-serif;padding:4px 10px;white-space:nowrap;overflow:hidden}
+#inhalt{display:flex}
+#links{width:190px;flex:none;background:#eef0f4;border-right:1px solid #aab;padding:10px}
+#links .box{border:1px solid #889;background:#fff;margin-bottom:12px}
+#links .box b{display:block;background:#3a5a8c;color:#fff;font:bold 11px Arial,"Liberation Sans",sans-serif;padding:3px 6px}
+#links .box div{padding:6px;font-size:11px}
+#links a{color:#0000ee}
+.zaehler{font:bold 15px "Courier New","Liberation Mono",monospace;background:#000;color:#3f3;padding:2px 5px;letter-spacing:2px;display:inline-block;margin:4px 0}
+#haupt{flex:1;padding:14px 20px}
+#haupt h2{font:bold 22px "Comic Sans MS","Comic Neue",Verdana,"DejaVu Sans",sans-serif;margin:0 0 4px;text-align:center}
+#haupt .hl{text-align:center;font-style:italic;margin:0 0 14px}
+#haupt p{margin:0 0 10px;text-align:justify}
+#haupt a{color:#0000ee}
+.bilder{display:flex;gap:10px;justify-content:center;margin:14px 0 12px}
+.bilder img{border:1px solid #000;padding:3px;background:#fff;width:180px;height:120px}
+.bilder small{display:block;text-align:center;font-size:10px;color:#666}
+table.liste{border-collapse:collapse;width:100%;margin:6px 0 12px;font-size:11px}
+table.liste td{border:1px solid #999;padding:3px 6px}
+table.liste tr:nth-child(odd) td{background:#f2f2f2}
+.bau{border:2px dashed #e0a000;background:#fff3c0;padding:6px 10px;font-weight:bold;color:#a35a00;text-align:center;margin:12px 0}
+#haupt h3{font:bold 15px Arial,"Liberation Sans",sans-serif;margin:16px 0 6px;color:#333;border-bottom:1px solid #999}
+hr{border:0;border-top:1px dotted #888;margin:14px 0}
+.gb{border:1px solid #ccc;background:#fafafa;padding:6px 8px;margin-bottom:8px;font-size:11px}
+.gb b{color:#036}
+.karte{height:150px;background:#ddd;border:1px solid #999;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#666;font-weight:bold;margin:8px 0 14px}
+.badges{display:flex;gap:6px;justify-content:center;margin:10px 0}
+.badges span{width:84px;height:27px;border:1px solid #666;background:linear-gradient(#fff,#ccc);font:bold 9px Verdana,"DejaVu Sans",sans-serif;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.1;color:#333}
+#fuss{border-top:1px solid #999;background:#e8e8e8;padding:6px 10px;font-size:10px;color:#555;text-align:center}
+#fuss a{color:#0000ee}
+.neu{color:#f00;font-weight:bold;font-size:10px}
+/* Varianten */
+body.tischlerei{background:#5b3a1e repeating-linear-gradient(90deg,#5b3a1e 0 6px,#6a4423 6px 9px,#53351b 9px 14px)}
+body.tischlerei #kopf{background:linear-gradient(#e8c88f,#b98546)}
+body.tischlerei #kopf h1{color:#5a2d00;text-shadow:3px 3px 0 #fff3d6,5px 5px 3px rgba(0,0,0,.45)}
+body.tischlerei #kopf .sub,body.tischlerei #kopf .tel{color:#4a2500}
+body.tischlerei #haupt h2{color:#7a3b00}
+body.gasthaus{background:#2f5e2f repeating-linear-gradient(45deg,#2f5e2f 0 10px,#356a35 10px 20px)}
+body.gasthaus #kopf{background:linear-gradient(90deg,#1f4d1f,#7fb36b)}
+body.gasthaus #kopf h1{font-family:"Comic Sans MS","Comic Neue","DejaVu Sans",sans-serif;font-style:normal;color:#ffef7a;text-shadow:2px 2px 0 #7a1010,4px 4px 4px #000}
+body.gasthaus #kopf .sub,body.gasthaus #kopf .tel{color:#fff}
+body.gasthaus #links{background:#f0f6e6}
+body.gasthaus #links .box b{background:#3d6e2a}
+body.gasthaus #haupt h2{color:#2e6b1e}
+body.friseur{background:#b04a8a repeating-linear-gradient(135deg,#b04a8a 0 12px,#c25a9a 12px 24px)}
+body.friseur #kopf{background:linear-gradient(90deg,#ffd6ec,#e98bc0)}
+body.friseur #kopf h1{color:#7a0050;font-family:"Comic Sans MS","Comic Neue","DejaVu Sans",sans-serif;font-style:italic;text-shadow:2px 2px 0 #fff,4px 4px 3px rgba(0,0,0,.4)}
+body.friseur #kopf .sub,body.friseur #kopf .tel{color:#5a0038}
+body.friseur #links{background:#fdf0f7}
+body.friseur #links .box b{background:#a03a78}
+body.friseur #haupt h2{color:#a0186e}
+body.baeckerei{background:#c98b2c repeating-radial-gradient(circle at 10px 10px,#d39a3d 0 3px,#c98b2c 3px 14px)}
+body.baeckerei #kopf{background:linear-gradient(#fff6c4,#f2c14e)}
+body.baeckerei #kopf h1{color:#b01e00;font-family:"Comic Sans MS","Comic Neue","DejaVu Sans",sans-serif;font-style:normal;text-shadow:2px 2px 0 #ffd94a,3px 3px 2px rgba(0,0,0,.5)}
+body.baeckerei #kopf .sub,body.baeckerei #kopf .tel{color:#6b3100}
+body.baeckerei #links .box b{background:#a5520f}
+body.baeckerei #haupt h2{color:#b01e00}
+</style>
+</head>
+<body>
+<div id="seite">
+  <div id="kopf"><h1 data-f="name"></h1><div class="sub" data-f="sub"></div><div class="tel" data-f="tel"></div><img data-f="kopfbild" alt=""></div>
+  <div id="nav" data-f="nav"></div>
+  <div id="lauf" data-f="lauf"></div>
+  <div id="inhalt">
+    <div id="links">
+      <div class="box"><b>Aktuelles</b><div data-f="aktuell"></div></div>
+      <div class="box"><b>Öffnungszeiten</b><div data-f="zeiten"></div></div>
+      <div class="box"><b>Besucher</b><div>Sie sind Besucher Nr.<br><span class="zaehler" data-f="zaehler"></span><br>seit 01.01.2009</div></div>
+      <div class="box"><b>Links</b><div><a href="#">Gästebuch</a><br><a href="#">Wetter</a><br><a href="#">Gemeinde</a></div></div>
+    </div>
+    <div id="haupt">
+      <h2 data-f="titel"></h2>
+      <p class="hl" data-f="hl"></p>
+      <p data-f="text1"></p>
+      <div class="bilder" data-f="bilder"></div>
+      <p data-f="text2"></p>
+      <table class="liste" data-f="liste"></table>
+      <div class="bau">*** Diese Seite befindet sich im Aufbau! Bitte schauen Sie bald wieder vorbei! ***</div>
+      <p style="text-align:center">Für Anfragen schreiben Sie uns bitte eine <a href="#">E-Mail</a> oder rufen Sie uns an.</p>
+      <hr>
+      <h3>Über uns</h3>
+      <p data-f="ueber"></p>
+      <h3>Gästebuch - Die neuesten Einträge</h3>
+      <div data-f="gb"></div>
+      <p style="text-align:center"><a href="#">&raquo; Alle Einträge anzeigen (37)</a> | <a href="#">&raquo; Eintrag schreiben</a></p>
+      <hr>
+      <h3>Anfahrt</h3>
+      <p data-f="anfahrt"></p>
+      <div class="karte">[ Karte wird geladen... ]<br><small>Bitte aktivieren Sie JavaScript und den Adobe Flash Player.</small></div>
+      <div class="badges"><span>Valid HTML 4.01</span><span>Best viewed with IE</span><span>Get Flash Player</span><span>Gratis-Counter</span></div>
+    </div>
+  </div>
+  <div id="fuss" data-f="fuss"></div>
+</div>
+<script>
+var D={
+tischlerei:{ueber:'Unser Betrieb wurde 1987 von Tischlermeister Josef Brandl gegründet. Seit 2005 führt sein Sohn den Betrieb in zweiter Generation. Wir beschäftigen derzeit 9 Mitarbeiter und bilden laufend Lehrlinge aus. In unserer modern ausgestatteten Werkstatt mit CNC-Maschine fertigen wir Möbel und Innenausbau nach Ihren Wünschen. Gerne kommen wir auch zu Ihnen nach Hause, um die Maße zu nehmen und Sie zu beraten. Wir freuen uns auf Ihre Anfrage!',anfahrt:'Sie finden uns in der Musterstraße 12 in 1234 Musterdorf. Von der Bundesstraße kommend bei der Tankstelle links abbiegen, nach ca. 500 m sehen Sie unsere Werkstatt auf der rechten Seite. Parkplätze sind vorhanden.',gb:[['Familie Huber','12.06.2011','Vielen Dank für die tolle Küche!! Wir sind sehr zufrieden. Liebe Grüße'],['Karl M.','03.02.2011','Super Arbeit und sehr freundlich. Gerne wieder!'],['Anonym','28.11.2010','Schöne Homepage :-)']],name:'Tischlerei Brandl',sub:'Ihr Partner für Holz seit 1987',tel:'Tel.: 01234 / 567 89<br>Fax: 01234 / 567 89-4',kopfbild:'t-werkstatt',
+ nav:['Home','Über uns','Leistungen','Referenzen','Galerie','Anfahrt','Kontakt','Impressum'],
+ lauf:'+++ Wir haben Betriebsurlaub vom 02.08. - 16.08. +++ Neu: Jetzt auch Küchen nach Maß +++ Lehrling gesucht! +++',
+ aktuell:'<span class="neu">NEU!</span> Unsere neue Ausstellung ist jetzt geöffnet. Besuchen Sie uns!<br><br>Lehrling gesucht (m/w)',
+ zeiten:'Mo - Do: 7:00 - 16:00<br>Fr: 7:00 - 12:00<br>Sa, So: geschlossen',zaehler:'004217',
+ titel:'Herzlich Willkommen auf unserer Homepage!',hl:'~ Qualität aus Meisterhand ~',
+ text1:'Die Tischlerei Brandl ist ein Familienbetrieb und wurde im Jahr 1987 gegründet. Wir fertigen für Sie Möbel, Küchen, Stiegen, Fenster und Türen in bester Qualität. Wir legen großen Wert auf eine kompetente Beratung sowie eine saubere und termingerechte Ausführung. Unsere Kunden kommen aus der ganzen Region.',
+ bilder:[['t-werkstatt','Unsere Werkstatt'],['t-kueche','Küche'],['t-stiege','Stiege']],
+ text2:'Nachfolgend eine Übersicht über unsere Leistungen. Für nähere Informationen klicken Sie bitte oben im Menü auf "Leistungen".',
+ liste:[['Möbel nach Maß','Küchen'],['Stiegen','Fenster und Türen'],['Innenausbau','Reparaturen']],
+ fuss:'© 2009 Tischlerei Brandl | Musterdorf | <a href="#">Impressum</a> | Letzte Aktualisierung: 14.03.2011 | Optimiert für Internet Explorer 8 bei 1024x768'},
+gasthaus:{ueber:'Der Gasthof Hollerhof wird seit 1923 von der Familie Holler geführt, mittlerweile in der vierten Generation. Unsere Küche ist bekannt für ihre Hausmannskost und Wildgerichte aus der eigenen Jagd. Im Sommer lädt unser schattiger Gastgarten unter alten Kastanienbäumen zum Verweilen ein. Wir freuen uns, Sie bald bei uns begrüßen zu dürfen. Ihre Familie Holler',anfahrt:'Sie finden uns direkt am Dorfplatz in Musterdorf, gegenüber der Kirche. Busparkplatz vorhanden. Bitte beachten Sie, dass wir Kartenzahlung leider nicht akzeptieren können.',gb:[['Wanderverein Musterdorf','20.09.2012','Danke für die gute Bewirtung nach unserer Wanderung! Der Schweinsbraten war ein Gedicht!!'],['Gerti und Franz','14.07.2012','Unsere Hochzeitsfeier war wunderschön, Danke an das ganze Team!!!'],['Max','02.06.2012','Hallo, hat der Gastgarten auch am Montag offen?']],name:'Gasthof Hollerhof',sub:'Gutbürgerliche Küche - Familie Holler',tel:'Tel.: 01234 / 23 45<br>Ruhetag: Montag',kopfbild:'g-stube',
+ nav:['Startseite','Speisekarte','Wochenmenü','Feiern','Zimmer','Anfahrt','Gästebuch','Kontakt'],
+ lauf:'*** Martinigansl ab 07.11. - Bitte um Reservierung *** Unser Saal für bis zu 120 Personen *** Wir freuen uns auf Ihren Besuch! ***',
+ aktuell:'<span class="neu">NEU!</span> Wochenmenü als PDF zum Download (2,4 MB)<br><br>Wildwochen im Oktober',
+ zeiten:'Di - Sa: 10:00 - 23:00<br>So: 9:00 - 15:00<br>Mo: Ruhetag',zaehler:'011893',
+ titel:'Willkommen beim Gasthof Hollerhof!!',hl:'Gemütlichkeit seit 1923',
+ text1:'Liebe Gäste! Herzlich willkommen auf der Homepage von unserem Gasthof. Bei uns erwartet Sie gutbürgerliche Küche, ein gemütliches Ambiente und gepflegte Getränke. Unser Gastgarten lädt im Sommer zum Verweilen ein. Für Feiern aller Art (Hochzeiten, Taufen, Geburtstage, Firmenfeiern...) steht unser Saal zur Verfügung.',
+ bilder:[['g-stube','Gaststube'],['g-braten','Schweinsbraten'],['g-schnitzel','Schnitzel']],
+ text2:'Unsere Speisekarte finden Sie <a href="#">hier</a> (PDF). Das aktuelle Wochenmenü können Sie ebenfalls als PDF herunterladen. Tischreservierung bitte nur telefonisch!',
+ liste:[['Schweinsbraten mit Knödel','€ 11,50'],['Wiener Schnitzel vom Schwein','€ 12,90'],['Tagessuppe','€ 3,80']],
+ fuss:'© 2010 Gasthof Hollerhof | Musterdorf | <a href="#">Impressum</a> | Webmaster: Neffe Markus | Letzte Änderung: 02.05.2012'},
+friseur:{ueber:'Unser Salon wurde 1998 von Friseurmeisterin Sabine gegründet. Unser junges, motiviertes Team bildet sich laufend weiter und ist immer am neuesten Stand der Trends. Wir verwenden ausschließlich hochwertige Produkte. Neben Haarschnitten und Farben bieten wir auch Hochsteckfrisuren für Hochzeiten und Bälle, Dauerwellen und Strähnen an. Wir freuen uns auf Ihren Besuch!',anfahrt:'Sie finden uns im Zentrum von Musterdorf, gleich neben der Sparkasse. Parkplätze finden Sie am Hauptplatz.',gb:[['Melanie','14.03.2011','Bin sehr zufrieden mit meinen neuen Strähnen!!! Danke Sabine :-)'],['Petra K.','22.01.2011','Super nettes Team, komme gerne wieder.'],['Lisa','05.11.2010','Habt ihr am Samstag auch Termine frei?']],name:'Friseursalon Haarwerk',sub:'Ihr Friseur in Musterdorf - Damen, Herren, Kinder',tel:'Termine nur nach tel. Vereinbarung!<br>Tel.: 01234 / 45 67',kopfbild:'f-cut',
+ nav:['Home','Über uns','Preisliste','Galerie','Produkte','Team','Kontakt','Impressum'],
+ lauf:'*** NEU: Jetzt auch Haarverlängerung! *** Gutscheine erhältlich - das ideale Geschenk! *** Am 24.12. geschlossen ***',
+ aktuell:'<span class="neu">NEU!</span> Preisliste 2011 jetzt online (PDF)<br><br>Lehrling gesucht (w)',
+ zeiten:'Di - Fr: 8:00 - 18:00<br>Sa: 7:30 - 12:00<br>Mo: geschlossen',zaehler:'003562',
+ titel:'Willkommen im Friseursalon Haarwerk!',hl:'~ Schönheit beginnt beim Haar ~',
+ text1:'Herzlich Willkommen auf unserer Homepage! Wir sind ein moderner Friseursalon im Herzen von Musterdorf und bieten Ihnen alles rund ums Haar. Ob Haarschnitt, Farbe, Strähnen oder Hochsteckfrisur, bei uns sind Sie in guten Händen. Unser Team berät Sie gerne individuell.',
+ bilder:[['f-cut','Unser Salon'],['f-modell','Farbe'],['f-style','Styling']],
+ text2:'Termine bitte nur telefonisch vereinbaren. Unsere aktuelle Preisliste finden Sie <a href="#">hier</a> als PDF (1,8 MB).',
+ liste:[['Damen Waschen, Schneiden, Föhnen','ab € 32,00'],['Herren Haarschnitt','€ 16,50'],['Färben','ab € 38,00']],
+ fuss:'© 2009 Friseursalon Haarwerk | Musterdorf | <a href="#">Impressum</a> | Design by Haarwerk | Letzte Aktualisierung: 21.03.2011'},
+baeckerei:{ueber:'Die Bäckerei Kornfeld wurde 1962 von Bäckermeister Leopold Kornfeld gegründet. Heute führen wir den Betrieb bereits in dritter Generation. Unser Brot wird noch nach alten Familienrezepten mit Natursauerteig hergestellt. Neben unserem Geschäft in der Hauptstraße finden Sie uns jeden Samstag auch am Bauernmarkt. Wir beliefern außerdem Gasthäuser und Kaufhäuser in der Region.',anfahrt:'Sie finden unser Geschäft in der Hauptstraße 8 in Musterort, neben der Raiffeisenbank. Parkmöglichkeiten gibt es am Hauptplatz.',gb:[['Renate S.','18.08.2010','Das beste Kornspitz weit und breit!! Weiter so!'],['Hans','05.05.2010','Wann gibt es wieder die Topfengolatschen?'],['Familie Berger','11.12.2009','Danke für die tolle Hochzeitstorte, sie war ein Traum!']],name:'Bäckerei Kornfeld',sub:'Frisches Brot und Gebäck - täglich frisch!',tel:'Tel.: 01234 / 88 12<br>Hauptstraße 8',kopfbild:'b-laib',
+ nav:['Home','Unser Sortiment','Bestellen','Filialen','Über uns','Jobs','Kontakt','Impressum'],
+ lauf:'!!! Jetzt NEU: Auch am Sonntag von 7 bis 11 Uhr geöffnet !!! Torten auf Bestellung !!! Bestellungen bitte bis 12 Uhr am Vortag !!!',
+ aktuell:'<span class="neu">NEU!</span> Dinkelvollkornbrot jetzt im Sortiment<br><br>Verkäuferin gesucht (Teilzeit)',
+ zeiten:'Mo - Fr: 5:30 - 18:00<br>Sa: 5:30 - 12:00<br>So: 7:00 - 11:00',zaehler:'007455',
+ titel:'Willkommen bei der Bäckerei Kornfeld',hl:'Seit 1962 im Familienbesitz',
+ text1:'Wir sind eine traditionelle Bäckerei mit eigener Backstube. Seit über 40 Jahren backen wir täglich frisches Brot, Gebäck und Mehlspeisen nach alten Rezepten. Überzeugen Sie sich selbst von unserer Qualität und besuchen Sie uns in unserem Geschäft in der Hauptstraße.',
+ bilder:[['b-laib','Unser Brot'],['b-theke','Unser Geschäft'],['b-brezel','Brezen']],
+ text2:'Bestellungen für Torten und größere Mengen nehmen wir gerne telefonisch oder per Fax entgegen. Unser komplettes Sortiment finden Sie unter "Unser Sortiment".',
+ liste:[['Bauernbrot 1 kg','€ 3,90'],['Kornspitz','€ 0,75'],['Semmel','€ 0,38']],
+ fuss:'© 2008 Bäckerei Kornfeld | Musterort | <a href="#">Impressum</a> | Diese Seite wurde erstellt mit WebsiteBaukasten 2.0 | Stand: 09/2010'}
+};
+var b=(location.search.match(/b=(\w+)/)||[])[1]||'tischlerei',d=D[b];document.body.className=b;
+function f(k){return document.querySelector('[data-f="'+k+'"]')}
+['name','sub','tel','lauf','aktuell','zeiten','zaehler','titel','hl','text1','text2','fuss','ueber','anfahrt'].forEach(function(k){f(k).innerHTML=d[k]});
+f('kopfbild').src='img/'+d.kopfbild+'.jpg';
+f('nav').innerHTML=d.nav.map(function(n,i){return '<a href="#"'+(i?'':' class="akt"')+'>'+n+'</a>'}).join('');
+f('bilder').innerHTML=d.bilder.map(function(x){return '<div><img src="img/'+x[0]+'.jpg" alt=""><small>'+x[1]+'</small></div>'}).join('');
+f('liste').innerHTML=d.liste.map(function(r){return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td></tr>'}).join('');
+f('gb').innerHTML=d.gb.map(function(g){return '<div class="gb"><b>'+g[0]+'</b> schrieb am '+g[1]+':<br>'+g[2]+'</div>'}).join('');
+document.title=d.name;
+</script>
+</body>
+</html>
