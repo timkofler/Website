@@ -23,12 +23,12 @@
       altV: "Vorher: veraltete Webseite eines Gasthofs mit Laufschrift, PDF-Speisekarte und Gästebuch",
       altN: "Nachher: moderne Webseite desselben Gasthofs mit großem Bild und Knopf zum Tisch reservieren"
     },
-    baeckerei: {
-      domain: "Kornfeld · erfundener Betrieb", name: "Bäckerei",
-      vorher: "Bestellen per Telefon oder Fax, Stand 2010, am Handy winzig klein.",
-      nachher: "Appetitliche Fotos, Brot vorbestellen mit einem Tipp und Öffnungszeiten, die stimmen.",
-      altV: "Vorher: veraltete Webseite einer Bäckerei mit Laufschrift, Besucherzähler und kleinen Fotos",
-      altN: "Nachher: moderne Webseite derselben Bäckerei mit großem Brotfoto und Knopf zum Vorbestellen"
+    friseur: {
+      domain: "Haarwerk · erfundener Betrieb", name: "Friseur", start: 24, // Überschrift steht links, sonst ist rechts nur das dunkle Video
+      vorher: "Termine nur per Telefon, Preisliste als PDF, am Handy winzig klein.",
+      nachher: "Edler Auftritt, Termin online buchen mit einem Tipp und die Preise gleich auf der Seite.",
+      altV: "Vorher: veraltete Webseite eines Friseursalons in Rosa mit Laufschrift, Besucherzähler und kleinen Fotos",
+      altN: "Nachher: moderne Webseite desselben Friseurs mit großer Überschrift und Knopf zum Termin buchen"
     }
   };
   var cur = "tischlerei";
@@ -76,7 +76,7 @@
     });
   }
   sec.querySelectorAll("[data-vn-b]").forEach(function (b) {
-    b.addEventListener("click", function () { cur = b.getAttribute("data-vn-b"); pick("data-vn-b", cur); load(); });
+    b.addEventListener("click", function () { cur = b.getAttribute("data-vn-b"); pick("data-vn-b", cur); load(); cancelAnimationFrame(anim); set(B[cur].start || 50); });
   });
   sec.querySelectorAll("[data-vn-dev]").forEach(function (b) {
     b.addEventListener("click", function () { dev = b.getAttribute("data-vn-dev"); pick("data-vn-dev", dev); load(); });
@@ -120,10 +120,10 @@
     if (touched) return;
     frame.classList.add("is-hint");
     if (still) return;
-    var t0 = performance.now(), D = 1700;
+    var t0 = performance.now(), D = 1700, mid = B[cur].start || 50;
     (function step(t) {
       var k = Math.min(1, (t - t0) / D);
-      set(50 + Math.sin(k * Math.PI * 2) * 22 * (1 - k));
+      set(mid + Math.sin(k * Math.PI * 2) * 22 * (1 - k));
       if (k < 1 && !touched) anim = requestAnimationFrame(step);
     })(t0);
   }
