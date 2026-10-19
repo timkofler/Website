@@ -16,8 +16,8 @@
 /* Logo */
 .tk-logo { display: inline-flex; align-items: center; text-decoration: none; }
 .tk-logo img { height: 36px; width: auto; display: block; }
-.tk-logo--foot { margin: 0 0 14px; }
-.tk-logo--foot img { height: 44px; width: auto; }
+.tk-logo--foot { margin: 0 0 32px; }
+.tk-logo--foot img { height: 44px; width: auto; margin: 0; }
 
 /* ---------- Effekte ---------- */
 /* Bewegtes Punktfeld im Kopfbereich */
