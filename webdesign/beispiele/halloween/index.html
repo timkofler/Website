@@ -1,0 +1,324 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gruselnacht im Spukhof – Beispiel-Entwurf | tim-kofler.at</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Beispiel-Entwurf einer Halloween-Eventseite von Tim Kofler – Webdesign. Erfundene Veranstaltung.">
+<meta name="theme-color" content="#07060d">
+<link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/beispiele/_shared/demo.css">
+<link rel="preload" href="/beispiele/_shared/fonts/creepster.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/beispiele/halloween/style.css?v=1">
+</head><body>
+<div class="tk-demo-bar"><a href="/#beispiele"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
+<span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundene Veranstaltung, Musteradresse</span>
+<a class="tk-demo-bar__cta" href="/#anfrage">So eine Seite anfragen</a></div>
+
+<header class="nav" id="nav">
+  <a class="nav__logo" href="#top">Spuk<span>hof</span></a>
+  <nav class="nav__l" aria-label="Hauptmenü"><a href="#sarg">Der Sarg</a><a href="#gaeste">Die Gäste</a><a href="#programm">Programm</a><a href="#tickets">Tickets</a></nav>
+  <div class="nav__r">
+    <button class="snd" id="snd" type="button" aria-pressed="false" title="Gruselsound ein/aus"><span class="snd__ic" aria-hidden="true">🔇</span><span class="snd__t">Sound</span></button>
+    <a class="btn btn--blood btn--s" href="#tickets">Tickets</a>
+  </div>
+</header>
+
+<main id="top">
+<!-- Hero: Vollmond, Nebel, Blitze, Fledermausschwarm, Spinne am Faden -->
+<section class="hero" id="hero">
+  <div class="sky" aria-hidden="true">
+    <div class="moon"><i></i><i></i><i></i></div>
+    <div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div>
+    <svg class="castle" viewBox="0 0 1440 420" preserveAspectRatio="xMidYMax slice">
+      <path d="M0 420V300l90-40 70 30 120-70 90 50 60-20 80 40V160h18v-30l20-22 20 22v30h18v40h40V120h16V86l26-34 26 34v34h16v80h40V180h18v-26l18-18 18 18v26h18v70l60-30 90 40 70-50 110 60 90-30 100 50 120-40 90 30v142Z"/>
+      <g class="castle__win"><rect x="626" y="150" width="10" height="18" rx="5"/><rect x="726" y="110" width="12" height="22" rx="6"/><rect x="716" y="170" width="10" height="16" rx="5"/><rect x="806" y="190" width="10" height="16" rx="5"/></g>
+      <path class="tree" d="M1180 420c4-60 2-110-8-150-20 10-46 8-64-6 22 2 40-4 54-16-16-14-24-36-20-58 10 22 26 32 44 34-2-24 6-46 22-60-6 24-2 44 10 60 14-12 34-16 54-10-20 6-34 18-40 36 18 4 34 16 42 34-18-10-36-12-52-6 8 40 10 90 8 142Z"/>
+      <path class="tree" d="M150 420c2-50 0-90-6-120-18 8-40 6-56-6 20 2 34-4 46-14-14-12-20-30-16-48 8 18 22 26 38 28-2-20 4-38 18-50-4 20-2 36 8 50 12-10 28-14 46-8-18 6-28 16-34 30 16 4 28 14 36 28-16-8-30-10-44-4 6 32 8 72 6 114Z"/>
+    </svg>
+    <div class="fog f1"></div><div class="fog f2"></div>
+    <div class="flash" id="flash"></div>
+    <svg class="bolt" id="bolt" viewBox="0 0 120 400"><path d="M70 0 30 170h40L20 400l90-250H62L100 0Z"/></svg>
+  </div>
+  <canvas class="bats" id="bats" aria-hidden="true"></canvas>
+  <div class="eyes-bush" aria-hidden="true"><i style="--x:8%;--y:78%;--d:0s"></i><i style="--x:22%;--y:86%;--d:1.6s"></i><i style="--x:84%;--y:82%;--d:.8s"></i><i style="--x:93%;--y:72%;--d:2.4s"></i></div>
+  <button class="spider" id="spider" type="button" aria-label="Spinne erschrecken"><i class="spider__thread"></i>
+    <svg viewBox="0 0 80 80" aria-hidden="true"><g class="sp-legs" stroke="#120d14" stroke-width="3.2" fill="none" stroke-linecap="round"><path d="M30 38 12 26 4 34M30 42 8 42 2 54M32 46 14 58 10 72M34 48 24 66 22 78M50 38 68 26 76 34M50 42 72 42 78 54M48 46 66 58 70 72M46 48 56 66 58 78"/></g><ellipse cx="40" cy="48" rx="14" ry="16" fill="#1a1320"/><circle cx="40" cy="30" r="9" fill="#1a1320"/><circle cx="36.5" cy="29" r="2.4" fill="#ff2a2a"/><circle cx="43.5" cy="29" r="2.4" fill="#ff2a2a"/><path d="M34 52h12M36 46h8" stroke="#b3121a" stroke-width="2"/></svg>
+  </button>
+  <div class="hero__in">
+    <p class="kick">31. Oktober · ab 19 Uhr · Spukhof Musterdorf</p>
+    <h1 class="title" aria-label="Gruselnacht"><span class="title__w" data-split>GRUSEL</span><span class="title__w title__w--b" data-split>NACHT</span>
+      <svg class="drips" viewBox="0 0 600 60" preserveAspectRatio="none" aria-hidden="true"><path d="M20 0h560v8c-10 0-12 30-20 30s-8-22-16-22-6 40-16 40-8-34-18-34-8 14-16 14-10-20-20-20-10 46-22 46-10-38-20-38-6 18-16 18-12-26-22-26-6 30-16 30-8-20-18-20-10 12-18 12-10-28-20-28-10 36-22 36-10-30-20-30-8 20-18 20-6-14-14-14-12 50-24 50-10-44-20-44-8 16-18 16-12-24-22-24-8 34-18 34-10-26-20-26-8 10-16 10-12-22-22-22-6 26-14 26-10-18-20-18Z"/></svg>
+    </h1>
+    <p class="hero__lead">Eine Nacht, ein Spukhof, ein Sarg, der sich von selbst öffnet. Komm verkleidet. Oder komm, wie du bist, und lass dich verwandeln.</p>
+    <div class="count" id="count" aria-label="Countdown bis zur Gruselnacht">
+      <div><b id="cd-d">00</b><span>Tage</span></div><div><b id="cd-h">00</b><span>Std</span></div><div><b id="cd-m">00</b><span>Min</span></div><div><b id="cd-s">00</b><span>Sek</span></div>
+    </div>
+    <div class="hero__cta"><a class="btn btn--blood btn--glow" href="#tickets">Ticket sichern, wenn du dich traust</a><a class="link" href="#sarg">Runterscrollen … langsam ↓</a></div>
+  </div>
+</section>
+
+<!-- Sarg: beim Scrollen wackelt er, der Deckel knarzt auf, der Vampir steigt heraus -->
+<section class="coffin" id="sarg">
+  <div class="coffin__pin">
+    <p class="coffin__k kick">Kapitel 1 · Der Keller</p>
+    <div class="coffin__txt">
+      <h2 class="h2 coffin__t1">Psst …<br>hörst du das?</h2>
+      <h2 class="h2 coffin__t2">Er wartet seit <span class="blood">1847</span><br>auf dich.</h2>
+    </div>
+    <div class="cof" id="cof">
+      <div class="cof__mist" aria-hidden="true"></div>
+      <div class="cof__box">
+        <svg class="cof__inside" viewBox="0 0 300 560" aria-hidden="true">
+          <defs><linearGradient id="satin" x1="0" x2="1"><stop offset="0" stop-color="#3a0507"/><stop offset=".5" stop-color="#8e0f16"/><stop offset="1" stop-color="#3a0507"/></linearGradient>
+          <radialGradient id="tuft"><stop offset="0" stop-color="#c0242c"/><stop offset="1" stop-color="#5a080c"/></radialGradient></defs>
+          <path d="M90 0h120l60 140-40 420H70L30 140Z" fill="#1c0f0a"/>
+          <path d="M98 14h104l52 128-36 404H82L46 142Z" fill="url(#satin)"/>
+          <g fill="url(#tuft)"><circle cx="120" cy="60" r="6"/><circle cx="180" cy="60" r="6"/><circle cx="90" cy="160" r="6"/><circle cx="150" cy="160" r="6"/><circle cx="210" cy="160" r="6"/><circle cx="110" cy="280" r="6"/><circle cx="190" cy="280" r="6"/><circle cx="150" cy="400" r="6"/><circle cx="110" cy="500" r="6"/><circle cx="190" cy="500" r="6"/></g>
+        </svg>
+        <!-- Vampir -->
+        <svg class="vamp" id="vamp" viewBox="0 0 220 380" aria-hidden="true">
+          <path class="vamp__cape" d="M110 120C60 120 26 150 14 210L0 380h220l-14-170c-12-60-46-90-96-90Z" fill="#0c0a10"/>
+          <path d="M110 128c-34 0-58 22-66 60l-10 192h152l-10-192c-8-38-32-60-66-60Z" fill="#17131c"/>
+          <path d="M84 132 110 220 136 132Z" fill="#efe8dc"/><path d="M104 140h12l-6 60Z" fill="#7a0b12"/>
+          <path class="vamp__collar" d="M40 150C30 110 36 76 52 54l28 60 30-10 30 10 28-60c16 22 22 56 12 96-14-14-34-22-70-22s-56 8-70 22Z" fill="#0c0a10"/>
+          <path d="M52 140c-6-24-4-50 6-70l22 46Zm116 0c6-24 4-50-6-70l-22 46Z" fill="#8e0f16"/>
+          <ellipse cx="110" cy="78" rx="34" ry="42" fill="#e7e2d6"/>
+          <path d="M76 70c0-30 14-46 34-46s34 16 34 46c-6-10-14-16-22-16l-12 18-12-18c-8 0-16 6-22 16Z" fill="#0d0a10"/>
+          <path d="M84 72q12-6 20 2M136 72q-12-6-20 2" stroke="#0d0a10" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <g class="vamp__eyes"><ellipse cx="96" cy="82" rx="7" ry="5" fill="#ff1f2d"/><ellipse cx="124" cy="82" rx="7" ry="5" fill="#ff1f2d"/><circle cx="96" cy="82" r="2" fill="#2a0005"/><circle cx="124" cy="82" r="2" fill="#2a0005"/></g>
+          <path d="M108 86q2 10-2 14h8q-4-4-2-14" fill="#cbc5b6"/>
+          <path d="M94 104q16 10 32 0q-16 4-32 0Z" fill="#5a0b10"/>
+          <path d="M99 105l3 9 3-8Zm16 1 3 8 3-9Z" fill="#fff"/>
+          <path d="M122 114q1 5 0 8" stroke="#b3121a" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div class="cof__lid" id="lid">
+          <svg viewBox="0 0 300 560" aria-hidden="true">
+            <defs><linearGradient id="wood" x1="0" x2="1"><stop offset="0" stop-color="#2a160c"/><stop offset=".45" stop-color="#5a3018"/><stop offset=".55" stop-color="#4a2712"/><stop offset="1" stop-color="#1e0f07"/></linearGradient></defs>
+            <path d="M90 0h120l60 140-40 420H70L30 140Z" fill="url(#wood)" stroke="#120804" stroke-width="4"/>
+            <path d="M100 18h100l50 122-36 400H86L50 140Z" fill="none" stroke="rgba(0,0,0,.35)" stroke-width="3"/>
+            <g stroke="rgba(0,0,0,.18)" stroke-width="2" fill="none"><path d="M110 30c10 120-6 260 8 500M160 24c-8 160 10 300 0 520M200 40c6 110-10 230 4 480"/></g>
+            <g fill="#b89a5a"><path d="M138 120h24v60h40v24h-40v120h-24V204H98v-24h40Z"/></g>
+            <g fill="#8a7444"><circle cx="78" cy="150" r="5"/><circle cx="96" cy="430" r="5"/><circle cx="222" cy="150" r="5"/><circle cx="204" cy="430" r="5"/></g>
+            <path d="M214 250l20 6" stroke="#c9b27a" stroke-width="6" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="cof__shadow" aria-hidden="true"></div>
+    </div>
+    <div class="coffin__bar" aria-hidden="true"><i id="cofbar"></i></div>
+  </div>
+</section>
+
+<!-- Laufband -->
+<div class="band" aria-hidden="true"><div class="band__track"><span>Süßes oder Saures <i>🎃</i> Kostüm Pflicht <i>🦇</i> Geisterstunde um Mitternacht <i>💀</i> Nur für Mutige <i>🕷️</i> </span><span>Süßes oder Saures <i>🎃</i> Kostüm Pflicht <i>🦇</i> Geisterstunde um Mitternacht <i>💀</i> Nur für Mutige <i>🕷️</i> </span></div></div>
+
+<!-- Gäste: acht Monster, jedes bewegt sich, beim Drüberfahren oder Antippen reagieren sie -->
+<section class="guests" id="gaeste">
+  <div class="sec-head">
+    <p class="kick">Kapitel 2 · Die Gästeliste</p>
+    <h2 class="h2">Wer sonst noch<br>so kommt</h2>
+    <p class="lead">Fahr über die Gäste oder tipp sie an. Aber nicht zu lange. Manche beißen.</p>
+  </div>
+  <ul class="mons">
+    <li class="mon mon--zombie" tabindex="0" data-reveal>
+      <svg viewBox="0 0 220 250" aria-hidden="true">
+        <rect x="74" y="190" width="26" height="54" rx="6" fill="#33364f"/><rect x="112" y="190" width="26" height="54" rx="6" fill="#2b2e45"/>
+        <path d="M58 112h96l8 84-10-6-8 10-10-8-10 10-10-8-10 8-10-8-10 10-10-8-8 8-10-8Z" fill="#6b5b4a"/>
+        <path d="M80 116 106 150 132 116" fill="none" stroke="#4a3d31" stroke-width="3"/>
+        <g class="z-arms"><rect x="136" y="120" width="70" height="17" rx="8" fill="#86b35e"/><rect x="132" y="142" width="64" height="17" rx="8" fill="#76a24f"/><path d="M200 116h12M200 124h14M198 132h12" stroke="#5f8a3c" stroke-width="5" stroke-linecap="round"/></g>
+        <g class="z-head"><path d="M66 72c0-30 18-50 42-50s42 20 42 50-16 46-42 46-42-16-42-46Z" fill="#93c166"/>
+          <path d="M70 52c6-24 22-34 40-34s34 10 40 32c-10-8-14-4-20-10-6 8-14 4-22 0-6 6-14 8-22 2-6 6-10 6-16 10Z" fill="#2d2a22"/>
+          <path d="M78 48h50" stroke="#2b3d1c" stroke-width="2.5"/><path d="M84 43v10M94 43v10M104 43v10M114 43v10M124 43v10" stroke="#2b3d1c" stroke-width="2"/>
+          <circle cx="90" cy="74" r="11" fill="#f4f1d8"/><circle class="z-eye" cx="92" cy="76" r="4.5" fill="#1b1b1b"/><circle cx="126" cy="76" r="6" fill="#f4f1d8"/><circle cx="127" cy="77" r="2.5" fill="#b3121a"/>
+          <path d="M86 98q22 14 44-2l-4 10-6-5-6 7-6-6-6 7-6-6-6 5Z" fill="#2a1b12"/></g>
+      </svg>
+      <h3>Zombie Zenzi</h3><p>Kommt jedes Jahr. Wurde nie eingeladen.</p><span class="mon__t">Auftritt 22:00</span>
+    </li>
+    <li class="mon mon--mummy" tabindex="0" data-reveal style="--d:.06s">
+      <svg viewBox="0 0 220 250" aria-hidden="true">
+        <defs><clipPath id="mbody"><path d="M76 62c0-26 14-40 34-40s34 14 34 40c0 12-4 22-10 30h12l6 100h-12l2 52h-24l-4-44h-8l-4 44H78l2-52H68l6-100h12c-6-8-10-18-10-30Z"/></clipPath></defs>
+        <path class="m-tail" d="M150 120c20 4 30 14 40 30s20 26 26 22" fill="none" stroke="#e5d8b8" stroke-width="10" stroke-linecap="round"/>
+        <g clip-path="url(#mbody)"><rect width="220" height="250" fill="#e8dcbe"/>
+          <g stroke="#c4b48e" stroke-width="3"><path d="M60 30 170 50M60 48 170 40M60 66 170 82M60 100 170 90M60 118 170 132M60 140 170 128M60 160 170 176M60 186 170 172M60 206 170 220M60 228 170 214"/></g>
+          <rect x="76" y="58" width="68" height="16" fill="#1b1410"/></g>
+        <g class="m-eyes"><circle cx="98" cy="66" r="4.5" fill="#ffd23f"/><circle cx="122" cy="66" r="4.5" fill="#ffd23f"/></g>
+        <g class="m-arms"><rect x="142" y="108" width="54" height="16" rx="7" fill="#e5d8b8"/><rect x="24" y="108" width="54" height="16" rx="7" fill="#d8c9a4"/><path d="M150 108v16M162 108v16M174 108v16M36 108v16M48 108v16M60 108v16" stroke="#c4b48e" stroke-width="2.5"/></g>
+      </svg>
+      <h3>Mumie Margit</h3><p>Seit 3000 Jahren schlecht gelaunt. Und schlecht gewickelt.</p><span class="mon__t">Auftritt 21:30</span>
+    </li>
+    <li class="mon mon--witch" tabindex="0" data-reveal style="--d:.12s">
+      <svg viewBox="0 0 220 250" aria-hidden="true">
+        <path d="M24 226 196 150" stroke="#6b4423" stroke-width="7" stroke-linecap="round"/><path d="M16 226c4-12 14-20 26-22l8 26c-12 6-24 4-34-4Z" fill="#c69a45"/>
+        <path d="M74 138h72l34 96H40Z" fill="#2a1240"/>
+        <g class="w-hair" fill="#8a2be2"><path d="M76 92c-10 20-12 44-4 64 4-18 8-36 14-50Z"/><path d="M144 92c10 20 12 44 4 64-4-18-8-36-14-50Z"/></g>
+        <ellipse cx="110" cy="108" rx="32" ry="36" fill="#7cc44c"/>
+        <path d="M108 104q26 10 34 28-18-8-34-10Z" fill="#6cb33f"/><circle cx="131" cy="122" r="3" fill="#4e8a2a"/>
+        <path d="M90 98l12 4M130 98l-12 4" stroke="#1d0b2e" stroke-width="3" stroke-linecap="round"/>
+        <g class="w-eyes"><ellipse cx="97" cy="106" rx="6" ry="4" fill="#ffe14a"/><ellipse cx="123" cy="106" rx="6" ry="4" fill="#ffe14a"/><rect x="96" y="102" width="2" height="8" fill="#000"/><rect x="122" y="102" width="2" height="8" fill="#000"/></g>
+        <path d="M94 128q16 12 32 0q-16 4-32 0Z" fill="#2a0f1e"/><path d="M106 129l3 6 3-5Z" fill="#fff"/>
+        <g class="w-hat"><path d="M48 80c10-30 30-58 74-78-10 22-6 46 16 78Z" fill="#2a1240"/><ellipse cx="110" cy="82" rx="74" ry="11" fill="#1d0b2e"/><rect x="62" y="68" width="76" height="10" fill="#8a2be2"/><rect x="92" y="65" width="16" height="16" rx="2" fill="none" stroke="#ffd23f" stroke-width="3"/></g>
+        <g class="w-spark" fill="#ffe14a"><circle cx="190" cy="140" r="3"/><circle cx="204" cy="128" r="2"/><circle cx="182" cy="122" r="2.5"/></g>
+      </svg>
+      <h3>Hexe Hilde</h3><p>Braut den Punsch. Fragt besser nicht, was drin ist.</p><span class="mon__t">Ausschank ab 19:00</span>
+    </li>
+    <li class="mon mon--pumpkin" tabindex="0" data-reveal style="--d:.18s">
+      <svg viewBox="0 0 220 250" aria-hidden="true">
+        <path d="M104 66c-2-18 6-30 20-36l8 8c-12 6-14 16-12 28Z" fill="#3d5a1e"/><path d="M120 46c14-8 28-6 36 4-14-2-24 2-32 8Z" fill="#4f7a24"/>
+        <ellipse cx="72" cy="148" rx="54" ry="74" fill="#c9530b"/><ellipse cx="148" cy="148" rx="54" ry="74" fill="#c9530b"/><ellipse cx="110" cy="148" rx="56" ry="80" fill="#f07818"/>
+        <path d="M96 76q-8 72 0 148M124 76q8 72 0 148" stroke="#c9530b" stroke-width="3" fill="none"/>
+        <g class="pk-face"><path d="M66 128l20-24 20 24Z"/><path d="M114 128l20-24 20 24Z"/><path d="M104 148l6-10 6 10Z"/><path d="M58 164q52 46 104 0l-10 4-6 12-10-10-10 12-12-10-12 10-10-12-10 10-6-12Z"/></g>
+      </svg>
+      <h3>Jack O'Kürbis</h3><p>Grinst immer. Auch wenn's nichts zu lachen gibt.</p><span class="mon__t">Die ganze Nacht</span>
+    </li>
+    <li class="mon mon--goblin" tabindex="0" data-reveal style="--d:.24s">
+      <svg viewBox="0 0 220 250" aria-hidden="true">
+        <path d="M80 160h60l16 80H64Z" fill="#6b4a2a"/><path d="M80 160h60l-4 18H84Z" fill="#4e351d"/>
+        <path class="g-ear g-ear--l" d="M70 104 6 70l40 52Z" fill="#5f9e3a"/><path class="g-ear g-ear--r" d="M150 104l64-34-40 52Z" fill="#5f9e3a"/>
+        <ellipse cx="110" cy="116" rx="46" ry="42" fill="#69ab40"/>
+        <path d="M82 92l20 8M138 92l-20 8" stroke="#22380f" stroke-width="4" stroke-linecap="round"/>
+        <g class="g-eyes"><ellipse cx="92" cy="110" rx="12" ry="10" fill="#ffe14a"/><ellipse cx="128" cy="110" rx="12" ry="10" fill="#ffe14a"/><ellipse cx="92" cy="110" rx="2.6" ry="8" fill="#000"/><ellipse cx="128" cy="110" rx="2.6" ry="8" fill="#000"/></g>
+        <path d="M104 118q6 12 12 0" fill="#4e8a2a"/>
+        <path d="M80 134q30 26 60 0q-30 10-60 0Z" fill="#1d0f08"/><path d="M86 136l5 9 4-8Zm12 2 4 9 4-9Zm14 0 4 9 4-9Zm14-2 4 8 5-9Z" fill="#fff"/>
+      </svg>
+      <h3>Kobold Kurti</h3><p>Klaut Süßigkeiten. Und Schuhe. Und manchmal Zehen.</p><span class="mon__t">Überall, immer</span>
+    </li>
+    <li class="mon mon--gnome" tabindex="0" data-reveal style="--d:.3s">
+      <svg viewBox="0 0 220 250" aria-hidden="true">
+        <g class="gn-axe"><path d="M164 236 176 108" stroke="#6b4423" stroke-width="7" stroke-linecap="round"/><path d="M168 106c18-14 34-10 42 2-8 4-12 14-10 28-12-4-24-12-32-30Z" fill="#9aa3ad"/><path d="M178 112q14-6 26 2" stroke="#dfe5ea" stroke-width="2" fill="none"/></g>
+        <rect x="80" y="196" width="22" height="40" fill="#3a2a1e"/><rect x="118" y="196" width="22" height="40" fill="#3a2a1e"/><ellipse cx="88" cy="238" rx="16" ry="7" fill="#1d1510"/><ellipse cx="132" cy="238" rx="16" ry="7" fill="#1d1510"/>
+        <path d="M70 140h80l6 66H64Z" fill="#244d9a"/>
+        <path class="gn-hat" d="M110 8 154 108H66Z" fill="#c81e1e"/>
+        <circle cx="110" cy="118" r="26" fill="#f2c9a0"/>
+        <path d="M84 124c-6 30 4 62 26 76 22-14 32-46 26-76-8 10-16 14-26 14s-18-4-26-14Z" fill="#f4f1ea"/>
+        <circle cx="110" cy="124" r="7" fill="#e07a6a"/>
+        <path d="M94 106l12 6M126 106l-12 6" stroke="#3a2a1e" stroke-width="3.5" stroke-linecap="round"/>
+        <g class="gn-eyes"><circle cx="100" cy="114" r="4" fill="#ff2a2a"/><circle cx="120" cy="114" r="4" fill="#ff2a2a"/></g>
+      </svg>
+      <h3>Zwerg Zacharias</h3><p>Stand 40 Jahre still im Garten. Jetzt reicht's ihm.</p><span class="mon__t">Lauert im Beet</span>
+    </li>
+    <li class="mon mon--ghost" tabindex="0" data-reveal style="--d:.36s">
+      <svg viewBox="0 0 220 250" aria-hidden="true">
+        <g class="gh-body"><path d="M110 18c-48 0-74 38-74 90v120l20-18 18 18 18-18 18 18 18-18 18 18 18-18 20 18V108c0-52-26-90-74-90Z" fill="#f3f0ff"/>
+        <path d="M60 140c-14 4-24 14-30 26 14-2 24 0 30 6Z" fill="#e4e0f5"/><path d="M160 140c14 4 24 14 30 26-14-2-24 0-30 6Z" fill="#e4e0f5"/>
+        <ellipse cx="90" cy="96" rx="11" ry="17" fill="#120d1a"/><ellipse cx="130" cy="96" rx="11" ry="17" fill="#120d1a"/>
+        <ellipse class="gh-mouth" cx="110" cy="138" rx="10" ry="14" fill="#120d1a"/></g>
+        <text class="gh-buh" x="160" y="44">BUH!</text>
+      </svg>
+      <h3>Gespenst Gustl</h3><p>Schüchtern. Sagt nur „Buh“, wenn man ihn lieb fragt.</p><span class="mon__t">Ab Mitternacht</span>
+    </li>
+    <li class="mon mon--wolf" tabindex="0" data-reveal style="--d:.42s">
+      <svg viewBox="0 0 220 250" aria-hidden="true">
+        <path d="M50 250c4-50 26-80 60-86 34 6 56 36 60 86Z" fill="#4c4852"/><path d="M80 176l8 14 8-12 8 14 6-14 6 14 8-14 8 12 8-14" fill="none" stroke="#3a3640" stroke-width="4"/>
+        <g class="wf-head"><path d="M66 70 52 12l40 36q18-6 36 0l40-36-14 58q22 32 2 64l-20 34q-26 20-52 0l-20-34q-20-32 2-64Z" fill="#76717d"/>
+          <path d="M62 24l22 22-14 12Zm96 0-22 22 14 12Z" fill="#3a3640"/>
+          <path d="M80 82l22 8M140 82l-22 8" stroke="#2a2630" stroke-width="4" stroke-linecap="round"/>
+          <g class="wf-eyes"><path d="M84 96l18 2-4 8q-10 0-14-10Z" fill="#ffd23f"/><path d="M136 96l-18 2 4 8q10 0 14-10Z" fill="#ffd23f"/></g>
+          <ellipse cx="110" cy="132" rx="26" ry="24" fill="#a9a3b0"/><path d="M98 118h24l-12 10Z" fill="#16131a"/>
+          <path class="wf-jaw" d="M92 144q18 18 36 0Z" fill="#3a0d12"/><path d="M96 145l4 10 3-9Zm21 1 3 9 4-10Z" fill="#fff"/></g>
+        <text class="wf-howl" x="150" y="30">AUUUH</text>
+      </svg>
+      <h3>Werwolf Waltraud</h3><p>Tagsüber Buchhalterin. Heute Nacht nicht.</p><span class="mon__t">Bei Vollmond</span>
+    </li>
+  </ul>
+</section>
+
+<!-- Taschenlampe: alles dunkel, nur der Lichtkegel zeigt, was an der Wand ist -->
+<section class="torch" id="torch">
+  <div class="torch__wall" aria-hidden="true">
+    <span class="scrawl s1">LAUF!</span>
+    <span class="scrawl s2">Er ist hinter dir</span>
+    <span class="scrawl s3">Zimmer 13</span>
+    <svg class="hand hd1" viewBox="0 0 100 120"><path d="M30 120V60L18 30c-2-8 8-12 12-4l12 26V12c0-8 12-8 12 0v36l2-42c0-8 12-8 12 0l-2 44 6-36c2-8 13-6 12 2l-6 40 10-22c4-8 14-4 11 4L72 90l-4 30Z"/></svg>
+    <svg class="hand hd2" viewBox="0 0 100 120"><path d="M30 120V60L18 30c-2-8 8-12 12-4l12 26V12c0-8 12-8 12 0v36l2-42c0-8 12-8 12 0l-2 44 6-36c2-8 13-6 12 2l-6 40 10-22c4-8 14-4 11 4L72 90l-4 30Z"/></svg>
+    <span class="peye e1"><i></i><i></i></span><span class="peye e2"><i></i><i></i></span><span class="peye e3"><i></i><i></i></span>
+    <svg class="skull" viewBox="0 0 120 130"><path d="M60 4C28 4 8 26 8 56c0 18 8 30 18 38v20h16v-10h10v12h16v-12h10v10h16V94c10-8 18-20 18-38C112 26 92 4 60 4Z" fill="#e9e2cf"/><ellipse cx="40" cy="60" rx="14" ry="16" fill="#0b0a0e"/><ellipse cx="80" cy="60" rx="14" ry="16" fill="#0b0a0e"/><path d="M60 72l-8 16h16Z" fill="#0b0a0e"/></svg>
+    <svg class="web" viewBox="0 0 200 200"><g fill="none" stroke="rgba(230,230,240,.55)" stroke-width="1.2"><path d="M0 0 200 200M0 0 200 80M0 0 80 200M0 0 200 0M0 0 0 200"/><path d="M40 0q4 30-40 40M80 0q10 60-80 80M130 0q16 100-130 130M190 0q20 150-190 190"/></g></svg>
+  </div>
+  <div class="torch__dark" id="dark"></div>
+  <div class="torch__txt">
+    <p class="kick">Kapitel 3 · Der dunkle Gang</p>
+    <h2 class="h2">Taschenlampe an.</h2>
+    <p class="lead" id="torchhint">Fahr mit der Maus durch den Gang. Am Handy: Finger drauf und wischen.</p>
+  </div>
+</section>
+
+<!-- Kürbisse anzünden: alle an, dann gibt's eine Überraschung -->
+<section class="carve" id="kuerbisse">
+  <div class="sec-head sec-head--c">
+    <p class="kick">Kapitel 4 · Die Veranda</p>
+    <h2 class="h2">Zünde alle fünf an</h2>
+    <p class="lead">Tipp auf die Kürbisse. Wer alle zum Leuchten bringt, bekommt etwas.</p>
+  </div>
+  <div class="pks" id="pks"></div>
+  <p class="carve__prize" id="prize" aria-live="polite"></p>
+</section>
+
+<!-- Programm: Kerzen gehen beim Scrollen an, eine Hexe fliegt durch -->
+<section class="prog" id="programm">
+  <svg class="witchfly" id="witchfly" viewBox="0 0 260 140" aria-hidden="true">
+    <path d="M10 92 240 70" stroke="#2b1a10" stroke-width="6" stroke-linecap="round"/><path d="M236 62c14 0 22 6 24 14-10 4-18 6-26 4Z" fill="#2b1a10"/>
+    <path d="M110 84c-6-26 4-48 22-56l18 12c-6 14-4 30 4 42Z" fill="#14081f"/>
+    <path d="M118 30c2-16 10-26 24-30-4 10-2 18 4 24Z" fill="#14081f"/><ellipse cx="136" cy="28" rx="26" ry="5" fill="#14081f"/>
+    <path d="M150 52c10 4 18 2 26-4" stroke="#14081f" stroke-width="5" stroke-linecap="round"/>
+    <path d="M118 84c-10 10-26 14-40 12 10-6 18-12 22-20Z" fill="#14081f"/>
+  </svg>
+  <div class="sec-head">
+    <p class="kick">Kapitel 5 · Der Ablauf</p>
+    <h2 class="h2">Die Nacht,<br>Stunde für Stunde</h2>
+  </div>
+  <ol class="tl" id="tl">
+    <li><i class="candle"><b></b></i><time>19:00</time><h3>Tore auf</h3><p>Einlass durch den Friedhof. Hexe Hilde schenkt Punsch aus, alkoholfrei gibt's auch.</p></li>
+    <li><i class="candle"><b></b></i><time>20:00</time><h3>Kostüm-Prämierung</h3><p>Das gruseligste Kostüm gewinnt ein Jahr lang Freibier. Das lustigste einen Kürbis.</p></li>
+    <li><i class="candle"><b></b></i><time>21:00</time><h3>Geisterbahn im Stadl</h3><p>80 Meter Dunkelheit, Nebel und Dinge, die nach dir greifen.</p></li>
+    <li><i class="candle"><b></b></i><time>22:00</time><h3>Zombie-Tanz</h3><p>DJ Knochenbrecher legt auf. Zenzi zeigt die Schritte.</p></li>
+    <li><i class="candle"><b></b></i><time>00:00</time><h3>Geisterstunde</h3><p>Licht aus. Der Sarg im Keller öffnet sich. Wer bleibt, ist selbst schuld.</p></li>
+  </ol>
+</section>
+
+<!-- Tickets -->
+<section class="tix" id="tickets">
+  <div class="sec-head sec-head--c">
+    <p class="kick">Kapitel 6 · Der Eintritt</p>
+    <h2 class="h2">Wie mutig bist du?</h2>
+  </div>
+  <div class="tickets">
+    <article class="ticket" data-reveal><span class="ticket__n">Mutig</span><b class="ticket__p">€ 13</b><ul><li>Eintritt ab 19 Uhr</li><li>Ein Becher Hexenpunsch</li><li>Geisterbahn einmal</li></ul><button class="btn btn--ghost" type="button" data-ticket="Mutig" data-price="13">Nehmen</button><i class="ticket__cut" aria-hidden="true"></i></article>
+    <article class="ticket ticket--hot" data-reveal style="--d:.08s"><span class="ticket__badge">Beliebt</span><span class="ticket__n">Sehr mutig</span><b class="ticket__p">€ 23</b><ul><li>Alles von Mutig</li><li>Geisterbahn so oft du willst</li><li>Platz in der ersten Reihe beim Sarg</li></ul><button class="btn btn--blood" type="button" data-ticket="Sehr mutig" data-price="23">Nehmen</button><i class="ticket__cut" aria-hidden="true"></i></article>
+    <article class="ticket" data-reveal style="--d:.16s"><span class="ticket__n">Lebensmüde</span><b class="ticket__p">€ 66,6</b><ul><li>Alles von Sehr mutig</li><li>Eine Nacht im Spukzimmer 13</li><li>Frühstück, falls du es erlebst</li></ul><button class="btn btn--ghost" type="button" data-ticket="Lebensmüde" data-price="66.6">Nehmen</button><i class="ticket__cut" aria-hidden="true"></i></article>
+  </div>
+</section>
+</main>
+
+<!-- Friedhof: Zombiehände kommen aus der Erde, Grabsteine mit Sprüchen -->
+<footer class="yard" id="yard">
+  <div class="yard__in">
+    <h2 class="h2 yard__t">Bis zum <span class="blood">31.</span><br>Wenn du dich traust.</h2>
+    <p class="yard__info">Spukhof Musterdorf · Friedhofweg 13 · 3270 Musterdorf<br>Erfundene Veranstaltung, Beispiel-Entwurf von tim-kofler.at</p>
+  </div>
+  <div class="graves" aria-hidden="true">
+    <div class="tomb t1"><b>R.I.P.</b><span>Hier ruht ein Webdesigner, der kein Handy-Layout konnte</span></div>
+    <div class="tomb t2"><b>R.I.P.</b><span>Ich hab doch gesagt, mir ist nicht gut</span></div>
+    <div class="tomb t3"><b>R.I.P.</b><span>Er wollte nur kurz in den Keller schauen</span></div>
+    <svg class="zhand zh1" viewBox="0 0 80 160"><path d="M24 160V84L12 50c-2-8 8-12 12-4l10 24V20c0-8 12-8 12 0v40l2-46c0-8 12-8 12 0l-2 48 6-32c2-8 12-6 12 2l-8 46-4 82Z" fill="#7aa356"/><path d="M20 120h44l-4 40H24Z" fill="#4b3a2c"/><path d="M20 120l8 8 6-8 8 8 8-8 8 8 6-8" fill="none" stroke="#2f241b" stroke-width="3"/></svg>
+    <svg class="zhand zh2" viewBox="0 0 80 160"><path d="M24 160V84L12 50c-2-8 8-12 12-4l10 24V20c0-8 12-8 12 0v40l2-46c0-8 12-8 12 0l-2 48 6-32c2-8 12-6 12 2l-8 46-4 82Z" fill="#6c9549"/><path d="M20 120h44l-4 40H24Z" fill="#3b4a5c"/></svg>
+    <svg class="zhand zh3" viewBox="0 0 80 160"><path d="M24 160V84L12 50c-2-8 8-12 12-4l10 24V20c0-8 12-8 12 0v40l2-46c0-8 12-8 12 0l-2 48 6-32c2-8 12-6 12 2l-8 46-4 82Z" fill="#86b35e"/><path d="M20 120h44l-4 40H24Z" fill="#5a2a2a"/></svg>
+    <div class="ground"></div><div class="fog f3"></div>
+  </div>
+</footer>
+
+<dialog class="tdlg" id="tdlg" aria-labelledby="tdlg-h">
+  <form method="dialog" class="tdlg__in" id="tform">
+    <button class="tdlg__x" type="button" data-close aria-label="Schließen">✕</button>
+    <div class="tdlg__form" id="tdlgform">
+      <p class="kick">Ticket</p><h2 id="tdlg-h">Sehr mutig</h2>
+      <div class="qty"><button type="button" data-q="-1" aria-label="Weniger">−</button><b id="tq">1</b><button type="button" data-q="1" aria-label="Mehr">+</button><span>Personen</span></div>
+      <label class="fld"><span>Dein Name (für die Grabinschrift)</span><input name="name" required autocomplete="name" placeholder="z. B. Vlad"></label>
+      <p class="tdlg__sum">Summe <b id="tsum">€ 23,00</b></p>
+      <button class="btn btn--blood btn--glow" type="submit">Mit Blut unterschreiben</button>
+      <p class="tdlg__demo">Beispiel-Entwurf: Es wird nichts verschickt oder bezahlt.</p>
+    </div>
+    <div class="tdlg__done" id="tdone" hidden><span class="tdlg__ghost" aria-hidden="true">👻</span><h2>Zu spät, <span id="tname">du</span>!</h2><p>Dein Ticket ist verflucht … äh, reserviert. Wir sehen uns am 31. um 19 Uhr am Friedhofstor.</p><button class="btn btn--ghost" type="button" data-close>Ich hab keine Angst</button></div>
+  </form>
+</dialog>
+
+<script src="/beispiele/_shared/demo.js" defer></script>
+<script src="/beispiele/halloween/app.js?v=1" defer></script>
+</body></html>

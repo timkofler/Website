@@ -74,7 +74,7 @@ var TAGS = [
   { k: "// im Becher", name: "Hausmelange", price: "€ 4,20", meta: "350 ml · täglich frisch · zum Mitnehmen" }
 ];
 var tag = $("#tag"), tagI = 0;
-if (tag && !reduce) setTimeout(function () { setInterval(nextTag, 4200); }, 3200);
+if (tag && !reduce) setTimeout(function () { setInterval(nextTag, 9500); }, 4000);
 function nextTag() {
   if (document.hidden || scrollY > innerHeight) return;
   tagI = (tagI + 1) % TAGS.length; var d = TAGS[tagI];
