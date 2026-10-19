@@ -5,7 +5,7 @@
 <title>Vorher-Beispiel (erfunden)</title>
 <!-- Absichtlich veraltete Beispielseite für den Vorher/Nachher-Regler auf /entwurf/.
      Kein viewport-Meta: so zeigt das Handy die Seite wie früher verkleinert an.
-     Aufruf: vorher.html?b=tischlerei | gasthaus | baeckerei -->
+     Aufruf: vorher.html?b=tischlerei | gasthaus | friseur | baeckerei -->
 <style>
 body{margin:0;padding:14px 0 30px;font:12px/1.45 Verdana,"DejaVu Sans",sans-serif;color:#222;background:#6f8fb3}
 #seite{width:900px;margin:0 auto;background:#fff;border:1px solid #333;box-shadow:4px 4px 0 rgba(0,0,0,.35)}
@@ -60,6 +60,13 @@ body.gasthaus #kopf .sub,body.gasthaus #kopf .tel{color:#fff}
 body.gasthaus #links{background:#f0f6e6}
 body.gasthaus #links .box b{background:#3d6e2a}
 body.gasthaus #haupt h2{color:#2e6b1e}
+body.friseur{background:#b04a8a repeating-linear-gradient(135deg,#b04a8a 0 12px,#c25a9a 12px 24px)}
+body.friseur #kopf{background:linear-gradient(90deg,#ffd6ec,#e98bc0)}
+body.friseur #kopf h1{color:#7a0050;font-family:"Comic Sans MS","Comic Neue","DejaVu Sans",sans-serif;font-style:italic;text-shadow:2px 2px 0 #fff,4px 4px 3px rgba(0,0,0,.4)}
+body.friseur #kopf .sub,body.friseur #kopf .tel{color:#5a0038}
+body.friseur #links{background:#fdf0f7}
+body.friseur #links .box b{background:#a03a78}
+body.friseur #haupt h2{color:#a0186e}
 body.baeckerei{background:#c98b2c repeating-radial-gradient(circle at 10px 10px,#d39a3d 0 3px,#c98b2c 3px 14px)}
 body.baeckerei #kopf{background:linear-gradient(#fff6c4,#f2c14e)}
 body.baeckerei #kopf h1{color:#b01e00;font-family:"Comic Sans MS","Comic Neue","DejaVu Sans",sans-serif;font-style:normal;text-shadow:2px 2px 0 #ffd94a,3px 3px 2px rgba(0,0,0,.5)}
@@ -128,6 +135,17 @@ gasthaus:{ueber:'Der Gasthof Hollerhof wird seit 1923 von der Familie Holler gef
  text2:'Unsere Speisekarte finden Sie <a href="#">hier</a> (PDF). Das aktuelle Wochenmenü können Sie ebenfalls als PDF herunterladen. Tischreservierung bitte nur telefonisch!',
  liste:[['Schweinsbraten mit Knödel','€ 11,50'],['Wiener Schnitzel vom Schwein','€ 12,90'],['Tagessuppe','€ 3,80']],
  fuss:'© 2010 Gasthof Hollerhof | Musterdorf | <a href="#">Impressum</a> | Webmaster: Neffe Markus | Letzte Änderung: 02.05.2012'},
+friseur:{ueber:'Unser Salon wurde 1998 von Friseurmeisterin Sabine gegründet. Unser junges, motiviertes Team bildet sich laufend weiter und ist immer am neuesten Stand der Trends. Wir verwenden ausschließlich hochwertige Produkte. Neben Haarschnitten und Farben bieten wir auch Hochsteckfrisuren für Hochzeiten und Bälle, Dauerwellen und Strähnen an. Wir freuen uns auf Ihren Besuch!',anfahrt:'Sie finden uns im Zentrum von Musterdorf, gleich neben der Sparkasse. Parkplätze finden Sie am Hauptplatz.',gb:[['Melanie','14.03.2011','Bin sehr zufrieden mit meinen neuen Strähnen!!! Danke Sabine :-)'],['Petra K.','22.01.2011','Super nettes Team, komme gerne wieder.'],['Lisa','05.11.2010','Habt ihr am Samstag auch Termine frei?']],name:'Friseursalon Haarwerk',sub:'Ihr Friseur in Musterdorf - Damen, Herren, Kinder',tel:'Termine nur nach tel. Vereinbarung!<br>Tel.: 01234 / 45 67',kopfbild:'f-cut',
+ nav:['Home','Über uns','Preisliste','Galerie','Produkte','Team','Kontakt','Impressum'],
+ lauf:'*** NEU: Jetzt auch Haarverlängerung! *** Gutscheine erhältlich - das ideale Geschenk! *** Am 24.12. geschlossen ***',
+ aktuell:'<span class="neu">NEU!</span> Preisliste 2011 jetzt online (PDF)<br><br>Lehrling gesucht (w)',
+ zeiten:'Di - Fr: 8:00 - 18:00<br>Sa: 7:30 - 12:00<br>Mo: geschlossen',zaehler:'003562',
+ titel:'Willkommen im Friseursalon Haarwerk!',hl:'~ Schönheit beginnt beim Haar ~',
+ text1:'Herzlich Willkommen auf unserer Homepage! Wir sind ein moderner Friseursalon im Herzen von Musterdorf und bieten Ihnen alles rund ums Haar. Ob Haarschnitt, Farbe, Strähnen oder Hochsteckfrisur, bei uns sind Sie in guten Händen. Unser Team berät Sie gerne individuell.',
+ bilder:[['f-cut','Unser Salon'],['f-modell','Farbe'],['f-style','Styling']],
+ text2:'Termine bitte nur telefonisch vereinbaren. Unsere aktuelle Preisliste finden Sie <a href="#">hier</a> als PDF (1,8 MB).',
+ liste:[['Damen Waschen, Schneiden, Föhnen','ab € 32,00'],['Herren Haarschnitt','€ 16,50'],['Färben','ab € 38,00']],
+ fuss:'© 2009 Friseursalon Haarwerk | Musterdorf | <a href="#">Impressum</a> | Design by Haarwerk | Letzte Aktualisierung: 21.03.2011'},
 baeckerei:{ueber:'Die Bäckerei Kornfeld wurde 1962 von Bäckermeister Leopold Kornfeld gegründet. Heute führen wir den Betrieb bereits in dritter Generation. Unser Brot wird noch nach alten Familienrezepten mit Natursauerteig hergestellt. Neben unserem Geschäft in der Hauptstraße finden Sie uns jeden Samstag auch am Bauernmarkt. Wir beliefern außerdem Gasthäuser und Kaufhäuser in der Region.',anfahrt:'Sie finden unser Geschäft in der Hauptstraße 8 in Musterort, neben der Raiffeisenbank. Parkmöglichkeiten gibt es am Hauptplatz.',gb:[['Renate S.','18.08.2010','Das beste Kornspitz weit und breit!! Weiter so!'],['Hans','05.05.2010','Wann gibt es wieder die Topfengolatschen?'],['Familie Berger','11.12.2009','Danke für die tolle Hochzeitstorte, sie war ein Traum!']],name:'Bäckerei Kornfeld',sub:'Frisches Brot und Gebäck - täglich frisch!',tel:'Tel.: 01234 / 88 12<br>Hauptstraße 8',kopfbild:'b-laib',
  nav:['Home','Unser Sortiment','Bestellen','Filialen','Über uns','Jobs','Kontakt','Impressum'],
  lauf:'!!! Jetzt NEU: Auch am Sonntag von 7 bis 11 Uhr geöffnet !!! Torten auf Bestellung !!! Bestellungen bitte bis 12 Uhr am Vortag !!!',

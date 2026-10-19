@@ -1,11 +1,11 @@
 // Erzeugt die Bilder für den Vorher/Nachher-Regler auf /entwurf/.
 // Voraussetzung: lokaler Server im Repo-Wurzelordner (python3 -m http.server 8124)
 // und einer in webdesign/ (python3 -m http.server 8123).
-// Aufruf: node render.js [Ausgabeordner]  →  danach webp.py
+// Aufruf: node render.js [Ausgabeordner] [branche,branche,...]  →  danach webp.py
 const { chromium } = require(process.env.NPM_G + '/playwright');
 const out = process.argv[2] || 'png';
-const B = ['tischlerei', 'gasthaus', 'baeckerei'];
-const T = { tischlerei: 2.2, gasthaus: 3, baeckerei: 4 };
+const B = (process.argv[3] || 'tischlerei,gasthaus,friseur,baeckerei').split(',');
+const T = { tischlerei: 2.2, gasthaus: 3, friseur: 2, baeckerei: 4 };
 const GER = { pc: { w: 1280, h: 800, dpr: 1.5 }, handy: { w: 390, h: 844, dpr: 2 } };
 (async () => {
   require('fs').mkdirSync(out, { recursive: true });
