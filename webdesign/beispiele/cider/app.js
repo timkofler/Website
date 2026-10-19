@@ -26,11 +26,14 @@ var sc = { y: scrollY, to: scrollY, on: fine && !reduce, busy: false };
 function maxY() { return document.documentElement.scrollHeight - innerHeight; }
 if (sc.on) {
   addEventListener("wheel", function (e) {
-    if (e.ctrlKey || e.defaultPrevented) return;
+    if (e.ctrlKey || e.defaultPrevented || (panel && panel.open)) return;
     e.preventDefault();
     var d = e.deltaY * (e.deltaMode === 1 ? 32 : e.deltaMode === 2 ? innerHeight : 1);
     if (!sc.busy) sc.y = sc.to = scrollY;
-    sc.to = clamp(sc.to + d, 0, maxY()); sc.busy = true;
+    var was = sc.to; sc.to = clamp(sc.to + d, 0, maxY()); sc.busy = true;
+    // Verkauf rastet ein: Wer von außen in die Nähe rollt, landet genau auf dem Abschnitt und kann in Ruhe die Sorte wählen.
+    var band = innerHeight * .5, inShop = sc.to > marks.shop - band && sc.to < marks.shopEnd + band, wasIn = was > marks.shop - band && was < marks.shopEnd + band;
+    if (inShop && !wasIn) sc.to = d > 0 ? marks.shop : marks.shopEnd;
   }, { passive: false });
   addEventListener("scroll", function () { if (!sc.busy) sc.y = sc.to = scrollY; }, { passive: true });
 }
@@ -84,6 +87,7 @@ dots.forEach(function (b, k) { b.addEventListener("click", function () { choose(
   shop.addEventListener("pointercancel", function () { on = false; });
   addEventListener("keydown", function (e) {
     if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+    if (panel && panel.open) return;
     var r = shop.getBoundingClientRect(); if (r.top > innerHeight * .5 || r.bottom < innerHeight * .5) return;
     choose(pick.i + (e.key === "ArrowRight" ? 1 : -1), e.key === "ArrowRight" ? 1 : -1);
   });
@@ -107,11 +111,11 @@ var stops = [], marks = {};
 function measure() {
   var vh = innerHeight - BAR, m = maxY();
   function top(id) { return $(id).getBoundingClientRect().top + scrollY - BAR; }
-  var most = top("#most"), mostS = $("#most").offsetHeight - vh, rauch = top("#reserve"), rauchS = $("#reserve").offsetHeight - vh;
-  marks = { dipIn: most + mostS * .22, dipMid: most + mostS * .5, smoke: rauch + rauchS * .45, rauchEnd: rauch + rauchS, kauf: Math.min(top("#kaufen"), m), b: rauch + rauchS * .55 };
+  var shopT = top("#sorten"), shopS = Math.max(0, $("#sorten").offsetHeight - vh), most = top("#most"), mostS = $("#most").offsetHeight - vh, rauch = top("#reserve"), rauchS = $("#reserve").offsetHeight - vh;
+  marks = { shop: shopT, shopEnd: shopT + shopS, dipIn: most + mostS * .22, dipMid: most + mostS * .5, smoke: rauch + rauchS * .45, rauchEnd: rauch + rauchS, kauf: Math.min(top("#kaufen"), m), b: rauch + rauchS * .55 };
   stops = [
-    [0, HERO], [top("#sorten"), SHOP], [most, MOST], [marks.dipIn, MOSTUP], [marks.dipMid, MOSTDOWN], [most + mostS * .8, MOSTUP], [most + mostS, MOST],
-    [rauch, RAUCH], [marks.smoke, P({ smoke: 1 }, SPOT)], [rauch + rauchS * .62, P({ smoke: .3, sign: .8 }, SPOT)],
+    [0, HERO], [shopT, SHOP], [shopT + shopS, SHOP], [most, MOST], [marks.dipIn, MOSTUP], [marks.dipMid, MOSTDOWN], [most + mostS * .8, MOSTUP], [most + mostS, MOST],
+    [rauch, RAUCH], [rauch + rauchS * .3, P({ smoke: 1 }, SPOT)], [marks.smoke, P({ smoke: 1 }, SPOT)], [rauch + rauchS * .64, P({ smoke: .35, sign: .8 }, SPOT)],
     [rauch + rauchS * .8, P({ sign: 1 }, SPOT)], [marks.rauchEnd, P({ sign: 1 }, SPOT)], [marks.kauf, KAUF]
   ];
 }
@@ -159,7 +163,7 @@ function labels(y, t, geo) {
     return { a: user, b: user, fill: -99, band: 0 };
   }
   // Eintauchen: was unter der Oberfläche ist, hat schon die neue Farbe; ab der tiefsten Stelle die ganze Dose.
-  if (y < marks.dipMid) return { a: user, b: dip, fill: geo.surf, band: .6 };
+  if (y < marks.dipMid) return { a: user, b: dip, fill: geo.surf, band: 1.1 };
   if (y < marks.smoke) return { a: dip, b: dip, fill: -99, band: 0 };
   // Unter dem dichtesten Rauch wird sie golden.
   if (y < marks.rauchEnd) return { a: "reserve", b: "reserve", fill: -99, band: 0 };
@@ -170,7 +174,7 @@ function labels(y, t, geo) {
 
 // ---------- 3D ----------
 if (!reduce && webglOk()) {
-  var start = function () { Promise.all([loadThree(), import("/beispiele/cider/dose.js?v=2"), import("/beispiele/_shared/vendor/three-r180/RoomEnvironment.js")]).then(function (m) { build(m[0], m[1], m[2].RoomEnvironment); }).catch(function () {}); };
+  var start = function () { Promise.all([loadThree(), import("/beispiele/cider/dose.js?v=3"), import("/beispiele/_shared/vendor/three-r180/RoomEnvironment.js")]).then(function (m) { build(m[0], m[1], m[2].RoomEnvironment); }).catch(function () {}); };
   if (document.readyState === "complete") start(); else addEventListener("load", start);
 }
 
@@ -190,7 +194,7 @@ function build(THREE, D, RoomEnvironment) {
     var rimR = new THREE.DirectionalLight("#d4f53c", 4); rimR.position.set(4, 2.5, -2.5); scene.add(rimR);
     var spot = new THREE.SpotLight("#fff1d2", 0, 9, .42, .6, 1); spot.position.set(0, 4.2, .4); scene.add(spot); scene.add(spot.target);
 
-    var col = new THREE.Color("#d4f53c"), want = new THREE.Color(), gold = new THREE.Color("#f3c56a"), white = new THREE.Color("#fff6d8");
+    var col = new THREE.Color("#d4f53c"), want = new THREE.Color(), gold = new THREE.Color("#f3c56a"), white = new THREE.Color("#fff6d8"), amber = new THREE.Color("#ffd27a");
     var rig = new THREE.Group(); scene.add(rig);
     var tilt = new THREE.Group(); rig.add(tilt);
     var dose = D.can(THREE, "pur", { seg: mobile ? 56 : 80, q: mobile ? .5 : .75 }); tilt.add(dose);
@@ -225,17 +229,22 @@ function build(THREE, D, RoomEnvironment) {
     var cone = D.beam(THREE, { h: 3.6, top: .05, bottom: 1.05 }); cone.position.y = .95; sign.add(cone);
 
     // Most: liegt in Weltkoordinaten (nicht an der Dose), die Seite hebt und senkt die Oberfläche.
-    var most = D.liquid(THREE, { w: 18, bubbles: mobile ? 110 : 200 }); scene.add(most);
+    var most = D.liquid(THREE, { w: 18, bubbles: mobile ? 160 : 280 }); scene.add(most);
     var MU = most.userData.u;
+    var splash = D.burst(THREE, mobile ? 140 : 240, "up"), drip = D.burst(THREE, 90, "drip"); scene.add(splash); scene.add(drip);
+    // Schaumring an der Wasserlinie und warmer Schein um die eingetauchte Dose.
+    var foam = D.glowTube(THREE, D.ellipse(THREE, .44, .17), { closed: true, r: .014, speed: .3, tail: 1.2, heads: 4, base: .7, halo: .5, seg: 120, color: "#ffe2a6" }); scene.add(foam);
+    var glowM = new THREE.SpriteMaterial({ map: dot, color: "#ffb347", transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0 });
+    var uglow = new THREE.Sprite(glowM); uglow.scale.set(2.6, 1.3, 1); scene.add(uglow);
 
     // Leuchtnebel (additiv) und Rauch (deckend, zieht vor der Dose vorbei).
     var mist = []; [[-1.2, -.6, -1.6, 4.6], [1.3, -.9, -2, 5.2], [0, -1.2, -1, 4], [-.4, .6, -2.6, 5.6]].forEach(function (m, k) {
       var mat = new THREE.SpriteMaterial({ map: smokeT, color: "#d4f53c", transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: .3 });
       var s = new THREE.Sprite(mat); s.position.set(m[0], m[1], m[2]); s.scale.set(m[3], m[3] * .7, 1); s.userData.k = k; mist.push(s); rig.add(s);
     });
-    var smoke = []; for (var i = 0; i < (mobile ? 7 : 10); i++) {
-      var mat = new THREE.SpriteMaterial({ map: i % 2 ? smokeT : smokeT2, color: "#8a8378", transparent: true, depthWrite: false, opacity: 0 });
-      var s = new THREE.Sprite(mat); s.userData = { a: i * 2.1, r: .7 + (i % 4) * .4, z: .2 + (i % 3) * .45, s: 2.4 + (i % 5) * .6, sp: .12 + (i % 3) * .05 };
+    var smoke = []; for (var i = 0; i < (mobile ? 11 : 16); i++) {
+      var mat = new THREE.SpriteMaterial({ map: i % 2 ? smokeT : smokeT2, color: i % 3 ? "#8d877c" : "#6a655c", transparent: true, depthWrite: false, opacity: 0 });
+      var s = new THREE.Sprite(mat); s.userData = { a: i * 2.1, r: .6 + (i % 5) * .42, z: .1 + (i % 4) * .4, s: 2.8 + (i % 5) * .7, sp: .12 + (i % 3) * .05 };
       smoke.push(s); rig.add(s);
     }
     var sp = D.sparks(THREE, mobile ? 120 : 280, { w: 7, h: 5, d: 4 }); scene.add(sp);
@@ -254,11 +263,11 @@ function build(THREE, D, RoomEnvironment) {
       // Am Handy ändert die ein- und ausfahrende Adressleiste die Höhe; nur bei echten Änderungen neu aufbauen.
       if (w === W && Math.abs(h - H) < 120) return;
       W = w; H = h; R.setSize(w, h, false); aspect = w / h; cam.aspect = aspect; cam.updateProjectionMatrix();
-      sp.material.uniforms.uPx.value = h * R.getPixelRatio(); MU.uPx.value = h * R.getPixelRatio();
+      sp.material.uniforms.uPx.value = h * R.getPixelRatio(); MU.uPx.value = h * R.getPixelRatio(); splash.material.uniforms.uPx.value = drip.material.uniforms.uPx.value = h * R.getPixelRatio();
     }
     size(); addEventListener("resize", size);
 
-    var intro = 0, frames = 0, slow = 0, t0 = performance.now() / 1000, wasUnder = false, ripT = 9, cssKey = "";
+    var intro = 0, frames = 0, slow = 0, t0 = performance.now() / 1000, wasUnder = false, ripT = 9, dripT = 0, cssKey = "";
     var geo = { top: 0, bottom: 0, surf: -99 };
     gl = function (dt, t, q) {
       size();
@@ -295,15 +304,29 @@ function build(THREE, D, RoomEnvironment) {
       smoke.forEach(function (m) {
         var u = m.userData, a = u.a + t * u.sp; m.visible = q.smoke > .01; if (!m.visible) return;
         m.position.set(Math.cos(a) * u.r * 1.2, Math.sin(a * .7) * u.r * .6 + (1 - q.smoke) * -.6, u.z);
-        m.scale.set(u.s, u.s * .8, 1); m.material.rotation = a * .3; m.material.opacity = q.smoke * .62;
+        m.scale.set(u.s, u.s * .8, 1); m.material.rotation = a * .3; m.material.opacity = Math.min(1, q.smoke * .92);
       });
 
       // Most: Oberfläche, Wellenring beim Eintauchen, Bläschen um die Dose.
       most.visible = geo.surf > -halfH - .3; most.position.y = geo.surf;
       MU.uT.value = t;
       var under = geo.bottom < geo.surf;
-      if (under !== wasUnder) { wasUnder = under; ripT = 0; MU.uRipX.value = cx; }
+      if (under !== wasUnder) {
+        wasUnder = under; ripT = 0; MU.uRipX.value = cx;
+        // Beim Eintauchen spritzt es, beim Auftauchen tropft es von der Dose.
+        var su = splash.material.uniforms; su.uT0.value = t; su.uX.value = cx; su.uY.value = geo.surf; su.uAlpha.value = under ? 1 : .6;
+        if (!under) { dripT = t; }
+      }
       ripT += dt; MU.uRip.value = ripT; MU.uBurst.value = clamp(q.dive * 1.4, 0, 1); MU.uBX.value = cx;
+      splash.material.uniforms.uT.value = t;
+      var du = drip.material.uniforms; du.uT.value = t; du.uX.value = cx; du.uY.value = geo.bottom + .05;
+      if (dripT > 0 && t - dripT < 2.2 && t - du.uT0.value > .7) du.uT0.value = t;
+      // Schaumring, solange die Wasserlinie über die Dose läuft; Schein, solange sie unter Wasser ist.
+      var wet = geo.surf > geo.bottom && geo.surf < geo.top;
+      foam.position.set(cx, geo.surf + .01, .15); foam.scale.setScalar(scl); foam.visible = wet;
+      if (wet) dose.userData.edge(amber);
+      if (wet) foam.userData.mats.forEach(function (m, k) { m.uniforms.uAlpha.value = foam.userData.k[k]; m.uniforms.uT.value = t; });
+      uglow.position.set(cx, Math.min(geo.surf - .2, cy + .3), .2); glowM.opacity = under ? .35 : (wet ? .18 : 0); uglow.visible = glowM.opacity > 0;
 
       var u = sp.material.uniforms; u.uT.value = t; u.uColor.value.copy(col); u.uAlpha.value = .55 * ie * (1 - q.dive * .6);
       rimL.color.copy(col); rimR.color.copy(col); rimL.intensity = 3 + q.rings * 2.5; rimR.intensity = 2.5 + q.ped * 1.5;
@@ -318,3 +341,95 @@ function build(THREE, D, RoomEnvironment) {
     document.documentElement.classList.add("has-3d");
   });
 }
+
+// ---------- Bestellen: Korb, Fenster, Bestätigung (Demo, es wird nichts verschickt) ----------
+var ITEMS = {
+  pur: { name: "Pur", unit: "Dose 0,33 l", price: 2.9, c: "#d4f53c" }, holler: { name: "Holler", unit: "Dose 0,33 l", price: 2.9, c: "#c3a0ff" },
+  herb: { name: "Herb", unit: "Dose 0,33 l", price: 3.2, c: "#ffb04a" }, null: { name: "Null", unit: "Dose 0,33 l", price: 2.6, c: "#79e6ff" },
+  karton: { name: "Mischkarton", unit: "24 Dosen, alle Sorten", price: 60, c: "#d4f53c" }, reserve: { name: "Reserve", unit: "Dose 0,33 l · limitiert", price: 6.9, c: "#f3c56a" }
+};
+function eur(v) { return "€ " + v.toFixed(2).replace(".", ","); }
+var cart = {}, cartEl = $("#cart"), navN = $("#navN"), panel = $("#panel"), form = $("#orderForm");
+function cartTotal() { var sum = 0, n = 0, cans = 0; Object.keys(cart).forEach(function (id) { sum += cart[id] * ITEMS[id].price; n += cart[id]; cans += cart[id] * (id === "karton" ? 24 : 1); }); return { sum: sum, n: n, cans: cans }; }
+function shipCost(t) { return form.ship.value === "post" && t.cans < 24 && t.n ? 4.9 : 0; }
+function renderCart() {
+  var t = cartTotal(), lines = $("#lines"), total = t.sum + shipCost(t);
+  $("#cartN").textContent = t.n; $("#cartSum").textContent = eur(t.sum); $("#sum").textContent = eur(total);
+  navN.textContent = t.n; navN.hidden = !t.n;
+  var show = !!t.n && !panel.open; cartEl.classList.toggle("is-on", show); cartEl.inert = !show;
+  $("#go").disabled = !t.n;
+  $$(".ln").forEach(function (l) { if (!cart[l.dataset.id]) l.remove(); });
+  Object.keys(cart).forEach(function (id) {
+    var l = lines.querySelector('.ln[data-id="' + id + '"]');
+    if (!l) {
+      l = document.createElement("div"); l.className = "ln"; l.dataset.id = id;
+      l.innerHTML = '<b><small></small></b><span class="qty"><button type="button" data-q="-1" aria-label="Weniger">−</button><span></span><button type="button" data-q="1" aria-label="Mehr">+</button></span><em></em>';
+      l.querySelector("b").insertBefore(document.createTextNode(ITEMS[id].name), l.querySelector("small")); l.querySelector("small").textContent = ITEMS[id].unit; lines.appendChild(l);
+    }
+    l.querySelector(".qty span").textContent = cart[id]; l.querySelector("em").textContent = eur(cart[id] * ITEMS[id].price);
+  });
+  $("#linesEmpty").hidden = !!t.n;
+}
+function add(id, from) {
+  if (!ITEMS[id]) return;
+  cart[id] = (cart[id] || 0) + 1; renderCart();
+  navN.classList.remove("bump"); void navN.offsetWidth; navN.classList.add("bump");
+  if (from && !reduce && !panel.open && from.animate) fly(from, ITEMS[id].c);
+}
+// Ein kleiner Farbpunkt fliegt vom Knopf in den Korb.
+function fly(from, c) {
+  var a = from.getBoundingClientRect(), tgt = (cartEl.classList.contains("is-on") ? cartEl : $(".nav__btn")).getBoundingClientRect();
+  var b = document.createElement("i"); b.style.cssText = "position:fixed;left:0;top:0;z-index:3000;width:16px;height:16px;border-radius:50%;background:" + c + ";box-shadow:0 0 14px " + c + ";pointer-events:none";
+  document.body.appendChild(b);
+  var x0 = a.left + a.width / 2 - 8, y0 = a.top + a.height / 2 - 8, x1 = tgt.left + tgt.width / 2 - 8, y1 = tgt.top + tgt.height / 2 - 8;
+  b.animate([
+    { transform: "translate(" + x0 + "px," + y0 + "px) scale(1)" },
+    { transform: "translate(" + (x0 + (x1 - x0) * .5) + "px," + (Math.min(y0, y1) - 120) + "px) scale(1.4)", offset: .45 },
+    { transform: "translate(" + x1 + "px," + y1 + "px) scale(.4)" }
+  ], { duration: 750, easing: "cubic-bezier(.45,0,.25,1)" }).onfinish = function () { b.remove(); };
+}
+document.addEventListener("click", function (e) {
+  var t = e.target.closest && e.target.closest("[data-add],[data-order],[data-close],[data-q],[data-quick]"); if (!t) return;
+  if (t.hasAttribute("data-add")) { add(t.dataset.add || SORT[pick.i].k, t); t.classList.remove("added"); void t.offsetWidth; t.classList.add("added"); }
+  else if (t.hasAttribute("data-quick")) add(t.dataset.quick);
+  else if (t.hasAttribute("data-q")) { var id = t.closest(".ln").dataset.id; cart[id] += +t.dataset.q; if (cart[id] <= 0) delete cart[id]; renderCart(); }
+  else if (t.hasAttribute("data-order")) { e.preventDefault(); openPanel(); }
+  else if (t.hasAttribute("data-close")) closePanel();
+});
+var quick = $("#quick");
+["pur", "holler", "herb", "null", "karton", "reserve"].forEach(function (id) {
+  var b = document.createElement("button"); b.type = "button"; b.dataset.quick = id; b.style.setProperty("--qc", ITEMS[id].c);
+  b.innerHTML = "<i></i><span></span><span></span>"; b.children[1].textContent = ITEMS[id].name; b.children[2].textContent = "＋ " + eur(ITEMS[id].price); quick.appendChild(b);
+});
+form.addEventListener("change", function (e) { if (e.target.name === "ship") renderCart(); });
+function openPanel() {
+  if (panel.open) return;
+  $("#done").hidden = true; panel.classList.remove("is-closing");
+  panel.showModal(); document.documentElement.classList.add("lock"); sc.busy = false;
+  cartEl.classList.remove("is-on"); cartEl.inert = true; renderCart();
+}
+function closePanel() {
+  if (!panel.open) return;
+  if (reduce) { panel.close(); return; }
+  panel.classList.add("is-closing");
+  panel.addEventListener("animationend", function f() { panel.removeEventListener("animationend", f); panel.classList.remove("is-closing"); panel.close(); });
+}
+panel.addEventListener("close", function () { document.documentElement.classList.remove("lock"); renderCart(); });
+panel.addEventListener("cancel", function (e) { e.preventDefault(); closePanel(); });
+panel.addEventListener("click", function (e) { if (e.target === panel) closePanel(); });
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+  var t = cartTotal(); if (!t.n) return;
+  var bad = null;
+  if (!form.mail.value.trim() || form.mail.value.indexOf("@") < 1) bad = form.mail;
+  if (!form.name.value.trim()) bad = form.name;
+  if (bad) { var fl = bad.closest(".field"); fl.classList.remove("is-bad"); void fl.offsetWidth; fl.classList.add("is-bad"); bad.focus(); return; }
+  var post = form.ship.value === "post";
+  $("#doneName").textContent = form.name.value.trim().split(" ")[0];
+  $("#doneNr").textContent = "BS-" + (1000 + Math.floor(Math.random() * 9000));
+  $("#doneTxt").textContent = post ? t.cans + " Dosen gehen in den nächsten Tagen per Post an dich. Die Bestätigung kommt an " + form.mail.value.trim() + "."
+    : t.cans + " Dosen stehen ab Freitag gekühlt im Hofladen für dich bereit. Einfach Namen oder Nummer sagen.";
+  cart = {}; renderCart();
+  $("#done").hidden = false; $("#done .btn").focus();
+});
+renderCart();
