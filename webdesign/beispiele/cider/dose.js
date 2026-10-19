@@ -77,6 +77,13 @@ export function label(THREE, key, q) {
   S.sub.split(" · ").forEach(function (t, k) { text(g, t, fx + 140, H * .68 + k * 34, '600 24px "Outfit"', ink, "center", 5); });
   ["MOSTVIERTLER", "BIRNEN-CIDER", "330 ML · " + S.alk].forEach(function (t, k) { text(g, t, fx + 140, H * .82 + k * 32, '600 22px "Outfit"', ink, "center", 4); });
 
+  // Feine Doppellinie um das Vorderfeld, silberne Kanten oben und unten: wirkt wie ein gedrucktes Etikett statt einer Fläche.
+  g.save(); g.strokeStyle = ink; g.globalAlpha = .55; g.lineWidth = 3; g.strokeRect(fx - 330, H * .1, 660, H * .8); g.lineWidth = 1.5; g.strokeRect(fx - 318, H * .1 + 12, 636, H * .8 - 24); g.restore();
+  var mg = g.createLinearGradient(0, 0, 0, 30); mg.addColorStop(0, "#f2f3f5"); mg.addColorStop(1, "#9ba0a8"); g.fillStyle = mg; g.fillRect(0, 0, W, 30);
+  var mg2 = g.createLinearGradient(0, H - 30, 0, H); mg2.addColorStop(0, "#9ba0a8"); mg2.addColorStop(1, "#e6e8eb"); g.fillStyle = mg2; g.fillRect(0, H - 30, W, 30);
+  // Weicher Schein um die Birne in der Leuchtkarte.
+  var pg = e.createRadialGradient(fx + 140, H * .33, 20, fx + 140, H * .33, 260); pg.addColorStop(0, S.gold ? "rgba(122,90,30,.5)" : "rgba(255,255,255,.22)"); pg.addColorStop(1, "rgba(0,0,0,0)");
+  e.save(); e.globalCompositeOperation = "lighter"; e.fillStyle = pg; e.fillRect(0, 0, W, H); e.restore();
   // Seiten: Stempel links, Zutaten rechts (weg von der Naht bei u = 0).
   var lx = W * .2;
   g.strokeStyle = ink; g.globalAlpha = .8; g.lineWidth = 4; g.beginPath(); g.arc(lx, H * .45, 150, 0, Math.PI * 2); g.stroke();
@@ -104,7 +111,7 @@ export function can(THREE, key, o) {
   function get(k) { return labels[k] || (labels[k] = label(THREE, k, q)); }
   var L = get(key);
   var U = { map2: { value: L.map }, emissive2: { value: L.emissive }, uFillY: { value: -99 }, uEdgeC: { value: new THREE.Color("#ffffff") }, uBand: { value: 0 }, uT: { value: 0 } };
-  var mat = new THREE.MeshStandardMaterial({ map: L.map, emissiveMap: L.emissive, emissive: "#ffffff", emissiveIntensity: .9, metalness: .55, roughness: .34 });
+  var mat = new THREE.MeshPhysicalMaterial({ map: L.map, emissiveMap: L.emissive, emissive: "#ffffff", emissiveIntensity: .9, metalness: .55, roughness: .3, clearcoat: .7, clearcoatRoughness: .18, envMapIntensity: 1.25 });
   mat.onBeforeCompile = function (sh) {
     Object.assign(sh.uniforms, U);
     sh.vertexShader = sh.vertexShader.replace("#include <common>", "#include <common>\nvarying float vWY;")
@@ -120,7 +127,7 @@ export function can(THREE, key, o) {
   };
   var body = new THREE.Mesh(lathe(THREE, [[.33, .075], [.33, 1.42]], seg), mat);
   body.rotation.y = Math.PI; inner.add(body);
-  var alu = new THREE.MeshStandardMaterial({ color: "#c9ccd1", metalness: 1, roughness: .26 });
+  var alu = new THREE.MeshPhysicalMaterial({ color: "#d3d6db", metalness: 1, roughness: .22, clearcoat: .4, clearcoatRoughness: .2 });
   inner.add(new THREE.Mesh(lathe(THREE, [[0, .045], [.18, .03], [.24, 0], [.29, 0], [.318, .025], [.33, .075]], seg), alu));
   inner.add(new THREE.Mesh(lathe(THREE, [[.33, 1.42], [.318, 1.47], [.29, 1.52], [.268, 1.555], [.264, 1.585], [.272, 1.595], [.274, 1.607], [.266, 1.613], [.255, 1.606], [.25, 1.588], [0, 1.588]], seg), alu));
   // Verschluss: Lasche mit Fingerring und Niete.
@@ -256,7 +263,7 @@ export function liquid(THREE, o) {
   var front = new THREE.Mesh(new THREE.PlaneGeometry(w, 8, 160, 1).translate(0, -4, 0), new THREE.ShaderMaterial({
     uniforms: U, transparent: true, depthWrite: false,
     vertexShader: "uniform float uT, uRip, uRipX; varying vec2 vP;\n" + wave +
-      "void main(){ vec3 p = position; if (p.y > -.01) { float r = abs(p.x - uRipX); p.y += wave(p.x, uT) + sin(r * 9.0 - uRip * 9.0) * .06 * exp(-uRip * 2.2) * smoothstep(1.6, .0, abs(r - uRip * 1.3)); }\n" +
+      "void main(){ vec3 p = position; if (p.y > -.01) { float r = abs(p.x - uRipX); p.y += wave(p.x, uT) + sin(r * 9.0 - uRip * 9.0) * .13 * exp(-uRip * 1.5) * smoothstep(2.2, .0, abs(r - uRip * 1.3)); }\n" +
       " vP = p.xy; gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0); }",
     fragmentShader: "uniform float uT, uA; uniform vec3 uTop, uDeep; varying vec2 vP;\n" +
       "void main(){ float dep = clamp(-vP.y / 2.6, 0.0, 1.0); vec3 c = mix(uTop, uDeep, pow(dep, .7));\n" +
@@ -270,7 +277,7 @@ export function liquid(THREE, o) {
     vertexShader: "varying vec3 vP; void main(){ vP = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }",
     fragmentShader: "uniform float uT, uA, uRip, uRipX; uniform vec3 uTop; varying vec3 vP;\n" +
       "void main(){ float r = length(vec2(vP.x - uRipX, (vP.z + " + (d / 2 - (o.z || .85)).toFixed(3) + ") * 1.4));\n" +
-      " float ring = smoothstep(.06, .0, abs(r - uRip * 1.3)) * exp(-uRip * 1.8) + smoothstep(.05, .0, abs(r - uRip * .8)) * exp(-uRip * 2.4) * .6;\n" +
+      " float ring = smoothstep(.09, .0, abs(r - uRip * 1.3)) * exp(-uRip * 1.3) * 1.4 + smoothstep(.07, .0, abs(r - uRip * .8)) * exp(-uRip * 1.8) + smoothstep(.06, .0, abs(r - uRip * 1.9)) * exp(-uRip * 1.6) * .6;\n" +
       " float far = smoothstep(" + (-d / 2).toFixed(2) + ", " + (d / 2).toFixed(2) + ", vP.z);\n" +
       " float sh = pow(abs(sin(vP.x * 3.0 + vP.z * 5.0 + uT)), 20.0) * .25;\n" +
       " gl_FragColor = vec4(uTop * 1.15 + ring * .9 + sh, (.35 + far * .4 + ring * .5) * uA); }"
@@ -295,4 +302,30 @@ export function liquid(THREE, o) {
   bub.renderOrder = 4; g.add(bub);
   g.userData.u = U;
   return g;
+}
+
+// Spritzer und Tropfen: ein Schub Teilchen ab Zeitpunkt uT0 vom Ursprung (uX, uY). kind "up" = Fontäne nach oben (Eintauchen),
+// kind "drip" = Tropfen, die von der Dose fallen. Alles im Shader, die Seite setzt nur Zeit, Ort und Richtung.
+export function burst(THREE, n, kind) {
+  var r = rng(kind === "drip" ? 23 : 11), a = new Float32Array(n * 4);
+  for (var i = 0; i < n; i++) {
+    var ang = (r() - .5) * (kind === "drip" ? 3.14 : 1.1), sp = kind === "drip" ? .2 + r() * .6 : 1.2 + r() * 2.4;
+    a[i * 4] = Math.sin(ang) * sp; a[i * 4 + 1] = kind === "drip" ? -r() * .4 : Math.cos(ang) * sp; a[i * 4 + 2] = (r() - .5) * sp * .5; a[i * 4 + 3] = r();
+  }
+  var geo = new THREE.BufferGeometry();
+  geo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(n * 3), 3)); geo.setAttribute("aV", new THREE.BufferAttribute(a, 4));
+  var mat = new THREE.ShaderMaterial({
+    uniforms: { uT: { value: 0 }, uT0: { value: -99 }, uX: { value: 0 }, uY: { value: 0 }, uPx: { value: 300 }, uAlpha: { value: 1 }, uSpread: { value: kind === "drip" ? .34 : .12 }, uColor: { value: new THREE.Color("#ffd98a") } },
+    vertexShader: "attribute vec4 aV; uniform float uT, uT0, uX, uY, uPx, uSpread; varying float vA;\n" +
+      "void main(){ float t = uT - uT0 - aV.w * .25; float life = 1.0; float on = step(0.0, t) * step(t, life);\n" +
+      " vec3 p = vec3(uX + (aV.w - .5) * 2.0 * uSpread + aV.x * t, uY + aV.y * t - 3.4 * t * t, aV.z * t + .4);\n" +
+      " vA = on * (1.0 - t / life) * (.5 + aV.w * .5); vec4 mv = modelViewMatrix * vec4(p, 1.0);\n" +
+      " gl_PointSize = on * uPx * (.008 + aV.w * .018) / -mv.z; gl_Position = projectionMatrix * mv; }",
+    fragmentShader: "uniform vec3 uColor; uniform float uAlpha; varying float vA;\n" +
+      "void main(){ vec2 q = gl_PointCoord - .5; float d = length(q); float a = smoothstep(.5, .2, d); float hi = smoothstep(.22, .0, length(q + vec2(.12)));\n" +
+      " gl_FragColor = vec4(uColor + hi * .6, (a * .85 + hi) * vA * uAlpha); }",
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
+  });
+  var pts = new THREE.Points(geo, mat); pts.frustumCulled = false; pts.renderOrder = 5;
+  return pts;
 }
