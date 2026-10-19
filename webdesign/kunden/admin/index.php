@@ -586,7 +586,7 @@ if ($ew !== '' && ($d = ew_read($ew))) {
     <input type="hidden" name="aktion" value="ew_loeschen">
     <h2>Löschen</h2>
     <p class="muted">Ohne Auftrag wird die Anfrage 12 Monate nach der letzten Änderung automatisch gelöscht.</p>
-    <label class="kp-confirm"><input type="checkbox" name="sicher" value="ja" required> sicher</label>
+    <label class="kp-confirm"><input type="checkbox" name="sicher" value="ja" required> Ja, Anfrage endgültig löschen</label>
     <button class="btn btn--line" type="submit">Anfrage löschen</button>
   </form>
 </div>
@@ -624,7 +624,7 @@ if ($k !== '' && isset($all[$k])) {
             . $msg . '<ul class="kp-files">' . $items . '</ul>'
             . '<div class="kp-actions"><a class="btn btn--sm" href="' . $base . '&amp;zip=1">Alle als ZIP</a>'
             . '<form method="post" action="' . KP_ADMIN . '?k=' . cx_h($k) . '">' . $csrf . '<input type="hidden" name="aktion" value="eingang_loeschen"><input type="hidden" name="e" value="' . cx_h($id) . '">'
-            . '<label class="kp-confirm"><input type="checkbox" name="sicher" value="ja" required> sicher</label><button class="btn btn--sm btn--line" type="submit">Löschen</button></form></div></div>';
+            . '<label class="kp-confirm"><input type="checkbox" name="sicher" value="ja" required> Ja, endgültig löschen</label><button class="btn btn--sm btn--line" type="submit">Upload löschen</button></form></div></div>';
     }
     if ($batches === '') {
         $batches = '<p class="muted kp-leer">Noch keine Uploads.</p>';
