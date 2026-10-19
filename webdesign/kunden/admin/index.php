@@ -279,6 +279,23 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         kp_redirect($back . '#zugang');
     }
 
+    if ($action === 'projekt') {
+        $phase = cx_field('phase', 20);
+        $url = cx_field('vorschau', 300);
+        if (!isset(KP_PHASEN[$phase])) {
+            kp_flash(false, 'Bitte einen Schritt auswählen.');
+        } elseif ($url !== '' && kp_clean_url($url) === '') {
+            kp_flash(false, 'Der Vorschau-Link ist keine gültige Webadresse (z. B. https://neu.baeckerei-muster.at).');
+        } else {
+            $all[$k]['phase'] = $phase;
+            $all[$k]['vorschau'] = kp_clean_url($url);
+            $all[$k]['naechstes'] = kp_text('naechstes', 400);
+            kp_save_accounts($all);
+            kp_flash(true, 'Projektstand gespeichert. ' . ($all[$k]['name'] ?? $k) . ' sieht ihn ab sofort im Portal.');
+        }
+        kp_redirect($back);
+    }
+
     if ($action === 'passwort') {
         $pw = kp_new_password();
         $all[$k]['hash'] = password_hash($pw, PASSWORD_DEFAULT);
@@ -577,11 +594,7 @@ HTML, $logout);
 }
 
 // Zwei Anfangsbuchstaben für den runden Kreis vor dem Namen.
-$initials = static function (string $n): string {
-    $w = preg_split('/[\s\-]+/u', trim($n), -1, PREG_SPLIT_NO_EMPTY) ?: ['?'];
-    $i = mb_substr($w[0], 0, 1) . (count($w) > 1 ? mb_substr((string) end($w), 0, 1) : '');
-    return cx_h(mb_strtoupper($i));
-};
+$initials = static fn(string $n): string => kp_initials($n);
 
 // ---------------- Kunde im Detail ----------------
 if ($k !== '' && isset($all[$k])) {
@@ -644,6 +657,19 @@ if ($k !== '' && isset($all[$k])) {
     $badge = $unread > 0 ? '<span class="kp-badge">' . $unread . '</span>' : '';
     $upSub = $nUploads > 0 ? ($nUploads === 1 ? '1 Upload' : $nUploads . ' Uploads') . ' · ' . $used : 'noch keine';
 
+    // Projektstand: dieselbe Karte, die der Kunde sieht, dazu das Formular zum Ändern.
+    $phOpts = '';
+    foreach (KP_PHASEN as $key => $ph) {
+        $phOpts .= '<option value="' . $key . '"' . (kp_phase($a) === $key ? ' selected' : '') . '>' . cx_h($ph[0] . ' – ' . $ph[1]) . '</option>';
+    }
+    $phEdit = '<details class="kp-more kp-projekt__edit"><summary>Projektstand ändern</summary>'
+        . '<form class="form form--small" method="post" action="' . $form . '">' . $csrf . '<input type="hidden" name="aktion" value="projekt">'
+        . '<div class="form__row"><label class="form__field"><span>Schritt</span><select name="phase">' . $phOpts . '</select></label>'
+        . '<label class="form__field"><span>Link zur Vorschau <em>(optional)</em></span><input type="text" name="vorschau" maxlength="300" value="' . $h('vorschau') . '" placeholder="https://neu.' . ($h('webseite') ?: 'betrieb.at') . '" autocapitalize="none" spellcheck="false"></label></div>'
+        . '<label class="form__field"><span>Als Nächstes <em>(sieht der Kunde, optional)</em></span><textarea name="naechstes" rows="2" maxlength="400" placeholder="z. B. Bitte noch das Logo als Datei und 3–5 Fotos vom Geschäft hochladen.">' . $h('naechstes') . '</textarea></label>'
+        . '<button class="btn" type="submit">Speichern</button></form></details>';
+    $project = kp_project_card($a, false, $phEdit);
+
     kp_page($a['name'] ?? $k, <<<HTML
 <div class="crumbs"><a href="/kunden/admin/">Kunden</a> / {$hk}</div>
 <div class="kp-head">
@@ -656,6 +682,7 @@ if ($k !== '' && isset($all[$k])) {
 </div>
 {$zugang}
 {$flash}
+{$project}
 <nav class="kp-tiles kp-tiles--3" data-kp-tabs data-default="nachrichten" aria-label="Bereiche">
   <a class="kp-tile" href="#nachrichten" data-kp-tab="nachrichten"><span class="kp-tile__txt"><b>Nachrichten {$badge}</b><small>{$msgSub}</small></span></a>
   <a class="kp-tile" href="#uploads" data-kp-tab="uploads"><span class="kp-tile__txt"><b>Uploads</b><small>{$upSub}</small></span></a>
@@ -723,6 +750,7 @@ foreach ($list as $r) {
     $sub = implode(' · ', array_filter([cx_h((string) ($a['firma'] ?? '')), cx_h((string) ($a['webseite'] ?? ''))]));
     $tags = ($r['neu'] > 0 ? '<span class="kp-badge">' . $r['neu'] . ' neu</span>' : '')
         . ($r['offen'] > 0 ? '<span class="kp-pill kp-pill--hot">' . $r['offen'] . ($r['offen'] === 1 ? ' Wunsch offen' : ' Wünsche offen') . '</span>' : '')
+        . '<span class="kp-pill kp-pill--phase' . (kp_phase($a) === 'online' ? ' kp-pill--ok' : '') . '">' . cx_h(KP_PHASEN[kp_phase($a)][0]) . '</span>'
         . '<span class="kp-pill">' . ($r['uploads'] === 1 ? '1 Upload' : $r['uploads'] . ' Uploads') . '</span>'
         . (!$aktiv ? '<span class="kp-pill kp-pill--aus">gesperrt</span>' : '');
     $when = $r['akt'] ? date('d.m.Y', $r['akt']) : '–';
