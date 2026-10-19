@@ -1,0 +1,151 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>röstzeit Kaffeehaus – Beispiel-Entwurf | tim-kofler.at</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Beispiel-Entwurf einer Webseite für eine Kaffeebar mit eigener Rösterei von Tim Kofler – Webdesign. Erfundener Betrieb.">
+<meta name="theme-color" content="#140d09">
+<link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/beispiele/_shared/demo.css">
+<link rel="preload" href="/beispiele/_shared/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/beispiele/kaffeebar/style.css?v=1">
+</head><body>
+<div class="tk-demo-bar"><a href="/#beispiele"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
+<span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musteradresse</span>
+<a class="tk-demo-bar__cta" href="/#anfrage">So eine Seite anfragen</a></div>
+
+<header class="nav" id="nav">
+  <nav class="nav__l" aria-label="Hauptmenü"><a href="#karte">Karte</a><a href="#haltung">Haltung</a><a href="#standorte">Standorte</a><a href="#bestellen">Bestellen</a></nav>
+  <a class="nav__logo" href="#top" aria-label="röstzeit Startseite">röstzeit<sup>°</sup></a>
+  <a class="nav__r" href="#bestellen">Vorbestellen <span aria-hidden="true">↗</span></a>
+</header>
+
+<main id="top">
+<!-- Hero: dunkler Hintergrund, große Zeile, rechts Sack und Becher in 3D, Preisschild wechselt -->
+<section class="hero" id="hero">
+  <div class="hero__glow" aria-hidden="true"></div>
+  <div class="hero__text">
+    <p class="mono kick">// Kaffeehaus mit eigener Rösterei</p>
+    <h1 class="display" data-lines>
+      <span class="ln"><span>Kaffee</span></span>
+      <span class="ln"><span>für deinen</span></span>
+      <span class="ln ln--script"><span class="script">Moment</span></span>
+    </h1>
+    <p class="mono hero__lead" data-reveal style="--d:.5s">Bohnen aus fairem Handel, bei uns im Haus langsam geröstet und so zubereitet, dass jede Tasse nach mehr schmeckt.</p>
+    <a class="mono link" href="#karte" data-reveal style="--d:.65s">Karte ansehen <span aria-hidden="true">↗</span></a>
+  </div>
+  <div class="hero__stage" id="stage">
+    <div class="hero__fallback" aria-hidden="true">
+      <img class="fb-bag" src="/beispiele/kaffeebar/bilder/bohnen.webp" alt="" width="608" height="935">
+      <img class="fb-cup" src="/beispiele/kaffeebar/bilder/becher.webp" alt="" width="586" height="843">
+    </div>
+    <div class="tag" id="tag" aria-live="polite">
+      <span class="mono tag__k">// im Sack</span>
+      <span class="tag__row"><b class="tag__name" data-scramble>Langsam geröstet</b><b class="mono tag__price" data-scramble>€ 14,90</b></span>
+      <span class="mono tag__meta" data-scramble>250 g · ganze Bohne · Mostviertel</span>
+    </div>
+  </div>
+  <div class="hero__foot mono">
+    <span>Täglich geöffnet<br>07:00 – 19:00</span>
+    <span>Musterplatz 12<br>3270 Musterstadt</span>
+    <span>Instagram<br>TikTok</span>
+  </div>
+</section>
+
+<!-- Karte: helle Fläche, Überschrift schiebt sich Zeile für Zeile hoch, Preise rollen ein -->
+<section class="menu light" id="karte">
+  <div class="swash" aria-hidden="true">r</div>
+  <div class="menu__head">
+    <div>
+      <p class="mono kick">// Unsere Karte</p>
+      <h2 class="display" data-lines><span class="ln"><span>Lieblinge</span></span><span class="ln"><span>jeden Tag</span></span><span class="ln"><span>frisch</span></span></h2>
+    </div>
+    <div class="menu__side">
+      <p class="mono" data-reveal>Gute Zutaten, sorgfältig zubereitet. Einfach, ausgewogen und gemacht zum Genießen.</p>
+      <a class="mono link" href="#bestellen" data-reveal style="--d:.1s">Ganze Karte <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+  <ul class="cards">
+    <li class="card" data-reveal style="--d:0s"><span class="mono card__n">01</span><img src="/beispiele/kaffeebar/bilder/espresso.webp" alt="Espresso im kleinen röstzeit-Becher, mit Crema" width="754" height="904" loading="lazy"><span class="card__row mono"><b>Espresso</b><b data-scramble data-on-view>€ 2,60</b></span></li>
+    <li class="card" data-reveal style="--d:.08s"><span class="mono card__n">02</span><img src="/beispiele/kaffeebar/bilder/melange.webp" alt="Melange mit Milchschaum-Herz im röstzeit-Becher" width="598" height="852" loading="lazy"><span class="card__row mono"><b>Melange</b><b data-scramble data-on-view>€ 4,20</b></span></li>
+    <li class="card" data-reveal style="--d:.16s"><span class="mono card__n">03</span><img src="/beispiele/kaffeebar/bilder/matcha.webp" alt="Eisgekühlter Matcha Latte im Klarbecher mit Strohhalm" width="558" height="1080" loading="lazy"><span class="card__row mono"><b>Iced Matcha</b><b data-scramble data-on-view>€ 4,80</b></span></li>
+    <li class="card" data-reveal style="--d:.24s"><span class="mono card__n">04</span><img src="/beispiele/kaffeebar/bilder/bohnen.webp" alt="Kaffeesack röstzeit, langsam geröstet, 250 Gramm" width="608" height="935" loading="lazy"><span class="card__row mono"><b>Hausröstung</b><b data-scramble data-on-view>€ 14,90</b></span></li>
+  </ul>
+</section>
+
+<!-- Standorte: Uhr bleibt stehen, beim Scrollen laufen die Zeiger von 7 bis 19 Uhr -->
+<section class="clock light" id="standorte">
+  <div class="clock__pin">
+    <div class="swash swash--b" aria-hidden="true">z</div>
+    <p class="mono kick clock__kick">// Unsere Standorte</p>
+    <div class="dial" id="dial">
+      <svg viewBox="0 0 400 400" aria-hidden="true" id="dialsvg"></svg>
+      <img class="dial__cup" id="dialcup" src="/beispiele/kaffeebar/bilder/eiskaffee.webp" alt="Eiskaffee im röstzeit-Klarbecher" width="670" height="1308" loading="lazy">
+      <i class="hand hand--h" id="hh"></i><i class="hand hand--m" id="hm"></i>
+    </div>
+    <ul class="places mono" id="places">
+      <li class="is-on">Musterplatz 12<br>3270 Musterstadt</li>
+      <li>Bahnhofstraße 4<br>3250 Musterdorf</li>
+      <li>Am Markt 9<br>3300 Musterort</li>
+    </ul>
+    <p class="open mono"><span>Täglich geöffnet</span><b id="time">07:00</b></p>
+  </div>
+</section>
+
+<!-- Haltung: dunkel, Bohnen fallen in 3D, Becher dreht sich herein -->
+<section class="city dark" id="haltung">
+ <div class="city__pin">
+  <div class="city__beans" id="beans" aria-hidden="true"></div>
+  <div class="city__in">
+    <h2 class="display display--m" data-lines><span class="ln"><span>Die Stadt hält nie an.</span></span><span class="ln"><span>Dein Kaffee bremst</span></span><span class="ln"><span>dich nicht aus.</span></span></h2>
+    <div class="city__cols">
+      <p class="mono kick">// Unsere Haltung</p>
+      <p class="mono city__p" data-reveal>Bleib auf ein Gespräch oder nimm ihn mit. Beides funktioniert, beides kostet dich keine Mühe. Hier wird nichts gehetzt, und niemand hält dich länger auf, als du bleiben willst.</p>
+      <p class="mono city__s" data-reveal style="--d:.1s">Guter Kaffee<br>Kein Getue<br>Kein Warten</p>
+    </div>
+  </div>
+ </div>
+</section>
+
+<!-- Bestellen: Bon wird beim Scrollen aus dem Drucker geschoben -->
+<section class="order dark" id="bestellen">
+  <div class="order__pin">
+    <h2 class="display display--m order__h" data-lines><span class="ln"><span>Kaffee für</span></span><span class="ln"><span>genau jetzt.</span></span></h2>
+    <div class="printer" aria-hidden="true">
+      <div class="printer__slot"></div>
+      <div class="printer__paper">
+        <div class="bon" id="bon">
+          <p class="bon__t">röstzeit° Kaffeehaus</p>
+          <img src="/beispiele/kaffeebar/bilder/matcha.webp" alt="" width="558" height="1080" loading="lazy">
+          <div class="bon__dash"></div>
+          <p class="bon__l"><span>1 × Iced Matcha</span><span>4,80</span></p>
+          <p class="bon__l"><span>1 × Melange</span><span>4,20</span></p>
+          <p class="bon__l bon__sum"><span>Summe</span><span>9,00</span></p>
+          <div class="bon__dash"></div>
+          <p class="bon__msg">Danke, dass du bei röstzeit warst.<br>Bis morgen!</p>
+          <p class="bon__big">Schlange sparen.<br>Vorbestellen.</p>
+          <span class="bon__btn">Jetzt bestellen →</span>
+          <div class="bon__bar"></div>
+          <p class="bon__f">röstzeit.at</p>
+        </div>
+      </div>
+    </div>
+    <div class="order__side">
+      <p class="mono" data-reveal>Wir richten uns nach deinem Zeitplan: Bestell vorher und dein Becher wird fertig, wenn du kommst. Du wartest nicht, er wartet auch nicht, weil er genau dann gemacht wird, wenn du es eilig hast.</p>
+      <a class="btn" href="#bestellen" data-reveal style="--d:.1s">Jetzt vorbestellen <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot dark">
+  <div class="foot__cols mono">
+    <div><b>Karte</b><a href="#karte">Kaffee</a><a href="#karte">Ohne Kaffee</a><a href="#karte">Bohnen</a></div>
+    <div><b>Über uns</b><a href="#haltung">Haltung</a><a href="#standorte">Standorte</a><a href="#bestellen">Vorbestellen</a></div>
+    <div><b>Kontakt</b><span>hallo@roestzeit.example</span><span>+43 1234 567 89</span></div>
+    <div><b>Rechtliches</b><span>Erfundener Betrieb</span><span>Beispiel-Entwurf von tim-kofler.at</span></div>
+  </div>
+  <p class="foot__mark" aria-hidden="true">röstzeit<sup>°</sup></p>
+</footer>
+
+<script src="/beispiele/_shared/demo.js" defer></script>
+<script type="module" src="/beispiele/kaffeebar/app.js?v=1"></script>
+</body></html>
