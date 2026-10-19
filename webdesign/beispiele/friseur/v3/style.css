@@ -5,7 +5,7 @@
   --disp:"Anton",Impact,"Arial Narrow",sans-serif;--sans:"Outfit",system-ui,-apple-system,"Segoe UI",sans-serif;
   --pad:clamp(18px,4.4vw,64px);--ease:cubic-bezier(.2,.75,.15,1);
   /* Farben der Bühne, JS setzt sie je Haarfarbe */
-  --st-bg:#12524c;--st-ink:#fff3e6;--st-acc:#ffb38a}
+  --st-bg:#f4c542;--st-ink:#1f1608;--st-acc:#f4c542}
 *,*::before,*::after{box-sizing:border-box}
 [hidden]{display:none!important}
 html{scroll-padding-top:calc(var(--bar) + var(--nav) + 16px);background:var(--paper)}
@@ -73,7 +73,7 @@ em{font-style:normal}
 .stage__price{margin:14px 0 16px;font-size:20px;font-weight:700}
 .stage__card .btn{background:var(--st-ink);color:var(--st-bg);transition:transform .3s var(--ease),background .3s,color .3s}
 .chips{grid-column:1;grid-row:3;display:flex;flex-wrap:wrap;gap:8px;align-self:end}
-.chips button{display:flex;align-items:center;gap:10px;min-height:48px;padding:6px 18px 6px 6px;border-radius:999px;border:0;cursor:pointer;background:color-mix(in srgb,var(--st-ink) 14%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:inherit;font-weight:600;font-size:15px;transition:background .3s,color .3s,transform .3s var(--ease)}
+.chips button{display:flex;align-items:center;gap:10px;min-height:48px;padding:6px 18px 6px 6px;border-radius:999px;border:0;cursor:pointer;background:color-mix(in srgb,var(--st-bg) 78%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--st-ink) 18%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:inherit;font-weight:600;font-size:15px;transition:background .3s,color .3s,transform .3s var(--ease)}
 .chips button:hover{transform:translateY(-2px)}
 .chips i{width:36px;height:36px;border-radius:50%;background:var(--c);box-shadow:inset 0 0 0 2px rgba(255,255,255,.35),0 2px 8px rgba(0,0,0,.2);transition:transform .4s var(--ease)}
 .chips button[aria-checked="true"]{background:var(--st-ink);color:var(--st-bg)}

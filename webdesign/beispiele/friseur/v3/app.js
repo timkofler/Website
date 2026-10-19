@@ -21,10 +21,10 @@ live(); setInterval(live, 60000);
 // ---------- Farben ----------
 // bg: Bühne, ink: Schrift darauf, word: großes Wort hinter dem Model, acc: Akzent für den Rest der Seite.
 var TONES = [
-  { k: "kupfer", wide: true, name: "Kupfer", line: "Warm wie Herbstlaub.", svc: "f-ansatz", bg: "#12524c", ink: "#fff3e6", word: "#ff8a5b", acc: "#ff8a5b" },
-  { k: "platin", name: "Platin", line: "Kühl, hell und mutig.", svc: "f-straehnen", bg: "#2141c9", ink: "#ffffff", word: "#f3e7cf", acc: "#8fa6ff" },
+  { k: "balayage", name: "Balayage", line: "Sonne, von Hand gemalt.", svc: "f-balayage", bg: "#f4c542", ink: "#1f1608", word: "#6b3d14", acc: "#f4c542" },
   { k: "schwarz", name: "Schwarz", line: "Glänzt wie Lack.", svc: "f-gloss", bg: "#ff5a36", ink: "#1a0f0b", word: "#ffcfbf", acc: "#ff5a36" },
-  { k: "balayage", name: "Balayage", line: "Sonne, von Hand gemalt.", svc: "f-balayage", bg: "#f4c542", ink: "#1f1608", word: "#ffe48f", acc: "#f4c542" },
+  { k: "platin", name: "Platin", line: "Kühl, hell und mutig.", svc: "f-straehnen", bg: "#2141c9", ink: "#ffffff", word: "#f3e7cf", acc: "#8fa6ff" },
+  { k: "kupfer", wide: true, name: "Kupfer", line: "Warm wie Herbstlaub.", svc: "f-ansatz", bg: "#12524c", ink: "#fff3e6", word: "#ff8a5b", acc: "#ff8a5b" },
   { k: "rose", name: "Rosé", line: "Zart, aber mit Ansage.", svc: "f-straehnen", bg: "#2b1f5c", ink: "#ffe9f1", word: "#e98ab0", acc: "#e98ab0" },
   { k: "kirsch", name: "Kirschrot", line: "Kurz, frech und knallig.", svc: "f-ansatz", bg: "#bfe8d6", ink: "#10261f", word: "#e0244b", acc: "#e0244b" }
 ];
