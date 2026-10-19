@@ -709,15 +709,15 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <title>{$t} | Tim Kofler – Kundenportal</title>
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#0b0b0b">
-  <link rel="icon" href="/assets/img/tk-badge.svg" type="image/svg+xml">
+  <link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/css/style.css?v=a9c5cddd">
-  <link rel="stylesheet" href="/assets/css/tk.css?v=8e8abf35">
+  <link rel="stylesheet" href="/assets/css/tk.css?v=3317f1e7">
   <link rel="stylesheet" href="/assets/css/portal.css?v=99cdb261">
 </head>
 <body class="kp">
 <header class="header">
   <div class="container header__inner">
-    <a href="/" class="tk-logo" aria-label="Tim Kofler Webdesign – Startseite"><img src="/assets/img/tk-logo.svg" alt="Tim Kofler Webdesign" width="71" height="36"></a>
+    <a href="/" class="tk-logo" aria-label="Tim Kofler Webdesign – Startseite"><img src="/assets/img/tk-logo-2.svg" alt="Tim Kofler Webdesign" width="71" height="36"></a>
     <div class="kp-nav">{$nav}</div>
   </div>
 </header>

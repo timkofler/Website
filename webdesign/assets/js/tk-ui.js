@@ -196,7 +196,7 @@
   btn.setAttribute("aria-controls", "tk-chat");
   btn.setAttribute("aria-label", "Fragen? Antwort-Assistent und WhatsApp");
   // Symbol und Text wechseln langsam zwischen TK und WhatsApp (nur CSS, kein Skript von WhatsApp)
-  btn.innerHTML = '<span class="tk-chat-btn__ic" aria-hidden="true"><img src="/assets/img/tk-badge.svg" alt=""><img class="tk-chat-btn__wa" src="/assets/img/wa-badge.svg?v=c266c6f8" alt=""></span><i aria-hidden="true"></i><span class="tk-chat-btn__t" aria-hidden="true"><span>Fragen?</span><span class="tk-chat-btn__wa">WhatsApp</span></span>';
+  btn.innerHTML = '<span class="tk-chat-btn__ic" aria-hidden="true"><img src="/assets/img/tk-badge-2.svg" alt=""><img class="tk-chat-btn__wa" src="/assets/img/wa-badge.svg?v=c266c6f8" alt=""></span><i aria-hidden="true"></i><span class="tk-chat-btn__t" aria-hidden="true"><span>Fragen?</span><span class="tk-chat-btn__wa">WhatsApp</span></span>';
 
   var box = document.createElement("div");
   box.className = "tk-chat";
@@ -204,7 +204,7 @@
   box.setAttribute("role", "dialog");
   box.setAttribute("aria-label", "Antwort-Assistent");
   box.innerHTML =
-    '<div class="tk-chat__head"><img src="/assets/img/tk-badge.svg" alt=""><div><b>Fragen zur Webseite?</b><small>Antworten auf die häufigsten Fragen</small></div>' +
+    '<div class="tk-chat__head"><img src="/assets/img/tk-badge-2.svg" alt=""><div><b>Fragen zur Webseite?</b><small>Antworten auf die häufigsten Fragen</small></div>' +
     '<button type="button" class="tk-chat__x" aria-label="Schließen">✕</button></div>' +
     '<div class="tk-chat__log" aria-live="polite"></div>' +
     '<div class="tk-chat__chips"></div>' +
