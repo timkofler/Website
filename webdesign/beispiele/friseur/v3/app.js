@@ -52,36 +52,58 @@ function fit(layer) {
   layer.querySelectorAll(".layer__word").forEach(function (x) { x.style.removeProperty("--fs"); });
   layer.style.setProperty("--wy", (innerWidth <= 860 ? 40 : 37) + "%");
 }
+// Schriftfarben und Texte wechseln erst, wenn der Kreis schon über die Bühne läuft, sonst blitzt die Schrift kurz grau auf.
 function theme(t) {
   var s = root.style;
   s.setProperty("--st-bg", t.bg); s.setProperty("--st-ink", t.ink); s.setProperty("--st-acc", t.acc);
   var m = $('meta[name="theme-color"]'); if (m) m.setAttribute("content", t.bg);
-  chips.forEach(function (b, i) { b.setAttribute("aria-checked", i === cur); });
-  $("#toneNo").textContent = String(cur + 1).padStart(2, "0");
+  $("#toneNo").textContent = String(TONES.indexOf(t) + 1).padStart(2, "0");
   $("#toneName").textContent = t.name; $("#toneLine").textContent = t.line;
   var sv = svc(t.svc); $("#tonePrice").textContent = sv ? euro(sv.price, sv.from) : "";
   $("#toneBook").dataset.svc = t.svc;
 }
-function settle() {
-  clearTimeout(doneT);
-  fill(layA, TONES[cur]);
-  layB.classList.remove("is-run"); busy = false;
+function marks() { chips.forEach(function (b, i) { b.setAttribute("aria-checked", i === cur); }); }
+// Alle Looks gleich vorladen; der Wechsel startet erst, wenn das neue Foto wirklich da ist.
+var cache = {};
+function load(t) {
+  var im = cache[t.k];
+  if (!im) { im = cache[t.k] = new Image(); im.decoding = "async"; im.src = IMG + "farbe-" + t.k + ".webp"; }
+  return new Promise(function (ok) {
+    var done = function () { (im.decode ? im.decode() : Promise.resolve()).then(ok, ok); };
+    if (im.complete && im.naturalWidth) done(); else { im.addEventListener("load", done, { once: true }); im.addEventListener("error", ok, { once: true }); }
+  });
+}
+// Zwei Ebenen tauschen die Rollen: Die neue läuft im Kreis über die alte und bleibt dann einfach liegen.
+var base = layA, top = layB, run = 0, themeT = 0;
+function finish() {
+  clearTimeout(doneT); clearTimeout(themeT);
+  if (!busy) return;
+  top.classList.add("is-base"); top.classList.remove("is-run"); base.classList.remove("is-base");
+  var b = base; base = top; top = b; busy = false;
+  theme(TONES[cur]);
 }
 function tone(i, x, y) {
-  if (i === cur && !busy) return;
-  if (busy) settle();
-  cur = i; var t = TONES[i];
-  fill(layB, t); theme(t);
-  if (reduce) { settle(); return; }
-  var r = stage.getBoundingClientRect(); x = x == null ? r.width / 2 : x; y = y == null ? r.height * .85 : y;
-  var R = Math.hypot(Math.max(x, r.width - x), Math.max(y, r.height - y)) + 20;
-  layB.style.setProperty("--x", x + "px"); layB.style.setProperty("--y", y + "px"); layB.style.setProperty("--r", R + "px");
-  busy = true;
-  var img = layB.querySelector(".layer__img");
-  var go = function () { if (cur !== i) return; layB.classList.remove("is-run"); void layB.offsetWidth; layB.classList.add("is-run"); doneT = setTimeout(settle, 1250); };
-  if (img.decode) img.decode().then(go, go); else go();
+  if (i === cur) return;
+  finish();
+  cur = i; marks();
+  var t = TONES[i], my = ++run;
+  load(t).then(function () {
+    if (my !== run) return;
+    fill(top, t);
+    var img = top.querySelector(".layer__img");
+    return (img.decode ? img.decode() : Promise.resolve()).catch(function () {});
+  }).then(function () {
+    if (my !== run) return;
+    if (reduce) { busy = true; finish(); return; }
+    var r = stage.getBoundingClientRect(); x = x == null ? r.width / 2 : x; y = y == null ? r.height * .85 : y;
+    var R = Math.hypot(Math.max(x, r.width - x), Math.max(y, r.height - y)) + 20;
+    top.style.setProperty("--x", x + "px"); top.style.setProperty("--y", y + "px"); top.style.setProperty("--r", R + "px");
+    busy = true; void top.offsetWidth; top.classList.add("is-run");
+    themeT = setTimeout(function () { theme(t); }, 380);
+    doneT = setTimeout(finish, 1150);
+  });
 }
-fill(layA, TONES[0]); theme(TONES[0]);
+fill(layA, TONES[0]); theme(TONES[0]); marks(); load(TONES[0]);
 chips.forEach(function (b, i) {
   b.addEventListener("click", function (e) {
     stopAuto(); stage.classList.add("is-touched");
@@ -94,7 +116,7 @@ $(".chips").addEventListener("keydown", function (e) {
   var d = e.key === "ArrowRight" || e.key === "ArrowDown" ? 1 : e.key === "ArrowLeft" || e.key === "ArrowUp" ? -1 : 0; if (!d) return;
   e.preventDefault(); stopAuto(); var n = (cur + d + TONES.length) % TONES.length; chips[n].focus(); chips[n].click();
 });
-addEventListener("load", function () { TONES.forEach(function (t) { var im = new Image(); im.src = IMG + "farbe-" + t.k + ".webp"; }); });
+addEventListener("load", function () { TONES.forEach(load); });
 
 // Von selbst weiterschalten, bis jemand selbst eine Farbe wählt. Pausiert, wenn die Bühne nicht zu sehen ist.
 var autoT = 0, autoOn = !reduce && !/standbild/.test(location.search), stageVis = true;
