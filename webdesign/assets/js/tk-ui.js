@@ -11,7 +11,7 @@
     var items = Array.prototype.slice.call(track.children);
     var dots = Array.prototype.slice.call(document.querySelectorAll(".tk-car__dot"));
     var n = items.length, step = 344, x = 0, idx = 1, target = null, raf = 0;
-    var dragging = false, moved = false, startX = 0, startPos = 0, lastX = 0, lastT = 0, vel = 0;
+    var dragging = false, moved = false, mouse = false, startX = 0, startPos = 0, lastX = 0, lastT = 0, vel = 0;
 
     var measure = function () { step = n > 1 ? items[1].offsetLeft - items[0].offsetLeft : 1; };
     var clampIdx = function (i) { return Math.max(0, Math.min(n - 1, i)); };
@@ -68,6 +68,7 @@
 
     root.addEventListener("pointerdown", function (e) {
       moved = false;   // sonst blockiert ein früheres Ziehen den nächsten Tipp auf einen Link
+      mouse = e.pointerType === "mouse";
       if (e.button !== 0 || e.target.closest("a, button")) return;
       dragging = true;
       startX = lastX = e.clientX; startPos = x; lastT = performance.now(); vel = 0;
@@ -98,14 +99,20 @@
     root.addEventListener("pointerup", release);
     root.addEventListener("pointercancel", release);
     root.addEventListener("lostpointercapture", release);
-    // Klick auf eine seitliche Karte holt sie in die Mitte
-    items.forEach(function (it, i) {
-      it.addEventListener("click", function (e) {
-        if (moved) { e.preventDefault(); return; }
-        if (e.target.closest("a")) return;
-        if (i !== idx) go(i);
-        else if (it.getAttribute("data-href")) window.location.href = it.getAttribute("data-href");
-      });
+    // Mit der Maus öffnet ein Klick jedes Handy direkt; am Handy holt ein Tipp eine seitliche Karte erst in die Mitte.
+    // Der Klick landet wegen der 3D-Tiefe und der Zeigererfassung am Karussell selbst, darum zählt die Position.
+    root.addEventListener("click", function (e) {
+      if (moved) { e.preventDefault(); return; }
+      if (e.target.closest("a, button")) return;
+      var c = -x / step, i = -1;
+      for (var k = 0; k < n; k++) {
+        var r = items[k].getBoundingClientRect();
+        if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom && (i < 0 || Math.abs(k - c) < Math.abs(i - c))) i = k;
+      }
+      if (i < 0) return;
+      var href = items[i].getAttribute("data-href");
+      if (href && (i === idx || mouse)) window.location.href = href;
+      else if (i !== idx) go(i);
     });
     // Waagrechtes Scrollen am Trackpad
     var wheelTimer;
