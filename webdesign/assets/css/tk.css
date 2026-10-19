@@ -622,3 +622,19 @@ p.tk-abo__deal b { color: #ffb27a; display: block; }
 html.tk-at-end .tk-float, html.tk-at-end .tk-chat-btn { opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(24px); transition: opacity .3s, transform .3s, visibility .3s; }
 .tk-sign { padding-bottom: 24px; }
 @media (max-width: 680px) { .tk-sign { padding-bottom: 40px; } }
+
+/* ================= 3D-Plakette im Kopfbereich (2026-10) ================= */
+/* Die Bühne hält nur den Platz frei; gezeichnet wird auf einer Leinwand hinter dem Text, die beim Scrollen mitfährt. */
+.tk-hero__stage { position: relative; width: min(330px, 82vw); aspect-ratio: 1; margin: 10px auto -30px; touch-action: pan-y; cursor: grab; -webkit-tap-highlight-color: transparent; }
+.tk-hero__stage.is-drag { cursor: grabbing; }
+.tk-hero__still { display: none; position: absolute; left: -50%; top: -50%; width: 200%; height: 200%; max-width: none; pointer-events: none; user-select: none; -webkit-user-select: none; }
+html.tk-3d-still .tk-hero__still { display: block; }
+html:not(.tk-3d):not(.tk-3d-still) .tk-hero__stage { display: none; }
+.tk-hero__gl { position: fixed; left: 0; top: 0; z-index: 0; pointer-events: none; will-change: transform, opacity; }
+/* Das Laufband liegt über der Leinwand: Die Plakette taucht beim Scrollen dahinter ab. */
+.tk-marquee { position: relative; z-index: 1; }
+@media (min-width: 1100px) {
+  .tk-hero__stage { position: absolute; right: 8px; top: 50%; width: min(500px, 37vw); margin: 0; transform: translateY(-50%); }
+}
+/* Unschärfe im Kopf über der laufenden 3D-Szene kostet am Handy viel; solange sie sichtbar ist, deckt der Kopf einfach etwas mehr ab. */
+html.tk-3d-on.tk-3d-view .header { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(11,11,11,.94); }
