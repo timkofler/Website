@@ -203,7 +203,11 @@ linear-gradient(180deg,#e6e1d7,#ddd7cb);}
 .rtabs button{min-height:46px;padding:0 18px;border-radius:999px;border:2px solid var(--line);background:#fff;font:600 15px/1 var(--bd);cursor:pointer;color:var(--ink);transition:background .25s,border-color .25s,color .25s}
 .rtabs button[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
 .ba{position:relative;margin-top:36px;border-radius:24px;overflow:hidden;aspect-ratio:16/9;background:#ddd;box-shadow:0 40px 70px -45px rgba(18,34,32,.55);touch-action:pan-y}
-.ba svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.ba svg,.ba img,.ba canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.ba img,.ba canvas{object-fit:cover;object-position:50% 46%}
+.ba:not(.is-photo) img,.ba:not(.is-photo) canvas,.ba.is-photo svg{display:none}
+.ba #ba-cv2{clip-path:inset(0 100% 0 0)}
+.ba #ba-cv2.go{clip-path:inset(0 0 0 0);transition:clip-path .9s cubic-bezier(.6,.1,.2,1)}
 .ba .before{clip-path:inset(0 calc(100% - var(--x,50%)) 0 0)}
 .ba__h{position:absolute;top:0;bottom:0;left:var(--x,50%);width:4px;margin-left:-2px;background:#fff;pointer-events:none;box-shadow:0 0 12px rgba(0,0,0,.3)}
 .ba__h::after{content:"";position:absolute;left:50%;top:50%;width:54px;height:54px;border-radius:50%;transform:translate(-50%,-50%);background:#fff url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23122220' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><path d='M9 6 3 12l6 6M15 6l6 6-6 6'/></svg>") center/24px no-repeat;box-shadow:0 8px 20px rgba(0,0,0,.25)}
@@ -211,6 +215,15 @@ linear-gradient(180deg,#e6e1d7,#ddd7cb);}
 .ba input:focus-visible+.ba__h::after{outline:3px solid var(--pop);outline-offset:3px}
 .ba__tag{position:absolute;top:16px;padding:7px 12px;border-radius:999px;background:rgba(18,34,32,.78);color:#fff;font:600 13px/1 var(--bd);pointer-events:none}
 .ba__tag.l{left:16px}.ba__tag.r{right:16px;background:var(--pop)}
+.fsw{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:18px}
+.fsw[hidden],.fsw__note[hidden]{display:none}
+.fsw__l{font-weight:600;font-size:15px;margin-right:4px}
+.fsw button{display:inline-flex;align-items:center;gap:9px;min-height:46px;padding:0 16px 0 7px;border-radius:999px;border:2px solid var(--line);background:#fff;font:600 14px/1 var(--bd);color:var(--ink);cursor:pointer;transition:background .25s,border-color .25s,color .25s}
+.fsw button i{width:30px;height:30px;border-radius:50%;background:var(--c);box-shadow:inset 0 0 0 1px rgba(0,0,0,.14);flex:none}
+.fsw button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.fsw button[aria-pressed="true"] i{box-shadow:0 0 0 2px #fff}
+.fsw__note{margin-top:8px;color:var(--mu);font-size:13px}
+@media (max-width:600px){.fsw__l{width:100%}.fsw button{padding-right:13px;font-size:13.5px}}
 .ref__cap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:18px;color:var(--mu);font-size:15px}
 .ref__cap b{color:var(--ink)}
 @media (max-width:600px){.ba{aspect-ratio:4/3.3}}
@@ -512,13 +525,18 @@ linear-gradient(180deg,#e6e1d7,#ddd7cb);}
       </div>
     </div>
     <div class="ba" id="ba" data-reveal style="--d:.1s">
+      <canvas class="after" id="ba-cv" aria-hidden="true"></canvas>
+      <canvas class="after" id="ba-cv2" aria-hidden="true"></canvas>
+      <img class="before" id="ba-photo" alt="Einfamilienhaus mit weißer Fassade vor dem Anstrich" width="1600" height="1192" decoding="async">
       <svg class="after" id="ba-after" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Nachher"></svg>
       <svg class="before" id="ba-before" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Vorher"></svg>
       <input type="range" id="ba-r" min="0" max="100" value="50" aria-label="Vorher-Nachher-Vergleich verschieben">
       <div class="ba__h" aria-hidden="true"></div>
       <span class="ba__tag l">Vorher</span><span class="ba__tag r">Nachher</span>
     </div>
+    <div class="fsw" id="ba-sw" role="group" aria-label="Fassadenfarbe wählen"><span class="fsw__l">Ihre Wunschfarbe:</span></div>
     <p class="ref__cap" id="ref-cap"><span><b>Einfamilienhaus, Musterdorf</b> · Fassade gereinigt, Risse saniert, Silikatfarbe „Sand“, Fenster lackiert</span><span>Dauer: 6 Arbeitstage</span></p>
+    <p class="fsw__note" id="ba-note">Echtes Foto, Farbe live am Bildschirm berechnet (Vorschau, kein Farbversprechen). Foto: Rudolph Buch, Wikimedia Commons, CC0.</p>
   </div>
 </section>
 
@@ -581,4 +599,4 @@ linear-gradient(180deg,#e6e1d7,#ddd7cb);}
     <div class="foot__demo"><span><b>Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb</b></span><span>Alle Namen, Preise und Adressen sind frei erfunden.</span></div>
   </div>
 </footer>
-<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/maler/app.js?v=2" defer></script><script type="module" src="/beispiele/maler/raum3d.js?v=1"></script></body></html>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/maler/app.js?v=3" defer></script><script type="module" src="/beispiele/maler/raum3d.js?v=1"></script></body></html>
