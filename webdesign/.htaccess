@@ -30,7 +30,7 @@ Options -Indexes
   # und alte Vorschau-Links führen zum Gratis-Entwurf; ?utm_source=… bleibt erhalten.
   RewriteRule ^vorschau(/.*)?$ /entwurf/ [R=302,L]
   # Alte Vorschau-Endpunkte bleiben beim Hochladen auf dem Server liegen, sind aber nicht mehr erreichbar.
-  RewriteRule ^api/vorschau(-lib)?\.php$ - [G,L]
+  RewriteRule ^api/vorschau(-lib)?\.php(/|$) - [G,L]
 </IfModule>
 <If "%{HTTP_HOST} =~ /^(www\.)?tim-kofler\.at$/i">
   DirectoryIndex index.html index.php

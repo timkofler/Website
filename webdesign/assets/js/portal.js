@@ -78,7 +78,7 @@
     };
     // Zu welchem Bereich gehört die Adresse? Auch Sprungziele innerhalb eines Bereichs (z. B. eine einzelne Nachricht).
     var fromHash = function () {
-      var h = decodeURIComponent(location.hash.slice(1));
+      var h = location.hash.slice(1); try { h = decodeURIComponent(h); } catch (e) { h = ""; }
       if (!h) return null;
       if (document.querySelector('[data-kp-panel="' + h.replace(/[^a-z0-9-]/gi, '') + '"]')) return h;
       var el = document.getElementById(h);
