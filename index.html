@@ -21,8 +21,8 @@
   <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/style.css?v=a4485446">
-  <link rel="stylesheet" href="/assets/css/fx.css?v=52a5d119">
+  <link rel="stylesheet" href="/assets/css/style.css?v=ae6fced3">
+  <link rel="stylesheet" href="/assets/css/fx.css?v=895a35c2">
   <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "ProfessionalService", "@id": "https://crypto-x.at/#unternehmen", "name": "Crypto X Solutions", "alternateName": "CryptoX", "url": "https://crypto-x.at/", "image": "https://crypto-x.at/assets/img/og-cryptox.jpg", "logo": "https://crypto-x.at/assets/img/logo-512.png", "email": "tk@crypto-x.at", "telephone": "+4367761773118", "address": {"@type": "PostalAddress", "streetAddress": "Lehen 2", "postalCode": "3281", "addressLocality": "Oberndorf an der Melk", "addressRegion": "Niederösterreich", "addressCountry": "AT"}, "areaServed": {"@type": "Country", "name": "Österreich"}, "founder": {"@id": "https://crypto-x.at/#tim"}, "description": "IT-Dienstleister aus Niederösterreich: Softwareentwicklung, Software-Schulungen und das CryptoX Dashboard für Prop-Firm-Trader.", "knowsAbout": ["Softwareentwicklung", "Prop Trading Tool", "Risikomanagement", "Trading-Software"], "sameAs": ["https://www.instagram.com/crypto_x_solutions/", "https://x.com/Crypto_X_Soln", "https://t.me/Crypto_X_Solutions", "https://g.page/r/CS2eZ1lg7mbtEBI"], "hasMap": "https://g.page/r/CS2eZ1lg7mbtEBI", "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Leistungen", "itemListElement": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Softwareentwicklung", "description": "Individuelle Softwarelösungen wie Rechner, Auswertungen und Dashboards.", "areaServed": "AT"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Software-Schulungen", "description": "Schulungen zur technischen Einrichtung und Bedienung von Trading-Software.", "areaServed": "AT"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Risiko-Cockpit", "description": "Werkzeug für Risikomanagement im Futures- und Prop-Trading: Tageslimit, Positionsgröße, Checkliste und Trade-Log.", "areaServed": "AT"}}]}}, {"@type": "Person", "@id": "https://crypto-x.at/#tim", "name": "Tim Kofler", "jobTitle": "Softwareentwickler", "url": "https://crypto-x.at/ueber-mich/", "image": "https://crypto-x.at/assets/img/team/tim-portrait.webp", "worksFor": {"@id": "https://crypto-x.at/#unternehmen"}, "sameAs": ["https://www.instagram.com/crypto_x_solutions/", "https://x.com/Crypto_X_Soln", "https://t.me/Crypto_X_Solutions"]}, {"@type": "WebSite", "@id": "https://crypto-x.at/#website", "url": "https://crypto-x.at/", "name": "CryptoX", "inLanguage": "de-AT", "publisher": {"@id": "https://crypto-x.at/#unternehmen"}}]}</script>
 </head>
 <body>
@@ -40,7 +40,7 @@
     </nav>
     <div style="display:flex;gap:10px;align-items:center">
       <a href="/beta/" class="btn btn--sm header__cta">Beta testen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <button class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      <button class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path class="nt-1" d="M4 7h16"/><path class="nt-2" d="M4 12h16"/><path class="nt-3" d="M4 17h16"/></svg></button>
     </div>
   </div>
 </header>
@@ -333,7 +333,7 @@
         <span class="tag">Blockchain · Wallets</span>
         <a class="cover" href="/2025/03/19/kryptowaehrungen-fuer-einsteiger-ein-kompletter-leitfaden-fuer-den-einstieg/"><span class="sr-only">Crypto: Leitfaden für Einsteiger lesen</span></a>
       </article>
-      <img class="xmark" src="/assets/img/hero.svg" alt="X-Logo von CryptoX" width="132" height="132">
+      <div class="xmark" data-x3d><img src="/assets/img/hero.svg" alt="X-Logo von CryptoX" width="132" height="132"></div>
     </div>
   </div>
 </section>
@@ -429,7 +429,7 @@
 </section>
 
 <section class="band">
-  <img class="band__x" src="/assets/img/hero.svg" alt="" aria-hidden="true" width="520" height="520" loading="lazy">
+  <div class="band__x" data-x3d="light" aria-hidden="true"><img src="/assets/img/hero.svg" alt="" width="520" height="520" loading="lazy"></div>
   <div class="container" style="position:relative">
     <h2>Dein nächster Trade beginnt mit einem Limit.</h2>
     <p>Das CryptoX Dashboard ist in der Beta-Phase. Teste es, sag mir ehrlich, was fehlt, und gestalte die nächste Version mit.</p>
@@ -493,7 +493,8 @@
 </footer>
 
 <script src="/assets/js/main.js?v=5b686c25"></script>
-<script src="/assets/js/fx.js?v=a01fb422"></script>
+<script src="/assets/js/fx.js?v=937404dd"></script>
 <script src="/assets/js/forms.js?v=184c4983"></script>
+<script type="module" src="/assets/js/x3d.js?v=e7d184d1"></script>
 </body>
 </html>

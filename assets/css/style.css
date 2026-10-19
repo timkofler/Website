@@ -520,3 +520,28 @@ main p a:not(.btn), main li a:not(.btn), .faq__item p a, .glance dd a { text-dec
 @media (max-width: 680px) { .price { padding: 28px 20px; } .care { flex-direction: column; align-items: flex-start; padding: 20px; } }
 .price .ticks { align-content: start; }
 @media (max-width: 900px) { #anfrage .form-aside { order: -1; } }
+
+/* ---------- Menüknopf am Handy als Münze (2026-10) ---------- */
+/* Dunkles Metall mit umlaufendem Lime-Rand; beim Öffnen dreht sich die Münze einmal und die Striche werden zum X. */
+@property --nt-a { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+.nav-toggle { position: relative; border: 0; color: var(--lime); isolation: isolate;
+  background: radial-gradient(circle at 34% 28%, #3c3c3c 0%, #1a1a1a 46%, #0b0b0b 100%);
+  box-shadow: inset 0 2px 3px rgba(255,255,255,.16), inset 0 -4px 7px rgba(0,0,0,.7), 0 6px 16px rgba(0,0,0,.55), 0 0 18px rgba(220,247,99,.16);
+  transform: perspective(240px) rotateY(0deg); transition: transform .8s cubic-bezier(.2,.7,.2,1), box-shadow .3s; }
+.nav-toggle::before { content: ""; position: absolute; inset: 0; border-radius: 50%; padding: 2px; z-index: -1; pointer-events: none;
+  background: conic-gradient(from var(--nt-a), #dcf763, #3d4710 22%, #f3ffb5 38%, #3d4710 60%, #dcf763 80%, #3d4710);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  animation: nt-spin 6s linear infinite; }
+.nav-toggle::after { content: ""; position: absolute; inset: 5px; border-radius: 50%; border: 1px solid rgba(220,247,99,.22); pointer-events: none; }
+.nav-toggle:hover { box-shadow: inset 0 2px 3px rgba(255,255,255,.16), inset 0 -4px 7px rgba(0,0,0,.7), 0 6px 16px rgba(0,0,0,.55), 0 0 26px rgba(220,247,99,.32); }
+.nav-toggle[aria-expanded="true"] { transform: perspective(240px) rotateY(360deg); }
+.nav-toggle svg { width: 18px; height: 18px; }
+.nav-toggle path { transform-origin: 12px 12px; transition: transform .35s cubic-bezier(.2,.7,.2,1) .2s, opacity .25s .2s; }
+.nav-toggle[aria-expanded="true"] .nt-1 { transform: translateY(5px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nt-2 { opacity: 0; transform: scaleX(0); }
+.nav-toggle[aria-expanded="true"] .nt-3 { transform: translateY(-5px) rotate(-45deg); }
+@keyframes nt-spin { to { --nt-a: 360deg; } }
+@media (prefers-reduced-motion: reduce) { .nav-toggle, .nav-toggle path { transition: none; } .nav-toggle::before { animation: none; } }
+
+/* Handy-Menü: "Beta testen" auf Lime mit dunkler Schrift statt grauer (Kontrast) */
+.nav a.nav__cta, .nav a.nav__cta:hover { color: var(--ink); background: var(--lime); justify-content: center; }
