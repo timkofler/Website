@@ -98,7 +98,7 @@ if (!$saved && !$toTim) {
 $inner = '<p style="margin:0 0 14px">Hallo ' . cx_h($name) . ',</p>'
     . '<p style="margin:0 0 14px">danke für deine Bewerbung als Beta-Tester für das CryptoX Dashboard! Ich sehe mir deine Angaben an und melde mich in den nächsten Tagen persönlich bei dir, meistens per E-Mail.</p>'
     . '<p style="margin:0 0 14px">Sobald dein Zugang eingerichtet ist, bekommst du von mir die Adresse, deine Anmeldedaten und eine kurze Anleitung für die ersten Schritte.</p>'
-    . '<p style="margin:0 0 14px">Bis dahin kannst du dir die <a href="https://crypto-x.at/cockpit/" style="color:#dcf763">Live-Demo</a> ansehen.</p>'
+    . '<p style="margin:0 0 14px">Bis dahin kannst du dir die <a href="https://crypto-x.at/cockpit/" target="_blank" rel="noopener" style="color:#dcf763">Live-Demo</a> ansehen.</p>'
     . '<p style="margin:0 0 4px">Viele Grüße<br>Tim</p>'
     . '<p style="margin:18px 0 0;font-size:13px;color:#8a8a8a">Das CryptoX Dashboard ist ein Werkzeug zur Organisation und Kontrolle deiner eigenen Kontoregeln. Es gibt keine Handelssignale und keine Anlageberatung.</p>';
 cx_mail($email, $name, 'Deine Beta-Bewerbung für das CryptoX Dashboard', cx_mail_layout('Danke für deine Bewerbung', $inner), $notify);
