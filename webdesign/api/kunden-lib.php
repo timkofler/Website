@@ -333,6 +333,20 @@ function kp_batches(string $u): array
     return $out;
 }
 
+// Uploads, die Tim im Admin noch nicht gesehen hat (wie ungelesene Nachrichten). Gemerkt werden die gesehenen IDs.
+function kp_new_uploads(string $u, array $batches): array
+{
+    $seen = (array) (kp_read_json(kp_user_dir($u) . '/gesehen.json')['uploads'] ?? []);
+    return array_values(array_diff(array_keys($batches), $seen));
+}
+
+function kp_mark_uploads_seen(string $u, array $batches): void
+{
+    if ($batches && kp_new_uploads($u, $batches)) {
+        kp_write_json(kp_user_dir($u) . '/gesehen.json', ['uploads' => array_keys($batches)]);
+    }
+}
+
 function kp_used_bytes(string $u): int
 {
     $sum = 0;
@@ -503,6 +517,46 @@ function kp_notify(string $u, array $acc, array $batch): void
             . '<p style="margin:0 0 4px">Viele Grüße<br>Tim</p>';
         cx_mail($email, (string) ($acc['name'] ?? ''), 'Deine Dateien sind angekommen', cx_mail_layout('Dateien angekommen', $hi), $notify);
     }
+}
+
+// Der Kunde löscht eine einzelne Datei ($datei) oder den ganzen Upload ($datei leer). Nur Dateien, die im
+// eingang.json dieses Uploads stehen, sonst passiert nichts. Gibt [ok, Meldung] zurück.
+function kp_delete_upload(string $u, string $id, string $datei = ''): array
+{
+    $dir = kp_user_dir($u) . '/' . $id;
+    $batch = kp_valid_batch($id) ? kp_read_json($dir . '/eingang.json') : [];
+    $files = (array) ($batch['dateien'] ?? []);
+    if (!$files) {
+        return [false, 'Diesen Upload gibt es nicht mehr.'];
+    }
+    if ($datei === '') {
+        kp_delete_dir($dir);
+        cx_log('Kundenportal: ' . $u . ' hat den Upload ' . $id . ' gelöscht');
+        return [true, count($files) === 1 ? 'Die Datei wurde gelöscht.' : 'Der Upload mit ' . count($files) . ' Dateien wurde gelöscht.'];
+    }
+    $keep = [];
+    $gone = null;
+    foreach ($files as $d) {
+        if ($gone === null && ($d['datei'] ?? '') === $datei) {
+            $gone = $d;
+        } else {
+            $keep[] = $d;
+        }
+    }
+    if ($gone === null) {
+        return [false, 'Diese Datei gibt es nicht mehr.'];
+    }
+    if (!$keep) {
+        kp_delete_dir($dir);
+    } else {
+        $batch['dateien'] = $keep;
+        if (!kp_write_json($dir . '/eingang.json', $batch)) {
+            return [false, 'Die Datei konnte gerade nicht gelöscht werden. Bitte versuche es noch einmal.'];
+        }
+        @unlink($dir . '/' . basename((string) $gone['datei']));
+    }
+    cx_log('Kundenportal: ' . $u . ' hat ' . $gone['datei'] . ' aus ' . $id . ' gelöscht');
+    return [true, '„' . $gone['original'] . '“ wurde gelöscht.'];
 }
 
 function kp_delete_dir(string $dir): void
@@ -804,7 +858,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/css/style.css?v=17ee6a2e">
   <link rel="stylesheet" href="/assets/css/tk.css?v=c85f393a">
-  <link rel="stylesheet" href="/assets/css/portal.css?v=c727af23">
+  <link rel="stylesheet" href="/assets/css/portal.css?v=244cf7e9">
 </head>
 <body class="kp">
 <header class="header">
@@ -826,7 +880,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
     <span><a href="/impressum/">Impressum</a> · <a href="/datenschutz/#kundenportal">Datenschutz</a></span>
   </div>
 </footer>
-<script src="/assets/js/portal.js?v=88b0c690"></script>
+<script src="/assets/js/portal.js?v=b168dae9"></script>
 </body>
 </html>
 HTML;
