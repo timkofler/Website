@@ -4,6 +4,7 @@
 <meta name="description" content="Beispiel-Entwurf einer Webseite für ein Kaffeehaus von Tim Kofler – Webdesign. Erfundener Betrieb.">
 <link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/beispiele/_shared/demo.css">
+<link rel="stylesheet" href="/beispiele/_shared/scrollfilm.css?v=1">
 <style>
 @font-face{font-family:"Fraunces";src:url(/beispiele/_shared/fonts/fraunces.woff2) format("woff2");font-weight:100 900;font-display:swap}
 @font-face{font-family:"Outfit";src:url(/beispiele/_shared/fonts/outfit.woff2) format("woff2");font-weight:100 900;font-display:swap}
@@ -260,6 +261,7 @@ footer p+p{margin-top:4px}
 .foot__legal strong{color:var(--brown)}
 @media (max-width:800px){.foot__grid{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.is-steaming .steam path{animation:none!important;opacity:.55}.marquee__track{animation:none}.hero__media video{transform:none}html{scroll-behavior:auto}}
+.sf__word{font-family:var(--serif);font-weight:600}
 </style></head><body>
 <div class="tk-demo-bar"><a href="/#beispiele"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
 <span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musteradresse</span>
@@ -356,6 +358,20 @@ footer p+p{margin-top:4px}
         <p>Unser Lieblingspaar am Nachmittag – um <strong>7,90 €</strong> statt 8,80 €, täglich von 14 bis 17 Uhr.</p>
       </aside>
     </div>
+  </div>
+</section>
+
+<section class="sf" id="eiskaffee" data-frames="/beispiele/cafe/film/k{n}.webp" data-count="96" data-fit="inset" data-scale="1" data-focus=".48" data-target=".32" aria-labelledby="sf-cafe-h" style="--sf-word:#dcc29f;--sf-word-x:46%;--sf-word-y:30%;--sf-copy-x:58vw;--sf-copy-y:40vh;--sf-word-y-m:58%">
+  <div class="sf__stage">
+    <canvas class="sf__canvas" aria-hidden="true"></canvas>
+    <img class="sf__poster" src="/beispiele/cafe/film/standbild.webp" alt="Glas Eiskaffee mit Milch, um das sich ein Band aus Karamell windet, dazu schwebende Eiswürfel" width="1112" height="622" loading="lazy">
+    <div class="sf__word" aria-hidden="true"></div>
+    <div class="sf__steps">
+      <article class="sf__step" data-word="Kalt"><small>01 · Sommer im Café</small><h2 id="sf-cafe-h">Unser Karamell-Eiskaffee.</h2><p>Kalt gebrühter Kaffee aus der Hausröstung, viel Eis und ein Schuss Milch.</p></article>
+      <article class="sf__step" data-word="Süß"><small>02 · Hausgemacht</small><h2>Karamell aus der eigenen Küche.</h2><p>Langsam gekocht, mit einer Prise Salz und ohne Aromastoffe.</p></article>
+      <article class="sf__step" data-word="Sommer"><small>03 · Bis Ende September</small><h2>Im Gastgarten am schönsten.</h2><p>4,90 € · auf Wunsch mit Hafermilch.</p><a class="btn btn--copper sf__cta" href="#reservieren">Tisch reservieren</a></article>
+    </div>
+    <div class="sf__bar" aria-hidden="true"><i></i></div>
   </div>
 </section>
 
@@ -595,4 +611,4 @@ footer p+p{margin-top:4px}
   </div>
 </footer>
 
-<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/cafe/app.js?v=20261017" defer></script></body></html>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/_shared/scrollfilm.js?v=1" defer></script><script src="/beispiele/cafe/app.js?v=20261017" defer></script></body></html>

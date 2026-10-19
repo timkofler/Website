@@ -5,6 +5,7 @@
 <meta name="theme-color" content="#1f3a2e">
 <link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/beispiele/_shared/demo.css">
+<link rel="stylesheet" href="/beispiele/_shared/scrollfilm.css?v=1">
 <style>
 @font-face{font-family:"Playfair";src:url(/beispiele/_shared/fonts/playfair-700.woff2) format("woff2");font-weight:400 900;font-display:swap}
 @font-face{font-family:"Playfair";src:url(/beispiele/_shared/fonts/playfair-italic.woff2) format("woff2");font-weight:400 900;font-style:italic;font-display:swap}
@@ -498,6 +499,7 @@ fieldset.f{border:0;margin:0 0 16px;min-width:0;padding:0}
 .pano.is-full{position:fixed;inset:0;z-index:9999;margin:0;border-radius:0;aspect-ratio:auto}
 html.pano-lock{overflow:hidden}
 @media (max-width:640px){.pano{aspect-ratio:4/5;margin-left:-24px;margin-right:-24px;border-radius:0}.pano__ui button{min-height:36px;padding:0 12px;font-size:11px}}
+.sf__word{font-family:var(--hd);font-weight:700}
 </style></head><body>
 <div class="tk-demo-bar"><a href="/#beispiele"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
 <span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musteradresse</span>
@@ -603,6 +605,20 @@ html.pano-lock{overflow:hidden}
       <figure class="mphoto b" style="margin:0" data-reveal><img src="/beispiele/gasthaus/schnitzel.jpg" alt="Goldbraun gebackenes Schnitzel mit Erdäpfelsalat auf weißem Teller" width="683" height="1024" loading="lazy"><figcaption>Schnitzel vom Schwein · <b>14,90 €</b></figcaption></figure>
     </div>
     <p class="allerg">Alle Preise in Euro inkl. MwSt. · Allergene laut Codex-Kennzeichnung (A–R), wir beraten Sie gern.</p>
+  </div>
+</section>
+
+<section class="sf sf--dunkel" id="grillabend" data-frames="/beispiele/gasthaus/film/g{n}.webp" data-count="96" data-fit="inset" data-valign="bottom" data-focus=".5" data-target=".6" data-sample="0" aria-labelledby="sf-grill-h" style="--sf-accent:#d9a650;--sf-word-x:61%;--sf-word-y:36%;--sf-copy-y:22vh;--sf-word-y-m:50%">
+  <div class="sf__stage">
+    <canvas class="sf__canvas" aria-hidden="true"></canvas>
+    <img class="sf__poster" src="/beispiele/gasthaus/film/standbild.webp" alt="Rindfleischspieß mit roten Zwiebeln über glühender Holzkohle, Flammen und Funken" width="1016" height="568" loading="lazy">
+    <div class="sf__word" aria-hidden="true"></div>
+    <div class="sf__steps">
+      <article class="sf__step" data-word="Feuer"><small>01 · Grillabend im Gastgarten</small><h2 id="sf-grill-h">Jeden Freitag ab 17 Uhr.</h2><p>Von Mai bis September brennt bei uns die Holzkohle.</p></article>
+      <article class="sf__step" data-word="Glut"><small>02 · Vom Mostviertler Rind</small><h2>Spieße, zwei Tage mariniert.</h2><p>Rind aus der Region, rote Zwiebel und unsere Kräutermarinade.</p></article>
+      <article class="sf__step" data-word="Genuss"><small>03 · Dazu</small><h2>Erdäpfelsalat und ein kühles Seiterl.</h2><p>Freitags ist der Gastgarten schnell voll, reservieren lohnt sich.</p><a class="btn sf__cta" href="#reservieren">Tisch reservieren</a></article>
+    </div>
+    <div class="sf__bar" aria-hidden="true"><i></i></div>
   </div>
 </section>
 
@@ -826,4 +842,4 @@ html.pano-lock{overflow:hidden}
     <p class="foot__demo">Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb</p>
   </div>
 </footer>
-<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/gasthaus/app.js?v=20261017" defer></script><script type="module" src="/beispiele/gasthaus/rundgang.js?v=2"></script></body></html>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/_shared/scrollfilm.js?v=1" defer></script><script src="/beispiele/gasthaus/app.js?v=20261017" defer></script><script type="module" src="/beispiele/gasthaus/rundgang.js?v=2"></script></body></html>
