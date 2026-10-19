@@ -213,44 +213,6 @@
   /* ---------- Vorher / Nachher ---------- */
   (function () {
     var ba = $("#ba"); if (!ba) return;
-    function facade(after, id) {
-      var wall = after ? "#ecd8b2" : "#b5b0a3", frame = after ? "#ffffff" : "#8a7a66", glass = after ? "#9fcbe0" : "#8f9a9c", roof = after ? "#7a3b2c" : "#55463f", door = after ? "#1e5f68" : "#6c5846", plinth = after ? "#353d40" : "#8a8981";
-      var sky = after ? ["#bfe0f2", "#eef7fb"] : ["#cfd6d9", "#e7eaeb"], grass = after ? "#86b062" : "#9aa585";
-      var win = function (x, y, w, h) {
-        return '<rect x="' + (x - 6) + '" y="' + (y - 6) + '" width="' + (w + 12) + '" height="' + (h + 12) + '" fill="' + frame + '"/>' +
-          '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" fill="' + glass + '"/>' +
-          '<path d="M' + (x + w / 2) + ' ' + y + ' V' + (y + h) + '" stroke="' + frame + '" stroke-width="5"/>' +
-          (after ? '<path d="M' + (x + 6) + ' ' + (y + h - 8) + ' L' + (x + w / 2 - 8) + ' ' + (y + 8) + '" stroke="#fff" stroke-opacity=".5" stroke-width="5"/>' : "") +
-          '<rect x="' + (x - 10) + '" y="' + (y + h + 6) + '" width="' + (w + 20) + '" height="7" fill="' + (after ? "#d9dcdd" : "#7d7a72") + '"/>' +
-          (after ? "" : '<path d="M' + (x + 4) + ' ' + (y + h + 13) + ' q4 30 -2 60 M' + (x + w - 8) + ' ' + (y + h + 13) + ' q3 22 -1 40" stroke="#6f6a5f" stroke-opacity=".45" stroke-width="7" fill="none" stroke-linecap="round"/>');
-      };
-      var s = '<defs><linearGradient id="' + id + 's" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + sky[0] + '"/><stop offset="1" stop-color="' + sky[1] + '"/></linearGradient>' +
-        '<linearGradient id="' + id + 'g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5d6b45" stop-opacity="0"/><stop offset="1" stop-color="#5d6b45" stop-opacity=".55"/></linearGradient>' +
-        '<linearGradient id="' + id + 'w" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".18"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".1"/></linearGradient></defs>' +
-        '<rect width="800" height="450" fill="url(#' + id + 's)"/>' +
-        (after ? '<circle cx="690" cy="80" r="34" fill="#fff6d5"/>' : '') +
-        '<path d="M0 300 C120 270 220 290 320 280 S560 260 800 290 V450 H0 Z" fill="' + (after ? "#a9c98a" : "#a8b09a") + '"/>' +
-        '<rect x="0" y="380" width="800" height="70" fill="' + grass + '"/>' +
-        '<polygon points="210,200 400,92 590,200" fill="' + wall + '"/>' +
-        '<rect x="210" y="200" width="380" height="190" fill="' + wall + '"/>' +
-        '<path d="M210 200 L400 92 L590 200 V390 H210 Z" fill="url(#' + id + 'w)" opacity=".9"/>' +
-        '<rect x="210" y="362" width="380" height="28" fill="' + plinth + '"/>' +
-        (after ? '' : '<rect x="210" y="300" width="380" height="62" fill="url(#' + id + 'g)"/>' +
-          '<path d="M260 230 l14 26 l-8 22 l16 30 M520 214 l-10 30 l12 18 l-6 30 M390 330 l10 -24 l-8 -16" stroke="#6a6457" stroke-width="1.8" fill="none"/>' +
-          '<path d="M300 320 q18 -14 34 -4 q10 14 -8 22 q-20 4 -26 -18z M470 250 q14 -8 26 2 q4 14 -10 16 q-14 0 -16 -18z M228 240 q10 -6 18 2 q2 10 -8 12 q-10 -2 -10 -14z" fill="#d6d1c4"/>') +
-        '<polygon points="178,206 400,70 622,206 600,214 400,94 200,214" fill="' + roof + '"/>' +
-        '<g stroke="' + (after ? "#5e2b20" : "#423630") + '" stroke-width="2" opacity=".6"><path d="M240 182 L560 182 M276 160 L524 160 M312 138 L488 138 M350 116 L452 116"/></g>' +
-        (after ? '' : '<path d="M300 150 q20 -8 40 0 M460 160 q16 -6 30 2" stroke="#6f7d4b" stroke-width="6" stroke-linecap="round" opacity=".7"/>') +
-        '<circle cx="400" cy="160" r="20" fill="' + frame + '"/><circle cx="400" cy="160" r="14" fill="' + glass + '"/>' +
-        win(250, 226, 70, 56) + win(480, 226, 70, 56) + win(250, 300, 70, 52) + win(480, 300, 70, 52) +
-        '<rect x="370" y="290" width="60" height="100" fill="' + frame + '"/><rect x="376" y="296" width="48" height="94" fill="' + door + '"/>' +
-        '<circle cx="416" cy="346" r="3" fill="' + (after ? "#e9d38f" : "#a49478") + '"/><rect x="384" y="306" width="32" height="26" fill="' + glass + '" opacity=".8"/>' +
-        '<rect x="586" y="200" width="8" height="190" fill="' + (after ? "#9aa1a4" : "#7b766c") + '"/>' +
-        '<g fill="' + (after ? "#4f8a3f" : "#6d7c58") + '"><ellipse cx="200" cy="384" rx="44" ry="26"/><ellipse cx="236" cy="390" rx="30" ry="18"/><ellipse cx="620" cy="386" rx="40" ry="24"/></g>' +
-        (after ? '<g fill="#e5734f"><circle cx="190" cy="372" r="4"/><circle cx="214" cy="380" r="4"/><circle cx="630" cy="374" r="4"/><circle cx="608" cy="384" r="4"/></g>' : '') +
-        '<path d="M340 450 L370 390 H430 L460 450 Z" fill="' + (after ? "#d9d2c4" : "#b9b4a8") + '"/>';
-      return s;
-    }
     function livingroom(after, id) {
       var s = '<defs><filter id="' + id + 't" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".012 .02" numOctaves="4" seed="4"/><feColorMatrix values="0 0 0 0 .45  0 0 0 0 .44  0 0 0 0 .42  0 0 0 .9 0"/><feComposite in2="SourceGraphic" operator="in"/></filter>' +
         '<pattern id="' + id + 'p" width="60" height="60" patternUnits="userSpaceOnUse"><rect width="60" height="60" fill="#e6d9b0"/><rect width="14" height="60" fill="#d8c693"/><path d="M38 14 q6 8 0 16 q-6 8 0 16" stroke="#c9b47c" stroke-width="2" fill="none"/></pattern>' +
@@ -273,19 +235,82 @@
       else s += '<g><path d="M520 268 V206" stroke="#8a7a5a" stroke-width="4"/><path d="M496 206 h48 l-6 -30 h-36 z" fill="#d9c79a"/></g><rect x="280" y="246" width="80" height="22" rx="3" fill="#9b8f78"/>';
       return s;
     }
+    // Referenz 1: echtes Foto (CC0, Rudolph Buch / Wikimedia Commons). Eine vorab erstellte Maske
+    // (quellen/maler-fassade/maske.py) markiert den Putz; der wird mit der Wunschfarbe neu eingefärbt,
+    // Licht und Schatten aus dem Foto bleiben erhalten. Alles läuft lokal im Browser.
+    var FARBEN = [["Sand", "#e6d5ad"], ["Schönbrunner Gelb", "#e9cd80"], ["Salbei", "#bdcaa8"], ["Altrosa", "#ddaea0"], ["Terrakotta", "#d3875f"], ["Taubenblau", "#93a8b5"]];
+    var photo = $("#ba-photo"), cv = $("#ba-cv"), cv2 = $("#ba-cv2"), sw = $("#ba-sw"), fname = null;
+    var PW = Math.min(innerWidth, screen.width || innerWidth) < 700 ? 1100 : 1600, PDIR = "/beispiele/maler/fassade/";
+    var src = null, msk = null, want = 1, cur = -1, busy = false, loading = false;
+    function loadPhoto() {
+      if (loading) return; loading = true;
+      var a = new Image(), b = new Image(), n = 0;
+      a.decoding = b.decoding = "async";
+      a.onload = b.onload = function () { if (++n === 2) prep(a, b); };
+      a.src = photo.src = PDIR + "haus-" + PW + ".webp"; b.src = PDIR + "maske-" + PW + ".jpg";
+    }
+    function prep(a, b) {
+      var w = a.naturalWidth, h = a.naturalHeight; cv.width = cv2.width = w; cv.height = cv2.height = h;
+      var x = cv.getContext("2d"); x.drawImage(b, 0, 0, w, h);
+      var md = x.getImageData(0, 0, w, h).data; msk = new Uint8Array(w * h);
+      for (var p = 0; p < msk.length; p++) msk[p] = md[p * 4];
+      x.drawImage(a, 0, 0, w, h); src = x.getImageData(0, 0, w, h);
+      paint(want, true);
+    }
+    function render(ctx, hex) {
+      var d = src.data, out = ctx.createImageData(src.width, src.height), o = out.data, t = hex2rgb(hex), k, m, l, c;
+      for (var p = 0, i = 0; p < msk.length; p++, i += 4) {
+        m = msk[p]; o[i + 3] = 255;
+        if (!m) { o[i] = d[i]; o[i + 1] = d[i + 1]; o[i + 2] = d[i + 2]; continue; }
+        l = (d[i] * .3 + d[i + 1] * .59 + d[i + 2] * .11) / 219; m /= 255;
+        for (k = 0; k < 3; k++) { c = l <= 1 ? t[k] * l : t[k] + (255 - t[k]) * Math.min(1, l - 1); o[i + k] = d[i + k] + (c - d[i + k]) * m; }
+      }
+      ctx.putImageData(out, 0, 0);
+    }
+    function paint(i, now) {
+      want = i;
+      sw.querySelectorAll("button").forEach(function (b, j) { b.setAttribute("aria-pressed", j === i ? "true" : "false"); });
+      if (fname) fname.textContent = FARBEN[i][0];
+      if (!src || busy || i === cur) return;
+      cur = i;
+      if (now || reduce) { render(cv.getContext("2d"), FARBEN[i][1]); return; }
+      // neue Farbe wird wie mit der Rolle von links nach rechts aufgetragen
+      busy = true; render(cv2.getContext("2d"), FARBEN[i][1]);
+      cv2.classList.remove("go"); void cv2.offsetWidth; cv2.classList.add("go");
+      setTimeout(function () {
+        cv.getContext("2d").drawImage(cv2, 0, 0); cv2.classList.remove("go"); busy = false;
+        if (want !== cur) paint(want);
+      }, 950);
+    }
+    FARBEN.forEach(function (f, i) {
+      var b = document.createElement("button"); b.type = "button"; b.setAttribute("aria-pressed", "false");
+      b.innerHTML = '<i style="--c:' + f[1] + '"></i>' + f[0];
+      b.addEventListener("click", function () { loadPhoto(); paint(i); });
+      sw.appendChild(b);
+    });
+    function facadeCap() { return "<span><b>Einfamilienhaus, Musterdorf</b> · Fassade gereinigt, Risse saniert, Silikatfarbe „<span id=\"ba-fname\"></span>“, Fenster lackiert</span><span>Dauer: 6 Arbeitstage</span>"; }
     var REFS = [
-      { f: facade, cap: "<span><b>Einfamilienhaus, Musterdorf</b> · Fassade gereinigt, Risse saniert, Silikatfarbe „Sand“, Fenster lackiert</span><span>Dauer: 6 Arbeitstage</span>" },
-      { f: livingroom, cap: "<span><b>Wohnzimmer, Musterort</b> · alte Tapete entfernt, gespachtelt, Beton-Optik in Kalkspachtel</span><span>Dauer: 3 Arbeitstage</span>" }
+      { photo: true, cap: facadeCap },
+      { f: livingroom, cap: function () { return "<span><b>Wohnzimmer, Musterort</b> · alte Tapete entfernt, gespachtelt, Beton-Optik in Kalkspachtel</span><span>Dauer: 3 Arbeitstage</span>"; } }
     ];
     var aft = $("#ba-after"), bef = $("#ba-before"), cap = $("#ref-cap"), r = $("#ba-r");
-    function show(i) { aft.innerHTML = REFS[i].f(true, "a" + i); bef.innerHTML = REFS[i].f(false, "b" + i); cap.innerHTML = REFS[i].cap; }
+    function show(i) {
+      var R = REFS[i]; ba.classList.toggle("is-photo", !!R.photo); sw.hidden = !R.photo; $("#ba-note").hidden = !R.photo;
+      if (R.photo) { aft.innerHTML = bef.innerHTML = ""; if (show.done) loadPhoto(); } else { aft.innerHTML = R.f(true, "a" + i); bef.innerHTML = R.f(false, "b" + i); }
+      cap.innerHTML = R.cap(); fname = $("#ba-fname"); if (fname) fname.textContent = FARBEN[want][0];
+    }
     r.addEventListener("input", function () { ba.style.setProperty("--x", r.value + "%"); });
     var tabs = $$(".rtabs button");
     tabs.forEach(function (t, i) {
       t.addEventListener("click", function () { tabs.forEach(function (x, j) { x.setAttribute("aria-selected", i === j ? "true" : "false"); x.tabIndex = i === j ? 0 : -1; }); show(i); });
       t.addEventListener("keydown", function (e) { if (e.key === "ArrowRight" || e.key === "ArrowLeft") { e.preventDefault(); var n = tabs[(i + 1) % 2]; n.click(); n.focus(); } });
     });
-    show(0);
+    show(0); show.done = true;
+    // Foto erst laden, wenn der Abschnitt näher kommt
+    if ("IntersectionObserver" in window) {
+      var lio = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { lio.disconnect(); loadPhoto(); } }, { rootMargin: "900px 0px" });
+      lio.observe(ba);
+    } else loadPhoto();
     // kleiner Hinweis-Schwenk beim ersten Sichtbarwerden
     if (!reduce && "IntersectionObserver" in window) {
       var io = new IntersectionObserver(function (es) {
