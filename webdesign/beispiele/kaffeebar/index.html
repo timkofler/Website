@@ -6,7 +6,7 @@
 <link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/beispiele/_shared/demo.css">
 <link rel="preload" href="/beispiele/_shared/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/beispiele/kaffeebar/style.css?v=1">
+<link rel="stylesheet" href="/beispiele/kaffeebar/style.css?v=2">
 </head><body>
 <div class="tk-demo-bar"><a href="/#beispiele"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
 <span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musteradresse</span>
@@ -64,11 +64,16 @@
     </div>
   </div>
   <ul class="cards">
-    <li class="card" data-reveal style="--d:0s"><span class="mono card__n">01</span><img src="/beispiele/kaffeebar/bilder/espresso.webp" alt="Espresso im kleinen röstzeit-Becher, mit Crema" width="754" height="904" loading="lazy"><span class="card__row mono"><b>Espresso</b><b data-scramble data-on-view>€ 2,60</b></span></li>
-    <li class="card" data-reveal style="--d:.08s"><span class="mono card__n">02</span><img src="/beispiele/kaffeebar/bilder/melange.webp" alt="Melange mit Milchschaum-Herz im röstzeit-Becher" width="598" height="852" loading="lazy"><span class="card__row mono"><b>Melange</b><b data-scramble data-on-view>€ 4,20</b></span></li>
-    <li class="card" data-reveal style="--d:.16s"><span class="mono card__n">03</span><img src="/beispiele/kaffeebar/bilder/matcha.webp" alt="Eisgekühlter Matcha Latte im Klarbecher mit Strohhalm" width="558" height="1080" loading="lazy"><span class="card__row mono"><b>Iced Matcha</b><b data-scramble data-on-view>€ 4,80</b></span></li>
-    <li class="card" data-reveal style="--d:.24s"><span class="mono card__n">04</span><img src="/beispiele/kaffeebar/bilder/bohnen.webp" alt="Kaffeesack röstzeit, langsam geröstet, 250 Gramm" width="608" height="935" loading="lazy"><span class="card__row mono"><b>Hausröstung</b><b data-scramble data-on-view>€ 14,90</b></span></li>
+    <li class="card" data-reveal style="--d:0s"><div class="card__in"><i class="card__glare" aria-hidden="true"></i><span class="mono card__n">01</span><img src="/beispiele/kaffeebar/bilder/espresso.webp" alt="Espresso im kleinen röstzeit-Becher, mit Crema" width="754" height="904" loading="lazy"><span class="card__row mono"><b>Espresso</b><b data-scramble data-on-view>€ 2,60</b></span></div></li>
+    <li class="card" data-reveal style="--d:.08s"><div class="card__in"><i class="card__glare" aria-hidden="true"></i><span class="mono card__n">02</span><img src="/beispiele/kaffeebar/bilder/melange.webp" alt="Melange mit Milchschaum-Herz im röstzeit-Becher" width="598" height="852" loading="lazy"><span class="card__row mono"><b>Melange</b><b data-scramble data-on-view>€ 4,20</b></span></div></li>
+    <li class="card" data-reveal style="--d:.16s"><div class="card__in"><i class="card__glare" aria-hidden="true"></i><span class="mono card__n">03</span><img src="/beispiele/kaffeebar/bilder/matcha.webp" alt="Eisgekühlter Matcha Latte im Klarbecher mit Strohhalm" width="558" height="1080" loading="lazy"><span class="card__row mono"><b>Iced Matcha</b><b data-scramble data-on-view>€ 4,80</b></span></div></li>
+    <li class="card" data-reveal style="--d:.24s"><div class="card__in"><i class="card__glare" aria-hidden="true"></i><span class="mono card__n">04</span><img src="/beispiele/kaffeebar/bilder/bohnen.webp" alt="Kaffeesack röstzeit, langsam geröstet, 250 Gramm" width="608" height="935" loading="lazy"><span class="card__row mono"><b>Hausröstung</b><b data-scramble data-on-view>€ 14,90</b></span></div></li>
   </ul>
+</section>
+
+<!-- Laufband: läuft immer, beim Scrollen schneller und schräg -->
+<section class="band" id="band" aria-hidden="true">
+  <div class="band__track"><span>Frisch geröstet <i>✺</i> Jeden Tag <i>✺</i> Im Mostviertel <i>✺</i> Zum Mitnehmen <i>✺</i> </span><span>Frisch geröstet <i>✺</i> Jeden Tag <i>✺</i> Im Mostviertel <i>✺</i> Zum Mitnehmen <i>✺</i> </span></div>
 </section>
 
 <!-- Standorte: Uhr bleibt stehen, beim Scrollen laufen die Zeiger von 7 bis 19 Uhr -->
@@ -78,8 +83,9 @@
     <p class="mono kick clock__kick">// Unsere Standorte</p>
     <div class="dial" id="dial">
       <svg viewBox="0 0 400 400" aria-hidden="true" id="dialsvg"></svg>
-      <img class="dial__cup" id="dialcup" src="/beispiele/kaffeebar/bilder/eiskaffee.webp" alt="Eiskaffee im röstzeit-Klarbecher" width="670" height="1308" loading="lazy">
-      <i class="hand hand--h" id="hh"></i><i class="hand hand--m" id="hm"></i>
+      <i class="dial__shadow" aria-hidden="true"></i>
+      <div class="dial__cup turn" id="turn"><img src="/beispiele/kaffeebar/bilder/eiskaffee-dreh.webp" alt="Eiskaffee im röstzeit-Klarbecher, dreht sich beim Scrollen" width="1950" height="3840" loading="lazy" decoding="async"></div>
+      <i class="hand hand--h" id="hh"></i><i class="hand hand--m" id="hm"></i><i class="hand hand--s" id="hs"></i>
     </div>
     <ul class="places mono" id="places">
       <li class="is-on">Musterplatz 12<br>3270 Musterstadt</li>
@@ -147,5 +153,5 @@
 </footer>
 
 <script src="/beispiele/_shared/demo.js" defer></script>
-<script type="module" src="/beispiele/kaffeebar/app.js?v=1"></script>
+<script type="module" src="/beispiele/kaffeebar/app.js?v=2"></script>
 </body></html>
