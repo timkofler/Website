@@ -2,15 +2,15 @@
 <title>Mähne – Beispiel-Entwurf 3 | tim-kofler.at</title>
 <meta name="robots" content="noindex">
 <meta name="description" content="Dritter Beispiel-Entwurf einer Friseur-Webseite von Tim Kofler – Webdesign: Haarfarben an echten Looks durchschalten, die ganze Seite wechselt mit, dazu Leistungen, Looks und Online-Terminbuchung. Erfundener Salon.">
-<meta name="theme-color" content="#12524c">
+<meta name="theme-color" content="#f4c542">
 <link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/beispiele/_shared/demo.css">
 <link rel="preload" href="/beispiele/_shared/fonts/anton.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/beispiele/_shared/fonts/outfit.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/beispiele/friseur/v3/bilder/farbe-kupfer.webp" as="image" fetchpriority="high">
+<link rel="preload" href="/beispiele/friseur/v3/bilder/farbe-balayage.webp" as="image" fetchpriority="high">
 <link rel="stylesheet" href="/beispiele/friseur/gemeinsam/buchung.css?v=1">
 <link rel="stylesheet" href="/beispiele/friseur/gemeinsam/umschalter.css?v=1">
-<link rel="stylesheet" href="/beispiele/friseur/v3/style.css?v=3">
+<link rel="stylesheet" href="/beispiele/friseur/v3/style.css?v=4">
 </head><body>
 <div class="tk-demo-bar"><a href="/beispiele/#friseur"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
 <span class="tk-demo-bar__note">Beispiel-Entwurf 3 von tim-kofler.at · erfundener Salon, Musteradresse</span>
@@ -26,7 +26,7 @@
 <!-- Start: Farbe antippen, die ganze Bühne wechselt in einem Kreis vom Finger aus. Echte Looks statt umgefärbter Fotos. -->
 <section class="stage" id="farben" aria-label="Haarfarben durchschalten">
   <div class="stage__layers" aria-hidden="true">
-    <div class="layer is-base" id="layA"><p class="layer__word"></p><img class="layer__img" alt="" width="1000" height="681" fetchpriority="high"><p class="layer__word layer__word--line"></p></div>
+    <div class="layer is-base" id="layA"><p class="layer__word"></p><img class="layer__img" alt="" width="720" height="900" fetchpriority="high"><p class="layer__word layer__word--line"></p></div>
     <div class="layer" id="layB"><p class="layer__word"></p><img class="layer__img" alt="" width="720" height="900"><p class="layer__word layer__word--line"></p></div>
   </div>
   <div class="stage__ui">
@@ -36,16 +36,16 @@
     </div>
     <div class="stage__card" aria-live="polite">
       <p class="stage__no"><span id="toneNo">01</span> / 06</p>
-      <p class="stage__name" id="toneName">Kupfer</p>
-      <p class="stage__line" id="toneLine">Warm wie Herbstlaub.</p>
-      <p class="stage__price" id="tonePrice">ab € 58</p>
-      <button class="btn btn--ink" type="button" data-book data-svc="f-ansatz" id="toneBook">Diese Farbe buchen</button>
+      <p class="stage__name" id="toneName">Balayage</p>
+      <p class="stage__line" id="toneLine">Sonne, von Hand gemalt.</p>
+      <p class="stage__price" id="tonePrice">ab € 149</p>
+      <button class="btn btn--ink" type="button" data-book data-svc="f-balayage" id="toneBook">Diese Farbe buchen</button>
     </div>
     <div class="chips" role="radiogroup" aria-label="Haarfarbe wählen">
-      <button type="button" role="radio" aria-checked="true" data-tone="kupfer" style="--c:#b5532a"><i></i><span>Kupfer</span></button>
-      <button type="button" role="radio" aria-checked="false" data-tone="platin" style="--c:#eadfc8"><i></i><span>Platin</span></button>
+      <button type="button" role="radio" aria-checked="true" data-tone="balayage" style="--c:linear-gradient(160deg,#4a3022 30%,#e2bf8a)"><i></i><span>Balayage</span></button>
       <button type="button" role="radio" aria-checked="false" data-tone="schwarz" style="--c:#17120f"><i></i><span>Schwarz</span></button>
-      <button type="button" role="radio" aria-checked="false" data-tone="balayage" style="--c:linear-gradient(160deg,#4a3022 30%,#e2bf8a)"><i></i><span>Balayage</span></button>
+      <button type="button" role="radio" aria-checked="false" data-tone="platin" style="--c:#eadfc8"><i></i><span>Platin</span></button>
+      <button type="button" role="radio" aria-checked="false" data-tone="kupfer" style="--c:#b5532a"><i></i><span>Kupfer</span></button>
       <button type="button" role="radio" aria-checked="false" data-tone="rose" style="--c:#e98ab0"><i></i><span>Rosé</span></button>
       <button type="button" role="radio" aria-checked="false" data-tone="kirsch" style="--c:#d8324f"><i></i><span>Kirschrot</span></button>
     </div>
@@ -142,5 +142,5 @@
 
 <script src="/beispiele/_shared/demo.js" defer></script>
 <script src="/beispiele/friseur/gemeinsam/umschalter.js?v=2" defer></script>
-<script type="module" src="/beispiele/friseur/v3/app.js?v=3"></script>
+<script type="module" src="/beispiele/friseur/v3/app.js?v=4"></script>
 </body></html>
