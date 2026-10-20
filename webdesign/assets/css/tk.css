@@ -677,3 +677,7 @@ html.tk-3d-on.tk-3d-view .header { -webkit-backdrop-filter: none; backdrop-filte
 .tk-vpick__a span { display: flex; flex-direction: column; font-weight: 600; }
 .tk-vpick__a small { margin-top: 2px; color: var(--muted); font-size: .85rem; font-weight: 400; }
 .tk-vpick__a::after { content: "→"; margin-left: auto; color: var(--muted); }
+/* Eckband "Neu" (tk-ui.js setzt es bei data-neu ein) */
+.tk-neu { position: absolute; top: 0; right: 0; z-index: 4; width: 104px; height: 104px; overflow: hidden; border-top-right-radius: 48px; pointer-events: none; }
+.tk-neu b { position: absolute; top: 24px; right: -38px; width: 150px; padding: 6px 0; transform: rotate(45deg); text-align: center; background: linear-gradient(90deg, #ff5a1f, #ffb347); color: #111; font-size: .72rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; box-shadow: 0 4px 14px rgba(0,0,0,.45); }
+@media (max-width: 680px) { .tk-neu { width: 88px; height: 88px; border-top-right-radius: 40px; } .tk-neu b { top: 19px; right: -40px; width: 140px; padding: 5px 0; font-size: .66rem; } }

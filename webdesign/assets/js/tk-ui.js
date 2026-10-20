@@ -66,6 +66,11 @@
 
     // Friseur: statt zu scrollen wechseln die drei Entwürfe, solange das Handy in der Mitte steht.
     // Ein Tipp öffnet den Entwurf, der gerade zu sehen ist; weggezogen beginnt es wieder bei Entwurf 1.
+    // Eckband "Neu" für neue Beispiele (data-neu am Handy)
+    items.forEach(function (it) {
+      var ph = it.querySelector(".tk-phone");
+      if (it.hasAttribute("data-neu") && ph) ph.insertAdjacentHTML("beforeend", '<span class="tk-neu" aria-hidden="true"><b>Neu</b></span>');
+    });
     items.forEach(function (it) {
       if (!it.hasAttribute("data-vers")) return;
       var imgs = Array.prototype.slice.call(it.querySelectorAll(".tk-vers > img"));
@@ -86,14 +91,23 @@
         it.setAttribute("data-href", h);
         if (live) live.setAttribute("href", h);
       };
+      // Erst wechseln, wenn das nächste Bild geladen und dekodiert ist, sonst springt es beim ersten Mal ohne Überblendung um
+      var ready = function (im, cb) {
+        var go = function () { if (im.decode) im.decode().then(cb, cb); else cb(); };
+        if (im.complete && im.naturalWidth) go(); else im.addEventListener("load", go, { once: true });
+      };
       var tick = function () {
         timer = setTimeout(function () {
-          if (it.classList.contains("is-play") && root.classList.contains("is-visible") && !document.hidden) show((cur + 1) % imgs.length);
-          tick();
+          var k = (cur + 1) % imgs.length;
+          ready(imgs[k], function () {
+            if (timer && it.classList.contains("is-play") && root.classList.contains("is-visible") && !document.hidden) show(k);
+            if (timer) tick();
+          });
         }, 2800);
       };
       new MutationObserver(function () {
         var on = it.classList.contains("is-play");
+        if (on) imgs.forEach(function (im) { im.loading = "eager"; });
         if (on && !timer) tick();
         if (!on && timer) { clearTimeout(timer); timer = 0; show(0); }
       }).observe(it, { attributes: true, attributeFilter: ["class"] });
