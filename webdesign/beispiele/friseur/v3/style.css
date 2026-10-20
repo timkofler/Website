@@ -181,6 +181,10 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--acc);l
 
 /* Schluss: Haar kommt zurück, riesiges Logo */
 .finale{position:relative;padding:clamp(120px,16vw,220px) 0 0;overflow:hidden}
+/* Das Haar liegt fest hinter der Seite: oben weich einblenden statt an der Kante des Abschnitts davor abzuschneiden */
+.finale::before{content:"";position:absolute;left:0;right:0;top:0;height:min(60%,520px);background:linear-gradient(var(--bg),rgba(14,11,10,.75) 35%,rgba(14,11,10,0));pointer-events:none}
+.finale__in,.mark{position:relative}
+@media (max-width:860px){.finale{min-height:calc(100svh - var(--bar));display:flex;flex-direction:column}.finale .mark{margin-top:auto;padding-top:60px}.finale::before{height:min(70%,560px)}}
 .finale__in{max-width:640px;padding:0 var(--pad);margin-left:max(0px,calc((100vw - 1180px)/2))}
 .mark{font:400 clamp(120px,27vw,420px)/.8 var(--serif);font-style:italic;letter-spacing:-.04em;text-align:center;margin:clamp(60px,9vw,120px) 0 -0.08em;
   background:linear-gradient(180deg,#f0d6b4,rgba(240,214,180,.08) 85%);-webkit-background-clip:text;background-clip:text;color:transparent;user-select:none}
