@@ -167,7 +167,7 @@ function start(THREE, haar) {
     cam.left = -A; cam.right = A; cam.updateProjectionMatrix();
     U.uPx.value = 2 / Hh;
     var small = A < .9;
-    if (small) LAY = { P: [[-.3 * A, 1.3], [1.6 * A, .85], [-1.5 * A, .35], [.35 * A, -.25]], band: .42, cx: 0, w: Math.min(1.7 * A, .95), top: 1.18, len: 1.3, cutY: .2, fin: [[-.2 * A, -.15], [1.4 * A, -.4], [-1.2 * A, -.7], [.5 * A, -1.4]] };
+    if (small) LAY = { P: [[-.3 * A, 1.3], [1.6 * A, .85], [-1.5 * A, .35], [.35 * A, -.25]], band: .42, cx: 0, w: Math.min(1.7 * A, .95), top: 1.18, len: 1.3, cutY: .2, fin: [[.7 * A, 1.5], [1.7 * A, .25], [-1.5 * A, -.2], [-.1 * A, -1.55]] };
     else LAY = { P: [[.12 * A, 1.42], [1.3 * A, .5], [-.22 * A, -.08], [.72 * A, -1.48]], band: .72, cx: .5 * A, w: Math.min(.98, .5 * A), top: 1.04, len: 1.86, cutY: -.34, fin: [[.62 * A, 1.4], [1.25 * A, .3], [.3 * A, -.1], [.95 * A, -1.4]] };
     U.uMR.value = small ? .2 : .24;
   }
