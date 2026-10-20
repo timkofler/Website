@@ -104,7 +104,7 @@ SEITEN = [
   ("P", "312080", "red-liquid-poured-into-wine-glass-312080", "freestocks.org", "Rotwein", "pizzeria/bilder/g-wein.webp"),
  ]),
  ("Bäckerei Kornfeld", "/beispiele/baeckerei/", [
-  ("MX", "42467", "hands-of-a-baker-kneading-a-dough-42467", "", "Video Teig kneten", "_shared/media/baeckerei.mp4"),
+  ("PV", "5261345", "", "Carlos Buitrago", "Video Brot geht im Ofen auf (Zeitraffer)", "_shared/media/brot-ofen.mp4"),
   ("MX", "50025", "pastry-chef-taking-out-three-molds-from-an-oven-50025", "", "Video Ofen", "_shared/media/baeckerei-ofen.mp4"),
   ("P", "11461397", "bread-with-baked-crust-sprinkled-with-sesame-seeds-11461397", "Dina Nasyrova", "Vollkornbrot", "_shared/media/brot-hero.jpg"),
   ("P", "30826792", "artisan-sourdough-bread-display-in-bakery-30826792", "Magda Ehlers", "Brotlaibe", "_shared/media/laib.jpg"),

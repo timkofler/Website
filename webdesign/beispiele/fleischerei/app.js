@@ -75,7 +75,7 @@
     for (var w = 1; w <= 6; w++) {
       var d = addDays(monday, w - 1), o = OFFERS[w];
       var div = document.createElement("div"); div.className = "day" + (w === hl ? " is-today" : "");
-      var lis = o.i.map(function (x) { return "<li><span>" + x[0] + "</span><i></i>" + (x[2] ? "<s>" + x[2] + "</s>" : "") + "<b>" + x[1] + "</b></li>"; }).join("");
+      var lis = o.i.map(function (x) { return "<li><span>" + x[0].replace(/(\d) (?=(g|kg|Stk))/g, "$1\u00a0") + "</span><i></i>" + (x[2] ? "<s>" + x[2] + "</s>" : "") + "<b>" + x[1] + "</b></li>"; }).join("");
       div.innerHTML = '<h3><span>' + WD[w] + (w === hl ? ' <span class="tag" aria-hidden="true">' + (sunday ? "morgen!" : "heute!") + '</span>' : '') + '</span> <small>' + d.getDate() + '.' + (d.getMonth() + 1) + '.</small></h3><p style="font:500 20px/1.2 var(--ch);color:#a9c7b8;margin-top:2px">' + o.t + '</p><ul>' + lis + '</ul>' +
         (w === hl ? '<svg class="ring" aria-hidden="true"></svg>' : '');
       if (w === hl) div.setAttribute("aria-label", WD[w] + (sunday ? " (morgen)" : " (heute)"));
@@ -314,6 +314,7 @@
       slices.push({ g: g, bands: bands, smoke: sm, fan: fan });
     }
 
+    var gEl = $("#sl-g"), eurEl = $("#sl-eur"), scaleEl = $(".scale", sec);
     var nowEl = $("#sl-now"), knife = $("#knife"), label = $("#label"), steps = $$("#sl-steps li"), countEl = $("#sl-n");
     function cl(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
     function seg(p, a, b) { return cl((p - a) / (b - a)); }
@@ -323,7 +324,7 @@
     var COS_END = Math.cos(125 * Math.PI / 180);
 
     function render(p) {
-      var started = 0, landed = 0;
+      var started = 0, landed = 0, weight = 0;
       // Scheiben
       slices.forEach(function (s, i) {
         var u = (p - (A0 + i * S)) / S;
@@ -332,6 +333,7 @@
         u = cl(u);
         var f = front(i), fall = eio(seg(u, .42, .64)), glide = eio(seg(u, .6, 1));
         if (glide >= 1) landed++;
+        weight += glide;
         var th = fall * 125 * Math.PI / 180, cy = Math.cos(th);
         var tx, ty, rot = 0, sx = 1, sy = cy;
         if (glide <= 0) { tx = f[0]; ty = f[1] + fall * 8; }
@@ -373,6 +375,8 @@
       var st = p < A0 ? 0 : p < A0 + S * .5 ? 1 : p < A0 + S * 3 ? 2 : p < .86 ? 3 : 4;
       steps.forEach(function (li, j) { li.classList.toggle("on", j <= st); });
       if (countEl.textContent !== String(landed)) countEl.textContent = landed;
+      var g = Math.round(weight / N * 100), gs = String(g);
+      if (gEl && gEl.textContent !== gs) { gEl.textContent = gs; eurEl.textContent = (g * 0.0249).toFixed(2).replace(".", ",") + " €"; scaleEl.classList.toggle("is-full", g >= 100); }
       if (nowEl && nowEl.textContent !== steps[st].textContent) nowEl.textContent = steps[st].textContent;
     }
 
