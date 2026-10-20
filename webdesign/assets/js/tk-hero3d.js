@@ -200,10 +200,12 @@ function build(THREE, RoomEnvironment) {
 
   // ---------- Platz und Größe ----------
   // cx/cy: Mitte der Bühne in Seitenkoordinaten, bottom: Unterkante des Kopfbereichs (dort beginnt das Laufband)
-  var W = 0, H = 0, S = 0, cx = 0, cy = 0, heroTop = 0, heroH = 1, bottom = 0;
+  // cut: Unterkante des Laufbands; am Handy wird die Leinwand dort abgeschnitten, damit nichts in den nächsten Abschnitt ragt
+  var W = 0, H = 0, S = 0, cx = 0, cy = 0, heroTop = 0, heroH = 1, bottom = 0, cut = 0, mq = document.querySelector(".tk-marquee");
   function measure() {
     var hr = hero.getBoundingClientRect(), sr = stageEl.getBoundingClientRect();
     heroTop = hr.top + scrollY; heroH = hr.height || 1; bottom = heroTop + heroH;
+    cut = mq ? mq.getBoundingClientRect().bottom + scrollY : bottom;
     S = Math.round(Math.max(sr.width, sr.height) * 2);
     cx = sr.left + sr.width / 2; cy = sr.top + scrollY + sr.height / 2;
     if (S !== W) { W = H = S; R.setSize(S, S, false); cv.style.width = cv.style.height = S + "px"; cam.aspect = 1; cam.updateProjectionMatrix(); }
@@ -223,21 +225,26 @@ function build(THREE, RoomEnvironment) {
 
   // ---------- Ablauf ----------
   var inView = true, visible = true, raf = 0, last = 0, t0 = 0, sp0 = 0, prog = 0, frames = 0, slow = 0, first = true;
-  var ride = small ? .4 : .58;
+  // Am Handy fährt die Plakette fast mit dem Inhalt mit und blendet erst aus, wenn sie hinter dem Laufband steckt.
+  var ride = small ? .25 : .58, span = small ? 1.1 : .75;
   function frame(now) {
     raf = 0; if (!visible) return;
     var dt = last ? Math.min(.05, (now - last) / 1000) : .016; last = now;
     if (!t0) t0 = now;
     var t = (now - t0) / 1000;
 
-    // Fortschritt: 0 oben, 1 sobald der Kopfbereich zu drei Vierteln weggescrollt ist
-    var raw = clamp((scrollY - heroTop + 80) / (heroH * .75), 0, 1);
+    // Fortschritt: 0 oben, 1 sobald der Kopfbereich zu drei Vierteln (Handy: ganz) weggescrollt ist
+    var raw = clamp((scrollY - heroTop + 80) / (heroH * span), 0, 1);
     prog = damp(prog, raw, 6, dt);
     var p = prog, fade;
 
     // Mitfahren: Die Plakette wandert langsamer nach oben als der Inhalt und taucht dabei hinter das Laufband.
     var sy = Math.max(0, scrollY - heroTop), y = cy - scrollY + sy * ride, d = bottom - scrollY - y;
-    fade = clamp((d - S * .1) / (S * .16), 0, 1);
+    if (small) {
+      var dc = cut - scrollY - y, clip = Math.max(0, H / 2 - dc);
+      fade = clamp((dc + S * .2) / (S * .2), 0, 1);
+      cv.style.clipPath = clip ? "inset(0 0 " + clip.toFixed(1) + "px 0)" : "";
+    } else fade = clamp((d - S * .1) / (S * .16), 0, 1);
     cv.style.transform = "translate3d(" + (cx - W / 2).toFixed(1) + "px," + (y - H / 2).toFixed(1) + "px,0)";
     cv.style.opacity = fade.toFixed(3);
 
