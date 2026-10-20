@@ -50,11 +50,8 @@ button.link{background:none;border:0;padding:0;font-size:inherit;font-family:inh
 .nav.is-solid{background:rgba(10,10,12,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
 .nav__brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:500 19px/1 var(--slab);color:var(--text)}
 .nav__brand b{color:var(--cyan)}
-.nav__logo{width:44px;height:44px;color:var(--cyan);stroke:url(#logo-shine) var(--cyan);filter:drop-shadow(0 0 3px rgba(79,230,225,.9)) drop-shadow(0 0 12px rgba(79,230,225,.55));transition:filter .3s}
-.nav__logo,.foot__logo{animation:logo-glow 6s ease-in-out infinite}
-@keyframes logo-glow{0%,34%,100%{filter:drop-shadow(0 0 3px rgba(79,230,225,.9)) drop-shadow(0 0 12px rgba(79,230,225,.55))}16%{filter:drop-shadow(0 0 4px #4fe6e1) drop-shadow(0 0 20px rgba(79,230,225,.85))}}
-@media (prefers-reduced-motion:reduce){.nav__logo,.foot__logo{animation:none}}
-.nav__brand:hover .nav__logo{animation:none;filter:drop-shadow(0 0 4px #4fe6e1) drop-shadow(0 0 18px rgba(79,230,225,.8))}
+.nav__logo{width:44px;height:44px;color:var(--cyan);filter:drop-shadow(0 0 3px rgba(79,230,225,.9)) drop-shadow(0 0 12px rgba(79,230,225,.55));transition:filter .3s}
+.nav__brand:hover .nav__logo{filter:drop-shadow(0 0 4px #4fe6e1) drop-shadow(0 0 18px rgba(79,230,225,.8))}
 .nav__links{display:flex;gap:26px;margin-left:auto}
 .nav__links a{text-decoration:none;font:600 14px/1 var(--body);color:rgba(243,241,236,.8);position:relative;padding:8px 0}
 .nav__links a::after{content:"";position:absolute;left:0;right:0;bottom:2px;height:2px;background:var(--cyan);transform:scaleX(0);transform-origin:left;transition:transform .25s;box-shadow:0 0 8px var(--cyan)}
@@ -248,7 +245,7 @@ button.link{background:none;border:0;padding:0;font-size:inherit;font-family:inh
 .foot__brand{display:flex;gap:16px;align-items:center}
 .foot__brand p{margin:0;font:500 20px/1.25 var(--slab)}
 .foot__brand span{font:400 13px/1.5 var(--body);color:var(--muted)}
-.foot__logo{width:84px;height:84px;color:var(--cyan);stroke:url(#logo-shine) var(--cyan);filter:drop-shadow(0 0 3px rgba(79,230,225,.8)) drop-shadow(0 0 16px rgba(79,230,225,.45))}
+.foot__logo{width:84px;height:84px;color:var(--cyan);filter:drop-shadow(0 0 3px rgba(79,230,225,.8)) drop-shadow(0 0 16px rgba(79,230,225,.45))}
 .foot__nav{display:flex;flex-wrap:wrap;gap:20px}
 .foot__nav a{text-decoration:none;color:rgba(243,241,236,.75);font-weight:600;font-size:14px}
 .foot__nav a:hover{color:var(--cyan)}
@@ -405,3 +402,36 @@ html.modal-open{overflow:hidden}
   .vid__play::before,.vid--big .vid__play::before{left:21px;top:16px;border-width:12px 0 12px 18px}
   .vid__cap,.vid--big .vid__cap{left:16px;right:82px;bottom:16px;font-size:26px}
 }
+
+/* Lichtpunkt fährt die Neonlinien des Logos nach */
+.spark{fill:none;stroke:#fff;stroke-width:34;stroke-linecap:round;filter:drop-shadow(0 0 3px #fff) drop-shadow(0 0 10px #4fe6e1) drop-shadow(0 0 20px #4fe6e1)}
+.spark path{opacity:0;animation:9s linear infinite}
+@media (prefers-reduced-motion:reduce){.spark{display:none}}
+.spark .sp0{stroke-dasharray:120 3970;animation-name:sp0}
+@keyframes sp0{0%,0.00%{stroke-dashoffset:120;opacity:0}0.01%,18.63%{opacity:1}18.64%,100%{stroke-dashoffset:-3830;opacity:0}}
+.spark .sp1{stroke-dasharray:120 2223;animation-name:sp1}
+@keyframes sp1{0%,18.64%{stroke-dashoffset:120;opacity:0}18.65%,28.77%{opacity:1}28.78%,100%{stroke-dashoffset:-2083;opacity:0}}
+.spark .sp2{stroke-dasharray:120 284;animation-name:sp2}
+@keyframes sp2{0%,28.78%{stroke-dashoffset:120;opacity:0}28.79%,29.48%{opacity:1}29.49%,100%{stroke-dashoffset:-144;opacity:0}}
+.spark .sp3{stroke-dasharray:120 541;animation-name:sp3}
+@keyframes sp3{0%,29.49%{stroke-dashoffset:120;opacity:0}29.50%,31.43%{opacity:1}31.44%,100%{stroke-dashoffset:-401;opacity:0}}
+.spark .sp4{stroke-dasharray:120 314;animation-name:sp4}
+@keyframes sp4{0%,31.44%{stroke-dashoffset:120;opacity:0}31.45%,32.27%{opacity:1}32.28%,100%{stroke-dashoffset:-174;opacity:0}}
+.spark .sp5{stroke-dasharray:120 1154;animation-name:sp5}
+@keyframes sp5{0%,32.28%{stroke-dashoffset:120;opacity:0}32.29%,37.21%{opacity:1}37.22%,100%{stroke-dashoffset:-1014;opacity:0}}
+.spark .sp6{stroke-dasharray:120 1140;animation-name:sp6}
+@keyframes sp6{0%,37.22%{stroke-dashoffset:120;opacity:0}37.23%,42.08%{opacity:1}42.09%,100%{stroke-dashoffset:-1000;opacity:0}}
+.spark .sp7{stroke-dasharray:120 1192;animation-name:sp7}
+@keyframes sp7{0%,42.09%{stroke-dashoffset:120;opacity:0}42.10%,47.20%{opacity:1}47.21%,100%{stroke-dashoffset:-1052;opacity:0}}
+.spark .sp8{stroke-dasharray:120 1140;animation-name:sp8}
+@keyframes sp8{0%,47.21%{stroke-dashoffset:120;opacity:0}47.22%,52.07%{opacity:1}52.08%,100%{stroke-dashoffset:-1000;opacity:0}}
+.spark .sp9{stroke-dasharray:120 356;animation-name:sp9}
+@keyframes sp9{0%,52.08%{stroke-dashoffset:120;opacity:0}52.09%,53.12%{opacity:1}53.13%,100%{stroke-dashoffset:-216;opacity:0}}
+.spark .sp10{stroke-dasharray:120 332;animation-name:sp10}
+@keyframes sp10{0%,53.13%{stroke-dashoffset:120;opacity:0}53.14%,54.05%{opacity:1}54.06%,100%{stroke-dashoffset:-192;opacity:0}}
+.spark .sp11{stroke-dasharray:120 288;animation-name:sp11}
+@keyframes sp11{0%,54.06%{stroke-dashoffset:120;opacity:0}54.07%,54.77%{opacity:1}54.78%,100%{stroke-dashoffset:-148;opacity:0}}
+.spark .sp12{stroke-dasharray:120 1140;animation-name:sp12}
+@keyframes sp12{0%,54.78%{stroke-dashoffset:120;opacity:0}54.79%,59.64%{opacity:1}59.65%,100%{stroke-dashoffset:-1000;opacity:0}}
+.spark .sp13{stroke-dasharray:120 668;animation-name:sp13}
+@keyframes sp13{0%,59.65%{stroke-dashoffset:120;opacity:0}59.66%,62.21%{opacity:1}62.22%,100%{stroke-dashoffset:-528;opacity:0}}
