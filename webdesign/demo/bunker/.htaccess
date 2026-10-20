@@ -1,0 +1,4 @@
+# Entwurf für bunker.kollektiv: nicht in Suchmaschinen
+<IfModule mod_headers.c>
+  Header set X-Robots-Tag "noindex, nofollow"
+</IfModule>
