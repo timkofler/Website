@@ -5,6 +5,7 @@
 <meta name="theme-color" content="#2f5bff">
 <link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/beispiele/_shared/demo.css">
+<link rel="stylesheet" href="/beispiele/friseur/gemeinsam/umschalter.css?v=1">
 <style>
 @font-face{font-family:"Outfit";src:url(/beispiele/_shared/fonts/outfit.woff2) format("woff2");font-weight:100 900;font-display:swap}
 @font-face{font-family:"Inter";src:url(/beispiele/_shared/fonts/inter.woff2) format("woff2");font-weight:100 900;font-display:swap}
@@ -664,6 +665,9 @@ button.fl{display:flex;flex-direction:column;justify-content:flex-start}
   .nav-b{font-size:9.5px}
   .nav-b span.s{letter-spacing:-.03em}
 }
+/* Umschalter der zwei Dashboard-Entwürfe: am PC rechts unten, am Handy über der Menüleiste */
+@media (min-width:961px){.tkv{left:auto;right:max(14px,env(safe-area-inset-right))}}
+@media (max-width:960px){.tkv{bottom:calc(74px + env(safe-area-inset-bottom))}}
 </style></head><body>
 <div class="tk-demo-bar"><a href="/beispiele/#dashboard"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
 <span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musterdaten</span>
@@ -954,4 +958,4 @@ button.fl{display:flex;flex-direction:column;justify-content:flex-start}
 <div class="lbox" id="lbox" hidden><button class="x" type="button" data-lbox-close aria-label="Schließen"><svg><use href="#i-x"/></svg></button><img alt=""><p></p></div>
 <input type="file" id="pic-in" accept="image/*" capture="environment" hidden>
 <div class="toast" id="toast" role="status"></div>
-<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/dashboard/app.js?v=20261019v" defer></script><script type="module" src="/beispiele/dashboard/haus3d.js?v=2"></script></body></html>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/dashboard/umschalter.js?v=1" defer></script><script src="/beispiele/dashboard/app.js?v=20261019v" defer></script><script type="module" src="/beispiele/dashboard/haus3d.js?v=2"></script></body></html>

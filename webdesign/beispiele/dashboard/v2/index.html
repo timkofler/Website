@@ -1,0 +1,262 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Luma Drive Autovermietung – Beispiel-Dashboard 2 | tim-kofler.at</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Zweiter Beispiel-Entwurf eines Dashboards von Tim Kofler – Webdesign: Autovermietung im Glas-Design mit Reservierungssystem, Belegungsplan, Flotte, digitalem Übergabeprotokoll mit Unterschrift, Kundenkartei und Online-Buchung für die eigene Webseite. Erfundener Betrieb.">
+<meta name="theme-color" content="#0a0f0d">
+<link rel="icon" href="/beispiele/dashboard/v2/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/beispiele/_shared/demo.css">
+<link rel="preload" href="/beispiele/_shared/fonts/outfit.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/beispiele/dashboard/v2/bilder/hero-900.webp" as="image" media="(max-width:599px)" fetchpriority="high">
+<link rel="preload" href="/beispiele/dashboard/v2/bilder/hero-1600.webp" as="image" media="(min-width:600px)" fetchpriority="high">
+<link rel="stylesheet" href="/beispiele/friseur/gemeinsam/umschalter.css?v=1">
+<link rel="stylesheet" href="/beispiele/dashboard/v2/style.css?v=1">
+</head><body>
+<div class="tk-demo-bar"><a href="/beispiele/#dashboard"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
+<span class="tk-demo-bar__note">Beispiel-Dashboard 2 von tim-kofler.at · erfundener Betrieb, alle Daten frei erfunden</span>
+<a class="tk-demo-bar__cta" href="/#anfrage">So ein Dashboard anfragen</a></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4.5 10.5 12 4l7.5 6.5V19a1.5 1.5 0 0 1-1.5 1.5h-3.5v-6h-5v6H6A1.5 1.5 0 0 1 4.5 19z"/></symbol>
+  <symbol id="i-plan" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="3.5"/><path d="M8 3v4M16 3v4M3.5 10h17"/><path d="M7 14h5M10 17h7"/></symbol>
+  <symbol id="i-auto" viewBox="0 0 24 24"><path d="M5 16.5V13l1.8-4.6A2 2 0 0 1 8.7 7h6.6a2 2 0 0 1 1.9 1.4L19 13v3.5"/><path d="M3.5 13h17v3.5a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1z"/><circle cx="7.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/><path d="M7.5 13 8.6 10h6.8l1.1 3"/></symbol>
+  <symbol id="i-schluessel" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="m11 12 8.5-8.5M16.5 6.5l2.5 2.5M14 9l2 2"/></symbol>
+  <symbol id="i-leute" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19c.6-3.3 2.8-5 5.5-5s4.9 1.7 5.5 5"/><path d="M15.5 5.6a3.2 3.2 0 0 1 0 6M17.5 14.4c1.6.6 2.7 2.1 3 4.6"/></symbol>
+  <symbol id="i-handy" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.6"/><path d="M10.5 18.5h3"/></symbol>
+  <symbol id="i-funken" viewBox="0 0 24 24"><path d="M12 3.5c.7 4.4 2.6 6.4 7 7.2-4.4.8-6.3 2.8-7 7.3-.7-4.5-2.6-6.5-7-7.3 4.4-.8 6.3-2.8 7-7.2z"/><path d="M19 15.5c.3 1.6.9 2.3 2.5 2.5-1.6.3-2.2.9-2.5 2.5-.3-1.6-.9-2.2-2.5-2.5 1.6-.2 2.2-.9 2.5-2.5z"/></symbol>
+  <symbol id="i-glocke" viewBox="0 0 24 24"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-pfeil" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></symbol>
+  <symbol id="i-links" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
+  <symbol id="i-rechts" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+  <symbol id="i-haken" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-ab" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
+  <symbol id="i-auf" viewBox="0 0 24 24"><path d="M12 20V9M7 14l5-5 5 5M5 4h14"/></symbol>
+  <symbol id="i-blitz" viewBox="0 0 24 24"><path d="M13 3 5.5 13.5H12L11 21l7.5-10.5H12z"/></symbol>
+  <symbol id="i-tank" viewBox="0 0 24 24"><rect x="4.5" y="4" width="9" height="16" rx="2"/><path d="M4.5 10h9M13.5 8l3.5 2.5V17a1.5 1.5 0 0 0 3 0V8.5L17.5 6"/></symbol>
+  <symbol id="i-sitz" viewBox="0 0 24 24"><path d="M8 4.5h3.5l1 9H19v4H9z"/><path d="M9 17.5 8 21M17 17.5l1 3.5"/></symbol>
+  <symbol id="i-gang" viewBox="0 0 24 24"><circle cx="6" cy="6" r="1.8"/><circle cx="12" cy="6" r="1.8"/><circle cx="18" cy="6" r="1.8"/><circle cx="6" cy="18" r="1.8"/><circle cx="12" cy="18" r="1.8"/><path d="M6 8v8M12 8v8M18 8v4H6"/></symbol>
+  <symbol id="i-werkzeug" viewBox="0 0 24 24"><path d="M14.5 6.5a4 4 0 0 0 5 5L12 19a2.1 2.1 0 0 1-3-3l7.5-7.5a4 4 0 0 1-2-2z"/></symbol>
+  <symbol id="i-tropfen" viewBox="0 0 24 24"><path d="M12 3.5s6 6.4 6 10.5a6 6 0 0 1-12 0c0-4.1 6-10.5 6-10.5z"/></symbol>
+  <symbol id="i-suche" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></symbol>
+  <symbol id="i-ort" viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></symbol>
+  <symbol id="i-stern" viewBox="0 0 24 24"><path d="m12 3.6 2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></symbol>
+  <symbol id="i-uhr" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><path d="m4.5 7 7.5 6 7.5-6"/></symbol>
+  <symbol id="i-dokument" viewBox="0 0 24 24"><path d="M7 3.5h7l4 4V19a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 19V5a1.5 1.5 0 0 1 1-1.5z"/><path d="M14 3.5V8h4M9 12.5h6M9 16h6"/></symbol>
+  <symbol id="i-kamera" viewBox="0 0 24 24"><path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1.5-2h6l1.5 2h2A1.5 1.5 0 0 1 20 8.5V18a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+  <symbol id="i-senden" viewBox="0 0 24 24"><path d="M20.5 3.5 3.5 10.5l7 3 3 7z"/><path d="m10.5 13.5 4-4"/></symbol>
+  <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4.5 4.5v3.5H8"/></symbol>
+</svg>
+
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<div class="app">
+  <!-- Seitenleiste: runde Glas-Knöpfe wie in der Vorlage, die schillernde Kugel ist der Assistent -->
+  <nav class="rail" aria-label="Bereiche">
+    <a class="rail__logo" href="#start" aria-label="Luma Drive, Start"><img src="/beispiele/dashboard/v2/logo.svg" alt="" width="40" height="40"></a>
+    <div class="rail__btns">
+      <button type="button" class="rb" data-go="start" aria-label="Start"><svg><use href="#i-home"/></svg><span>Start</span></button>
+      <button type="button" class="rb" data-go="plan" aria-label="Belegungsplan"><svg><use href="#i-plan"/></svg><span>Plan</span></button>
+      <button type="button" class="rb" data-go="flotte" aria-label="Flotte"><svg><use href="#i-auto"/></svg><span>Flotte</span></button>
+      <button type="button" class="rb rb--orb" data-ki aria-label="Assistent fragen"><svg><use href="#i-funken"/></svg><span>Assistent</span></button>
+      <button type="button" class="rb" data-go="uebergabe" aria-label="Übergabe"><svg><use href="#i-schluessel"/></svg><span>Übergabe</span></button>
+      <button type="button" class="rb" data-go="kunden" aria-label="Kunden"><svg><use href="#i-leute"/></svg><span>Kunden</span></button>
+      <button type="button" class="rb" data-go="buchung" aria-label="Online-Buchung"><svg><use href="#i-handy"/></svg><span>Online</span></button>
+    </div>
+  </nav>
+
+  <main class="main" id="main">
+    <header class="top">
+      <img class="top__av" src="/beispiele/dashboard/v2/bilder/lena.webp" alt="" width="96" height="96">
+      <p class="top__hi"><small id="gruss">Guten Morgen</small><b>Lena</b></p>
+      <div class="top__r">
+        <p class="top__time glass" id="uhr"><svg><use href="#i-uhr"/></svg><span>--:--</span></p>
+        <div class="bell">
+          <button type="button" class="ib glass" id="bellBtn" aria-label="Online-Anfragen" aria-expanded="false"><svg><use href="#i-glocke"/></svg><b class="bell__n" id="bellN" hidden>0</b></button>
+          <div class="bell__pop glass" id="bellPop" hidden></div>
+        </div>
+        <button type="button" class="btn btn--lime top__new" data-neu><svg><use href="#i-plus"/></svg><span>Reservierung</span></button>
+      </div>
+    </header>
+
+    <!-- ===== Start ===== -->
+    <section class="view" id="v-start" data-view="start" aria-labelledby="h-start">
+      <h1 class="sr" id="h-start">Luma Drive – Übersicht</h1>
+      <div class="hero">
+        <picture class="hero__img"><source media="(min-width:600px)" srcset="/beispiele/dashboard/v2/bilder/hero-1600.webp"><img src="/beispiele/dashboard/v2/bilder/hero-900.webp" alt="Silberner SUV bei Nacht vor dunklen Hügeln" width="900" height="1125" fetchpriority="high"></picture>
+        <div class="hero__shade" aria-hidden="true"></div>
+        <div class="hero__in">
+          <div class="hero__txt">
+            <p class="kick">Luma Drive · Autovermietung</p>
+            <p class="hero__big"><b id="heroUnterwegs">0</b><span>von <i id="heroAlle">9</i> Autos<br>heute unterwegs</span></p>
+            <div class="hero__next glass" id="heroNext"></div>
+          </div>
+          <div class="ring" id="ring" aria-label="Auslastung heute">
+            <svg viewBox="0 0 200 200" aria-hidden="true">
+              <circle class="ring__ticks" cx="100" cy="100" r="92"/>
+              <circle class="ring__bg" cx="100" cy="100" r="78"/>
+              <circle class="ring__p" id="ringP" cx="100" cy="100" r="78" pathLength="100"/>
+            </svg>
+            <span class="ring__glow" aria-hidden="true"></span>
+            <p class="ring__v"><b id="ringV">0</b><small>%</small><span>Auslastung</span></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tiles">
+        <button type="button" class="tile tile--lime" data-go="uebergabe"><span class="tile__h">Abholungen heute <svg><use href="#i-ab"/></svg></span><b class="tile__v" id="tAb">0</b><span class="tile__s" id="tAbS">–</span></button>
+        <button type="button" class="tile tile--peach" data-go="uebergabe"><span class="tile__h">Rückgaben heute <svg><use href="#i-auf"/></svg></span><b class="tile__v" id="tRu">0</b><span class="tile__s" id="tRuS">–</span></button>
+        <div class="tile tile--pink"><span class="tile__h">Umsatz <span id="tMonat">Monat</span></span><b class="tile__v" id="tUm">0 €</b>
+          <svg class="tile__arc" viewBox="0 0 160 60" aria-hidden="true"><path class="arc__dash" d="M4 54C40 54 50 10 80 10s40 44 76 44"/><path class="arc__on" id="umArc" d="M4 54C40 54 50 10 80 10s40 44 76 44" pathLength="100"/></svg>
+          <span class="tile__s" id="tUmS">–</span></div>
+        <div class="tile tile--mint"><span class="tile__h">E-Flotte geladen <svg><use href="#i-blitz"/></svg></span><b class="tile__v" id="tAk">0 %</b>
+          <span class="slide" aria-hidden="true"><i id="akBar"></i><em id="akKnob"></em></span><span class="tile__s"><span>Leer</span><span>Voll</span></span></div>
+      </div>
+
+      <div class="grid2">
+        <section class="card glass" aria-labelledby="h-heute">
+          <div class="card__h"><h2 id="h-heute">Heute</h2><span class="chip" id="heuteDatum"></span></div>
+          <ol class="tl" id="heuteListe"></ol>
+        </section>
+        <div class="stack">
+          <section class="card glass" aria-labelledby="h-anfr">
+            <div class="card__h"><h2 id="h-anfr">Online-Anfragen</h2><button type="button" class="lnk" data-go="buchung">Kundenansicht <svg><use href="#i-pfeil"/></svg></button></div>
+            <ul class="anf" id="anfListe"></ul>
+          </section>
+          <section class="card glass" aria-labelledby="h-flj">
+            <div class="card__h"><h2 id="h-flj">Flotte jetzt</h2><button type="button" class="lnk" data-go="flotte">Alle Autos <svg><use href="#i-pfeil"/></svg></button></div>
+            <div class="mix" id="flotteMix"></div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Belegungsplan ===== -->
+    <section class="view" id="v-plan" data-view="plan" aria-labelledby="h-plan" hidden>
+      <div class="vh"><div><p class="kick">Reservierungen</p><h1 class="vh__t" id="h-plan">Belegungsplan</h1></div>
+        <div class="vh__r"><div class="seg glass"><button type="button" class="ib" data-woche="-1" aria-label="Eine Woche zurück"><svg><use href="#i-links"/></svg></button><button type="button" class="seg__t" data-woche="0">Heute</button><button type="button" class="ib" data-woche="1" aria-label="Eine Woche vor"><svg><use href="#i-rechts"/></svg></button></div></div></div>
+      <p class="hint">Tippe auf einen Balken für Details, auf ein freies Feld für eine neue Reservierung.</p>
+      <div class="gantt glass" id="gantt"></div>
+      <ul class="legend"><li><i class="st-fix"></i>Bestätigt</li><li><i class="st-lauf"></i>Unterwegs</li><li><i class="st-anf"></i>Online-Anfrage</li><li><i class="st-block"></i>Werkstatt / Reinigung</li><li><i class="st-zur"></i>Zurückgegeben</li></ul>
+    </section>
+
+    <!-- ===== Flotte ===== -->
+    <section class="view" id="v-flotte" data-view="flotte" aria-labelledby="h-flotte" hidden>
+      <div class="vh"><div><p class="kick">9 Fahrzeuge</p><h1 class="vh__t" id="h-flotte">Flotte</h1></div>
+        <div class="vh__r pills" id="flFilter" role="group" aria-label="Filter"></div></div>
+      <div class="fleet" id="fleet"></div>
+    </section>
+
+    <!-- ===== Übergabe ===== -->
+    <section class="view" id="v-uebergabe" data-view="uebergabe" aria-labelledby="h-ueb" hidden>
+      <div class="vh"><div><p class="kick">Digitales Protokoll</p><h1 class="vh__t" id="h-ueb">Übergabe &amp; Rückgabe</h1></div></div>
+      <div class="ueb">
+        <section class="card glass ueb__l" aria-label="Fahrzeug und Schäden">
+          <label class="fld"><span>Reservierung</span><select id="uebSel"></select></label>
+          <div class="ueb__car" id="uebCar"></div>
+          <div class="dmg">
+            <div class="dmg__h"><b>Schäden markieren</b><div class="pills" id="dmgTyp" role="radiogroup" aria-label="Art des Schadens"></div></div>
+            <div class="dmg__svg" id="dmgSvg"></div>
+            <p class="dmg__l" id="dmgListe"></p>
+          </div>
+        </section>
+        <section class="card glass ueb__r" aria-label="Protokoll">
+          <div class="ueb__kind" id="uebKind"></div>
+          <div class="row2">
+            <label class="fld"><span>Kilometerstand</span><input id="uebKm" type="number" inputmode="numeric" min="0" step="1"></label>
+            <div class="fld"><span id="uebTankL">Tank</span><div class="range"><input id="uebTank" type="range" min="0" max="100" step="5" aria-label="Tank oder Akku in Prozent"><b id="uebTankV">100 %</b></div></div>
+          </div>
+          <ul class="chk" id="uebChk"></ul>
+          <div class="sig"><div class="sig__h"><b>Unterschrift Kunde</b><button type="button" class="lnk" id="sigClear">Löschen</button></div><canvas id="sig" width="600" height="180" aria-label="Feld für die Unterschrift"></canvas><small>Mit Finger oder Maus unterschreiben</small></div>
+          <div class="ueb__sum" id="uebSum"></div>
+          <button type="button" class="btn btn--lime btn--wide" id="uebOk"><svg><use href="#i-dokument"/></svg>Protokoll abschließen</button>
+        </section>
+      </div>
+    </section>
+
+    <!-- ===== Kunden ===== -->
+    <section class="view" id="v-kunden" data-view="kunden" aria-labelledby="h-kunden" hidden>
+      <div class="vh"><div><p class="kick">Kundenkartei</p><h1 class="vh__t" id="h-kunden">Kunden</h1></div>
+        <label class="search glass"><svg><use href="#i-suche"/></svg><input id="kuSuche" type="search" placeholder="Name oder Ort suchen" aria-label="Kunden suchen"></label></div>
+      <div class="kunden" id="kunden"></div>
+    </section>
+
+    <!-- ===== Online-Buchung ===== -->
+    <section class="view" id="v-buchung" data-view="buchung" aria-labelledby="h-buch" hidden>
+      <div class="buch">
+        <div class="buch__txt">
+          <p class="kick">Für die eigene Webseite</p>
+          <h1 class="vh__t" id="h-buch">So reservieren Ihre Kunden online</h1>
+          <p class="lead">Rechts sehen Sie die Buchung, wie sie auf der Webseite der Autovermietung läuft. Nur freie Autos werden angeboten, der Preis rechnet sich live mit. Probieren Sie es aus: Die Anfrage landet sofort links im Dashboard bei der Glocke und im Belegungsplan.</p>
+          <ul class="ticks"><li><svg><use href="#i-haken"/></svg>Keine Doppelbuchungen, weil Webseite und Plan dieselben Daten nutzen</li><li><svg><use href="#i-haken"/></svg>Bestätigen mit einem Tipp, die Mail an den Kunden geht automatisch</li><li><svg><use href="#i-haken"/></svg>Ohne Provision an ein Vergleichsportal</li></ul>
+        </div>
+        <div class="phone" aria-label="Buchung auf der Webseite, Vorschau am Handy">
+          <div class="phone__in" id="wid"></div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <p><b>Luma Drive · Autovermietung</b> · Musterstraße 12, 3300 Musterort · erfundener Betrieb</p>
+      <p>Beispiel-Dashboard 2 von tim-kofler.at. Alle Namen, Preise und Kennzeichen sind frei erfunden, Eingaben bleiben nur in deinem Browser. Fotos: Pexels (freie Lizenz). <button type="button" class="lnk" id="reset"><svg><use href="#i-reset"/></svg>Demo zurücksetzen</button></p>
+    </footer>
+  </main>
+</div>
+
+<!-- Neue Reservierung -->
+<dialog class="dlg dlg--wiz" id="wiz" aria-labelledby="wizH">
+  <form method="dialog" class="wiz" id="wizForm" novalidate>
+    <div class="dlg__head"><div><p class="kick">Neue Reservierung</p><h2 id="wizH">Auto reservieren</h2></div><button type="button" class="ib glass" data-close aria-label="Schließen"><svg><use href="#i-x"/></svg></button></div>
+    <ol class="steps" id="wizSteps"><li class="is-on">Zeitraum</li><li>Auto</li><li>Extras</li><li>Kunde</li></ol>
+    <div class="wiz__body">
+      <div class="wiz__main">
+        <fieldset class="wstep" data-step="0">
+          <legend class="sr">Zeitraum und Ort</legend>
+          <div class="row2"><label class="fld"><span>Abholung</span><input type="date" id="wVon" required></label><label class="fld"><span>Uhrzeit</span><select id="wVonZ"></select></label></div>
+          <div class="row2"><label class="fld"><span>Rückgabe</span><input type="date" id="wBis" required></label><label class="fld"><span>Uhrzeit</span><select id="wBisZ"></select></label></div>
+          <div class="fld"><span>Abholort</span><div class="pills" id="wOrt" role="radiogroup" aria-label="Abholort"></div></div>
+          <p class="wiz__note" id="wTage"></p>
+        </fieldset>
+        <fieldset class="wstep" data-step="1" hidden>
+          <legend class="sr">Auto wählen</legend>
+          <div class="wcars" id="wCars"></div>
+        </fieldset>
+        <fieldset class="wstep" data-step="2" hidden>
+          <legend class="sr">Extras</legend>
+          <div class="wext" id="wExt"></div>
+        </fieldset>
+        <fieldset class="wstep" data-step="3" hidden>
+          <legend class="sr">Kunde</legend>
+          <label class="fld"><span>Name</span><input id="wName" autocomplete="off" list="kuList" placeholder="z. B. Martina Hofer"><datalist id="kuList"></datalist></label>
+          <div class="row2"><label class="fld"><span>Telefon</span><input id="wTel" type="tel" placeholder="+43 …"></label><label class="fld"><span>Geburtsjahr</span><input id="wGeb" type="number" inputmode="numeric" min="1930" max="2008" placeholder="1990"></label></div>
+          <label class="fld"><span>Führerschein seit</span><input id="wFs" type="number" inputmode="numeric" min="1950" placeholder="2010"></label>
+          <p class="wiz__note" id="wJung"></p>
+        </fieldset>
+      </div>
+      <aside class="wiz__sum glass" aria-live="polite" id="wSum"></aside>
+    </div>
+    <div class="dlg__foot"><button type="button" class="btn btn--line" id="wBack">Zurück</button><button type="button" class="btn btn--lime" id="wNext">Weiter</button></div>
+  </form>
+</dialog>
+
+<!-- Reservierung ansehen -->
+<dialog class="dlg" id="resDlg" aria-labelledby="resH"><div class="dlg__in" id="resIn"></div></dialog>
+
+<!-- Protokoll -->
+<dialog class="dlg" id="protDlg" aria-labelledby="protH"><div class="dlg__in" id="protIn"></div></dialog>
+
+<!-- Assistent -->
+<aside class="ki glass" id="ki" aria-label="Assistent" hidden>
+  <div class="ki__h"><span class="ki__orb" aria-hidden="true"></span><b>Luma Assistent</b><button type="button" class="ib" id="kiX" aria-label="Assistent schließen"><svg><use href="#i-x"/></svg></button></div>
+  <div class="ki__log" id="kiLog" aria-live="polite"></div>
+  <div class="ki__chips" id="kiChips"></div>
+  <form class="ki__f" id="kiF"><input id="kiIn" placeholder="Frag mich etwas zur Flotte" aria-label="Frage an den Assistenten" autocomplete="off"><button type="submit" class="ib" aria-label="Senden"><svg><use href="#i-senden"/></svg></button></form>
+</aside>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="/beispiele/_shared/demo.js" defer></script>
+<script src="/beispiele/dashboard/umschalter.js?v=1" defer></script>
+<script src="/beispiele/dashboard/v2/app.js?v=1" defer></script>
+</body></html>
