@@ -1,0 +1,691 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dachdeckerei First &amp; Falz – Beispiel-Entwurf | tim-kofler.at</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Beispiel-Entwurf einer Webseite für eine Dachdeckerei und Spenglerei von Tim Kofler – Webdesign. Erfundener Betrieb.">
+<meta name="theme-color" content="#14171b">
+<link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/beispiele/_shared/demo.css">
+<link rel="stylesheet" href="/beispiele/friseur/gemeinsam/umschalter.css?v=1">
+<link rel="preload" href="/beispiele/_shared/fonts/anton.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Anton";src:url(/beispiele/_shared/fonts/anton.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Inter";src:url(/beispiele/_shared/fonts/inter.woff2) format("woff2");font-weight:100 900;font-display:swap}
+:root{--night:#14171b;--slate:#1d2228;--slate2:#262c34;--line:rgba(236,230,220,.12);--paper:#f3eee6;--paper2:#e9e2d6;--ink:#191c20;--mut:#a7adb4;--mut2:#5d636b;
+  --tile:#d0603a;--tile2:#e57a4e;--copper:#c8875a;--zinc:#9aa3ab;
+  --disp:"Anton","Impact","Arial Narrow Bold",sans-serif;--sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--bar:45px;--navh:72px}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--bar) + var(--navh) + 20px)}
+body{margin:0;background:var(--night);color:var(--paper);font:400 17px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,svg,video{display:block;max-width:100%}
+a{color:inherit}
+p{margin:0}
+h1,h2,h3{margin:0;font-family:var(--disp);font-weight:400;line-height:.95;letter-spacing:.005em;text-transform:uppercase}
+h2 em,h1 em{font-style:normal;color:var(--tile2)}
+:focus-visible{outline:2.5px solid var(--tile2);outline-offset:3px;border-radius:6px}
+.wrap{width:min(1240px,100% - 32px);margin-inline:auto}
+.k{font:700 12px/1.2 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--tile2);display:inline-flex;align-items:center;gap:10px}
+.k::before{content:"";width:22px;height:2px;background:currentColor}
+.h2{font-size:clamp(44px,6.4vw,92px);margin-top:16px}
+.lead{color:var(--mut);font-size:clamp(17px,1.4vw,19px);max-width:58ch;margin-top:20px}
+.sec{padding:clamp(72px,10vw,140px) 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border-radius:12px;font:700 16px/1 var(--sans);text-decoration:none;border:0;cursor:pointer;transition:transform .25s,background .25s,color .25s,box-shadow .25s,border-color .25s}
+.btn svg{width:18px;height:18px;transition:transform .25s}
+.btn:hover svg{transform:translateX(4px)}
+.btn--t{background:var(--tile);color:#fff;box-shadow:0 14px 30px -16px rgba(208,96,58,.9)}
+.btn--t:hover{background:#dd6c43;transform:translateY(-2px)}
+.btn--l{border:1.5px solid rgba(243,238,230,.32);color:var(--paper);background:rgba(20,23,27,.25)}
+.btn--l:hover{border-color:var(--paper);background:rgba(243,238,230,.08)}
+
+/* Kopfleiste */
+.nav{position:sticky;top:var(--bar);z-index:900;background:rgba(20,23,27,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:var(--navh);gap:18px}
+.logo{display:flex;align-items:center;gap:11px;text-decoration:none;line-height:1}
+.logo svg{width:42px;height:42px;flex:none}
+.logo b{display:block;font:400 25px/1 var(--disp);letter-spacing:.02em;text-transform:uppercase}
+.logo b i{font-style:normal;color:var(--tile2)}
+.logo small{display:block;font:600 10px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--mut);margin-top:5px}
+.nav__links{display:flex;gap:2px}
+.nav__links a{text-decoration:none;font-weight:600;font-size:15px;padding:11px 13px;border-radius:10px;color:#cfd3d8;transition:background .2s,color .2s}
+.nav__links a:hover{background:rgba(243,238,230,.08);color:#fff}
+.nav__r{display:flex;gap:10px;align-items:center}
+.sos{display:inline-flex;align-items:center;gap:9px;min-height:46px;padding:0 14px;border-radius:12px;border:1.5px solid rgba(229,122,78,.55);text-decoration:none;font:700 14px/1.1 var(--sans);color:#fff;white-space:nowrap}
+.sos:hover{background:rgba(229,122,78,.14)}
+.sos i{width:9px;height:9px;border-radius:50%;background:#ff6a3d;box-shadow:0 0 0 0 rgba(255,106,61,.7);animation:puls 1.8s infinite}
+.sos small{display:block;font-weight:500;font-size:11px;color:var(--mut)}
+@keyframes puls{70%{box-shadow:0 0 0 9px rgba(255,106,61,0)}100%{box-shadow:0 0 0 0 rgba(255,106,61,0)}}
+.nav .btn{min-height:46px;padding:0 18px;font-size:15px}
+.burger{display:none;width:48px;height:48px;border-radius:12px;border:1.5px solid rgba(243,238,230,.28);background:transparent;cursor:pointer;place-items:center;color:var(--paper)}
+.burger span,.burger span::before,.burger span::after{display:block;width:18px;height:2px;background:currentColor;position:relative;transition:transform .3s,background .3s}
+.burger span::before,.burger span::after{content:"";position:absolute;left:0}
+.burger span::before{top:-6px}.burger span::after{top:6px}
+.burger[aria-expanded="true"] span{background:transparent}
+.burger[aria-expanded="true"] span::before{transform:translateY(6px) rotate(45deg)}
+.burger[aria-expanded="true"] span::after{transform:translateY(-6px) rotate(-45deg)}
+.mpanel{position:fixed;inset:calc(var(--bar) + var(--navh)) 0 auto 0;z-index:899;background:var(--night);border-bottom:1px solid var(--line);padding:6px 16px 22px;opacity:0;visibility:hidden;transform:translateY(-10px);transition:opacity .3s,transform .3s,visibility 0s .3s;box-shadow:0 30px 40px -30px #000}
+.mpanel.open{opacity:1;visibility:visible;transform:none;transition:opacity .3s,transform .3s}
+.mpanel a:not(.btn){display:flex;align-items:center;min-height:56px;border-bottom:1px solid var(--line);text-decoration:none;font:400 28px/1 var(--disp);text-transform:uppercase}
+.mpanel .btn{width:100%;margin-top:18px}
+
+/* Kopfbereich mit Regen-Video */
+.hero{position:relative;min-height:calc(100svh - var(--bar) - var(--navh));display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}
+.hero__v{position:absolute;inset:0;z-index:-2}
+.hero__v video{width:100%;height:100%;object-fit:cover}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(14,16,19,.9) 0%,rgba(14,16,19,.62) 46%,rgba(14,16,19,.18) 100%),linear-gradient(0deg,rgba(14,16,19,.95) 0%,rgba(14,16,19,0) 42%)}
+.hero .wrap{padding:clamp(48px,8vw,110px) 0 clamp(36px,5vw,64px)}
+.hero h1{font-size:clamp(64px,10.6vw,164px);line-height:.88;margin-top:22px}
+.hero h1 span{display:block}
+.hero .lead{color:#d6d9dd;max-width:50ch}
+.hero__btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.facts{display:grid;grid-template-columns:repeat(4,auto);justify-content:start;gap:clamp(22px,4vw,56px);margin-top:clamp(40px,6vw,72px);padding-top:24px;border-top:1px solid var(--line)}
+.facts b{display:block;font:400 clamp(30px,3.2vw,42px)/1 var(--disp)}
+.facts small{display:block;color:var(--mut);font-size:13px;margin-top:6px}
+.weather{position:absolute;right:max(16px,calc((100% - 1240px)/2));top:clamp(24px,5vw,56px);width:280px;padding:16px 18px;border-radius:16px;background:rgba(20,23,27,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);font-size:14px}
+.weather__h{display:flex;align-items:center;justify-content:space-between;color:var(--mut);font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.weather__h svg{width:26px;height:26px;color:#8ec5ff}
+.weather p{margin-top:8px;color:#e9ecef;line-height:1.45}
+.weather a{display:inline-flex;margin-top:12px;font-weight:700;color:var(--tile2);text-decoration:none}
+.weather a:hover{text-decoration:underline}
+
+/* Leistungen */
+.svc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:clamp(36px,5vw,60px)}
+.card{position:relative;border-radius:20px;overflow:hidden;background:var(--slate);border:1px solid var(--line);display:flex;flex-direction:column;min-height:100%}
+.card__img{aspect-ratio:4/3;overflow:hidden;background:#0e1013}
+.card__img img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.card:hover .card__img img{transform:scale(1.05)}
+.card__b{padding:22px 22px 24px;display:flex;flex-direction:column;gap:10px;flex:1}
+.card__n{font:700 12px/1 var(--sans);letter-spacing:.18em;color:var(--tile2)}
+.card h3{font-size:34px}
+.card p{color:var(--mut);font-size:15.5px}
+.card ul{margin:auto 0 0;padding:14px 0 0;list-style:none;display:flex;flex-wrap:wrap;gap:6px;border-top:1px solid var(--line)}
+.card li{font-size:13px;font-weight:600;padding:6px 10px;border-radius:8px;background:rgba(243,238,230,.07);color:#d9dcdf}
+.svc2{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:18px}
+.mini{display:flex;gap:16px;align-items:flex-start;padding:22px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(160deg,rgba(243,238,230,.05),rgba(243,238,230,0))}
+.mini svg{flex:none;width:44px;height:44px;color:var(--tile2)}
+.mini h3{font-size:24px}
+.mini p{color:var(--mut);font-size:15px;margin-top:6px}
+
+/* Schicht für Schicht (scroll-gesteuert) */
+.build{position:relative;height:420vh;background:linear-gradient(180deg,var(--night),#101317 50%,var(--night))}
+.build__in{position:sticky;top:calc(var(--bar) + var(--navh));height:calc(100vh - var(--bar) - var(--navh));min-height:540px;display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.5fr);gap:36px;align-items:center}
+.build h2{font-size:clamp(44px,5.2vw,80px);margin-top:14px}
+.bsteps{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:2px}
+.bsteps li{display:grid;grid-template-columns:40px 1fr;gap:10px;align-items:baseline;padding:8px 0;color:rgba(243,238,230,.32);transition:color .4s}
+.bsteps li b{font:400 24px/1 var(--disp)}
+.bsteps li span{font-size:16px;font-weight:700}
+.bsteps li small{grid-column:2;font-size:14px;color:var(--mut);max-height:0;overflow:hidden;opacity:0;transition:max-height .5s,opacity .5s}
+.bsteps li.on{color:#fff}
+.bsteps li.on b{color:var(--tile2)}
+.bsteps li.on small{max-height:70px;opacity:1}
+.bprog{height:3px;background:var(--line);margin-top:20px;border-radius:3px;overflow:hidden}
+.bprog i{display:block;height:100%;background:var(--tile2);transform:scaleX(0);transform-origin:left}
+.bart{position:relative;height:100%;display:flex;align-items:center;justify-content:center}
+.bart svg{width:100%;height:auto;max-height:100%;overflow:visible}
+#roof .ly{transform-box:view-box}
+#roof .rain line{stroke:#9cc8f0;stroke-width:1.4;stroke-linecap:round;opacity:0}
+#roof.wet .rain line{animation:drop 1.1s linear infinite}
+@keyframes drop{0%{transform:translate(0,-40px);opacity:0}15%{opacity:.75}100%{transform:translate(-18px,230px);opacity:.75}}
+#roof .flow{fill:none;stroke:#8fd0ff;stroke-width:3.2;stroke-linecap:round;stroke-dasharray:14 22;opacity:0;transition:opacity .6s}
+#roof.wet .flow{opacity:.9;animation:flow 1s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-36}}
+#roof .ok{opacity:0;transform:scale(.6);transform-origin:650px 140px;transform-box:view-box;transition:opacity .5s,transform .6s cubic-bezier(.3,1.6,.5,1)}
+#roof.wet .ok{opacity:1;transform:none}
+#roof .win{transition:fill .8s}
+#roof.wet .win{fill:#f4b55f}
+.lab{position:absolute;font:700 12px/1.2 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:#fff;background:rgba(20,23,27,.85);border:1px solid var(--line);padding:7px 10px;border-radius:8px;opacity:0;transform:translateY(6px);transition:opacity .4s,transform .4s;pointer-events:none;white-space:nowrap}
+.lab.on{opacity:1;transform:none}
+.lab::before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--c,#fff);margin-right:7px;vertical-align:0}
+
+/* Dachrechner */
+.calc{background:var(--paper);color:var(--ink)}
+.calc .k{color:#b24a26}
+.calc .lead{color:var(--mut2)}
+.calc h2 em{color:#c0512b}
+.cgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(24px,4vw,56px);margin-top:clamp(32px,5vw,56px);align-items:start}
+.cbox{background:#fff;border-radius:22px;padding:clamp(20px,3vw,32px);box-shadow:0 30px 60px -40px rgba(25,28,32,.45);border:1px solid rgba(25,28,32,.08)}
+.fld{margin-top:22px}
+.fld:first-child{margin-top:0}
+.fld__l{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:14px;letter-spacing:.02em;margin-bottom:10px}
+.fld__l output{font:400 24px/1 var(--disp);color:#b24a26}
+.seg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.seg button,.mats button{appearance:none;border:1.5px solid rgba(25,28,32,.14);background:#fff;border-radius:12px;padding:10px 6px;cursor:pointer;font:600 13.5px/1.2 var(--sans);color:var(--ink);display:flex;flex-direction:column;align-items:center;gap:6px;transition:border-color .2s,background .2s,box-shadow .2s}
+.seg button svg{width:46px;height:30px}
+.seg button:hover,.mats button:hover{border-color:rgba(25,28,32,.4)}
+.seg button[aria-pressed="true"],.mats button[aria-pressed="true"]{border-color:#c0512b;background:#fff4ee;box-shadow:0 0 0 3px rgba(208,96,58,.16)}
+.mats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.mats button{flex-direction:row;justify-content:flex-start;padding:10px;text-align:left}
+.mats i{flex:none;width:26px;height:26px;border-radius:7px;background:var(--sw);box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:30px;background:transparent;cursor:pointer;margin:0}
+input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:6px;background:linear-gradient(90deg,#c0512b var(--p,50%),#e3ddd3 var(--p,50%))}
+input[type=range]::-moz-range-track{height:6px;border-radius:6px;background:#e3ddd3}
+input[type=range]::-moz-range-progress{height:6px;border-radius:6px;background:#c0512b}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;border:3px solid #c0512b;margin-top:-9px;box-shadow:0 4px 10px rgba(0,0,0,.18)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#fff;border:3px solid #c0512b}
+input[type=range]:disabled{opacity:.4;cursor:not-allowed}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.two .fld{margin-top:22px}
+.res{position:sticky;top:calc(var(--bar) + var(--navh) + 20px);background:var(--slate);color:var(--paper);border-radius:22px;overflow:hidden}
+.res__draw{position:relative;background:linear-gradient(180deg,#2b3a4a 0%,#47607a 100%);aspect-ratio:16/9}
+.res__draw svg{position:absolute;inset:0;width:100%;height:100%}
+.res__tag{position:absolute;left:16px;top:14px;font:700 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#dbe6f0;background:rgba(20,23,27,.5);padding:7px 10px;border-radius:8px}
+.res__b{padding:clamp(20px,3vw,28px)}
+.res__row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.res__row div{padding-bottom:14px;border-bottom:1px solid var(--line)}
+.res small{display:block;color:var(--mut);font-size:13px}
+.res b{display:block;font:400 clamp(34px,3.6vw,46px)/1.05 var(--disp);margin-top:4px}
+.res__price{margin-top:16px}
+.res__price b{color:var(--tile2)}
+.mprops{display:grid;gap:9px;margin-top:18px}
+.mp{display:grid;grid-template-columns:110px 1fr 74px;gap:10px;align-items:center;font-size:13.5px;color:var(--mut)}
+.mp div{height:6px;border-radius:6px;background:rgba(243,238,230,.1);overflow:hidden}
+.mp i{display:block;height:100%;background:var(--copper);transform-origin:left;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.mp b{font:600 13.5px/1 var(--sans);color:#fff;margin:0;text-align:right}
+.hint{margin-top:16px;padding:12px 14px;border-radius:12px;background:rgba(229,122,78,.14);border:1px solid rgba(229,122,78,.4);font-size:14px;color:#ffd9c9}
+.res__note{font-size:12.5px;color:var(--mut);margin-top:14px}
+.res .btn{width:100%;margin-top:18px}
+
+/* Drohnen-Check */
+.drone{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(28px,5vw,72px);align-items:center}
+.dv{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:16/10;background:#0e1013;border:1px solid var(--line)}
+.dv video{width:100%;height:100%;object-fit:cover;filter:saturate(.85) contrast(1.05)}
+.hud{position:absolute;inset:0;pointer-events:none;font:600 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:#e6f3ff;text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.hud__c{position:absolute;inset:14px;border:1px solid rgba(230,243,255,.0)}
+.hud__c::before,.hud__c::after{content:"";position:absolute;width:26px;height:26px;border:2px solid rgba(230,243,255,.85)}
+.hud__c::before{left:0;top:0;border-right:0;border-bottom:0}
+.hud__c::after{right:0;bottom:0;border-left:0;border-top:0}
+.hud__x{position:absolute;left:50%;top:50%;width:46px;height:46px;transform:translate(-50%,-50%);border:1.5px solid rgba(230,243,255,.7);border-radius:50%}
+.hud__x::before,.hud__x::after{content:"";position:absolute;background:rgba(230,243,255,.7)}
+.hud__x::before{left:50%;top:-10px;bottom:-10px;width:1.5px;transform:translateX(-50%)}
+.hud__x::after{top:50%;left:-10px;right:-10px;height:1.5px;transform:translateY(-50%)}
+.hud__tl{position:absolute;left:24px;top:24px;display:grid;gap:6px}
+.hud__tr{position:absolute;right:24px;top:24px;display:flex;align-items:center;gap:7px}
+.hud__tr i{width:9px;height:9px;border-radius:50%;background:#ff4b3a;animation:blink 1.2s steps(2) infinite}
+@keyframes blink{50%{opacity:.2}}
+.pin{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%) scale(.6);opacity:0;transition:opacity .4s,transform .5s cubic-bezier(.3,1.6,.5,1)}
+.pin.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.pin b{display:block;width:22px;height:22px;border-radius:50%;border:2.5px solid #fff;background:rgba(255,106,61,.85);box-shadow:0 0 0 6px rgba(255,106,61,.25)}
+.pin span{position:absolute;left:30px;top:50%;transform:translateY(-50%);background:rgba(14,16,19,.82);padding:6px 9px;border-radius:7px;white-space:nowrap;font-family:var(--sans);font-weight:600;text-shadow:none}
+.pin--ok b{background:rgba(70,190,120,.85);box-shadow:0 0 0 6px rgba(70,190,120,.25)}
+.pin--l span{left:auto;right:30px}
+.dlist{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:14px}
+.dlist li{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;color:#d9dcdf}
+.dlist li b{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:rgba(229,122,78,.16);color:var(--tile2);font:400 18px/1 var(--disp)}
+.dlist small{display:block;color:var(--mut);font-size:14.5px;margin-top:2px}
+
+/* Referenzen */
+.refs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:clamp(32px,5vw,56px)}
+.ref{position:relative;border-radius:18px;overflow:hidden;margin:0;background:#0e1013;aspect-ratio:3/4}
+.ref:nth-child(1){grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
+.ref img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.ref:hover img{transform:scale(1.04)}
+.ref figcaption{position:absolute;left:0;right:0;bottom:0;padding:40px 16px 14px;background:linear-gradient(0deg,rgba(14,16,19,.88),rgba(14,16,19,0));font-size:13px;color:var(--mut)}
+.ref figcaption b{display:block;font:400 22px/1.05 var(--disp);text-transform:uppercase;color:#fff;margin-bottom:3px}
+.quote{margin-top:clamp(40px,6vw,72px);display:grid;grid-template-columns:auto 1fr;gap:clamp(18px,3vw,40px);align-items:start;padding:clamp(24px,4vw,44px);border-radius:22px;background:var(--slate);border:1px solid var(--line)}
+.quote svg{width:clamp(44px,6vw,72px);color:var(--tile2)}
+.quote p{font:400 clamp(26px,3.2vw,44px)/1.1 var(--disp);text-transform:uppercase}
+.quote small{display:block;margin-top:14px;color:var(--mut);font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:18px}
+.stats div{padding:22px;border-radius:18px;border:1px solid var(--line)}
+.stats b{display:block;font:400 clamp(40px,4.6vw,64px)/1 var(--disp);color:#fff}
+.stats small{display:block;color:var(--mut);margin-top:8px;font-size:14px}
+
+/* Ablauf */
+.flow4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:clamp(36px,5vw,60px);counter-reset:s}
+.st{position:relative;padding:26px 24px 0 0}
+.st::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--line)}
+.st::after{content:"";position:absolute;left:0;top:-5px;width:13px;height:13px;border-radius:50%;background:var(--tile2);box-shadow:0 0 0 5px rgba(229,122,78,.2)}
+.st b{display:block;font:400 52px/1 var(--disp);color:rgba(243,238,230,.16)}
+.st h3{font-size:28px;margin-top:6px}
+.st p{color:var(--mut);font-size:15.5px;margin-top:8px}
+.st small{display:inline-block;margin-top:12px;font-weight:700;font-size:13px;color:var(--tile2)}
+.foerd{margin-top:clamp(32px,5vw,56px);display:flex;flex-wrap:wrap;gap:16px 28px;align-items:center;justify-content:space-between;padding:22px 26px;border-radius:18px;background:linear-gradient(110deg,rgba(208,96,58,.22),rgba(208,96,58,.06));border:1px solid rgba(229,122,78,.35)}
+.foerd p{max-width:70ch;color:#e6e0d8}
+.foerd strong{color:#fff}
+
+/* Kontakt */
+.contact{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,5vw,64px);padding:clamp(24px,4vw,52px);border-radius:26px;background:var(--paper);color:var(--ink)}
+.contact .k{color:#b24a26}
+.contact h2 em{color:#c0512b}
+.contact .lead{color:var(--mut2)}
+.cinfo{margin:28px 0 0;display:grid;gap:16px}
+.cinfo dt{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut2);font-weight:700}
+.cinfo dd{margin:3px 0 0;font-weight:600}
+.cinfo a{text-decoration:none;border-bottom:1.5px solid rgba(192,81,43,.45)}
+.sosbox{margin-top:24px;display:flex;gap:14px;align-items:center;padding:16px;border-radius:16px;background:var(--night);color:var(--paper)}
+.sosbox svg{flex:none;width:38px;height:38px;color:#ff8a5c}
+.sosbox b{display:block;font:400 22px/1.1 var(--disp);text-transform:uppercase}
+.sosbox a{color:#ffb08f;font-weight:700;text-decoration:none}
+form{display:grid;gap:16px;align-content:start}
+.chips{border:0;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.chips legend{font-weight:700;font-size:14px;margin-bottom:10px;padding:0}
+.chips label{position:relative}
+.chips input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.chips span{display:inline-flex;align-items:center;min-height:42px;padding:0 14px;border-radius:10px;border:1.5px solid rgba(25,28,32,.16);font-weight:600;font-size:14.5px;background:#fff;transition:border-color .2s,background .2s}
+.chips input:checked+span{border-color:#c0512b;background:#fff1ea;color:#8f3518}
+.chips input:focus-visible+span{outline:2.5px solid #c0512b;outline-offset:2px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+form label:not(.chips label){display:grid;gap:6px;font-weight:700;font-size:14px}
+form input:not([type=radio]):not([type=checkbox]):not([type=file]),form select,form textarea{font:400 16px/1.4 var(--sans);color:var(--ink);background:#fff;border:1.5px solid rgba(25,28,32,.16);border-radius:12px;padding:12px 14px;width:100%}
+form input:focus,form select:focus,form textarea:focus{outline:0;border-color:#c0512b;box-shadow:0 0 0 3px rgba(208,96,58,.18)}
+form textarea{min-height:110px;resize:vertical}
+.file{display:flex!important;align-items:center;gap:12px;padding:14px;border:1.5px dashed rgba(25,28,32,.28);border-radius:12px;background:#fff;cursor:pointer;font-weight:600!important}
+.file svg{width:26px;height:26px;color:#c0512b;flex:none}
+.file input{position:absolute;width:1px;height:1px;opacity:0}
+.file small{display:block;font-weight:500;color:var(--mut2);font-size:13px}
+.urg{display:flex!important;grid-template-columns:none!important;align-items:center;gap:10px!important;font-weight:600!important}
+.urg input{width:20px;height:20px;accent-color:#c0512b}
+.msg{font-size:14.5px;padding:12px 14px;border-radius:12px;background:#e8f4ea;color:#1f5d34;display:none}
+.msg.show{display:block}
+form .btn{justify-self:start}
+
+footer{padding:56px 0 110px;border-top:1px solid var(--line);color:var(--mut);font-size:15px}
+.foot{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:28px}
+.foot h4{margin:0 0 10px;font:700 12px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:#fff}
+.foot a{text-decoration:none}
+.foot a:hover{color:#fff}
+.demo-note{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between;font-size:13px}
+.demo-note a{text-decoration:underline}
+
+@media (max-width:1100px){.nav__links{display:none}.burger{display:grid}.sos small{display:none}.svc{grid-template-columns:repeat(2,minmax(0,1fr))}.svc .card:nth-child(3){grid-column:span 2}.svc .card:nth-child(3) .card__img{aspect-ratio:21/9}}
+@media (max-width:900px){
+  :root{--navh:64px}
+  .logo b{font-size:21px}.logo svg{width:36px;height:36px}
+  .nav .btn{display:none}
+  .hero{flex-direction:column;align-items:stretch;justify-content:flex-end}
+  .weather{position:relative;right:auto;top:auto;width:auto;margin:0 16px 28px;order:2}
+  .hero .wrap{padding-top:clamp(120px,30vh,260px)}
+  .logo small{letter-spacing:.12em;white-space:nowrap}
+  .facts{grid-template-columns:repeat(2,auto);gap:20px 36px}
+  .svc2{grid-template-columns:1fr}
+  .build{height:360vh}
+  .build__in{grid-template-columns:minmax(0,1fr);grid-template-rows:auto 1fr;gap:4px;align-content:start;padding-top:16px}
+  .build h2{font-size:38px;margin-top:6px}
+  .build .lead{display:none}
+  .bsteps{margin-top:12px;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px}
+  .bsteps li{grid-template-columns:1fr;text-align:center;padding:4px 0;gap:3px}
+  .bsteps li span{font-size:10.5px;line-height:1.15}
+  .bsteps li small{display:none}
+  .bsteps li b{font-size:20px}
+  .bprog{margin-top:6px}
+  .bnow{display:block!important}
+  .lab{display:none}
+  .cgrid{grid-template-columns:minmax(0,1fr)}
+  .res{position:relative;top:0}
+  .drone{grid-template-columns:minmax(0,1fr)}
+  .refs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .flow4{grid-template-columns:minmax(0,1fr);gap:28px}
+  .st{padding:0 0 0 30px}
+  .st::before{left:5px;right:auto;top:0;bottom:-28px;width:3px;height:auto}
+  .st::after{left:0;top:4px}
+  .contact{grid-template-columns:minmax(0,1fr);border-radius:20px}
+  .foot{grid-template-columns:1fr}
+}
+@media (max-width:620px){
+  .wrap{width:min(1240px,100% - 32px)}
+  .sos{padding:0 11px;font-size:13px}
+  .sos span{display:none}
+  .logo small{font-size:9px;letter-spacing:.06em}
+  .logo b{font-size:20px}
+  .nav__r{gap:8px}
+  .sos{padding:0 10px}
+  .sos::after{content:"Notdienst"}
+  .svc{grid-template-columns:minmax(0,1fr)}.svc .card:nth-child(3){grid-column:auto}.svc .card:nth-child(3) .card__img{aspect-ratio:4/3}
+  .seg{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .two,.row2{grid-template-columns:minmax(0,1fr)}
+  .res__row{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .mp{grid-template-columns:92px 1fr 64px}
+  .refs{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .ref:nth-child(1){grid-column:span 2;grid-row:auto;aspect-ratio:4/3}
+  .quote{grid-template-columns:minmax(0,1fr)}
+  .stats{gap:10px}.stats div{padding:16px}
+  .foerd{padding:18px}
+  .hud__tl{left:28px;top:26px;font-size:10.5px}.hud__tr{right:28px;top:26px;font-size:10.5px}
+  .pin span{font-size:11px;padding:5px 7px}
+}
+.bnow{display:none;font-size:14px;color:var(--mut);min-height:2.6em;margin-top:8px}
+.bnow b{color:#fff}
+@media (prefers-reduced-motion:reduce){.build{height:auto}.build__in{position:relative;top:0;height:auto;padding:80px 0}.sos i{animation:none}.hud__tr i{animation:none}}
+</style></head><body>
+<div class="tk-demo-bar"><a href="/#beispiele"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
+<span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musteradresse</span>
+<a class="tk-demo-bar__cta" href="/#anfrage">So eine Seite anfragen</a></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="First &amp; Falz – zum Seitenanfang">
+      <svg viewBox="0 0 42 42" aria-hidden="true"><rect width="42" height="42" rx="10" fill="#d0603a"/><path d="M7 25 21 12l14 13" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 30.5h20" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".55"/></svg>
+      <span><b>First <i>&amp;</i> Falz</b><small>Dachdecker · Spengler</small></span>
+    </a>
+    <nav class="nav__links" aria-label="Hauptnavigation"><a href="#leistungen">Leistungen</a><a href="#schichten">Dachaufbau</a><a href="#rechner">Dachrechner</a><a href="#drohne">Dach-Check</a><a href="#referenzen">Referenzen</a></nav>
+    <div class="nav__r">
+      <a class="sos" href="tel:+430001234567"><i aria-hidden="true"></i><span>Sturmschaden?<small>Notdienst rund um die Uhr</small></span></a>
+      <a class="btn btn--t" href="#kontakt">Angebot anfragen</a>
+      <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="mpanel" aria-label="Menü öffnen"><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mpanel" id="mpanel"><a href="#leistungen">Leistungen</a><a href="#schichten">Dachaufbau</a><a href="#rechner">Dachrechner</a><a href="#drohne">Dach-Check</a><a href="#referenzen">Referenzen</a><a href="#kontakt">Kontakt</a><a class="btn btn--t" href="#kontakt">Angebot anfragen</a></div>
+
+<main id="top">
+<section class="hero" aria-labelledby="h1">
+  <div class="hero__v"><video class="tk-video" data-autoplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/dachdecker-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/dachdecker.mp4" type="video/mp4"></video></div>
+  <aside class="weather" data-reveal style="--d:.4s" aria-label="Hinweis Unwetter">
+    <div class="weather__h"><span>Unwetter-Dienst</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 15a4.5 4.5 0 1 1 1.2-8.8A5.5 5.5 0 0 1 18.5 8 3.5 3.5 0 0 1 18 15"/><path d="m11 13-2 4h4l-2 4"/></svg></div>
+    <p id="wtext">Sturm oder Hagel gemeldet? Wir sichern Ihr Dach, auch am Wochenende, und dokumentieren den Schaden für die Versicherung.</p>
+    <a href="#kontakt" data-art="sturm">Schaden melden →</a>
+  </aside>
+  <div class="wrap">
+    <p class="k" data-reveal>Dachdeckerei &amp; Spenglerei in Musterdorf · seit 1994</p>
+    <h1 id="h1" data-reveal style="--d:.08s"><span>Dicht.</span><span>Bei jedem <em>Wetter.</em></span></h1>
+    <p class="lead" data-reveal style="--d:.16s">Neueindeckung, Flachdach, Spenglerarbeiten und Reparaturen aus einer Hand. Wir sagen Ihnen ehrlich, ob Ihr Dach eine Sanierung braucht oder nur eine Reparatur.</p>
+    <div class="hero__btns" data-reveal style="--d:.24s">
+      <a class="btn btn--t" href="#rechner">Dachfläche berechnen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn btn--l" href="#drohne">Gratis Dach-Check mit Drohne</a>
+    </div>
+    <div class="facts" data-reveal style="--d:.32s">
+      <div><b>1994</b><small>gegründet</small></div>
+      <div><b>14</b><small>Dachdecker &amp; Spengler</small></div>
+      <div><b>24/7</b><small>Notdienst bei Sturm</small></div>
+      <div><b>10 J.</b><small>Garantie auf Neueindeckung</small></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="leistungen" aria-labelledby="l-h">
+  <div class="wrap">
+    <p class="k" data-reveal>Leistungen</p>
+    <h2 class="h2" id="l-h" data-reveal style="--d:.06s">Alles, was <em>oben</em> ist.</h2>
+    <div class="svc">
+      <article class="card" data-reveal>
+        <div class="card__img"><img src="/beispiele/dachdecker/eindecken.webp" alt="Dachdecker verlegt rote Tondachziegel auf einem neuen Steildach" width="800" height="1200" loading="lazy"></div>
+        <div class="card__b"><span class="card__n">01</span><h3>Steildach</h3><p>Neueindeckung und Umdeckung mit Ziegel, Betondachstein, Schiefer oder Blech. Inklusive Unterdach, Lattung und Abschlüssen.</p><ul><li>Tondachziegel</li><li>Schiefer</li><li>Stehfalz</li></ul></div>
+      </article>
+      <article class="card" data-reveal style="--d:.08s">
+        <div class="card__img"><img src="/beispiele/dachdecker/flachdach.webp" alt="Dachdecker schweißt eine Bitumenbahn auf einem Flachdach mit dem Brenner auf" width="675" height="1200" loading="lazy"></div>
+        <div class="card__b"><span class="card__n">02</span><h3>Flachdach</h3><p>Abdichtung mit Bitumen oder Kunststoffbahn, Dämmung im Gefälle, Terrassen und Gründächer für Garage, Zubau und Gewerbe.</p><ul><li>Bitumen</li><li>EPDM</li><li>Gründach</li></ul></div>
+      </article>
+      <article class="card" data-reveal style="--d:.16s">
+        <div class="card__img"><img src="/beispiele/dachdecker/sanierung.webp" alt="Altes Ziegeldach mit Kamin und Leiter vor der Sanierung" width="800" height="1200" loading="lazy"></div>
+        <div class="card__b"><span class="card__n">03</span><h3>Sanierung</h3><p>Altes Dach runter, Dämmung rauf: Wir sanieren bewohnt, Zimmer für Zimmer trocken, und helfen bei den Förderunterlagen.</p><ul><li>Dämmung</li><li>Dachfenster</li><li>Kamin</li></ul></div>
+      </article>
+    </div>
+    <div class="svc2">
+      <div class="mini" data-reveal><svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14h30a6 6 0 0 1 0 12H30"/><path d="M30 26v14"/><path d="M4 14c0 6 4 10 10 10h16"/></svg><div><h3>Spenglerei</h3><p>Dachrinnen, Fallrohre, Kamin- und Mauerverblechung aus Titanzink, Kupfer oder Alu. Gebogen in der eigenen Werkstatt.</p></div></div>
+      <div class="mini" data-reveal style="--d:.08s"><svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 30 22 8l16 22"/><path d="m16 26 4 4 8-9"/><path d="M10 36h24"/></svg><div><h3>Reparatur &amp; Wartung</h3><p>Verrutschte Ziegel, undichte Anschlüsse, verstopfte Rinnen. Mit Wartungsvertrag schauen wir jedes Frühjahr nach.</p></div></div>
+      <div class="mini" data-reveal style="--d:.16s"><svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="14" width="32" height="18" rx="2" transform="rotate(-8 22 23)"/><path d="m8 22 30-4M16 11l3 20M27 10l3 20"/><circle cx="36" cy="8" r="3"/></svg><div><h3>PV-Vorbereitung</h3><p>Dachhaken, Durchdringungen und Kabelwege sauber eingedeckt, damit die Photovoltaik-Anlage nicht zur Schwachstelle wird.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="build" id="schichten" aria-labelledby="b-h">
+  <div class="wrap build__in">
+    <div class="btext">
+      <p class="k">Dachaufbau</p>
+      <h2 id="b-h">Schicht für <em>Schicht.</em></h2>
+      <p class="lead" style="font-size:16px">Scrollen Sie und sehen Sie, was unter den Ziegeln steckt. Jede Schicht hat eine Aufgabe, und erst alle zusammen halten 50 Jahre dicht.</p>
+      <ol class="bsteps" id="bsteps">
+        <li><b>1</b><span>Dachstuhl</span><small>Sparren und Pfetten tragen alles. Wir prüfen jeden Balken, bevor wir eindecken.</small></li>
+        <li><b>2</b><span>Unterdach</span><small>Diffusionsoffene Bahn: lässt Feuchte aus dem Haus raus und keinen Regen rein.</small></li>
+        <li><b>3</b><span>Lattung</span><small>Konterlatten schaffen die Lüftung, die Dachlatten tragen die Ziegel.</small></li>
+        <li><b>4</b><span>Eindeckung</span><small>Reihe für Reihe von der Traufe zum First, jeder Ziegel eingehängt und sturmgeklammert.</small></li>
+        <li><b>5</b><span>First &amp; Rinne</span><small>Firstziegel oben, Dachrinne und Fallrohr aus Titanzink unten. Aus unserer Spenglerei.</small></li>
+        <li><b>6</b><span>Regenprobe</span><small>Das Wasser läuft dahin, wo es hin soll: in die Rinne. Drinnen bleibt es warm und trocken.</small></li>
+      </ol>
+      <p class="bnow" id="bnow" aria-hidden="true"></p>
+      <div class="bprog"><i id="bprog"></i></div>
+    </div>
+    <div class="bart">
+      <svg id="roof" viewBox="40 40 720 470" role="img" aria-label="Querschnitt durch ein Steildach, das sich beim Scrollen Schicht für Schicht aufbaut: Dachstuhl, Unterdach, Lattung, Ziegel, First und Dachrinne, zum Schluss läuft Regen in die Rinne">
+        <defs>
+          <linearGradient id="gWood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d4a46a"/><stop offset="1" stop-color="#a87843"/></linearGradient>
+          <linearGradient id="gTile" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#a8432a"/><stop offset=".4" stop-color="#d0603a"/><stop offset="1" stop-color="#b9502f"/></linearGradient>
+          <linearGradient id="gWall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2d343d"/><stop offset="1" stop-color="#232930"/></linearGradient>
+          <linearGradient id="gZinc" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c3cad1"/><stop offset="1" stop-color="#7d868f"/></linearGradient>
+          <radialGradient id="gGlow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#f4b55f" stop-opacity=".45"/><stop offset="1" stop-color="#f4b55f" stop-opacity="0"/></radialGradient>
+        </defs>
+        <!-- Boden und Haus -->
+        <path d="M40 492H760" stroke="rgba(243,238,230,.18)" stroke-width="2"/>
+        <rect x="180" y="318" width="440" height="174" fill="url(#gWall)" stroke="#3b434d" stroke-width="1.5"/>
+        <path d="M180 352H620M180 386H620M180 420H620M180 454H620" stroke="#3b434d" stroke-opacity=".5"/>
+        <!-- Giebel innen (Dachboden) -->
+        <path d="M200 318 400 157 600 318Z" fill="#1a1f25"/>
+        <ellipse cx="400" cy="404" rx="120" ry="70" fill="url(#gGlow)"/>
+        <rect class="win" x="350" y="372" width="100" height="70" rx="3" fill="#39424c" stroke="#59636e" stroke-width="3"/>
+        <path d="M400 372v70M350 407h100" stroke="#59636e" stroke-width="3"/>
+        <!-- Dachstuhl: Mauerbank, Kehlbalken, Firstpfette -->
+        <g class="ly" data-a="0" data-b=".1" data-dy="-60">
+          <rect x="182" y="304" width="26" height="16" fill="url(#gWood)" stroke="#6e4a26"/><rect x="592" y="304" width="26" height="16" fill="url(#gWood)" stroke="#6e4a26"/>
+          <rect x="262" y="236" width="276" height="12" rx="1.5" fill="url(#gWood)" stroke="#6e4a26"/>
+          <rect x="389" y="128" width="22" height="22" fill="url(#gWood)" stroke="#6e4a26"/>
+          <path d="M400 150V248" stroke="#a87843" stroke-width="8"/>
+        </g>
+        <g id="slopeL" transform="translate(130 330) rotate(-38.92) scale(1 1.45)">
+<g class="ly" data-a="0" data-b=".12" data-dy="-70"><rect x="-16" y="0" width="365.0" height="20" rx="1.5" fill="url(#gWood)" stroke="#6e4a26" stroke-width="1"/><path d="M-16 6H347M-16 13H347" stroke="#8c6236" stroke-opacity=".35" stroke-width=".8"/></g>
+<rect class="ly mem" data-a=".14" data-b=".26" data-draw="1" x="-14" y="-3.2" width="359.0" height="3.2" fill="#4f86b5"/>
+<g class="ly" data-a=".28" data-b=".34" data-dy="-30"><rect x="-6" y="-9" width="347.0" height="5.8" fill="#9c7444" stroke="#5f4122" stroke-width=".6"/></g>
+<g>
+<rect class="ly" data-a="0.340" data-b="0.380" data-dy="-26" x="30" y="-16" width="7" height="7" fill="#c9995b" stroke="#6e4a26" stroke-width=".6"/>
+<rect class="ly" data-a="0.348" data-b="0.388" data-dy="-26" x="62" y="-16" width="7" height="7" fill="#c9995b" stroke="#6e4a26" stroke-width=".6"/>
+<rect class="ly" data-a="0.356" data-b="0.396" data-dy="-26" x="94" y="-16" width="7" height="7" fill="#c9995b" stroke="#6e4a26" stroke-width=".6"/>
+<rect class="ly" data-a="0.364" data-b="0.404" data-dy="-26" x="126" y="-16" width="7" height="7" fill="#c9995b" stroke="#6e4a26" stroke-width=".6"/>
+<rect class="ly" data-a="0.372" data-b="0.412" data-dy="-26" x="158" y="-16" width="7" height="7" fill="#c9995b" stroke="#6e4a26" stroke-width=".6"/>
+<rect class="ly" data-a="0.380" data-b="0.420" data-dy="-26" x="190" y="-16" width="7" height="7" fill="#c9995b" stroke="#6e4a26" stroke-width=".6"/>
+<rect class="ly" data-a="0.388" data-b="0.428" data-dy="-26" x="222" y="-16" width="7" height="7" fill="#c9995b" stroke="#6e4a26" stroke-width=".6"/>
+<rect class="ly" data-a="0.396" data-b="0.436" data-dy="-26" x="254" y="-16" width="7" height="7" fill="#c9995b" stroke="#6e4a26" stroke-width=".6"/>
+<rect class="ly" data-a="0.404" data-b="0.444" data-dy="-26" x="286" y="-16" width="7" height="7" fill="#c9995b" stroke="#6e4a26" stroke-width=".6"/>
+<rect class="ly" data-a="0.412" data-b="0.452" data-dy="-26" x="318" y="-16" width="7" height="7" fill="#c9995b" stroke="#6e4a26" stroke-width=".6"/>
+<rect class="ly" data-a="0.420" data-b="0.460" data-dy="-26" x="339" y="-16" width="7" height="7" fill="#c9995b" stroke="#6e4a26" stroke-width=".6"/>
+</g>
+<g>
+<g class="ly" data-a="0.660" data-b="0.710" data-dy="-34"><path d="M316 -15.5 L347 -18 L347 -25 L318 -26.5 Q313 -26 313 -21 L314 -15.5 Z" fill="url(#gTile)" stroke="#5c2312" stroke-width=".8"/><path d="M313.5 -24 L313.5 -16.5" stroke="#3e180c" stroke-width="2" stroke-linecap="round" opacity=".55"/></g>
+<g class="ly" data-a="0.638" data-b="0.688" data-dy="-34"><path d="M284 -15.5 L328 -18 L328 -25 L286 -26.5 Q281 -26 281 -21 L282 -15.5 Z" fill="url(#gTile)" stroke="#5c2312" stroke-width=".8"/><path d="M281.5 -24 L281.5 -16.5" stroke="#3e180c" stroke-width="2" stroke-linecap="round" opacity=".55"/></g>
+<g class="ly" data-a="0.616" data-b="0.666" data-dy="-34"><path d="M252 -15.5 L296 -18 L296 -25 L254 -26.5 Q249 -26 249 -21 L250 -15.5 Z" fill="url(#gTile)" stroke="#5c2312" stroke-width=".8"/><path d="M249.5 -24 L249.5 -16.5" stroke="#3e180c" stroke-width="2" stroke-linecap="round" opacity=".55"/></g>
+<g class="ly" data-a="0.594" data-b="0.644" data-dy="-34"><path d="M220 -15.5 L264 -18 L264 -25 L222 -26.5 Q217 -26 217 -21 L218 -15.5 Z" fill="url(#gTile)" stroke="#5c2312" stroke-width=".8"/><path d="M217.5 -24 L217.5 -16.5" stroke="#3e180c" stroke-width="2" stroke-linecap="round" opacity=".55"/></g>
+<g class="ly" data-a="0.572" data-b="0.622" data-dy="-34"><path d="M188 -15.5 L232 -18 L232 -25 L190 -26.5 Q185 -26 185 -21 L186 -15.5 Z" fill="url(#gTile)" stroke="#5c2312" stroke-width=".8"/><path d="M185.5 -24 L185.5 -16.5" stroke="#3e180c" stroke-width="2" stroke-linecap="round" opacity=".55"/></g>
+<g class="ly" data-a="0.550" data-b="0.600" data-dy="-34"><path d="M156 -15.5 L200 -18 L200 -25 L158 -26.5 Q153 -26 153 -21 L154 -15.5 Z" fill="url(#gTile)" stroke="#5c2312" stroke-width=".8"/><path d="M153.5 -24 L153.5 -16.5" stroke="#3e180c" stroke-width="2" stroke-linecap="round" opacity=".55"/></g>
+<g class="ly" data-a="0.528" data-b="0.578" data-dy="-34"><path d="M124 -15.5 L168 -18 L168 -25 L126 -26.5 Q121 -26 121 -21 L122 -15.5 Z" fill="url(#gTile)" stroke="#5c2312" stroke-width=".8"/><path d="M121.5 -24 L121.5 -16.5" stroke="#3e180c" stroke-width="2" stroke-linecap="round" opacity=".55"/></g>
+<g class="ly" data-a="0.506" data-b="0.556" data-dy="-34"><path d="M92 -15.5 L136 -18 L136 -25 L94 -26.5 Q89 -26 89 -21 L90 -15.5 Z" fill="url(#gTile)" stroke="#5c2312" stroke-width=".8"/><path d="M89.5 -24 L89.5 -16.5" stroke="#3e180c" stroke-width="2" stroke-linecap="round" opacity=".55"/></g>
+<g class="ly" data-a="0.484" data-b="0.534" data-dy="-34"><path d="M60 -15.5 L104 -18 L104 -25 L62 -26.5 Q57 -26 57 -21 L58 -15.5 Z" fill="url(#gTile)" stroke="#5c2312" stroke-width=".8"/><path d="M57.5 -24 L57.5 -16.5" stroke="#3e180c" stroke-width="2" stroke-linecap="round" opacity=".55"/></g>
+<g class="ly" data-a="0.462" data-b="0.512" data-dy="-34"><path d="M28 -15.5 L72 -18 L72 -25 L30 -26.5 Q25 -26 25 -21 L26 -15.5 Z" fill="url(#gTile)" stroke="#5c2312" stroke-width=".8"/><path d="M25.5 -24 L25.5 -16.5" stroke="#3e180c" stroke-width="2" stroke-linecap="round" opacity=".55"/></g>
+<g class="ly" data-a="0.440" data-b="0.490" data-dy="-34"><path d="M-4 -15.5 L40 -18 L40 -25 L-2 -26.5 Q-7 -26 -7 -21 L-6 -15.5 Z" fill="url(#gTile)" stroke="#5c2312" stroke-width=".8"/><path d="M-6.5 -24 L-6.5 -16.5" stroke="#3e180c" stroke-width="2" stroke-linecap="round" opacity=".55"/></g>
+</g>
+</g>
+        <use href="#slopeL" transform="translate(800 0) scale(-1 1)"/>
+        <!-- First -->
+        <g class="ly" data-a=".7" data-b=".76" data-dy="-40">
+          <path d="M358 93Q400 38 442 93L434 101Q400 52 366 101Z" fill="#a8432a" stroke="#5c2312"/>
+          <path d="M368 88Q400 48 432 88" fill="none" stroke="#e57a4e" stroke-width="2.5" opacity=".75"/>
+        </g>
+        <!-- Spenglerei: Rinnen und Fallrohre -->
+        <g id="gutL" class="ly" data-a=".76" data-b=".82" data-dy="-26"><g transform="translate(-4 6)">
+          <path d="M92 314a12 12 0 0 0 24 0" fill="#8a939c" stroke="#5d656e" stroke-width="1.5"/><path d="M90 314h4M114 314h4" stroke="#c3cad1" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M101 326v8q0 6 6 10t6 10v128" fill="none" stroke="url(#gZinc)" stroke-width="9"/>
+          <path d="M108 480h12" stroke="#7d868f" stroke-width="9" stroke-linecap="round"/>
+        </g></g>
+        <use href="#gutL" transform="translate(800 0) scale(-1 1)"/>
+        <!-- Regen -->
+        <g class="rain" aria-hidden="true"></g>
+        <path class="flow" d="M369 85L102 301L99 320M431 85L698 301L701 320"/>
+        <path class="flow" d="M109 362V484M691 362V484" style="stroke-dasharray:10 16"/>
+        <g class="ok"><circle cx="650" cy="140" r="38" fill="#2f9e60"/><path d="m632 140 12 12 24-24" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></g>
+      </svg>
+      <span class="lab" data-s="0" style="--c:#d4a46a;left:2%;top:58%">Sparren &amp; Pfetten</span>
+      <span class="lab" data-s="1" style="--c:#4f86b5;left:60%;top:22%">Unterdachbahn</span>
+      <span class="lab" data-s="2" style="--c:#c9995b;left:4%;top:30%">Konterlatte + Dachlatte</span>
+      <span class="lab" data-s="3" style="--c:#d0603a;left:66%;top:30%">Tondachziegel</span>
+      <span class="lab" data-s="4" style="--c:#9aa3ab;left:13%;top:72%">Rinne aus Titanzink</span>
+    </div>
+  </div>
+</section>
+
+<section class="sec calc" id="rechner" aria-labelledby="r-h">
+  <div class="wrap">
+    <p class="k" data-reveal>Dachrechner</p>
+    <h2 class="h2" id="r-h" data-reveal style="--d:.06s">Was kostet mein <em>neues Dach?</em></h2>
+    <p class="lead" data-reveal style="--d:.12s">Dachform, Grundfläche und Neigung einstellen, Material wählen: Sie sehen sofort die Dachfläche und einen Richtpreis für die Neueindeckung. Den genauen Preis gibt es nach dem Termin vor Ort.</p>
+    <div class="cgrid">
+      <div class="cbox" data-reveal>
+        <div class="fld"><div class="fld__l"><span>Dachform</span></div>
+          <div class="seg" role="group" aria-label="Dachform wählen">
+            <button type="button" data-form="sattel" aria-pressed="true"><svg viewBox="0 0 46 30" aria-hidden="true"><path d="M3 27 23 5l20 22Z" fill="#d0603a"/></svg>Satteldach</button>
+            <button type="button" data-form="walm" aria-pressed="false"><svg viewBox="0 0 46 30" aria-hidden="true"><path d="M3 27 14 7h18l11 20Z" fill="#d0603a"/></svg>Walmdach</button>
+            <button type="button" data-form="pult" aria-pressed="false"><svg viewBox="0 0 46 30" aria-hidden="true"><path d="M3 27V9l40 18Z" fill="#d0603a"/></svg>Pultdach</button>
+            <button type="button" data-form="flach" aria-pressed="false"><svg viewBox="0 0 46 30" aria-hidden="true"><path d="M3 27V19h40v8Z" fill="#5c6670"/></svg>Flachdach</button>
+          </div>
+        </div>
+        <div class="two">
+          <div class="fld"><label class="fld__l" for="rL"><span>Hauslänge</span><output id="oL">12 m</output></label><input type="range" id="rL" min="5" max="30" step="0.5" value="12"></div>
+          <div class="fld"><label class="fld__l" for="rB"><span>Hausbreite</span><output id="oB">9 m</output></label><input type="range" id="rB" min="4" max="20" step="0.5" value="9"></div>
+        </div>
+        <div class="fld"><label class="fld__l" for="rN"><span>Dachneigung</span><output id="oN">38°</output></label><input type="range" id="rN" min="5" max="60" step="1" value="38"></div>
+        <div class="fld"><div class="fld__l"><span>Material</span></div>
+          <div class="mats" id="mats" role="group" aria-label="Material wählen"></div>
+        </div>
+      </div>
+      <div class="res" data-reveal style="--d:.1s" aria-live="polite">
+        <div class="res__draw"><svg id="rdraw" viewBox="0 0 640 360" role="img" aria-label="Zeichnung der gewählten Dachform"></svg><span class="res__tag" id="rtag">Satteldach · 38°</span></div>
+        <div class="res__b">
+          <div class="res__row">
+            <div><small>Dachfläche ca.</small><b id="rA">0 m²</b></div>
+            <div><small>Gewicht der Deckung</small><b id="rW">0 t</b></div>
+          </div>
+          <div class="res__price"><small>Richtpreis Neueindeckung inkl. Lattung &amp; Unterdach</small><b id="rP">€ 0</b></div>
+          <div class="mprops">
+            <div class="mp"><span>Lebensdauer</span><div><i id="mp1"></i></div><b id="mv1"></b></div>
+            <div class="mp"><span>Sturmsicherheit</span><div><i id="mp2"></i></div><b id="mv2"></b></div>
+            <div class="mp"><span>Mindestneigung</span><div><i id="mp3"></i></div><b id="mv3"></b></div>
+          </div>
+          <p class="hint" id="rhint" hidden></p>
+          <a class="btn btn--t" href="#kontakt" id="rgo">Mit diesen Werten anfragen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <p class="res__note">Musterpreise eines erfundenen Betriebs, ohne Gerüst, Spenglerarbeiten und Dämmung. Dachüberstand mit 50 cm gerechnet.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="drohne" aria-labelledby="d-h">
+  <div class="wrap drone">
+    <div class="dv" data-reveal>
+      <video class="tk-video" data-autoplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/dachdecker-drohne-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/dachdecker-drohne.mp4" type="video/mp4"></video>
+      <div class="hud" aria-hidden="true">
+        <div class="hud__c"></div><div class="hud__x"></div>
+        <div class="hud__tl"><span>HÖHE <b id="alt">12,0</b> m</span><span>NEIGUNG 34°</span><span>FOTOS <b id="shots">0</b></span></div>
+        <div class="hud__tr"><i></i>REC</div>
+        <div class="pin" style="--x:30%;--y:62%" data-t="2.2"><b></b><span>Ziegel verschoben</span></div>
+        <div class="pin pin--l" style="--x:73%;--y:30%" data-t="4"><b></b><span>Anschluss prüfen</span></div>
+        <div class="pin pin--ok" style="--x:55%;--y:72%" data-t="5.8"><b></b><span>First in Ordnung</span></div>
+      </div>
+    </div>
+    <div>
+      <p class="k" data-reveal>Gratis Dach-Check</p>
+      <h2 class="h2" id="d-h" data-reveal style="--d:.06s">Wir schauen <em>von oben.</em></h2>
+      <p class="lead" data-reveal style="--d:.12s">Ohne Leiter, ohne Gerüst, ohne Ziegelbruch: Unsere Drohne fliegt Ihr Dach in 15 Minuten ab. Sie bekommen alle Fotos und einen kurzen Bericht, was dringend ist und was warten kann.</p>
+      <ul class="dlist" data-reveal style="--d:.18s">
+        <li><b>1</b><span>Termin ausmachen<small>Online oder telefonisch, meist innerhalb einer Woche.</small></span></li>
+        <li><b>2</b><span>Drohnenflug<small>15 Minuten, Sie müssen nicht einmal zu Hause sein.</small></span></li>
+        <li><b>3</b><span>Bericht mit Fotos<small>Per E-Mail, mit Ampel: sofort, bald, alles gut.</small></span></li>
+      </ul>
+      <div class="hero__btns" data-reveal style="--d:.24s"><a class="btn btn--t" href="#kontakt" data-art="check">Dach-Check buchen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="referenzen" aria-labelledby="g-h" style="padding-top:0">
+  <div class="wrap">
+    <p class="k" data-reveal>Referenzen</p>
+    <h2 class="h2" id="g-h" data-reveal style="--d:.06s">Dächer, auf die wir <em>stolz</em> sind.</h2>
+    <div class="refs">
+      <figure class="ref" data-reveal><img src="/beispiele/dachdecker/dachstuhl.webp" alt="Freigelegter Dachstuhl mit alten Holzbalken vor der Sanierung" width="1200" height="800" loading="lazy"><figcaption><b>Bauernhaus, Dachstuhl saniert</b>Musterdorf · 2025</figcaption></figure>
+      <figure class="ref" data-reveal style="--d:.06s"><img src="/beispiele/dachdecker/lattung.webp" alt="Neues Dach halb eingedeckt, oben ist noch die Lattung zu sehen" width="800" height="1200" loading="lazy"><figcaption><b>Neueindeckung</b>Tondachziegel</figcaption></figure>
+      <figure class="ref" data-reveal style="--d:.12s"><img src="/beispiele/dachdecker/dachdecker.webp" alt="Dachdecker mit Helm arbeitet auf einem Dach unter blauem Himmel" width="675" height="1200" loading="lazy"><figcaption><b>Umdeckung</b>Einfamilienhaus</figcaption></figure>
+      <figure class="ref" data-reveal style="--d:.18s"><img src="/beispiele/dachdecker/zimmerer.webp" alt="Zwei Handwerker bauen einen neuen Dachstuhl aus Holz" width="800" height="1200" loading="lazy"><figcaption><b>Zubau</b>Dachstuhl bis Ziegel</figcaption></figure>
+      <figure class="ref" data-reveal style="--d:.24s"><img src="/beispiele/dachdecker/altbau.webp" alt="Dachdecker auf einer Hebebühne arbeitet am Dach eines alten Backsteinhauses" width="1200" height="800" loading="lazy"><figcaption><b>Altbau</b>Reparatur mit Hebebühne</figcaption></figure>
+    </div>
+    <div class="quote" data-reveal>
+      <svg viewBox="0 0 48 40" fill="currentColor" aria-hidden="true"><path d="M0 40V24C0 10 7 2 20 0l2 6c-7 2-11 7-11 14h9v20Zm26 0V24c0-14 7-22 20-24l2 6c-7 2-11 7-11 14h9v20Z"/></svg>
+      <div><p>„Am Montag war das alte Dach weg, am Freitag lag der letzte Ziegel. Und es hat zwischendurch geregnet.“</p><small>Beispiel-Bewertung · Familie aus Musterdorf, Neueindeckung 160 m²</small></div>
+    </div>
+    <div class="stats">
+      <div data-reveal><b data-count="31">31</b><small>Jahre Erfahrung</small></div>
+      <div data-reveal style="--d:.06s"><b data-count="2400" data-suffix="+">2400+</b><small>Dächer im Mostviertel</small></div>
+      <div data-reveal style="--d:.12s"><b data-count="4" data-suffix=" h">4 h</b><small>bis wir bei Sturm da sind</small></div>
+      <div data-reveal style="--d:.18s"><b data-count="6">6</b><small>Lehrlinge in Ausbildung</small></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="ablauf" aria-labelledby="a-h" style="padding-top:0">
+  <div class="wrap">
+    <p class="k" data-reveal>Ablauf</p>
+    <h2 class="h2" id="a-h" data-reveal style="--d:.06s">Vom Anruf zum <em>dichten Dach.</em></h2>
+    <div class="flow4" data-reveal>
+      <div class="st"><b>01</b><h3>Besichtigung</h3><p>Wir kommen vorbei, steigen aufs Dach oder schicken die Drohne, und messen auf.</p><small>kostenlos</small></div>
+      <div class="st"><b>02</b><h3>Fixpreis-Angebot</h3><p>Schriftlich, aufgeschlüsselt, mit Material zur Auswahl. Keine Überraschung auf der Rechnung.</p><small>in 5 Werktagen</small></div>
+      <div class="st"><b>03</b><h3>Gerüst &amp; Bau</h3><p>Ein fester Bauleiter, tägliches Abdecken bei Regen, Container für den Altbestand.</p><small>meist 1–2 Wochen</small></div>
+      <div class="st"><b>04</b><h3>Abnahme</h3><p>Gemeinsamer Rundgang, Fotodokumentation und 10 Jahre Garantie auf die Eindeckung.</p><small>mit Wartungsplan</small></div>
+    </div>
+    <div class="foerd" data-reveal>
+      <p><strong>Förderung für Dämmung und Sanierung?</strong> Wir sagen Ihnen, welche Programme für Ihr Dach in Frage kommen, und liefern die Unterlagen, die der Antrag braucht.</p>
+      <a class="btn btn--l" href="#kontakt" data-art="sanierung">Beratung anfragen</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="kontakt" aria-labelledby="c-h" style="padding-top:0">
+  <div class="wrap">
+    <div class="contact" data-reveal>
+      <div>
+        <p class="k">Kontakt &amp; Anfrage</p>
+        <h2 class="h2" id="c-h">Was ist mit <em>Ihrem Dach?</em></h2>
+        <p class="lead">Ein paar Angaben und gern ein Foto. Wir melden uns innerhalb von zwei Werktagen, bei Schäden noch am selben Tag.</p>
+        <dl class="cinfo">
+          <div><dt>Betrieb</dt><dd>First &amp; Falz Dachdeckerei und Spenglerei<br>Ziegelweg 7, 3281 Musterdorf</dd></div>
+          <div><dt>Telefon</dt><dd><a href="tel:+430001234567">+43 000 123 45 67</a></dd></div>
+          <div><dt>Büro</dt><dd>Mo – Do 7:00 – 16:00 · Fr 7:00 – 12:00</dd></div>
+        </dl>
+        <div class="sosbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 15a4.5 4.5 0 1 1 1.2-8.8A5.5 5.5 0 0 1 18.5 8 3.5 3.5 0 0 1 18 15"/><path d="m11 13-2 4h4l-2 4"/></svg><div><b>Sturm-Notdienst</b><a href="tel:+430001234599">+43 000 123 45 99</a> · auch nachts und am Wochenende</div></div>
+      </div>
+      <form id="form" novalidate>
+        <fieldset class="chips"><legend>Worum geht es?</legend>
+          <label><input type="radio" name="art" value="neu" checked><span>Neues Dach</span></label>
+          <label><input type="radio" name="art" value="sanierung"><span>Sanierung</span></label>
+          <label><input type="radio" name="art" value="flach"><span>Flachdach</span></label>
+          <label><input type="radio" name="art" value="spengler"><span>Rinne &amp; Blech</span></label>
+          <label><input type="radio" name="art" value="sturm"><span>Sturmschaden</span></label>
+          <label><input type="radio" name="art" value="check"><span>Dach-Check</span></label>
+        </fieldset>
+        <div class="row2">
+          <label for="n">Name<input id="n" name="name" autocomplete="name" placeholder="Vor- und Nachname"></label>
+          <label for="t">Telefon<input id="t" name="tel" type="tel" autocomplete="tel" placeholder="für Rückruf"></label>
+        </div>
+        <div class="row2">
+          <label for="e">E-Mail<input id="e" name="email" type="email" autocomplete="email" placeholder="name@beispiel.at"></label>
+          <label for="o">Ort des Hauses<input id="o" name="ort" autocomplete="address-level2" placeholder="z. B. Musterdorf"></label>
+        </div>
+        <label for="m">Ihre Nachricht<textarea id="m" name="msg" placeholder="z. B. Satteldach, ca. 160 m², Ziegel aus den 70ern, an einer Stelle tropft es …"></textarea></label>
+        <label class="file" for="f"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4Z"/><circle cx="12" cy="13" r="3.5"/></svg><span><span id="fname">Fotos vom Dach anhängen</span><small>Handyfotos reichen, auch vom Schaden</small></span><input type="file" id="f" name="fotos" accept="image/*" multiple></label>
+        <label class="urg"><input type="checkbox" name="dringend" id="urg"> Dringend: Es regnet herein</label>
+        <button class="btn btn--t" type="submit">Anfrage senden <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <p class="msg" id="msg" role="status">Das ist ein Beispiel. Auf der echten Seite käme Ihre Anfrage jetzt direkt beim Betrieb an.</p>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div><a class="logo" href="#top"><svg viewBox="0 0 42 42" aria-hidden="true"><rect width="42" height="42" rx="10" fill="#d0603a"/><path d="M7 25 21 12l14 13" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 30.5h20" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".55"/></svg><span><b>First <i>&amp;</i> Falz</b><small>Dachdecker · Spengler</small></span></a>
+        <p style="margin-top:16px;max-width:36ch">Steildach, Flachdach, Spenglerei, Sanierung und Notdienst, im ganzen Mostviertel.</p></div>
+      <div><h4>Adresse</h4>First &amp; Falz Dachdeckerei<br>Ziegelweg 7, 3281 Musterdorf<br><a href="tel:+430001234567">+43 000 123 45 67</a></div>
+      <div><h4>Büro</h4>Mo – Do 7:00 – 16:00<br>Fr 7:00 – 12:00<br>Notdienst rund um die Uhr</div>
+    </div>
+    <div class="demo-note"><strong>Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb · <a href="/bildnachweis/#dachdecker">Bildnachweis</a></strong><span>Musteradresse, keine echten Kontaktdaten</span></div>
+  </div>
+</footer>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/_shared/handwerk-umschalter.js?v=1" defer></script><script src="/beispiele/dachdecker/app.js?v=1" defer></script>
+</body></html>

@@ -113,6 +113,18 @@ SEITEN = [
   ("WP", "51067e014b", "", "Bigul Malayi", "Brezel", "_shared/media/brezel.jpg"),
   ("WP", "7406a28fc9", "", "Jackson Monichan", "Baguette", "_shared/media/baguette.jpg"),
  ]),
+ ("First & Falz (Dachdecker)", "/beispiele/dachdecker/", [
+  ("PV", "38748309", "", "Özgür Sürmeli", "Video Regen auf Ziegeldach mit Dachrinne", "_shared/media/dachdecker.mp4"),
+  ("PV", "17624839", "", "Gardenia Tranquility", "Video Drohnenflug über Walmdach", "_shared/media/dachdecker-drohne.mp4"),
+  ("P", "31771166", "roofer-working-on-new-house-roof-installation-31771166", "Clément Proust", "Dachdecker verlegt Ziegel", "dachdecker/eindecken.webp"),
+  ("P", "38510717", "professional-roofer-applying-torch-down-membrane-38510717", "Bulat843", "Flachdach mit Bitumenbahn", "dachdecker/flachdach.webp"),
+  ("P", "31763534", "rustic-roof-renovation-with-chimney-and-ladder-31763534", "Clément Proust", "Altes Dach mit Kamin", "dachdecker/sanierung.webp"),
+  ("P", "31763539", "exposed-roof-rafters-of-under-construction-attic-31763539", "Clément Proust", "Dachstuhl", "dachdecker/dachstuhl.webp"),
+  ("P", "31763541", "roof-installation-with-terracotta-tiles-in-progress-31763541", "Clément Proust", "Neueindeckung mit Lattung", "dachdecker/lattung.webp"),
+  ("P", "37704251", "professional-roofer-working-safely-on-a-building-roof-37704251", "Bulat843", "Dachdecker mit Helm", "dachdecker/dachdecker.webp"),
+  ("P", "31763537", "roof-construction-with-wooden-framework-and-workers-31763537", "Clément Proust", "Dachstuhl wird gebaut", "dachdecker/zimmerer.webp"),
+  ("P", "31762405", "roofer-performing-maintenance-on-red-brick-building-31762405", "Gundula Vogel", "Reparatur mit Hebebühne", "dachdecker/altbau.webp"),
+ ]),
  ("Holzwerk Brandl (Tischlerei)", "/beispiele/tischlerei/", [
   ("PV", "5972653", "", "Ono Kosuki", "Video Stemmeisen", "_shared/media/tischlerei.mp4"),
   ("P", "34583699", "cozy-modern-farmhouse-kitchen-with-wood-accents-34583699", "Phil Ledwith", "Küche", "tischlerei/kueche.jpg"),
