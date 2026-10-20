@@ -3,8 +3,6 @@
 (function () {
   "use strict";
   var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-  // Schimmer im Logo (SVG-Animation) bei "weniger Bewegung" anhalten
-  if (reduce) document.querySelectorAll("svg").forEach(function (s) { if (s.pauseAnimations) s.pauseAnimations(); });
 
   // ---- Reihen ----------------------------------------------------------
   var SERIES = {

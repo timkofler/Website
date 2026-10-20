@@ -2,7 +2,6 @@
 // Termine mit Foto eintragen, Live-Vorschau, Anfragen ansehen. Gespeichert wird nur im Browser (localStorage).
 (function () {
   "use strict";
-  if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) document.querySelectorAll("svg").forEach(function (s) { if (s.pauseAnimations) s.pauseAnimations(); });
   var KEY_EV = "bunkerDemoEvents", KEY_ANF = "bunkerDemoAnfragen";
   var SERIES = [
     ["misc", "Special", "#a8a5a0"], ["rock", "Rock", "#ff6a3d"], ["gassl", "Gasslfestival", "#b6f23a"], ["punx", "Punx Revival", "#ff3d9a"],

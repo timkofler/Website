@@ -8,14 +8,14 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0a0a0c">
 <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../assets/style.css?v=8">
+<link rel="stylesheet" href="../assets/style.css?v=9">
 <link rel="stylesheet" href="../assets/verwaltung.css?v=1">
 </head>
 <body class="adm">
 
 <header class="adm__bar">
   <a class="adm__brand" href="../" aria-label="Zur Webseite">
-    <svg class="nav__logo" viewBox="-30 -30 1060 1060" aria-hidden="true"><use href="#logo"/></svg>
+    <svg class="nav__logo" viewBox="-30 -30 1060 1060" aria-hidden="true"><use href="#logo"/><g class="spark"><path class="sp0" d="M164 0H0V1000H1000V0H334"/><path class="sp1" d="M164 0V908A85 85 0 0 0 334 908V0"/><path class="sp2" d="M70 0C125 5 164 40 164 90"/><path class="sp3" d="M164 420C150 475 90 506 0 506C90 506 150 540 164 595"/><path class="sp4" d="M164 905C164 960 110 1000 40 1000"/><path class="sp5" d="M334 0L500 1000"/><path class="sp6" d="M500 0V1000"/><path class="sp7" d="M664 0L500 500L664 1000"/><path class="sp8" d="M664 0V1000"/><path class="sp9" d="M664 500H880"/><path class="sp10" d="M880 500C950 500 1000 460 1000 380"/><path class="sp11" d="M900 0C960 0 1000 30 1000 85"/><path class="sp12" d="M830 0V1000"/><path class="sp13" d="M830 500L1000 1000"/></g></svg>
     <span>Verwaltung</span>
   </a>
   <span class="adm__demo">Demo</span>
@@ -100,15 +100,11 @@
 <a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener"><span class="tk"><img src="../assets/img/tk-logo.svg" alt="" width="28" height="14"></span> Entwurf von Tim Kofler</a>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <linearGradient id="logo-shine" gradientUnits="userSpaceOnUse" x1="-1300" y1="-260" x2="-100" y2="260">
-    <stop offset="0" stop-color="#4fe6e1"/><stop offset=".34" stop-color="#4fe6e1"/><stop offset=".47" stop-color="#ffffff"/><stop offset=".53" stop-color="#ffffff"/><stop offset=".66" stop-color="#4fe6e1"/><stop offset="1" stop-color="#4fe6e1"/>
-    <animateTransform attributeName="gradientTransform" type="translate" values="0 0;2600 0;2600 0" keyTimes="0;.32;1" dur="6s" repeatCount="indefinite"/>
-  </linearGradient>
-  <symbol id="logo" viewBox="-30 -30 1060 1060" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <symbol id="logo" viewBox="-30 -30 1060 1060" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
     <g stroke-width="36"><path d="M164 0H0V1000H1000V0H334"/><path d="M164 0V908A85 85 0 0 0 334 908V0"/><path d="M70 0C125 5 164 40 164 90"/><path d="M164 420C150 475 90 506 0 506C90 506 150 540 164 595"/><path d="M164 905C164 960 110 1000 40 1000"/><path d="M334 0L500 1000"/><path d="M500 0V1000"/><path d="M664 0L500 500L664 1000"/><path d="M664 0V1000"/><path d="M664 500H880"/><path d="M880 500C950 500 1000 460 1000 380"/><path d="M900 0C960 0 1000 30 1000 85"/><path d="M830 0V1000"/><path d="M830 500L1000 1000"/></g>
   </symbol>
 </svg>
 
-<script src="../assets/verwaltung.js?v=2" defer></script>
+<script src="../assets/verwaltung.js?v=3" defer></script>
 </body>
 </html>
