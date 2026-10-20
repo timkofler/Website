@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0a0a0c">
 <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../assets/style.css?v=3">
+<link rel="stylesheet" href="../assets/style.css?v=5">
 <link rel="stylesheet" href="../assets/verwaltung.css?v=1">
 </head>
 <body class="adm">

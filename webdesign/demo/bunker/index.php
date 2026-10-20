@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#0a0a0c">
 <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/bigshoulders.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=4">
+<link rel="stylesheet" href="assets/style.css?v=5">
 <script src="assets/early.js"></script>
 <script type="application/ld+json">
 {
