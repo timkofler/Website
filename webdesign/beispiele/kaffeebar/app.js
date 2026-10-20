@@ -370,7 +370,7 @@ function tick(now) {
       var px = -S.proc * procW;
       el.proc.style.transform = "translate3d(" + px.toFixed(1) + "px,0,0)";
       el.procBar.style.transform = "scaleX(" + S.proc.toFixed(4) + ")";
-      for (var st = 0; st < stepX.length; st++) if (!el.steps[st]._on && stepX[st] + px < innerWidth * .8) { el.steps[st]._on = true; el.steps[st].classList.add("is-on"); }
+      for (var st = 0; st < stepX.length; st++) if (!el.steps[st]._on && (stepX[st] + px < innerWidth * .8 || S.proc > .95)) { el.steps[st]._on = true; el.steps[st].classList.add("is-on"); }
     }
     // Uhr: 7:00 bis 19:00; Sekundenzeiger tickt mit dem Scrollen.
     if (pos.clock && y + vh > pos.clock.top && y < pos.clock.top + pos.clock.h) {
