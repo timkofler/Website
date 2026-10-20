@@ -125,9 +125,12 @@
   </div>
   <div class="tk-car" data-car tabindex="0" role="region" aria-roledescription="Karussell" aria-label="Beispiel-Designs, mit Pfeiltasten wechseln">
     <div class="tk-car__track">
-      <figure class="tk-car__item" data-href="/beispiele/cafe/">
-        <div class="tk-phone"><div class="tk-phone__screen"><img src="/assets/img/demos/cafe.webp" width="560" height="4200" alt="Beispiel-Design für Café: Café Mühlbach mit Speisekarte, Reservierung, Kaffee-Animation" loading="lazy" draggable="false" style="--d:22s"></div></div>
-        <figcaption><b>Café</b><span>Speisekarte, Reservierung, Kaffee-Animation</span><a class="tk-car__live" href="/beispiele/cafe/">Live ansehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></figcaption>
+      <figure class="tk-car__item" data-href="/beispiele/cafe/" data-neu data-vers>
+        <div class="tk-phone"><div class="tk-phone__screen"><div class="tk-vers">
+          <img class="is-on" src="/assets/img/demos/kaffee-v1.webp" width="560" height="1185" alt="Beispiel-Design für Café: Café Mühlbach mit Speisekarte, Reservierung und Kaffee-Animation" loading="lazy" draggable="false" data-href="/beispiele/cafe/" data-name="Café Mühlbach">
+          <img src="/assets/img/demos/kaffee-v2.webp" width="560" height="1185" alt="Beispiel-Design für Kaffeehaus mit Rösterei: röstzeit mit 3D-Becher, Karte, Online-Vorbestellung und Standorten" loading="lazy" draggable="false" data-href="/beispiele/kaffeebar/" data-name="röstzeit">
+        </div></div></div>
+        <figcaption><b>Café &amp; Rösterei</b><span class="tk-vers__tag" aria-hidden="true"><i class="is-on"></i><i></i><em>1 · Café Mühlbach</em></span><span>Zwei Entwürfe, Speisekarte, 3D-Becher, Vorbestellung</span><a class="tk-car__live" href="/beispiele/cafe/">Live ansehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></figcaption>
       </figure>
       <figure class="tk-car__item" data-href="/beispiele/friseur/" data-neu data-vers>
         <div class="tk-phone"><div class="tk-phone__screen"><div class="tk-vers">
@@ -173,10 +176,6 @@
         <div class="tk-phone"><div class="tk-phone__screen"><img src="/assets/img/demos/massage.webp" width="560" height="4200" alt="Beispiel-Design für Heilmasseurin: Praxis Sonnfeld mit Behandlungen, Körperkarte, Online-Buchung" loading="lazy" draggable="false" style="--d:22s"></div></div>
         <figcaption><b>Heilmasseurin</b><span>Behandlungen, Körperkarte, Online-Buchung</span><a class="tk-car__live" href="/beispiele/massage/">Live ansehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></figcaption>
       </figure>
-      <figure class="tk-car__item" data-href="/beispiele/kaffeebar/" data-neu>
-        <div class="tk-phone"><div class="tk-phone__screen"><img src="/assets/img/demos/kaffeebar.webp" width="560" height="10113" alt="Beispiel-Design für Kaffeehaus mit Rösterei: röstzeit mit 3D-Becher, Karte, Online-Vorbestellung und Standorten" loading="lazy" draggable="false" style="--d:40s"></div></div>
-        <figcaption><b>Kaffeehaus &amp; Rösterei</b><span>3D-Becher, Karte, Vorbestellung, Standorte</span><a class="tk-car__live" href="/beispiele/kaffeebar/">Live ansehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></figcaption>
-      </figure>
       <figure class="tk-car__item tk-car__item--cta">
         <div class="tk-phone tk-phone--cta"><div class="tk-phone__screen"><div class="tk-cta">
           <img src="/assets/img/tk-logo-2.svg" alt="" width="71" height="36">
@@ -190,7 +189,7 @@
   </div>
   <div class="container tk-car__ctrl">
     <button class="tk-car__btn" data-dir="-1" aria-label="Vorheriges Beispiel">←</button>
-    <div class="tk-car__dots"><button class="tk-car__dot" aria-label="Beispiel 1"></button><button class="tk-car__dot" aria-label="Beispiel 2"></button><button class="tk-car__dot" aria-label="Beispiel 3"></button><button class="tk-car__dot" aria-label="Beispiel 4"></button><button class="tk-car__dot" aria-label="Beispiel 5"></button><button class="tk-car__dot" aria-label="Beispiel 6"></button><button class="tk-car__dot" aria-label="Beispiel 7"></button><button class="tk-car__dot" aria-label="Beispiel 8"></button><button class="tk-car__dot" aria-label="Beispiel 9"></button><button class="tk-car__dot" aria-label="Beispiel 10"></button><button class="tk-car__dot" aria-label="Beispiel 11"></button><button class="tk-car__dot" aria-label="Beispiel 12"></button></div>
+    <div class="tk-car__dots"><button class="tk-car__dot" aria-label="Beispiel 1"></button><button class="tk-car__dot" aria-label="Beispiel 2"></button><button class="tk-car__dot" aria-label="Beispiel 3"></button><button class="tk-car__dot" aria-label="Beispiel 4"></button><button class="tk-car__dot" aria-label="Beispiel 5"></button><button class="tk-car__dot" aria-label="Beispiel 6"></button><button class="tk-car__dot" aria-label="Beispiel 7"></button><button class="tk-car__dot" aria-label="Beispiel 8"></button><button class="tk-car__dot" aria-label="Beispiel 9"></button><button class="tk-car__dot" aria-label="Beispiel 10"></button><button class="tk-car__dot" aria-label="Beispiel 11"></button></div>
     <button class="tk-car__btn" data-dir="1" aria-label="Nächstes Beispiel">→</button>
   </div>
   <div class="container tk-car__more"><a href="/beispiele/" class="btn">Alle Beispielseiten im Detail <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
