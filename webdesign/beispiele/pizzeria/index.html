@@ -1,0 +1,303 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Proibito Steinofen-Pizzeria – Beispiel-Entwurf | tim-kofler.at</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Beispiel-Entwurf einer Pizzeria-Webseite von Tim Kofler – Webdesign: edle Steinofen-Pizzeria im Stil der 1920er-Jahre mit Online-Bestellung, Warenkorb, Lieferzonen und Live-Verfolgung der Lieferung. Erfundener Betrieb.">
+<meta name="theme-color" content="#0c0b0a">
+<link rel="icon" href="/beispiele/pizzeria/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/beispiele/_shared/demo.css">
+<link rel="preload" href="/beispiele/_shared/fonts/bodoni.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/beispiele/_shared/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/beispiele/pizzeria/bilder/hero-m-800.webp" as="image" media="(max-width:759px)" fetchpriority="high">
+<link rel="preload" href="/beispiele/pizzeria/bilder/hero-1800.webp" as="image" media="(min-width:760px)" fetchpriority="high">
+<link rel="stylesheet" href="/beispiele/pizzeria/style.css?v=1">
+</head><body>
+<div class="tk-demo-bar"><a href="/beispiele/#pizzeria"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
+<span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musteradresse</span>
+<a class="tk-demo-bar__cta" href="/#anfrage">So eine Seite anfragen</a></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-tasche" viewBox="0 0 24 24"><path d="M5.5 8h13l-1 12h-11z"/><path d="M9 10V7a3 3 0 0 1 6 0v3"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-haken" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-uhr" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+  <symbol id="i-roller" viewBox="0 0 24 24"><circle cx="6" cy="17" r="2.6"/><circle cx="18" cy="17" r="2.6"/><path d="M8.6 17h6.8l2.2-6.5H20M14 6.5h2.4l1.2 4M3.5 13.5h6l1.5 3.5"/><path d="M4 9.5h5v4H4z"/></symbol>
+  <symbol id="i-ort" viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></symbol>
+  <symbol id="i-telefon" viewBox="0 0 24 24"><path d="M6.5 4h3l1.5 4-2 1.3a10 10 0 0 0 5.7 5.7L16 13l4 1.5v3A2.5 2.5 0 0 1 17.5 20 14 14 0 0 1 4 6.5 2.5 2.5 0 0 1 6.5 4z"/></symbol>
+  <symbol id="i-stern" viewBox="0 0 24 24"><path d="m12 3.6 2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></symbol>
+  <symbol id="i-suche" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></symbol>
+  <symbol id="i-flamme" viewBox="0 0 24 24"><path d="M12.3 3c.9 3 4.7 5 4.7 9.6a5 5 0 0 1-10 0c0-2.1.9-3.7 2.2-5 .1 1.4.7 2.4 1.7 3-.4-2.7.2-5.2 1.4-7.6z"/></symbol>
+  <symbol id="i-chili" viewBox="0 0 24 24"><path d="M15.5 7.5c-3.5 0-4.5 3-6 6.5S5.5 19.5 4 19.5c4.5 1.5 10-1 12.5-5.5 1.3-2.4.5-6.5-1-6.5z"/><path d="M15.5 7.5c0-1.6.8-3 2.5-3.5M15.5 7.5c1.3-.3 2.7.2 3.5 1.2"/></symbol>
+  <symbol id="i-blatt" viewBox="0 0 24 24"><path d="M5 19c0-8 5-13.5 14-14-.3 9-5.8 14-14 14z"/><path d="M5 19c3-4 6-6.5 9.5-8.5"/></symbol>
+  <symbol id="i-schloss" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5M12 14.5v2.5"/></symbol>
+  <symbol id="i-pfeil" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-krone" viewBox="0 0 24 24"><path d="M4 17.5 3 7.5l5 4 4-6 4 6 5-4-1 10z"/><path d="M4.5 20.5h15"/></symbol>
+  <symbol id="i-kalender" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></symbol>
+</svg>
+
+<header class="nav" id="nav">
+  <a class="logo" href="#top" aria-label="Proibito, nach oben"><img src="/beispiele/pizzeria/logo.svg" alt="" width="44" height="44"><span class="logo__w">PROIBITO<small>Pizzeria · seit 1929</small></span></a>
+  <nav class="nav__links" aria-label="Hauptmenü"><a href="#karte">Speisekarte</a><a href="#ofen">Der Ofen</a><a href="#famiglia">La Famiglia</a><a href="#liefern">Liefergebiet</a><a href="#kontakt">Reservieren</a></nav>
+  <button type="button" class="cartbtn" id="cartBtn" aria-controls="cart" aria-label="Warenkorb öffnen, leer"><svg><use href="#i-tasche"/></svg><span class="cartbtn__sum" id="cartBtnSum">0,00 €</span><b class="cartbtn__n" id="cartN" hidden>0</b></button>
+</header>
+
+<main id="top">
+<section class="hero" aria-labelledby="heroH">
+  <picture class="hero__bg">
+    <source media="(min-width:760px)" srcset="/beispiele/pizzeria/bilder/hero-1100.webp 1100w, /beispiele/pizzeria/bilder/hero-1800.webp 1800w" sizes="100vw">
+    <img src="/beispiele/pizzeria/bilder/hero-m-800.webp" alt="Pizza auf der Schaufel vor dem lodernden Holzfeuer im Steinofen" width="800" height="1335" fetchpriority="high">
+  </picture>
+  <div class="hero__frame" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="wrap hero__in">
+    <p class="eyebrow eyebrow--c"><span>Steinofen-Pizzeria</span><b aria-hidden="true">◆</b><span>seit 1929</span></p>
+    <h1 class="hero__h" id="heroH">Ein Angebot,<br><i>das Sie nicht</i><br><i>ablehnen</i> können.</h1>
+    <p class="hero__lead">Neapolitanische Pizza aus dem 485&nbsp;°C heißen Steinofen und Pasta aus der eigenen Werkstatt. Geliefert in rund 35 Minuten, diskret wie immer.</p>
+    <form class="addr" id="addrForm" novalidate>
+      <label class="addr__f"><svg><use href="#i-ort"/></svg><span class="sr">Wohin dürfen wir liefern?</span>
+        <select id="addrZone" aria-label="Wohin dürfen wir liefern?"><option value="">Lieferort wählen</option></select></label>
+      <button class="btn btn--gold" type="submit">Speisekarte <svg><use href="#i-pfeil"/></svg></button>
+    </form>
+    <p class="addr__out" id="addrOut" aria-live="polite"></p>
+    <ul class="hero__facts">
+      <li><svg class="gold"><use href="#i-stern"/></svg><b>4,9</b> aus 1.240 Bewertungen</li>
+      <li><svg><use href="#i-uhr"/></svg><span id="heroOpen">Heute bis 23 Uhr</span></li>
+      <li><svg><use href="#i-roller"/></svg>Ab 50&nbsp;€ ohne Liefergebühr</li>
+    </ul>
+  </div>
+  <a class="hero__scroll" href="#karte" aria-label="Zur Speisekarte"><span></span></a>
+</section>
+
+<div class="band" aria-hidden="true"><div class="band__t"><span>Steinofen 485 °C</span><b>◆</b><span>48 Stunden Teigruhe</span><b>◆</b><span>San Marzano DOP</span><b>◆</b><span>Fior di Latte aus Agerola</span><b>◆</b><span>Pasta fatta a mano</span><b>◆</b><span>Seit 1929 in der Familie</span><b>◆</b><span>Steinofen 485 °C</span><b>◆</b><span>48 Stunden Teigruhe</span><b>◆</b><span>San Marzano DOP</span><b>◆</b><span>Fior di Latte aus Agerola</span><b>◆</b><span>Pasta fatta a mano</span><b>◆</b><span>Seit 1929 in der Familie</span><b>◆</b></div></div>
+
+<section class="order" id="karte" aria-labelledby="karteH">
+  <div class="wrap">
+    <header class="sec-h" data-reveal>
+      <p class="eyebrow"><span>Bestellen</span></p>
+      <h2 class="h2" id="karteH">Die Karte <i>der Familie</i></h2>
+      <p class="sec-h__p">Wählen, anpassen, bestellen. Wir liefern heiß in der Thermobox oder Sie holen selbst ab und sparen 10&nbsp;%.</p>
+    </header>
+    <div class="order__grid">
+      <div class="order__main">
+        <div class="obar" id="obar">
+          <div class="obar__row">
+            <div class="mode" role="radiogroup" aria-label="Lieferung oder Abholung">
+              <button type="button" role="radio" aria-checked="true" data-mode="liefern"><svg><use href="#i-roller"/></svg>Lieferung</button>
+              <button type="button" role="radio" aria-checked="false" data-mode="abholen"><svg><use href="#i-tasche"/></svg>Abholung <small>−10&nbsp;%</small></button>
+            </div>
+            <label class="search"><svg><use href="#i-suche"/></svg><span class="sr">Gericht suchen</span><input type="search" id="q" placeholder="Gericht suchen" autocomplete="off"></label>
+          </div>
+          <nav class="cats" id="cats" aria-label="Kategorien"></nav>
+        </div>
+        <div id="menu" class="menu" aria-live="polite"></div>
+        <p class="menu__none" id="menuNone" hidden>Dazu haben wir nichts auf der Karte. Vielleicht unter einem anderen Namen?</p>
+        <p class="menu__note">Alle Pizzen Ø 30&nbsp;cm, auf Wunsch als Famiglia mit Ø 40&nbsp;cm. Allergene auf Anfrage beim Personal.</p>
+      </div>
+
+      <aside class="cart" id="cart" aria-labelledby="cartH" tabindex="-1">
+        <div class="cart__in">
+          <div class="cart__head"><h3 id="cartH">Ihre Bestellung</h3><button type="button" class="ibtn cart__x" id="cartClose" aria-label="Warenkorb schließen"><svg><use href="#i-x"/></svg></button></div>
+          <p class="cart__where" id="cartWhere"></p>
+          <div class="cart__empty" id="cartEmpty"><img src="/beispiele/pizzeria/logo.svg" alt="" width="64" height="64"><p>Noch leer.<br><span>Die Familie wartet auf Ihre Wahl.</span></p></div>
+          <ul class="cart__list" id="cartList"></ul>
+          <div class="cart__min" id="cartMin" hidden><div class="cart__minbar"><i id="cartMinBar"></i></div><p id="cartMinTxt"></p></div>
+          <dl class="cart__sum" id="cartSum" hidden>
+            <div><dt>Zwischensumme</dt><dd id="sSub"></dd></div>
+            <div id="sDiscRow" hidden><dt>Abholrabatt 10&nbsp;%</dt><dd id="sDisc"></dd></div>
+            <div id="sFeeRow"><dt>Liefergebühr</dt><dd id="sFee"></dd></div>
+            <div class="cart__tot"><dt>Gesamt</dt><dd id="sTot"></dd></div>
+          </dl>
+          <button type="button" class="btn btn--gold btn--wide" id="toCheckout" disabled>Zur Kasse</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="ofen" id="ofen" aria-labelledby="ofenH">
+  <div class="ofen__img" data-reveal><picture><source media="(min-width:900px)" srcset="/beispiele/pizzeria/bilder/ofen-1400.webp"><img src="/beispiele/pizzeria/bilder/ofen-800.webp" alt="Holzfeuer im gemauerten Steinofen, eine Pizza backt davor" width="800" height="533" loading="lazy"></picture></div>
+  <div class="wrap ofen__in">
+    <div class="ofen__txt" data-reveal>
+      <p class="eyebrow"><span>Il Forno</span></p>
+      <h2 class="h2" id="ofenH">Neunzig Sekunden. <i>Mehr braucht es nicht.</i></h2>
+      <p>Unser Ofen ist aus Vesuv-Lavastein gemauert und wird nur mit Buchenholz geheizt. Bei 485&nbsp;°C geht der Rand in Sekunden auf, der Boden bleibt dünn und bekommt die typischen dunklen Flecken. Der Teig ruht vorher zwei Tage lang, damit er leicht und bekömmlich wird.</p>
+    </div>
+    <ul class="nums">
+      <li data-reveal style="--d:.05s"><b data-count="485" data-suffix=" °C">485 °C</b><span>Hitze im Steinofen</span></li>
+      <li data-reveal style="--d:.12s"><b data-count="90" data-suffix=" s">90 s</b><span>Backzeit pro Pizza</span></li>
+      <li data-reveal style="--d:.19s"><b data-count="48" data-suffix=" h">48 h</b><span>Teigruhe</span></li>
+      <li data-reveal style="--d:.26s"><b data-count="1929">1929</b><span>Erstes Feuer in Napoli</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="fam" id="famiglia" aria-labelledby="famH">
+  <div class="wrap fam__grid">
+    <figure class="fam__img" data-reveal><img src="/beispiele/pizzeria/bilder/famiglia-600.webp" srcset="/beispiele/pizzeria/bilder/famiglia-600.webp 600w, /beispiele/pizzeria/bilder/famiglia-1000.webp 1000w" sizes="(min-width:900px) 480px, 90vw" alt="Schwarz-Weiß-Porträt eines Mannes mit Hut und Mantel" width="600" height="600" loading="lazy"><figcaption>Don Salvatore Moretti<span>Pizzaiolo in dritter Generation</span></figcaption></figure>
+    <div class="fam__txt" data-reveal style="--d:.1s">
+      <p class="eyebrow"><span>La Famiglia</span></p>
+      <h2 class="h2" id="famH">Was in der Familie bleibt, <i>bleibt in der Familie.</i></h2>
+      <blockquote class="quote"><p>„Mein Großvater hat 1929 in Neapel den ersten Ofen angeheizt. Das Rezept für den Teig hat seither nie jemand aufgeschrieben.“</p></blockquote>
+      <form class="secret" id="secret" novalidate>
+        <p class="secret__h"><svg><use href="#i-schloss"/></svg>Für Freunde des Hauses</p>
+        <p class="secret__p">Es gibt eine Pizza, die auf keiner Karte steht. Wer das Kennwort kennt, kann sie bestellen.</p>
+        <div class="secret__row"><label class="sr" for="pw">Kennwort</label><input id="pw" name="pw" type="text" autocomplete="off" spellcheck="false" placeholder="Kennwort"><button class="btn btn--line" type="submit">Anklopfen</button></div>
+        <p class="secret__hint" id="pwHint" aria-live="polite">Kleiner Tipp: Es ist grün und liegt auf jeder Margherita.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="zone" id="liefern" aria-labelledby="zoneH">
+  <div class="wrap zone__grid">
+    <div class="zone__txt" data-reveal>
+      <p class="eyebrow"><span>Liefergebiet</span></p>
+      <h2 class="h2" id="zoneH">Wir kommen <i>vorbei.</i></h2>
+      <p>Unsere Fahrer bringen die Pizza in der Thermobox, noch knusprig. Ab 50&nbsp;€ Bestellwert liefern wir in allen Zonen ohne Liefergebühr.</p>
+      <div class="ztable" id="zTable" role="list"></div>
+    </div>
+    <div class="zmap" data-reveal style="--d:.1s" aria-hidden="true">
+      <svg viewBox="0 0 400 400" class="zmap__svg">
+        <defs><radialGradient id="zg" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#c9a45c" stop-opacity=".22"/><stop offset="1" stop-color="#c9a45c" stop-opacity="0"/></radialGradient></defs>
+        <circle cx="200" cy="200" r="190" fill="url(#zg)"/>
+        <circle class="zr zr3" cx="200" cy="200" r="182"/><circle class="zr zr2" cx="200" cy="200" r="122"/><circle class="zr zr1" cx="200" cy="200" r="62"/>
+        <path class="zroad" d="M10 250C90 230 140 215 200 200s130-60 190-110M200 200C190 260 150 330 120 395M200 200c40 30 110 50 190 60"/>
+        <g class="zdots"></g>
+        <g class="zhome" transform="translate(200 200)"><circle r="16"/><path d="M-6 3V-3l6-5 6 5V3z"/></g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="voices" aria-labelledby="voicesH">
+  <div class="wrap">
+    <header class="sec-h sec-h--c" data-reveal>
+      <p class="eyebrow eyebrow--c"><span>Bewertungen</span></p>
+      <h2 class="h2" id="voicesH"><span class="score">4,9</span> <i>von 5 Sternen</i></h2>
+    </header>
+    <div class="voices__grid">
+      <figure class="voice" data-reveal><div class="stars" aria-label="5 von 5 Sternen"><svg><use href="#i-stern"/></svg><svg><use href="#i-stern"/></svg><svg><use href="#i-stern"/></svg><svg><use href="#i-stern"/></svg><svg><use href="#i-stern"/></svg></div><blockquote><p>„Die Pizza war nach 30 Minuten da und hatte noch richtig Biss. Die Carbonara ohne Sahne, wie es sich gehört.“</p></blockquote><figcaption>Martina K., Lieferung nach Lindenau</figcaption></figure>
+      <figure class="voice" data-reveal style="--d:.1s"><div class="stars" aria-label="5 von 5 Sternen"><svg><use href="#i-stern"/></svg><svg><use href="#i-stern"/></svg><svg><use href="#i-stern"/></svg><svg><use href="#i-stern"/></svg><svg><use href="#i-stern"/></svg></div><blockquote><p>„Ambiente wie in einem alten Film, Musik aus den Zwanzigern, und der Rand der Bufala ist ein Gedicht.“</p></blockquote><figcaption>Stefan H., Abend im Lokal</figcaption></figure>
+      <figure class="voice" data-reveal style="--d:.2s"><div class="stars" aria-label="5 von 5 Sternen"><svg><use href="#i-stern"/></svg><svg><use href="#i-stern"/></svg><svg><use href="#i-stern"/></svg><svg><use href="#i-stern"/></svg><svg><use href="#i-stern"/></svg></div><blockquote><p>„Ich habe das Kennwort herausgefunden. Die Pizza Proibita ist jeden Cent wert, mehr verrate ich nicht.“</p></blockquote><figcaption>Andrea P., Stammgast</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="visit" id="kontakt" aria-labelledby="visitH">
+  <div class="visit__bg" aria-hidden="true"><img src="/beispiele/pizzeria/bilder/wein-1200.webp" alt="" width="1200" height="800" loading="lazy"></div>
+  <div class="wrap visit__grid">
+    <div class="visit__info" data-reveal>
+      <p class="eyebrow"><span>Besuchen Sie uns</span></p>
+      <h2 class="h2" id="visitH">Ein Tisch <i>für Sie.</i></h2>
+      <p class="status" id="status"><i></i><span></span></p>
+      <dl class="hours" id="hours"></dl>
+      <p class="visit__addr"><svg><use href="#i-ort"/></svg>Musterplatz 12, 3300 Musterort</p>
+      <p class="visit__addr"><svg><use href="#i-telefon"/></svg><a href="tel:+43123456789">+43 1234 567 89</a></p>
+    </div>
+    <form class="res" id="resForm" novalidate data-reveal style="--d:.1s">
+      <h3 class="res__h">Tisch reservieren</h3>
+      <div class="res__row">
+        <label><span>Datum</span><select id="resDay" required></select></label>
+        <label><span>Uhrzeit</span><select id="resTime" required></select></label>
+      </div>
+      <div class="res__row">
+        <label><span>Personen</span><select id="resP"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option></select></label>
+        <label><span>Name</span><input id="resName" type="text" autocomplete="name" required></label>
+      </div>
+      <label><span>Telefon</span><input id="resTel" type="tel" autocomplete="tel" inputmode="tel" required></label>
+      <p class="err" id="resErr" aria-live="polite"></p>
+      <button class="btn btn--gold btn--wide" type="submit">Reservierung anfragen</button>
+      <div class="res__ok" id="resOk" hidden><svg><use href="#i-haken"/></svg><p><b>Ihr Tisch ist vorgemerkt.</b><span id="resOkTxt"></span></p></div>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p class="foot__mark" aria-hidden="true">PROIBITO</p>
+    <div class="foot__cols">
+      <div><b>Proibito · Steinofen-Pizzeria</b><span>Musterplatz 12, 3300 Musterort</span><span>Di–So 11:30–14 und 17–23 Uhr</span></div>
+      <div><b>Kontakt</b><span>+43 1234 567 89</span><span>famiglia@proibito.example</span></div>
+      <div><b>Hinweis</b><span>Erfundener Betrieb, Beispiel-Entwurf von tim-kofler.at</span><span>Fotos: Pexels (freie Lizenz)</span></div>
+    </div>
+  </div>
+</footer>
+
+<div class="cartbar" id="cartBar" hidden><button type="button" class="btn btn--gold btn--wide" id="cartBarBtn"><span class="cartbar__n" id="cartBarN">0</span><span>Warenkorb ansehen</span><b id="cartBarSum">0,00 €</b></button></div>
+<div class="scrim" id="scrim" hidden></div>
+
+<dialog class="dlg dish" id="dishDlg" aria-labelledby="dishH">
+  <form method="dialog" class="dlg__in" id="dishForm">
+    <button type="button" class="ibtn dlg__x" data-close aria-label="Schließen"><svg><use href="#i-x"/></svg></button>
+    <div class="dish__img"><img id="dishImg" alt="" width="480" height="480"></div>
+    <div class="dish__body">
+      <p class="dish__tag" id="dishTag"></p>
+      <h3 class="dish__h" id="dishH"></h3>
+      <p class="dish__d" id="dishD"></p>
+      <fieldset class="opt" id="dishSize"><legend>Größe</legend><div class="opt__grid" id="dishSizes"></div></fieldset>
+      <fieldset class="opt" id="dishExtras"><legend>Extras</legend><div class="opt__grid" id="dishExtraList"></div></fieldset>
+      <label class="opt opt--note"><span>Wunsch an die Küche</span><input type="text" id="dishNote" maxlength="80" placeholder="z. B. gut durch, ohne Oliven"></label>
+    </div>
+    <div class="dish__foot">
+      <div class="qty"><button type="button" class="ibtn" id="dQm" aria-label="Eine weniger"><svg><use href="#i-minus"/></svg></button><output id="dQ" aria-live="polite">1</output><button type="button" class="ibtn" id="dQp" aria-label="Eine mehr"><svg><use href="#i-plus"/></svg></button></div>
+      <button type="submit" class="btn btn--gold" id="dishAdd">Hinzufügen · <span id="dishP"></span></button>
+    </div>
+  </form>
+</dialog>
+
+<dialog class="dlg co" id="coDlg" aria-labelledby="coH">
+  <div class="dlg__in">
+    <button type="button" class="ibtn dlg__x" data-close aria-label="Schließen"><svg><use href="#i-x"/></svg></button>
+    <form class="co__form" id="coForm" novalidate>
+      <h3 class="co__h" id="coH">Fast geschafft</h3>
+      <p class="co__sub" id="coSub"></p>
+      <fieldset class="co__set"><legend>Ihre Angaben</legend>
+        <div class="co__row"><label><span>Name</span><input id="cName" autocomplete="name" required></label><label><span>Telefon</span><input id="cTel" type="tel" inputmode="tel" autocomplete="tel" required></label></div>
+        <div class="co__deliv" id="coDeliv">
+          <div class="co__row"><label class="co__wide"><span>Straße und Hausnummer</span><input id="cStr" autocomplete="street-address" required></label><label><span>Ort</span><select id="cZone" required></select></label></div>
+          <label><span>Hinweis für den Fahrer</span><input id="cHint" maxlength="80" placeholder="z. B. Stiege 2, dreimal kurz klingeln"></label>
+        </div>
+      </fieldset>
+      <fieldset class="co__set"><legend>Wann?</legend><div class="chips" id="cWhen"></div></fieldset>
+      <fieldset class="co__set"><legend>Bezahlung</legend>
+        <div class="pay" role="radiogroup">
+          <label><input type="radio" name="pay" value="bar" checked><span>Bar</span></label>
+          <label><input type="radio" name="pay" value="karte"><span>Karte beim Fahrer</span></label>
+          <label><input type="radio" name="pay" value="online"><span>Online (im Beispiel ohne echte Zahlung)</span></label>
+        </div>
+      </fieldset>
+      <fieldset class="co__set" id="tipSet"><legend>Trinkgeld für den Fahrer</legend><div class="chips" id="cTip"></div></fieldset>
+      <dl class="co__sum" id="coSum"></dl>
+      <p class="err" id="coErr" aria-live="polite"></p>
+      <button class="btn btn--gold btn--wide" type="submit" id="coGo">Bestellen</button>
+      <p class="co__fine">Mit dem Klick bestellen Sie zahlungspflichtig. Im Beispiel wird nichts bestellt und nichts gespeichert.</p>
+    </form>
+    <div class="track" id="track" hidden>
+      <p class="eyebrow eyebrow--c"><span id="tNo"></span></p>
+      <h3 class="co__h" id="tH">Grazie mille!</h3>
+      <p class="track__eta"><span id="tEtaL">Ankunft ca.</span> <b id="tEta"></b></p>
+      <svg class="track__map" viewBox="0 0 320 140" aria-hidden="true">
+        <path class="track__road" d="M24 112C70 112 70 40 120 40s60 64 110 64 40-62 66-62"/>
+        <path class="track__done" id="tPath" d="M24 112C70 112 70 40 120 40s60 64 110 64 40-62 66-62"/>
+        <g class="track__a"><circle cx="24" cy="112" r="9"/><path d="M19.5 114v-4.5l4.5-3.5 4.5 3.5v4.5z"/></g>
+        <g class="track__b"><circle cx="296" cy="42" r="9"/><circle cx="296" cy="42" r="3"/></g>
+        <g class="track__s" id="tScoot"><circle r="12"/><use href="#i-roller" x="-8" y="-8" width="16" height="16"/></g>
+      </svg>
+      <ol class="steps" id="tSteps">
+        <li><i></i><div><b>Bestellung angenommen</b><span>Don Salvatore hat sie gelesen.</span></div></li>
+        <li><i></i><div><b>Im Steinofen</b><span>90 Sekunden bei 485 °C.</span></div></li>
+        <li><i></i><div><b id="tS3">Unterwegs zu Ihnen</b><span id="tS3s">In der Thermobox, auf direktem Weg.</span></div></li>
+        <li><i></i><div><b id="tS4">Zugestellt</b><span id="tS4s">Buon appetito!</span></div></li>
+      </ol>
+      <p class="co__fine">Im Beispiel läuft die Zeit schneller als in echt.</p>
+      <button type="button" class="btn btn--line btn--wide" data-close>Schließen</button>
+    </div>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="/beispiele/_shared/demo.js" defer></script>
+<script src="/beispiele/pizzeria/app.js?v=1" defer></script>
+</body></html>
