@@ -489,3 +489,7 @@ body.has-bar .foot{padding-bottom:110px}
 }
 .where-sel{max-width:180px;height:30px;margin:0 2px;padding:0 22px 0 4px;border:0;border-bottom:1px solid var(--gold);border-radius:0;background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23c9a45c' stroke-width='1.5'/%3E%3C/svg%3E") right 4px center/10px no-repeat;color:var(--gold2);font-weight:700;font-size:14px;-webkit-appearance:none;appearance:none;cursor:pointer}
 .where-sel option{background:var(--bg2);color:var(--ink)}
+
+/* Entwurfs-Umschalter: über der Warenkorb-Leiste, bei offenem Warenkorb weg */
+body:has(#cartBar:not([hidden])) .tkv{bottom:calc(86px + env(safe-area-inset-bottom))}
+body:has(.cart.is-open) .tkv{display:none}

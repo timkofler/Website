@@ -1,7 +1,8 @@
-// Umschalter für die zwei Gasthaus-Entwürfe: kleine Leiste unten links, Tasten 1 und 2 wechseln ebenfalls.
+// Umschalter für die drei Gasthaus- und Restaurant-Entwürfe: kleine Leiste unten links, Tasten 1 bis 3 wechseln ebenfalls.
 (function () {
-  var V = [["1", "/beispiele/gasthaus/", "Landgasthof Hollerhof"], ["2", "/beispiele/gasthaus/v2/", "Glut Feuerküche"]];
-  var cur = location.pathname.indexOf("/v2/") > 0 ? 1 : 0;
+  var V = [["1", "/beispiele/gasthaus/v2/", "Glut Feuerküche"], ["2", "/beispiele/pizzeria/", "Proibito Pizzeria"], ["3", "/beispiele/gasthaus/", "Landgasthof Hollerhof"]];
+  var path = location.pathname;
+  var cur = path.indexOf("/gasthaus/v2/") > -1 ? 0 : path.indexOf("/pizzeria/") > -1 ? 1 : 2;
   var nav = document.createElement("nav");
   nav.className = "tkv"; nav.setAttribute("aria-label", "Entwurf wechseln");
   var html = '<span class="tkv__l">Entwurf</span>';
