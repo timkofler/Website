@@ -21,7 +21,7 @@
       g1: { t: "Räuchern &amp;<br>langsam garen", l: "Smoker", v: 110, u: "°C", p: .62, ic: "grill" },
       g2: { t: "Glasieren &amp;<br>scharf grillen", l: "Glut", v: 260, u: "°C", p: .72, ic: "pfanne" },
       sides: ["pommes", "salat", "suess"] },
-    { id: "flank", name: "Flank Steak mit<br>Rustikal-Pommes", short: "Flank Steak", g: 300, img: "t-flank", price: 29.5,
+    { id: "flank", name: "Flank Steak mit<br>Rustikal-Pommes", short: "Flank Steak", g: 300, img: "t-flank-2", price: 29.5,
       pills: [["uhr", "25 min."], ["leute", "für 1"], ["flamme", "820 kcal"]], live: [80, "Schritt 4 von 5 · Grillen"],
       g1: { t: "Marinieren &amp;<br>rasten lassen", l: "Kern", v: 54, u: "°C", p: .38, ic: "sanduhr" },
       g2: { t: "Scharf<br>angrillen", l: "Rost", v: 320, u: "°C", p: .88, ic: "grill" },

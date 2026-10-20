@@ -135,7 +135,7 @@
       '<g class="w-new" style="opacity:0"><g>' + wheel(id, true) + '</g></g>' +
       '<g class="bls">' + bolts(id) + '</g></g>';
   }
-  build(ov, "cv", 627, 183);
+  build(ov, "cv", 601, 183);
   build(lens, "ln", 0, 0);
   // Linse: Kotflügel, Fadenkreuz, Rahmen
   lens.insertAdjacentHTML("afterbegin", '<clipPath id="lnClip"><circle r="72"/></clipPath>');

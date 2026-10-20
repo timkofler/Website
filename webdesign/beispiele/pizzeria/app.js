@@ -31,7 +31,7 @@
     { id: "contrabbando", cat: "pizza", n: "Il Contrabbandiere", d: "Salame Napoli, Nduja aus Kalabrien, Fior di Latte, ein Hauch Chili-Honig.", p: 1550, img: "p-rustica", tags: ["chili", "top"], opt: "pizza" },
     { id: "capricciosa", cat: "pizza", n: "Capricciosa", d: "Kochschinken, Champignons, Artischocken, Oliven, Fior di Latte.", p: 1450, img: "p-capricciosa", opt: "pizza" },
     { id: "stagioni", cat: "pizza", n: "Quattro Stagioni", d: "Vier Jahreszeiten, vier Viertel: Salami, Pilze, Schinken und vier Käse.", p: 1490, img: "p-quattro", opt: "pizza" },
-    { id: "crudo", cat: "pizza", n: "Crudo e Rucola", d: "Prosciutto di Parma 24 Monate, Rucola, gehobelter Grana, nach dem Backen belegt.", p: 1590, img: "p-rucola", opt: "pizza" },
+    { id: "crudo", cat: "pizza", n: "Crudo e Rucola", d: "Prosciutto di Parma 24 Monate, Rucola, gehobelter Grana, nach dem Backen belegt.", p: 1590, img: "p-rucola-2", opt: "pizza" },
     { id: "carbonara", cat: "pasta", n: "Spaghetti Carbonara", d: "Guanciale, Eigelb, Pecorino Romano, schwarzer Pfeffer. Ohne Sahne, Ehrensache.", p: 1450, img: "a-carbonara", tags: ["top"], opt: "pasta" },
     { id: "tartufo", cat: "pasta", n: "Tagliatelle al Tartufo", d: "Hausgemachte Tagliatelle, Butter, Parmigiano und frisch gehobelter Trüffel.", p: 2190, img: "a-tartufo", tags: ["veg"], opt: "pasta" },
     { id: "lasagne", cat: "pasta", n: "Lasagne della Nonna", d: "Sechs Stunden geschmortes Ragù, Béchamel, im Steinofen gratiniert.", p: 1490, img: "a-lasagne", opt: "pasta" },

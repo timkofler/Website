@@ -157,7 +157,7 @@ p{margin:0}
 .car-box{position:absolute;left:10%;width:80%;top:12%;aspect-ratio:780/261}
 .car-shadow{position:absolute;left:2%;right:2%;top:84%;height:12%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.9),rgba(0,0,0,.55) 60%,transparent);transition:opacity .8s}
 .car-refl{position:absolute;left:0;top:0;width:100%;height:100%;transform-origin:50% 90.2%;transform:scaleY(-1);clip-path:inset(0 0 9.8% 0);opacity:.22;-webkit-mask-image:linear-gradient(180deg,transparent 58%,#000 90%);mask-image:linear-gradient(180deg,transparent 58%,#000 90%);filter:blur(.6px);pointer-events:none}
-.car-img,.car-ov{position:absolute;left:0;top:0;width:100%;height:100%;transform-origin:21.8% 90%}
+.car-img,.car-ov{position:absolute;left:0;top:0;width:100%;height:100%;transform-origin:17.1% 90%}
 .car-img{filter:drop-shadow(0 -2px 10px rgba(255,236,200,.06))}
 .car-ov{overflow:visible}
 .car-ov g,.lens g,.gauge g,.jack g{transform-box:fill-box;transform-origin:center}
@@ -330,7 +330,7 @@ footer{border-top:1px solid var(--line);margin-top:clamp(80px,10vw,130px);paddin
 
 <main id="top">
 <section class="hero">
-  <div class="hero__media"><video class="tk-video" data-autoplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/werkstatt-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/werkstatt.mp4" type="video/mp4"></video></div>
+  <div class="hero__media"><video class="tk-video" data-autoplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/werkstatt-poster.jpg?v=2" aria-hidden="true"><source src="/beispiele/_shared/media/werkstatt.mp4?v=2" type="video/mp4"></video></div>
   <div class="hero__grid" aria-hidden="true"></div>
   <div class="hero__in wrap">
     <p class="status" id="status" data-reveal><b></b><span>Mo – Fr 7:30 – 17:00</span></p>
@@ -424,8 +424,8 @@ footer{border-top:1px solid var(--line);margin-top:clamp(80px,10vw,130px);paddin
         <div class="stage__floor" aria-hidden="true"></div>
         <div class="car-box">
           <div class="car-shadow" id="carShadow"></div>
-          <img class="car-refl" id="carRefl" src="/beispiele/_shared/media/werkstatt-car.webp" alt="" aria-hidden="true" width="780" height="261" loading="lazy">
-          <img class="car-img" id="carImg" src="/beispiele/_shared/media/werkstatt-car.webp" alt="Sportwagen in Seitenansicht – das hintere Rad wird gewechselt" width="780" height="261" loading="lazy">
+          <img class="car-refl" id="carRefl" src="/beispiele/_shared/media/werkstatt-car.webp?v=2" alt="" aria-hidden="true" width="780" height="261" loading="lazy">
+          <img class="car-img" id="carImg" src="/beispiele/_shared/media/werkstatt-car.webp?v=2" alt="Sportwagen in Seitenansicht – das hintere Rad wird gewechselt" width="780" height="261" loading="lazy">
           <svg class="car-ov" id="carOv" viewBox="0 0 780 261" aria-hidden="true"></svg>
           <svg class="jack" id="jack" viewBox="0 -20 160 90" aria-hidden="true">
             <path d="M46 50 8 20" stroke="#8b939c" stroke-width="4.5" stroke-linecap="round"/><path d="M14 25 5 17.5" stroke="#d92f2f" stroke-width="7" stroke-linecap="round"/>
@@ -492,7 +492,7 @@ footer{border-top:1px solid var(--line);margin-top:clamp(80px,10vw,130px);paddin
       <p class="lead">Karosserie, Bremsen, Fahrwerk, Motor: Wir schauen dort hin, wo andere nur drüberschauen. <span class="x3d__hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v15M6 13l6 6 6-6"/></svg>Scrollen und zuschauen</span></p>
     </div>
     <div class="x3d__stage" id="x3dStage">
-      <img class="x3d__fallback" src="/beispiele/_shared/media/werkstatt-car.webp" alt="Roter Sportwagen in Seitenansicht" width="780" height="261" loading="lazy">
+      <img class="x3d__fallback" src="/beispiele/_shared/media/werkstatt-car.webp?v=2" alt="Roter Sportwagen in Seitenansicht" width="780" height="261" loading="lazy">
       <canvas id="x3dCanvas" aria-hidden="true"></canvas>
       <div class="x3d__labels" id="x3dLabels" aria-hidden="true"></div>
     </div>
@@ -508,7 +508,7 @@ footer{border-top:1px solid var(--line);margin-top:clamp(80px,10vw,130px);paddin
 <section class="sec" id="werkstatt" aria-labelledby="w-h">
   <div class="wrap about">
     <div class="about__ph" data-reveal>
-      <img src="/beispiele/_shared/media/werkstatt-foto.jpg" alt="Mechaniker montiert einen Bremssattel an einem aufgebockten Auto" width="716" height="440" loading="lazy">
+      <img src="/beispiele/_shared/media/werkstatt-foto.jpg?v=2" alt="Mechaniker prüft die Bremsscheibe an einem aufgebockten Auto" width="716" height="440" loading="lazy">
       <div class="about__badge"><i>seit<br>1998</i><b>Meisterbetrieb<br>in zweiter Generation</b></div>
     </div>
     <div>
@@ -621,7 +621,7 @@ footer{border-top:1px solid var(--line);margin-top:clamp(80px,10vw,130px);paddin
       <div><h4>Kontakt</h4>KFZ Steiner<br>Werkstattweg 5, 3280 Musterort<br><a href="tel:+430001234567">+43 000 123 45 67</a></div>
       <div><h4>Öffnungszeiten</h4>Mo – Fr 7:30 – 17:00<br>Sa, So &amp; Feiertag geschlossen</div>
     </div>
-    <div class="demo-note"><span><strong>Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb</strong></span><span>Musteradresse, keine echten Kontaktdaten</span></div>
+    <div class="demo-note"><span><strong>Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb · <a href="/bildnachweis/#werkstatt">Bildnachweis</a></strong></span><span>Musteradresse, keine echten Kontaktdaten</span></div>
   </div>
 </footer>
-<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/werkstatt/app.js?v=20261017f" defer></script></body></html>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/werkstatt/app.js?v=20261020" defer></script></body></html>

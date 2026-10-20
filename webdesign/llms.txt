@@ -27,3 +27,4 @@
 - [Über mich](https://tim-kofler.at/#ueber): Tim Kofler, Softwareentwickler aus Niederösterreich.
 - [Impressum](https://tim-kofler.at/impressum/)
 - [Datenschutz](https://tim-kofler.at/datenschutz/)
+- [Bildnachweis](https://tim-kofler.at/bildnachweis/): Herkunft und Lizenz aller Fotos und Videos
