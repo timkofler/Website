@@ -100,12 +100,12 @@ section[id], .ab-step { scroll-margin-top: 80px; }
 .ab-total small { color: var(--muted); font-size: .85rem; }
 .ab-total p { margin: 0; color: var(--muted); font-size: .95rem; }
 .ab-total__frame { position: absolute; left: -1px; top: -1px; width: calc(100% + 2px); height: calc(100% + 2px); overflow: visible; pointer-events: none; }
-.ab-total__frame path { fill: none; stroke: url(#ab-grad); stroke-width: 2; stroke-linecap: round; }
+.ab-total__frame path { fill: none; stroke: url(#ab-grad); stroke-width: 2; stroke-linecap: butt; }
 .ab-total__draw { stroke-dasharray: 1 1; stroke-dashoffset: 1; filter: drop-shadow(0 0 4px rgba(255,90,31,.7)); transition: stroke-dashoffset 1.3s cubic-bezier(.5,0,.3,1); }
-.ab-total__glint { stroke: #ffd9a8 !important; stroke-width: 3 !important; stroke-dasharray: .06 .94; opacity: 0; filter: drop-shadow(0 0 6px #ffb23f) drop-shadow(0 0 12px rgba(255,90,31,.9)); transition: opacity .6s ease 1.3s; }
+.ab-total__glint { stroke: #ffd9a8 !important; stroke-width: 3 !important; stroke-dasharray: .06 .94; opacity: 0; filter: drop-shadow(0 0 6px #ffb23f) drop-shadow(0 0 12px rgba(255,90,31,.9)); transition: opacity .2s ease; }
 .ab-total.is-on { background: linear-gradient(100deg, rgba(255,90,31,.2), rgba(255,90,31,.03) 75%); box-shadow: 0 0 34px rgba(255,90,31,.22), inset 0 0 24px rgba(255,90,31,.06); }
 .ab-total.is-on .ab-total__draw { stroke-dashoffset: 0; }
-.ab-total.is-on .ab-total__glint { opacity: 1; animation: ab-glint 5s linear 1.3s infinite; }
+.ab-total.is-on .ab-total__glint { opacity: 1; transition: opacity .6s ease 1.3s; animation: ab-glint 5s linear 1.3s infinite; }
 @keyframes ab-glint { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 
 /* ---------- Wer macht was ---------- */
