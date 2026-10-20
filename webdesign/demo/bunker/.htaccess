@@ -2,9 +2,10 @@
 <IfModule mod_headers.c>
   Header set X-Robots-Tag "noindex, nofollow"
 </IfModule>
+# Startseite ist index.php (die alte index.html wurde am Server gelöscht).
+# Keine Umleitung von index.html: das DirectoryIndex der Haupt-.htaccess prüft index.html zuerst,
+# eine Umleitung darauf würde /demo/bunker/ endlos weiterleiten.
 DirectoryIndex index.php
-# Die alte offene index.html bleibt beim Hochladen am Server liegen: auf die geschützte Seite umleiten
-RedirectMatch 301 ^/demo/bunker/index\.html$ /demo/bunker/
 <Files "_gate.php">
   Require all denied
 </Files>
