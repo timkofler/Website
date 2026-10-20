@@ -658,3 +658,13 @@ html.tk-3d-on.tk-3d-view .header { -webkit-backdrop-filter: none; backdrop-filte
 .nav-toggle path { transition: transform .35s cubic-bezier(.2,.7,.2,1) .2s, opacity .25s .2s, stroke .3s; }
 @keyframes nt-spin { to { --nt-a: 360deg; } }
 @media (prefers-reduced-motion: reduce) { .nav-toggle, .nav-toggle path { transition: none; } .nav-toggle::before { animation: none; } }
+/* Friseur im Karussell: drei Entwürfe wechseln sich ab statt zu scrollen (tk-ui.js, data-vers) */
+.tk-vers { position: absolute; inset: 0; }
+.tk-vers > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; clip-path: circle(0% at 50% 88%); z-index: 0; }
+.tk-vers > img.is-prev { clip-path: circle(150% at 50% 88%); z-index: 1; }
+.tk-vers > img.is-on { clip-path: circle(150% at 50% 88%); z-index: 2; transition: clip-path 1s cubic-bezier(.7,0,.2,1); }
+.tk-car__item figcaption .tk-vers__tag { display: flex; align-items: center; justify-content: center; gap: 5px; margin-top: 8px; color: #d9d9d9; font-size: .88rem; font-weight: 600; }
+.tk-vers__tag i { width: 6px; height: 6px; border-radius: 6px; background: rgba(255,255,255,.35); transition: width .4s, background .4s; }
+.tk-vers__tag i.is-on { width: 16px; background: #ff5a1f; }
+.tk-vers__tag em { margin-left: 4px; font-style: normal; }
+@media (prefers-reduced-motion: reduce) { .tk-vers > img.is-on { transition: none; } }

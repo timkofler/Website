@@ -64,6 +64,41 @@
       }
     };
 
+    // Friseur: statt zu scrollen wechseln die drei Entwürfe, solange das Handy in der Mitte steht.
+    // Ein Tipp öffnet den Entwurf, der gerade zu sehen ist; weggezogen beginnt es wieder bei Entwurf 1.
+    items.forEach(function (it) {
+      if (!it.hasAttribute("data-vers")) return;
+      var imgs = Array.prototype.slice.call(it.querySelectorAll(".tk-vers > img"));
+      var marks = it.querySelectorAll(".tk-vers__tag i"), name = it.querySelector(".tk-vers__tag em"), live = it.querySelector(".tk-car__live");
+      var cur = 0, timer = 0, prevT = 0;
+      var show = function (k) {
+        if (k === cur) return;
+        clearTimeout(prevT);
+        imgs.forEach(function (im) { im.classList.remove("is-prev"); });
+        imgs[cur].classList.remove("is-on"); imgs[cur].classList.add("is-prev");
+        imgs[k].classList.add("is-on");
+        var old = imgs[cur];
+        prevT = setTimeout(function () { old.classList.remove("is-prev"); }, 1100);
+        cur = k;
+        for (var m = 0; m < marks.length; m++) marks[m].classList.toggle("is-on", m === k);
+        if (name) name.textContent = (k + 1) + " · " + imgs[k].getAttribute("data-name");
+        var h = imgs[k].getAttribute("data-href");
+        it.setAttribute("data-href", h);
+        if (live) live.setAttribute("href", h);
+      };
+      var tick = function () {
+        timer = setTimeout(function () {
+          if (it.classList.contains("is-play") && root.classList.contains("is-visible") && !document.hidden) show((cur + 1) % imgs.length);
+          tick();
+        }, 2800);
+      };
+      new MutationObserver(function () {
+        var on = it.classList.contains("is-play");
+        if (on && !timer) tick();
+        if (!on && timer) { clearTimeout(timer); timer = 0; show(0); }
+      }).observe(it, { attributes: true, attributeFilter: ["class"] });
+    });
+
     var animate = function () {
       raf = 0;
       if (dragging || target === null) return;
