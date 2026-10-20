@@ -1,4 +1,10 @@
-# Entwurf für bunker.kollektiv: nicht in Suchmaschinen
+# Entwurf für bunker.kollektiv: nicht in Suchmaschinen, nur mit Passwort (siehe _gate.php)
 <IfModule mod_headers.c>
   Header set X-Robots-Tag "noindex, nofollow"
 </IfModule>
+DirectoryIndex index.php
+# Die alte offene index.html bleibt beim Hochladen am Server liegen: auf die geschützte Seite umleiten
+RedirectMatch 301 ^/demo/bunker/index\.html$ /demo/bunker/
+<Files "_gate.php">
+  Require all denied
+</Files>

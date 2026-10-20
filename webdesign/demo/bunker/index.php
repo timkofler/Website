@@ -1,3 +1,4 @@
+<?php require __DIR__ . "/_gate.php"; ?>
 <!doctype html>
 <html lang="de">
 <head>
@@ -9,7 +10,7 @@
 <meta name="theme-color" content="#0a0a0c">
 <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/bigshoulders.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=2">
+<link rel="stylesheet" href="assets/style.css?v=3">
 <script src="assets/early.js"></script>
 <script type="application/ld+json">
 {
@@ -29,7 +30,7 @@
 
 <header class="nav" id="nav">
   <a class="nav__brand" href="#top" aria-label="bunker.kollektiv, nach oben">
-    <svg class="nav__logo" viewBox="30 26 960 955" aria-hidden="true"><use href="#logo"/></svg>
+    <svg class="nav__logo" viewBox="8 8 1004 990" aria-hidden="true"><use href="#logo"/></svg>
     <span>bunker<b>.</b>kollektiv</span>
   </a>
   <nav class="nav__links" aria-label="Hauptmenü">
@@ -121,7 +122,8 @@
       <div class="upcoming">
         <div class="sechead reveal">
           <h2>Kommende Termine</h2>
-          <p>Vergangene Events rutschen automatisch ins Archiv. Der Verein trägt neue Termine selbst ein.</p>
+          <p>Vergangene Events rutschen automatisch ins Archiv. Der Verein trägt neue Termine selbst ein, mit Foto, in einer Minute.</p>
+          <a class="admin-hint" href="verwaltung/"><span>Für den Verein</span>So einfach trägst du einen Termin ein →</a>
         </div>
         <ol class="events" data-upcoming></ol>
         <details class="archive reveal">
@@ -200,19 +202,19 @@
           <span class="join__no">01</span>
           <h3>Bunker mieten</h3>
           <p>Bandprobe, Lesung, Release-Party oder runder Geburtstag. Bühne, Licht und Technik sind schon da.</p>
-          <a class="link" href="mailto:office@bunkerkollektiv.at?subject=Anfrage%20Bunker%20mieten">Anfrage schicken</a>
+          <button class="link" type="button" data-open="mieten">Anfrage schicken</button>
         </article>
         <article class="join__card reveal">
           <span class="join__no">02</span>
           <h3>Spiel bei uns</h3>
           <p>Ihr habt eine Band, ein Set oder eine Idee für einen Abend? Schickt uns einen Link zu eurer Musik.</p>
-          <a class="link" href="mailto:office@bunkerkollektiv.at?subject=Wir%20wollen%20im%20Bunker%20spielen">Band vorstellen</a>
+          <button class="link" type="button" data-open="spielen">Band vorstellen</button>
         </article>
         <article class="join__card reveal">
           <span class="join__no">03</span>
           <h3>Mitglied werden</h3>
           <p>Aufbauen, Bar, Licht, Fotos oder einfach dabei sein. Jede Hand hilft, jeder Beitrag hält den Bunker offen.</p>
-          <a class="link" href="mailto:office@bunkerkollektiv.at?subject=Ich%20will%20mitmachen">Ich bin dabei</a>
+          <button class="link" type="button" data-open="mitglied">Ich bin dabei</button>
         </article>
       </div>
     </div>
@@ -226,7 +228,7 @@
         <h2 id="partner-title">Ohne sie wär's still im Bunker.</h2>
       </div>
       <a class="sponsor reveal" href="https://tim-kofler.at/?utm_source=bunkerkollektiv" target="_blank" rel="noopener">
-        <img class="sponsor__logo" src="assets/img/tk-logo.svg" alt="" width="70" height="36">
+        <span class="tk sponsor__logo"><img src="assets/img/tk-logo.svg" alt="" width="70" height="36"></span>
         <span class="sponsor__text">
           <small>Diese Webseite wurde dem Verein geschenkt von</small>
           <strong>Tim Kofler · Webdesign aus dem Mostviertel</strong>
@@ -276,7 +278,7 @@
 <footer class="foot">
   <div class="wrap foot__grid">
     <div class="foot__brand">
-      <svg class="foot__logo" viewBox="30 26 960 955" aria-hidden="true"><use href="#logo"/></svg>
+      <svg class="foot__logo" viewBox="8 8 1004 990" aria-hidden="true"><use href="#logo"/></svg>
       <p>bunker.kollektiv<br><span>Verein zur Förderung kollektiver Kunst<br>ZVR 1001996773</span></p>
     </div>
     <nav class="foot__nav" aria-label="Fußzeile">
@@ -284,21 +286,102 @@
       <a href="https://www.facebook.com/bunker.kollektiv.purgstall" target="_blank" rel="noopener">Facebook</a>
       <a href="#impressum">Impressum</a>
       <a href="#datenschutz">Datenschutz</a>
+      <a href="verwaltung/">Vereins-Login</a>
     </nav>
     <p class="foot__credit">Webdesign: <a href="https://tim-kofler.at/?utm_source=bunkerkollektiv" target="_blank" rel="noopener">Tim Kofler</a></p>
   </div>
 </footer>
 
-<a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener"><img src="assets/img/tk-logo.svg" alt="" width="22" height="12"> Entwurf von Tim Kofler</a>
+<a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener"><span class="tk"><img src="assets/img/tk-logo.svg" alt="" width="28" height="14"></span> Entwurf von Tim Kofler</a>
+
+<!-- Anfrage-Formulare (Beispiel, wird nicht verschickt) -->
+<dialog class="modal" id="form-mieten" aria-labelledby="fm-t">
+  <form class="modal__form" method="dialog" data-anfrage="Bunker mieten">
+    <button class="modal__x" type="button" data-close aria-label="Schließen">×</button>
+    <p class="kicker">Bunker mieten</p>
+    <h2 id="fm-t">Dein Abend im Bunker</h2>
+    <p class="modal__lead">Erzähl uns kurz, was du vorhast. Wir melden uns innerhalb von ein paar Tagen.</p>
+    <fieldset class="chips"><legend>Was ist geplant?</legend>
+      <label><input type="radio" name="Anlass" value="Bandprobe" checked><span>Bandprobe</span></label>
+      <label><input type="radio" name="Anlass" value="Geburtstag"><span>Geburtstag</span></label>
+      <label><input type="radio" name="Anlass" value="Release-Party"><span>Release-Party</span></label>
+      <label><input type="radio" name="Anlass" value="Lesung"><span>Lesung</span></label>
+      <label><input type="radio" name="Anlass" value="Etwas anderes"><span>Etwas anderes</span></label>
+    </fieldset>
+    <div class="row2">
+      <label class="fld"><span>Wunschtermin</span><input type="date" name="Wunschtermin" required></label>
+      <label class="fld"><span>Wie viele Leute?</span><input type="number" name="Personen" min="1" max="150" inputmode="numeric" placeholder="z. B. 40"></label>
+    </div>
+    <div class="row2">
+      <label class="fld"><span>Dein Name</span><input name="Name" autocomplete="name" required></label>
+      <label class="fld"><span>Telefon <i>(optional)</i></span><input type="tel" name="Telefon" autocomplete="tel"></label>
+    </div>
+    <label class="fld"><span>E-Mail</span><input type="email" name="E-Mail" autocomplete="email" required></label>
+    <label class="fld"><span>Noch was, das wir wissen sollten?</span><textarea name="Nachricht" rows="3" placeholder="Technik, Bar, Uhrzeit …"></textarea></label>
+    <button class="btn btn--neon modal__send" type="submit">Anfrage schicken</button>
+    <p class="modal__demo">Beispiel: Im Entwurf wird nichts verschickt.</p>
+  </form>
+</dialog>
+
+<dialog class="modal" id="form-spielen" aria-labelledby="fs-t">
+  <form class="modal__form" method="dialog" data-anfrage="Spiel bei uns">
+    <button class="modal__x" type="button" data-close aria-label="Schließen">×</button>
+    <p class="kicker">Spiel bei uns</p>
+    <h2 id="fs-t">Stell uns deine Band vor</h2>
+    <p class="modal__lead">Ein Link zu eurer Musik reicht. Wir hören rein und melden uns.</p>
+    <div class="row2">
+      <label class="fld"><span>Band oder Künstler</span><input name="Band" required></label>
+      <label class="fld"><span>Genre</span><input name="Genre" placeholder="Punk, Metal, Techno …"></label>
+    </div>
+    <label class="fld"><span>Link zur Musik</span><input type="url" name="Link" inputmode="url" placeholder="https://" required></label>
+    <fieldset class="chips"><legend>Wann würde es passen?</legend>
+      <label><input type="checkbox" name="Zeitraum" value="Frühling"><span>Frühling</span></label>
+      <label><input type="checkbox" name="Zeitraum" value="Sommer"><span>Sommer</span></label>
+      <label><input type="checkbox" name="Zeitraum" value="Herbst"><span>Herbst</span></label>
+      <label><input type="checkbox" name="Zeitraum" value="Winter"><span>Winter</span></label>
+    </fieldset>
+    <div class="row2">
+      <label class="fld"><span>Ansprechperson</span><input name="Name" autocomplete="name" required></label>
+      <label class="fld"><span>E-Mail</span><input type="email" name="E-Mail" autocomplete="email" required></label>
+    </div>
+    <label class="fld"><span>Ein paar Worte zu euch</span><textarea name="Nachricht" rows="3"></textarea></label>
+    <button class="btn btn--neon modal__send" type="submit">Band vorstellen</button>
+    <p class="modal__demo">Beispiel: Im Entwurf wird nichts verschickt.</p>
+  </form>
+</dialog>
+
+<dialog class="modal" id="form-mitglied" aria-labelledby="fg-t">
+  <form class="modal__form" method="dialog" data-anfrage="Mitglied werden">
+    <button class="modal__x" type="button" data-close aria-label="Schließen">×</button>
+    <p class="kicker">Mitglied werden</p>
+    <h2 id="fg-t">Schön, dass du dabei bist</h2>
+    <p class="modal__lead">Sag uns, wo du gern mithilfst. Du musst nichts können, nur Lust haben.</p>
+    <fieldset class="chips"><legend>Da helf ich gern</legend>
+      <label><input type="checkbox" name="Hilfe" value="Aufbau"><span>Aufbau</span></label>
+      <label><input type="checkbox" name="Hilfe" value="Bar"><span>Bar</span></label>
+      <label><input type="checkbox" name="Hilfe" value="Licht &amp; Ton"><span>Licht &amp; Ton</span></label>
+      <label><input type="checkbox" name="Hilfe" value="Fotos"><span>Fotos</span></label>
+      <label><input type="checkbox" name="Hilfe" value="Social Media"><span>Social Media</span></label>
+      <label><input type="checkbox" name="Hilfe" value="Einfach dabei sein"><span>Einfach dabei sein</span></label>
+    </fieldset>
+    <div class="row2">
+      <label class="fld"><span>Dein Name</span><input name="Name" autocomplete="name" required></label>
+      <label class="fld"><span>E-Mail</span><input type="email" name="E-Mail" autocomplete="email" required></label>
+    </div>
+    <label class="fld"><span>Noch was?</span><textarea name="Nachricht" rows="3"></textarea></label>
+    <button class="btn btn--neon modal__send" type="submit">Ich bin dabei</button>
+    <p class="modal__demo">Beispiel: Im Entwurf wird nichts verschickt.</p>
+  </form>
+</dialog>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="logo" viewBox="30 26 960 955" fill="none" stroke="currentColor">
-    <g stroke-width="14"><path d="M197 38H42V968H975"/><path d="M352 38H880C945 38 975 75 975 125V420C975 480 905 505 820 505"/><path d="M197 38V850C197 930 235 968 276 968C317 968 355 930 355 850V38"/></g>
-    <g stroke-width="10"><path d="M100 38C160 45 192 80 192 125"/><path d="M192 420C180 470 120 505 42 505C120 505 180 540 192 590"/><path d="M192 870C180 930 120 968 60 968"/><path d="M360 45L505 965M508 38V968"/><path d="M658 38L510 505L658 965M660 38V968"/><path d="M660 505H815M815 38V968M815 515L970 965"/></g>
+  <symbol id="logo" viewBox="8 8 1004 990" fill="none" stroke="currentColor">
+    <g stroke-width="42"><path d="M197 38H42V968H975"/><path d="M352 38H880C945 38 975 75 975 125V420C975 480 905 505 820 505"/><path d="M197 38V850C197 930 235 968 276 968C317 968 355 930 355 850V38"/></g>
+    <g stroke-width="30"><path d="M100 38C160 45 192 80 192 125"/><path d="M192 420C180 470 120 505 42 505C120 505 180 540 192 590"/><path d="M192 870C180 930 120 968 60 968"/><path d="M360 45L505 965M508 38V968"/><path d="M658 38L510 505L658 965M660 38V968"/><path d="M660 505H815M815 38V968M815 515L970 965"/></g>
   </symbol>
 </svg>
 
-<script src="assets/app.js?v=2" defer></script>
-<script type="module" src="assets/bunker3d.js?v=4"></script>
+<script src="assets/app.js?v=3" defer></script>
+<script type="module" src="assets/bunker3d.js?v=5"></script>
 </body>
 </html>
