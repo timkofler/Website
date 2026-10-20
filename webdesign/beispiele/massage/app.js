@@ -45,6 +45,32 @@
       return "<li><div><b>" + x[0] + "</b><small>" + x[1] + "</small></div><span>" + x[2] + "</span></li>";
     }).join("") + '</ul><a class="btn light" href="#termin" data-opt="' + d.l[0][3] + '">Termin für ' + d.t + " anfragen</a>";
     info.classList.remove("swap"); void info.offsetWidth; info.classList.add("swap");
+    knots(z);
+  }
+  // Verspannungen der Zone als pulsierende Knoten, die sich nacheinander lösen
+  var KNOTS = { nacken: [[143, 88], [157, 97]], schultern: [[106, 124], [194, 124], [124, 142]], ruecken: [[136, 176], [165, 198], [146, 236]], beine: [[121, 352], [180, 384], [126, 436]] };
+  var kG = $("#knots"), hint = $("#knotHint"), kT = [];
+  function knots(z) {
+    kT.forEach(clearTimeout); kT = [];
+    var pts = KNOTS[z] || [], NS = "http://www.w3.org/2000/svg";
+    kG.textContent = "";
+    var els = pts.map(function (p) {
+      var g = document.createElementNS(NS, "g"); g.setAttribute("class", "knot"); g.setAttribute("transform", "translate(" + p[0] + " " + p[1] + ")");
+      g.innerHTML = '<circle class="k-ring" r="9"/><circle class="k-core" r="5.5"/>';
+      kG.appendChild(g); return g;
+    });
+    var n = els.length;
+    function done() { hint.textContent = "Gelöst – so soll es sich nach der Stunde anfühlen."; hint.classList.add("is-free"); }
+    hint.classList.remove("is-free");
+    if (reduce) { els.forEach(function (g) { g.classList.add("is-free"); }); done(); return; }
+    hint.textContent = n + " verspannte Stellen gefunden …";
+    els.forEach(function (g, i) {
+      kT.push(setTimeout(function () {
+        g.classList.add("is-free");
+        hint.textContent = i + 1 < n ? (n - i - 1) + (n - i - 1 === 1 ? " Stelle" : " Stellen") + " noch verspannt …" : "";
+        if (i + 1 === n) done();
+      }, 1400 + i * 900));
+    });
   }
   zones.forEach(function (z) {
     z.addEventListener("click", function () { pick(z.getAttribute("data-z")); });
@@ -53,6 +79,14 @@
   chips.forEach(function (c) { c.addEventListener("click", function () { pick(c.getAttribute("data-z")); }); });
   info.addEventListener("click", function (e) { var a = e.target.closest("[data-opt]"); if (a && sel) sel.selectedIndex = +a.getAttribute("data-opt"); });
   pick("ruecken");
+  // Erst lösen, wenn die Karte zu sehen ist
+  if ("IntersectionObserver" in window) {
+    kT.forEach(clearTimeout); kT = []; hint.textContent = ""; kG.textContent = "";
+    var kio = new IntersectionObserver(function (es) {
+      if (es[0].isIntersecting) { kio.disconnect(); var on = $(".zone[aria-pressed=true]"); knots(on ? on.getAttribute("data-z") : "ruecken"); }
+    }, { threshold: 0.45 });
+    kio.observe($(".body"));
+  }
 
   /* ---------- Massage-Szene + Atemführung ---------- */
   var svg = $("#ms-svg");

@@ -129,6 +129,47 @@
     m.classList.add("is-on");
   });
 
+  /* ---------- Hero: Brot im Ofen ---------- */
+  // Das Video (Zeitraffer) zeigt 50 Backminuten. Hitze, Restzeit und Balken laufen mit,
+  // am Ende bleibt das fertige Brot kurz stehen, dann beginnt das nächste.
+  (function () {
+    var box = $("#ofenHero"), v = $("#ofenVid");
+    if (!box || !v) return;
+    var BREADS = ["Bauernbrot", "Dinkellaib", "Roggenbrot"], bi = 0, BAKE = 50, hold = null, fade = null;
+    var stateEl = $("#ofenState"), nameEl = $("#ofenName");
+    function paint(p) {
+      box.style.setProperty("--heat", (0.35 + 0.65 * Math.min(1, p * 1.6)).toFixed(3));
+      box.style.setProperty("--p", p.toFixed(3));
+      var left = Math.max(0, Math.round(BAKE * (1 - p)));
+      stateEl.textContent = p >= 0.999 ? "fertig gebacken" : "noch " + left + " Min.";
+      box.classList.toggle("is-done", p >= 0.999);
+    }
+    paint(1);
+    var save = navigator.connection && navigator.connection.saveData;
+    if (reduce || save || !("IntersectionObserver" in window)) return;
+    v.muted = true; v.playsInline = true;
+    var tick = function () { if (v.duration) paint(Math.min(1, v.currentTime / v.duration)); if (!v.paused) requestAnimationFrame(tick); };
+    v.addEventListener("playing", function () { requestAnimationFrame(tick); });
+    v.addEventListener("ended", function () {
+      paint(1);
+      hold = setTimeout(function () {
+        v.style.transition = "opacity .6s"; v.style.opacity = "0";
+        fade = setTimeout(function () {
+          bi = (bi + 1) % BREADS.length; nameEl.textContent = BREADS[bi];
+          v.currentTime = 0; paint(0); v.style.opacity = "1"; v.play().catch(function () {});
+        }, 650);
+      }, 2600);
+    });
+    new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.isIntersecting) {
+          if (v.preload === "none") v.preload = "auto";
+          if (!v.ended) v.play().catch(function () { paint(1); });
+        } else { v.pause(); }
+      });
+    }, { threshold: 0.25 }).observe(box);
+  })();
+
   /* ---------- Signatur-Animation: Kaisersemmel ---------- */
   var story = $("#handwerk"), sticky = $(".story__sticky"), stage = $("#sStage");
   var doughP = $("#doughP"), roll = $("#roll"), cutsG = $("#cuts"), flourOn = $("#flourOn"), hlE = $("#hlE"),

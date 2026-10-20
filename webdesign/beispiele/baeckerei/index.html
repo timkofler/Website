@@ -76,6 +76,17 @@ p{margin:0}
 .hero__video::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(27,22,17,0) 55%,rgba(27,22,17,.75))}
 .hero__live{position:absolute;left:18px;bottom:18px;z-index:2;display:flex;align-items:center;gap:10px;font-size:13.5px;font-weight:600;background:rgba(27,22,17,.75);backdrop-filter:blur(8px);border:1px solid var(--line2);padding:9px 14px;border-radius:999px}
 .rec{width:9px;height:9px;border-radius:50%;background:#ff5a4a;animation:blink 1.6s infinite}
+/* Hero: Brot geht im Ofen auf, Hitze und Restzeit laufen mit dem Video */
+.ofen{background:#080600}
+.ofen::after{background:linear-gradient(180deg,rgba(8,6,0,0) 70%,rgba(27,22,17,.6))}
+.ofen video{position:absolute;left:50%;top:60%;width:122%;height:auto;transform:translate(-50%,-50%);display:block;-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent),linear-gradient(180deg,transparent,#000 16%,#000 78%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent),linear-gradient(180deg,transparent,#000 16%,#000 78%,transparent);mask-composite:intersect}
+.ofen__rod{position:absolute;left:16%;right:16%;top:21%;height:3px;border-radius:3px;background:#ff8a3a;box-shadow:0 0 14px 3px rgba(255,110,30,.55),0 0 60px 10px rgba(255,90,20,.18);opacity:calc(.2 + var(--heat) * .8);z-index:1}
+.ofen__glow{position:absolute;inset:0;background:radial-gradient(55% 40% at 50% 66%,rgba(255,140,50,.42),rgba(255,120,40,0) 70%);mix-blend-mode:screen;opacity:var(--heat);pointer-events:none;z-index:1}
+.ofen__hud{width:max-content;max-width:calc(100% - 28px);left:50%;top:27%;bottom:auto;transform:translateX(-50%);gap:4px 10px;flex-wrap:wrap;justify-content:center;white-space:nowrap;border-radius:12px;padding:9px 14px 10px;font-variant-numeric:tabular-nums}
+.ofen__hud b{font-weight:700}
+.ofen__bar{flex:1 0 100%;height:3px;border-radius:3px;background:rgba(245,236,223,.16);overflow:hidden;margin-top:2px}
+.ofen__bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#e3a94f,#ff8a3a);transform-origin:left;transform:scaleX(var(--p,1))}
+.ofen.is-done .rec{background:var(--green);animation:none}
 @keyframes blink{50%{opacity:.25}}
 .stamp{position:absolute;left:-46px;top:12%;width:132px;height:132px;z-index:3;color:var(--gold)}
 .stamp svg{width:100%;height:100%;animation:spin 22s linear infinite}
@@ -83,7 +94,7 @@ p{margin:0}
 @keyframes spin{to{transform:rotate(360deg)}}
 .hero__photo{position:absolute;right:-28px;bottom:-34px;width:42%;aspect-ratio:1;border-radius:8px;overflow:hidden;border:6px solid var(--bg);box-shadow:0 30px 60px -20px #000;z-index:2}
 .hero__photo img{width:100%;height:100%;object-fit:cover;display:block}
-@media (max-width:900px){.hero__grid{grid-template-columns:1fr}.hero__media{max-width:440px;width:calc(100% - 30px);margin:20px auto 0}.stamp{left:-22px;width:104px;height:104px}.stamp b{font-size:21px}.hero__photo{right:-18px}}
+@media (max-width:900px){.hero__grid{grid-template-columns:1fr}.hero__media{max-width:440px;width:calc(100% - 30px);margin:20px auto 0}.stamp{left:auto;right:-16px;top:-2%;width:96px;height:96px}.stamp b{font-size:19px}.hero__photo{right:-14px;bottom:-24px;width:34%}.ofen__hud{top:29%;font-size:13px}}
 
 /* Frisch aus dem Ofen */
 .fresh{background:var(--bg2);border-block:1px solid var(--line)}
@@ -180,7 +191,7 @@ p{margin:0}
   .story__mhead{display:block!important;margin-bottom:6px}
 }
 .story__mhead{display:none}
-.story__mhead h2{font-size:30px}
+.story__mhead h2{font-size:30px;line-height:1.12;margin-top:8px}
 /* Reduzierte Bewegung: statisch, alle Schritte sichtbar */
 .story.is-static{height:auto;padding:100px 0}
 .story.is-static .story__sticky{position:relative;top:0;height:auto}
@@ -262,7 +273,7 @@ form .btn:hover{background:#2e251c}
 .map__tag span{color:var(--muted);font-size:14px}
 .mpin{transform-box:fill-box;transform-origin:50% 100%;animation:drop 2.6s ease-in-out infinite}
 @keyframes drop{50%{transform:translateY(-7px)}}
-@media (max-width:900px){.shop{grid-template-columns:1fr}.map{min-height:360px}}
+@media (max-width:900px){.shop{grid-template-columns:1fr}.map{min-height:360px}.map__tag{top:auto;bottom:14px;left:14px;right:14px;max-width:none}}
 
 footer{border-top:1px solid var(--line);padding:70px 0 34px;color:var(--muted);font-size:15px}
 .fgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:30px}
@@ -306,9 +317,11 @@ footer h3{font:600 12px/1 var(--sans);letter-spacing:.22em;text-transform:upperc
       </div>
     </div>
     <div class="hero__media" data-reveal style="--d:.15s">
-      <div class="hero__video">
-        <video class="tk-video" data-autoplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/baeckerei-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/baeckerei.mp4" type="video/mp4"></video>
-        <span class="hero__live"><span class="rec"></span>Backstube · 4:30 Uhr</span>
+      <div class="hero__video ofen" id="ofenHero" style="--heat:1">
+        <span class="ofen__rod" aria-hidden="true"></span>
+        <video id="ofenVid" muted playsinline preload="none" poster="/beispiele/_shared/media/brot-ofen-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/brot-ofen.mp4" type="video/mp4"></video>
+        <span class="ofen__glow" aria-hidden="true"></span>
+        <div class="hero__live ofen__hud" aria-hidden="true"><span class="rec"></span><span><b id="ofenName">Bauernbrot</b> · <span id="ofenState">fertig gebacken</span></span><span class="ofen__bar"><i id="ofenBar"></i></span></div>
       </div>
       <div class="stamp" aria-hidden="true"><svg viewBox="0 0 100 100"><defs><path id="sc" d="M50 50m-40 0a40 40 0 1 1 80 0a40 40 0 1 1-80 0"/></defs><circle cx="50" cy="50" r="49" fill="#1b1611" stroke="currentColor" stroke-width="1"/><text font-size="9.4" letter-spacing="2.6" fill="currentColor" font-family="Inter, sans-serif" font-weight="600"><textPath href="#sc">HANDWERKSBÄCKEREI · DREI GENERATIONEN · </textPath></text></svg><b>1962</b></div>
       <div class="hero__photo"><img src="/beispiele/_shared/media/brot-hero.jpg?v=2" alt="Frisch gebackene Vollkornbrote mit Sesamkruste" width="716" height="1000"></div>
@@ -551,4 +564,4 @@ footer h3{font:600 12px/1 var(--sans);letter-spacing:.22em;text-transform:upperc
   </div>
 </footer>
 
-<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/baeckerei/app.js?v=20261017" defer></script></body></html>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/baeckerei/app.js?v=20261020" defer></script></body></html>
