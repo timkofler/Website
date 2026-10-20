@@ -1,0 +1,330 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gasthof &amp; Pension Zirbenhof – Beispiel-Entwurf | tim-kofler.at</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Beispiel-Entwurf einer Webseite für einen Gasthof mit Zimmern und Ferienwohnung im Ötscherland, mit Belegungskalender und Buchungsanfrage. Von Tim Kofler – Webdesign. Erfundener Betrieb.">
+<meta name="theme-color" content="#1f3a2e">
+<link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/beispiele/_shared/demo.css">
+<link rel="preload" href="/beispiele/_shared/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/beispiele/pension/style.css?v=1">
+</head><body>
+<div class="tk-demo-bar"><a href="/#beispiele"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
+<span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musteradresse</span>
+<a class="tk-demo-bar__cta" href="/#anfrage">So eine Seite anfragen</a></div>
+
+<header class="nav" id="top">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Zirbenhof, zum Seitenanfang">
+      <svg viewBox="0 0 44 44" aria-hidden="true"><rect width="44" height="44" rx="22" fill="#1f3a2e"/><path d="M8 30 18.5 15l5 7 4-5L36 30Z" fill="#f6f1e7"/><path d="M18.5 15l3 4.3-2 1.4-1-2-1.3 1.6-1.3-1.1Z" fill="#cf9a5f"/><path d="M8 33h28" stroke="#cf9a5f" stroke-width="2" stroke-linecap="round"/></svg>
+      <span><b>Zirbenhof</b><small>Gasthof · Pension · Ötscherland</small></span>
+    </a>
+    <nav class="nav__links" aria-label="Hauptmenü">
+      <a href="#zimmer">Zimmer</a><a href="#tag">Ein Tag bei uns</a><a href="#kulinarik">Kulinarik</a><a href="#umgebung">Umgebung</a><a href="#fragen">Anreise</a>
+    </nav>
+    <div class="nav__r">
+      <a class="nav__tel" href="tel:+430001234567">+43 000 123 45 67</a>
+      <a class="btn btn--f" href="#buchen">Zimmer anfragen</a>
+      <button class="burger" id="burger" aria-expanded="false" aria-controls="mpanel" aria-label="Menü öffnen"><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="mpanel" id="mpanel">
+  <a href="#zimmer">Zimmer</a><a href="#tag">Ein Tag bei uns</a><a href="#kulinarik">Kulinarik</a><a href="#umgebung">Umgebung</a><a href="#fragen">Anreise &amp; Fragen</a>
+  <a class="btn btn--f" href="#buchen">Zimmer anfragen</a>
+</div>
+
+<main>
+<section class="hero">
+  <div class="hero__v"><video data-autoplay muted loop playsinline preload="metadata" poster="/beispiele/_shared/media/pension-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/pension.mp4" type="video/mp4"></video></div>
+  <div class="wrap">
+    <span class="k">Familie Pichler · seit 1962</span>
+    <h1>Aufwachen mit Blick auf den <em>Ötscher.</em></h1>
+    <p class="lead">Vier Zimmer und eine Ferienwohnung im Ötscherland, Frühstück aus der Region und eine Gaststube, in der abends noch gekocht wird. Direkt bei uns anfragen, ohne Buchungsportal.</p>
+    <form class="quick" id="quick" aria-label="Freie Zimmer suchen">
+      <label><span>Anreise</span><input type="date" id="qIn" required></label>
+      <label><span>Abreise</span><input type="date" id="qOut" required></label>
+      <label><span>Gäste</span><select id="qG"><option value="1">1 Person</option><option value="2" selected>2 Personen</option><option value="3">3 Personen</option><option value="4">4 Personen</option><option value="5">5 Personen</option></select></label>
+      <button class="btn btn--z" type="submit">Freie Zimmer zeigen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </form>
+    <div class="hero__facts">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18V8M3 14h18v4M21 14v-2a3 3 0 0 0-3-3h-7v5M7 11.5a1.5 1.5 0 1 0 0-.01"/></svg>4 Zimmer &amp; 1 Ferienwohnung</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10h13v4a6 6 0 0 1-6 6h-1a6 6 0 0 1-6-6zM17 11h1.5a2.5 2.5 0 0 1 0 5H17M8 3v3M12 3v3"/></svg>Frühstück bis 10 Uhr</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 20 6-10 4 6 2-3 6 7z"/></svg>10 Minuten zum Skilift</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c2 3 5 5 5 9a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-5 1-8z"/></svg>Sauna mit Talblick</span>
+    </div>
+  </div>
+</section>
+
+<section class="direct" aria-label="Vorteile bei Direktbuchung">
+  <div class="wrap">
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12 12 20l-8-8V4h8z"/><circle cx="8" cy="8" r="1.5"/></svg><span><b>Bester Preis direkt</b><small>Keine Provision an Portale, das geben wir an dich weiter.</small></span></div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4m-7 8 2 2 4-4"/></svg><span><b>Gratis stornieren</b><small>Bis 14 Tage vor der Anreise kostenlos.</small></span></div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span><b>7 Nächte, 6 zahlen</b><small>Jede siebte Nacht schenken wir dir.</small></span></div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span><b>Persönliche Antwort</b><small>Innerhalb von 24 Stunden, von uns selbst.</small></span></div>
+  </div>
+</section>
+
+<section class="sec" id="zimmer">
+  <div class="wrap">
+    <span class="k" data-reveal>Zimmer &amp; Ferienwohnung</span>
+    <h2 class="h2" data-reveal>Viel Zirbe, wenig <em>Lärm.</em></h2>
+    <p class="lead" data-reveal>Jedes Zimmer ist anders, alle haben Holzböden, Betten aus Zirbe und Fenster ins Grüne. Die Preise gelten pro Nacht für zwei Personen, mit Frühstück.</p>
+    <div class="rooms" id="rooms">
+      <article class="room" data-reveal data-room="zirbe">
+        <button class="room__img" type="button" data-open="zirbe" aria-label="Zirbenzimmer: Bild und Details ansehen"><img src="/beispiele/pension/bilder/zirbe-640.webp" srcset="/beispiele/pension/bilder/zirbe-640.webp 640w, /beispiele/pension/bilder/zirbe-1200.webp 1200w" sizes="(max-width:760px) 100vw, 600px" width="640" height="480" alt="Doppelzimmer mit Holzwänden, Bett mit warmen Decken und Glastür zum Balkon" loading="lazy"><span class="room__tag">Beliebt</span></button>
+        <div class="room__b">
+          <div class="room__h"><div><h3>Zirbenzimmer</h3><div class="room__meta"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>2 Personen</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="1.5"/><path d="M4 12h8V4"/></svg>24 m²</span></div></div><div class="price"><b>118 €</b><small>pro Nacht</small></div></div>
+          <p>Doppelzimmer mit Balkon nach Süden. Das Zirbenholz duftet noch, Gäste sagen, man schläft hier besser.</p>
+          <ul class="chips"><li>Balkon</li><li>Regendusche</li><li>Zirbenbett</li><li>WLAN</li></ul>
+          <div class="room__f"><button class="btn btn--l" type="button" data-open="zirbe">Details</button><a class="btn btn--f" href="#buchen" data-pick="zirbe">Verfügbarkeit</a></div>
+        </div>
+      </article>
+      <article class="room" data-reveal style="--d:.08s" data-room="oetscher">
+        <button class="room__img" type="button" data-open="oetscher" aria-label="Komfortzimmer Ötscherblick: Bild und Details ansehen"><img src="/beispiele/pension/bilder/oetscher-640.webp" srcset="/beispiele/pension/bilder/oetscher-640.webp 640w, /beispiele/pension/bilder/oetscher-1200.webp 1200w" sizes="(max-width:760px) 100vw, 600px" width="640" height="480" alt="Großes Komfortzimmer mit Doppelbett, Sitzecke und Holzvertäfelung" loading="lazy"><span class="room__tag">Mit Aussicht</span></button>
+        <div class="room__b">
+          <div class="room__h"><div><h3>Ötscherblick</h3><div class="room__meta"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>2–3 Personen</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="1.5"/><path d="M4 12h8V4"/></svg>32 m²</span></div></div><div class="price"><b>138 €</b><small>pro Nacht</small></div></div>
+          <p>Unser größtes Doppelzimmer im ersten Stock, mit Sitzecke am Fenster und dem Ötscher direkt gegenüber.</p>
+          <ul class="chips"><li>Panoramablick</li><li>Badewanne</li><li>Sitzecke</li><li>Zustellbett</li></ul>
+          <div class="room__f"><button class="btn btn--l" type="button" data-open="oetscher">Details</button><a class="btn btn--f" href="#buchen" data-pick="oetscher">Verfügbarkeit</a></div>
+        </div>
+      </article>
+      <article class="room" data-reveal data-room="familie">
+        <button class="room__img" type="button" data-open="familie" aria-label="Familienzimmer Erlauf: Bild und Details ansehen"><img src="/beispiele/pension/bilder/familie-640.webp" srcset="/beispiele/pension/bilder/familie-640.webp 640w, /beispiele/pension/bilder/familie-1200.webp 1200w" sizes="(max-width:760px) 100vw, 600px" width="640" height="480" alt="Helles Holzzimmer mit zwei Betten und gewebtem Teppich" loading="lazy"><span class="room__tag">Für Familien</span></button>
+        <div class="room__b">
+          <div class="room__h"><div><h3>Familienzimmer Erlauf</h3><div class="room__meta"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>2–4 Personen</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="1.5"/><path d="M4 12h8V4"/></svg>38 m²</span></div></div><div class="price"><b>158 €</b><small>pro Nacht</small></div></div>
+          <p>Zwei Räume mit Verbindungstür, Kinderbetten auf Wunsch und eine Spielkiste. Kinder bis 6 Jahre schlafen gratis.</p>
+          <ul class="chips"><li>2 Räume</li><li>Kinderbett</li><li>Spielkiste</li><li>Hund erlaubt</li></ul>
+          <div class="room__f"><button class="btn btn--l" type="button" data-open="familie">Details</button><a class="btn btn--f" href="#buchen" data-pick="familie">Verfügbarkeit</a></div>
+        </div>
+      </article>
+      <article class="room" data-reveal style="--d:.08s" data-room="dachstube">
+        <button class="room__img" type="button" data-open="dachstube" aria-label="Ferienwohnung Dachstube: Bild und Details ansehen"><img src="/beispiele/pension/bilder/dachstube-640.webp" srcset="/beispiele/pension/bilder/dachstube-640.webp 640w, /beispiele/pension/bilder/dachstube-1200.webp 1200w" sizes="(max-width:760px) 100vw, 600px" width="640" height="480" alt="Dachgeschoß aus Holz mit Kaminofen, Fell am Boden und kleinem Holztisch" loading="lazy"><span class="room__tag">Selbstversorger</span></button>
+        <div class="room__b">
+          <div class="room__h"><div><h3>Ferienwohnung Dachstube</h3><div class="room__meta"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>2–5 Personen</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="1.5"/><path d="M4 12h8V4"/></svg>55 m²</span></div></div><div class="price"><b>135 €</b><small>pro Nacht, ohne Frühstück</small></div></div>
+          <p>Unterm Dach mit eigenem Eingang, Küche und Kaminofen. Frühstück oder Halbpension kannst du dazubuchen.</p>
+          <ul class="chips"><li>Küche</li><li>Kaminofen</li><li>Eigener Eingang</li><li>ab 3 Nächten</li></ul>
+          <div class="room__f"><button class="btn btn--l" type="button" data-open="dachstube">Details</button><a class="btn btn--f" href="#buchen" data-pick="dachstube">Verfügbarkeit</a></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="sec book" id="buchen">
+  <div class="wrap">
+    <span class="k">Belegung &amp; Anfrage</span>
+    <h2 class="h2">Freie Tage <em>sehen</em>, gleich anfragen.</h2>
+    <p class="lead">Zimmer wählen, im Kalender Anreise und Abreise antippen. Der Preis rechnet sich sofort, und wir bestätigen dir die Anfrage persönlich.</p>
+    <div class="book__grid">
+      <div class="panel">
+        <div class="rtabs" id="rtabs" role="group" aria-label="Zimmer wählen"></div>
+        <div class="cal__top"><b id="calTitle">Kalender</b><div class="cal__nav"><button type="button" id="calPrev" aria-label="Vorheriger Monat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button><button type="button" id="calNext" aria-label="Nächster Monat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></div></div>
+        <div class="cal__months" id="calMonths"></div>
+        <div class="legend"><span><i style="background:rgba(63,122,82,.18)"></i>frei</span><span><i style="background:repeating-linear-gradient(135deg,#ece6db 0 3px,#d9d0c1 3px 6px)"></i>belegt</span><span><i style="background:var(--zirbe)"></i>dein Aufenthalt</span></div>
+        <p class="cal__hint" id="calHint" aria-live="polite">Tippe auf deinen Anreisetag.</p>
+      </div>
+      <div class="panel" id="formPanel">
+        <h3 class="fh">Deine Daten</h3>
+        <form class="form" id="form" novalidate>
+          <div class="two"><div class="fld"><label for="fName">Name</label><input id="fName" name="name" autocomplete="name" required></div><div class="fld"><label for="fTel">Telefon <small>(optional)</small></label><input id="fTel" name="tel" type="tel" autocomplete="tel"></div></div>
+          <div class="fld"><label for="fMail">E-Mail</label><input id="fMail" name="email" type="email" autocomplete="email" required></div>
+          <div class="fld"><label for="fMsg">Wünsche <small>(optional)</small></label><textarea id="fMsg" name="msg" placeholder="z. B. späte Anreise, Allergien, Geburtstag"></textarea></div>
+          <label class="chk"><input type="checkbox" id="fOk" required><span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung der Anfrage gespeichert werden.</span></label>
+          <p class="err" id="fErr" aria-live="polite"></p>
+          <button class="btn btn--z" type="submit">Unverbindlich anfragen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        </form>
+      </div>
+      <aside class="panel sum" id="sum" aria-label="Deine Anfrage">
+        <div id="sumForm">
+          <div class="sum__room"><img id="sImg" src="/beispiele/pension/bilder/zirbe-640.webp" alt="" width="84" height="64"><span><b id="sName">Zirbenzimmer</b><small id="sMeta">Doppelzimmer · bis 2 Personen</small></span></div>
+          <div class="sum__dates"><div><span>Anreise</span><b id="sIn">–</b></div><div><span>Abreise</span><b id="sOut">–</b></div></div>
+          <div class="row"><span>Erwachsene</span><div class="step"><button type="button" data-step="ad" data-d="-1" aria-label="Weniger Erwachsene">−</button><output id="oAd">2</output><button type="button" data-step="ad" data-d="1" aria-label="Mehr Erwachsene">+</button></div></div>
+          <div class="row"><span>Kinder<small>bis 12 Jahre</small></span><div class="step"><button type="button" data-step="ki" data-d="-1" aria-label="Weniger Kinder">−</button><output id="oKi">0</output><button type="button" data-step="ki" data-d="1" aria-label="Mehr Kinder">+</button></div></div>
+          <div class="row"><span>Verpflegung</span><div class="seg" id="board" role="group" aria-label="Verpflegung"></div></div>
+          <div class="row"><span>Mit Hund<small>12 € pro Nacht</small></span><label class="sw"><input type="checkbox" id="dog" aria-label="Mit Hund"><i></i></label></div>
+          <div class="calc" id="calc"></div>
+          <div class="total"><span>Gesamt</span><b id="total">–</b></div>
+          <p class="sum__note">Unverbindliche Anfrage. Ortstaxe 2,50 € pro Erwachsenem und Nacht ist enthalten (Beispielwert).</p>
+        </div>
+        <div class="done" id="done" hidden tabindex="-1">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="32" cy="32" r="29" opacity=".25"/><path d="m20 33 8 8 16-17"/></svg>
+          <h3>Danke, <span id="dName"></span>!</h3>
+          <p>Deine Anfrage ist bei Familie Pichler. Du bekommst innerhalb von 24 Stunden eine Bestätigung per E-Mail.</p>
+          <dl id="dList"></dl>
+          <p style="font-size:13px">Beispiel-Entwurf: Es wurde nichts verschickt.</p>
+          <button class="btn btn--l" type="button" id="again">Neue Anfrage</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="day-s" id="tag" aria-label="Ein Tag im Zirbenhof">
+  <div class="day-s__in">
+    <div class="scene">
+      <svg id="sky" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+        <defs>
+          <linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1"><stop id="s1" offset="0" stop-color="#7fb2df"/><stop id="s2" offset="1" stop-color="#e6f0f2"/></linearGradient>
+          <radialGradient id="gSun"><stop offset="0" stop-color="#fff3cf" stop-opacity=".9"/><stop offset=".3" stop-color="#ffd789" stop-opacity=".35"/><stop offset="1" stop-color="#ffd789" stop-opacity="0"/></radialGradient>
+          <radialGradient id="gGlow"><stop offset="0" stop-color="#ffcf7a" stop-opacity=".85"/><stop offset="1" stop-color="#ffcf7a" stop-opacity="0"/></radialGradient>
+          <linearGradient id="gNight" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#08101f" stop-opacity="0"/><stop offset=".18" stop-color="#08101f" stop-opacity="1"/></linearGradient>
+        </defs>
+        <rect width="1600" height="900" fill="url(#gSky)"/>
+        <g id="stars"></g>
+        <g id="sunG"><circle r="190" fill="url(#gSun)"/><circle r="44" fill="#fff1c9"/></g>
+        <g id="moonG"><circle r="30" fill="#f4efdf"/><circle cx="12" cy="-8" r="26" fill="#0d1428" id="moonCut"/></g>
+        <path id="far" d="M0 560 L110 505 L210 532 L330 470 L450 512 L560 455 L700 520 L1180 500 L1290 452 L1400 498 L1500 470 L1600 505 V900 H0Z" fill="#a9b8c4"/>
+        <path id="oet" d="M250 660 C380 590 520 450 640 350 C700 300 770 262 822 258 C870 254 920 282 985 330 C1090 405 1230 525 1420 640 L1420 900 L250 900Z" fill="#6f817b"/>
+        <path d="M760 286 C795 262 850 250 900 276 C885 292 866 288 850 302 C832 290 812 300 796 296 C786 292 774 294 760 286Z" fill="#f4f1ea" opacity=".85"/>
+        <g id="alm"><rect x="628" y="440" width="28" height="17" fill="#8a6440"/><path d="M623 442 L642 427 L661 442Z" fill="#4a3a30"/><rect x="636" y="446" width="7" height="7" fill="#33404a"/></g>
+        <path id="hill" d="M0 700 C200 640 380 662 560 690 C760 650 980 606 1200 640 C1380 612 1500 630 1600 620 V900 H0Z" fill="#557553"/>
+        <g id="forest" fill="#2f4a35"></g>
+        <path id="trail" d="M904 774 C850 782 770 770 735 736 C705 706 728 660 702 618 C680 582 690 520 652 462" fill="none" stroke="#d9cba3" stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round" opacity=".9"/>
+        <path id="mead" d="M0 772 C300 738 600 760 900 752 C1200 742 1400 762 1600 750 V900 H0Z" fill="#6f9150"/>
+        <g id="sauna"><rect x="612" y="712" width="88" height="58" fill="#8a6440"/><path d="M604 716 L656 682 L708 716Z" fill="#4a3a30"/><rect x="632" y="730" width="22" height="18" fill="#2c343a"/><rect x="668" y="728" width="18" height="42" fill="#5b4029"/></g>
+        <g id="house">
+          <rect x="772" y="604" width="256" height="168" fill="#f0e8d8"/>
+          <rect x="772" y="604" width="256" height="72" fill="#9b6b40"/>
+          <path d="M772 640h256M772 622h256M772 658h256" stroke="#86592f" stroke-width="1.2"/>
+          <path d="M750 608 L900 516 L1050 608 L1040 614 L900 528 L760 614Z" fill="#3a2e28"/>
+          <path d="M772 604 L900 528 L1028 604Z" fill="#a8774a"/>
+          <rect x="976" y="530" width="20" height="44" fill="#6c5a50"/>
+          <g class="pane" fill="#33404a"><rect x="886" y="556" width="28" height="30"/><rect x="796" y="616" width="30" height="36"/><rect x="852" y="616" width="30" height="36"/><rect x="918" y="616" width="30" height="36"/><rect x="974" y="616" width="30" height="36"/><rect x="796" y="700" width="30" height="36"/><rect x="852" y="700" width="30" height="36"/><rect x="974" y="700" width="30" height="36"/></g>
+          <rect x="904" y="712" width="40" height="60" rx="3" fill="#5b4029"/>
+          <rect x="780" y="672" width="240" height="8" fill="#6b4528"/>
+          <path d="M786 672v-18M806 672v-18M826 672v-18M846 672v-18M866 672v-18M886 672v-18M906 672v-18M926 672v-18M946 672v-18M966 672v-18M986 672v-18M1006 672v-18" stroke="#6b4528" stroke-width="4"/>
+          <path d="M780 654h240" stroke="#6b4528" stroke-width="4"/>
+          <text x="900" y="697" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-size="15" letter-spacing="3" fill="#4a3a30">ZIRBENHOF</text>
+          <g fill="#c94f3d"><circle cx="800" cy="650" r="3.5"/><circle cx="820" cy="649" r="3.5"/><circle cx="860" cy="650" r="3.5"/><circle cx="940" cy="650" r="3.5"/><circle cx="980" cy="649" r="3.5"/><circle cx="1000" cy="650" r="3.5"/></g>
+        </g>
+        <g id="bench"><rect x="1062" y="756" width="46" height="5" fill="#6b4528"/><rect x="1066" y="760" width="4" height="12" fill="#6b4528"/><rect x="1100" y="760" width="4" height="12" fill="#6b4528"/><rect x="1120" y="728" width="4" height="44" fill="#3a2e28"/><rect x="1115" y="720" width="14" height="12" rx="2" fill="#3a2e28"/></g>
+        <g id="hikers"><g transform="translate(-9 0)"><circle cy="-15" r="3.6" fill="#f0d0b0"/><rect x="-4" y="-11" width="8" height="11" rx="2" fill="#c8483b"/><path d="M-2 0v6M2 0v6" stroke="#2a2f3a" stroke-width="2.4"/></g><g transform="translate(7 2)"><circle cy="-15" r="3.6" fill="#f0d0b0"/><rect x="-4" y="-11" width="8" height="11" rx="2" fill="#2f6fb3"/><path d="M-2 0v6M2 0v6" stroke="#2a2f3a" stroke-width="2.4"/></g></g>
+        <rect id="night" y="200" width="1600" height="700" fill="url(#gNight)" opacity="0"/>
+        <g id="lights">
+          <circle id="glowHouse" cx="900" cy="680" r="170" fill="url(#gGlow)" opacity="0"/>
+          <g id="winLit" fill="#ffcf7a" opacity="0"><rect x="886" y="556" width="28" height="30"/><rect x="796" y="616" width="30" height="36"/><rect x="852" y="616" width="30" height="36"/><rect x="974" y="616" width="30" height="36"/><rect x="796" y="700" width="30" height="36"/><rect x="852" y="700" width="30" height="36"/><rect x="974" y="700" width="30" height="36"/></g>
+          <g id="saunaLit" opacity="0"><circle cx="643" cy="739" r="60" fill="url(#gGlow)"/><rect x="632" y="730" width="22" height="18" fill="#ffb565"/></g>
+          <g id="lantern" opacity="0"><circle cx="1122" cy="726" r="46" fill="url(#gGlow)"/><rect x="1117" y="722" width="10" height="8" fill="#ffe0a0"/></g>
+        </g>
+        <g id="smoke" fill="#fff"><circle cx="986" cy="520" r="7"/><circle cx="992" cy="500" r="9"/><circle cx="1000" cy="478" r="11"/></g>
+        <g id="steam" fill="#fff"><circle cx="690" cy="676" r="6"/><circle cx="698" cy="658" r="8"/><circle cx="704" cy="640" r="10"/></g>
+      </svg>
+    </div>
+    <div class="day-s__txt"><div class="wrap"><span class="k">Ein Tag bei uns</span><h2 class="h2">Vom ersten Kaffee bis zum <em>Sternenhimmel.</em></h2></div></div>
+    <div class="tl"><div class="wrap"><div class="tl__card" aria-live="polite">
+      <div class="tl__time" id="clock">07:00</div>
+      <h3 id="tlH">Frühstück</h3>
+      <p id="tlP">Bauernbrot vom Bäcker im Ort, Honig vom Nachbarn und Eier von unseren Hühnern. Bis 10 Uhr, bei Sonne auf der Terrasse.</p>
+      <div class="tl__bar" id="tlBar"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></div>
+    </div></div></div>
+  </div>
+</section>
+
+<section class="sec" id="kulinarik">
+  <div class="wrap food">
+    <div class="food__imgs" data-reveal>
+      <img src="/beispiele/pension/bilder/fruehstueck-900.webp" width="900" height="1125" alt="Frühstück auf einem rustikalen Holztisch mit Spiegelei, Brot und Kaffee" loading="lazy">
+      <div><img src="/beispiele/pension/bilder/stube-900.webp" width="900" height="1125" alt="Gemütliche Sitzecke aus Holz mit Fenster ins Grüne" loading="lazy"><img src="/beispiele/pension/bilder/kaffee-900.webp" width="900" height="600" alt="Schwarzer Kaffee und frisches Gebäck auf dunklem Holz" loading="lazy"></div>
+    </div>
+    <div>
+      <span class="k" data-reveal>Kulinarik</span>
+      <h2 class="h2" data-reveal>Gekocht wird, was das <em>Tal</em> hergibt.</h2>
+      <p class="lead" data-reveal>Morgens ein Frühstück, das lange satt macht. Abends die Gaststube: auch für Gäste von außen, für Hausgäste mit fixem Tisch.</p>
+      <ul class="menu" data-reveal>
+        <li><b>Frühstück</b><em>inklusive</em><span>Bauernbrot, Mostviertler Speck, Bergkäse, Eierspeis nach Wunsch, hausgemachte Marmelade</span></li>
+        <li><b>Halbpension</b><em>+ 29 € p. P.</em><span>Vier Gänge am Abend, eine Hauptspeise immer vegetarisch</span></li>
+        <li><b>Jausenpaket</b><em>9 €</em><span>Für die Wanderung: Brot, Speck, Käse, Apfel und Wasser</span></li>
+        <li><b>Gaststube</b><em>Mi – So</em><span>Ab 17 Uhr warme Küche, Montag und Dienstag Ruhetag</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <span class="k" data-reveal>Wohlfühlen</span>
+    <h2 class="h2" data-reveal>Nach dem Berg: <em>Wärme.</em></h2>
+    <div class="well">
+      <article data-reveal><img src="/beispiele/pension/bilder/sauna-900.webp" width="900" height="600" alt="Finnische Sauna aus hellem Holz mit warmem Licht" loading="lazy"><div><h3>Sauna &amp; Ruheraum</h3><p>Finnische Sauna und Ruheraum mit Blick ins Tal, täglich ab 16 Uhr, für Hausgäste inklusive.</p></div></article>
+      <article data-reveal style="--d:.08s"><img src="/beispiele/pension/bilder/wandern-900.webp" width="900" height="675" alt="Zwei Wanderer mit Rucksack auf einem Weg durch eine Almwiese" loading="lazy"><div><h3>Direkt losgehen</h3><p>Der Weg zur Alm startet hinterm Haus. Wanderkarten, Stöcke und Rucksäcke leihen wir dir gratis.</p></div></article>
+      <article data-reveal style="--d:.16s"><div class="ico"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="20" cy="46" r="9"/><circle cx="46" cy="46" r="9"/><path d="M20 46 28 28h14l4 18M28 28l-3-6h-5M42 28l-4-8h5M34 46l-6-18"/></svg></div><div><h3>E-Bikes &amp; Wallbox</h3><p>Vier E-Bikes zum Ausleihen, Ladeplatz für dein Elektroauto und eine trockene Garage für Motorräder.</p></div></article>
+    </div>
+  </div>
+</section>
+
+<section class="sec area" id="umgebung">
+  <div class="wrap">
+    <div class="area__top">
+      <div><span class="k">Umgebung</span><h2 class="h2">Ötscherland, <em id="seasonWord">im Sommer.</em></h2></div>
+      <div class="season" role="group" aria-label="Jahreszeit">
+        <button type="button" data-season="sommer" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M5 19l1.5-1.5M17.5 6.5 19 5"/></svg>Sommer</button>
+        <button type="button" data-season="winter" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 2v20M3.3 7l17.4 10M3.3 17 20.7 7M9 4l3 2 3-2M9 20l3-2 3 2"/></svg>Winter</button>
+      </div>
+    </div>
+    <div class="area__grid">
+      <div class="area__img"><img id="imgS" src="/beispiele/pension/bilder/wandern-900.webp" width="900" height="675" alt="Wanderweg durch eine Almwiese im Sommer" loading="lazy"><img id="imgW" class="off" src="/beispiele/pension/bilder/winter-900.webp" width="900" height="675" alt="Verschneites Skigebiet mit Pisten zwischen Nadelwald" loading="lazy"></div>
+      <div>
+        <ul class="trips" id="trips"></ul>
+        <p class="card-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 15h4"/></svg><span><b>Gästekarte inklusive:</b> Mit der Zirbenhof-Karte fährst du gratis mit dem Wanderbus und bekommst Ermäßigung bei Liften und Bädern (Beispiel, Fahrzeiten ungefähr).</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="fragen">
+  <div class="wrap info">
+    <div>
+      <span class="k" data-reveal>Gut zu wissen</span>
+      <h2 class="h2" data-reveal>Fragen, bevor du <em>packst.</em></h2>
+      <div class="faq">
+        <details open><summary>Ab wann kann ich einchecken?<i></i></summary><p>Von 15 bis 20 Uhr ist die Rezeption besetzt. Kommst du später, legen wir dir den Schlüssel in die Schlüsselbox und schicken dir den Code.</p></details>
+        <details><summary>Ist die Anfrage schon eine Buchung?<i></i></summary><p>Nein. Wir prüfen deine Anfrage und schicken dir innerhalb von 24 Stunden eine Bestätigung. Fix ist das Zimmer mit einer Anzahlung von 30 Prozent.</p></details>
+        <details><summary>Darf mein Hund mitkommen?<i></i></summary><p>Ja, im Familienzimmer und in der Ferienwohnung. Wir verrechnen 12 € pro Nacht, Napf und Decke liegen bereit.</p></details>
+        <details><summary>Wie kann ich stornieren?<i></i></summary><p>Bis 14 Tage vor der Anreise kostenlos. Danach behalten wir die Anzahlung, außer wir können das Zimmer noch vergeben.</p></details>
+        <details><summary>Gibt es Parkplätze und eine Ladestation?<i></i></summary><p>Gratis Parkplätze direkt am Haus und eine Wallbox mit 11 kW. Laden kostet pauschal 10 € pro Nacht.</p></details>
+      </div>
+    </div>
+    <div class="arr" data-reveal>
+      <svg class="map" viewBox="0 0 600 340" role="img" aria-label="Skizze der Anreise: von der Westautobahn ins Tal zum Zirbenhof">
+        <rect width="600" height="340" fill="#e8e1d2"/>
+        <path d="M0 250 C120 230 200 280 320 250 S520 200 600 220" fill="none" stroke="#b8cbd6" stroke-width="16" stroke-linecap="round"/>
+        <path d="M-10 60 H610" stroke="#c9bfae" stroke-width="12"/><path d="M-10 60 H610" stroke="#fff" stroke-width="2" stroke-dasharray="14 12"/>
+        <text x="20" y="44" font-family="Inter,sans-serif" font-size="13" font-weight="700" fill="#6c665c">A1 Westautobahn</text>
+        <path d="M140 60 C170 120 150 170 230 200 S360 210 420 160" fill="none" stroke="#fffdf8" stroke-width="9" stroke-linecap="round"/>
+        <path d="M140 60 C170 120 150 170 230 200 S360 210 420 160" fill="none" stroke="#b5804a" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 8" id="route"/>
+        <path d="M300 340 L360 260 L400 300 L470 200 L560 340Z" fill="#cfc4ae"/>
+        <circle cx="230" cy="200" r="6" fill="#fffdf8" stroke="#6c665c" stroke-width="2"/><text x="242" y="222" font-family="Inter,sans-serif" font-size="12" fill="#6c665c">Bahnhof, Abholung gratis</text>
+        <g transform="translate(420 160)"><path d="M0 0 C-14 -16 -18 -24 -18 -32 a18 18 0 0 1 36 0 C18 -24 14 -16 0 0Z" fill="#1f3a2e"/><circle cy="-32" r="7" fill="#cf9a5f"/></g>
+        <text x="446" y="132" font-family="Fraunces,Georgia,serif" font-size="20" fill="#1f3a2e">Zirbenhof</text>
+      </svg>
+      <div class="arr__b">
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 17h14M6 17l1.5-6h9L18 17M8 11l1-3h6l1 3"/><circle cx="8" cy="17" r="2"/><circle cx="16" cy="17" r="2"/></svg><span><b>Mit dem Auto</b>Von der Westautobahn etwa 45 Minuten ins Tal, die letzten Kilometer kurvig und schön.</span></div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="3" width="12" height="14" rx="3"/><path d="M6 10h12M9 21l-2 1M15 21l2 1M9 14h.01M15 14h.01"/></svg><span><b>Mit der Bahn</b>Sag uns deine Ankunftszeit, wir holen dich am Bahnhof ab.</span></div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span><b>Adresse</b>Talweg 12, 3290 Musterdorf (Musteradresse)</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<dialog class="rd" id="rd" aria-labelledby="rdH">
+  <button class="rd__x" type="button" id="rdX" aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  <div class="rd__in">
+    <div class="rd__img"><img id="rdImg" src="" alt="" width="1200" height="900"></div>
+    <div class="rd__b"><span class="k" id="rdK"></span><h3 id="rdH"></h3><p id="rdP"></p><ul class="list" id="rdL"></ul><div class="price" style="text-align:left"><b id="rdPrice"></b><small id="rdPs"></small></div><a class="btn btn--f" href="#buchen" id="rdBook">Verfügbarkeit ansehen</a></div>
+  </div>
+</dialog>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div><a class="logo" href="#top"><svg viewBox="0 0 44 44" aria-hidden="true"><rect width="44" height="44" rx="22" fill="#f6f1e7"/><path d="M8 30 18.5 15l5 7 4-5L36 30Z" fill="#1f3a2e"/><path d="M8 33h28" stroke="#b5804a" stroke-width="2" stroke-linecap="round"/></svg><span><b>Zirbenhof</b><small>Gasthof · Pension · Ötscherland</small></span></a>
+        <p style="margin-top:16px;max-width:38ch">Vier Zimmer, eine Ferienwohnung und eine Gaststube, geführt von Familie Pichler in dritter Generation.</p></div>
+      <div><h4>Adresse</h4>Gasthof &amp; Pension Zirbenhof<br>Talweg 12, 3290 Musterdorf<br><a href="tel:+430001234567">+43 000 123 45 67</a><br><a href="#buchen">Zimmer anfragen</a></div>
+      <div><h4>Rezeption</h4>Täglich 7:30 – 20:00<br>Gaststube Mi – So ab 17:00<br>Betriebsurlaub 3. – 21. April</div>
+    </div>
+    <div class="demo-note"><strong>Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb · <a href="/bildnachweis/#pension">Bildnachweis</a></strong><span>Musteradresse, keine echten Kontaktdaten</span></div>
+  </div>
+</footer>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/pension/app.js?v=1" defer></script>
+</body></html>
