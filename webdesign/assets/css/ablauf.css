@@ -90,13 +90,23 @@ section[id], .ab-step { scroll-margin-top: 80px; }
 .ab-checks li { display: flex; align-items: center; gap: 8px; }
 .ab-checks li::before { content: ""; width: 5px; height: 9px; margin: -3px 4px 0 3px; border: solid var(--hot); border-width: 0 2px 2px 0; transform: rotate(45deg); }
 
-/* Gesamtdauer */
-.ab-total { display: grid; grid-template-columns: auto auto minmax(0, 1fr); gap: 14px 40px; align-items: center; margin: 34px 0 0 calc(52px + 34px); padding: 24px 30px; border: 1px solid var(--line-2); border-radius: 20px; background: linear-gradient(100deg, var(--hot-dim), transparent 70%); }
-.ab-total div { display: grid; }
+/* Gesamtdauer: Ende der Zeitleiste. Die Linie dockt an der linken Kante an, dann zeichnet sich der Rahmen rundherum
+   orange und ein Lichtpunkt läuft danach ruhig um die Box. */
+.ab-total { --r: 20px; position: relative; display: grid; grid-template-columns: auto auto minmax(0, 1fr); gap: 14px 40px; align-items: center; margin: 12px 0 0 calc(var(--dot) / 2 - 1px); padding: 24px 30px; border: 1px solid var(--line); border-radius: var(--r); background: linear-gradient(100deg, var(--hot-dim), transparent 70%); transition: box-shadow 1s ease .9s, background 1s ease .9s; }
+.ab-total > div { display: grid; position: relative; }
+.ab-total > p { position: relative; }
 .ab-total__k { font: 500 .74rem var(--mono); color: var(--hot-2); text-transform: uppercase; letter-spacing: .03em; }
 .ab-total b { font: 600 1.5rem var(--display); }
 .ab-total small { color: var(--muted); font-size: .85rem; }
 .ab-total p { margin: 0; color: var(--muted); font-size: .95rem; }
+.ab-total__frame { position: absolute; left: -1px; top: -1px; width: calc(100% + 2px); height: calc(100% + 2px); overflow: visible; pointer-events: none; }
+.ab-total__frame path { fill: none; stroke: url(#ab-grad); stroke-width: 2; stroke-linecap: round; }
+.ab-total__draw { stroke-dasharray: 1 1; stroke-dashoffset: 1; filter: drop-shadow(0 0 4px rgba(255,90,31,.7)); transition: stroke-dashoffset 1.3s cubic-bezier(.5,0,.3,1); }
+.ab-total__glint { stroke: #ffd9a8 !important; stroke-width: 3 !important; stroke-dasharray: .06 .94; opacity: 0; filter: drop-shadow(0 0 6px #ffb23f) drop-shadow(0 0 12px rgba(255,90,31,.9)); transition: opacity .6s ease 1.3s; }
+.ab-total.is-on { background: linear-gradient(100deg, rgba(255,90,31,.2), rgba(255,90,31,.03) 75%); box-shadow: 0 0 34px rgba(255,90,31,.22), inset 0 0 24px rgba(255,90,31,.06); }
+.ab-total.is-on .ab-total__draw { stroke-dashoffset: 0; }
+.ab-total.is-on .ab-total__glint { opacity: 1; animation: ab-glint 5s linear 1.3s infinite; }
+@keyframes ab-glint { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 
 /* ---------- Wer macht was ---------- */
 .ab-split { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
@@ -151,7 +161,7 @@ section[id], .ab-step { scroll-margin-top: 80px; }
   .ab-split { grid-template-columns: 1fr; }
   .ab-portal { grid-template-columns: 1fr; }
   .ab-phone { max-width: 300px; }
-  .ab-total { grid-template-columns: 1fr 1fr; margin-left: 0; }
+  .ab-total { grid-template-columns: 1fr 1fr; }
   .ab-total p { grid-column: 1 / -1; }
 }
 @media (max-width: 680px) {
@@ -164,7 +174,7 @@ section[id], .ab-step { scroll-margin-top: 80px; }
   .ab-step h3 { font-size: 1.15rem; }
   .ab-vis { min-height: 190px; padding: 18px; border-radius: 18px; }
   .ab-vis--form { padding: 0; }
-  .ab-total { padding: 20px; gap: 14px 20px; }
+  .ab-total { padding: 20px 18px; gap: 14px 16px; }
   .ab-total b { font-size: 1.25rem; }
   .ab-col { padding: 24px 20px; border-radius: 20px; }
   .ab-run { padding: 24px 20px; }
@@ -180,4 +190,6 @@ section[id], .ab-step { scroll-margin-top: 80px; }
   .ab-step.is-on .ab-load span { animation: none; width: 70%; }
   .ab-live i { animation: none; }
   .ab-tl__line span { transform: none; }
+  .ab-total, .ab-total__draw { transition: none; }
+  .ab-total.is-on .ab-total__glint { animation: none; opacity: 0; }
 }
