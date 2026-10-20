@@ -1,0 +1,49 @@
+/* Tim Kofler – Landingpage „Start-Paket für Gründer“ (/gruender/), ergänzt style.css, tk.css und entwurf.css */
+
+.gr-hero h1 { max-width: 17ch; }
+.gr-hero h1 .lime { display: block; }
+
+/* Paket: links die Leistungen als Kacheln, rechts der Preis, der beim Scrollen mitläuft */
+.gr-paket { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 28px; align-items: start; }
+.gr-items { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 24px; overflow: hidden; }
+.gr-item { background: var(--bg); padding: 30px 28px 32px; transition: background .3s; }
+.gr-item:hover { background: #121212; }
+.gr-item__ic { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 14px; margin-bottom: 18px; color: var(--hot); background: var(--hot-dim); border: 1px solid rgba(255,90,31,.35); }
+.gr-item__ic svg { width: 24px; height: 24px; }
+.gr-item h3 { font-family: var(--display); font-size: 1.12rem; font-weight: 500; margin: 0 0 10px; }
+.gr-item p { margin: 0; color: var(--muted); font-size: .96rem; }
+.gr-price { position: sticky; top: 100px; }
+.gr-price .price__amount small { margin: 0 0 0 4px; }
+.gr-price .btn { align-self: stretch; justify-content: center; }
+.gr-once { margin-top: 28px; }
+
+/* Warum: drei Kacheln */
+.gr-why .rule h3 { font-family: var(--display); font-size: 1.15rem; font-weight: 500; }
+
+/* Ablauf in vier Schritten */
+.gr-steps { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+.gr-more { margin: 26px 0 0; text-align: center; }
+.gr-more a { display: inline-flex; align-items: center; gap: 8px; color: var(--text); font-weight: 600; text-underline-offset: 4px; }
+.gr-more a svg { width: 18px; height: 18px; color: var(--hot); }
+
+.gr-page .form-steps li::before { background: var(--hot-grad); color: #0b0b0b; }
+.gr-page #anfrage { scroll-margin-top: 70px; }
+/* Hier zuerst das Formular, die Liste „Das brauchst du“ darunter (Startseite zeigt am Handy die Schritte zuerst) */
+@media (max-width: 900px) { .gr-page #anfrage .form-aside { order: 0; } }
+.gr-end-alt { margin: 22px 0 0; color: var(--muted); font-size: .95rem; }
+.gr-end-alt a { color: var(--text); font-weight: 600; text-underline-offset: 4px; }
+
+@media (max-width: 1100px) {
+  .gr-paket { grid-template-columns: 1fr; }
+  .gr-price { position: relative; top: auto; max-width: 560px; }
+  .gr-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 680px) {
+  .gr-items { grid-template-columns: 1fr; border-radius: 20px; }
+  .gr-item { padding: 24px 20px 26px; }
+  .gr-item__ic { width: 42px; height: 42px; margin-bottom: 14px; }
+  .gr-steps { grid-template-columns: 1fr; }
+  .gr-price { max-width: none; }
+}
+@media (prefers-reduced-motion: reduce) { .gr-item { transition: none; } }
