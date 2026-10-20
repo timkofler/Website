@@ -47,7 +47,7 @@
   function load() {
     var d = B[cur];
     ["vorher", "nachher"].forEach(function (w) {
-      var img = imgs[w], src = DIR + cur + "-" + w + "-" + dev + ".webp";
+      var img = imgs[w], src = DIR + cur + "-" + w + "-" + dev + ".webp?v=2";
       var source = img.parentNode.querySelector("source");
       if (source) source.remove(); // ab jetzt entscheidet der Knopf PC/Handy, nicht mehr die Bildschirmbreite
       img.width = dev === "pc" ? 1600 : 780;
@@ -64,7 +64,7 @@
     frame.classList.toggle("is-handy", dev === "handy");
     // Die andere Branche schon vorladen, damit der Wechsel ohne Flackern geht.
     Object.keys(B).forEach(function (k) {
-      if (k !== cur) ["vorher", "nachher"].forEach(function (w) { new Image().src = DIR + k + "-" + w + "-" + dev + ".webp"; });
+      if (k !== cur) ["vorher", "nachher"].forEach(function (w) { new Image().src = DIR + k + "-" + w + "-" + dev + ".webp?v=2"; });
     });
   }
 

@@ -18,7 +18,7 @@ const GER = { pc: { w: 1280, h: 800, dpr: 1.5 }, handy: { w: 390, h: 844, dpr: 2
       await p.goto(`http://localhost:8124/quellen/vorher-nachher/vorher.html?b=${n}`, { waitUntil: 'networkidle' });
       await p.screenshot({ path: `${out}/${n}-vorher-${g}.png` });
       await p.goto(`http://localhost:8123/beispiele/${n}/`, { waitUntil: 'networkidle' });
-      await p.addStyleTag({ content: ':root{--bar:0px!important}.tk-demo-bar{display:none!important}' });
+      await p.addStyleTag({ content: ':root{--bar:0px!important}.tk-demo-bar,.tkv{display:none!important}' });
       // Das Bäckerei-Video ist als Standbild unscharf (Teig kneten): dort das Brotfoto der Seite zeigen.
       if (n === 'baeckerei') await p.evaluate(() => {
         const v = document.querySelector('video'), i = document.createElement('img');
