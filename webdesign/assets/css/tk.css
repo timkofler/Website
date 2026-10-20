@@ -142,7 +142,7 @@ p a:not(.btn):hover, li a:not(.btn):hover, .form__check a:hover { text-decoratio
 .tk-car__dot::after { content: ""; position: absolute; left: 4px; right: 4px; top: 10px; height: 4px; border-radius: 4px; background: #3a3a3a; transition: background .3s; }
 .tk-car__dot.is-on { width: 46px; }
 .tk-car__dot.is-on::after { background: #d9d9d9; }
-.tk-car__note { text-align: center; max-width: 620px; margin: 26px auto 0; }
+.tk-car__note { text-align: center; max-width: 100%; width: fit-content; margin: 26px auto 0; }
 @media (max-width: 680px) {
   .tk-car__track { gap: 26px; padding: 16px calc(50% - 120px) 26px; }
   .tk-car__item, .tk-phone { width: 240px; }
