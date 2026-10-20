@@ -127,6 +127,13 @@ function cx_webseite(array $c, string $email, string $name, string $fallback): v
         'Empfohlen von' => cx_field('empfohlen', 120),
         'Gefunden über' => cx_field('quelle', 120),
     ];
+    // Nur von der Gründer-Seite (/gruender/): Gründungszeitpunkt und Logo-Stand
+    foreach (['Gegründet' => 'gegruendet', 'Logo vorhanden' => 'logo'] as $k => $field) {
+        $v = cx_field($field, 40);
+        if ($v !== '') {
+            $f[$k] = $v;
+        }
+    }
     if ($name === '') {
         cx_respond(false, 'Bitte gib deinen Namen an.');
     }
