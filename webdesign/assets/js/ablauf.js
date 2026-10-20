@@ -8,7 +8,22 @@
   if (tl && fill) {
     var line = fill.parentElement;
     var steps = Array.prototype.slice.call(tl.querySelectorAll(".ab-step"));
+    var end = tl.querySelector("[data-ab-end]");
+    var paths = end ? end.querySelectorAll(".ab-total__frame path") : [];
     var ticking = false;
+    // Linie endet genau dort, wo die linke Kante der Abschluss-Box gerade wird; der Rahmen startet am selben Punkt
+    // und läuft im Uhrzeigersinn einmal rundherum zurück zur Linie.
+    var layout = function () {
+      if (!end) return;
+      var r = parseFloat(getComputedStyle(end).borderTopLeftRadius) || 20;
+      line.style.bottom = (tl.offsetHeight - end.offsetTop - r) + "px";
+      var w = end.offsetWidth + 2, h = end.offsetHeight + 2, a = 1, k = r;
+      var d = "M" + a + " " + (a + k) + "A" + k + " " + k + " 0 0 1 " + (a + k) + " " + a + "H" + (w - a - k) +
+        "A" + k + " " + k + " 0 0 1 " + (w - a) + " " + (a + k) + "V" + (h - a - k) +
+        "A" + k + " " + k + " 0 0 1 " + (w - a - k) + " " + (h - a) + "H" + (a + k) +
+        "A" + k + " " + k + " 0 0 1 " + a + " " + (h - a - k) + "Z";
+      for (var i = 0; i < paths.length; i++) paths[i].setAttribute("d", d);
+    };
     var update = function () {
       ticking = false;
       var mark = window.innerHeight * 0.6;
@@ -19,11 +34,15 @@
         var d = s.querySelector(".ab-step__dot").getBoundingClientRect();
         s.classList.toggle("is-on", reduce || d.top + d.height / 2 <= mark);
       });
+      if (end) end.classList.toggle("is-on", reduce || p >= 0.999);
     };
     var ask = function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
     window.addEventListener("scroll", ask, { passive: true });
-    window.addEventListener("resize", ask);
+    window.addEventListener("resize", function () { layout(); ask(); });
+    layout();
     update();
+    // Schriften und Bilder können die Höhe noch ändern
+    window.addEventListener("load", function () { layout(); update(); });
   }
 
   var vids = document.querySelectorAll("video[data-ab-play]");
