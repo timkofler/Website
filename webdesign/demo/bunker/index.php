@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#0a0a0c">
 <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/bigshoulders.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=3">
+<link rel="stylesheet" href="assets/style.css?v=4">
 <script src="assets/early.js"></script>
 <script type="application/ld+json">
 {
@@ -171,6 +171,34 @@
       <figure class="tall"><img src="assets/img/gassl-7.webp" alt="Mann mit Kappe und Schürze am Grill" loading="lazy" width="733" height="1100"></figure>
     </div>
     <p class="wrap gallery__credit">Fotos Gasslfestival: musil-arts</p>
+  </section>
+
+  <!-- Videos -->
+  <section class="videos" id="videos" aria-labelledby="videos-title">
+    <div class="wrap">
+      <div class="sechead reveal">
+        <p class="kicker">Bunker in Bewegung</p>
+        <h2 id="videos-title">Lieber anschauen als drüber lesen.</h2>
+      </div>
+      <div class="videos__grid">
+        <button class="vid vid--big reveal" type="button" data-yt="tf18VnU6aDg" aria-label="Video abspielen: Highlights der Saison 22/23">
+          <img src="assets/img/yt-tf18VnU6aDg.webp" alt="" loading="lazy" width="1280" height="720">
+          <span class="vid__play" aria-hidden="true"></span>
+          <span class="vid__cap"><small>Rückblick Saison 22/23</small>Highlights</span>
+        </button>
+        <button class="vid reveal" type="button" data-yt="4z8qdgHWXZA" aria-label="Video abspielen: Das erste Gasslfest, Juni 2022">
+          <img src="assets/img/yt-4z8qdgHWXZA.webp" alt="" loading="lazy" width="1280" height="720">
+          <span class="vid__play" aria-hidden="true"></span>
+          <span class="vid__cap"><small>Juni 2022</small>Das erste Gasslfest</span>
+        </button>
+        <button class="vid reveal" type="button" data-yt="GkPOwMejBxo" aria-label="Video abspielen: SBÄM Fest 4">
+          <img src="assets/img/yt-GkPOwMejBxo.webp" alt="" loading="lazy" width="1280" height="720">
+          <span class="vid__play" aria-hidden="true"></span>
+          <span class="vid__cap"><small>2022</small>SBÄM Fest 4</span>
+        </button>
+      </div>
+      <p class="videos__note">Die Videos kommen von YouTube und werden erst geladen, wenn du auf Abspielen tippst. <a href="https://www.youtube.com/@bunker.kollektiv1936" target="_blank" rel="noopener">Zum YouTube-Kanal</a></p>
+    </div>
   </section>
 
   <!-- Über uns -->
@@ -381,7 +409,7 @@
   </symbol>
 </svg>
 
-<script src="assets/app.js?v=3" defer></script>
+<script src="assets/app.js?v=4" defer></script>
 <script type="module" src="assets/bunker3d.js?v=5"></script>
 </body>
 </html>

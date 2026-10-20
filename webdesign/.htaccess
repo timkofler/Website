@@ -47,7 +47,9 @@ Options -Indexes
     # für die Haar-Erkennung im Browser. Alle anderen Seiten bleiben ohne Kamera und ohne WebAssembly.
     Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()" "expr=%{REQUEST_URI} !~ m#^/beispiele/friseur/#"
     Header always set Permissions-Policy "camera=(self), microphone=(), geolocation=(), interest-cohort=()" "expr=%{REQUEST_URI} =~ m#^/beispiele/friseur/#"
-    Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" "expr=%{REQUEST_URI} !~ m#^/beispiele/friseur/#"
+    Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" "expr=%{REQUEST_URI} !~ m#^/(beispiele/friseur|demo/bunker)/#"
+    # Bunker-Entwurf: YouTube-Videos des Vereins, erst nach Klick und ohne Cookies (youtube-nocookie)
+    Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; font-src 'self'; connect-src 'self'; frame-src https://www.youtube-nocookie.com; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" "expr=%{REQUEST_URI} =~ m#^/demo/bunker/#"
     Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'wasm-unsafe-eval'; font-src 'self'; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" "expr=%{REQUEST_URI} =~ m#^/beispiele/friseur/#"
   </IfModule>
   <IfModule mod_expires.c>

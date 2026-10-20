@@ -168,6 +168,24 @@
     if (ev) downloadIcs(ev);
   });
 
+  // ---- Videos: YouTube erst nach Klick laden (ohne Cookies) -----------
+  document.querySelectorAll("[data-yt]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var id = b.getAttribute("data-yt");
+      if (!/^[\w-]{11}$/.test(id)) return;
+      var f = document.createElement("iframe");
+      f.src = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&rel=0&playsinline=1";
+      f.title = b.getAttribute("aria-label").replace("Video abspielen: ", "");
+      f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+      f.allowFullscreen = true;
+      f.referrerPolicy = "strict-origin-when-cross-origin";
+      // Knopf durch einen Rahmen mit dem Player ersetzen (kein iframe im button)
+      var box = document.createElement("div");
+      box.className = b.className + " is-on";
+      box.appendChild(f); b.replaceWith(box); f.focus();
+    });
+  });
+
   // ---- Anfrage-Formulare (Beispiel) ----------------------------------
   function openForm(id) {
     var dlg = document.getElementById("form-" + id);
