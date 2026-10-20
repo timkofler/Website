@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0a0a0c">
 <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../assets/style.css?v=10">
+<link rel="stylesheet" href="../assets/style.css?v=11">
 <link rel="stylesheet" href="../assets/verwaltung.css?v=1">
 </head>
 <body class="adm">
@@ -97,7 +97,7 @@
 
 <div class="toast" role="status" aria-live="polite" data-toast hidden></div>
 
-<a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener"><span class="tk"><img src="../assets/img/tk-logo.svg" alt="" width="28" height="14"></span> Entwurf von Tim Kofler</a>
+<a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener"><span class="tk"><img src="../assets/img/tk-logo.svg" alt="" width="28" height="14"></span><span class="draft__txt">Entwurf von Tim Kofler</span></a>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="logo" viewBox="-30 -30 1060 1060" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
