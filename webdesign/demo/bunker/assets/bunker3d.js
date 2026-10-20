@@ -94,7 +94,7 @@ async function neonTexture() {
   const inner = sym ? sym.innerHTML : "";
   const svg = (col, sw) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1100"><g transform="translate(70 60)" fill="none" stroke="${col}" stroke-linecap="square" style="stroke-width:${sw}">${inner.replace(/stroke-width="\d+"/g, "")}</g></svg>`;
   const load = (src) => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(src); });
-  const [glow, core] = await Promise.all([load(svg("#4fe6e1", 16)), load(svg("#f2fffe", 7))]);
+  const [glow, core] = await Promise.all([load(svg("#4fe6e1", 30)), load(svg("#f2fffe", 13))]);
   const S = 1024, c = document.createElement("canvas"); c.width = c.height = S;
   const g = c.getContext("2d");
   g.shadowColor = "#4fe6e1";
@@ -243,8 +243,8 @@ async function start() {
   // Neon-Logo über der Tür
   const neonTex = await neonTexture();
   const neonMat = new THREE.MeshBasicMaterial({ map: neonTex, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false, opacity: 0.06 });
-  const neon = new THREE.Mesh(new THREE.PlaneGeometry(1.15, 1.15), neonMat);
-  neon.position.set(0, FLOOR_B + DOOR_H + 0.62, Z_END + 0.012); scene.add(neon);
+  const neon = new THREE.Mesh(new THREE.PlaneGeometry(1.3, 1.3), neonMat);
+  neon.position.set(0, FLOOR_B + DOOR_H + 0.7, Z_END + 0.012); scene.add(neon);
 
   // Staub im Licht
   const dustN = mobile ? 160 : 320, dg = new THREE.BufferGeometry(), dp = new Float32Array(dustN * 3);
@@ -257,7 +257,7 @@ async function start() {
 
   // ---- Kamera-Fahrt ----
   const Z0 = 2.4, Z1 = Z_END + 2.3, Z2 = Z_END + 1.55;
-  const NEON_Y = FLOOR_B + DOOR_H + 0.62;
+  const NEON_Y = FLOOR_B + DOOR_H + 0.7;
   const pos = new THREE.Vector3(), look = new THREE.Vector3(), tmp = new THREE.Vector3();
   const easeS = (t) => 0.5 - 0.5 * Math.cos(Math.PI * t);
   function pose(p) {

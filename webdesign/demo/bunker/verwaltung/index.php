@@ -1,0 +1,111 @@
+<?php require __DIR__ . "/../_gate.php"; ?>
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Verwaltung · bunker.kollektiv</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0a0a0c">
+<link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css?v=3">
+<link rel="stylesheet" href="../assets/verwaltung.css?v=1">
+</head>
+<body class="adm">
+
+<header class="adm__bar">
+  <a class="adm__brand" href="../" aria-label="Zur Webseite">
+    <svg class="nav__logo" viewBox="8 8 1004 990" aria-hidden="true"><use href="#logo"/></svg>
+    <span>Verwaltung</span>
+  </a>
+  <span class="adm__demo">Demo</span>
+  <a class="adm__site" href="../#termine">Zur Webseite →</a>
+</header>
+
+<main class="adm__main">
+  <section class="adm__hello">
+    <p class="kicker">Hallo, bunker.kollektiv</p>
+    <h1>Neuer Termin in einer Minute.</h1>
+    <p>Foto rein, Titel und Datum dazu, fertig. Der Termin steht sofort auf der Webseite, mit Countdown und Kalender-Knopf. Vergangene Events wandern von selbst ins Archiv.</p>
+  </section>
+
+  <div class="adm__tabs" role="tablist">
+    <button role="tab" id="tab-termine" aria-controls="p-termine" aria-selected="true" data-tab="termine">Termine</button>
+    <button role="tab" id="tab-anfragen" aria-controls="p-anfragen" aria-selected="false" data-tab="anfragen">Anfragen <b data-anf-count></b></button>
+  </div>
+
+  <!-- Termine -->
+  <section class="adm__panel" id="p-termine" role="tabpanel" aria-labelledby="tab-termine">
+    <div class="adm__grid">
+      <form class="adm__form" id="ev-form" novalidate>
+        <label class="drop" data-drop>
+          <input type="file" accept="image/*" name="foto" data-file>
+          <span class="drop__empty">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3l2-3h6l2 3h3v13H4z"/><circle cx="12" cy="13" r="4"/></svg>
+            <b>Foto auswählen</b>
+            <small>oder hierher ziehen. Am Handy direkt aus der Galerie.</small>
+          </span>
+          <img class="drop__img" alt="" hidden data-drop-img>
+          <span class="drop__change" hidden>Foto ändern</span>
+        </label>
+
+        <label class="fld"><span>Titel</span><input name="title" maxlength="60" required placeholder="z. B. Bunker Rock Fest"></label>
+        <div class="row2">
+          <label class="fld"><span>Datum</span><input type="date" name="d" required></label>
+          <label class="fld"><span>Beginn</span><input type="time" name="t" value="19:00"></label>
+        </div>
+        <label class="fld"><span>Bands oder Untertitel <i>(optional)</i></span><input name="sub" maxlength="90" placeholder="z. B. mit Planet Error und Traincorn"></label>
+        <fieldset class="chips chips--series"><legend>Reihe</legend><div data-series-chips></div></fieldset>
+        <label class="fld"><span>Ein paar Sätze dazu <i>(optional)</i></span><textarea name="text" rows="3" maxlength="320" placeholder="Was erwartet die Leute?"></textarea></label>
+        <p class="adm__err" role="alert" data-err hidden></p>
+        <div class="adm__btns">
+          <button class="btn btn--neon" type="submit">Veröffentlichen</button>
+          <button class="btn btn--ghost" type="button" data-sample>Beispiel ausfüllen</button>
+        </div>
+      </form>
+
+      <div class="adm__preview">
+        <p class="adm__label">So sieht's auf der Webseite aus</p>
+        <article class="pv" data-pv>
+          <div class="pv__media"><img alt="" data-pv-img hidden><span class="pv__ph">Dein Foto</span></div>
+          <div class="pv__body">
+            <p class="kicker">Als Nächstes im Bunker</p>
+            <h2 class="pv__title" data-pv-title>Dein Event</h2>
+            <p class="pv__meta" data-pv-date>Datum wählen</p>
+            <p class="pv__text" data-pv-text>Hier steht, was die Leute erwartet.</p>
+            <div class="pv__btns"><span class="btn btn--neon">In meinen Kalender</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="adm__list">
+      <h2>Deine eingetragenen Termine</h2>
+      <ul data-list></ul>
+      <p class="adm__empty" data-list-empty>Noch nichts eingetragen. Probier's oben aus, der Termin erscheint dann auf der Webseite.</p>
+      <p class="adm__note">Demo: Die Termine werden nur in diesem Browser gespeichert. Im echten Betrieb meldet sich der Verein mit eigenem Passwort an und die Termine sind für alle sichtbar.</p>
+    </div>
+  </section>
+
+  <!-- Anfragen -->
+  <section class="adm__panel" id="p-anfragen" role="tabpanel" aria-labelledby="tab-anfragen" hidden>
+    <p class="adm__intro">Alles, was über die Formulare auf der Webseite reinkommt: Mietanfragen, Bands und neue Mitglieder. Zusätzlich kommt jede Anfrage per E-Mail.</p>
+    <ul class="anf" data-anf></ul>
+    <p class="adm__note">Tipp: Schick auf der Webseite unter „Mitmachen“ eine Test-Anfrage ab, sie taucht dann hier auf.</p>
+  </section>
+</main>
+
+<div class="toast" role="status" aria-live="polite" data-toast hidden></div>
+
+<a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener"><span class="tk"><img src="../assets/img/tk-logo.svg" alt="" width="28" height="14"></span> Entwurf von Tim Kofler</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo" viewBox="8 8 1004 990" fill="none" stroke="currentColor">
+    <g stroke-width="42"><path d="M197 38H42V968H975"/><path d="M352 38H880C945 38 975 75 975 125V420C975 480 905 505 820 505"/><path d="M197 38V850C197 930 235 968 276 968C317 968 355 930 355 850V38"/></g>
+    <g stroke-width="30"><path d="M100 38C160 45 192 80 192 125"/><path d="M192 420C180 470 120 505 42 505C120 505 180 540 192 590"/><path d="M192 870C180 930 120 968 60 968"/><path d="M360 45L505 965M508 38V968"/><path d="M658 38L510 505L658 965M660 38V968"/><path d="M660 505H815M815 38V968M815 515L970 965"/></g>
+  </symbol>
+</svg>
+
+<script src="../assets/verwaltung.js?v=1" defer></script>
+</body>
+</html>

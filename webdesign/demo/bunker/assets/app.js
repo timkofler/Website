@@ -55,6 +55,12 @@
     { d: "2026-12-19", t: "19:00", title: "Mario Kart Turnier", sub: "Mario Madness, Controller bereit", s: "kart" }
   ];
 
+  // Demo: Termine aus der Vereins-Verwaltung (nur in diesem Browser gespeichert)
+  function store(key) { try { return JSON.parse(localStorage.getItem(key) || "[]") || []; } catch (e) { return []; } }
+  store("bunkerDemoEvents").forEach(function (ev) {
+    if (ev && /^\d{4}-\d{2}-\d{2}$/.test(ev.d) && ev.title) EVENTS.push({ d: ev.d, t: ev.t || "", title: String(ev.title), sub: ev.sub || "", text: ev.text || "", s: ev.s || "misc", img: /^data:image\//.test(ev.img || "") ? ev.img : "", demo: true });
+  });
+
   var WD = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
   var WDL = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
   var MO = ["Jänner", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
@@ -82,7 +88,9 @@
     document.querySelectorAll("[data-next-date]").forEach(function (el) { el.textContent = el.closest(".hero") ? shortDate(next) : longDate(next); });
     document.querySelectorAll("[data-next-short]").forEach(function (el) { el.textContent = next.start.getDate() + "." + (next.start.getMonth() + 1) + ". " + next.title; });
     var nt = document.querySelector("[data-next-text]");
-    if (nt) nt.textContent = next.sub || (SERIES[next.s] ? SERIES[next.s].text : "");
+    if (nt) nt.textContent = next.text || next.sub || (SERIES[next.s] ? SERIES[next.s].text : "");
+    var nimg = document.querySelector(".next__media img");
+    if (nimg && next.img) { nimg.src = next.img; nimg.alt = next.title; }
     var card = document.querySelector("[data-accent]");
     if (card) card.style.setProperty("--c", colorOf(next.s));
   }
@@ -102,9 +110,10 @@
   if (ul) {
     ul.innerHTML = upcoming.slice(1).map(function (ev, i) {
       var s = ev.start;
-      return '<li class="ev reveal" style="--c:' + colorOf(ev.s) + '">' +
+      return '<li class="ev reveal' + (ev.img ? " ev--img" : "") + '" style="--c:' + colorOf(ev.s) + '">' +
+        (ev.img ? '<img class="ev__img" src="' + esc(ev.img) + '" alt="" loading="lazy">' : "") +
         '<div class="ev__date">' + two(s.getDate()) + "." + two(s.getMonth() + 1) + "<small>" + WDL[s.getDay()] + "</small></div>" +
-        '<div><h3 class="ev__title">' + esc(ev.title) + "</h3>" +
+        '<div><h3 class="ev__title">' + esc(ev.title) + (ev.demo ? ' <span class="ev__new">neu eingetragen</span>' : "") + "</h3>" +
         '<p class="ev__meta">' + (tagOf(ev.s) !== ev.title ? '<span class="ev__tag">' + esc(tagOf(ev.s)) + "</span>" : "") + esc(hhmm(ev.t)) + (ev.sub ? " · " + esc(ev.sub) : "") + "</p></div>" +
         '<button class="ev__cal" data-ics="' + EVENTS.indexOf(ev) + '">+ Kalender</button></li>';
     }).join("");
@@ -157,6 +166,41 @@
     var b = e.target.closest("[data-ics]"); if (!b) return;
     var v = b.getAttribute("data-ics"), ev = v === "next" ? next : EVENTS[+v];
     if (ev) downloadIcs(ev);
+  });
+
+  // ---- Anfrage-Formulare (Beispiel) ----------------------------------
+  function openForm(id) {
+    var dlg = document.getElementById("form-" + id);
+    if (!dlg || !dlg.showModal) return;
+    var f = dlg.querySelector("form");
+    f.classList.remove("is-sent"); var ok = f.querySelector(".modal__ok"); if (ok) ok.remove();
+    dlg.showModal(); document.documentElement.classList.add("modal-open");
+  }
+  document.addEventListener("click", function (e) {
+    var o = e.target.closest("[data-open]");
+    if (o) { e.preventDefault(); openForm(o.getAttribute("data-open")); return; }
+    var c = e.target.closest("[data-close]");
+    if (c) { c.closest("dialog").close(); return; }
+    if (e.target.tagName === "DIALOG") e.target.close(); // Klick neben das Fenster
+  });
+  document.querySelectorAll("dialog.modal").forEach(function (dlg) {
+    dlg.addEventListener("close", function () { document.documentElement.classList.remove("modal-open"); });
+    var f = dlg.querySelector("form");
+    f.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var data = {}, fd = new FormData(f);
+      fd.forEach(function (v, k) { v = String(v).trim(); if (!v) return; data[k] = data[k] ? data[k] + ", " + v : v; });
+      var list = store("bunkerDemoAnfragen");
+      list.unshift({ art: f.getAttribute("data-anfrage"), at: new Date().toISOString(), felder: data });
+      try { localStorage.setItem("bunkerDemoAnfragen", JSON.stringify(list.slice(0, 30))); } catch (err) {}
+      var name = (data.Name || data.Band || "").split(" ")[0];
+      var ok = document.createElement("div"); ok.className = "modal__ok"; ok.setAttribute("role", "status");
+      ok.innerHTML = '<svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="23"/><path d="M15 27l7 7 15-16"/></svg>' +
+        "<h3>Danke" + (name ? ", " + esc(name) : "") + "!</h3><p>So sieht's aus, wenn eine Anfrage reinkommt. Im echten Betrieb landet sie beim Verein per E-Mail und in der Verwaltung.</p>" +
+        '<div class="modal__okbtns"><a class="btn btn--neon" href="verwaltung/#anfragen">In der Verwaltung ansehen</a><button class="btn btn--ghost" type="button" data-close>Schließen</button></div>';
+      f.appendChild(ok); f.classList.add("is-sent"); f.reset();
+      ok.querySelector("a").focus();
+    });
   });
 
   // ---- Navigation -----------------------------------------------------
