@@ -8,8 +8,8 @@
 .tk-hero .lead { max-width: 58ch; }
 .tk-ref { display: grid; grid-template-columns: 1fr 1.1fr; gap: 56px; align-items: center; }
 .tk-ref__shot { display: block; overflow: hidden; border: 1px solid var(--line-2); border-radius: 18px; background: var(--bg-2); }
-.tk-ref__shot img { width: 100%; height: auto; transition: transform .6s ease; }
-.tk-ref__shot:hover img { transform: scale(1.02); }
+.tk-ref__shot img, .tk-ref__shot video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; transition: transform .6s ease; }
+.tk-ref__shot:hover img, .tk-ref__shot:hover video { transform: scale(1.02); }
 @media (max-width: 900px) { .tk-ref { grid-template-columns: 1fr; gap: 36px; } }
 @media (max-width: 680px) { .tk-hero { padding: 80px 0 64px; } }
 
