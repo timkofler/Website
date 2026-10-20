@@ -403,35 +403,8 @@ html.modal-open{overflow:hidden}
   .vid__cap,.vid--big .vid__cap{left:16px;right:82px;bottom:16px;font-size:26px}
 }
 
-/* Lichtpunkt fährt die Neonlinien des Logos nach */
+/* Lichtpunkt fährt die Neonlinien des Logos nach: eine durchgehende Bahn über alle Linien (Euler-Rundweg), daher ohne Springen */
 .spark{fill:none;stroke:#fff;stroke-width:34;stroke-linecap:round;filter:drop-shadow(0 0 3px #fff) drop-shadow(0 0 10px #4fe6e1) drop-shadow(0 0 20px #4fe6e1)}
-.spark path{opacity:0;animation:9s linear infinite}
 @media (prefers-reduced-motion:reduce){.spark{display:none}}
-.spark .sp0{stroke-dasharray:120 3970;animation-name:sp0}
-@keyframes sp0{0%,0.00%{stroke-dashoffset:120;opacity:0}0.01%,18.63%{opacity:1}18.64%,100%{stroke-dashoffset:-3830;opacity:0}}
-.spark .sp1{stroke-dasharray:120 2223;animation-name:sp1}
-@keyframes sp1{0%,18.64%{stroke-dashoffset:120;opacity:0}18.65%,28.77%{opacity:1}28.78%,100%{stroke-dashoffset:-2083;opacity:0}}
-.spark .sp2{stroke-dasharray:120 284;animation-name:sp2}
-@keyframes sp2{0%,28.78%{stroke-dashoffset:120;opacity:0}28.79%,29.48%{opacity:1}29.49%,100%{stroke-dashoffset:-144;opacity:0}}
-.spark .sp3{stroke-dasharray:120 541;animation-name:sp3}
-@keyframes sp3{0%,29.49%{stroke-dashoffset:120;opacity:0}29.50%,31.43%{opacity:1}31.44%,100%{stroke-dashoffset:-401;opacity:0}}
-.spark .sp4{stroke-dasharray:120 314;animation-name:sp4}
-@keyframes sp4{0%,31.44%{stroke-dashoffset:120;opacity:0}31.45%,32.27%{opacity:1}32.28%,100%{stroke-dashoffset:-174;opacity:0}}
-.spark .sp5{stroke-dasharray:120 1154;animation-name:sp5}
-@keyframes sp5{0%,32.28%{stroke-dashoffset:120;opacity:0}32.29%,37.21%{opacity:1}37.22%,100%{stroke-dashoffset:-1014;opacity:0}}
-.spark .sp6{stroke-dasharray:120 1140;animation-name:sp6}
-@keyframes sp6{0%,37.22%{stroke-dashoffset:120;opacity:0}37.23%,42.08%{opacity:1}42.09%,100%{stroke-dashoffset:-1000;opacity:0}}
-.spark .sp7{stroke-dasharray:120 1192;animation-name:sp7}
-@keyframes sp7{0%,42.09%{stroke-dashoffset:120;opacity:0}42.10%,47.20%{opacity:1}47.21%,100%{stroke-dashoffset:-1052;opacity:0}}
-.spark .sp8{stroke-dasharray:120 1140;animation-name:sp8}
-@keyframes sp8{0%,47.21%{stroke-dashoffset:120;opacity:0}47.22%,52.07%{opacity:1}52.08%,100%{stroke-dashoffset:-1000;opacity:0}}
-.spark .sp9{stroke-dasharray:120 356;animation-name:sp9}
-@keyframes sp9{0%,52.08%{stroke-dashoffset:120;opacity:0}52.09%,53.12%{opacity:1}53.13%,100%{stroke-dashoffset:-216;opacity:0}}
-.spark .sp10{stroke-dasharray:120 332;animation-name:sp10}
-@keyframes sp10{0%,53.13%{stroke-dashoffset:120;opacity:0}53.14%,54.05%{opacity:1}54.06%,100%{stroke-dashoffset:-192;opacity:0}}
-.spark .sp11{stroke-dasharray:120 288;animation-name:sp11}
-@keyframes sp11{0%,54.06%{stroke-dashoffset:120;opacity:0}54.07%,54.77%{opacity:1}54.78%,100%{stroke-dashoffset:-148;opacity:0}}
-.spark .sp12{stroke-dasharray:120 1140;animation-name:sp12}
-@keyframes sp12{0%,54.78%{stroke-dashoffset:120;opacity:0}54.79%,59.64%{opacity:1}59.65%,100%{stroke-dashoffset:-1000;opacity:0}}
-.spark .sp13{stroke-dasharray:120 668;animation-name:sp13}
-@keyframes sp13{0%,59.65%{stroke-dashoffset:120;opacity:0}59.66%,62.21%{opacity:1}62.22%,100%{stroke-dashoffset:-528;opacity:0}}
+.spark path{stroke-dasharray:90 14052;animation:spark 24s linear infinite}
+@keyframes spark{from{stroke-dashoffset:0}to{stroke-dashoffset:-14142}}
