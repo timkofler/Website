@@ -253,6 +253,13 @@ function build(THREE, D, RoomEnvironment) {
       var s = new THREE.Sprite(mat); s.userData = { a: i * 2.1, r: .6 + (i % 5) * .42, z: .1 + (i % 4) * .4, s: 2.8 + (i % 5) * .7, sp: .12 + (i % 3) * .05 };
       smoke.push(s); rig.add(s);
     }
+    // Dampf aus der geöffneten Dose: Schwaden steigen aus dem Deckel, werden größer und lösen sich auf.
+    var vapor = [], VN = mobile ? 26 : 40, vTop = new THREE.Vector3();
+    for (var v = 0; v < VN; v++) {
+      var vm = new THREE.SpriteMaterial({ map: v % 2 ? smokeT2 : smokeT, color: v % 4 ? "#ece8de" : "#c9c6bc", transparent: true, depthWrite: false, opacity: 0 });
+      var vs = new THREE.Sprite(vm); vs.userData = { ph: v / VN, sd: v * 1.7, dx: (v % 7 - 3) * .05, lp: 2.4 + (v % 3) * .5 };
+      vapor.push(vs); rig.add(vs);
+    }
     var sp = D.sparks(THREE, mobile ? 120 : 280, { w: 7, h: 5, d: 4 }); scene.add(sp);
 
     function setGroup(g, a, c, t) {
@@ -311,8 +318,20 @@ function build(THREE, D, RoomEnvironment) {
       smoke.forEach(function (m) {
         var u = m.userData, a = u.a + t * u.sp; m.visible = q.smoke > .01; if (!m.visible) return;
         m.position.set(Math.cos(a) * u.r * 1.2, Math.sin(a * .7) * u.r * .6 + (1 - q.smoke) * -.6, u.z);
-        m.scale.set(u.s, u.s * .8, 1); m.material.rotation = a * .3; m.material.opacity = Math.min(1, q.smoke * .92);
+        m.scale.set(u.s, u.s * .8, 1); m.material.rotation = a * .3; m.material.opacity = Math.min(1, q.smoke * .5);
       });
+      // Dampf: Startpunkt ist die Deckelmitte (folgt der Neigung), jede Schwade lebt lp Sekunden und steigt dabei auf.
+      if (q.smoke > .01) {
+        vTop.set(0, .84, 0).applyQuaternion(tilt.quaternion);
+        vapor.forEach(function (m) {
+          var u = m.userData, k = (t / u.lp + u.ph) % 1, e = 1 - Math.pow(1 - k, 2);
+          var wob = Math.sin(t * 1.3 + u.sd) * .08 + Math.sin(k * 7 + u.sd) * .1 * k;
+          m.visible = true;
+          m.position.set(vTop.x + u.dx * (narrow ? 1 : 1.8) * e + wob, vTop.y + .05 + e * (narrow ? 2.3 : 1.5), vTop.z + Math.sin(u.sd) * .12 * e + .05);
+          var sc = .42 + e * (narrow ? 1.9 : 2.2); m.scale.set(sc, sc * .85, 1); m.material.rotation = u.sd + t * .25 * (u.sd % 2 ? 1 : -1);
+          m.material.opacity = q.smoke * Math.pow(Math.sin(Math.PI * k), .6) * (.95 - k * .35);
+        });
+      } else vapor.forEach(function (m) { m.visible = false; });
 
       // Most: Oberfläche, Wellenring beim Eintauchen, Bläschen um die Dose.
       most.visible = geo.surf > -halfH - .3; most.position.y = geo.surf;
