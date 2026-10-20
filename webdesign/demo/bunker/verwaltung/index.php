@@ -8,14 +8,14 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0a0a0c">
 <link rel="icon" href="../assets/img/logo.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../assets/style.css?v=9">
+<link rel="stylesheet" href="../assets/style.css?v=10">
 <link rel="stylesheet" href="../assets/verwaltung.css?v=1">
 </head>
 <body class="adm">
 
 <header class="adm__bar">
   <a class="adm__brand" href="../" aria-label="Zur Webseite">
-    <svg class="nav__logo" viewBox="-30 -30 1060 1060" aria-hidden="true"><use href="#logo"/><g class="spark"><path class="sp0" d="M164 0H0V1000H1000V0H334"/><path class="sp1" d="M164 0V908A85 85 0 0 0 334 908V0"/><path class="sp2" d="M70 0C125 5 164 40 164 90"/><path class="sp3" d="M164 420C150 475 90 506 0 506C90 506 150 540 164 595"/><path class="sp4" d="M164 905C164 960 110 1000 40 1000"/><path class="sp5" d="M334 0L500 1000"/><path class="sp6" d="M500 0V1000"/><path class="sp7" d="M664 0L500 500L664 1000"/><path class="sp8" d="M664 0V1000"/><path class="sp9" d="M664 500H880"/><path class="sp10" d="M880 500C950 500 1000 460 1000 380"/><path class="sp11" d="M900 0C960 0 1000 30 1000 85"/><path class="sp12" d="M830 0V1000"/><path class="sp13" d="M830 500L1000 1000"/></g></svg>
+    <svg class="nav__logo" viewBox="-30 -30 1060 1060" aria-hidden="true"><use href="#logo"/><g class="spark"><path d="M164 0L164 90C164 40 125 5 70 0C125 5 164 40 164 90L164 420L164 595C150 540 90 506 0 506C90 506 150 475 164 420L164 595L164 905C164 960 110 1000 40 1000C110 1000 164 960 164 905L164 908A85 85 0 0 0 334 908L334 0L500 0L500 500L664 1000L664 500L830 500L1000 1000L830 1000L830 500L830 0L900 0C960 0 1000 30 1000 85L1000 380C1000 460 950 500 880 500L830 500L664 500L664 0L500 500L500 1000L334 0L500 0L664 0L830 0L900 0L1000 0L1000 85L1000 380L1000 1000L830 1000L664 1000L500 1000L40 1000L0 1000L0 506L0 0L70 0L164 0"/></g></svg>
     <span>Verwaltung</span>
   </a>
   <span class="adm__demo">Demo</span>
