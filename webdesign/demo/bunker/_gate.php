@@ -40,9 +40,8 @@ if (empty($_SESSION['bunker_ok'])) {
 </head>
 <body>
 <main class="gate">
-  <svg class="gate__logo" viewBox="8 8 1004 990" aria-hidden="true" fill="none" stroke="currentColor">
-    <g stroke-width="42"><path d="M197 38H42V968H975"/><path d="M352 38H880C945 38 975 75 975 125V420C975 480 905 505 820 505"/><path d="M197 38V850C197 930 235 968 276 968C317 968 355 930 355 850V38"/></g>
-    <g stroke-width="30"><path d="M100 38C160 45 192 80 192 125"/><path d="M192 420C180 470 120 505 42 505C120 505 180 540 192 590"/><path d="M192 870C180 930 120 968 60 968"/><path d="M360 45L505 965M508 38V968"/><path d="M658 38L510 505L658 965M660 38V968"/><path d="M660 505H815M815 38V968M815 515L970 965"/></g>
+  <svg class="gate__logo" viewBox="-30 -30 1060 1060" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <g stroke-width="36"><path d="M164 0H0V1000H1000V0H334"/><path d="M164 0V908A85 85 0 0 0 334 908V0"/><path d="M70 0C125 5 164 40 164 90"/><path d="M164 420C150 475 90 506 0 506C90 506 150 540 164 595"/><path d="M164 905C164 960 110 1000 40 1000"/><path d="M334 0L500 1000"/><path d="M500 0V1000"/><path d="M664 0L500 500L664 1000"/><path d="M664 0V1000"/><path d="M664 500H880"/><path d="M880 500C950 500 1000 460 1000 380"/><path d="M900 0C960 0 1000 30 1000 85"/><path d="M830 0V1000"/><path d="M830 500L1000 1000"/></g>
   </svg>
   <h1>bunker<b>.</b>kollektiv</h1>
   <p>Entwurf der neuen Webseite. Bitte gib das Passwort ein, das du bekommen hast.</p>

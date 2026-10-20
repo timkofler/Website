@@ -92,7 +92,7 @@ function poster(title, sub, c1, c2, seed) {
 async function neonTexture() {
   const sym = document.getElementById("logo");
   const inner = sym ? sym.innerHTML : "";
-  const svg = (col, sw) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1100"><g transform="translate(70 60)" fill="none" stroke="${col}" stroke-linecap="square" style="stroke-width:${sw}">${inner.replace(/stroke-width="\d+"/g, "")}</g></svg>`;
+  const svg = (col, sw) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1100"><g transform="translate(50 50)" fill="none" stroke="${col}" stroke-linecap="round" stroke-linejoin="round" style="stroke-width:${sw}">${inner.replace(/stroke-width="\d+"/g, "")}</g></svg>`;
   const load = (src) => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(src); });
   const [glow, core] = await Promise.all([load(svg("#4fe6e1", 30)), load(svg("#f2fffe", 13))]);
   const S = 1024, c = document.createElement("canvas"); c.width = c.height = S;
