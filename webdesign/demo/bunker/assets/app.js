@@ -204,6 +204,7 @@
   document.querySelectorAll("dialog.modal").forEach(function (dlg) {
     dlg.addEventListener("close", function () { document.documentElement.classList.remove("modal-open"); });
     var f = dlg.querySelector("form");
+    if (!f.hasAttribute("data-anfrage")) return;
     f.addEventListener("submit", function (e) {
       e.preventDefault();
       var data = {}, fd = new FormData(f);
@@ -255,6 +256,7 @@
     }
     var heroBottom = descent ? descent.getBoundingClientRect().bottom : 0;
     nav.classList.toggle("is-solid", p > 0.97 && heroBottom < window.innerHeight * 0.35 || heroBottom < 80);
+    document.documentElement.classList.toggle("past-hero", heroBottom < 80); // Entwurf-Hinweis am Handy dann nur als TK-Zeichen
   }
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onScroll);

@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#0a0a0c">
 <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/bigshoulders.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=10">
+<link rel="stylesheet" href="assets/style.css?v=11">
 <script src="assets/early.js"></script>
 <script type="application/ld+json">
 {
@@ -304,17 +304,43 @@
     <nav class="foot__nav" aria-label="Fußzeile">
       <a href="https://www.instagram.com/bunker.kollektiv" target="_blank" rel="noopener">Instagram</a>
       <a href="https://www.facebook.com/bunker.kollektiv.purgstall" target="_blank" rel="noopener">Facebook</a>
-      <a href="#impressum">Impressum</a>
-      <a href="#datenschutz">Datenschutz</a>
+      <a href="#impressum" data-open="impressum">Impressum</a>
+      <a href="#datenschutz" data-open="datenschutz">Datenschutz</a>
       <a href="verwaltung/">Vereins-Login</a>
     </nav>
     <p class="foot__credit">Webdesign: <a href="https://tim-kofler.at/?utm_source=bunkerkollektiv" target="_blank" rel="noopener">Tim Kofler</a></p>
   </div>
 </footer>
 
-<a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener"><span class="tk"><img src="assets/img/tk-logo.svg" alt="" width="28" height="14"></span> Entwurf von Tim Kofler</a>
+<a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener"><span class="tk"><img src="assets/img/tk-logo.svg" alt="" width="28" height="14"></span><span class="draft__txt">Entwurf von Tim Kofler</span></a>
 
 <!-- Anfrage-Formulare (Beispiel, wird nicht verschickt) -->
+<dialog class="modal" id="form-impressum" aria-labelledby="fi-t">
+  <form class="modal__form modal__text" method="dialog">
+    <button class="modal__x" type="button" data-close aria-label="Schließen">×</button>
+    <p class="kicker">Impressum</p>
+    <h2 id="fi-t">Wer hinter dem Bunker steht</h2>
+    <p><b>bunker.kollektiv</b><br>Verein zur Förderung kollektiver Kunst<br>Schulgasse 3, 3251 Purgstall an der Erlauf</p>
+    <p>ZVR-Zahl: 1001996773<br>E-Mail: <a href="mailto:office@bunkerkollektiv.at">office@bunkerkollektiv.at</a></p>
+    <p>Fotos Gasslfestival: musil-arts. Karte: © OpenStreetMap-Mitwirkende.<br>Webdesign und Umsetzung: <a href="https://tim-kofler.at/?utm_source=bunkerkollektiv" target="_blank" rel="noopener">Tim Kofler</a></p>
+    <p class="modal__demo">Entwurf: Vertretungsbefugte Personen ergänzt der Verein vor dem Start.</p>
+  </form>
+</dialog>
+
+<dialog class="modal" id="form-datenschutz" aria-labelledby="fd-t">
+  <form class="modal__form modal__text" method="dialog">
+    <button class="modal__x" type="button" data-close aria-label="Schließen">×</button>
+    <p class="kicker">Datenschutz</p>
+    <h2 id="fd-t">Kein Tracking im Bunker</h2>
+    <p>Diese Webseite verwendet keine Werbe- oder Statistik-Cookies und kein Tracking. Schriften und Karte liegen auf unserem eigenen Server, beim Besuch wird nichts an Google oder andere Dienste geschickt.</p>
+    <p><b>Videos:</b> Die Videos kommen von YouTube und werden erst geladen, wenn du auf Abspielen tippst. Ab dann gelten die Datenschutzbestimmungen von Google.</p>
+    <p><b>Karte und Route:</b> Erst ein Klick auf die Karte oder auf „Route planen“ öffnet Google Maps.</p>
+    <p><b>Anfragen:</b> Was du in ein Formular schreibst, verwenden wir nur, um deine Anfrage zu beantworten, und geben es nicht weiter.</p>
+    <p>Du hast das Recht auf Auskunft, Berichtigung und Löschung deiner Daten. Schreib uns an <a href="mailto:office@bunkerkollektiv.at">office@bunkerkollektiv.at</a>. Beschweren kannst du dich bei der österreichischen <a href="https://www.dsb.gv.at" target="_blank" rel="noopener">Datenschutzbehörde</a>.</p>
+    <p class="modal__demo">Entwurf: Den Text stimmt der Verein vor dem Start noch ab.</p>
+  </form>
+</dialog>
+
 <dialog class="modal" id="form-mieten" aria-labelledby="fm-t">
   <form class="modal__form" method="dialog" data-anfrage="Bunker mieten">
     <button class="modal__x" type="button" data-close aria-label="Schließen">×</button>
@@ -400,7 +426,7 @@
   </symbol>
 </svg>
 
-<script src="assets/app.js?v=6" defer></script>
+<script src="assets/app.js?v=7" defer></script>
 <script type="module" src="assets/bunker3d.js?v=6"></script>
 </body>
 </html>
