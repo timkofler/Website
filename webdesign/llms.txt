@@ -25,7 +25,7 @@
 
 ## Über
 
-- [Über mich](https://tim-kofler.at/#ueber): Tim Kofler, Softwareentwickler aus Niederösterreich.
+- [Über mich](https://tim-kofler.at/#ueber): Tim Kofler, Softwareentwickler aus Niederösterreich. Perfektionist, der jede Seite selbst programmiert und am Handy prüft, bevor sie online geht; eigenes Projekt: CryptoX Dashboard auf crypto-x.at.
 - [Impressum](https://tim-kofler.at/impressum/)
 - [Datenschutz](https://tim-kofler.at/datenschutz/)
 - [Bildnachweis](https://tim-kofler.at/bildnachweis/): Herkunft und Lizenz aller Fotos und Videos
