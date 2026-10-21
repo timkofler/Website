@@ -1,6 +1,7 @@
 /* Birnstoff: dunkle Bühne, eine leuchtende 3D-Dose fährt die ganze Seite mit. */
 @font-face{font-family:"Unbounded";src:url(/beispiele/_shared/fonts/unbounded.woff2) format("woff2");font-weight:200 900;font-display:swap}
 @font-face{font-family:"Outfit";src:url(/beispiele/_shared/fonts/outfit.woff2) format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Bricolage";src:url(/beispiele/_shared/fonts/bricolage.woff2) format("woff2");font-weight:200 800;font-display:swap}
 @font-face{font-family:"Playfair";src:url(/beispiele/_shared/fonts/playfair-700.woff2) format("woff2");font-weight:700;font-display:swap}
 :root{--bar:45px;--bg:#050604;--txt:#f1f4ea;--mut:#a7ae9c;--dim:#6f7667;--lime:#d4f53c;--gold:#f3c56a;--amber:#f3b549;--line:rgba(255,255,255,.1);--c:var(--lime);
   --disp:"Unbounded","Arial Black",system-ui,sans-serif;--sans:"Outfit",system-ui,-apple-system,"Segoe UI",sans-serif;--serif:"Playfair",Georgia,serif;
@@ -256,9 +257,10 @@ button{font:inherit;color:inherit}
 .events b{color:var(--txt);font:800 17px/1.15 var(--disp)}
 .partners__note{margin-top:24px;color:var(--mut);font-size:14px}
 .partners__note a{color:var(--c);text-decoration:underline;text-underline-offset:4px}
-.mark{position:relative;padding:40px 0 10px;text-align:center;overflow:clip}
-.mark__pear{width:clamp(44px,5vw,78px);height:auto;fill:var(--c);stroke:var(--c);filter:drop-shadow(0 0 24px var(--c))}
-.mark__word{margin-top:-6px;font:800 clamp(48px,12.6vw,200px)/.9 var(--disp);letter-spacing:-.045em;
+.mark{position:relative;padding:40px 0 10px;text-align:center}
+.mark__pear{width:clamp(44px,5vw,78px);margin:0 auto clamp(8px,1.4vw,20px);height:auto;fill:var(--c);stroke:var(--c);filter:drop-shadow(0 0 24px var(--c))}
+/* Großer Schriftzug in Bricolage: das B von Unbounded hat eine Kerbe links, die riesig wie abgeschnitten wirkt. */
+.mark__word{margin-top:-6px;font:800 clamp(60px,18.2vw,290px)/.86 "Bricolage",var(--disp);letter-spacing:-.035em;
   background:linear-gradient(180deg,#fff 20%,var(--c) 55%,color-mix(in srgb,var(--c) 40%,#000) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
   filter:drop-shadow(0 10px 50px color-mix(in srgb,var(--c) 35%,transparent))}
 .mark__sub{margin-top:12px;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim)}
@@ -267,6 +269,6 @@ button{font:inherit;color:inherit}
   .marquee{margin:24px -20px 0}.marquee__row{gap:40px;padding:16px 20px;animation-duration:26s}
   .plogo{transform:scale(.85)}
   .events{grid-template-columns:1fr 1fr;gap:10px}.events li{padding:14px;font-size:13px}.events b{font-size:15px}
-  .mark{padding:30px 0 6px}.mark__word{font-size:12.2vw}.mark__sub{font-size:10px;letter-spacing:.2em}
+  .mark{padding:30px 0 6px}.mark__word{font-size:17.4vw}.mark__sub{font-size:10px;letter-spacing:.12em}
 }
 @media (prefers-reduced-motion:reduce){.marquee__row{animation:none;flex-wrap:wrap;width:auto;justify-content:center}}
