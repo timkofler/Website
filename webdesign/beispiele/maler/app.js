@@ -15,6 +15,53 @@
   function hex2rgb(h) { var n = parseInt(h.slice(1), 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; }
   function shade(h, k) { var c = hex2rgb(h); return "rgb(" + c.map(function (v) { return Math.round(v * (1 - k)); }).join(",") + ")"; }
 
+  /* ---------- Farbe über dem Hero-Bild: folgt den runden Ecken, läuft seitlich herunter ---------- */
+  var drips = $("#drips"), hFrame = $(".hero__frame");
+  function paintPath() {
+    var W = hFrame.offsetWidth, H = hFrame.offsetHeight, P = 24;
+    if (!W || !H) return;
+    var r = parseFloat(getComputedStyle(hFrame).borderTopLeftRadius) || 28;
+    var a = 14, b = 8, a2 = 8, b2 = 4, yL = H * .3, yR = H * .6, f = function (n) { return Math.round(n * 10) / 10; };
+    // Außenkante: links hoch, um die Ecke, oben drüber, um die Ecke, rechts hinunter
+    var d = "M" + f(-a2) + " " + f(yL) + "L" + f(-a) + " " + r +
+      "A" + (r + a) + " " + (r + a) + " 0 0 1 " + r + " " + f(-a) +
+      "L" + f(W - r) + " " + f(-a) +
+      "A" + (r + a) + " " + (r + a) + " 0 0 1 " + f(W + a) + " " + r +
+      "L" + f(W + a2) + " " + f(yR) +
+      "A" + (a2 + b2) / 2 + " " + (a2 + b2) / 2 + " 0 0 1 " + f(W - b2) + " " + f(yR) +
+      "L" + f(W - b) + " " + r +
+      "A" + (r - b) + " " + (r - b) + " 0 0 0 " + f(W - r) + " " + b;
+    // Innenkante oben: weich durchhängende Farbe statt gerader Linie
+    var sags = [5, 11, 4, 8, 3, 10, 6], n = sags.length, step = (W - 2 * r) / n;
+    for (var i = 0; i < n; i++) {
+      var x0 = W - r - i * step, x1 = x0 - step;
+      d += "Q" + f((x0 + x1) / 2) + " " + f(b + sags[i] * 2) + " " + f(x1) + " " + b;
+    }
+    d += "A" + (r - b) + " " + (r - b) + " 0 0 0 " + b + " " + r +
+      "L" + b2 + " " + f(yL) +
+      "A" + (a2 + b2) / 2 + " " + (a2 + b2) / 2 + " 0 0 1 " + f(-a2) + " " + f(yL) + "Z";
+    // Tropfen mit runder Perle am Ende
+    function drop(cx, L, w) {
+      return "<path class=\"d\" d=\"M" + f(cx - w) + " " + (b - 2) + "C" + f(cx - w) + " " + f(L * .55) + " " + f(cx - w * .6) + " " + f(L - 12) + " " + f(cx - w * 1.15) + " " + f(L - 5) +
+        "A" + f(w * 1.2) + " " + f(w * 1.2) + " 0 1 0 " + f(cx + w * 1.15) + " " + f(L - 5) +
+        "C" + f(cx + w * .6) + " " + f(L - 12) + " " + f(cx + w) + " " + f(L * .55) + " " + f(cx + w) + " " + (b - 2) + "Z\"/>";
+    }
+    var gloss = "M" + f(-a + 5) + " " + f(r + 26) + "L" + f(-a + 5) + " " + r + "A" + (r + a - 5) + " " + (r + a - 5) + " 0 0 1 " + r + " " + f(-a + 5) + "L" + f(W * .38) + " " + f(-a + 5);
+    drips.style.height = (H + 2 * P) + "px";
+    drips.innerHTML = "<svg viewBox=\"" + -P + " " + -P + " " + (W + 2 * P) + " " + (H + 2 * P) + "\">" +
+      "<path d=\"" + d + "\" fill=\"currentColor\"/>" +
+      "<circle cx=\"" + f(-(a2 - b2) / 2) + "\" cy=\"" + f(yL + 4) + "\" r=\"" + ((a2 + b2) / 2 + 3) + "\" fill=\"currentColor\"/>" +
+      "<circle cx=\"" + f(W + (a2 - b2) / 2) + "\" cy=\"" + f(yR + 4) + "\" r=\"" + ((a2 + b2) / 2 + 3) + "\" fill=\"currentColor\"/>" +
+      "<g fill=\"currentColor\">" + drop(W * .2, W * .13, 6) + drop(W * .5, W * .22, 7) + drop(W * .79, W * .1, 5) + "</g>" +
+      "<linearGradient id=\"drips-gl\" gradientUnits=\"userSpaceOnUse\" x1=\"" + -a + "\" y1=\"0\" x2=\"" + f(W * .38) + "\" y2=\"0\"><stop offset=\"0\" stop-color=\"#fff\" stop-opacity=\".5\"/><stop offset=\"1\" stop-color=\"#fff\" stop-opacity=\"0\"/></linearGradient>" +
+      "<path d=\"" + gloss + "\" fill=\"none\" stroke=\"url(#drips-gl)\" stroke-width=\"3\" stroke-linecap=\"round\"/></svg>";
+  }
+  if (drips && hFrame) {
+    paintPath();
+    if (window.ResizeObserver) new ResizeObserver(paintPath).observe(hFrame);
+    else window.addEventListener("resize", paintPath);
+  }
+
   /* ---------- Navigation ---------- */
   var bar = $(".tk-demo-bar"), nav = $("#nav"), burger = $("#burger"), panel = $("#panel");
   function setBar() { document.documentElement.style.setProperty("--bar", (bar ? bar.offsetHeight : 0) + "px"); }
