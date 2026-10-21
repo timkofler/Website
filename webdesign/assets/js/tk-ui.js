@@ -223,6 +223,68 @@
     pv.forEach(function (vd) { po.observe(vd); });
   }
 
+  // ---------------- Gruppen in der Beispiel-Übersicht ----------------
+  // Mehrere Entwürfe einer Branche teilen sich einen Eintrag. Das Vorschaubild blendet von selbst weiter;
+  // Adresszeile, Bild-Link und "Live ansehen" zeigen immer auf den Entwurf, der gerade zu sehen ist.
+  var noVid = reduce || !!(navigator.connection && navigator.connection.saveData);
+  Array.prototype.forEach.call(document.querySelectorAll("[data-tkg]"), function (ex) {
+    var media = ex.querySelector(".tk-ex__media"), bar = media.querySelector(".tk-ex__bar > span"), live = ex.querySelector(".btn-row .btn");
+    var vids = Array.prototype.slice.call(media.querySelectorAll("video"));
+    var picks = Array.prototype.slice.call(ex.querySelectorAll(".tk-vpick__a"));
+    var segs = Array.prototype.slice.call(media.querySelectorAll(".tk-exg__seg i"));
+    var DUR = 6500, cur = -1, timer = 0, vis = false, hold = false, swapT = 0;
+    ex.style.setProperty("--tkg-dur", DUR / 1000 + "s");
+    if (reduce) ex.classList.add("is-still");
+    function play(vd) { if (noVid || !vis) return; vd.muted = true; if (vd.preload === "none") vd.preload = "auto"; vd.play().catch(function () {}); }
+    function restart(el) { el.classList.remove("is-on"); void el.offsetWidth; el.classList.add("is-on"); }
+    function show(n) {
+      if (n !== cur) {
+        var old = vids[cur];
+        if (cur < 0) vids.forEach(function (vd, i) { if (i !== n) vd.classList.remove("is-on"); });
+        if (old) { old.classList.remove("is-on"); setTimeout(function () { if (!old.classList.contains("is-on")) old.pause(); }, 950); }
+        cur = n;
+        var vd = vids[n], pk = picks[n], href = pk.getAttribute("href");
+        try { vd.currentTime = 0; } catch (e) {}
+        vd.classList.add("is-on"); play(vd);
+        media.href = href; live.href = href;
+        media.setAttribute("aria-label", pk.dataset.name + " live ansehen");
+        clearTimeout(swapT); bar.classList.add("is-swap");
+        swapT = setTimeout(function () { bar.textContent = pk.dataset.url; bar.classList.remove("is-swap"); }, reduce ? 0 : 300);
+        picks.forEach(function (p, i) { p.classList.toggle("is-on", i === n); });
+        segs.forEach(function (s, i) { s.classList.toggle("is-on", i === n); });
+        var nx = vids[(n + 1) % vids.length]; if (vis && !noVid && nx.preload === "none") nx.preload = "auto";
+      }
+      restart(picks[n]); if (segs[n]) restart(segs[n]);
+      plan();
+    }
+    function plan() {
+      clearTimeout(timer);
+      ex.classList.toggle("is-hold", hold || !vis);
+      if (!reduce && vis && !hold) timer = setTimeout(function () { show((cur + 1) % vids.length); }, DUR);
+    }
+    function holdOn() { hold = true; plan(); }
+    function holdOff() { hold = false; show(cur); }
+    picks.forEach(function (p, i) {
+      p.addEventListener("mouseenter", function () { hold = true; show(i); });
+      p.addEventListener("focus", function () { hold = true; show(i); });
+      p.addEventListener("mouseleave", holdOff);
+      p.addEventListener("blur", holdOff);
+    });
+    media.addEventListener("mouseenter", holdOn);
+    media.addEventListener("mouseleave", holdOff);
+    // Direktlink auf einen Entwurf (z. B. /beispiele/#kaffeebar) zeigt ihn gleich zuerst
+    var start = 0;
+    picks.forEach(function (p, i) { if (p.id && location.hash === "#" + p.id) start = i; });
+    show(start);
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (es) {
+        vis = es[0].isIntersecting;
+        if (vis) play(vids[cur]); else vids.forEach(function (vd) { vd.pause(); });
+        show(cur);
+      }, { threshold: 0.35 }).observe(media);
+    }
+  });
+
   // ---------------- Antwort-Assistent ----------------
   var LINKS = {
     pakete: ["Zu den Paketen", "/#pakete"], rechner: ["Richtpreis berechnen", "/#rechner"], anfrage: ["Anfrage stellen", "/#anfrage"], ablauf: ["Zum Ablauf", "/#ablauf"],

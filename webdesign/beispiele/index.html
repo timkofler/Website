@@ -23,7 +23,7 @@
   <link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/style.css?v=17ee6a2e">
-  <link rel="stylesheet" href="/assets/css/tk.css?v=e4dcd47b">
+  <link rel="stylesheet" href="/assets/css/tk.css?v=505e9a5b">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Start", "item": "https://tim-kofler.at/"}, {"@type": "ListItem", "position": 2, "name": "Beispielseiten", "item": "https://tim-kofler.at/beispiele/"}]}, {"@type": "CollectionPage", "@id": "https://tim-kofler.at/beispiele/#seite", "url": "https://tim-kofler.at/beispiele/", "name": "Beispielseiten für Friseur, Café, Werkstatt & mehr", "inLanguage": "de-AT", "isPartOf": {"@id": "https://tim-kofler.at/#website"}, "about": {"@id": "https://tim-kofler.at/#unternehmen"}}]}</script>
 </head>
 <body>
@@ -62,21 +62,24 @@
 <section class="section tk-exs" style="padding-top:48px">
   <div class="container">
     <p class="note-legal">Alle Betriebe sind erfunden, Namen und Adressen sind Musterangaben. Videos und Fotos sind lizenzfreies Bildmaterial. Für echte Kunden gestalte ich jede Seite neu, passend zu Betrieb, Region und Budget.</p>
-  <article class="tk-ex" id="friseur">
+  <article class="tk-ex tk-exg" id="friseur" data-tkg>
     <a class="tk-ex__media" href="/beispiele/friseur/" aria-label="Haarwerk Studio live ansehen">
       <span class="tk-ex__bar" aria-hidden="true"><i></i><i></i><i></i><span>tim-kofler.at/beispiele/friseur</span></span>
-      <video data-tkplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/friseur-cut-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/friseur-cut.mp4" type="video/mp4"></video>
+      <video class="is-on" muted loop playsinline preload="none" poster="/beispiele/_shared/media/friseur-cut-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/friseur-cut.mp4" type="video/mp4"></video>
+      <video muted loop playsinline preload="none" poster="/beispiele/_shared/media/friseur-maehne-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/friseur-maehne.mp4" type="video/mp4"></video>
+      <video muted loop playsinline preload="none" poster="/beispiele/_shared/media/friseur-seide-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/friseur-seide.mp4" type="video/mp4"></video>
+      <b class="tk-exg__seg" aria-hidden="true"><i></i><i></i><i></i></b>
     </a>
     <div class="tk-ex__text">
-      <span class="label"><b>Friseur</b> Beispiel-Entwurf</span>
-      <h2>Haarwerk Studio</h2>
-      <p class="tk-ex__anim"><strong>Eigene Animation:</strong> Eine gezeichnete Schere schneidet Strähne für Strähne zum frischen Bob.</p>
-      <ul class="ticks"><li>Online-Buchung mit Leistung, Stylist und freien Zeiten</li><li>Vorher-nachher-Regler</li><li>Video vom Haarschnitt im Kopfbereich</li></ul>
+      <span class="label"><b>Friseur</b> Drei Beispiel-Entwürfe</span>
+      <h2>Haarwerk, Mähne &amp; Seide</h2>
+      <p class="tk-ex__anim"><strong>Eigene Animationen:</strong> Eine gezeichnete Schere schneidet Strähne für Strähne zum Bob, Haarfarben wechseln im Kreis über das ganze Bild und 3D-Haar folgt der Maus.</p>
+      <ul class="ticks"><li>Online-Buchung mit Leistung, Stylist und freien Zeiten</li><li>Vorher-nachher-Regler</li><li>Sechs Haarfarben und Looks zum Durchschalten</li></ul>
       <div class="tk-vpick">
         <p class="tk-vpick__h">Drei Entwürfe, tippe einen an:</p>
-        <a class="tk-vpick__a" href="/beispiele/friseur/"><b>1</b><span>Haarwerk Studio<small>Dunkel, Schere-Animation</small></span></a>
-        <a class="tk-vpick__a" href="/beispiele/friseur/v2/"><b>2</b><span>Mähne<small>Knallig, Haarfarben durchschalten</small></span></a>
-        <a class="tk-vpick__a" href="/beispiele/friseur/v3/"><b>3</b><span>Seide<small>Dezent, 3D-Haar zum Wischen</small></span></a>
+        <a class="tk-vpick__a" href="/beispiele/friseur/" data-url="tim-kofler.at/beispiele/friseur" data-name="Haarwerk Studio"><b>1</b><span>Haarwerk Studio<small>Dunkel, Schere-Animation</small></span></a>
+        <a class="tk-vpick__a" id="maehne" href="/beispiele/friseur/v2/" data-url="tim-kofler.at/beispiele/friseur/v2" data-name="Mähne"><b>2</b><span>Mähne<small>Knallig, Haarfarben durchschalten</small></span></a>
+        <a class="tk-vpick__a" id="seide" href="/beispiele/friseur/v3/" data-url="tim-kofler.at/beispiele/friseur/v3" data-name="Seide"><b>3</b><span>Seide<small>Dezent, 3D-Haar zum Wischen</small></span></a>
       </div>
       <div class="btn-row">
         <a href="/beispiele/friseur/" class="btn">Live ansehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -84,16 +87,23 @@
       </div>
     </div>
   </article>
-  <article class="tk-ex" id="cafe">
+  <article class="tk-ex tk-exg" id="cafe" data-tkg>
     <a class="tk-ex__media" href="/beispiele/cafe/" aria-label="Café Mühlbach live ansehen">
       <span class="tk-ex__bar" aria-hidden="true"><i></i><i></i><i></i><span>tim-kofler.at/beispiele/cafe</span></span>
-      <video data-tkplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/cafe-pour-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/cafe-pour.mp4" type="video/mp4"></video>
+      <video class="is-on" muted loop playsinline preload="none" poster="/beispiele/_shared/media/cafe-pour-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/cafe-pour.mp4" type="video/mp4"></video>
+      <video muted loop playsinline preload="none" poster="/beispiele/_shared/media/kaffeebar-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/kaffeebar.mp4" type="video/mp4"></video>
+      <b class="tk-exg__seg" aria-hidden="true"><i></i><i></i></b>
     </a>
     <div class="tk-ex__text">
-      <span class="label"><b>Café</b> Beispiel-Entwurf</span>
-      <h2>Café Mühlbach</h2>
-      <p class="tk-ex__anim"><strong>Eigene Animation:</strong> Kaffee fließt in die Tasse, die Crema bildet sich und der Dampf steigt auf.</p>
-      <ul class="ticks"><li>Speisekarte mit Reitern</li><li>„Jetzt geöffnet“ nach der aktuellen Uhrzeit</li><li>Tischreservierung</li><li>Für Handy und Computer gebaut</li></ul>
+      <span class="label"><b>Café &amp; Rösterei</b> Zwei Beispiel-Entwürfe</span>
+      <h2>Café Mühlbach &amp; röstzeit</h2>
+      <p class="tk-ex__anim"><strong>Eigene Animationen:</strong> Kaffee fließt in die Tasse, die Crema bildet sich und der Dampf steigt auf. Bei röstzeit drehen sich Becher und Bohnen in 3D und eine Uhr läuft durch den Tag im Kaffeehaus.</p>
+      <ul class="ticks"><li>Speisekarte mit Reitern</li><li>„Jetzt geöffnet“ nach der aktuellen Uhrzeit</li><li>Tischreservierung oder online vorbestellen und abholen</li></ul>
+      <div class="tk-vpick">
+        <p class="tk-vpick__h">Zwei Entwürfe, tippe einen an:</p>
+        <a class="tk-vpick__a" href="/beispiele/cafe/" data-url="tim-kofler.at/beispiele/cafe" data-name="Café Mühlbach"><b>1</b><span>Café Mühlbach<small>Gemütliches Café, Speisekarte und Tischreservierung</small></span></a>
+        <a class="tk-vpick__a" id="kaffeebar" href="/beispiele/kaffeebar/" data-url="tim-kofler.at/beispiele/kaffeebar" data-name="röstzeit"><b>2</b><span>röstzeit<small>Kaffeehaus mit Rösterei, 3D-Becher und Vorbestellung mit Warenkorb</small></span></a>
+      </div>
       <div class="btn-row">
         <a href="/beispiele/cafe/" class="btn">Live ansehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <a href="/#anfrage" class="btn btn--line" data-paket="Noch unsicher">So eine Seite anfragen</a>
@@ -116,22 +126,26 @@
       </div>
     </div>
   </article>
-  <article class="tk-ex" id="dachdecker">
-    <a class="tk-ex__media" href="/beispiele/dachdecker/" aria-label="First &amp; Falz Dachdecker live ansehen">
+  <article class="tk-ex tk-exg" id="dachdecker" data-tkg>
+    <a class="tk-ex__media" href="/beispiele/dachdecker/" aria-label="First &amp; Falz live ansehen">
       <span class="tk-ex__bar" aria-hidden="true"><i></i><i></i><i></i><span>tim-kofler.at/beispiele/dachdecker</span></span>
-      <video data-tkplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/dachdecker-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/dachdecker.mp4" type="video/mp4"></video>
+      <video class="is-on" muted loop playsinline preload="none" poster="/beispiele/_shared/media/dachdecker-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/dachdecker.mp4" type="video/mp4"></video>
+      <video muted loop playsinline preload="none" poster="/beispiele/_shared/media/tischlerei-poster.jpg?v=2" aria-hidden="true"><source src="/beispiele/_shared/media/tischlerei.mp4?v=2" type="video/mp4"></video>
+      <video muted loop playsinline preload="none" poster="/beispiele/_shared/media/maler-poster.jpg?v=2" aria-hidden="true"><source src="/beispiele/_shared/media/maler.mp4?v=2" type="video/mp4"></video>
+      <video muted loop playsinline preload="none" poster="/beispiele/_shared/media/bodenleger-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/bodenleger.mp4" type="video/mp4"></video>
+      <b class="tk-exg__seg" aria-hidden="true"><i></i><i></i><i></i><i></i></b>
     </a>
     <div class="tk-ex__text">
-      <span class="label"><b>Dachdecker &amp; Spengler</b> Beispiel-Entwurf</span>
-      <h2>First &amp; Falz</h2>
-      <p class="tk-ex__anim"><strong>Eigene Animation:</strong> Beim Scrollen entsteht ein Dach Schicht für Schicht: Dachstuhl, Unterdach, Lattung, Ziegel, First und Rinne. Zum Schluss läuft der Regen in die Rinne.</p>
-      <ul class="ticks"><li>Dachrechner: Dachform, Neigung und Material, mit Fläche und Richtpreis</li><li>Gratis Dach-Check mit Drohne</li><li>Sturm-Notdienst und Schadensmeldung mit Fotos</li><li>Für Handy und Computer gebaut</li></ul>
+      <span class="label"><b>Handwerk</b> Vier Beispiel-Entwürfe</span>
+      <h2>Dach, Holz, Farbe &amp; Boden</h2>
+      <p class="tk-ex__anim"><strong>Eigene Animationen:</strong> Beim Scrollen entsteht ein Dach Schicht für Schicht, die Bretter eines Möbelstücks fliegen zusammen, eine Farbrolle streicht die Wand neu und ein Fischgrätboden wird verlegt.</p>
+      <ul class="ticks"><li>Dachrechner, Flächen- und Preisrechner mit Richtpreis</li><li>Bodenplaner: Muster und Holz im 3D-Raum wählen</li><li>Wunschfarbe im Wohnzimmer ausprobieren</li></ul>
       <div class="tk-vpick">
         <p class="tk-vpick__h">Vier Handwerks-Entwürfe, tippe einen an:</p>
-        <a class="tk-vpick__a" href="/beispiele/dachdecker/"><b>1</b><span>First &amp; Falz<small>Dachdecker, dunkel mit Regen-Video und Dachrechner</small></span></a>
-        <a class="tk-vpick__a" href="/beispiele/tischlerei/"><b>2</b><span>Holzwerk Brandl<small>Tischlerei, warmes Holz, Möbel entsteht beim Scrollen</small></span></a>
-        <a class="tk-vpick__a" href="/beispiele/maler/"><b>3</b><span>Malerei Lindner<small>Malerbetrieb, Farbe testen und Flächenrechner</small></span></a>
-        <a class="tk-vpick__a" href="/beispiele/bodenleger/"><b>4</b><span>Grund &amp; Holz<small>Bodenleger, Boden im 3D-Raum wählen, Fischgrät wird verlegt</small></span></a>
+        <a class="tk-vpick__a" href="/beispiele/dachdecker/" data-url="tim-kofler.at/beispiele/dachdecker" data-name="First &amp; Falz"><b>1</b><span>First &amp; Falz<small>Dachdecker, dunkel mit Regen-Video und Dachrechner</small></span></a>
+        <a class="tk-vpick__a" id="tischlerei" href="/beispiele/tischlerei/" data-url="tim-kofler.at/beispiele/tischlerei" data-name="Holzwerk Brandl"><b>2</b><span>Holzwerk Brandl<small>Tischlerei, warmes Holz, Möbel entsteht beim Scrollen</small></span></a>
+        <a class="tk-vpick__a" id="maler" href="/beispiele/maler/" data-url="tim-kofler.at/beispiele/maler" data-name="Malerei Lindner"><b>3</b><span>Malerei Lindner<small>Malerbetrieb, Farbe testen und Flächenrechner</small></span></a>
+        <a class="tk-vpick__a" id="bodenleger" href="/beispiele/bodenleger/" data-url="tim-kofler.at/beispiele/bodenleger" data-name="Grund &amp; Holz"><b>4</b><span>Grund &amp; Holz<small>Bodenleger, Boden im 3D-Raum wählen, Fischgrät wird verlegt</small></span></a>
       </div>
       <div class="btn-row">
         <a href="/beispiele/dachdecker/" class="btn">Live ansehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -139,24 +153,27 @@
       </div>
     </div>
   </article>
-  <article class="tk-ex" id="gasthaus">
-    <a class="tk-ex__media" href="/beispiele/gasthaus/" aria-label="Landgasthof Hollerhof live ansehen">
-      <span class="tk-ex__bar" aria-hidden="true"><i></i><i></i><i></i><span>tim-kofler.at/beispiele/gasthaus</span></span>
-      <video data-tkplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/gasthaus-poster.jpg?v=2" aria-hidden="true"><source src="/beispiele/_shared/media/gasthaus.mp4?v=2" type="video/mp4"></video>
+  <article class="tk-ex tk-exg" id="gasthaus" data-tkg>
+    <a class="tk-ex__media" href="/beispiele/gasthaus/v2/" aria-label="Glut Feuerküche live ansehen">
+      <span class="tk-ex__bar" aria-hidden="true"><i></i><i></i><i></i><span>tim-kofler.at/beispiele/gasthaus/v2</span></span>
+      <video class="is-on" muted loop playsinline preload="none" poster="/beispiele/_shared/media/glut-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/glut.mp4" type="video/mp4"></video>
+      <video muted loop playsinline preload="none" poster="/beispiele/_shared/media/pizzeria-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/pizzeria.mp4" type="video/mp4"></video>
+      <video muted loop playsinline preload="none" poster="/beispiele/_shared/media/gasthaus-poster.jpg?v=2" aria-hidden="true"><source src="/beispiele/_shared/media/gasthaus.mp4?v=2" type="video/mp4"></video>
+      <b class="tk-exg__seg" aria-hidden="true"><i></i><i></i><i></i></b>
     </a>
     <div class="tk-ex__text">
-      <span class="label"><b>Gasthaus &amp; Restaurant</b> Beispiel-Entwurf</span>
-      <h2>Landgasthof Hollerhof</h2>
-      <p class="tk-ex__anim"><strong>Eigene Animation:</strong> Ein Teller wird Schritt für Schritt angerichtet: Saft, Braten, Knödel und Kräuter.</p>
-      <ul class="ticks"><li>Wochenmenü, der heutige Tag ist markiert</li><li>Speisekarte und Gastgarten</li><li>Tischreservierung</li><li>Für Handy und Computer gebaut</li></ul>
+      <span class="label"><b>Gasthaus &amp; Restaurant</b> Drei Beispiel-Entwürfe</span>
+      <h2>Glut, Proibito &amp; Hollerhof</h2>
+      <p class="tk-ex__anim"><strong>Eigene Animationen:</strong> Gerichte zum Durchwischen wie in einer Koch-App, eine Pizzeria im Stil der 1920er und ein Teller, der Schritt für Schritt angerichtet wird.</p>
+      <ul class="ticks"><li>Online-Bestellung mit Lieferzonen und Live-Verfolgung</li><li>Wochenmenü, der heutige Tag ist markiert</li><li>Speisekarte, Gastgarten und Tischreservierung</li></ul>
       <div class="tk-vpick">
         <p class="tk-vpick__h">Drei Entwürfe, tippe einen an:</p>
-        <a class="tk-vpick__a" href="/beispiele/gasthaus/v2/"><b>1</b><span>Glut Feuerküche<small>Dunkel wie eine Koch-App, Gerichte zum Durchwischen</small></span></a>
-        <a class="tk-vpick__a" href="/beispiele/pizzeria/"><b>2</b><span>Proibito Pizzeria<small>Edel im 1920er-Stil, Online-Bestellung mit Lieferung</small></span></a>
-        <a class="tk-vpick__a" href="/beispiele/gasthaus/"><b>3</b><span>Landgasthof Hollerhof<small>Klassisch, Teller-Animation</small></span></a>
+        <a class="tk-vpick__a" id="glut" href="/beispiele/gasthaus/v2/" data-url="tim-kofler.at/beispiele/gasthaus/v2" data-name="Glut Feuerküche"><b>1</b><span>Glut Feuerküche<small>Dunkel wie eine Koch-App, Gerichte zum Durchwischen</small></span></a>
+        <a class="tk-vpick__a" id="pizzeria" href="/beispiele/pizzeria/" data-url="tim-kofler.at/beispiele/pizzeria" data-name="Proibito Pizzeria"><b>2</b><span>Proibito Pizzeria<small>Edel im 1920er-Stil, Online-Bestellung mit Lieferung</small></span></a>
+        <a class="tk-vpick__a" id="hollerhof" href="/beispiele/gasthaus/" data-url="tim-kofler.at/beispiele/gasthaus" data-name="Landgasthof Hollerhof"><b>3</b><span>Landgasthof Hollerhof<small>Klassisch, Teller-Animation</small></span></a>
       </div>
       <div class="btn-row">
-        <a href="/beispiele/gasthaus/" class="btn">Live ansehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="/beispiele/gasthaus/v2/" class="btn">Live ansehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <a href="/#anfrage" class="btn btn--line" data-paket="Noch unsicher">So eine Seite anfragen</a>
       </div>
     </div>
@@ -177,20 +194,22 @@
       </div>
     </div>
   </article>
-  <article class="tk-ex" id="dashboard">
-    <a class="tk-ex__media" href="/beispiele/dashboard/" aria-label="Betriebs-Dashboard Haustechnik Kofler live ansehen">
+  <article class="tk-ex tk-exg" id="dashboard" data-tkg>
+    <a class="tk-ex__media" href="/beispiele/dashboard/" aria-label="Haustechnik Kofler live ansehen">
       <span class="tk-ex__bar" aria-hidden="true"><i></i><i></i><i></i><span>tim-kofler.at/beispiele/dashboard</span></span>
-      <video data-tkplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/dashboard-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/dashboard.mp4" type="video/mp4"></video>
+      <video class="is-on" muted loop playsinline preload="none" poster="/beispiele/_shared/media/dashboard-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/dashboard.mp4" type="video/mp4"></video>
+      <video muted loop playsinline preload="none" poster="/beispiele/_shared/media/luma-drive-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/luma-drive.mp4" type="video/mp4"></video>
+      <b class="tk-exg__seg" aria-hidden="true"><i></i><i></i></b>
     </a>
     <div class="tk-ex__text">
-      <span class="label"><b>Web-App</b> Beispiel-Dashboard</span>
-      <h2>Haustechnik Kofler</h2>
-      <p class="tk-ex__anim"><strong>Zum Ausprobieren:</strong> Ein Büro-Dashboard für einen Elektro- und Installationsbetrieb, mit eigener Handy-Ansicht für die Monteure. Alles funktioniert im Browser, ohne Lizenz pro Mitarbeiter.</p>
-      <ul class="ticks"><li>Plantafel: Einsätze ziehen, Auslastung pro Mitarbeiter</li><li>Projektmappe mit Baustellenfotos, Chat und Nachkalkulation</li><li>Monteur-App: stempeln, Fotos und Nachrichten vom Handy</li><li>Stunden, Rechnungen und Lager mit Bestellliste</li></ul>
+      <span class="label"><b>Web-App</b> Zwei Beispiel-Dashboards</span>
+      <h2>Haustechnik Kofler &amp; Luma Drive</h2>
+      <p class="tk-ex__anim"><strong>Zum Ausprobieren:</strong> Ein Büro-Dashboard für einen Elektro- und Installationsbetrieb mit Handy-Ansicht für die Monteure, und ein Reservierungssystem für eine Autovermietung. Alles läuft im Browser, ohne Lizenz pro Mitarbeiter.</p>
+      <ul class="ticks"><li>Plantafel: Einsätze ziehen, Auslastung pro Mitarbeiter</li><li>Monteur-App: stempeln, Fotos und Nachrichten vom Handy</li><li>Reservierung, Belegungsplan und Übergabe mit Unterschrift</li></ul>
       <div class="tk-vpick">
         <p class="tk-vpick__h">Zwei Dashboards, tippe eines an:</p>
-        <a class="tk-vpick__a" href="/beispiele/dashboard/"><b>1</b><span>Haustechnik Kofler<small>Handwerksbetrieb: Plantafel, Stunden, Rechnungen</small></span></a>
-        <a class="tk-vpick__a" href="/beispiele/dashboard/v2/"><b>2</b><span>Luma Drive Autovermietung<small>Glas-Design: Reservierung, Übergabe mit Unterschrift, Online-Buchung</small></span></a>
+        <a class="tk-vpick__a" href="/beispiele/dashboard/" data-url="tim-kofler.at/beispiele/dashboard" data-name="Haustechnik Kofler"><b>1</b><span>Haustechnik Kofler<small>Handwerksbetrieb: Plantafel, Stunden, Rechnungen</small></span></a>
+        <a class="tk-vpick__a" id="luma" href="/beispiele/dashboard/v2/" data-url="tim-kofler.at/beispiele/dashboard/v2" data-name="Luma Drive Autovermietung"><b>2</b><span>Luma Drive Autovermietung<small>Glas-Design: Reservierung, Übergabe mit Unterschrift, Online-Buchung</small></span></a>
       </div>
       <div class="btn-row">
         <a href="/beispiele/dashboard/" class="btn">Live ansehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -246,38 +265,6 @@
       </div>
     </div>
   </article>
-  <article class="tk-ex" id="tischlerei">
-    <a class="tk-ex__media" href="/beispiele/tischlerei/" aria-label="Holzwerk Brandl live ansehen">
-      <span class="tk-ex__bar" aria-hidden="true"><i></i><i></i><i></i><span>tim-kofler.at/beispiele/tischlerei</span></span>
-      <video data-tkplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/tischlerei-poster.jpg?v=2" aria-hidden="true"><source src="/beispiele/_shared/media/tischlerei.mp4?v=2" type="video/mp4"></video>
-    </a>
-    <div class="tk-ex__text">
-      <span class="label"><b>Tischlerei</b> Beispiel-Entwurf</span>
-      <h2>Holzwerk Brandl</h2>
-      <p class="tk-ex__anim"><strong>Eigene Animation:</strong> Die Bretter eines Möbelstücks fliegen beim Scrollen zusammen, Maßlinien zeichnen sich selbst.</p>
-      <ul class="ticks"><li>Holzarten zum Durchklicken</li><li>Referenz-Galerie mit Großansicht</li><li>Warmes Holzdesign</li><li>Für Handy und Computer gebaut</li></ul>
-      <div class="btn-row">
-        <a href="/beispiele/tischlerei/" class="btn">Live ansehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <a href="/#anfrage" class="btn btn--line" data-paket="Noch unsicher">So eine Seite anfragen</a>
-      </div>
-    </div>
-  </article>
-  <article class="tk-ex" id="maler">
-    <a class="tk-ex__media" href="/beispiele/maler/" aria-label="Malerei Lindner live ansehen">
-      <span class="tk-ex__bar" aria-hidden="true"><i></i><i></i><i></i><span>tim-kofler.at/beispiele/maler</span></span>
-      <video data-tkplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/maler-poster.jpg?v=2" aria-hidden="true"><source src="/beispiele/_shared/media/maler.mp4?v=2" type="video/mp4"></video>
-    </a>
-    <div class="tk-ex__text">
-      <span class="label"><b>Malerbetrieb</b> Beispiel-Entwurf</span>
-      <h2>Malerei Lindner</h2>
-      <p class="tk-ex__anim"><strong>Eigene Animation:</strong> Eine Farbrolle streicht beim Scrollen die alte Wand Bahn für Bahn neu.</p>
-      <ul class="ticks"><li>Wunschfarbe im Wohnzimmer ausprobieren</li><li>Flächen- und Preisrechner (Richtwert)</li><li>Vorher-nachher-Regler</li><li>Für Handy und Computer gebaut</li></ul>
-      <div class="btn-row">
-        <a href="/beispiele/maler/" class="btn">Live ansehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <a href="/#anfrage" class="btn btn--line" data-paket="Noch unsicher">So eine Seite anfragen</a>
-      </div>
-    </div>
-  </article>
   <article class="tk-ex" id="massage">
     <a class="tk-ex__media" href="/beispiele/massage/" aria-label="Praxis Sonnfeld live ansehen">
       <span class="tk-ex__bar" aria-hidden="true"><i></i><i></i><i></i><span>tim-kofler.at/beispiele/massage</span></span>
@@ -290,22 +277,6 @@
       <ul class="ticks"><li>Körperkarte: Bereich antippen, passende Behandlung sehen</li><li>Behandlungen mit Dauer und Preis</li><li>Terminbuchung</li><li>Für Handy und Computer gebaut</li></ul>
       <div class="btn-row">
         <a href="/beispiele/massage/" class="btn">Live ansehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <a href="/#anfrage" class="btn btn--line" data-paket="Noch unsicher">So eine Seite anfragen</a>
-      </div>
-    </div>
-  </article>
-  <article class="tk-ex" id="kaffeebar">
-    <a class="tk-ex__media" href="/beispiele/kaffeebar/" aria-label="röstzeit live ansehen">
-      <span class="tk-ex__bar" aria-hidden="true"><i></i><i></i><i></i><span>tim-kofler.at/beispiele/kaffeebar</span></span>
-      <video data-tkplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/kaffeebar-poster.jpg" aria-hidden="true"><source src="/beispiele/_shared/media/kaffeebar.mp4" type="video/mp4"></video>
-    </a>
-    <div class="tk-ex__text">
-      <span class="label"><b>Kaffeehaus mit Rösterei</b> Beispiel-Entwurf</span>
-      <h2>röstzeit</h2>
-      <p class="tk-ex__anim"><strong>Eigene Animation:</strong> Becher und Bohnen in 3D, dazu eine Uhr, die den Tag im Kaffeehaus durchläuft, und ein Kassenbon, der beim Vorbestellen herauskommt.</p>
-      <ul class="ticks"><li>Ganze Karte mit Reitern und Warenkorb</li><li>Online vorbestellen und abholen</li><li>Standorte mit Karte und Öffnungszeiten live</li><li>Für Handy und Computer gebaut</li></ul>
-      <div class="btn-row">
-        <a href="/beispiele/kaffeebar/" class="btn">Live ansehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <a href="/#anfrage" class="btn btn--line" data-paket="Noch unsicher">So eine Seite anfragen</a>
       </div>
     </div>
@@ -393,7 +364,7 @@
 </footer>
 
 <script src="/assets/js/main.js?v=5b686c25"></script>
-<script src="/assets/js/tk-ui.js?v=acf2b8a6"></script>
+<script src="/assets/js/tk-ui.js?v=02328866"></script>
 <script src="/assets/js/tk-extra.js?v=d2070f56"></script>
 </body>
 </html>
