@@ -1,13 +1,13 @@
 seite;datei;motiv;quelle;id;url;urheber;lizenz
 /beispiele/friseur/;_shared/media/friseur-cut.mp4;Video Haarschnitt;Mixkit;43232;https://mixkit.co/free-stock-video/barber-cutting-hair-with-scissors-and-comb-43232/;;Mixkit Stock Video Free License
 /beispiele/friseur/;_shared/media/friseur-style.mp4;Video Haare kämmen;Pexels;7440182;https://www.pexels.com/video/7440182/;cottonbro studio;Pexels-Lizenz
-/beispiele/friseur/;friseur/haarfarbe-beispiel.jpg;Beispielfoto Haarfarbe;Pexels;774909;https://www.pexels.com/photo/woman-in-collared-shirt-774909/;Andrea Piacquadio;Pexels-Lizenz
+/beispiele/friseur/;friseur/haarfarbe-beispiel.webp;Beispielfoto Haarfarbe;Pexels;774909;https://www.pexels.com/photo/woman-in-collared-shirt-774909/;Andrea Piacquadio;Pexels-Lizenz
 /beispiele/friseur/v2/;friseur/v2/bilder/farbe-kupfer.webp;Farbe Kupfer;StockSnap;8ZXCTK4EJE;https://stocksnap.io/photo/people-girl-8ZXCTK4EJE;Sam Burriss;CC0
 /beispiele/friseur/v2/;friseur/v2/bilder/farbe-platin.webp;Farbe Platin;StockSnap;ZI3P3U28P8;https://stocksnap.io/photo/fashion-model-ZI3P3U28P8;Kris Kemp;CC0
 /beispiele/friseur/v2/;friseur/v2/bilder/farbe-schwarz.webp;Farbe Schwarz;StockSnap;CRHFNXOZMG;https://stocksnap.io/photo/woman-model-CRHFNXOZMG;Candace McDaniel;CC0
-/beispiele/friseur/v2/;friseur/v2/bilder/farbe-balayage.webp;Balayage, Färben;StockSnap;QAHB10YT2P;https://stocksnap.io/photo/woman-jumper-QAHB10YT2P;Designecologist;CC0
+/beispiele/friseur/v2/;friseur/v2/bilder/farbe-balayage.webp, svc-farbe.webp;Balayage, Färben;StockSnap;QAHB10YT2P;https://stocksnap.io/photo/woman-jumper-QAHB10YT2P;Designecologist;CC0
 /beispiele/friseur/v2/;friseur/v2/bilder/farbe-rose.webp;Farbe Rosé;StockSnap;WLA9XNMU4E;https://stocksnap.io/photo/female-portrait-WLA9XNMU4E;Matt Moloney;CC0
-/beispiele/friseur/v2/;friseur/v2/bilder/farbe-kirsch.webp;Kirschrot, Pixie;StockSnap;V75TVIEPXY;https://stocksnap.io/photo/woman-model-V75TVIEPXY;Candace McDaniel;CC0
+/beispiele/friseur/v2/;friseur/v2/bilder/farbe-kirsch.webp, look-pixie.webp;Kirschrot, Pixie;StockSnap;V75TVIEPXY;https://stocksnap.io/photo/woman-model-V75TVIEPXY;Candace McDaniel;CC0
 /beispiele/friseur/v2/;friseur/v2/bilder/look-locken.webp;Locken;StockSnap;OGBFDCHPEZ;https://stocksnap.io/photo/beautiful-beauty-OGBFDCHPEZ;Jonas Svidras;CC0
 /beispiele/friseur/v2/;friseur/v2/bilder/look-lang.webp;Langhaar;StockSnap;D0QBQVV2KK;https://stocksnap.io/photo/people-woman-D0QBQVV2KK;Irene Lasus;CC0
 /beispiele/friseur/v2/;friseur/v2/bilder/look-burgund.webp;Burgund;StockSnap;A91U686ZXF;https://stocksnap.io/photo/nature-trees-A91U686ZXF;Stefan Stefancik;CC0
@@ -31,16 +31,16 @@ seite;datei;motiv;quelle;id;url;urheber;lizenz
 /beispiele/cafe/;_shared/media/cafe-pour.mp4;Video Kaffee einschenken;Mixkit;236;https://mixkit.co/free-stock-video/filling-a-white-cup-of-coffee-236/;;Mixkit Stock Video Free License
 /beispiele/cafe/;_shared/media/cafe-latte.mp4;Video Latte Art;Mixkit;810;https://mixkit.co/free-stock-video/latte-art-810/;;Mixkit Stock Video Free License
 /beispiele/werkstatt/;_shared/media/werkstatt.mp4;Video Reifenwechsel;Pexels;8316569;https://www.pexels.com/video/8316569/;Yusuf Çelik;Pexels-Lizenz
-/beispiele/werkstatt/;_shared/media/werkstatt-foto.jpg;Bremse;Pexels;6870300;https://www.pexels.com/photo/a-person-fixing-a-car-6870300/;Gustavo Fring;Pexels-Lizenz
+/beispiele/werkstatt/;_shared/media/werkstatt-foto.webp;Bremse;Pexels;6870300;https://www.pexels.com/photo/a-person-fixing-a-car-6870300/;Gustavo Fring;Pexels-Lizenz
 /beispiele/werkstatt/;_shared/media/werkstatt-car.webp;Auto in Seitenansicht (freigestellt, umgefärbt, Logos entfernt);Pexels;12170284;https://www.pexels.com/photo/side-view-of-a-blue-car-12170284/;Mike Bird;Pexels-Lizenz
 /beispiele/gasthaus/;_shared/media/gasthaus.mp4;Video Anrichten;Pexels;3209012;https://www.pexels.com/video/3209012/;Pressmaster;Pexels-Lizenz
 /beispiele/gasthaus/;gasthaus/braten.jpg;Schweinsbraten;Pexels;3655917;https://www.pexels.com/photo/close-up-photo-of-fried-meat-3655917/;Sebastian Coman Photography;Pexels-Lizenz
 /beispiele/gasthaus/;gasthaus/schnitzel.jpg;Schnitzel;Pexels;37389037;https://www.pexels.com/photo/delicious-breaded-schnitzel-with-diverse-sides-37389037/;Anthony Rahayel;Pexels-Lizenz
-/beispiele/gasthaus/;gasthaus/stube.jpg;Gaststube;Pexels;34112916;https://www.pexels.com/photo/cozy-wooden-booth-in-modern-cabin-interior-34112916/;Sasha Vukovic;Pexels-Lizenz
-/beispiele/gasthaus/;gasthaus/gastgarten.jpg;Gastgarten;Pexels;18729093;https://www.pexels.com/photo/tables-at-patio-18729093/;Levent Simsek;Pexels-Lizenz
-/beispiele/gasthaus/;gasthaus/rundgang/stube-*.jpg;360°-Panorama Gaststube;Poly Haven;warm_restaurant;https://polyhaven.com/a/warm_restaurant;Greg Zaal, Jarod Guest;CC0
-/beispiele/gasthaus/;gasthaus/rundgang/stube-abend-*.jpg;360°-Panorama am Abend;Poly Haven;warm_restaurant_night;https://polyhaven.com/a/warm_restaurant_night;Greg Zaal, Jarod Guest;CC0
-/beispiele/gasthaus/;gasthaus/rundgang/schank-*.jpg;360°-Panorama Schank;Poly Haven;warm_bar;https://polyhaven.com/a/warm_bar;Greg Zaal, Jarod Guest;CC0
+/beispiele/gasthaus/;gasthaus/stube.webp;Gaststube;Pexels;34112916;https://www.pexels.com/photo/cozy-wooden-booth-in-modern-cabin-interior-34112916/;Sasha Vukovic;Pexels-Lizenz
+/beispiele/gasthaus/;gasthaus/gastgarten.webp;Gastgarten;Pexels;18729093;https://www.pexels.com/photo/tables-at-patio-18729093/;Levent Simsek;Pexels-Lizenz
+/beispiele/gasthaus/;gasthaus/rundgang/stube-*.webp;360°-Panorama Gaststube;Poly Haven;warm_restaurant;https://polyhaven.com/a/warm_restaurant;Greg Zaal, Jarod Guest;CC0
+/beispiele/gasthaus/;gasthaus/rundgang/stube-abend-*.webp;360°-Panorama am Abend;Poly Haven;warm_restaurant_night;https://polyhaven.com/a/warm_restaurant_night;Greg Zaal, Jarod Guest;CC0
+/beispiele/gasthaus/;gasthaus/rundgang/schank-*.webp;360°-Panorama Schank;Poly Haven;warm_bar;https://polyhaven.com/a/warm_bar;Greg Zaal, Jarod Guest;CC0
 /beispiele/gasthaus/v2/;gasthaus/v2/bilder/hero-ripperl-*.webp, t-ripperl.webp;Spareribs;Pexels;410648;https://www.pexels.com/photo/grilled-meat-410648/;pascal claivaz;Pexels-Lizenz
 /beispiele/gasthaus/v2/;gasthaus/v2/bilder/hero-flank-*.webp, t-flank-2.webp;Steak mit Pommes;Pexels;27643015;https://www.pexels.com/photo/27643015/;Nano Erdozain;Pexels-Lizenz
 /beispiele/gasthaus/v2/;gasthaus/v2/bilder/hero-ribeye-*.webp, t-ribeye.webp;Ribeye;Pexels;769289;https://www.pexels.com/photo/steak-food-769289/;Malidate Van;Pexels-Lizenz
@@ -85,12 +85,12 @@ seite;datei;motiv;quelle;id;url;urheber;lizenz
 /beispiele/pizzeria/;pizzeria/bilder/g-wein.webp;Rotwein;Pexels;312080;https://www.pexels.com/photo/red-liquid-poured-into-wine-glass-312080/;freestocks.org;Pexels-Lizenz
 /beispiele/baeckerei/;_shared/media/brot-ofen.mp4;Video Brot geht im Ofen auf (Zeitraffer);Pexels;5261345;https://www.pexels.com/video/5261345/;Carlos Buitrago;Pexels-Lizenz
 /beispiele/baeckerei/;_shared/media/baeckerei-ofen.mp4;Video Ofen;Mixkit;50025;https://mixkit.co/free-stock-video/pastry-chef-taking-out-three-molds-from-an-oven-50025/;;Mixkit Stock Video Free License
-/beispiele/baeckerei/;_shared/media/brot-hero.jpg;Vollkornbrot;Pexels;11461397;https://www.pexels.com/photo/bread-with-baked-crust-sprinkled-with-sesame-seeds-11461397/;Dina Nasyrova;Pexels-Lizenz
+/beispiele/baeckerei/;_shared/media/brot-hero.webp;Vollkornbrot;Pexels;11461397;https://www.pexels.com/photo/bread-with-baked-crust-sprinkled-with-sesame-seeds-11461397/;Dina Nasyrova;Pexels-Lizenz
 /beispiele/baeckerei/;_shared/media/laib.jpg;Brotlaibe;Pexels;30826792;https://www.pexels.com/photo/artisan-sourdough-bread-display-in-bakery-30826792/;Magda Ehlers;Pexels-Lizenz
-/beispiele/baeckerei/;_shared/media/croissant.jpg;Croissants;Pexels;6202224;https://www.pexels.com/photo/close-up-shot-of-croissants-6202224/;Claudio Segovia;Pexels-Lizenz
-/beispiele/baeckerei/;_shared/media/theke.jpg;Theke;Pexels;27304344;https://www.pexels.com/photo/a-display-case-filled-with-pastries-and-other-food-27304344/;Valeria Boltneva;Pexels-Lizenz
-/beispiele/baeckerei/;_shared/media/brezel.jpg;Brezel;WordPress Photo Directory;51067e014b;https://wordpress.org/photos/photo/51067e014b/;Bigul Malayi;CC0
-/beispiele/baeckerei/;_shared/media/baguette.jpg;Baguette;WordPress Photo Directory;7406a28fc9;https://wordpress.org/photos/photo/7406a28fc9/;Jackson Monichan;CC0
+/beispiele/baeckerei/;_shared/media/croissant.webp;Croissants;Pexels;6202224;https://www.pexels.com/photo/close-up-shot-of-croissants-6202224/;Claudio Segovia;Pexels-Lizenz
+/beispiele/baeckerei/;_shared/media/theke.webp;Theke;Pexels;27304344;https://www.pexels.com/photo/a-display-case-filled-with-pastries-and-other-food-27304344/;Valeria Boltneva;Pexels-Lizenz
+/beispiele/baeckerei/;_shared/media/brezel.webp;Brezel;WordPress Photo Directory;51067e014b;https://wordpress.org/photos/photo/51067e014b/;Bigul Malayi;CC0
+/beispiele/baeckerei/;_shared/media/baguette.webp;Baguette;WordPress Photo Directory;7406a28fc9;https://wordpress.org/photos/photo/7406a28fc9/;Jackson Monichan;CC0
 /beispiele/dachdecker/;_shared/media/dachdecker.mp4;Video Regen auf Ziegeldach mit Dachrinne;Pexels;38748309;https://www.pexels.com/video/38748309/;Özgür Sürmeli;Pexels-Lizenz
 /beispiele/dachdecker/;_shared/media/dachdecker-drohne.mp4;Video Drohnenflug über Walmdach;Pexels;17624839;https://www.pexels.com/video/17624839/;Gardenia Tranquility;Pexels-Lizenz
 /beispiele/dachdecker/;dachdecker/eindecken.webp;Dachdecker verlegt Ziegel;Pexels;31771166;https://www.pexels.com/photo/roofer-working-on-new-house-roof-installation-31771166/;Clément Proust;Pexels-Lizenz
@@ -112,7 +112,7 @@ seite;datei;motiv;quelle;id;url;urheber;lizenz
 /beispiele/bodenleger/;bodenleger/dielen.webp;Dielen und Besen;Pexels;3616756;https://www.pexels.com/photo/wood-planks-and-floor-brush-3616756/;La Miko;Pexels-Lizenz
 /beispiele/bodenleger/;bodenleger/wohnkueche.webp;Wohnküche mit Chevron-Parkett;Pexels;7587871;https://www.pexels.com/photo/modern-minimalistic-home-interior-7587871/;Max Vakhtbovych;Pexels-Lizenz
 /beispiele/bodenleger/;bodenleger/kueche-chevron.webp;Küche mit Chevron-Parkett;Pexels;7587861;https://www.pexels.com/photo/modern-kitchen-interior-with-a-parquet-floor-7587861/;Max Vakhtbovych;Pexels-Lizenz
-/beispiele/pension/;_shared/media/pension.mp4, pension-poster.jpg;Video Tal mit Dorf bei Sonnenaufgang;Pexels;5910274;https://www.pexels.com/video/5910274/;Artem Zhukov;Pexels-Lizenz
+/beispiele/pension/;_shared/media/pension.mp4, pension-poster.webp;Video Tal mit Dorf bei Sonnenaufgang;Pexels;5910274;https://www.pexels.com/video/5910274/;Artem Zhukov;Pexels-Lizenz
 /beispiele/pension/;pension/bilder/zirbe-*.webp;Zirbenzimmer;Pexels;30708776;https://www.pexels.com/photo/cozy-wooden-cabin-bedroom-with-forest-view-30708776/;Jonathan Borba;Pexels-Lizenz
 /beispiele/pension/;pension/bilder/oetscher-*.webp;Komfortzimmer;Pexels;28347476;https://www.pexels.com/photo/a-hotel-room-with-a-bed-television-and-wooden-floors-28347476/;SVH Manali;Pexels-Lizenz
 /beispiele/pension/;pension/bilder/familie-*.webp;Familienzimmer;Pexels;14465274;https://www.pexels.com/photo/wooden-hotel-room-with-beds-covered-in-white-sheets-14465274/;AHMED AQEELY;Pexels-Lizenz
@@ -124,10 +124,10 @@ seite;datei;motiv;quelle;id;url;urheber;lizenz
 /beispiele/pension/;pension/bilder/wandern-900.webp;Wanderer auf der Alm;Pexels;8799886;https://www.pexels.com/photo/people-hiking-on-mountainside-8799886/;Julita pasja1000;Pexels-Lizenz
 /beispiele/pension/;pension/bilder/winter-900.webp;Skigebiet im Winter;Pexels;8412597;https://www.pexels.com/photo/ski-resort-in-snow-covered-mountain-8412597/;Mikhail Nilov;Pexels-Lizenz
 /beispiele/tischlerei/;_shared/media/tischlerei.mp4;Video Stemmeisen;Pexels;5972653;https://www.pexels.com/video/5972653/;Ono Kosuki;Pexels-Lizenz
-/beispiele/tischlerei/;tischlerei/kueche.jpg;Küche;Pexels;34583699;https://www.pexels.com/photo/cozy-modern-farmhouse-kitchen-with-wood-accents-34583699/;Phil Ledwith;Pexels-Lizenz
-/beispiele/tischlerei/;tischlerei/stiege.jpg;Wendelstiege;Pexels;19988143;https://www.pexels.com/photo/top-view-of-wooden-spiral-steps-19988143/;Ahmet Polat;Pexels-Lizenz
-/beispiele/tischlerei/;tischlerei/werkstatt.jpg;Hobel;Pexels;5974245;https://www.pexels.com/photo/jack-plane-and-wooden-plank-on-table-5974245/;Ono Kosuki;Pexels-Lizenz
-/beispiele/tischlerei/;tischlerei/holz-detail.jpg;Holzmaserung;WordPress Photo Directory;517634dde9;https://wordpress.org/photos/photo/517634dde9/;Topher;CC0
+/beispiele/tischlerei/;tischlerei/kueche.webp;Küche;Pexels;34583699;https://www.pexels.com/photo/cozy-modern-farmhouse-kitchen-with-wood-accents-34583699/;Phil Ledwith;Pexels-Lizenz
+/beispiele/tischlerei/;tischlerei/stiege.webp;Wendelstiege;Pexels;19988143;https://www.pexels.com/photo/top-view-of-wooden-spiral-steps-19988143/;Ahmet Polat;Pexels-Lizenz
+/beispiele/tischlerei/;tischlerei/werkstatt.webp;Hobel;Pexels;5974245;https://www.pexels.com/photo/jack-plane-and-wooden-plank-on-table-5974245/;Ono Kosuki;Pexels-Lizenz
+/beispiele/tischlerei/;tischlerei/holz-detail.webp;Holzmaserung;WordPress Photo Directory;517634dde9;https://wordpress.org/photos/photo/517634dde9/;Topher;CC0
 /beispiele/fleischerei/;_shared/media/fleischerei.mp4;Video Rindfleisch;Pexels;8477205;https://www.pexels.com/video/8477205/;Los Muertos Crew;Pexels-Lizenz
 /beispiele/fleischerei/;_shared/media/fleischerei-brett.mp4;Video Wurst schneiden;Pexels;10320572;https://www.pexels.com/video/10320572/;Jacqoto Jacqoto;Pexels-Lizenz
 /beispiele/maler/;_shared/media/maler.mp4;Video Wand streichen;Pexels;5799465;https://www.pexels.com/video/5799465/;Ivan S;Pexels-Lizenz

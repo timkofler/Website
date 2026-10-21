@@ -24,7 +24,7 @@ const GER = { pc: { w: 1280, h: 800, dpr: 1.5 }, handy: { w: 390, h: 844, dpr: 2
       // Das Bäckerei-Video ist als Standbild unscharf (Teig kneten): dort das Brotfoto der Seite zeigen.
       if (n === 'baeckerei') await p.evaluate(() => {
         const v = document.querySelector('video'), i = document.createElement('img');
-        i.src = '/beispiele/_shared/media/brot-hero.jpg'; i.className = v.className; i.style.objectFit = 'cover';
+        i.src = '/beispiele/_shared/media/brot-hero.webp'; i.className = v.className; i.style.objectFit = 'cover';
         v.replaceWith(i); return new Promise(r => { i.onload = r; setTimeout(r, 3000); });
       });
       await p.evaluate(() => window.scrollTo(0, 0));
