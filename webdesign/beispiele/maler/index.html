@@ -78,11 +78,12 @@ p{margin:0}
 .hero__media{position:relative}
 .hero__frame{position:relative;aspect-ratio:4/4.4;border-radius:28px 28px 28px 120px;overflow:hidden;box-shadow:0 50px 80px -50px rgba(18,34,32,.55)}
 .hero__frame video{position:absolute;inset:0}
-.drips{position:absolute;left:8%;right:-4%;top:-14px;height:120px;pointer-events:none;color:var(--pop);z-index:2}
-.drips svg{width:100%;height:100%;overflow:visible}
-.drips .d{transform-origin:top;transform-box:fill-box;animation:drip 4.5s cubic-bezier(.5,0,.3,1) infinite}
-.drips .d:nth-of-type(2){animation-delay:1.3s}.drips .d:nth-of-type(3){animation-delay:2.4s}
-@keyframes drip{0%{transform:scaleY(.25)}55%{transform:scaleY(1)}100%{transform:scaleY(1)}}
+.drips{position:absolute;left:-24px;top:-24px;width:calc(100% + 48px);height:0;pointer-events:none;color:#00a39b;z-index:2;filter:drop-shadow(0 8px 10px rgba(18,34,32,.2));animation:paint 15s ease-in-out infinite}
+.drips svg{display:block;width:100%;height:100%;overflow:visible}
+.drips .d{transform-origin:top;transform-box:fill-box;animation:drip 5s cubic-bezier(.5,0,.3,1) infinite}
+.drips .d:nth-of-type(2){animation-delay:1.6s}.drips .d:nth-of-type(3){animation-delay:3.1s}
+@keyframes drip{0%{transform:scaleY(.3)}55%{transform:scaleY(1)}100%{transform:scaleY(1)}}
+@keyframes paint{0%,100%{color:#9caf88}33.3%{color:#00a39b}66.6%{color:#ffc83a}}
 .hero__badge{position:absolute;left:-26px;bottom:34px;background:#fff;border-radius:20px;padding:16px 20px;box-shadow:0 30px 50px -25px rgba(18,34,32,.45);display:flex;align-items:center;gap:14px;z-index:3}
 .hero__badge b{display:block;font:800 36px/1 var(--hd);letter-spacing:-.03em}.hero__badge span{display:block;margin-top:4px}
 .hero__badge span{font-size:13px;line-height:1.35;color:var(--mu);max-width:120px}
@@ -283,7 +284,7 @@ linear-gradient(180deg,#e6e1d7,#ddd7cb);}
 .foot__demo{margin-top:40px;padding-top:22px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:14px}
 .foot__demo b{color:#fff;font-weight:600}
 @media (max-width:760px){.foot__grid{grid-template-columns:1fr}}
-@media (prefers-reduced-motion:reduce){.swipe::before{animation:none}.drips .d{animation:none}}
+@media (prefers-reduced-motion:reduce){.swipe::before{animation:none}.drips,.drips .d{animation:none}}
 .room.has3d{aspect-ratio:800/520}
 .room .r3d{position:absolute;inset:0;display:none}
 .room.has3d .r3d{display:block}
@@ -336,7 +337,7 @@ linear-gradient(180deg,#e6e1d7,#ddd7cb);}
       </ul>
     </div>
     <div class="hero__media">
-      <div class="drips" aria-hidden="true"><svg viewBox="0 0 400 120" preserveAspectRatio="none"><path d="M0 0 H400 V12 C380 14 372 10 360 14 C350 16 340 12 320 14 H0 Z" fill="currentColor"/><path class="d" d="M58 10 C58 40 54 64 62 74 C70 64 66 40 66 10 Z" fill="currentColor"/><path class="d" d="M190 10 C190 50 186 92 196 104 C206 92 202 50 202 10 Z" fill="currentColor"/><path class="d" d="M318 10 C318 32 314 48 322 56 C330 48 326 32 326 10 Z" fill="currentColor"/></svg></div>
+      <div class="drips" id="drips" aria-hidden="true"></div>
       <div class="hero__frame"><video class="tk-video" data-autoplay muted loop playsinline preload="none" poster="/beispiele/_shared/media/maler-poster.jpg?v=2" aria-hidden="true"><source src="/beispiele/_shared/media/maler.mp4?v=2" type="video/mp4"></video></div>
       <div class="hero__badge"><i><svg viewBox="0 0 24 24" fill="none" stroke="#122220" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="14" height="6" rx="2"/><path d="M17 7h3v6h-9v3"/><path d="M11 16v5"/></svg></i><div><b data-count="1400" data-suffix="+">1400+</b><span>Räume frisch gestrichen</span></div></div>
       <div class="hero__swatch" aria-hidden="true"><div style="background:#9caf88"></div><div style="background:#00a39b"></div><div style="background:#ffc83a"></div><small>Farbfächer</small></div>
@@ -600,4 +601,4 @@ linear-gradient(180deg,#e6e1d7,#ddd7cb);}
     <div class="foot__demo"><span><b>Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb · <a href="/bildnachweis/#maler">Bildnachweis</a></b></span><span>Alle Namen, Preise und Adressen sind frei erfunden.</span></div>
   </div>
 </footer>
-<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/_shared/handwerk-umschalter.js?v=2" defer></script><script src="/beispiele/maler/app.js?v=3" defer></script><script type="module" src="/beispiele/maler/raum3d.js?v=1"></script></body></html>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/_shared/handwerk-umschalter.js?v=2" defer></script><script src="/beispiele/maler/app.js?v=4" defer></script><script type="module" src="/beispiele/maler/raum3d.js?v=1"></script></body></html>
