@@ -32,7 +32,7 @@ if (box && webglOk()) {
 function init(THREE) {
   var S = stage(THREE, box.querySelector(".pano__view"), { fov: 75, tone: false });
   var scene = S.scene, cam = S.camera, loader = new THREE.TextureLoader(), cache = {};
-  var size = mobile ? "-2k.jpg" : "-3k.jpg";
+  var size = mobile ? "-2k.webp" : "-3k.webp";
   function tex(name) {
     if (!cache[name]) cache[name] = new Promise(function (res, rej) {
       loader.load(BASE + name + size, function (t) { t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; t.generateMipmaps = false; t.minFilter = THREE.LinearFilter; res(t); }, undefined, rej);

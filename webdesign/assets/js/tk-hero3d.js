@@ -7,8 +7,17 @@ var small = !!(window.matchMedia && matchMedia("(max-width: 760px), (pointer: co
 var root = document.documentElement;
 var hero = document.querySelector(".tk-hero"), stageEl = hero && hero.querySelector(".tk-hero__stage");
 
+// Ohne Grafikkarte rechnet der Browser WebGL in Software (SwiftShader, llvmpipe): dann ruckelt die Plakette
+// und blockiert die Seite, deshalb bleibt dort ebenfalls das Standbild stehen.
 function webglOk() {
-  try { var c = document.createElement("canvas"); return !!(window.WebGLRenderingContext && (c.getContext("webgl2") || c.getContext("webgl"))); }
+  try {
+    var c = document.createElement("canvas"), gl = window.WebGLRenderingContext && (c.getContext("webgl2") || c.getContext("webgl"));
+    if (!gl) return false;
+    var ext = gl.getExtension("WEBGL_debug_renderer_info"), r = ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER);
+    if (/swiftshader|llvmpipe|softpipe|software|basic render/i.test(String(r || ""))) return false;
+    var lose = gl.getExtension("WEBGL_lose_context"); if (lose) lose.loseContext();
+    return true;
+  }
   catch (e) { return false; }
 }
 
@@ -224,12 +233,12 @@ function build(THREE, RoomEnvironment) {
   addEventListener("pointerup", up); addEventListener("pointercancel", up);
 
   // ---------- Ablauf ----------
-  var inView = true, visible = true, raf = 0, last = 0, t0 = 0, sp0 = 0, prog = 0, frames = 0, slow = 0, first = true;
+  var inView = true, visible = true, raf = 0, last = 0, t0 = 0, sp0 = 0, prog = 0, frames = 0, slow = 0, checked = false, first = true;
   // Am Handy fährt die Plakette fast mit dem Inhalt mit und blendet erst aus, wenn sie hinter dem Laufband steckt.
   var ride = small ? .25 : .58, span = small ? 1.1 : .75;
   function frame(now) {
     raf = 0; if (!visible) return;
-    var dt = last ? Math.min(.05, (now - last) / 1000) : .016; last = now;
+    var gap = last ? now - last : 16, dt = Math.min(.05, gap / 1000); last = now;
     if (!t0) t0 = now;
     var t = (now - t0) / 1000;
 
@@ -277,13 +286,32 @@ function build(THREE, RoomEnvironment) {
     R.render(scene, cam);
     if (first) { first = false; root.classList.add("tk-3d-on"); }
 
-    // Schwaches Gerät: nach ein paar Sekunden die Auflösung senken
-    if (t < 4) { frames++; slow += dt; }
-    else if (frames > 30 && dpr > 1 && slow / frames > .024) { dpr = 1; R.setPixelRatio(1); W = 0; measure(); frames = 0; }
-    else frames = 0;
+    // Schwaches Gerät: 60 Bilder messen, dann die Auflösung senken; reicht auch das nicht (unter 24 Bildern/s), bleibt das Standbild
+    if (!checked) {
+      if (gap < 400) { frames++; slow += gap; }
+      if (frames >= 60) {
+        var avg = slow / frames; frames = slow = 0;
+        if (dpr > 1 && avg > 24) { dpr = 1; R.setPixelRatio(1); W = 0; measure(); }
+        else if (avg > 42) { stop(); return; }
+        else checked = true;
+      }
+    }
     raf = requestAnimationFrame(frame);
   }
-  function start() { if (visible && !raf) { last = 0; raf = requestAnimationFrame(frame); } }
+  var dead = false;
+  // Wechsel aufs Standbild: erst das Bild laden, dann die Leinwand sanft ausblenden
+  function stop() {
+    dead = true; if (raf) cancelAnimationFrame(raf); raf = 0;
+    var im = stageEl.querySelector(".tk-hero__still"), done = false;
+    function fade() {
+      if (done) return; done = true;
+      cv.style.transition = "opacity .5s"; cv.style.opacity = "0";
+      setTimeout(function () { cv.remove(); R.dispose(); root.classList.remove("tk-3d", "tk-3d-on"); }, 600);
+    }
+    root.classList.add("tk-3d-still");
+    if (im && im.decode) { im.loading = "eager"; im.decode().then(fade, fade); setTimeout(fade, 1500); } else fade();
+  }
+  function start() { if (!dead && visible && !raf) { last = 0; raf = requestAnimationFrame(frame); } }
   if ("IntersectionObserver" in window) new IntersectionObserver(function (es) {
     inView = es[es.length - 1].isIntersecting; root.classList.toggle("tk-3d-view", inView);
     visible = inView && !document.hidden; cv.style.visibility = inView ? "" : "hidden"; start();

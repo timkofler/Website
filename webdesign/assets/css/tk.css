@@ -684,7 +684,7 @@ html.tk-at-end .tk-float, html.tk-at-end .tk-chat-btn { opacity: 0; visibility: 
 .tk-hero__stage.is-drag { cursor: grabbing; }
 .tk-hero__still { display: none; position: absolute; left: -50%; top: -50%; width: 200%; height: 200%; max-width: none; pointer-events: none; user-select: none; -webkit-user-select: none; }
 html.tk-3d-still .tk-hero__still { display: block; }
-html:not(.tk-3d):not(.tk-3d-still) .tk-hero__stage { display: none; }
+/* Die Bühne hält ihren Platz von Anfang an frei, sonst springt der Inhalt am Handy nach unten, sobald das Skript läuft. */
 .tk-hero__gl { position: fixed; left: 0; top: 0; z-index: 0; pointer-events: none; will-change: transform, opacity; }
 /* Das Laufband liegt über der Leinwand: Die Plakette taucht beim Scrollen dahinter ab. */
 .tk-marquee { position: relative; z-index: 1; }

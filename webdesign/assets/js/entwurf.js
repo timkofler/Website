@@ -122,7 +122,6 @@
     var c = currentColor();
     if (picker) {
       picker.hidden = !(eigenRadio.checked && pickerOpen);
-      eigenRadio.setAttribute("aria-expanded", String(!picker.hidden));
     }
 
     prev.style.setProperty("--c", c.hex);
