@@ -810,3 +810,5 @@ html.tk-3d-on.tk-3d-view .header { -webkit-backdrop-filter: none; backdrop-filte
   .anf__steps, .tk-ask, .nl__card { padding: 22px 18px; border-radius: 18px; }
   .anf-steps li { padding-left: 48px; }
 }
+.tk-ask--faq .tk-ask__wa { flex: 1 1 100%; }
+.tk-ask--faq .tk-ask__row .btn--line { flex: 1 1 0; justify-content: center; }
