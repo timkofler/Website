@@ -128,7 +128,7 @@ function makePost(renderer, w, h) {
   const gl = renderer.getContext();
   const half = renderer.capabilities.isWebGL2 && (renderer.extensions.has("EXT_color_buffer_float") || renderer.extensions.has("EXT_color_buffer_half_float"));
   if (!half) return null;
-  const rt = new THREE.WebGLRenderTarget(w, h, { type: THREE.HalfFloatType, samples: mobile ? 0 : 4, generateMipmaps: true, minFilter: THREE.LinearMipmapLinearFilter, magFilter: THREE.LinearFilter, colorSpace: THREE.LinearSRGBColorSpace });
+  const rt = new THREE.WebGLRenderTarget(w, h, { type: THREE.HalfFloatType, samples: mobile ? 0 : 2, generateMipmaps: true, minFilter: THREE.LinearMipmapLinearFilter, magFilter: THREE.LinearFilter, colorSpace: THREE.LinearSRGBColorSpace });
   const mat = new THREE.ShaderMaterial({
     uniforms: { tScene: { value: rt.texture }, uTime: { value: 0 }, uRes: { value: new THREE.Vector2(w, h) }, uBloom: { value: 1 } },
     vertexShader: "varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }",
@@ -208,13 +208,13 @@ async function neonTexture() {
 async function start() {
   try { await Promise.all([document.fonts.load('900 60px "Big Shoulders"'), document.fonts.load('600 20px "Inter"'), document.fonts.load('500 20px "Zilla Slab"')]); } catch (e) {}
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: !mobile, powerPreference: "high-performance" });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1.5 : 1.75));
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: "high-performance" }); // Kantenglättung macht der Nachbearbeitungs-Puffer
+  let quality = 1;   // sinkt automatisch, wenn der Rechner nicht mitkommt
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.15;
   const shadows = !mobile;
-  if (shadows) { renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap; renderer.shadowMap.autoUpdate = false; renderer.shadowMap.needsUpdate = true; } // nichts bewegt sich: Schatten nur einmal berechnen
+  if (shadows) { renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFShadowMap; renderer.shadowMap.autoUpdate = false; renderer.shadowMap.needsUpdate = true; } // nichts bewegt sich: Schatten nur einmal berechnen
 
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x050506);
@@ -325,12 +325,12 @@ async function start() {
   const lampGlow = glowSprite("255,200,140");
   const cageMat = new THREE.MeshStandardMaterial({ color: 0x1d1d1f, metalness: 0.8, roughness: 0.4 });
   const lamps = [];
-  [[2.2, CT], [-0.9, null], [-3.4, null], [-5.9, null], [Z_END + 1.6, CB]].forEach(([z, cy]) => {
+  [[2.2, CT], [-0.9, null], [-3.4, null], [-5.9, null], [Z_END + 1.6, CB]].forEach(([z, cy], i) => {
     const y = cy != null ? cy : lerp(CT, CB, -z / RUN);
     const l = new THREE.Mesh(lampGeo, lampOn); l.position.set(0, y - 0.05, z); scene.add(l);
     const cage = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 0.12, 8, 1, true), cageMat); cage.material.wireframe = true; cage.position.copy(l.position); scene.add(cage);
     const pl = new THREE.PointLight(0xffc78a, 2.6, 0, 2); pl.position.set(0, y - 0.25, z); scene.add(pl);
-    if (shadows) { pl.castShadow = true; pl.shadow.mapSize.set(512, 512); pl.shadow.bias = -0.004; pl.shadow.radius = 4; pl.shadow.camera.near = 0.12; pl.shadow.camera.far = 9; }
+    if (shadows && (i === 1 || i === 2)) { pl.castShadow = true; pl.shadow.mapSize.set(512, 512); pl.shadow.bias = -0.004; pl.shadow.radius = 4; pl.shadow.camera.near = 0.12; pl.shadow.camera.far = 9; }
     const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: lampGlow, color: 0xffc890, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0.85 }));
     sp.scale.set(0.75, 0.75, 1); sp.position.set(0, y - 0.1, z); scene.add(sp);
     const coneH = Math.min(2.6, y - floorAt(z) - 0.05);
@@ -416,6 +416,7 @@ async function start() {
     return v;
   }
 
+  try { await renderer.compileAsync(scene, camera); } catch (e) {}   // Shader im Hintergrund übersetzen, blockiert die Seite nicht
   let target = window.__descentP || 0, cur = target, visible = true, running = false;
   window.addEventListener("descent", (e) => { target = e.detail; kick(); });
   const io = new IntersectionObserver((es) => { visible = es[0].isIntersecting; kick(); });
@@ -424,17 +425,23 @@ async function start() {
   let post = null;
   function resize() {
     const w = canvas.clientWidth, h = canvas.clientHeight;
-    renderer.setSize(w, h, false); camera.aspect = w / h;
-    const pr = renderer.getPixelRatio();
+    // Auflösung begrenzen: große/Retina-Bildschirme rechnen sonst ein Vielfaches an Pixeln
+    const pr = Math.min(window.devicePixelRatio || 1, mobile ? 1.5 : 1.25, Math.sqrt((mobile ? 1.4e6 : 2.1e6) / Math.max(1, w * h))) * quality;
+    renderer.setPixelRatio(pr); renderer.setSize(w, h, false); camera.aspect = w / h;
     if (!post) post = makePost(renderer, Math.round(w * pr), Math.round(h * pr)); else post.setSize(Math.round(w * pr), Math.round(h * pr));
     camera.fov = 62; camera.updateProjectionMatrix();
   }
   window.addEventListener("resize", () => { resize(); kick(); });
   resize();
 
-  let lastT = 0;
+  let lastT = 0, slow = 0;
+  function adapt(ms) {   // dauerhaft unter ~30 Bildern/s: Auflösung schrittweise senken
+    if (ms > 34) slow++; else slow = Math.max(0, slow - 1);
+    if (slow > 12 && quality > 0.55) { quality = Math.max(0.55, quality * 0.8); slow = 0; resize(); }
+  }
   function frame(t) {
     running = false;
+    if (lastT) adapt(t - lastT);
     const dt = lastT ? Math.min(0.05, (t - lastT) / 1000) : 0.016; lastT = t;
     if (!visible || cur > 0.995 && target > 0.995) { lastT = 0; render(t); return; }
     cur += (target - cur) * (1 - Math.exp(-dt * 3.2));
@@ -460,6 +467,7 @@ async function start() {
   // Für Video-Aufnahmen: Bild für Bild exakt rendern
   window.__bunkerRender = (p, t) => { cur = target = p; render(t); return [camera.position.y, camera.position.z, look.y, look.z, camera.fov]; };
   // laufend rendern, solange sichtbar (Puls an der Tür, Staub)
-  (function idle(t) { if (visible && !running && cur < 0.995 && !window.__bunkerManual) render(t); requestAnimationFrame(idle); })(performance.now());
+  let idleN = 0;
+  (function idle(t) { if (visible && !running && cur < 0.995 && !window.__bunkerManual && (idleN++ & 1)) render(t); requestAnimationFrame(idle); })(performance.now()); // im Stillstand reichen 30 Bilder/s
   root.classList.add("has3d");
 }
