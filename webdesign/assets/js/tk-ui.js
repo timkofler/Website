@@ -289,7 +289,7 @@
   var LINKS = {
     pakete: ["Zu den Paketen", "/#pakete"], rechner: ["Richtpreis berechnen", "/#rechner"], anfrage: ["Anfrage stellen", "/#anfrage"], ablauf: ["Zum Ablauf", "/#ablauf"],
     email: ["Landingpages & E-Mail", "/#email"], beispiele: ["Beispielseiten ansehen", "/beispiele/"],
-    mail: ["E-Mail schreiben", "mailto:office@tim-kofler.at"], allinkl: ["ALL-INKL ansehen (Partnerlink)", "https://all-inkl.com/PA56CC1CF457650"], webspace: ["Meine Empfehlung", "/#webspace"], tel: ["Anrufen", "tel:+4367761773118"], whatsapp: ["Auf WhatsApp schreiben", "https://wa.me/4367761773118?text=Hallo%20Tim%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Webseite."]
+    mail: ["E-Mail schreiben", "mailto:office@tim-kofler.at"], allinkl: ["ALL-INKL ansehen (Partnerlink)", "https://all-inkl.com/PA56CC1CF457650"], webspace: ["Meine Empfehlung", "/#webspace"], tel: ["Anrufen", "tel:+4367761773118"], whatsapp: ["Auf WhatsApp schreiben", "https://wa.me/4367761773118?text=Hallo%20Tim%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Webseite."], telegram: ["Auf Telegram schreiben", "https://t.me/TimKofler"]
   };
   var ANSWERS = {
     preis: { q: "Was kostet eine Webseite?", a: "Die Pakete im Überblick:\n• Referenzkunde ab 290 € (einfache Seite, nur wenige Plätze)\n• Start ab 590 € (bis zu 3 Unterseiten)\n• Business ab 1.190 € (bis zu 8 Unterseiten)\n• Betreuung ab 29 € im Monat\nAlle Preise sind Endpreise, als Kleinunternehmer ohne Umsatzsteuer. Einen Richtpreis für deine Wünsche zeigt dir der Angebots-Rechner.", links: ["rechner", "pakete", "anfrage"] },
@@ -302,7 +302,7 @@
     baukasten: { q: "Warum kein Baukasten?", a: "Eine programmierte Seite lädt nur, was sie braucht. Sie ist schneller, sicherer, braucht keine Plugin-Updates und das Design gibt es so nur einmal.", links: ["beispiele"] },
     beispiele: { q: "Gibt es Beispiele?", a: "Ja, vierzehn komplette Beispielseiten: Friseur, Café, Autowerkstatt, Dachdecker, Bodenleger, Gasthaus, Pension, Bäckerei, Fleischerei, Tischlerei, Malerbetrieb, Heilmasseurin, Kaffeehaus und eine Getränkemarke. Dazu zwei Dashboards und eine eigene Betriebs-App. Alle mit Videos, eigenen Animationen und Funktionen wie Online-Buchung, live im Browser zum Ausprobieren.", links: ["beispiele", "anfrage"] },
     whatsapp: { q: "Per WhatsApp schreiben", a: "Klar! Schreib Tim direkt auf WhatsApp unter +43 677 61773118. Ein Klick öffnet den Chat mit einer kurzen Begrüßung, die du noch ändern kannst. Tim meldet sich so bald wie möglich persönlich.", links: ["whatsapp", "anfrage"] },
-    kontakt: { q: "Persönlich anfragen", a: "Gerne! Am schnellsten über das Anfrageformular. Oder direkt per E-Mail an office@tim-kofler.at bzw. unter +43 677 61773118, gerne auch per WhatsApp.", links: ["anfrage", "whatsapp", "mail", "tel"] }
+    kontakt: { q: "Persönlich anfragen", a: "Gerne! Am schnellsten über das Anfrageformular. Oder direkt per E-Mail an office@tim-kofler.at bzw. unter +43 677 61773118, gerne auch per WhatsApp oder Telegram (@TimKofler).", links: ["anfrage", "whatsapp", "telegram", "mail", "tel"] }
   };
   var CHIPS = ["preis", "whatsapp", "beispiele", "dauer", "referenz", "email", "ablauf", "kontakt"];
   var KEYWORDS = [

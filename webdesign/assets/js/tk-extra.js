@@ -65,7 +65,16 @@
   if (ex && "IntersectionObserver" in window) {
     new IntersectionObserver(function (es) { exVisible = es[0].isIntersecting; show(); }, { threshold: 0.15 }).observe(ex);
   }
-  function show() { a.classList.toggle("is-in", window.scrollY > 500 && !exVisible); }
+  // Auch nicht über Formularen, sonst verdeckt der Hinweis unten links den Absende-Knopf
+  var forms = document.querySelectorAll("form[data-cx-form]"), formsOn = 0;
+  if (forms.length && "IntersectionObserver" in window) {
+    var fio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { formsOn += e.isIntersecting ? 1 : (e.target._tkSeen ? -1 : 0); e.target._tkSeen = e.isIntersecting; });
+      show();
+    });
+    forms.forEach(function (f) { fio.observe(f); });
+  }
+  function show() { a.classList.toggle("is-in", window.scrollY > 500 && !exVisible && formsOn <= 0); }
   window.addEventListener("scroll", show, { passive: true });
   setTimeout(show, 1200);
   if (!reduce) {
