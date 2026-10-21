@@ -203,7 +203,7 @@ function cx_brevo(string $method, string $path, array $body): array
         ]);
         $res = curl_exec($ch);
         $code = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
+        // Kein curl_close(): seit PHP 8.0 wirkungslos, ab PHP 8.5 als veraltet gemeldet.
     } else {
         $ctx = stream_context_create(['http' => [
             'method' => $method, 'header' => implode("\r\n", $headers), 'content' => $json,
