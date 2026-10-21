@@ -47,3 +47,23 @@
   else { var no = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { run(e.target); no.unobserve(e.target); } }); }, { threshold: 0.6 });
     nums.forEach(function (el) { no.observe(el); }); }
 })();
+
+// Anonymer Besucherzähler: meldet nur Seite und Herkunft (utm_source/-campaign, Google-Anzeige oder verweisende Seite)
+// an den eigenen Server, der daraus Tagessummen bildet. Keine Cookies, kein Speicher im Browser, keine Kennung.
+// Neu laden und Zurück-Taste zählen nicht, vorgeladene Seiten erst, wenn sie wirklich angezeigt werden.
+(function () {
+  if (!navigator.sendBeacon || !window.URLSearchParams || location.hostname !== "tim-kofler.at") return;
+  var nav = window.performance && performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+  if (nav && (nav.type === "reload" || nav.type === "back_forward")) return;
+  var send = function () {
+    var q = new URLSearchParams(location.search), r = "", ext = true;
+    try { if (document.referrer) { r = new URL(document.referrer).hostname; ext = r.replace(/^www\./, "") !== location.hostname; } } catch (e) {}
+    navigator.sendBeacon("/api/zaehler.php", new URLSearchParams({
+      p: location.pathname, e: ext ? "1" : "0", r: ext ? r : "",
+      u: (q.get("utm_source") || "").slice(0, 60), c: (q.get("utm_campaign") || "").slice(0, 60),
+      g: q.get("gclid") || q.get("gbraid") || q.get("wbraid") ? "1" : "0"
+    }));
+  };
+  if (document.prerendering) document.addEventListener("prerenderingchange", send, { once: true });
+  else send();
+})();
