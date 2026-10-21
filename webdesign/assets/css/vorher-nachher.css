@@ -1,9 +1,11 @@
 /* Tim Kofler – Vorher/Nachher-Regler auf /entwurf/: alte Beispielseite links, neue Version rechts */
 
 .vn .head { margin-bottom: 40px; }
-.vn-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
-.vn-tabs { display: flex; flex-wrap: wrap; gap: 8px; }
-.vn-tabs button { min-height: 42px; padding: 8px 18px; border: 1px solid var(--line-2); border-radius: 999px; background: var(--surface); color: #d8d8d4; font: 600 .93rem var(--body); cursor: pointer; transition: border-color .2s, background .2s, color .2s; }
+.vn-bar { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px 28px; margin-bottom: 18px; }
+/* Viele Branchen: am PC in zwei Zeilen, am Handy eine wischbare Zeile (siehe unten) */
+.vn-tabs { display: flex; flex-wrap: wrap; gap: 8px; min-width: 0; }
+.vn-dev { flex: none; }
+.vn-tabs button { flex: none; min-height: 40px; padding: 7px 16px; border: 1px solid var(--line-2); border-radius: 999px; background: var(--surface); color: #d8d8d4; font: 600 .93rem var(--body); cursor: pointer; transition: border-color .2s, background .2s, color .2s; }
 .vn-tabs button:hover { border-color: #555; color: var(--text); }
 .vn-tabs button.is-on { border-color: var(--hot); background: var(--hot-dim); color: #fff; }
 .vn-dev button { min-height: 34px; }
@@ -59,9 +61,16 @@
 }
 @media (max-width: 699px) {
   .vn .head { margin-bottom: 28px; }
-  .vn-bar { gap: 10px; }
-  .vn-tabs { width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
-  .vn-tabs button { padding: 8px 6px; font-size: .88rem; }
+  .vn-bar { flex-direction: column; align-items: stretch; gap: 10px; }
+  .vn-dev { align-self: flex-start; }
+  /* Eine Zeile bis an den Bildschirmrand, seitlich wischen; ausgeblendeter Rand zeigt, dass es weitergeht */
+  .vn-tabs { flex-wrap: nowrap; gap: 6px; margin: 0 -16px; padding: 2px 16px; overflow-x: auto; scroll-snap-type: x proximity; scroll-padding: 0 16px; scrollbar-width: none; overscroll-behavior-x: contain;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 var(--fl, 0px), #000 calc(100% - var(--fr, 36px)), transparent 100%);
+            mask-image: linear-gradient(90deg, transparent 0, #000 var(--fl, 0px), #000 calc(100% - var(--fr, 36px)), transparent 100%); }
+  .vn-tabs::-webkit-scrollbar { display: none; }
+  .vn-tabs[data-mitte] { --fl: 36px; }
+  .vn-tabs[data-ende] { --fl: 36px; --fr: 0px; }
+  .vn-tabs button { scroll-snap-align: start; min-height: 42px; padding: 8px 15px; font-size: .88rem; }
   .vn-diff { grid-template-columns: 1fr; gap: 10px; }
   .vn-diff li { padding: 14px 16px; }
   .vn-handle__knob { width: 46px; height: 46px; left: -1px; margin-top: -23px; }
