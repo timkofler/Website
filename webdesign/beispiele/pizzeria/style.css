@@ -8,7 +8,7 @@
 @font-face{font-family:"Manrope";src:url(/beispiele/_shared/fonts/manrope.woff2) format("woff2");font-weight:200 800;font-display:swap}
 :root{--bar:42px;--nav:72px;--bg:#0c0b0a;--bg2:#13110f;--bg3:#1b1815;--ink:#f1e8d6;--mu:#b9ae9b;--mu2:#8a8070;
   --gold:#c9a45c;--gold2:#ecd49a;--line:rgba(201,164,92,.26);--line2:rgba(241,232,214,.1);--wine:#6f1520;--red:#d9545d;--green:#9fb98a;
-  --goldg:linear-gradient(120deg,#f6e2ab 0%,#d4b06a 38%,#a9813d 70%,#e7c987 100%);
+  --goldg:linear-gradient(120deg,#f8e6b4 0%,#e2c07a 38%,#c99f55 70%,#efd394 100%);
   --serif:"Bodoni Moda",Didot,"Times New Roman",serif;--deco:"Limelight","Bodoni Moda",serif;--thin:"Poiret One","Manrope",sans-serif;
   --sans:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;--ease:cubic-bezier(.2,.75,.15,1)}
 *,*::before,*::after{box-sizing:border-box}
@@ -102,7 +102,7 @@ i{font-style:italic}
 .addr select option{background:var(--bg2);color:var(--ink)}
 .addr .btn{min-height:46px;padding:0 20px}
 .addr__out{min-height:22px;margin-top:12px;color:var(--gold2);font-size:14.5px;font-weight:600}
-.hero__facts{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 22px;margin-top:10px;color:#d9cfbd;font-size:13.5px}
+.hero__facts{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 22px;margin-top:18px;color:#d9cfbd;font-size:13.5px}
 .hero__facts li{display:flex;align-items:center;gap:7px}
 .hero__facts svg{font-size:16px;color:var(--gold)}
 .hero__facts .gold{fill:var(--gold)}
@@ -418,6 +418,12 @@ body.has-bar .foot{padding-bottom:110px}
 .toast{position:fixed;left:50%;bottom:96px;z-index:80;max-width:calc(100% - 32px);padding:12px 20px;border-radius:999px;border:1px solid var(--gold);background:rgba(19,17,15,.96);color:var(--gold2);font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transform:translate(-50%,30px);opacity:0;pointer-events:none;transition:transform .4s var(--ease),opacity .4s}
 .toast.is-on{transform:translate(-50%,0);opacity:1}
 
+/* Lesbarkeit der Bodoni: Die Schrift hat eine Optical-Size-Achse und würde bei großen Größen
+   haarfeine Striche zeichnen, die vor allem am Handy verschwinden. Steht hinter allen font-Kurzschreibweisen,
+   weil "font:" font-variation-settings zurücksetzt. */
+.h2,.hero__h,.score,.nums b,.track__eta b,.cat__h,.dish__h,.co__h,.res__h,.cart__head h3,.cart__tot dt,.cart__tot dd,.fam__img figcaption,.res__ok b{font-variation-settings:"opsz" 18}
+.score,.nums b,.track__eta b{font-weight:600}
+
 @media (min-width:600px){
   .co__row{grid-template-columns:1fr 1fr}
   .co__row .co__wide{grid-column:auto}
@@ -452,7 +458,7 @@ body.has-bar .foot{padding-bottom:110px}
   .nav__links{display:none}
   .logo img{width:50px;height:50px}
   .logo__w{font-size:24px}
-  .wrap{padding:0 36px}
+  .wrap{padding-inline:36px}
   .order__grid{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:48px;align-items:start}
   .obar{margin:0;padding:14px 0 0}
   .cart{position:sticky;top:calc(var(--bar) + var(--nav) + 18px);left:auto;right:auto;bottom:auto;z-index:1;max-height:calc(100svh - var(--bar) - var(--nav) - 36px);transform:none;visibility:visible;transition:none}
