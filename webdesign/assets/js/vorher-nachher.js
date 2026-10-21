@@ -29,8 +29,79 @@
       nachher: "Edler Auftritt, Termin online buchen mit einem Tipp und die Preise gleich auf der Seite.",
       altV: "Vorher: veraltete Webseite eines Friseursalons in Rosa mit Laufschrift, Besucherzähler und kleinen Fotos",
       altN: "Nachher: moderne Webseite desselben Friseurs mit großer Überschrift und Knopf zum Termin buchen"
+    },
+    baeckerei: {
+      domain: "Kornfeld · erfundener Betrieb", name: "Bäckerei",
+      vorher: "Bestellen nur per Telefon oder Fax, Sonntagsöffnung nur in der Laufschrift.",
+      nachher: "Frisches Brot als großes Bild, Vorbestellen mit einem Tipp und gezeigt, wie eine Semmel entsteht.",
+      altV: "Vorher: veraltete Webseite einer Bäckerei in Gelb mit Laufschrift, Besucherzähler und kleinen Fotos",
+      altN: "Nachher: moderne Webseite derselben Bäckerei mit großem Brotfoto und Knopf zum Vorbestellen"
+    },
+    pizzeria: {
+      domain: "Proibito · erfundener Betrieb", name: "Pizzeria",
+      vorher: "Speisekarte als 4-MB-PDF, Bestellen nur per Telefon, Bezahlen nur bar.",
+      nachher: "Stimmungsvoller Auftritt, Lieferort wählen und direkt aus der Speisekarte bestellen.",
+      altV: "Vorher: veraltete Webseite einer Pizzeria mit Italien-Streifen, Laufschrift und PDF-Speisekarte",
+      altN: "Nachher: moderne Webseite derselben Pizzeria mit dunklem Auftritt und Speisekarte zum Bestellen"
+    },
+    dachdecker: {
+      domain: "First & Falz · erfundener Betrieb", name: "Dachdecker",
+      vorher: "Angebot nur mit Plänen per Fax oder Post, der Notdienst versteckt in der Seitenspalte.",
+      nachher: "Starke Botschaft, Dachfläche gleich selbst berechnen und Sturmschaden mit einem Tipp melden.",
+      altV: "Vorher: veraltete Webseite einer Dachdeckerei mit grauem Kopf, Laufschrift und Besucherzähler",
+      altN: "Nachher: moderne Webseite derselben Dachdeckerei mit großer Schrift und Dachflächen-Rechner"
+    },
+    cafe: {
+      domain: "Café Mühlbach · erfundener Betrieb", name: "Café",
+      vorher: "Tisch nur telefonisch, Speisekarte und Tortenkatalog als PDF.",
+      nachher: "Der Kaffee als Film im Hintergrund, Tisch reservieren mit einem Tipp, Öffnungszeiten auf einen Blick.",
+      altV: "Vorher: veraltete Webseite eines Kaffeehauses in Rosa und Braun mit Laufschrift und kleinen Fotos",
+      altN: "Nachher: moderne Webseite desselben Cafés mit großem Kaffeebild und Knopf zum Tisch reservieren"
+    },
+    maler: {
+      domain: "Malerei Lindner · erfundener Betrieb", name: "Maler",
+      vorher: "Regenbogen-Kopf und Farbkleckse, Preise nur nach Besichtigung.",
+      nachher: "Ruhig und klar, Wunschfarbe gleich ausprobieren und Besichtigung mit einem Tipp anfragen.",
+      altV: "Vorher: veraltete Webseite eines Malerbetriebs mit Regenbogen-Kopf, bunten Klecksen und Laufschrift",
+      altN: "Nachher: moderne Webseite desselben Malerbetriebs mit klarer Botschaft und Knopf zur Besichtigung"
+    },
+    pension: {
+      domain: "Zirbenhof · erfundener Betrieb", name: "Pension",
+      vorher: "Zimmeranfrage nur per Telefon oder Fax, Prospekt als 5-MB-PDF.",
+      nachher: "Ötscherblick als großes Bild, Reisedaten eingeben und freie Zimmer direkt anfragen.",
+      altV: "Vorher: veraltete Webseite einer Pension mit Himmel-und-Wiese-Kopf, Laufschrift und Preistabelle",
+      altN: "Nachher: moderne Webseite derselben Pension mit Bergbild und Feldern für An- und Abreise"
+    },
+    fleischerei: {
+      domain: "Haselberger · erfundener Betrieb", name: "Fleischerei",
+      vorher: "Rot-weiß kariert, Wochenangebot als PDF, Bestellungen nur telefonisch.",
+      nachher: "Appetitliches Bild, Wochenangebote auf der Seite und Vorbestellen zum Abholen.",
+      altV: "Vorher: veraltete Webseite einer Fleischerei mit rot-weißem Karomuster, Laufschrift und kleinen Fotos",
+      altN: "Nachher: moderne Webseite derselben Fleischerei mit großem Bild und Knopf zum Vorbestellen"
+    },
+    bodenleger: {
+      domain: "Grund & Holz · erfundener Betrieb", name: "Bodenleger",
+      vorher: "Preise erst nach Besichtigung, Muster nur im Schauraum nach Termin.",
+      nachher: "Der Boden im echten Raum ansehen, Fläche selbst berechnen und Ausmessen anfragen.",
+      altV: "Vorher: veraltete Webseite eines Bodenlegers mit grauem Karomuster, Laufschrift und kleinen Fotos",
+      altN: "Nachher: moderne Webseite desselben Bodenlegers mit großem Raumfoto und Flächenrechner"
+    },
+    werkstatt: {
+      domain: "KFZ Steiner · erfundener Betrieb", name: "KFZ-Werkstatt",
+      vorher: "Flammenschrift auf Zielflagge, Termine nur per Telefon.",
+      nachher: "Klare Botschaft, Online-Termin mit einem Tipp und gleich sichtbar, ob offen ist.",
+      altV: "Vorher: veraltete Webseite einer Autowerkstatt mit Zielflaggen-Muster, Flammenschrift und Laufschrift",
+      altN: "Nachher: moderne Webseite derselben Werkstatt mit großer Schrift und Knopf zum Online-Termin"
+    },
+    massage: {
+      domain: "Praxis Sonnfeld · erfundener Betrieb", name: "Massage",
+      vorher: "Lila Verlauf und Sternchen, Termine nur telefonisch über die Mobilbox.",
+      nachher: "Ruhige Farben, Behandlungen erklärt und Termin vereinbaren mit einem Tipp.",
+      altV: "Vorher: veraltete Webseite einer Massagepraxis in Lila mit Laufschrift und kleinen Fotos",
+      altN: "Nachher: moderne Webseite derselben Massagepraxis mit ruhigem Foto und Knopf zum Termin"
     }
   };
+  var tabs = sec.querySelector(".vn-tabs");
   var cur = "tischlerei";
   var dev = window.matchMedia("(max-width: 699px)").matches ? "handy" : "pc";
   var pos = 50;
@@ -62,10 +133,30 @@
     a.href = "/beispiele/" + cur + "/";
     a.textContent = "Ganze " + d.name + "-Seite ansehen";
     frame.classList.toggle("is-handy", dev === "handy");
-    // Die andere Branche schon vorladen, damit der Wechsel ohne Flackern geht.
-    Object.keys(B).forEach(function (k) {
-      if (k !== cur) ["vorher", "nachher"].forEach(function (w) { new Image().src = DIR + k + "-" + w + "-" + dev + ".webp?v=2"; });
-    });
+    // Die nächsten zwei Branchen schon vorladen, damit der Wechsel ohne Flackern geht (alle 13 wären zu viel).
+    var keys = Object.keys(B), i = keys.indexOf(cur);
+    [1, 2].forEach(function (n) { preload(keys[(i + n) % keys.length]); });
+  }
+  var done = {};
+  function preload(k) {
+    if (done[k + dev]) return;
+    done[k + dev] = 1;
+    ["vorher", "nachher"].forEach(function (w) { new Image().src = DIR + k + "-" + w + "-" + dev + ".webp?v=2"; });
+  }
+
+  // Handy: Reiterzeile wischbar, der gewählte Reiter rückt ins Bild, Rand blendet nur dort aus, wo es weitergeht.
+  function edges() {
+    var max = tabs.scrollWidth - tabs.clientWidth;
+    tabs.toggleAttribute("data-mitte", tabs.scrollLeft > 4 && tabs.scrollLeft < max - 4);
+    tabs.toggleAttribute("data-ende", max > 4 && tabs.scrollLeft >= max - 4);
+  }
+  tabs.addEventListener("scroll", edges, { passive: true });
+  window.addEventListener("resize", edges);
+  function zeigen(b) {
+    if (tabs.scrollWidth <= tabs.clientWidth) return;
+    var t = tabs.getBoundingClientRect(), r = b.getBoundingClientRect();
+    if (r.left < t.left + 40 || r.right > t.right - 40)
+      tabs.scrollBy({ left: r.left - t.left - (t.width - r.width) / 2, behavior: still ? "auto" : "smooth" });
   }
 
   function pick(attr, val) {
@@ -76,7 +167,10 @@
     });
   }
   sec.querySelectorAll("[data-vn-b]").forEach(function (b) {
-    b.addEventListener("click", function () { cur = b.getAttribute("data-vn-b"); pick("data-vn-b", cur); load(); cancelAnimationFrame(anim); set(B[cur].start || 50); });
+    b.addEventListener("click", function () { cur = b.getAttribute("data-vn-b"); pick("data-vn-b", cur); load(); cancelAnimationFrame(anim); set(B[cur].start || 50); zeigen(b); });
+    // Beim Darüberfahren oder ersten Antippen schon laden.
+    b.addEventListener("pointerenter", function () { preload(b.getAttribute("data-vn-b")); });
+    b.addEventListener("focus", function () { preload(b.getAttribute("data-vn-b")); });
   });
   sec.querySelectorAll("[data-vn-dev]").forEach(function (b) {
     b.addEventListener("click", function () { dev = b.getAttribute("data-vn-dev"); pick("data-vn-dev", dev); load(); });
@@ -137,4 +231,5 @@
   pick("data-vn-dev", dev);
   load();
   set(50);
+  edges();
 })();

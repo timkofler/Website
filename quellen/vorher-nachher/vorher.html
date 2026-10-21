@@ -5,7 +5,8 @@
 <title>Vorher-Beispiel (erfunden)</title>
 <!-- Absichtlich veraltete Beispielseite für den Vorher/Nachher-Regler auf /entwurf/.
      Kein viewport-Meta: so zeigt das Handy die Seite wie früher verkleinert an.
-     Aufruf: vorher.html?b=tischlerei | gasthaus | friseur | baeckerei -->
+     Aufruf: vorher.html?b=tischlerei | gasthaus | friseur | baeckerei | fleischerei | cafe | pizzeria
+     | pension | dachdecker | bodenleger | maler | werkstatt | massage -->
 <style>
 body{margin:0;padding:14px 0 30px;font:12px/1.45 Verdana,"DejaVu Sans",sans-serif;color:#222;background:#6f8fb3}
 #seite{width:900px;margin:0 auto;background:#fff;border:1px solid #333;box-shadow:4px 4px 0 rgba(0,0,0,.35)}
@@ -73,6 +74,75 @@ body.baeckerei #kopf h1{color:#b01e00;font-family:"Comic Sans MS","Comic Neue","
 body.baeckerei #kopf .sub,body.baeckerei #kopf .tel{color:#6b3100}
 body.baeckerei #links .box b{background:#a5520f}
 body.baeckerei #haupt h2{color:#b01e00}
+/* Aufbau-Varianten: r = Spalte rechts, c = Menü als Knöpfe in der Mitte */
+body.r #inhalt{flex-direction:row-reverse}
+body.r #links{border-right:0;border-left:1px solid #aab}
+body.c #nav{justify-content:center;background:#ddd;padding:5px;gap:4px;border-bottom:2px groove #fff}
+body.c #nav a{border:2px outset #f2f2f2;background:linear-gradient(#fdfdfd,#d4d4d4);padding:3px 10px}
+body.c #nav a.akt{border-style:inset}
+body.fleischerei{background:#fff repeating-conic-gradient(#c8102e 0 25%,#fff 0 50%) 0 0/28px 28px}
+body.fleischerei #kopf{background:linear-gradient(#d6283c,#8f0a1c)}
+body.fleischerei #kopf h1{color:#fff;text-shadow:3px 3px 0 #000,0 0 12px #ff9}
+body.fleischerei #kopf .sub,body.fleischerei #kopf .tel{color:#fff6d0}
+body.fleischerei #links{background:#fff4f4}
+body.fleischerei #links .box b{background:#a80d22}
+body.fleischerei #haupt h2{color:#a80d22}
+body.cafe{background:#e8d3bb repeating-radial-gradient(circle at 12px 12px,#f6e7d6 0 5px,#e8d3bb 5px 24px)}
+body.cafe #kopf{background:linear-gradient(90deg,#fbe9e7,#d9a98a)}
+body.cafe #kopf h1{color:#5b2c0f;font-size:48px;text-shadow:2px 2px 0 #f7d27a,4px 4px 4px rgba(0,0,0,.45)}
+body.cafe #kopf .sub,body.cafe #kopf .tel{color:#5b2c0f}
+body.cafe #links{background:#fdf3f6}
+body.cafe #links .box b{background:#9c5a7a}
+body.cafe #haupt h2{color:#7a3d1a;font-family:"Times New Roman","Liberation Serif",serif;font-style:italic;font-size:26px}
+body.pizzeria{background:repeating-linear-gradient(90deg,#009246 0 46px,#fff 46px 92px,#ce2b37 92px 138px)}
+body.pizzeria #kopf{background:linear-gradient(#1d5c2e,#0b3518)}
+body.pizzeria #kopf h1{font-family:"Comic Sans MS","Comic Neue","DejaVu Sans",sans-serif;font-style:normal;color:#ffe066;text-shadow:3px 3px 0 #ce2b37,5px 5px 4px #000}
+body.pizzeria #kopf .sub,body.pizzeria #kopf .tel{color:#fff}
+body.pizzeria #links{background:#fff8e6}
+body.pizzeria #links .box b{background:#ce2b37}
+body.pizzeria #haupt h2{color:#009246;font-size:24px}
+body.pension{background:#7fb2e5 linear-gradient(#5a8fd0,#a9d3f5) fixed}
+body.pension #kopf{background:linear-gradient(#cfe9ff 0,#e6f4ff 55%,#7cc06a 56%,#3f8a34)}
+body.pension #kopf h1{color:#1d4f1a;text-shadow:2px 2px 0 #fff,3px 3px 4px rgba(0,0,0,.5)}
+body.pension #kopf .sub{color:#173f14;font-weight:bold}
+body.pension #kopf .tel{color:#0c2f6b}
+body.pension #links{background:#eef6ff}
+body.pension #links .box b{background:#2e6da4}
+body.pension #haupt h2{color:#2e6da4}
+body.dachdecker{background:#1f3a66 repeating-linear-gradient(0deg,#1f3a66 0 18px,#152a4d 18px 21px)}
+body.dachdecker #kopf{background:linear-gradient(#f1f1f1,#a9a9a9)}
+body.dachdecker #kopf h1{font:900 50px/1 "Arial Black",Impact,"DejaVu Sans",sans-serif;font-style:normal;text-transform:uppercase;letter-spacing:0;color:#c0392b;text-shadow:2px 2px 0 #fff,4px 4px 3px rgba(0,0,0,.5)}
+body.dachdecker #kopf .sub{top:76px;color:#1f3a66;font-weight:bold}
+body.dachdecker #kopf .tel{color:#1f3a66}
+body.dachdecker #links .box b{background:#c0392b}
+body.dachdecker #haupt h2{color:#1f3a66}
+body.bodenleger{background:#8b9096 repeating-conic-gradient(#9aa0a6 0 25%,#7d838a 0 50%) 0 0/64px 32px}
+body.bodenleger #kopf{background:linear-gradient(90deg,#3a3f45,#6c737b)}
+body.bodenleger #kopf h1{font-family:Georgia,"DejaVu Serif",serif;color:#ffd75e;text-shadow:3px 3px 0 #000}
+body.bodenleger #kopf .sub,body.bodenleger #kopf .tel{color:#eee}
+body.bodenleger #links{background:#f1f1ec}
+body.bodenleger #links .box b{background:#5b6168}
+body.bodenleger #haupt h2{color:#3a3f45}
+body.maler{background:#fff radial-gradient(circle at 8% 20%,#ff4d4d 0 60px,transparent 61px),radial-gradient(circle at 92% 30%,#ffd400 0 80px,transparent 81px),radial-gradient(circle at 6% 80%,#2b9bff 0 70px,transparent 71px),radial-gradient(circle at 94% 85%,#3ac24f 0 65px,transparent 66px),#fff}
+body.maler #kopf{background:linear-gradient(90deg,#ff3b3b,#ff9a00,#ffe600,#38c94f,#2b8bff,#8a3bff)}
+body.maler #kopf h1{font-family:"Comic Sans MS","Comic Neue","DejaVu Sans",sans-serif;font-style:normal;color:#fff;text-shadow:-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000,3px 3px 0 #000,5px 5px 4px rgba(0,0,0,.5)}
+body.maler #kopf .sub,body.maler #kopf .tel{color:#000;font-weight:bold}
+body.maler #links .box b{background:#8a3bff}
+body.maler #haupt h2{color:#ff3b3b;text-shadow:1px 1px 0 #ffd400}
+body.werkstatt{background:#111 repeating-conic-gradient(#111 0 25%,#2c2c2c 0 50%) 0 0/40px 40px}
+body.werkstatt #kopf{background:linear-gradient(#000,#3a3a3a)}
+body.werkstatt #kopf h1{font:italic 900 46px/1 Impact,"Arial Black","DejaVu Sans",sans-serif;color:#ffcc00;text-shadow:0 -2px 4px #ff5a00,0 -6px 10px #ff2a00,3px 3px 0 #900}
+body.werkstatt #kopf .sub,body.werkstatt #kopf .tel{color:#fff}
+body.werkstatt #links{background:#f2f2f2}
+body.werkstatt #links .box b{background:#222;color:#ffcc00}
+body.werkstatt #haupt h2{color:#c00}
+body.massage{background:#6b3f8f radial-gradient(circle at 50% 0,#b48ad6,#5a2f7d 70%) fixed}
+body.massage #kopf{background:linear-gradient(90deg,#f3e6fb,#b98fdc)}
+body.massage #kopf h1{color:#4b1d6b;font-size:42px;text-shadow:0 0 6px #fff,2px 2px 0 #fff,4px 4px 4px rgba(0,0,0,.35)}
+body.massage #kopf .sub,body.massage #kopf .tel{color:#3a1155}
+body.massage #links{background:#f7f0fb}
+body.massage #links .box b{background:#7a4fa0}
+body.massage #haupt h2{color:#7a4fa0;font-family:"Times New Roman","Liberation Serif",serif;font-style:italic;font-size:25px}
 </style>
 </head>
 <body>
@@ -156,9 +226,108 @@ baeckerei:{ueber:'Die Bäckerei Kornfeld wurde 1962 von Bäckermeister Leopold K
  bilder:[['b-laib','Unser Brot'],['b-theke','Unser Geschäft'],['b-brezel','Brezen']],
  text2:'Bestellungen für Torten und größere Mengen nehmen wir gerne telefonisch oder per Fax entgegen. Unser komplettes Sortiment finden Sie unter "Unser Sortiment".',
  liste:[['Bauernbrot 1 kg','€ 3,90'],['Kornspitz','€ 0,75'],['Semmel','€ 0,38']],
- fuss:'© 2008 Bäckerei Kornfeld | Musterort | <a href="#">Impressum</a> | Diese Seite wurde erstellt mit WebsiteBaukasten 2.0 | Stand: 09/2010'}
+ fuss:'© 2008 Bäckerei Kornfeld | Musterort | <a href="#">Impressum</a> | Diese Seite wurde erstellt mit WebsiteBaukasten 2.0 | Stand: 09/2010'},
+fleischerei:{lay:'r',ueber:'Die Fleischhauerei Haselberger wurde 1958 von Fleischhauermeister Leopold Haselberger am Marktplatz gegründet. Heute führen wir den Betrieb in dritter Generation. Unser Vieh beziehen wir ausschließlich von Bauern aus der Region. Geschlachtet und verarbeitet wird im eigenen Haus. Unsere Selchwaren werden noch traditionell über Buchenholz geräuchert.',anfahrt:'Sie finden uns am Marktplatz 3 in Musterort, gegenüber der Kirche. Parkplätze am Marktplatz (Kurzparkzone, bitte Parkuhr verwenden).',gb:[['Fam. Wimmer','02.09.2011','Die Grillplatte für unser Fest war super, alle waren begeistert!!'],['Hubert','17.06.2011','Bestes Leberkäse-Semmerl im ganzen Bezirk :-)'],['Anonym','30.03.2011','Gibt es zu Ostern wieder Osterschinken? Bitte um Antwort.']],name:'Fleischhauerei Haselberger',sub:'Fleisch und Wurst aus eigener Erzeugung',tel:'Tel.: 01234 / 31 58<br>Fax: 01234 / 31 58-9',kopfbild:'fl-fleisch',
+ nav:['Home','Wochenangebot','Sortiment','Partyservice','Mittagsmenü','Über uns','Kontakt','Impressum'],
+ lauf:'+++ Wochenangebot: Schweinsschopf 1 kg nur € 6,99 +++ Bestellungen für Grillfeste bitte 3 Tage vorher! +++ Leberkäse frisch ab 9 Uhr +++',
+ aktuell:'<span class="neu">NEU!</span> Wochenangebot als PDF (3,1 MB)<br><br>Osterschinken jetzt vorbestellen!',
+ zeiten:'Mo - Fr: 7:00 - 18:00<br>Sa: 7:00 - 12:00<br>Mittwoch Nachmittag geschlossen',zaehler:'006081',
+ titel:'Herzlich Willkommen bei der Fleischhauerei Haselberger!',hl:'~ Qualität vom Fachmann seit 1958 ~',
+ text1:'Liebe Kunden! Auf unserer Homepage finden Sie Informationen über unseren Betrieb, unser Sortiment und unseren Partyservice. Bei uns bekommen Sie Fleisch und Wurst in bester Qualität, frisch aus der eigenen Erzeugung. Täglich bieten wir auch ein warmes Mittagsmenü zum Mitnehmen an.',
+ bilder:[['fl-fleisch','Rindfleisch'],['fl-wurst','Wurstaufschnitt'],['fl-theke','Unsere Theke']],
+ text2:'Das aktuelle Wochenangebot finden Sie <a href="#">hier</a> als PDF. Bestellungen für den Partyservice nehmen wir gerne telefonisch entgegen.',
+ liste:[['Schweinsschopf 1 kg','€ 7,90'],['Extrawurst 10 dag','€ 1,29'],['Leberkäse-Semmel','€ 2,20']],
+ fuss:'© 2008 Fleischhauerei Haselberger | Musterort | <a href="#">Impressum</a> | Homepage erstellt von: Sohn Thomas | Letzte Änderung: 11.04.2011'},
+cafe:{lay:'c',ueber:'Das Café Mühlbach ist seit 1974 ein beliebter Treffpunkt am Musterplatz. Unsere Torten und Mehlspeisen werden täglich frisch in unserer eigenen Backstube zubereitet. Im Sommer lädt unser Schanigarten zum Verweilen ein. Wir haben auch eine große Auswahl an Tageszeitungen und Zeitschriften für Sie bereit.',anfahrt:'Sie finden uns direkt am Musterplatz 4 in Musterort. Parkmöglichkeiten gibt es in der Tiefgarage beim Gemeindeamt.',gb:[['Oma Gertrude','08.05.2012','Die Sachertorte ist die beste, die ich je gegessen habe!!!'],['Kathi und Sepp','21.02.2012','Sehr gemütlich, wir kommen jeden Sonntag. Bitte mehr Parkplätze!'],['Anonym','04.12.2011','Gibt es auch WLAN?']],name:'Café-Konditorei Mühlbach',sub:'Ihr Kaffeehaus am Musterplatz seit 1974',tel:'Tel.: 01234 / 67 74<br>Tischreservierung nur telefonisch',kopfbild:'c-latte',
+ nav:['Startseite','Torten','Speisekarte','Frühstück','Feiern','Bilder','Kontakt','Impressum'],
+ lauf:'~~~ Jeden Sonntag Frühstücksbuffet ab 8:00 Uhr ~~~ Torten auf Bestellung ~~~ Gutscheine erhältlich ~~~',
+ aktuell:'<span class="neu">NEU!</span> Jetzt auch Eiskaffee im Glas!<br><br>Tortenkatalog als PDF (6,8 MB)',
+ zeiten:'Di - Sa: 7:30 - 19:00<br>So: 8:00 - 18:00<br>Mo: Ruhetag',zaehler:'009912',
+ titel:'Willkommen im Café Mühlbach',hl:'Kaffee, Kuchen und Gemütlichkeit',
+ text1:'Herzlich Willkommen auf der Homepage vom Café Mühlbach! Bei uns können Sie in gemütlicher Atmosphäre einen guten Kaffee und hausgemachte Mehlspeisen genießen. Wir bieten auch Frühstück, kleine Speisen und Eis an. Für Geburtstage, Taufen und Firmenfeiern steht unser Extrazimmer zur Verfügung.',
+ bilder:[['c-latte','Melange'],['c-kaffee','Unser Kaffee'],['c-kuchen','Frühstück']],
+ text2:'Unsere komplette Speisekarte finden Sie <a href="#">hier</a> als PDF. Torten bitte mindestens 3 Tage vorher telefonisch bestellen.',
+ liste:[['Wiener Melange','€ 2,90'],['Sachertorte','€ 3,40'],['Frühstück "Wien"','€ 6,50']],
+ fuss:'© 2007 Café-Konditorei Mühlbach | Musterort | <a href="#">Impressum</a> | Am besten mit 800x600 Auflösung | Stand: 05/2012'},
+pizzeria:{lay:'r',ueber:'Die Familie hinter der Pizzeria Proibito backt schon seit Generationen Pizza nach original italienischem Rezept. Unser Teig ruht 48 Stunden, die Tomaten kommen direkt aus Italien. Unser Steinofen wird mit Buchenholz beheizt. Für Firmenfeiern und Geburtstage reservieren Sie bitte rechtzeitig.',anfahrt:'Sie finden uns in der Bahnhofstraße 9 in Musterort. Lieferung nur im Ortsgebiet, Mindestbestellwert € 15,-.',gb:[['Mario','11.08.2013','Beste Pizza ever!!! Bella Italia :-)'],['Sandra','29.05.2013','Leider musste ich 1 Stunde auf die Lieferung warten, war aber trotzdem gut.'],['Anonym','02.03.2013','Kann man auch online bestellen?']],name:'Pizzeria Proibito',sub:'Ristorante - Pizza - Pasta - Lieferservice',tel:'Bestell-Hotline:<br>01234 / 92 92 92',kopfbild:'p-ofen',
+ nav:['Home','Pizza','Pasta','Getränke','Lieferservice','Bilder','Kontakt','Impressum'],
+ lauf:'*** LIEFERSERVICE: Bestellung NUR per Telefon! *** Jeden Dienstag alle Pizzen € 6,90 *** Buon Appetito! ***',
+ aktuell:'<span class="neu">NEU!</span> Speisekarte zum Download (PDF, 4,2 MB)<br><br>Kellner/in gesucht',
+ zeiten:'Di - So: 11:00 - 14:00<br>und 17:00 - 23:00<br>Mo: Ruhetag',zaehler:'018440',
+ titel:'Benvenuti bei der Pizzeria Proibito!',hl:'Original italienische Küche',
+ text1:'Herzlich Willkommen auf unserer Homepage! Bei uns erwarten Sie echte italienische Pizza aus dem Steinofen, hausgemachte Pasta und feine Weine aus Italien. Wir liefern auch zu Ihnen nach Hause. Bestellungen bitte telefonisch, Bezahlung nur in bar.',
+ bilder:[['p-ofen','Unser Steinofen'],['p-margherita','Pizza Margherita'],['p-diavola','Pizza Diavola']],
+ text2:'Die komplette Speisekarte mit allen Pizzen und Nudelgerichten finden Sie <a href="#">hier</a> (PDF). Alle Preise inkl. MwSt., Lieferpauschale € 2,50.',
+ liste:[['Pizza Margherita','€ 7,50'],['Pizza Diavola','€ 9,20'],['Spaghetti Bolognese','€ 8,90']],
+ fuss:'© 2011 Pizzeria Proibito | Musterort | <a href="#">Impressum</a> | Powered by Joomla! 1.5 | Letzte Änderung: 14.09.2013'},
+pension:{ueber:'Der Gasthof Zirbenhof wird seit 1962 von der Familie Pichler geführt. Unser Haus liegt ruhig am Ortsrand mit herrlichem Blick auf den Ötscher. Alle Zimmer verfügen über Dusche/WC und Sat-TV. Im Winter ist das Skigebiet in nur 10 Minuten erreichbar. Wanderer und Radfahrer sind bei uns herzlich willkommen!',anfahrt:'Von der Bundesstraße kommend in Musterdorf beim Gemeindeamt rechts abbiegen und der Beschilderung "Zirbenhof" folgen (ca. 2 km). Eigener Parkplatz direkt beim Haus.',gb:[['Familie Schuster aus Linz','19.08.2012','Wunderschöner Urlaub, das Frühstück war ein Traum! Wir kommen wieder!'],['Wandergruppe Wels','03.07.2012','Danke für die Gastfreundschaft und die Wandertipps!'],['Erika','15.02.2012','Leider gab es im Zimmer kein WLAN.']],name:'Gasthof - Pension Zirbenhof',sub:'Urlaub im schönen Ötscherland - Familie Pichler',tel:'Tel.: 01234 / 56 62<br>Fax: 01234 / 56 62-20',kopfbild:'pe-tal',
+ nav:['Willkommen','Zimmer','Preise','Gasthaus','Ausflugsziele','Anfrage','Anreise','Impressum'],
+ lauf:'*** Zimmeranfragen bitte per Telefon oder Fax *** Pauschalangebot: 7 Nächte zum Preis von 6 *** Hunde auf Anfrage ***',
+ aktuell:'<span class="neu">NEU!</span> Prospekt 2012 zum Download (PDF, 5,6 MB)<br><br>Winterpauschale ab € 199,-',
+ zeiten:'Rezeption:<br>täglich 8:00 - 20:00<br>Gasthaus Mi Ruhetag',zaehler:'021337',
+ titel:'Grüß Gott am Zirbenhof!',hl:'~ Ihr Urlaubsparadies im Ötscherland ~',
+ text1:'Herzlich Willkommen auf der Homepage vom Gasthof und Pension Zirbenhof! Bei uns finden Sie gemütliche Zimmer, ein reichhaltiges Frühstücksbuffet und echte Gastfreundschaft. Genießen Sie die Ruhe der Natur und die gute Hausmannskost in unserer Gaststube.',
+ bilder:[['pe-zimmer','Doppelzimmer'],['pe-fruehstueck','Frühstück'],['pe-wandern','Wandern']],
+ text2:'Für eine Zimmeranfrage rufen Sie uns bitte an oder schicken Sie uns ein Fax. Online-Buchung ist leider nicht möglich. Preise pro Person und Nacht inkl. Frühstück:',
+ liste:[['Doppelzimmer','ab € 38,-'],['Einzelzimmerzuschlag','€ 8,-'],['Ortstaxe','€ 1,50']],
+ fuss:'© 2006 Gasthof Zirbenhof | Musterdorf | <a href="#">Impressum</a> | Mitglied im Tourismusverband | Letzte Aktualisierung: 01/2012'},
+dachdecker:{lay:'c',ueber:'Unser Betrieb wurde 1994 gegründet und beschäftigt derzeit 14 Mitarbeiter. Wir sind Ihr Fachbetrieb für Dacheindeckungen, Flachdächer, Spenglerarbeiten und Reparaturen aller Art. Wir arbeiten nur mit Markenprodukten und bieten auf alle Arbeiten Garantie. Fordern Sie noch heute ein unverbindliches Angebot an!',anfahrt:'Unser Firmengelände befindet sich im Gewerbegebiet Musterdorf, Industriestraße 7. Lagerverkauf nur nach telefonischer Vereinbarung.',gb:[['Bauherr F.','14.10.2011','Neues Dach in nur 1 Woche, sehr zufrieden!'],['Manfred','22.06.2011','Schnelle Hilfe nach dem Hagel, danke!!'],['Anonym','09.03.2011','Was kostet ca. ein neues Dach für ein Einfamilienhaus?']],name:'First & Falz',sub:'Dachdeckerei & Spenglerei - Dächer aller Art - Reparaturen',tel:'Tel.: 01234 / 19 94<br>Handy: 0664 / 123 45 67',kopfbild:'d-dach',
+ nav:['Startseite','Firma','Leistungen','Referenzen','Produkte','Partner','Kontakt','Impressum'],
+ lauf:'>>> Sturmschaden? Rufen Sie uns an! <<< Wir suchen Dachdecker-Lehrling (m/w) <<< Gratis Angebot! >>>',
+ aktuell:'<span class="neu">NEU!</span> Firmenprospekt als PDF (8,4 MB)<br><br>Lehrling gesucht (m/w)',
+ zeiten:'Mo - Do: 7:00 - 16:30<br>Fr: 7:00 - 12:00<br>Notdienst: Handy',zaehler:'002894',
+ titel:'Willkommen bei First & Falz!',hl:'Ihr Dach in besten Händen',
+ text1:'Herzlich Willkommen auf unserer Homepage! Wir sind Ihr kompetenter Partner für alle Arbeiten rund ums Dach. Ob Neueindeckung, Sanierung, Flachdach oder Spenglerarbeiten, wir beraten Sie gerne und erstellen Ihnen ein kostenloses Angebot. Qualität und Zuverlässigkeit stehen bei uns an erster Stelle.',
+ bilder:[['d-eindecken','Neueindeckung'],['d-sanierung','Sanierung'],['d-flachdach','Flachdach']],
+ text2:'Weitere Bilder finden Sie in unseren <a href="#">Referenzen</a>. Für ein Angebot schicken Sie uns bitte die Pläne per Fax oder Post.',
+ liste:[['Steildach','Flachdach'],['Spenglerarbeiten','Dachfenster'],['Reparaturen','Blitzschutz']],
+ fuss:'© 2010 First & Falz GmbH | Musterdorf | <a href="#">Impressum</a> | FN 123456a | Letzte Aktualisierung: 22.11.2011'},
+bodenleger:{lay:'r',ueber:'Unser Unternehmen wurde 2006 gegründet. Wir verlegen Parkett, Laminat, Teppichböden, PVC und Kork. Auch das Schleifen und Versiegeln von alten Holzböden gehört zu unseren Leistungen. In unserem Schauraum können Sie sich über unser großes Sortiment informieren. Wir freuen uns auf Ihren Besuch!',anfahrt:'Unser Schauraum befindet sich in der Lagerstraße 21 in Musterdorf, neben dem Lagerhaus. Besichtigung nur nach Terminvereinbarung.',gb:[['Fam. Koller','18.01.2013','Unser neues Parkett ist wunderschön geworden. Danke!'],['Christian','03.11.2012','Pünktlich und sauber gearbeitet, gerne wieder.'],['Anonym','21.08.2012','Verlegen Sie auch Fliesen?']],name:'Fußböden Grund & Holz',sub:'Parkett - Laminat - Teppich - Schleifen',tel:'Tel.: 01234 / 20 06<br>Schauraum nach Vereinbarung',kopfbild:'bo-fischgraet',
+ nav:['Home','Parkett','Laminat','Teppich','Schleifen','Galerie','Kontakt','Impressum'],
+ lauf:'+++ Aktion: Laminat ab € 9,90 / m² +++ Kostenloses Aufmaß vor Ort +++ Jetzt auch Vinylböden +++',
+ aktuell:'<span class="neu">NEU!</span> Jetzt auch Vinylböden im Sortiment!<br><br>Preisliste anfordern',
+ zeiten:'Mo - Fr: 8:00 - 17:00<br>Sa, So: geschlossen<br>Schauraum: nach Termin',zaehler:'001768',
+ titel:'Willkommen bei Grund & Holz!',hl:'Ihr Fachbetrieb für Bodenbeläge',
+ text1:'Herzlich Willkommen auf unserer Homepage! Wir sind Ihr Spezialist für Bodenbeläge aller Art. Wir beraten Sie gerne bei der Auswahl des richtigen Bodens und verlegen ihn fachgerecht. Auch Renovierungen von alten Parkettböden führen wir gerne für Sie durch.',
+ bilder:[['bo-fischgraet','Fischgrät'],['bo-verlegen','Verlegung'],['bo-wohnraum','Referenz']],
+ text2:'Muster unserer Böden können Sie sich in unserem Schauraum ansehen. Eine genaue Preisauskunft ist leider nur nach Besichtigung vor Ort möglich.',
+ liste:[['Parkett','Laminat'],['Teppichboden','PVC / Vinyl'],['Schleifen & Versiegeln','Sockelleisten']],
+ fuss:'© 2009 Grund & Holz | Musterdorf | <a href="#">Impressum</a> | Erstellt mit FrontPage 2003 | Stand: 02/2013'},
+maler:{lay:'c',ueber:'Malermeister Peter Lindner gründete den Betrieb im Jahr 2004. Wir sind ein junges Team aus 6 Malern und Anstreichern. Wir führen alle Maler- und Anstreicharbeiten durch, innen wie außen. Auf Sauberkeit und Pünktlichkeit legen wir großen Wert. Gerne beraten wir Sie auch bei der Farbauswahl!',anfahrt:'Sie finden uns in der Farbgasse 5 in Musterdorf. Bitte vereinbaren Sie vorher einen Termin, da wir meistens auf Baustellen unterwegs sind.',gb:[['Sabine','12.09.2012','Unser Wohnzimmer ist jetzt so schön bunt, danke!!!'],['Fam. Leitner','30.05.2012','Fassade sieht wieder aus wie neu, super Arbeit!'],['Gerhard','11.01.2012','Machen Sie auch Tapezierarbeiten?']],name:'Malermeister Lindner',sub:'Malerei - Anstrich - Fassaden - Tapeten',tel:'Tel.: 01234 / 20 04<br>Handy: 0676 / 765 43 21',kopfbild:'m-wand',
+ nav:['Home','Wir über uns','Leistungen','Farben','Galerie','Jobs','Kontakt','Impressum'],
+ lauf:'!!! Wir bringen Farbe in Ihr Leben !!! Kostenlose Farbberatung !!! Jetzt Termine für Fassaden im Frühjahr sichern !!!',
+ aktuell:'<span class="neu">NEU!</span> Farbtrends 2012 in unserer Galerie<br><br>Malergeselle gesucht',
+ zeiten:'Mo - Fr: 7:00 - 16:00<br>Büro: Mo, Mi 8 - 12<br>Sa, So: geschlossen',zaehler:'003310',
+ titel:'Willkommen bei Malermeister Lindner!',hl:'Farbe ist Leben!',
+ text1:'Herzlich Willkommen auf unserer Homepage! Wir führen für Sie alle Malerarbeiten durch: Innenanstrich, Fassaden, Tapezieren, Lackierarbeiten und Spachteltechniken. Wir arbeiten sauber, schnell und zu fairen Preisen. Rufen Sie uns an für ein unverbindliches Angebot!',
+ bilder:[['m-wand','Innenanstrich'],['m-rolle','Unser Werkzeug'],['m-farbe','Farbe']],
+ text2:'Preise auf Anfrage. Bitte haben Sie Verständnis, dass wir Angebote nur nach einer Besichtigung erstellen können.',
+ liste:[['Innenanstrich','Fassaden'],['Tapezieren','Lackieren'],['Spachteltechnik','Vollwärmeschutz']],
+ fuss:'© 2008 Malermeister Lindner | Musterdorf | <a href="#">Impressum</a> | Webdesign: Neffe Kevin | Letzte Änderung: 17.09.2012'},
+werkstatt:{lay:'r',ueber:'Die KFZ-Werkstatt Steiner wurde 1998 von KFZ-Meister Franz Steiner gegründet. Wir sind ein freier Meisterbetrieb und reparieren Fahrzeuge aller Marken. Unsere Werkstatt ist mit modernsten Diagnosegeräten ausgestattet. Wir führen auch die §57a-Überprüfung (Pickerl) durch.',anfahrt:'Sie finden uns an der Bundesstraße 14 am Ortsausgang von Musterort Richtung Musterdorf, gleich nach der Tankstelle.',gb:[['Rudi','23.07.2012','Schnelle und ehrliche Werkstatt, sehr zu empfehlen!!'],['Michaela','05.04.2012','Danke für das schnelle Pickerl!'],['Anonym','12.12.2011','Habt ihr auch Winterreifen lagernd?']],name:'KFZ-Werkstatt Steiner',sub:'Meisterbetrieb für alle Marken',tel:'Tel.: 01234 / 19 98<br>Abschleppdienst 0-24 Uhr',kopfbild:'w-auto',
+ nav:['Home','Werkstatt','Pickerl','Reifen','Gebrauchtwagen','Team','Kontakt','Impressum'],
+ lauf:'>>> REIFENWECHSEL-AKTION: nur € 29,- <<< Pickerl-Überprüfung ohne Termin (nach Verfügbarkeit) <<< Gebrauchtwagen ab € 2.990,- >>>',
+ aktuell:'<span class="neu">NEU!</span> Jetzt auch Klimaservice!<br><br>Gebrauchtwagenliste (PDF)',
+ zeiten:'Mo - Fr: 7:30 - 17:00<br>Sa: 8:00 - 11:00<br>(nur Reifenwechsel)',zaehler:'012066',
+ titel:'Willkommen bei der KFZ-Werkstatt Steiner!',hl:'Ihr Auto in guten Händen',
+ text1:'Herzlich Willkommen auf unserer Homepage! Wir sind Ihre freie Werkstatt für Service, Reparatur, Reifen und Pickerl für alle Marken. Wir arbeiten schnell und zu fairen Preisen. Für einen Termin rufen Sie uns bitte an.',
+ bilder:[['w-reifen','Reifenwechsel'],['w-bremse','Bremsen'],['w-auto','Gebrauchtwagen']],
+ text2:'Termine bitte nur telefonisch vereinbaren. Unsere aktuellen Gebrauchtwagen finden Sie in der <a href="#">Liste</a> (PDF).',
+ liste:[['§57a-Überprüfung','ab € 45,-'],['Reifenwechsel','€ 29,-'],['Ölwechsel inkl. Filter','ab € 79,-']],
+ fuss:'© 2009 KFZ Steiner | Musterort | <a href="#">Impressum</a> | Optimiert für Internet Explorer 7 | Letzte Aktualisierung: 08/2012'},
+massage:{lay:'r',ueber:'Mein Name ist Anna Sonnfeld, ich bin diplomierte Heilmasseurin und arbeite seit 2011 in meiner eigenen Praxis. Mein Ziel ist es, Ihnen Entspannung und Wohlbefinden zu schenken. Ich biete Heilmassage, Lymphdrainage, Fußreflexzonenmassage und Hot Stone an. Gutscheine sind jederzeit erhältlich!',anfahrt:'Die Praxis befindet sich im 1. Stock im Haus Kirchenplatz 2 in Musterort (leider kein Lift). Parkplätze am Kirchenplatz.',gb:[['Monika','15.10.2012','Danke für die wunderbare Massage, ich fühle mich wie neu geboren!!'],['Walter','02.08.2012','Meine Rückenschmerzen sind endlich weg. Danke Anna!'],['Anonym','19.05.2012','Zahlt die Krankenkasse etwas dazu?']],name:'Massagepraxis Sonnfeld',sub:'Anna Sonnfeld - Dipl. Heilmasseurin',tel:'Termine nach Vereinbarung:<br>0664 / 111 22 33',kopfbild:'ma-massage',
+ nav:['Willkommen','Über mich','Massagen','Preise','Gutscheine','Links','Kontakt','Impressum'],
+ lauf:'~*~ Gönnen Sie sich eine Auszeit ~*~ Massagegutscheine: das perfekte Geschenk ~*~ Termine nur telefonisch ~*~',
+ aktuell:'<span class="neu">NEU!</span> Hot Stone Massage jetzt im Angebot!<br><br>Weihnachtsgutscheine erhältlich',
+ zeiten:'Mo - Fr: nach Vereinbarung<br>Sa: 9:00 - 12:00<br>Termine nur telefonisch!',zaehler:'000874',
+ titel:'Herzlich Willkommen in meiner Praxis!',hl:'~*~ Wohlfühlen für Körper und Seele ~*~',
+ text1:'Schön, dass Sie den Weg auf meine Homepage gefunden haben! In meiner Praxis biete ich Ihnen verschiedene Massagen zur Entspannung und bei Beschwerden an. Nehmen Sie sich Zeit für sich selbst und lassen Sie den Alltag hinter sich.',
+ bilder:[['ma-massage','Massage'],['ma-haende','Heilmassage'],['ma-ruecken','Entspannung']],
+ text2:'Termine bitte nur telefonisch vereinbaren. Wenn ich in einer Behandlung bin, sprechen Sie bitte auf die Mobilbox, ich rufe zurück.',
+ liste:[['Heilmassage 30 Min.','€ 35,-'],['Lymphdrainage 60 Min.','€ 60,-'],['Hot Stone 60 Min.','€ 65,-']],
+ fuss:'© 2011 Massagepraxis Sonnfeld | Musterort | <a href="#">Impressum</a> | Homepage gemacht mit Homepage-Baukasten | Stand: 10/2012'}
 };
-var b=(location.search.match(/b=(\w+)/)||[])[1]||'tischlerei',d=D[b];document.body.className=b;
+var b=(location.search.match(/b=(\w+)/)||[])[1]||'tischlerei',d=D[b];document.body.className=b+(d.lay?' '+d.lay:'');
 function f(k){return document.querySelector('[data-f="'+k+'"]')}
 ['name','sub','tel','lauf','aktuell','zeiten','zaehler','titel','hl','text1','text2','fuss','ueber','anfahrt'].forEach(function(k){f(k).innerHTML=d[k]});
 f('kopfbild').src='img/'+d.kopfbild+'.jpg';

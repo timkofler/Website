@@ -71,6 +71,8 @@ inhalt = """<section class="page-head">
       <li><strong>CC0:</strong> gemeinfrei, keine Bedingungen.</li>
       <li><strong>Mixkit Stock Video Free License:</strong> kostenlose Nutzung, auch geschäftlich.</li>
     </ul>
+    <p>Die runden Vorschaubilder im schwebenden Hinweis „Beispielseiten ansehen“ sind Ausschnitte aus den unten genannten Videos und Fotos der jeweiligen Beispielseite.</p>
+    <p>Der Vorher-Nachher-Vergleich auf <a href="/entwurf/#vorher-nachher">/entwurf/</a> zeigt Bildschirmfotos der Beispielseiten. Die erfundenen „alten“ Webseiten daneben verwenden kleine Ausschnitte aus den unten genannten Fotos und Videos der Beispielseiten.</p>
 
 """ + "\n\n".join(teile) + """
 
