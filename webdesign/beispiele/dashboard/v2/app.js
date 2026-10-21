@@ -270,7 +270,7 @@
     var m = { fix: 0, lauf: 0, block: 0, anf: 0 };
     S.cars.forEach(function (c) { m[carStatus(c).k]++; });
     $("#flotteMix").innerHTML = '<div class="st-fix"><b>' + m.fix + '</b><span><i class="dot"></i>Frei</span></div><div class="st-lauf"><b>' + m.lauf + '</b><span><i class="dot"></i>Unterwegs</span></div><div class="st-block"><b>' + m.block + '</b><span><i class="dot"></i>Werkstatt</span></div><div class="st-anf"><b>' + m.anf + '</b><span><i class="dot"></i>Reinigung</span></div>' +
-      '<div class="mixbar"><i class="st-fix" style="flex-grow:' + m.fix + '"></i><i class="st-lauf" style="flex-grow:' + m.lauf + '"></i><i class="st-block" style="flex-grow:' + m.block + '"></i><i class="st-anf" style="flex-grow:' + m.anf + '"></i></div>';
+      '<div class="mixbar"><i style="--g:' + mixVerlauf(m) + '"></i></div>';
   }
   function countUp(el, to, suf, big) {
     var from = +(el.getAttribute("data-v") || 0); el.setAttribute("data-v", to);
@@ -476,6 +476,19 @@
     S.kunden.unshift({ n: n, ort: "neu", tel: tel || "", seit: T0.getFullYear(), f: 0, u: 0, s: 0, neu: true });
   }
 
+  // Eine durchgehende Linie: jede Farbe so breit wie ihr Anteil, an den Grenzen weich ineinander
+  function mixVerlauf(m) {
+    var F = [["fix", "#d8fa6e"], ["lauf", "#6fe0b0"], ["block", "#8d9892"], ["anf", "#ffb48a"]].filter(function (f) { return m[f[0]] > 0; });
+    var sum = F.reduce(function (s, f) { return s + m[f[0]]; }, 0), x = 0, st = [];
+    if (!sum) return "rgba(255,255,255,.14)";
+    F.forEach(function (f, i) {
+      var w = m[f[0]] / sum * 100, b = Math.min(7, w / 3);
+      st.push(f[1] + " " + (i ? x + b : 0).toFixed(1) + "%", f[1] + " " + (i < F.length - 1 ? x + w - b : 100).toFixed(1) + "%");
+      x += w;
+    });
+    return "linear-gradient(90deg," + st.join(",") + ")";
+  }
+
   // ---------- Flotte ----------
   var flF = "alle";
   var FILTER = [["alle", "Alle"], ["fix", "Frei"], ["lauf", "Unterwegs"], ["block", "Werkstatt"], ["ev", "Elektro"]];
@@ -639,9 +652,9 @@
       var f = k.f + rs.filter(function (r) { return r.st !== "anfrage"; }).length, u = k.u + rs.reduce(function (s, r) { return s + (r.st === "anfrage" ? 0 : r.preis || 0); }, 0);
       var akt = rs.filter(function (r) { return r.st === "fix" || r.st === "laufend" || r.st === "anfrage"; })[0];
       var ini = k.n.replace(/^(Familie|FC) /, "").split(/[\s&]+/).filter(Boolean).slice(0, 2).map(function (w) { return w[0]; }).join("").toUpperCase();
-      return '<article class="ku glass" style="animation-delay:' + Math.min(i, 10) * 40 + 'ms"><span class="ku__av f' + (i % 4 + 1) + '">' + esc(ini) + '</span><div class="ku__b"><b>' + esc(k.n) + (f >= 5 ? "<em>Stammkunde</em>" : "") + (k.neu ? "<em>Neu</em>" : "") + "</b><small>" + esc(k.ort === "neu" ? "Neu angelegt" : k.ort) + (k.tel ? " · " + esc(k.tel) : "") + "</small>" +
+      return '<article class="ku glass" style="animation-delay:' + Math.min(i, 10) * 40 + 'ms"><span class="ku__av f' + (i % 4 + 1) + '">' + esc(ini) + '</span><div class="ku__b"><b><span>' + esc(k.n) + "</span>" + (f >= 5 ? "<em>Stammkunde</em>" : "") + (k.neu ? "<em>Neu</em>" : "") + "</b><small>" + esc(k.ort === "neu" ? "Neu angelegt" : k.ort) + (k.tel ? " · " + esc(k.tel) : "") + "</small>" +
         '<div class="ku__row"><span class="chip">' + f + (f === 1 ? " Miete" : " Mieten") + '</span><span class="chip">' + eur(u) + "</span>" + (k.s ? '<span class="chip ku__st">' + ico("stern") + k.s + ",0</span>" : "") + '<span class="chip ok">' + ico("haken") + "Führerschein geprüft</span></div>" +
-        (akt ? '<div class="ku__row"><button type="button" class="chip" data-res="' + akt.id + '" style="cursor:pointer"><i class="dot ' + stCls[akt.st] + '"></i>' + stTxt[akt.st] + " · " + esc(carById(akt.car).n) + " · " + fd(akt.von) + "</button></div>" : "") + "</div></article>";
+        (akt ? '<div class="ku__row"><button type="button" class="chip ku__akt" data-res="' + akt.id + '"><i class="dot ' + stCls[akt.st] + '"></i><span>' + stTxt[akt.st] + " · " + esc(carById(akt.car).n) + " · " + fd(akt.von) + "</span></button></div>" : "") + "</div></article>";
     }).join("") || '<p class="leer">Niemand gefunden.</p>';
   }
 
