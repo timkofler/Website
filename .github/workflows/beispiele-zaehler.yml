@@ -1,0 +1,21 @@
+# Prüft bei jeder Änderung an tim-kofler.at, ob die Zahl der Beispielseiten überall stimmt
+# (Startseite, /beispiele/, llms.txt, schwebender Hinweis, Chat). Veröffentlicht nichts.
+
+name: Beispiel-Zähler prüfen
+
+on:
+  pull_request:
+    paths:
+      - "webdesign/**"
+      - ".github/scripts/beispiele-zaehler.py"
+  push:
+    branches: [main]
+    paths:
+      - "webdesign/**"
+
+jobs:
+  pruefen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 .github/scripts/beispiele-zaehler.py
