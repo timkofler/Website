@@ -9,20 +9,32 @@
     var line = fill.parentElement;
     var steps = Array.prototype.slice.call(tl.querySelectorAll(".ab-step"));
     var end = tl.querySelector("[data-ab-end]");
-    var paths = end ? end.querySelectorAll(".ab-total__frame path") : [];
+    var draw = end && end.querySelector(".ab-total__draw");
+    var glint = end && end.querySelector(".ab-total__glint");
+    var total = 0, left = 0, full = false, animT = 0;
     var ticking = false;
-    // Linie endet genau dort, wo die linke Kante der Abschluss-Box gerade wird; der Rahmen startet am selben Punkt.
+    // Die Linie endet an der eckigen Ecke oben links der Abschluss-Box und läuft als ihre linke Kante weiter.
     var layout = function () {
       if (!end) return;
-      var r = parseFloat(getComputedStyle(end).borderTopLeftRadius) || 20;
-      line.style.bottom = (tl.offsetHeight - end.offsetTop - r) + "px";
+      var r = parseFloat(getComputedStyle(end).borderBottomLeftRadius) || 20;
+      line.style.bottom = (tl.offsetHeight - end.offsetTop) + "px";
       var w = end.offsetWidth + 2, h = end.offsetHeight + 2, a = 1, k = r;
-      // Erst die linke Kante hinunter, dann gegen den Uhrzeigersinn einmal rundherum zurück zum Andockpunkt
-      var d = "M" + a + " " + (a + k) + "V" + (h - a - k) + "A" + k + " " + k + " 0 0 0 " + (a + k) + " " + (h - a) +
+      // Linke Kante hinunter, dann gegen den Uhrzeigersinn einmal rundherum zurück zur Ecke oben links
+      var d = "M" + a + " 0V" + (h - a - k) + "A" + k + " " + k + " 0 0 0 " + (a + k) + " " + (h - a) +
         "H" + (w - a - k) + "A" + k + " " + k + " 0 0 0 " + (w - a) + " " + (h - a - k) + "V" + (a + k) +
-        "A" + k + " " + k + " 0 0 0 " + (w - a - k) + " " + a + "H" + (a + k) +
-        "A" + k + " " + k + " 0 0 0 " + a + " " + (a + k) + "Z";
-      for (var i = 0; i < paths.length; i++) paths[i].setAttribute("d", d);
+        "A" + k + " " + k + " 0 0 0 " + (w - a - k) + " " + a + "H" + a;
+      draw.setAttribute("d", d);
+      glint.setAttribute("d", d);
+      glint.setAttribute("pathLength", "1");
+      total = draw.getTotalLength();
+      left = h - a - k;
+      draw.style.strokeDasharray = total + " " + total;
+    };
+    // Kurz weich animieren, wenn sich der Rahmen von selbst schließt oder wieder in die linke Kante zurückzieht
+    var anim = function () {
+      draw.classList.add("is-anim");
+      clearTimeout(animT);
+      animT = setTimeout(function () { draw.classList.remove("is-anim"); }, 1000);
     };
     var update = function () {
       ticking = false;
@@ -34,9 +46,19 @@
         var d = s.querySelector(".ab-step__dot").getBoundingClientRect();
         s.classList.toggle("is-on", reduce || d.top + d.height / 2 <= mark);
       });
-      if (end) end.classList.toggle("is-on", reduce || p >= 0.999);
+      if (!end || !total) return;
+      // Wie weit die linke Kante schon gefüllt ist (genau im Tempo der Linie)
+      var e = end.getBoundingClientRect();
+      var seg = reduce ? left : Math.max(0, Math.min(left, mark - e.top));
+      var nowFull = reduce || seg >= left;
+      if (nowFull !== full) { full = nowFull; if (!reduce) anim(); }
+      var shown = full ? total : seg;
+      draw.style.strokeDashoffset = (total - shown).toFixed(2);
+      draw.style.visibility = shown > 0.5 || draw.classList.contains("is-anim") ? "visible" : "hidden";
+      end.classList.toggle("is-on", full);
     };
     var ask = function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+    if (draw) draw.addEventListener("transitionend", function () { draw.classList.remove("is-anim"); update(); });
     window.addEventListener("scroll", ask, { passive: true });
     window.addEventListener("resize", function () { layout(); ask(); });
     layout();

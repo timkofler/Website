@@ -14,7 +14,7 @@ section[id], .ab-step { scroll-margin-top: 80px; }
 
 /* ---------- Zeitleiste ---------- */
 .ab-tl { --dot: 52px; list-style: none; margin: 0; padding: 0; position: relative; display: grid; gap: 22px; }
-.ab-tl__line { position: absolute; left: calc(var(--dot) / 2 - 1px); top: 30px; bottom: 30px; width: 2px; background: var(--line-2); border-radius: 2px; overflow: hidden; }
+.ab-tl__line { position: absolute; left: calc(var(--dot) / 2 - 1px); top: 30px; bottom: 30px; width: 2px; background: var(--line-2); border-radius: 2px 2px 0 0; overflow: hidden; }
 .ab-tl__line span { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: linear-gradient(180deg, #ff4d1a, #ffb23f); box-shadow: 0 0 14px rgba(255,90,31,.7); transform-origin: 50% 0; transform: scaleY(var(--p, 0)); }
 .ab-step { position: relative; display: grid; grid-template-columns: var(--dot) minmax(0, 1fr) minmax(0, 400px); gap: 0 34px; align-items: center; }
 .ab-step__dot { position: relative; z-index: 1; display: grid; place-items: center; width: var(--dot); height: var(--dot); border-radius: 50%; background: var(--bg); border: 2px solid var(--line-2); font: 600 1.05rem var(--display); color: var(--muted); transition: border-color .4s, color .4s, background .4s, box-shadow .4s; align-self: start; margin-top: 30px; }
@@ -90,9 +90,11 @@ section[id], .ab-step { scroll-margin-top: 80px; }
 .ab-checks li { display: flex; align-items: center; gap: 8px; }
 .ab-checks li::before { content: ""; width: 5px; height: 9px; margin: -3px 4px 0 3px; border: solid var(--hot); border-width: 0 2px 2px 0; transform: rotate(45deg); }
 
-/* Gesamtdauer: Ende der Zeitleiste. Die Linie dockt an der linken Kante an, dann zeichnet sich der Rahmen rundherum
-   orange und ein Lichtpunkt läuft danach ruhig um die Box. */
-.ab-total { --r: 20px; position: relative; display: grid; grid-template-columns: auto auto minmax(0, 1fr); gap: 14px 40px; align-items: center; margin: 12px 0 0 calc(var(--dot) / 2 - 1px); padding: 24px 30px; border: 1px solid var(--line); border-radius: var(--r); background: linear-gradient(100deg, var(--hot-dim), transparent 70%); transition: box-shadow 1s ease .9s, background 1s ease .9s; }
+/* Gesamtdauer: Ende der Zeitleiste. Die Linie geht ohne Absatz in die linke Kante der Box über (Ecke oben links
+   eckig). Die linke Kante füllt sich mit dem Scrollen weiter wie die Linie; unten angekommen, schließt sich der Rahmen
+   von selbst rundherum, die Box leuchtet auf und ein Lichtschein läuft ruhig mit. Beim Hochscrollen läuft alles in
+   derselben Bahn zurück in die Linie. */
+.ab-total { --r: 20px; position: relative; display: grid; grid-template-columns: auto auto minmax(0, 1fr); gap: 14px 40px; align-items: center; margin: 12px 0 0 calc(var(--dot) / 2 - 1px); padding: 24px 30px; border: 1px solid var(--line); border-radius: 0 var(--r) var(--r) var(--r); background: linear-gradient(100deg, var(--hot-dim), transparent 70%); transition: box-shadow .8s ease, background .8s ease; }
 .ab-total > div { display: grid; position: relative; }
 .ab-total > p { position: relative; }
 .ab-total__k { font: 500 .74rem var(--mono); color: var(--hot-2); text-transform: uppercase; letter-spacing: .03em; }
@@ -100,12 +102,12 @@ section[id], .ab-step { scroll-margin-top: 80px; }
 .ab-total small { color: var(--muted); font-size: .85rem; }
 .ab-total p { margin: 0; color: var(--muted); font-size: .95rem; }
 .ab-total__frame { position: absolute; left: -1px; top: -1px; width: calc(100% + 2px); height: calc(100% + 2px); overflow: visible; pointer-events: none; }
-.ab-total__frame path { fill: none; stroke: url(#ab-grad); stroke-width: 2; stroke-linecap: butt; }
-.ab-total__draw { stroke-dasharray: 1 1; stroke-dashoffset: 1; filter: drop-shadow(0 0 4px rgba(255,90,31,.7)); transition: stroke-dashoffset 1.3s cubic-bezier(.5,0,.3,1); }
-.ab-total__glint { stroke: #ffd9a8 !important; stroke-width: 3 !important; stroke-dasharray: .06 .94; opacity: 0; filter: drop-shadow(0 0 6px #ffb23f) drop-shadow(0 0 12px rgba(255,90,31,.9)); transition: opacity .2s ease; }
-.ab-total.is-on { background: linear-gradient(100deg, rgba(255,90,31,.2), rgba(255,90,31,.03) 75%); box-shadow: 0 0 34px rgba(255,90,31,.22), inset 0 0 24px rgba(255,90,31,.06); }
-.ab-total.is-on .ab-total__draw { stroke-dashoffset: 0; }
-.ab-total.is-on .ab-total__glint { opacity: 1; transition: opacity .6s ease 1.3s; animation: ab-glint 5s linear 1.3s infinite; }
+.ab-total__frame path { fill: none; stroke: url(#ab-grad); stroke-width: 2; stroke-linecap: butt; stroke-linejoin: round; }
+.ab-total__draw { visibility: hidden; filter: drop-shadow(0 0 4px rgba(255,90,31,.7)); }
+.ab-total__draw.is-anim { transition: stroke-dashoffset .95s cubic-bezier(.45,0,.25,1); }
+.ab-total__glint { stroke: #ffd9a8 !important; stroke-width: 3 !important; stroke-dasharray: .06 .94; opacity: 0; filter: drop-shadow(0 0 6px #ffb23f) drop-shadow(0 0 12px rgba(255,90,31,.9)); transition: opacity .25s ease; }
+.ab-total.is-on { background: linear-gradient(100deg, rgba(255,90,31,.2), rgba(255,90,31,.03) 75%); box-shadow: 0 0 34px rgba(255,90,31,.22), inset 0 0 24px rgba(255,90,31,.06); transition-delay: .7s; }
+.ab-total.is-on .ab-total__glint { opacity: 1; transition: opacity .8s ease 1s; animation: ab-glint 5s linear 1s infinite; }
 @keyframes ab-glint { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 
 /* ---------- Wer macht was ---------- */
@@ -190,6 +192,6 @@ section[id], .ab-step { scroll-margin-top: 80px; }
   .ab-step.is-on .ab-load span { animation: none; width: 70%; }
   .ab-live i { animation: none; }
   .ab-tl__line span { transform: none; }
-  .ab-total, .ab-total__draw { transition: none; }
+  .ab-total, .ab-total__draw.is-anim { transition: none; }
   .ab-total.is-on .ab-total__glint { animation: none; opacity: 0; }
 }
