@@ -286,38 +286,109 @@
   });
 
   // ---------------- Antwort-Assistent ----------------
+  var WA = "https://wa.me/4367761773118?text=Hallo%20Tim%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Webseite.";
   var LINKS = {
     pakete: ["Zu den Paketen", "/#pakete"], rechner: ["Richtpreis berechnen", "/#rechner"], anfrage: ["Anfrage stellen", "/#anfrage"], ablauf: ["So läuft ein Projekt", "/ablauf/"],
-    email: ["Landingpages & E-Mail", "/#email"], beispiele: ["Beispielseiten ansehen", "/beispiele/"],
-    mail: ["E-Mail schreiben", "mailto:office@tim-kofler.at"], allinkl: ["ALL-INKL ansehen (Partnerlink)", "https://all-inkl.com/PA56CC1CF457650"], webspace: ["Meine Empfehlung", "/#webspace"], tel: ["Anrufen", "tel:+4367761773118"], whatsapp: ["Auf WhatsApp schreiben", "https://wa.me/4367761773118?text=Hallo%20Tim%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Webseite."], telegram: ["Auf Telegram schreiben", "https://t.me/TimKofler"]
+    kosten: ["Preise & laufende Kosten", "/ablauf/#kosten"], gratis: ["Gratis-Entwurf holen", "/entwurf/"], gruender: ["Start-Paket für Gründer", "/gruender/"],
+    app: ["Beispiel-App ausprobieren", "/beispiele/betriebs-app/"], eigeneapp: ["Mehr zur eigenen App", "/#eigene-app"], extras: ["Web-Apps & Dashboards", "/#extras"],
+    dash1: ["Dashboard Handwerk", "/beispiele/dashboard/"], dash2: ["Dashboard Autovermietung", "/beispiele/dashboard/v2/"], portal: ["Kundenportal im Video", "/ablauf/#portal"],
+    email: ["Landingpages & E-Mail", "/#email"], checkliste: ["Checkliste holen", "/newsletter/"], empfehlen: ["Zum Empfehlungsbonus", "/#empfehlen"],
+    beispiele: ["Beispielseiten ansehen", "/beispiele/"], referenz: ["Referenz crypto-x.at", "/#referenz"], ueber: ["Über Tim", "/#ueber"], fragen: ["Häufige Fragen", "/#fragen"],
+    datenschutz: ["Datenschutz", "/datenschutz/"], bildnachweis: ["Bildnachweis", "/bildnachweis/"],
+    mail: ["E-Mail schreiben", "mailto:office@tim-kofler.at"], allinkl: ["ALL-INKL ansehen (Partnerlink)", "https://all-inkl.com/PA56CC1CF457650"], webspace: ["Meine Empfehlung", "/#webspace"], tel: ["Anrufen", "tel:+4367761773118"], whatsapp: ["Auf WhatsApp schreiben", WA], telegram: ["Auf Telegram schreiben", "https://t.me/TimKofler"]
   };
   var ANSWERS = {
-    preis: { q: "Was kostet eine Webseite?", a: "Die Pakete im Überblick:\n• Referenzkunde ab 290 € (einfache Seite, nur wenige Plätze)\n• Start ab 590 € (bis zu 3 Unterseiten)\n• Business ab 1.190 € (bis zu 8 Unterseiten)\n• Betreuung ab 29 € im Monat\nAlle Preise sind Endpreise, als Kleinunternehmer ohne Umsatzsteuer. Einen Richtpreis für deine Wünsche zeigt dir der Angebots-Rechner.", links: ["rechner", "pakete", "anfrage"] },
-    dauer: { q: "Wie lange dauert es?", a: "Das hängt vom Umfang ab und davon, wie schnell Texte, Fotos und Logo da sind. Einen realistischen Zeitplan bekommst du gleich mit dem Angebot.", links: ["ablauf", "anfrage"] },
-    referenz: { q: "Was ist ein Referenzkunde?", a: "Für eine begrenzte Zahl von Kunden baue ich eine einfache Seite ab 290 €. Im Gegenzug darf ich sie als Referenz zeigen, du gibst eine ehrliche Google-Bewertung und im Footer steht ein kleiner Hinweis auf meine Arbeit.", links: ["pakete", "anfrage"] },
-    email: { q: "Landingpage & Newsletter?", a: "Ja, mache ich: Landingpages für Aktionen oder Anzeigen, Newsletter-Anmeldung mit Double-Opt-in und automatische E-Mails wie eine Willkommensserie. Der Versand läuft über Brevo, einen E-Mail-Dienst aus der EU.", links: ["email", "anfrage"] },
-    ablauf: { q: "Wie läuft es ab?", a: "In vier Schritten:\n1. Gespräch: Was soll die Seite können?\n2. Entwurf im Stil deines Unternehmens\n3. Umsetzung mit deinen Texten und Bildern\n4. Online-Schaltung und Anmeldung bei Google", links: ["ablauf", "anfrage"] },
+    preis: { q: "Was kostet eine Webseite?", a: "Die Pakete im Überblick:\n• Referenzkunde ab 290 € (eine einfache Seite, nur wenige Plätze)\n• Start ab 590 € (eine Seite oder bis zu 3 Unterseiten)\n• Business ab 1.190 € (bis zu 8 Unterseiten, Kontaktformular, Google-Profil)\n• Gründer-Paket fix 590 € (für Neugründungen)\n• Betreuung freiwillig ab 29 € im Monat\nEinmal zahlen, kein Abo. Alle Preise sind Endpreise, als Kleinunternehmer ohne Umsatzsteuer. Einen Richtpreis für deine Wünsche zeigt dir der Angebots-Rechner.", links: ["rechner", "pakete", "gratis"] },
+    laufend: { q: "Was kostet es laufend?", a: "Bei mir nichts, außer du willst die freiwillige Betreuung ab 29 € im Monat (monatlich kündbar). Webspace mit Domain und E-Mail zahlst du direkt beim Anbieter, etwa 5 bis 10 € im Monat. Lizenzgebühren oder ein Abo gibt es nicht.", links: ["kosten", "webspace"] },
+    gratis: { q: "Gratis-Entwurf?", a: "Ja! Du trägst Firmenname, Wunschfarbe und die gewünschten Inhalte ein, und ich gestalte persönlich einen Entwurf für Handy und PC. Den bekommst du in der Regel innerhalb einer Woche per E-Mail. Gratis und unverbindlich: Gefällt er dir nicht, kostet es dich nichts. Der Kurzlink dafür ist tim-kofler.at/gratis.", links: ["gratis", "ablauf"] },
+    gruender: { q: "Gerade gegründet?", a: "Für Betriebe, die in den letzten 12 Monaten gegründet haben oder gerade gründen, gibt es das Start-Paket fix um 590 €: Webseite mit bis zu 3 Unterseiten, Kontaktformular, Google-Unternehmensprofil, Logo-Feinschliff, Grundgerüst für Impressum und Datenschutz und Hilfe bei Domain und E-Mail. Egal ob Einzelunternehmen, OG, KG oder GmbH. Einmal zahlen, kein Abo.", links: ["gruender", "anfrage"] },
+    dauer: { q: "Wie lange dauert es?", a: "Als Richtwert: Den Entwurf und einen fixen Preis bekommst du meist innerhalb einer Woche. Ab deiner Zusage ist eine Seite im Paket Start meist in 2 bis 4 Wochen online, eine größere im Paket Business in 3 bis 6 Wochen. Am meisten hängt davon ab, wie schnell Texte und Fotos da sind.", links: ["ablauf", "anfrage"] },
+    ablauf: { q: "Wie läuft es ab?", a: "In fünf Schritten:\n1. Anfrage oder Gratis-Entwurf\n2. Entwurf und fixer Preis, meist innerhalb einer Woche\n3. Zusage und dein eigener Zugang zum Kundenportal\n4. Umsetzung und Feinschliff, meist 1 bis 3 Wochen\n5. Online-Schaltung und Anmeldung bei Google\nDu lieferst Logo, Fotos, Stichworte und Feedback, um Technik, Webspace, Domain und Google kümmere ich mich.", links: ["ablauf", "gratis", "anfrage"] },
+    referenz: { q: "Was ist ein Referenzkunde?", a: "Ich baue gerade meine Referenzen auf. Für eine begrenzte Zahl von Kunden erstelle ich eine einfache Seite ab 290 €. Im Gegenzug darf ich sie als Referenz zeigen, du gibst eine ehrliche Google-Bewertung und im Footer steht ein kleiner Hinweis auf meine Arbeit.", links: ["pakete", "anfrage"] },
+    beispiele: { q: "Gibt es Beispiele?", a: "Ja, vierzehn komplette Beispielseiten zum Durchklicken, zum Beispiel Friseur (drei Entwürfe), Café und Kaffeehaus mit Rösterei, Gasthaus Hollerhof, Glut Feuerküche, Pizzeria Proibito mit Online-Bestellung, Pension Zirbenhof mit Belegungskalender, Dachdecker First & Falz mit Dachrechner, Bodenleger Grund & Holz mit Bodenplaner, Tischlerei, Maler, Bäckerei, Fleischerei, Autowerkstatt und Heilmasseurin. Dazu zwei Dashboards und eine eigene Betriebs-App. Alles erfundene Betriebe, live im Browser zum Ausprobieren. Tipp: Schreib mir deine Branche, dann zeige ich dir das passende Beispiel.", links: ["beispiele", "gratis"] },
+    app: { q: "Eine App statt Abos?", a: "Viele Betriebe zahlen für Terminbuchung, Gutscheine, Stempelkarte und Angebote jeden Monat eigene Programme, schnell 188 € im Monat (Richtwert für sieben Einstiegstarife). Ich baue das als eine eigene App mit deinem Namen: Online-Termine, Gutscheine mit QR-Code, digitale Stempelkarte, Angebote am Handy unterschreiben und eine Büro-Ansicht. Einmal zahlen, kein Abo, sie gehört dir. Die App gibt es als Erweiterung zu jeder Webseite zum Sonderpreis. Kurzlink: tim-kofler.at/app", links: ["app", "eigeneapp", "anfrage"] },
+    webapp: { q: "Web-Apps & Dashboards?", a: "Ja, neben Webseiten programmiere ich auch Werkzeuge für den Betrieb: Login-Bereiche und Kundenportale, Speisekarte oder Angebote selbst ändern, Dashboards mit deinen eigenen Zahlen, Rechner und Konfiguratoren, Reservierung, Buchung und Automatisierungen. Das läuft auf normalem Webspace. Zum Ausprobieren gibt es ein Dashboard für einen Handwerksbetrieb (Stunden, Aufträge, Rechnungen, Lager) und eines für die Autovermietung Luma Drive (Reservierungen, Belegungsplan, Übergabeprotokoll). Preis nach Aufwand.", links: ["dash1", "dash2", "extras"] },
+    portal: { q: "Was ist das Kundenportal?", a: "Nach deiner Zusage bekommst du einen eigenen Zugang zu meinem Kundenportal. Dort siehst du den Projektstand vom Start bis Online, lädst Logo, Fotos und Texte hoch und schreibst mir Wünsche, Fragen oder was dir gefällt. So bleibt alles an einem Ort, statt in vielen E-Mails.", links: ["portal", "ablauf"] },
+    email: { q: "Landingpage & Newsletter?", a: "Ja, mache ich: Landingpages für Aktionen oder Anzeigen, Newsletter-Anmeldung mit Double-Opt-in und automatische E-Mails wie eine Willkommensserie. Der Versand läuft über Brevo, einen E-Mail-Dienst aus der EU. Den Preis bekommst du je nach Umfang als Angebot.", links: ["email", "anfrage"] },
+    checkliste: { q: "Gratis-Checkliste?", a: "Die Checkliste „10 Punkte für mehr Anfragen“ zeigt dir, was Webseite und Google-Profil brauchen, damit Kunden anrufen. Du bekommst sie gratis per E-Mail, dazu gelegentlich Tipps (Double-Opt-in, Abmeldung jederzeit mit einem Klick). Kurzlink: tim-kofler.at/checkliste", links: ["checkliste"] },
+    empfehlung: { q: "Empfehlungsbonus?", a: "Ja! Für jeden neuen Kunden, den du mir vermittelst, bekommst du 50 € als Dankeschön, auch wenn du selbst kein Kunde bist. Dein Kontakt nennt bei der Anfrage deinen Namen im Feld „Empfohlen von“. Ausgezahlt wird, sobald die erste Rechnung bezahlt ist. Der Bonus gilt für Aufträge ab 290 €.", links: ["empfehlen", "anfrage"] },
+    eigentum: { q: "Gehört mir die Seite?", a: "Ja. Die Seite liegt auf deinem eigenen Webspace, Domain und Webspace laufen auf deinen Namen. Du zahlst einmal und bekommst alle Zugänge. Es gibt kein Abo und keine Bindung an mich.", links: ["ablauf"] },
     hosting: { q: "Domain & Hosting?", a: "Domain und Webspace laufen auf deinen Namen, die Seite gehört dir. Ich empfehle ALL-INKL.COM, dort laufen auch meine eigenen Seiten: ab 4,95 € im Monat, mit eigener .at-Domain und eigenen E-Mail-Adressen wie office@deinbetrieb.at, erster Monat kostenlos, monatlich kündbar. Mein Tipp ist Privat+ um 7,95 € mit SSL und 24-Stunden-Hotline. Auf Wunsch richte ich alles für dich ein.\n(Partnerlink: Für dich ändert sich am Preis nichts, ich bekomme eine kleine Provision.)", links: ["webspace", "allinkl", "anfrage"] },
-    google: { q: "Werde ich bei Google gefunden?", a: "Jede Seite bekommt saubere Grundlagen: schnelle Ladezeit, gute Titel und Beschreibungen, Sitemap, strukturierte Daten und die Anmeldung bei Google. Einen bestimmten Platz kann niemand seriös versprechen, aber die Basis stimmt.", links: ["pakete"] },
-    baukasten: { q: "Warum kein Baukasten?", a: "Eine programmierte Seite lädt nur, was sie braucht. Sie ist schneller, sicherer, braucht keine Plugin-Updates und das Design gibt es so nur einmal.", links: ["beispiele"] },
-    beispiele: { q: "Gibt es Beispiele?", a: "Ja, vierzehn komplette Beispielseiten: Friseur, Café, Autowerkstatt, Dachdecker, Bodenleger, Gasthaus, Pension, Bäckerei, Fleischerei, Tischlerei, Malerbetrieb, Heilmasseurin, Kaffeehaus und eine Getränkemarke. Dazu zwei Dashboards und eine eigene Betriebs-App. Alle mit Videos, eigenen Animationen und Funktionen wie Online-Buchung, live im Browser zum Ausprobieren.", links: ["beispiele", "anfrage"] },
-    whatsapp: { q: "Per WhatsApp schreiben", a: "Klar! Schreib Tim direkt auf WhatsApp unter +43 677 61773118. Ein Klick öffnet den Chat mit einer kurzen Begrüßung, die du noch ändern kannst. Tim meldet sich so bald wie möglich persönlich.", links: ["whatsapp", "anfrage"] },
+    bestehend: { q: "Ich habe schon eine Seite", a: "Kein Problem. Die neue Seite entsteht unter einer eigenen Vorschau-Adresse, deine bisherige bleibt online, bis die neue fertig ist und wir gemeinsam umschalten. Deine E-Mail-Adressen laufen dabei ganz normal weiter. Wie deine Seite neu aussehen könnte, zeigt dir der Gratis-Entwurf.", links: ["gratis", "anfrage"] },
+    aendern: { q: "Kann ich selbst etwas ändern?", a: "Kleine Änderungen an Texten und Bildern übernehme ich mit der Betreuung (ab 29 € im Monat) oder einzeln nach Aufwand. Willst du Speisekarte, Angebote oder Preise selbst ändern, baue ich dir dafür eine einfache Eingabe als Extra. Neue Unterseiten oder Funktionen lassen sich jederzeit ergänzen.", links: ["rechner", "anfrage"] },
+    technik: { q: "Muss ich mich auskennen?", a: "Nein. Du lieferst Infos, Fotos und dein Feedback. Um Webspace, Domain, Sicherheit und die Anmeldung bei Google kümmere ich mich und erkläre dir alles in normalen Worten.", links: ["ablauf"] },
+    texte: { q: "Wer schreibt die Texte?", a: "Fotos und Infos lieferst du. Wenn du nicht gern schreibst, formuliere ich die Texte nach deinen Stichworten gegen Aufpreis. Impressum und Datenschutz bekommst du als Grundgerüst, abgestimmt auf deine Seite (eine Rechtsberatung ist das nicht).", links: ["rechner", "anfrage"] },
+    shop: { q: "Bestellen & Buchen?", a: "Ja, das geht: zum Beispiel Online-Bestellung mit Abholung oder Lieferung wie bei der Pizzeria Proibito, Zimmer-Anfragen mit Belegungskalender wie bei der Pension Zirbenhof oder Terminbuchung in der eigenen App. Was genau du brauchst, besprechen wir, der Preis richtet sich nach dem Aufwand.", links: ["beispiele", "app", "anfrage"] },
+    sprache: { q: "Zweite Sprache?", a: "Ja, zum Beispiel Englisch für Gäste oder Kunden aus dem Ausland. Die Übersetzung lieferst du, oder wir besprechen sie. Im Angebots-Rechner kannst du die zweite Sprache dazunehmen.", links: ["rechner", "anfrage"] },
+    google: { q: "Werde ich bei Google gefunden?", a: "Jede Seite bekommt saubere Grundlagen: schnelle Ladezeit, gute Titel und Beschreibungen, Sitemap, strukturierte Daten und die Anmeldung bei Google. Im Paket Business und im Gründer-Paket richte ich auch dein Google-Unternehmensprofil ein. Einen bestimmten Platz kann niemand seriös versprechen, aber die Basis stimmt.", links: ["pakete", "checkliste"] },
+    tracking: { q: "Datenschutz & Tracking?", a: "Deine Seite bekommt keine Analyse- oder Werbedienste, wenn du das nicht ausdrücklich willst. Schriften und Bilder liegen auf deinem eigenen Webspace, ohne Umweg über fremde Server. Auch dieser Assistent speichert und sendet nichts.", links: ["datenschutz"] },
+    baukasten: { q: "Warum kein Baukasten?", a: "Eine programmierte Seite lädt nur, was sie braucht. Sie ist schneller, sicherer, braucht keine Plugin-Updates und das Design gibt es so nur einmal. Meine eigene Seite crypto-x.at bekommt von Google Lighthouse 100 von 100 Punkten am Computer.", links: ["beispiele", "referenz"] },
+    region: { q: "Nur in Niederösterreich?", a: "Ich arbeite für Kunden in ganz Österreich, nicht nur in Niederösterreich. Mein Büro ist in Oberndorf an der Melk. Besprochen wird per Telefon, E-Mail, WhatsApp oder Videocall, das spart dir Zeit und Wege.", links: ["anfrage", "whatsapp"] },
+    ueber: { q: "Wer ist Tim?", a: "Ich bin Tim Kofler, Softwareentwickler aus Oberndorf an der Melk in Niederösterreich, und Perfektionist: Jede Seite programmiere ich selbst und prüfe sie am Handy, bevor sie online geht. Mein eigenes Projekt ist das CryptoX Dashboard auf crypto-x.at.", links: ["ueber", "referenz"] },
+    bilder: { q: "Woher kommen die Fotos?", a: "Am besten sind deine eigenen Fotos vom Betrieb. Wo das nicht geht, nutze ich nur Bilder und Videos mit belegter freier Lizenz und notiere Quelle und Lizenz, damit du keinen Ärger bekommst. Für meine Beispielseiten steht alles im Bildnachweis.", links: ["bildnachweis"] },
+    hallo: { q: "Hallo", a: "Hallo, schön, dass du da bist! Frag mich zum Beispiel nach Preisen, dem Gratis-Entwurf, dem Ablauf oder Beispielen für deine Branche. Oder schreib Tim direkt per WhatsApp.", links: ["gratis", "whatsapp"] },
+    whatsapp: { q: "Per WhatsApp schreiben", a: "Klar! Schreib Tim direkt auf WhatsApp unter +43 677 61773118. Ein Klick öffnet den Chat mit einer kurzen Begrüßung, die du noch ändern kannst. Lieber Telegram? Dort findest du mich als @TimKofler. Tim meldet sich so bald wie möglich persönlich.", links: ["whatsapp", "telegram", "anfrage"] },
     kontakt: { q: "Persönlich anfragen", a: "Gerne! Am schnellsten über das Anfrageformular. Oder direkt per E-Mail an office@tim-kofler.at bzw. unter +43 677 61773118, gerne auch per WhatsApp oder Telegram (@TimKofler).", links: ["anfrage", "whatsapp", "telegram", "mail", "tel"] }
   };
-  var CHIPS = ["preis", "whatsapp", "beispiele", "dauer", "referenz", "email", "ablauf", "kontakt"];
+  var CHIPS = ["preis", "gratis", "beispiele", "whatsapp", "gruender", "dauer", "app", "webapp", "laufend", "ablauf", "empfehlung", "kontakt"];
+  // Eingetippte Fragen: Text wird vereinfacht (klein, ä→ae …), dann zählt das Thema mit den meisten Treffern;
+  // bei Gleichstand gewinnt das weiter oben stehende. Die Wörter sind daher schon ohne Umlaute geschrieben.
   var KEYWORDS = [
-    ["whatsapp", /(whats ?app|\bwa\b|chatten)/],
-    ["preis", /(preis|kost|euro|€|teuer|günstig|guenstig|budget|angebot)/],
-    ["dauer", /(dauer|lange|wann|zeit|schnell fertig|bis wann)/],
-    ["referenz", /(referenz|290)/],
-    ["beispiele", /(beispiel|muster|vorlage|zeig|portfolio|arbeiten)/],
-    ["email", /(landing|newsletter|mail|brevo|marketing|automati)/],
-    ["ablauf", /(ablauf|prozess|schritt|vorgehen|wie läuft|wie laeuft)/],
-    ["hosting", /(domain|hosting|webspace|server|all-?inkl)/],
-    ["google", /(google|seo|gefunden|ranking|suchmaschine)/],
-    ["baukasten", /(baukasten|wix|wordpress|jimdo|template)/],
-    ["kontakt", /(kontakt|anruf|telefon|termin|gespräch|gespraech|treffen|erreich)/]
+    ["whatsapp", /(whats ?app|\bwa\b|chatten|telegram)/g],
+    ["gruender", /(gruend|gegruendet|neugruend|startup|selbststaendig gemacht|neu eroeffn|eroeffnung)/g],
+    ["gratis", /(gratis|kostenlos|umsonst|entwurf|unverbindlich|vorschau|probe)/g],
+    ["checkliste", /(checkliste|10 punkte|tipps)/g],
+    ["empfehlung", /(empfehl|weiterempf|bonus|provision|vermittel|50 ?(€|euro))/g],
+    ["app", /(\bapp\b|abo|stempelkarte|gutschein|treuekarte|termin ?buch|online-?termin|unterschr)/g],
+    ["webapp", /(web-?app|dashboard|software|programm(?!ier)|tool|konfigurator|lager|stundenerfass|automatis|luma|autovermiet|verwaltung)/g],
+    ["portal", /(kundenportal|portal|hochlad|upload|projektstand|login)/g],
+    ["shop", /(shop|bestell|liefer|reservier|buchung|buchen|zimmer)/g],
+    ["laufend", /(laufend|monatlich|pro monat|im monat|folgekosten|fixkosten|nebenkosten|betreuung|wartung|vertrag|bindung|kuendig)/g],
+    ["referenz", /(referenz|290)/g],
+    ["preis", /(preis|kost|euro|€|teuer|guenstig|budget|angebot|zahlen|bezahl|paket|business|590|1\.?190)/g],
+    ["dauer", /(dauer|wie lange|wann|zeit|schnell fertig|bis wann|wochen)/g],
+    ["ablauf", /(ablauf|prozess|schritt|vorgehen|wie laeuft|wie geht|start)/g],
+    ["beispiele", /(beispiel|muster|vorlage|zeig|portfolio|arbeiten|referenzen)/g],
+    ["hosting", /(domain|hosting|webspace|server|all-?inkl|e-?mail-?adresse|postfach)/g],
+    ["email", /(landing|newsletter|mail|brevo|marketing)/g],
+    ["eigentum", /(gehoert|eigentum|besitz|zugaenge|zugangsdaten)/g],
+    ["bestehend", /(schon eine|bestehend|alte seite|alte webseite|relaunch|ueberarbeit|erneuer|modernisier|umbau)/g],
+    ["aendern", /(selbst aender|selber aender|aendern|bearbeiten|aktualis|erweiter|cms)/g],
+    ["technik", /(technik|auskennen|keine ahnung|kompliziert|laie)/g],
+    ["texte", /(text|schreib|formulier|impressum|datenschutzerklaer|agb|recht)/g],
+    ["sprache", /(sprache|englisch|mehrsprach|uebersetz|international)/g],
+    ["google", /(google|seo|gefunden|ranking|suchmaschine|maps|bewertung)/g],
+    ["tracking", /(tracking|cookie|dsgvo|datenschutz|analytics|privat)/g],
+    ["baukasten", /(baukasten|wix|wordpress|jimdo|template|homepage-?baukasten|lighthouse|programmiert|selbst gebaut|handgemacht)/g],
+    ["region", /(niederoesterreich|oesterreich|wien|linz|graz|salzburg|st\.? ?poelten|amstetten|melk|scheibbs|vor ort|besuch|kommst du|region|umgebung|wo bist|wo sitzt)/g],
+    ["ueber", /(wer bist|ueber dich|ueber tim|wer ist tim|erfahrung|ausbildung)/g],
+    ["bilder", /(foto|bild|video|lizenz|fotograf)/g],
+    ["hallo", /^(hallo|hi|hey|servus|gruess|guten (tag|morgen|abend)|moin)\b/g],
+    ["kontakt", /(kontakt|anruf|telefon|termin|gespraech|treffen|erreich|nummer|sprechen)/g]
   ];
+  // Branche erkannt: passendes Beispiel als Extra-Link, bzw. als eigene Antwort
+  var BRANCHEN = [
+    [/(friseur|frisoer|haar|salon|barber)/, "Friseur", "Haarwerk Studio, Mähne und Seide", "/beispiele/friseur/"],
+    [/(pizz|italien)/, "Pizzeria", "Proibito Steinofen-Pizzeria mit Online-Bestellung", "/beispiele/pizzeria/"],
+    [/(pension|hotel|zimmer|gaestehaus|ferienwohn|urlaub|unterkunft|gasthof)/, "Pension", "Gasthof & Pension Zirbenhof mit Belegungskalender", "/beispiele/pension/"],
+    [/(gasthaus|wirt|restaurant|beisl|heuriger|kueche|grill|lokal|gastro)/, "Gasthaus", "Landgasthof Hollerhof und Glut Feuerküche", "/beispiele/gasthaus/"],
+    [/(kaffeehaus|roester|roestzeit|kaffeebar)/, "Kaffeehaus", "röstzeit Kaffeehaus", "/beispiele/kaffeebar/"],
+    [/(cafe|kaffee|konditor)/, "Café", "Café Mühlbach", "/beispiele/cafe/"],
+    [/(dachdeck|spengler|\bdach)/, "Dachdecker", "Dachdeckerei First & Falz mit Dachrechner", "/beispiele/dachdecker/"],
+    [/(bodenleger|boden|parkett|fliese)/, "Bodenleger", "Grund & Holz mit Bodenplaner", "/beispiele/bodenleger/"],
+    [/(tischler|schreiner|moebel|kueche nach mass)/, "Tischlerei", "Tischlerei Holzwerk Brandl", "/beispiele/tischlerei/"],
+    [/(maler|anstreich|fassade)/, "Malerbetrieb", "Malerei Lindner", "/beispiele/maler/"],
+    [/(installateur|haustechnik|elektrik|elektriker|heizung|sanitaer|handwerk)/, "Handwerk", "Dashboard Haustechnik Kofler", "/beispiele/dashboard/"],
+    [/(werkstatt|kfz|mechanik|reifen)/, "Autowerkstatt", "KFZ Steiner", "/beispiele/werkstatt/"],
+    [/(autovermiet|mietwagen|verleih)/, "Vermietung", "Luma Drive Autovermietung", "/beispiele/dashboard/v2/"],
+    [/(baecker|brot|semmel)/, "Bäckerei", "Bäckerei Kornfeld", "/beispiele/baeckerei/"],
+    [/(fleisch|metzger|partyservice|catering)/, "Fleischerei", "Fleischerei Haselberger mit Partyservice", "/beispiele/fleischerei/"],
+    [/(massage|physio|therap|praxis|kosmetik|wellness)/, "Praxis", "Praxis Sonnfeld", "/beispiele/massage/"],
+    [/(getraenk|cider|most|saft|brennerei|winzer|wein)/, "Getränke", "Birnstoff Cider", "/beispiele/cider/"]
+  ];
+  function simpel(t) {
+    return t.toLowerCase().replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue").replace(/ß/g, "ss").replace(/é/g, "e");
+  }
 
   var btn = document.createElement("button");
   btn.type = "button";
@@ -357,11 +428,12 @@
       var row = document.createElement("div");
       row.className = "tk-msg__links";
       links.forEach(function (k) {
+        var l = typeof k === "string" ? LINKS[k] : k;   // Schlüssel aus LINKS oder direkt [Text, Adresse]
         var a = document.createElement("a");
-        a.href = LINKS[k][1];
-        a.textContent = LINKS[k][0];
-        if (/^https?:/.test(LINKS[k][1])) { a.target = "_blank"; a.rel = k === "allinkl" ? "sponsored noopener" : "noopener"; }
-        if (LINKS[k][1].charAt(0) === "/") a.addEventListener("click", function () { close(); });
+        a.href = l[1];
+        a.textContent = l[0];
+        if (/^https?:/.test(l[1])) { a.target = "_blank"; a.rel = k === "allinkl" ? "sponsored noopener" : "noopener"; }
+        if (l[1].charAt(0) === "/") a.addEventListener("click", function () { close(); });
         row.appendChild(a);
       });
       m.appendChild(row);
@@ -415,12 +487,27 @@
     var text = input.value.trim();
     if (!text) return;
     input.value = "";
-    var low = text.toLowerCase();
+    var low = simpel(text), best = null, top = 0;
     for (var i = 0; i < KEYWORDS.length; i++) {
-      if (KEYWORDS[i][1].test(low)) { answer(KEYWORDS[i][0], text); return; }
+      var n = (low.match(KEYWORDS[i][1]) || []).length;
+      if (n > top) { top = n; best = KEYWORDS[i][0]; }
+    }
+    var br = null;
+    for (var j = 0; j < BRANCHEN.length; j++) if (BRANCHEN[j][0].test(low)) { br = BRANCHEN[j]; break; }
+    var brLink = br && ["Beispiel " + br[1] + " ansehen", br[3]];
+    if (best) {
+      var links = ANSWERS[best].links;
+      if (br) links = [brLink].concat(links.filter(function (k) { return k !== "beispiele"; })).slice(0, 4);
+      bubble(text, "me");
+      botSay(ANSWERS[best].a, links);
+      return;
     }
     bubble(text, "me");
-    botSay("Das beantwortet Tim dir am besten persönlich. Schreib ihm kurz, am schnellsten per WhatsApp oder über das Formular.", ["whatsapp", "anfrage", "mail"]);
+    if (br) {
+      botSay("Passend zu deiner Branche gibt es ein fertiges Beispiel zum Durchklicken: " + br[2] + ". Es ist ein erfundener Betrieb, deine Seite bekommt natürlich ein eigenes Design. Wie sie aussehen könnte, zeigt dir der Gratis-Entwurf.", [brLink, "gratis", "beispiele"]);
+      return;
+    }
+    botSay("Das beantwortet Tim dir am besten persönlich. Schreib ihm kurz, am schnellsten per WhatsApp oder Telegram oder über das Formular.", ["whatsapp", "telegram", "anfrage", "mail"]);
   });
   }
   // Erst nach dem Laden der Seite einrichten, damit der Seitenaufbau nicht gebremst wird
