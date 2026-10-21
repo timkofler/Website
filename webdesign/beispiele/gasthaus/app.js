@@ -90,50 +90,50 @@
   /* ---------- Anrichten, an den Scroll gekoppelt ---------- */
   var sec = $("#anrichten");
   if (sec) (function () {
-    var sticky = $(".pl__sticky", sec), plate = $("#pl-plate"), cut = $("#pl-cutlery"), sauce = $("#pl-sauce"), sauce2 = $("#pl-sauce2"),
+    var sticky = $(".pl__sticky", sec), plate = $("#pl-plate"), cut = $("#pl-cutlery"), sauce = $("#pl-sauce"), pour = $("#pl-pour"),
       slices = $$("#pl-meat .slice"), kn = $$("#pl-kn .kn"), herbsG = $("#pl-herbs"), steam = $("#pl-steam"), label = $("#pl-label"),
       steps = $$("#pl-steps li"), barI = $("#pl-bar"), nowEl = $("#pl-now");
-    var L1 = sauce.getTotalLength(), L2 = sauce2.getTotalLength();
-    sauce.style.strokeDasharray = L1; sauce2.style.strokeDasharray = L2;
-    var SL = [[356, 232, -12], [366, 284, -3], [368, 338, 7]], KN = [[214, 262], [230, 360]];
-    // Kräuter: Schnittlauchröllchen und Petersilblättchen
+    // Endlage: x, y, Drehung (Scheiben fächerförmig, Knödel leicht überlappend)
+    var SL = [[356, 236, -14], [368, 290, -4], [372, 344, 6]], KN = [[220, 262, 8], [238, 364, -12]];
+    // Kräuter: gehackte Petersilie und Schnittlauchröllchen, landen auf Braten, Knödel und Saft
     var seed = 5; function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
-    var herbs = [];
-    for (var i = 0; i < 30; i++) {
-      var g = document.createElementNS(SVGNS, "g"), leaf = i % 3 === 0;
-      var shape = document.createElementNS(SVGNS, leaf ? "path" : "rect");
-      if (leaf) { shape.setAttribute("d", "M0 -7 C6 -6 8 0 0 7 C-8 0 -6 -6 0 -7 Z"); shape.setAttribute("fill", "#3f7a34"); }
-      else { shape.setAttribute("x", -5); shape.setAttribute("y", -1.8); shape.setAttribute("width", 10); shape.setAttribute("height", 3.6); shape.setAttribute("rx", 1.8); shape.setAttribute("fill", i % 2 ? "#5d9a45" : "#4c8a3a"); }
-      g.appendChild(shape); herbsG.appendChild(g);
-      var a = rnd() * Math.PI * 2, rr = 30 + rnd() * 120;
-      herbs.push({ g: g, x: 300 + Math.cos(a) * rr * 1.05, y: 296 + Math.sin(a) * rr * .9, r: rnd() * 360, dx: (rnd() - .5) * 60, t: i / 30 });
+    var herbs = [], spots = [[356, 236, 60, 26], [368, 290, 60, 26], [372, 344, 60, 30], [220, 262, 36, 34], [238, 364, 36, 34], [300, 330, 110, 70]];
+    for (var i = 0; i < 38; i++) {
+      var g = document.createElementNS(SVGNS, "g"), kind = i % 3, sh;
+      if (kind === 0) { // Schnittlauchröllchen
+        sh = document.createElementNS(SVGNS, "circle"); sh.setAttribute("r", 1.5 + rnd() * .5);
+        sh.setAttribute("fill", "#7fae55"); sh.setAttribute("stroke", "#2f6b23"); sh.setAttribute("stroke-width", 1.1);
+      } else { // Petersilie: unregelmäßige Blattstückchen
+        sh = document.createElementNS(SVGNS, "path"); var w = 2.6 + rnd() * 2.2, h = 2 + rnd() * 1.8;
+        sh.setAttribute("d", "M" + (-w) + " " + (-h * .3) + " L" + (-w * .2) + " " + (-h) + " L" + (w * .7) + " " + (-h * .6) + " L" + w + " " + (h * .4) + " L" + (w * .1) + " " + h + " L" + (-w * .8) + " " + (h * .7) + "Z");
+        sh.setAttribute("fill", kind === 1 ? "#2f6b23" : "#438a30"); sh.setAttribute("stroke", "#24521a"); sh.setAttribute("stroke-width", .5); sh.setAttribute("stroke-linejoin", "round");
+      }
+      g.appendChild(sh); herbsG.appendChild(g);
+      var sp = spots[Math.floor(rnd() * spots.length)], a = rnd() * Math.PI * 2, rr = Math.sqrt(rnd());
+      herbs.push({ g: g, x: sp[0] + Math.cos(a) * sp[2] * rr, y: sp[1] + Math.sin(a) * sp[3] * rr, r: rnd() * 360, dx: (rnd() - .5) * 40, t: rnd() });
     }
     function cl(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
     function seg(p, a, b) { return cl((p - a) / (b - a)); }
     function eo(t) { return 1 - Math.pow(1 - t, 3); }
-    function back(t) { var c = 1.6; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); }
+    function eio(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    // Ablegen: kommt von oben (etwas größer, also näher an der Kamera) und senkt sich sanft
+    function place(el, f, t, lift) {
+      var e = eio(t), sc = 1 + .16 * (1 - e), y = f[1] - lift * (1 - e), rot = f[2] + (1 - e) * 10;
+      el.setAttribute("transform", "translate(" + f[0] + " " + y.toFixed(1) + ") rotate(" + rot.toFixed(1) + ") scale(" + sc.toFixed(3) + ")");
+      el.setAttribute("opacity", Math.min(1, t * 4).toFixed(2));
+    }
     function render(p) {
       var k = eo(seg(p, 0, .1));
-      plate.style.transform = "scale(" + (.86 + .14 * k).toFixed(4) + ")"; plate.style.opacity = k.toFixed(3);
+      plate.style.transform = "scale(" + (.9 + .1 * k).toFixed(4) + ")"; plate.style.opacity = k.toFixed(3);
       cut.setAttribute("opacity", eo(seg(p, .04, .14)).toFixed(3));
-      var s = eo(seg(p, .12, .3)), s2 = eo(seg(p, .2, .34));
-      sauce.style.strokeDashoffset = (L1 * (1 - s)).toFixed(1); sauce.style.opacity = s > 0 ? 1 : 0;
-      sauce2.style.strokeDashoffset = (L2 * (1 - s2)).toFixed(1); sauce2.style.opacity = s2 > 0 ? .7 : 0;
-      slices.forEach(function (el, i) {
-        var t = seg(p, .32 + i * .055, .44 + i * .055), b = back(t), f = SL[i];
-        var sc = 1.7 - .7 * b, y = f[1] - 120 * (1 - b);
-        el.setAttribute("transform", "translate(" + f[0] + " " + y.toFixed(1) + ") rotate(" + (f[2] + (1 - t) * 20).toFixed(1) + ") scale(" + sc.toFixed(3) + ")");
-        el.setAttribute("opacity", Math.min(1, t * 3).toFixed(2));
-      });
-      kn.forEach(function (el, i) {
-        var t = eo(seg(p, .52 + i * .06, .68 + i * .06)), f = KN[i], dx = 420 * (1 - t);
-        el.setAttribute("transform", "translate(" + (f[0] + dx).toFixed(1) + " " + f[1] + ") rotate(" + (dx / 46 * 57.3).toFixed(1) + ")");
-        el.setAttribute("opacity", t > 0 ? 1 : 0);
-      });
+      var s = eo(seg(p, .12, .32));
+      pour.setAttribute("r", (230 * s).toFixed(1)); sauce.style.opacity = s > 0 ? 1 : 0;
+      slices.forEach(function (el, i) { place(el, SL[i], seg(p, .32 + i * .06, .46 + i * .06), 90); });
+      kn.forEach(function (el, i) { place(el, KN[i], seg(p, .52 + i * .07, .66 + i * .07), 70); });
       herbs.forEach(function (h) {
         var t = eo(seg(p, .72 + h.t * .1, .8 + h.t * .1));
-        h.g.setAttribute("transform", "translate(" + (h.x + h.dx * (1 - t)).toFixed(1) + " " + (h.y - 90 * (1 - t)).toFixed(1) + ") rotate(" + (h.r + 200 * (1 - t)).toFixed(0) + ") scale(" + (1 + 1.4 * (1 - t)).toFixed(2) + ")");
-        h.g.setAttribute("opacity", t.toFixed(2));
+        h.g.setAttribute("transform", "translate(" + (h.x + h.dx * (1 - t)).toFixed(1) + " " + (h.y - 70 * (1 - t)).toFixed(1) + ") rotate(" + (h.r + 120 * (1 - t)).toFixed(0) + ") scale(" + (1 + .8 * (1 - t)).toFixed(2) + ")");
+        h.g.setAttribute("opacity", Math.min(1, t * 2).toFixed(2));
       });
       steam.classList.toggle("on", p > .9);
       label.classList.toggle("on", p > .92);
