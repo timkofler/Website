@@ -119,7 +119,7 @@ const coneMat = (color) => new THREE.ShaderMaterial({
   vertexShader: `varying float vH; varying vec3 vN; varying vec3 vV;
     void main(){ vH = uv.y; vec4 mv = modelViewMatrix * vec4(position,1.0); vN = normalize(normalMatrix*normal); vV = normalize(-mv.xyz); gl_Position = projectionMatrix*mv; }`,
   fragmentShader: `uniform vec3 uColor; uniform float uStrength; varying float vH; varying vec3 vN; varying vec3 vV;
-    void main(){ float e = abs(dot(normalize(vN), normalize(vV))); float a = pow(vH, 1.6) * pow(e, 1.4) * uStrength; gl_FragColor = vec4(uColor * a, 1.0); }`,
+    void main(){ float e = clamp(abs(dot(normalize(vN), normalize(vV))), 0.0, 1.0); float h = clamp(vH, 0.0, 1.0); float a = pow(h, 1.6) * pow(e, 1.4) * uStrength; gl_FragColor = vec4(uColor * a, 1.0); }`,
   transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide,
 });
 
@@ -134,14 +134,15 @@ function makePost(renderer, w, h) {
     vertexShader: "varying vec2 vUv; void main(){ vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }",
     fragmentShader: `uniform sampler2D tScene; uniform float uTime; uniform vec2 uRes; uniform float uBloom; varying vec2 vUv;
       float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233))) * 43758.5453); }
-      vec3 bright(float lod, vec2 uv){ vec3 c = texture2D(tScene, uv, lod).rgb; return max(c - vec3(0.55), vec3(0.0)); }
+      vec3 bright(float lod, vec2 uv){ vec3 c = texture2D(tScene, uv, lod).rgb; return clamp(c - vec3(0.9), vec3(0.0), vec3(4.0)); }
       void main(){
         vec2 d = vUv - 0.5;
         // leichte Farbsäume am Rand wie bei einem Objektiv
         float ca = dot(d, d) * 0.006;
         vec3 col = vec3(texture2D(tScene, vUv + d * ca).r, texture2D(tScene, vUv).g, texture2D(tScene, vUv - d * ca).b);
-        vec3 bl = bright(2.0, vUv) * 0.30 + bright(3.5, vUv) * 0.38 + bright(5.0, vUv) * 0.42 + bright(6.5, vUv) * 0.36;
+        vec3 bl = bright(2.5, vUv) * 0.16 + bright(4.0, vUv) * 0.2 + bright(5.5, vUv) * 0.2;
         col += bl * uBloom;
+        col = clamp(col, vec3(0.0), vec3(16.0)); // ungültige Werte nie als schwarze Pixel durchlassen
         col *= 1.0 - smoothstep(0.25, 0.95, length(d * vec2(1.15, 1.0))) * 0.62;
         gl_FragColor = vec4(col, 1.0);
         #include <tonemapping_fragment>
@@ -192,13 +193,15 @@ async function neonTexture() {
   const inner = sym ? sym.innerHTML : "";
   const svg = (col, sw) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 1100"><g transform="translate(50 50)" fill="none" stroke="${col}" stroke-linecap="round" stroke-linejoin="round" style="stroke-width:${sw}">${inner.replace(/stroke-width="\d+"/g, "")}</g></svg>`;
   const load = (src) => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(src); });
-  const [glow, core] = await Promise.all([load(svg("#4fe6e1", 30)), load(svg("#f2fffe", 13))]);
+  const [glow, core, hot] = await Promise.all([load(svg("#2fd6d1", 24)), load(svg("#8ff5f1", 12)), load(svg("#f4fffe", 5))]);
   const S = 1024, c = document.createElement("canvas"); c.width = c.height = S;
   const g = c.getContext("2d");
   g.shadowColor = "#4fe6e1";
-  [60, 30, 12].forEach((b) => { g.shadowBlur = b; g.drawImage(glow, 0, 0, S, S); });
-  g.shadowBlur = 6; g.drawImage(core, 0, 0, S, S);
-  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
+  g.globalAlpha = 0.2; g.shadowBlur = 26; g.drawImage(glow, 0, 0, S, S);   // weicher Schein, dezent
+  g.globalAlpha = 0.6; g.shadowBlur = 10; g.drawImage(glow, 0, 0, S, S);
+  g.globalAlpha = 1; g.shadowBlur = 4; g.drawImage(core, 0, 0, S, S);        // die Glasröhre
+  g.shadowBlur = 0; g.drawImage(hot, 0, 0, S, S);                             // heller Kern in der Mitte
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8;
   return t;
 }
 
@@ -315,7 +318,7 @@ async function start() {
   // Lichter
   const doorPink = new THREE.PointLight(0xff3d9a, 3.5, 0, 2); doorPink.position.set(-0.2, FLOOR_B + 1.0, Z_END + 0.35); scene.add(doorPink);
   const doorBlue = new THREE.PointLight(0x5a6bff, 2.2, 0, 2); doorBlue.position.set(0.3, FLOOR_B + 0.4, Z_END + 0.25); scene.add(doorBlue);
-  const neonLight = new THREE.PointLight(0x4fe6e1, 0, 0, 2); neonLight.position.set(0, FLOOR_B + DOOR_H + 0.55, Z_END + 0.45); scene.add(neonLight);
+  const neonLight = new THREE.PointLight(0x4fe6e1, 0, 0, 2); neonLight.position.set(0, FLOOR_B + DOOR_H + 0.55, Z_END + 0.95); scene.add(neonLight);
 
   const lampGeo = new THREE.CylinderGeometry(0.11, 0.13, 0.08, 20);
   const lampOn = new THREE.MeshBasicMaterial({ color: new THREE.Color(0xffd9a0).multiplyScalar(5), toneMapped: false });
@@ -442,9 +445,9 @@ async function start() {
     if (cur > 0.6 && neonState === 0) { neonState = 1; neonT0 = t; }
     if (cur < 0.54 && neonState === 1) neonState = 0;
     const lv = neonLevel(t);
-    neonMat.opacity = 0.06 + lv * 0.94;
-    neonLight.intensity = lv * 3.2;
-    neonHalo.material.opacity = lv * 0.1;
+    neonMat.opacity = 0.06 + lv * 0.8;
+    neonLight.intensity = lv * 2.4;
+    neonHalo.material.opacity = lv * 0.03;
     const beat = 0.5 + 0.5 * Math.sin(t * 0.0075);
     doorPink.intensity = 2.6 + beat * 1.6;
     doorBlue.intensity = 1.6 + (1 - beat) * 1.2;
