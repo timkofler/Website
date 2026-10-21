@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><title>Teller-Studio</title>
+<style>html,body{margin:0;background:transparent}body.bg{background:#16291f}svg{display:block}</style></head>
+<body>
+<script>
+/* Hollerhof – Teller-Studio. Zeichnet Teller, Besteck, Saft, Braten und Knödel als SVG
+   (selbst gezeichnet, keine fremden Bilder). ?p=<teil> zeigt ein Teil allein in seiner Box,
+   ?p=alle zeigt den fertig angerichteten Teller zur Kontrolle. &s=Maßstab */
+var Q = new URLSearchParams(location.search), P = Q.get("p") || "alle", S = +(Q.get("s") || 2);
+
+function rng(seed) { return function () { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }; }
+function f(n) { return Math.round(n * 10) / 10; }
+// glatter geschlossener Pfad (Catmull-Rom) durch Punkte
+function smooth(pts) {
+  var n = pts.length, d = "M" + f(pts[0][0]) + " " + f(pts[0][1]);
+  for (var i = 0; i < n; i++) {
+    var p0 = pts[(i - 1 + n) % n], p1 = pts[i], p2 = pts[(i + 1) % n], p3 = pts[(i + 2) % n];
+    d += " C" + f(p1[0] + (p2[0] - p0[0]) / 6) + " " + f(p1[1] + (p2[1] - p0[1]) / 6) + " " + f(p2[0] - (p3[0] - p1[0]) / 6) + " " + f(p2[1] - (p3[1] - p1[1]) / 6) + " " + f(p2[0]) + " " + f(p2[1]);
+  }
+  return d + "Z";
+}
+function blob(cx, cy, rx, ry, n, jit, r) {
+  var pts = [];
+  for (var i = 0; i < n; i++) { var a = i / n * Math.PI * 2, k = 1 + (r() - .5) * jit; pts.push([cx + Math.cos(a) * rx * k, cy + Math.sin(a) * ry * k]); }
+  return smooth(pts);
+}
+
+var DEFS = '\
+<filter id="f-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>\
+<filter id="f-soft2" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>\
+<filter id="f-soft1" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1"/></filter>\
+<filter id="f-plshadow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="14"/></filter>\
+<filter id="f-porcelain" x="0" y="0" width="1" height="1"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4"/><feColorMatrix type="matrix" values="0 0 0 0 .5  0 0 0 0 .46  0 0 0 0 .4  0 0 0 .05 0"/><feComposite in2="SourceGraphic" operator="in"/></filter>\
+<filter id="f-linen" x="0" y="0" width="1" height="1"><feTurbulence type="fractalNoise" baseFrequency="1.6 .05" numOctaves="2" seed="2" result="a"/><feTurbulence type="fractalNoise" baseFrequency=".05 1.6" numOctaves="2" seed="9" result="b"/><feBlend in="a" in2="b" mode="multiply"/><feColorMatrix type="matrix" values="0 0 0 0 .42  0 0 0 0 .36  0 0 0 0 .26  -.9 0 0 0 .62"/><feComposite in2="SourceGraphic" operator="in"/></filter>\
+<filter id="f-fiber" x="0" y="0" width="1" height="1"><feTurbulence type="fractalNoise" baseFrequency=".025 .32" numOctaves="3" seed="3"/><feColorMatrix type="matrix" values="0 0 0 0 .62  0 0 0 0 .36  0 0 0 0 .2  -1.2 0 0 0 .72"/><feComposite in2="SourceGraphic" operator="in"/></filter>\
+<filter id="f-fiberlight" x="0" y="0" width="1" height="1"><feTurbulence type="fractalNoise" baseFrequency=".03 .4" numOctaves="2" seed="11"/><feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 .94  0 0 0 0 .88  1.4 0 0 0 -.92"/><feComposite in2="SourceGraphic" operator="in"/></filter>\
+<filter id="f-crackle" x="-5%" y="-5%" width="110%" height="110%">\
+  <feTurbulence type="fractalNoise" baseFrequency=".11 .16" numOctaves="2" seed="7" result="n"/>\
+  <feDiffuseLighting in="n" surfaceScale="2.6" diffuseConstant="1.5" lighting-color="#fff" result="d"><feDistantLight azimuth="225" elevation="48"/></feDiffuseLighting>\
+  <feSpecularLighting in="n" surfaceScale="2.6" specularConstant="1" specularExponent="16" lighting-color="#fff2d0" result="sp"><feDistantLight azimuth="225" elevation="50"/></feSpecularLighting>\
+  <feBlend in="SourceGraphic" in2="d" mode="multiply" result="m"/>\
+  <feComposite in="m" in2="SourceGraphic" operator="in" result="m2"/>\
+  <feComposite in="sp" in2="SourceGraphic" operator="in" result="sp2"/>\
+  <feComposite in="sp2" in2="m2" operator="arithmetic" k2=".55" k3="1"/>\
+</filter>\
+<filter id="f-bread" x="-5%" y="-5%" width="110%" height="110%">\
+  <feTurbulence type="fractalNoise" baseFrequency=".2" numOctaves="3" seed="21" result="n"/>\
+  <feDiffuseLighting in="n" surfaceScale="1.5" diffuseConstant="1.12" lighting-color="#fff" result="d"><feDistantLight azimuth="225" elevation="55"/></feDiffuseLighting>\
+  <feBlend in="SourceGraphic" in2="d" mode="multiply" result="m"/>\
+  <feComposite in="m" in2="SourceGraphic" operator="in"/>\
+</filter>\
+<filter id="f-sauce" x="-5%" y="-5%" width="110%" height="110%">\
+  <feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="5" result="n"/>\
+  <feSpecularLighting in="n" surfaceScale="1.6" specularConstant=".7" specularExponent="60" lighting-color="#fff" result="sp"><feDistantLight azimuth="225" elevation="40"/></feSpecularLighting>\
+  <feComposite in="sp" in2="SourceGraphic" operator="in" result="sp2"/>\
+  <feComposite in="sp2" in2="SourceGraphic" operator="arithmetic" k2=".5" k3="1"/>\
+</filter>\
+<filter id="f-metal" x="0" y="0" width="1" height="1"><feTurbulence type="fractalNoise" baseFrequency=".01 1.2" numOctaves="2" seed="8"/><feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .18 0"/><feComposite in2="SourceGraphic" operator="in"/></filter>\
+<radialGradient id="g-plate" cx=".38" cy=".34" r=".75"><stop offset="0" stop-color="#ffffff"/><stop offset=".55" stop-color="#f7f4ee"/><stop offset=".9" stop-color="#e9e3d8"/><stop offset="1" stop-color="#d6cdbd"/></radialGradient>\
+<radialGradient id="g-well" cx=".42" cy=".4" r=".7"><stop offset="0" stop-color="#fdfcf9"/><stop offset=".75" stop-color="#f6f2ea"/><stop offset="1" stop-color="#ece5d9"/></radialGradient>\
+<linearGradient id="g-slope" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c9bfae" stop-opacity=".75"/><stop offset=".45" stop-color="#e8e1d5" stop-opacity=".2"/><stop offset=".62" stop-color="#ffffff" stop-opacity=".5"/><stop offset="1" stop-color="#ffffff" stop-opacity=".95"/></linearGradient>\
+<linearGradient id="g-rimedge" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#a99b84" stop-opacity=".7"/></linearGradient>\
+<linearGradient id="g-linen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f1e9d9"/><stop offset=".5" stop-color="#e6dbc5"/><stop offset="1" stop-color="#d2c3a5"/></linearGradient>\
+<linearGradient id="g-steel" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#77797d"/><stop offset=".22" stop-color="#d9dcdf"/><stop offset=".4" stop-color="#9da1a6"/><stop offset=".55" stop-color="#f6f7f8"/><stop offset=".75" stop-color="#b3b7bb"/><stop offset="1" stop-color="#6e7175"/></linearGradient>\
+<linearGradient id="g-blade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8a8d91"/><stop offset=".35" stop-color="#eef0f2"/><stop offset=".6" stop-color="#c3c7cb"/><stop offset="1" stop-color="#7d8085"/></linearGradient>\
+<radialGradient id="g-meat" cx=".48" cy=".42" r=".66"><stop offset="0" stop-color="#efcdaa"/><stop offset=".5" stop-color="#e8bf96"/><stop offset=".8" stop-color="#d9a476"/><stop offset="1" stop-color="#b9763f"/></radialGradient>\
+<linearGradient id="g-fat" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e8cfa6"/><stop offset=".5" stop-color="#f6e8cf"/><stop offset="1" stop-color="#e9d2b0"/></linearGradient>\
+<linearGradient id="g-crackle" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a85a1c"/><stop offset=".3" stop-color="#d98a32"/><stop offset=".75" stop-color="#eeb35e"/><stop offset="1" stop-color="#d4924a"/></linearGradient>\
+<radialGradient id="g-bub" cx=".38" cy=".34" r=".7"><stop offset="0" stop-color="#fff0c8"/><stop offset=".35" stop-color="#f0bb6c"/><stop offset=".8" stop-color="#c47a33"/><stop offset="1" stop-color="#8a4517"/></radialGradient>\
+<filter id="f-blotch" x="0" y="0" width="1" height="1"><feTurbulence type="fractalNoise" baseFrequency=".06" numOctaves="2" seed="15"/><feColorMatrix type="matrix" values="0 0 0 0 .8  0 0 0 0 .52  0 0 0 0 .4  1 0 0 0 -.45"/><feComposite in2="SourceGraphic" operator="in"/></filter>\
+<radialGradient id="g-kn" cx=".42" cy=".38" r=".7"><stop offset="0" stop-color="#fbedbf"/><stop offset=".6" stop-color="#f4db98"/><stop offset=".92" stop-color="#e9c374"/><stop offset="1" stop-color="#d4a85e"/></radialGradient>\
+<radialGradient id="g-sauce" cx=".5" cy=".5" r=".55"><stop offset="0" stop-color="#2f1104"/><stop offset=".6" stop-color="#4a1d08"/><stop offset=".86" stop-color="#6b2d0e"/><stop offset="1" stop-color="#9a5524"/></radialGradient>\
+<radialGradient id="g-cube" cx=".3" cy=".3" r=".8"><stop offset="0" stop-color="#fffaf0" stop-opacity=".55"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#b98a3e" stop-opacity=".35"/></radialGradient>\
+<filter id="f-crumb" x="0" y="0" width="1" height="1"><feTurbulence type="fractalNoise" baseFrequency=".55" numOctaves="2" seed="31"/><feColorMatrix type="matrix" values="0 0 0 0 .62  0 0 0 0 .45  0 0 0 0 .2  -2.4 0 0 0 1.25"/><feComposite in2="SourceGraphic" operator="in"/></filter>\
+<radialGradient id="g-glare" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>\
+';
+
+/* ---------- Teile ---------- */
+var T = {};
+
+T.teller = { box: [-280, -280, 560, 560], at: [300, 300], svg: function () {
+  return '<ellipse cx="14" cy="22" rx="236" ry="234" fill="#000" opacity=".55" filter="url(#f-plshadow)"/>' +
+    '<circle r="232" fill="url(#g-plate)"/>' +
+    '<circle r="232" fill="#fff" filter="url(#f-porcelain)"/>' +
+    '<circle r="230.5" fill="none" stroke="url(#g-rimedge)" stroke-width="3"/>' +
+    // Spiegel / Mulde
+    '<circle r="168" fill="url(#g-well)"/>' +
+    '<circle r="168" fill="none" stroke="url(#g-slope)" stroke-width="16"/>' +
+    '<circle r="160" fill="none" stroke="#000" stroke-opacity=".05" stroke-width="2" filter="url(#f-soft2)"/>' +
+    '<circle r="176" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.4"/>' +
+    // Goldrand
+    '<circle r="212" fill="none" stroke="#b38636" stroke-width="1.5" opacity=".7"/>' +
+    '<circle r="206" fill="none" stroke="#b38636" stroke-width=".7" opacity=".5"/>' +
+    // Glanz der Glasur
+    '<path d="M-176 -96 A200 200 0 0 1 -60 -200" stroke="#fff" stroke-width="10" stroke-linecap="round" fill="none" opacity=".75" filter="url(#f-soft2)"/>' +
+    '<ellipse cx="60" cy="-60" rx="120" ry="70" fill="url(#g-glare)" opacity=".35"/>';
+} };
+
+T.serviette = { box: [-70, -260, 150, 520], at: [52, 300], svg: function () {
+  return '<g transform="rotate(-4)">' +
+    '<rect x="-34" y="-218" width="80" height="444" rx="4" fill="#000" opacity=".5" filter="url(#f-soft)" transform="translate(6 10)"/>' +
+    '<rect x="-38" y="-222" width="76" height="444" rx="3" fill="url(#g-linen)"/>' +
+    '<rect x="-38" y="-222" width="76" height="444" rx="3" fill="#fff" filter="url(#f-linen)"/>' +
+    '<path d="M-38 -222 h76 v444 h-76z" fill="none" stroke="#bfae8c" stroke-width="1" opacity=".6"/>' +
+    '<path d="M-31 -222 v444 M31 -222 v444" stroke="#b9a684" stroke-width=".8" stroke-dasharray="3 2" opacity=".55"/>' +
+    '<path d="M-38 30 h76" stroke="#a8977a" stroke-width="5" opacity=".18" filter="url(#f-soft2)"/>' +
+    '<path d="M-38 27 h76" stroke="#fff" stroke-width="1.4" opacity=".6"/>' +
+    // Gabel
+    '<g transform="translate(0 0)">' +
+    '<path d="M-3 -40 C-4 20 -7 120 -6 168 C-6 176 6 176 6 168 C7 120 4 20 3 -40 Z" fill="#000" opacity=".35" filter="url(#f-soft2)" transform="translate(4 5)"/>' +
+    '<g transform="translate(4 5)" opacity=".35" filter="url(#f-soft2)"><path d="' + fork() + '" fill="#000"/></g>' +
+    '<path d="' + fork() + '" fill="url(#g-steel)"/>' +
+    '<path d="' + fork() + '" fill="#fff" filter="url(#f-metal)"/>' +
+    '<path d="M-1 -30 C-2 30 -4 120 -3 160" stroke="#fff" stroke-width="1.6" opacity=".7" fill="none"/>' +
+    '</g></g>';
+} };
+function fork() {
+  return "M-14 -150 C-14.6 -150 -15 -149 -15 -148 L-15 -100 C-15 -80 -9 -66 -4 -56 C-3.4 -48 -3.6 -40 -3.8 -30 C-5 30 -8 120 -7 166 C-7 176 7 176 7 166 C8 120 5 30 3.8 -30 C3.6 -40 3.4 -48 4 -56 C9 -66 15 -80 15 -100 L15 -148 C15 -149 14.6 -150 14 -150 C13.4 -150 13 -149 13 -148 L12.6 -104 C12.6 -102 11 -102 11 -104 L10.6 -148 C10.6 -150 9 -150 8 -150 C7 -150 6.4 -149 6.4 -148 L5.6 -104 C5.6 -102 4 -102 4 -104 L3.6 -148 C3.6 -150 2 -150 1 -150 L-1 -150 C-2 -150 -3.6 -150 -3.6 -148 L-4 -104 C-4 -102 -5.6 -102 -5.6 -104 L-6.4 -148 C-6.4 -149 -7 -150 -8 -150 C-9 -150 -10.6 -150 -10.6 -148 L-11 -104 C-11 -102 -12.6 -102 -12.6 -104 L-13 -148 C-13 -149 -13.4 -150 -14 -150 Z";
+}
+
+T.messer = { box: [-40, -200, 80, 400], at: [562, 300], svg: function () {
+  var k = "M-5 -170 C3 -168 9 -140 9 -100 C9 -60 7 -28 6 -18 L5 -14 C6 0 7 60 6 150 C6 160 -6 160 -6 150 C-7 60 -6 0 -5 -14 L-6 -18 C-6 -60 -6 -130 -5 -170 Z";
+  return '<g transform="rotate(3)">' +
+    '<g transform="translate(5 6)" opacity=".38" filter="url(#f-soft2)"><path d="' + k + '" fill="#000"/></g>' +
+    '<path d="' + k + '" fill="url(#g-blade)"/>' +
+    '<path d="M-5 -14 C-6 0 -7 60 -6 150 C-6 160 6 160 6 150 C7 60 6 0 5 -14 Z" fill="url(#g-steel)"/>' +
+    '<path d="' + k + '" fill="#fff" filter="url(#f-metal)"/>' +
+    '<path d="M-1 -160 C2 -130 3 -70 2 -24" stroke="#fff" stroke-width="1.6" opacity=".75" fill="none"/>' +
+    '<path d="M-4.6 -16 h10" stroke="#5f6266" stroke-width="1" opacity=".6"/>' +
+    '<path d="M0 0 C0 50 0 100 0 148" stroke="#fff" stroke-width="1.3" opacity=".6" fill="none"/>' +
+    '</g>';
+} };
+
+// Saft – Spiegel unter dem Braten, glänzend, mit Fettaugen
+T.saft = { box: [140, 200, 330, 290], at: [0, 0], svg: function () {
+  var r = rng(13);
+  var pool = smooth([[192, 360], [212, 320], [258, 300], [300, 262], [352, 238], [412, 246], [446, 280], [452, 336], [436, 388], [396, 424], [330, 446], [262, 446], [214, 420], [190, 394]]);
+  var eyes = "";
+  for (var i = 0; i < 26; i++) {
+    var x = 220 + r() * 220, y = 270 + r() * 160, rr = .8 + r() * r() * 4.2;
+    eyes += '<circle cx="' + f(x) + '" cy="' + f(y) + '" r="' + f(rr) + '" fill="#c07a34" fill-opacity=".55" stroke="#e7b06a" stroke-opacity=".7" stroke-width=".5"/><circle cx="' + f(x - rr * .35) + '" cy="' + f(y - rr * .35) + '" r="' + f(rr * .3) + '" fill="#fff" opacity=".8"/>';
+  }
+  return '<clipPath id="c-pool"><path d="' + pool + '"/></clipPath>' +
+    '<path d="' + pool + '" fill="#000" opacity=".25" filter="url(#f-soft2)" transform="translate(2 4)"/>' +
+    '<g filter="url(#f-sauce)"><path d="' + pool + '" fill="url(#g-sauce)"/></g>' +
+    '<g clip-path="url(#c-pool)">' +
+    '<path d="' + pool + '" fill="none" stroke="#b46a2c" stroke-width="7" opacity=".55" filter="url(#f-soft2)"/>' +
+    '<path d="M222 352 C238 322 268 312 296 296" stroke="#fff" stroke-width="5" opacity=".55" fill="none" stroke-linecap="round" filter="url(#f-soft1)"/>' +
+    '<path d="M360 256 C384 250 404 254 420 264" stroke="#fff" stroke-width="3.5" opacity=".5" fill="none" stroke-linecap="round" filter="url(#f-soft1)"/>' +
+    '<path d="M236 412 C270 432 320 436 364 424" stroke="#e39a52" stroke-width="3" opacity=".45" fill="none" stroke-linecap="round" filter="url(#f-soft1)"/>' +
+    eyes + '</g>';
+} };
+
+// Braten-Scheibe: oben die Kruste (Schwarte), darunter Fett, dann das Fleisch mit Fasern
+function slice(seed) {
+  var r = rng(seed), out = [], i, n = 28;
+  for (i = 0; i < n; i++) {
+    var a = -Math.PI + i / n * Math.PI * 2, s = Math.sin(a), c = Math.cos(a), k = 1 + (r() - .5) * .06;
+    // oben flacher (Bratenoberseite), unten runder
+    var y = s < 0 ? -44 * Math.pow(-s, .55) : 42 * s;
+    out.push([c * 76 * k, y * k]);
+  }
+  var face = smooth(out), id = "c-sl" + seed, bub = "", pores = "";
+  for (i = 0; i < 90; i++) {
+    var bx = -74 + r() * 148, by = -46 + r() * 12 + Math.pow(Math.abs(bx) / 76, 3) * 18, br = 1 + r() * r() * 3.4;
+    bub += '<circle cx="' + f(bx + .5) + '" cy="' + f(by + .8) + '" r="' + f(br) + '" fill="#6a2e0c" opacity=".3"/><circle cx="' + f(bx) + '" cy="' + f(by) + '" r="' + f(br) + '" fill="url(#g-bub)" opacity="' + f(.65 + r() * .35) + '"/>';
+  }
+  for (i = 0; i < 0; i++) pores += '<circle cx="' + f(-60 + r() * 120) + '" cy="' + f(-14 + r() * 50) + '" r="' + f(.4 + r() * .7) + '" fill="#9c6a4c" opacity=".35"/>';
+  return '<clipPath id="' + id + '"><path d="' + face + '"/></clipPath>' +
+    '<path d="' + face + '" fill="#000" opacity=".45" filter="url(#f-soft2)" transform="translate(4 8)"/>' +
+    '<path d="' + face + '" fill="#86502f" transform="translate(1.5 4.5)"/>' +
+    '<g clip-path="url(#' + id + ')">' +
+    '<g filter="url(#f-crackle)"><path d="' + face + '" fill="url(#g-crackle)"/></g>' + bub +
+    '<path d="' + face + '" fill="#6b300e" opacity=".5" transform="translate(0 13)" filter="url(#f-soft1)"/>' +
+    '<path d="' + face + '" fill="url(#g-fat)" transform="translate(0 14)"/>' +
+    '<path d="' + face + '" fill="#d8b089" opacity=".6" transform="translate(0 22.5)" filter="url(#f-soft1)"/>' +
+    '<g transform="translate(0 23)"><path d="' + face + '" fill="url(#g-meat)"/>' +
+    '<g clip-path="url(#' + id + ')">' +
+    '<rect x="-90" y="-70" width="180" height="140" fill="#fff" filter="url(#f-fiber)" transform="rotate(-6)"/>' +
+    '<rect x="-90" y="-70" width="180" height="140" fill="#fff" filter="url(#f-fiberlight)" transform="rotate(-6)"/>' +
+    '<rect x="-90" y="-70" width="180" height="140" fill="#fff" filter="url(#f-blotch)"/>' +
+    '</g></g>' + pores +
+    // gebräunter Außenrand des Bratens
+    '<path d="' + face + '" fill="none" stroke="#8a4d29" stroke-width="10" opacity=".6" filter="url(#f-soft2)"/>' +
+    '<ellipse cx="-12" cy="18" rx="36" ry="13" fill="url(#g-glare)" opacity=".22"/>' +
+    '</g>';
+}
+T.braten1 = { box: [-95, -75, 190, 150], at: [0, 0], svg: function () { return slice(3); } };
+T.braten2 = { box: [-95, -75, 190, 150], at: [0, 0], svg: function () { return slice(17); } };
+T.braten3 = { box: [-95, -75, 190, 150], at: [0, 0], svg: function () { return slice(29); } };
+
+// Serviettenknödel-Scheibe: gebundene Semmelwürfel mit Rinde, Petersilie, leichter Glanz
+function knoedel(seed) {
+  var r = rng(seed), d = blob(0, 0, 47, 45, 18, .07, r), cubes = "", pet = "", i, x, y;
+  for (y = -50; y <= 50; y += 10.5) for (x = -50 + (Math.abs(y) % 21 ? 5 : 0); x <= 50; x += 10.5) {
+    var cx = x + (r() - .5) * 5, cy = y + (r() - .5) * 5;
+    if (cx * cx + cy * cy > 52 * 52) continue;
+    var s = 4.2 + r() * 1.6, rot = r() * 90, pts = [];
+    for (var j = 0; j < 4; j++) { var a = (j * 90 + 45 + rot + (r() - .5) * 18) * Math.PI / 180, rr = s * (1.15 + (r() - .5) * .35); pts.push([cx + Math.cos(a) * rr, cy + Math.sin(a) * rr]); }
+    var tone = ["#fbecc2", "#f6e1a8", "#fff3d2", "#f2d896", "#f8e6b4"][Math.floor(r() * 5)];
+    var pd = "M" + pts.map(function (p) { return f(p[0]) + " " + f(p[1]); }).join(" L") + "Z";
+    cubes += '<path d="' + pd + '" fill="' + tone + '" stroke="' + tone + '" stroke-width="1.6" stroke-linejoin="round"/><path d="' + pd + '" fill="url(#g-cube)"/>';
+    if (r() < .38) { var e = Math.floor(r() * 4), p1 = pts[e], p2 = pts[(e + 1) % 4]; cubes += '<path d="M' + f(p1[0]) + " " + f(p1[1]) + " L" + f(p2[0]) + " " + f(p2[1]) + '" stroke="' + (r() < .5 ? "#d29a52" : "#bf8240") + '" stroke-width="1.5" stroke-linecap="round" opacity=".85"/>'; }
+  }
+  for (i = 0; i < 26; i++) {
+    var a2 = r() * Math.PI * 2, r2 = Math.sqrt(r()) * 42;
+    pet += '<path d="M0 -2.2 C1.8 -1.8 2.4 .5 .2 2.4 C-2.2 1 -2 -1.5 0 -2.2Z" fill="' + (r() < .5 ? "#2f5e22" : "#47782f") + '" opacity=".9" transform="translate(' + f(Math.cos(a2) * r2) + " " + f(Math.sin(a2) * r2) + ") rotate(" + f(r() * 360) + ") scale(" + f(.6 + r() * .8) + ')"/>';
+  }
+  var id = "c-kn" + seed;
+  return '<clipPath id="' + id + '"><path d="' + d + '"/></clipPath>' +
+    '<path d="' + d + '" fill="#000" opacity=".42" filter="url(#f-soft2)" transform="translate(4 7)"/>' +
+    '<path d="' + d + '" fill="#c99d5c" transform="translate(1.2 4)"/>' +
+    '<g clip-path="url(#' + id + ')"><path d="' + d + '" fill="#d6aa58"/>' + cubes + '<path d="' + d + '" fill="#fff" filter="url(#f-crumb)"/>' + pet +
+    '<path d="' + d + '" fill="none" stroke="#c49658" stroke-width="5" opacity=".6" filter="url(#f-soft1)"/>' +
+    '<ellipse cx="-12" cy="-14" rx="26" ry="15" fill="url(#g-glare)" opacity=".3"/></g>';
+}
+T.knoedel1 = { box: [-62, -62, 124, 124], at: [0, 0], svg: function () { return knoedel(41); } };
+T.knoedel2 = { box: [-62, -62, 124, 124], at: [0, 0], svg: function () { return knoedel(77); } };
+
+/* ---------- Ausgabe ---------- */
+var LAYOUT = [["teller", 300, 300, 0], ["serviette", 52, 300, 0], ["messer", 562, 300, 0], ["saft", 0, 0, 0],
+  ["braten1", 356, 236, -14], ["braten2", 368, 290, -4], ["braten3", 372, 344, 6], ["knoedel1", 220, 262, 0], ["knoedel2", 238, 364, 0]];
+var html;
+if (P === "alle") {
+  document.body.className = "bg";
+  html = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="' + 600 * S + '" height="' + 600 * S + '"><defs>' + DEFS + '</defs>' +
+    LAYOUT.map(function (l) { return '<g transform="translate(' + l[1] + " " + l[2] + ") rotate(" + l[3] + ')">' + T[l[0]].svg() + '</g>'; }).join("") + '</svg>';
+} else {
+  var t = T[P], b = t.box;
+  html = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="' + b.join(" ") + '" width="' + b[2] * S + '" height="' + b[3] * S + '"><defs>' + DEFS + '</defs>' + t.svg() + '</svg>';
+}
+document.body.innerHTML = html;
+document.title = "fertig";
+</script>
+</body></html>
