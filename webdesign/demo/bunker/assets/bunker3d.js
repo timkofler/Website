@@ -197,7 +197,7 @@ async function neonTexture() {
   const S = 1024, c = document.createElement("canvas"); c.width = c.height = S;
   const g = c.getContext("2d");
   g.shadowColor = "#4fe6e1";
-  g.globalAlpha = 0.2; g.shadowBlur = 26; g.drawImage(glow, 0, 0, S, S);   // weicher Schein, dezent
+  g.globalAlpha = 0.3; g.shadowBlur = 28; g.drawImage(glow, 0, 0, S, S);   // weicher Schein, dezent
   g.globalAlpha = 0.6; g.shadowBlur = 10; g.drawImage(glow, 0, 0, S, S);
   g.globalAlpha = 1; g.shadowBlur = 4; g.drawImage(core, 0, 0, S, S);        // die Glasröhre
   g.shadowBlur = 0; g.drawImage(hot, 0, 0, S, S);                             // heller Kern in der Mitte
@@ -318,7 +318,7 @@ async function start() {
   // Lichter
   const doorPink = new THREE.PointLight(0xff3d9a, 3.5, 0, 2); doorPink.position.set(-0.2, FLOOR_B + 1.0, Z_END + 0.35); scene.add(doorPink);
   const doorBlue = new THREE.PointLight(0x5a6bff, 2.2, 0, 2); doorBlue.position.set(0.3, FLOOR_B + 0.4, Z_END + 0.25); scene.add(doorBlue);
-  const neonLight = new THREE.PointLight(0x4fe6e1, 0, 0, 2); neonLight.position.set(0, FLOOR_B + DOOR_H + 0.55, Z_END + 0.95); scene.add(neonLight);
+  const neonLight = new THREE.PointLight(0x4fe6e1, 0, 0, 2); neonLight.position.set(0, FLOOR_B + DOOR_H + 0.55, Z_END + 0.8); scene.add(neonLight);
 
   const lampGeo = new THREE.CylinderGeometry(0.11, 0.13, 0.08, 20);
   const lampOn = new THREE.MeshBasicMaterial({ color: new THREE.Color(0xffd9a0).multiplyScalar(5), toneMapped: false });
@@ -367,6 +367,7 @@ async function start() {
   // Neon-Logo über der Tür
   const neonTex = await neonTexture();
   const neonMat = new THREE.MeshBasicMaterial({ map: neonTex, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false, opacity: 0.06 });
+  neonMat.color.setScalar(1.3);   // heller, aber Röhren bleiben scharf
   const neon = new THREE.Mesh(new THREE.PlaneGeometry(1.3, 1.3), neonMat);
   neon.position.set(0, FLOOR_B + DOOR_H + 0.7, Z_END + 0.012); scene.add(neon);
   const neonHalo = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 2.6), new THREE.MeshBasicMaterial({ map: glowSprite("79,230,225"), transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0 }));
@@ -445,9 +446,9 @@ async function start() {
     if (cur > 0.6 && neonState === 0) { neonState = 1; neonT0 = t; }
     if (cur < 0.54 && neonState === 1) neonState = 0;
     const lv = neonLevel(t);
-    neonMat.opacity = 0.06 + lv * 0.8;
-    neonLight.intensity = lv * 2.4;
-    neonHalo.material.opacity = lv * 0.03;
+    neonMat.opacity = 0.06 + lv * 0.94;
+    neonLight.intensity = lv * 3.2;
+    neonHalo.material.opacity = lv * 0.045;
     const beat = 0.5 + 0.5 * Math.sin(t * 0.0075);
     doorPink.intensity = 2.6 + beat * 1.6;
     doorBlue.intensity = 1.6 + (1 - beat) * 1.2;

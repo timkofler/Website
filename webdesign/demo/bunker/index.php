@@ -427,6 +427,6 @@
 </svg>
 
 <script src="assets/app.js?v=7" defer></script>
-<script type="module" src="assets/bunker3d.js?v=8"></script>
+<script type="module" src="assets/bunker3d.js?v=9"></script>
 </body>
 </html>
