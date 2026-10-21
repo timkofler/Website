@@ -180,7 +180,7 @@
     var range = $("#ppl-r"), out = $("#ppl-o"), est = $("#est"), lastTotal = 0, raf = 0;
     function calc() {
       var s = $('input[name="size"]:checked'), n = +range.value, pp = parseFloat(s.dataset.p), fix = 0;
-      $$('input[name="x"]').forEach(function (c) { if (c.checked) { if (c.dataset.pp) pp += parseFloat(c.dataset.pp); if (c.dataset.fix) fix += parseFloat(c.dataset.fix); } });
+      $$('input[name="x"]').forEach(function (c) { est.classList.toggle("x-" + c.value, c.checked); if (c.checked) { if (c.dataset.pp) pp += parseFloat(c.dataset.pp); if (c.dataset.fix) fix += parseFloat(c.dataset.fix); } });
       var total = Math.round(n * pp + fix), kg = n * parseFloat(s.dataset.g) / 1000, pl = Math.max(1, Math.ceil(n / 10));
       out.textContent = n;
       est.classList.remove("s1", "s2", "s3"); est.classList.add("s" + s.value);   // nur die Größe tauschen, Einblend-Klasse bleibt
