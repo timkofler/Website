@@ -1,7 +1,7 @@
 // Tim Kofler – 3D-Zeichen im Kopfbereich der Startseite: TK-Logo als Metall-Plakette mit glühendem Ring,
 // Umlaufbahnen und Funken. Fährt beim Scrollen mit, dreht sich dabei einmal um sich selbst und löst sich am Ende auf.
 // Three.js kommt lokal aus /beispiele/_shared/vendor/ und wird erst nach dem Laden der Seite geholt.
-// Ohne WebGL oder bei "Bewegung reduzieren" bleibt das Standbild (tk-3d.webp) stehen.
+// Ohne WebGL, bei "Bewegung reduzieren" oder auf schwachen Geräten bleibt das Standbild (tk-3d.webp) stehen.
 var reduce = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
 var small = !!(window.matchMedia && matchMedia("(max-width: 760px), (pointer: coarse)").matches);
 var root = document.documentElement;
@@ -21,8 +21,15 @@ function webglOk() {
   catch (e) { return false; }
 }
 
+// Datensparmodus, langsames Netz (2G/3G) oder wenig Arbeitsspeicher: Three.js (rund 700 KB) gar nicht erst laden
+function lowEnd() {
+  var c = navigator.connection || {};
+  return !!(c.saveData || /(^|-)(2g|3g)$/.test(c.effectiveType || "") || (navigator.deviceMemory && navigator.deviceMemory < 4));
+}
+function still() { root.classList.add("tk-3d-still"); }
+
 if (!hero || !stageEl) { /* andere Seite */ }
-else if (reduce || !webglOk()) root.classList.add("tk-3d-still");
+else if (reduce || lowEnd() || !webglOk()) still();
 else {
   root.classList.add("tk-3d");
   var go = function () {
@@ -30,7 +37,7 @@ else {
       import("/beispiele/_shared/vendor/three-r180/three.module.min.js"),
       import("/beispiele/_shared/vendor/three-r180/RoomEnvironment.js")
     ]).then(function (m) { build(m[0], m[1].RoomEnvironment); })
-      .catch(function () { root.classList.remove("tk-3d"); root.classList.add("tk-3d-still"); });
+      .catch(function () { root.classList.remove("tk-3d"); still(); });
   };
   if (document.readyState === "complete") setTimeout(go, 300);
   else addEventListener("load", function () { setTimeout(go, 300); });
@@ -140,7 +147,7 @@ function brushed(THREE) {
 function build(THREE, RoomEnvironment) {
   var R;
   try { R = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" }); }
-  catch (e) { root.classList.remove("tk-3d"); root.classList.add("tk-3d-still"); return; }
+  catch (e) { root.classList.remove("tk-3d"); still(); return; }
   var dpr = Math.min(window.devicePixelRatio || 1, small ? 1.5 : 1.25);
   R.setPixelRatio(dpr); R.outputColorSpace = THREE.SRGBColorSpace; R.toneMapping = THREE.ACESFilmicToneMapping; R.toneMappingExposure = 1.05;
   R.setClearColor(0x000000, 0);
