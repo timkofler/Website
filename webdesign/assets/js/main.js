@@ -121,4 +121,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { threshold: 0.6 });
     counters.forEach(function (c) { cio.observe(c); });
   }
+
+  // 4) Beispiel-Band: beim Antippen kurz anhalten
+  Array.prototype.forEach.call(document.querySelectorAll("[data-band]"), function (band) {
+    var tid;
+    band.addEventListener("touchstart", function () { clearTimeout(tid); band.classList.add("is-hold"); }, { passive: true });
+    band.addEventListener("touchend", function () { clearTimeout(tid); tid = setTimeout(function () { band.classList.remove("is-hold"); }, 2500); }, { passive: true });
+  });
 })();

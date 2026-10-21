@@ -160,11 +160,21 @@
 .ew-get h3 { font-family: var(--display); font-size: 1.2rem; margin: 0; }
 .ew-get .ticks { margin-top: 18px; grid-template-columns: 1fr 1fr; column-gap: 32px; }
 
-.ew-ex { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
-.ew-ex a { display: block; position: relative; border-radius: 18px; overflow: hidden; border: 1px solid var(--line-2); background: var(--bg-2); color: var(--text); transition: transform .3s, border-color .3s; }
-.ew-ex a:hover { transform: translateY(-4px); border-color: rgba(255,90,31,.55); color: var(--text); }
-.ew-ex img { width: 100%; aspect-ratio: 9 / 15; height: auto; object-fit: cover; object-position: top; }
-.ew-ex span { position: absolute; left: 10px; bottom: 10px; font-weight: 700; font-size: .85rem; padding: 6px 12px; border-radius: 999px; background: rgba(11,11,11,.85); border: 1px solid var(--line-2); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+/* Beispiel-Band: läuft endlos durch, hält bei Maus/Finger/Fokus an */
+.ew-band { position: relative; overflow: hidden; padding: 6px 0 4px; margin-top: 4px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.ew-band__track { display: flex; gap: 22px; width: max-content; list-style: none; margin: 0; padding: 0 11px; animation: ew-band 70s linear infinite; }
+.ew-band:hover .ew-band__track, .ew-band:focus-within .ew-band__track, .ew-band.is-hold .ew-band__track { animation-play-state: paused; }
+.ew-band li { flex: 0 0 auto; width: 250px; }
+.ew-band a, main .ew-band li a:not(.btn) { display: block; color: var(--text); text-decoration: none; }
+.ew-band__ph { display: block; border-radius: 22px; overflow: hidden; border: 1px solid var(--line-2); background: var(--bg-2); box-shadow: 0 18px 40px -24px rgba(0,0,0,.8); transition: transform .35s, border-color .35s; }
+.ew-band__ph img { display: block; width: 100%; height: auto; aspect-ratio: 9 / 17; object-fit: cover; object-position: top; }
+.ew-band a:hover .ew-band__ph, .ew-band a:focus-visible .ew-band__ph { transform: translateY(-5px); border-color: rgba(255,90,31,.6); }
+.ew-band a:focus-visible { outline: none; }
+.ew-band a:focus-visible .ew-band__ph { outline: 2px solid var(--hot, #ff5a1f); outline-offset: 3px; }
+.ew-band__cap { display: block; margin-top: 12px; padding: 0 4px; font-size: .9rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ew-band__cap b { color: var(--text); font-weight: 700; margin-right: 4px; }
+.ew-band a:hover .ew-band__cap b { color: var(--hot, #ff5a1f); }
+@keyframes ew-band { to { transform: translateX(-50%); } }
 
 .ew-end { text-align: center; padding: 100px 0; }
 .ew-end h2 { max-width: 22ch; margin: 0 auto 30px; }
@@ -176,7 +186,6 @@
 @media (max-width: 1000px) {
   .ew-form { grid-template-columns: 1fr; grid-template-areas: "a" "p" "b"; padding: 32px; }
   .ew-col--p { position: relative; top: 0; margin: 0 0 38px; }
-  .ew-ex { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 680px) {
   .ew-form { padding: 22px 16px 26px; }
@@ -195,11 +204,18 @@
   .ew-picker__top { grid-template-columns: 1fr 120px; }
   .ew-get { padding: 24px 20px; }
   .ew-get .ticks { grid-template-columns: 1fr; }
-  .ew-ex { gap: 12px; }
+  .ew-band li { width: 190px; }
+  .ew-band__track { gap: 14px; padding: 0 7px; animation-duration: 55s; }
+  .ew-band__ph { border-radius: 18px; }
+  .ew-band__cap { font-size: .84rem; margin-top: 10px; }
   .ew-end { padding: 72px 0 80px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .ew-prev, .ew-sw, .ew-ex a { transition: none; }
+  .ew-prev, .ew-sw, .ew-band__ph { transition: none; }
+  .ew-band { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-mask-image: none; mask-image: none; }
+  .ew-band__track { animation: none; padding: 0 20px; }
+  .ew-band li { scroll-snap-align: start; }
+  .ew-band li[aria-hidden] { display: none; }
   .ew-prev__blocks span, .ew-prev__label::before { animation: none; }
 }
 

@@ -9,7 +9,7 @@
 <link rel="preload" href="/beispiele/dashboard/v2/bilder/hero-900.webp" as="image" media="(max-width:599px)" fetchpriority="high">
 <link rel="preload" href="/beispiele/dashboard/v2/bilder/hero-1600.webp" as="image" media="(min-width:600px)" fetchpriority="high">
 <link rel="stylesheet" href="/beispiele/friseur/gemeinsam/umschalter.css?v=1">
-<link rel="stylesheet" href="/beispiele/dashboard/v2/style.css?v=1">
+<link rel="stylesheet" href="/beispiele/dashboard/v2/style.css?v=17ee6a2e">
 </head><body>
 <div class="tk-demo-bar"><a href="/beispiele/#dashboard"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
 <span class="tk-demo-bar__note">Beispiel-Dashboard 2 von tim-kofler.at · erfundener Betrieb, alle Daten frei erfunden</span>
@@ -107,8 +107,8 @@
       <div class="tiles">
         <button type="button" class="tile tile--lime" data-go="uebergabe"><span class="tile__h">Abholungen heute <svg><use href="#i-ab"/></svg></span><b class="tile__v" id="tAb">0</b><span class="tile__s" id="tAbS">–</span></button>
         <button type="button" class="tile tile--peach" data-go="uebergabe"><span class="tile__h">Rückgaben heute <svg><use href="#i-auf"/></svg></span><b class="tile__v" id="tRu">0</b><span class="tile__s" id="tRuS">–</span></button>
-        <div class="tile tile--pink"><span class="tile__h">Umsatz <span id="tMonat">Monat</span></span><b class="tile__v" id="tUm">0 €</b>
-          <svg class="tile__arc" viewBox="0 0 160 60" aria-hidden="true"><path class="arc__dash" d="M4 54C40 54 50 10 80 10s40 44 76 44"/><path class="arc__on" id="umArc" d="M4 54C40 54 50 10 80 10s40 44 76 44" pathLength="100"/></svg>
+        <div class="tile tile--pink"><span class="tile__h">Umsatz <span id="tMonat">Monat</span></span><span class="tile__row"><b class="tile__v" id="tUm">0 €</b>
+          <svg class="tile__arc" viewBox="0 0 160 60" aria-hidden="true"><path class="arc__dash" d="M4 54C40 54 50 10 80 10s40 44 76 44"/><path class="arc__on" id="umArc" d="M4 54C40 54 50 10 80 10s40 44 76 44" pathLength="100"/></svg></span>
           <span class="tile__s" id="tUmS">–</span></div>
         <div class="tile tile--mint"><span class="tile__h">E-Flotte geladen <svg><use href="#i-blitz"/></svg></span><b class="tile__v" id="tAk">0 %</b>
           <span class="slide" aria-hidden="true"><i id="akBar"></i><em id="akKnob"></em></span><span class="tile__s"><span>Leer</span><span>Voll</span></span></div>
@@ -258,5 +258,5 @@
 
 <script src="/beispiele/_shared/demo.js" defer></script>
 <script src="/beispiele/dashboard/umschalter.js?v=1" defer></script>
-<script src="/beispiele/dashboard/v2/app.js?v=1" defer></script>
+<script src="/beispiele/dashboard/v2/app.js?v=2" defer></script>
 </body></html>
