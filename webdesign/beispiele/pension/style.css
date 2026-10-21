@@ -126,6 +126,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .rtabs button[aria-pressed="true"]{background:var(--forest);border-color:var(--forest);color:#fff}
 .cal__top{display:flex;justify-content:space-between;align-items:center;margin-top:20px;gap:10px}
 .cal__top b{font:500 22px/1 var(--serif)}
+.cal__min{display:block;font:600 13px/1 var(--sans);color:var(--mut);margin-top:7px}
 .cal__nav{display:flex;gap:6px}
 .cal__nav button{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--line);background:transparent;cursor:pointer;display:grid;place-items:center}
 .cal__nav button:disabled{opacity:.35;cursor:default}
@@ -139,11 +140,17 @@ button,input,select,textarea{font:inherit;color:inherit}
 .day.free:hover{background:rgba(63,122,82,.28)}
 .day.busy{color:#9b9488;cursor:not-allowed;background:repeating-linear-gradient(135deg,#ece6db 0 4px,#e3dccf 4px 8px)}
 .day.past{color:#c3bcb0;cursor:default}
+.day.nope{color:#b3ac9f;background:rgba(29,36,31,.035);cursor:default}
+.day.ok{background:rgba(63,122,82,.2);color:#1d4029;box-shadow:inset 0 0 0 1.5px rgba(63,122,82,.6)}
+.day.ok:hover{background:var(--free);color:#fff;box-shadow:none}
+.day.pre{background:rgba(181,128,74,.22);color:var(--ink);box-shadow:none;border-radius:4px}
+.day.start{box-shadow:0 0 0 2px var(--card),0 0 0 3.5px var(--zirbe)}
 .day.in{background:rgba(181,128,74,.22);color:var(--ink);border-radius:4px}
 .day.start,.day.end{background:var(--zirbe);color:#fff;border-radius:10px}
 .day.today::after{content:"";position:absolute;bottom:5px;width:4px;height:4px;border-radius:50%;background:currentColor}
 .legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:16px;font-size:13px;color:var(--mut)}
 .legend i{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:6px}
+.legend i.lg-nope{background:rgba(29,36,31,.06);box-shadow:inset 0 0 0 1px rgba(29,36,31,.08)}
 .cal__hint{margin-top:12px;font-size:14px;color:var(--mut);min-height:22px}
 .cal__hint.warn{color:#a24a2a;font-weight:600}
 .sum{position:sticky;top:calc(var(--bar) + var(--navh) + 16px)}

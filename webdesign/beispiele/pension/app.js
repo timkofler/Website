@@ -26,16 +26,16 @@
 
   // Zimmer: Preis gilt für 2 Personen pro Nacht
   var ROOMS = [
-    { id: "zirbe", name: "Zirbenzimmer", kind: "Doppelzimmer mit Balkon", max: 2, m2: 24, price: 118, min: 2, dog: false, fr: true,
+    { id: "zirbe", name: "Zirbenzimmer", im: "im Zirbenzimmer", kind: "Doppelzimmer mit Balkon", max: 2, m2: 24, price: 118, min: 2, dog: false, fr: true,
       text: "Doppelzimmer im ersten Stock mit Balkon nach Süden. Bett, Kasten und Nachtkästchen sind aus Zirbe vom Tischler im Ort.",
       list: ["Balkon mit zwei Stühlen, Morgensonne", "Regendusche und Fön", "Zirbenbett 180 × 200 cm", "Schreibtisch, WLAN, kein Fernseher"] },
-    { id: "oetscher", name: "Ötscherblick", kind: "Komfortzimmer", max: 3, m2: 32, price: 138, min: 2, dog: false, fr: true,
+    { id: "oetscher", name: "Ötscherblick", im: "im Ötscherblick", kind: "Komfortzimmer", max: 3, m2: 32, price: 138, min: 2, dog: false, fr: true,
       text: "Unser größtes Doppelzimmer mit Sitzecke am Fenster, Blick auf den Ötscher und Platz für ein Zustellbett.",
       list: ["Panoramafenster Richtung Ötscher", "Badewanne und getrenntes WC", "Sitzecke mit Leselampe", "Zustellbett für eine dritte Person"] },
-    { id: "familie", name: "Familienzimmer Erlauf", kind: "Familienzimmer, 2 Räume", max: 4, m2: 38, price: 158, min: 2, dog: true, fr: true,
+    { id: "familie", name: "Familienzimmer Erlauf", im: "im Familienzimmer", kind: "Familienzimmer, 2 Räume", max: 4, m2: 38, price: 158, min: 2, dog: true, fr: true,
       text: "Zwei Räume mit Verbindungstür: Eltern vorne, Kinder hinten. Im Garten warten Sandkiste und Schaukel.",
       list: ["Doppelbett und zwei Einzelbetten", "Kinderbett und Hochstuhl auf Wunsch", "Spielkiste und Bücher", "Kinder bis 6 Jahre gratis, Hund erlaubt"] },
-    { id: "dachstube", name: "Ferienwohnung Dachstube", kind: "Ferienwohnung unterm Dach", max: 5, m2: 55, price: 135, min: 3, dog: true, fr: false,
+    { id: "dachstube", name: "Ferienwohnung Dachstube", im: "in der Ferienwohnung", kind: "Ferienwohnung unterm Dach", max: 5, m2: 55, price: 135, min: 3, dog: true, fr: false,
       text: "Ganz oben mit eigenem Eingang über die Außenstiege, Küche, Kaminofen und einer Bank vor dem Fenster.",
       list: ["Küche mit Geschirrspüler", "Kaminofen, Holz liegt bereit", "Schlafzimmer plus Schlafcouch", "Frühstück oder Halbpension dazubuchbar"] }
   ];
@@ -53,7 +53,7 @@
     $("#rdP").textContent = r.text;
     $("#rdL").innerHTML = r.list.map(function (t) { return "<li>" + t + "</li>"; }).join("");
     $("#rdPrice").textContent = r.price + " €";
-    $("#rdPs").textContent = (r.fr ? "pro Nacht für 2 Personen, mit Frühstück" : "pro Nacht, ohne Frühstück") + " · " + r.m2 + " m² · bis " + r.max + " Personen";
+    $("#rdPs").textContent = (r.fr ? "pro Nacht für 2 Personen, mit Frühstück" : "pro Nacht, ohne Frühstück") + " · " + r.m2 + " m² · bis " + r.max + " Personen · ab\u00a0" + nights(r.min);
     $("#rdBook").dataset.pick = id;
     dlgFrom = document.activeElement;
     if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
@@ -84,6 +84,10 @@
     busy[r.id] = set;
   });
   function rangeFree(id, a, b) { for (var d = new Date(a); d < b; d = addDays(d, 1)) if (busy[id][key(d)]) return false; return true; }
+  // Anreise möglich, wenn ab diesem Tag die Mindestnächte frei sind; Abreise möglich, wenn alle Nächte dazwischen frei sind
+  function canStart(id, d) { return d >= today && rangeFree(id, d, addDays(d, byId[id].min)); }
+  function canEnd(id, a, d) { return d > a && nightsBetween(a, d) >= byId[id].min && rangeFree(id, a, d); }
+  function nights(n) { return n === 1 ? "1\u00a0Nacht" : n + "\u00a0Nächten"; }
 
   var st = { room: "zirbe", a: null, b: null, ad: 2, ki: 0, board: "fr", dog: false, view: new Date(today.getFullYear(), today.getMonth(), 1) };
 
@@ -96,8 +100,11 @@
     st.room = id;
     var r = byId[id];
     st.ad = Math.min(st.ad, r.max); st.ki = Math.min(st.ki, r.max - st.ad);
-    if (st.a && st.b && (!rangeFree(id, st.a, st.b) || nightsBetween(st.a, st.b) < r.min)) { st.a = st.b = null; hint("Im " + r.name + " passt dieser Zeitraum leider nicht. Wähle neue Tage.", true); }
+    if (st.a && st.b && !canEnd(id, st.a, st.b)) { st.a = st.b = null; hint("Der Zeitraum ist " + r.im + " leider nicht frei. Wähle neue Tage.", true); }
+    else if (st.a && !st.b && !canStart(id, st.a)) { st.a = null; hint("Dieser Anreisetag ist " + r.im + " nicht möglich. Tippe auf einen grünen Tag.", true); }
     else if (!keepDates) st.a = st.b = null;
+    else if (st.a && !st.b) hint(pickHint());
+    else if (!st.a) hint("Tippe auf deinen Anreisetag. " + r.im.charAt(0).toUpperCase() + r.im.slice(1) + " bleibst du ab " + nights(r.min) + ".");
     if (!r.dog) st.dog = false;
     renderAll();
   }
@@ -110,16 +117,21 @@
     var first = new Date(y, m, 1), off = (first.getDay() + 6) % 7, days = new Date(y, m + 1, 0).getDate();
     var h = '<div class="month"><h4>' + MON[m] + " " + y + '</h4><div class="days">' + DOW.map(function (d) { return '<span class="dow">' + d + "</span>"; }).join("");
     for (var i = 0; i < off; i++) h += "<span></span>";
+    var picking = st.a && !st.b;
     for (var dd = 1; dd <= days; dd++) {
-      var d = new Date(y, m, dd), k = key(d), cls = "day", dis = false, lab = dd + ". " + MON[m];
+      var d = new Date(y, m, dd), k = key(d), cls = "day", dis = false, lab = dd + ". " + MON[m], isBusy = !!busy[st.room][k];
       if (d < today) { cls += " past"; dis = true; }
-      else if (busy[st.room][k]) { cls += " busy"; lab += ", belegt"; }
-      else { cls += " free"; lab += ", frei"; }
+      else if (picking && +d === +st.a) lab += ", Anreise, nochmal tippen hebt sie auf";
+      else if (picking && canEnd(st.room, st.a, d)) { cls += " free ok"; lab += ", als Abreise möglich"; }
+      else if (isBusy) { cls += " busy"; lab += ", belegt"; }
+      else if (picking) { cls += " nope"; lab += ", als Abreise nicht möglich"; }
+      else if (canStart(st.room, d)) { cls += " free"; lab += ", frei"; }
+      else { cls += " nope"; lab += ", frei, aber kürzer als " + byId[st.room].min + " Nächte"; }
       if (+d === +today) cls += " today";
       if (st.a && +d === +st.a) cls += " start";
       if (st.b && +d === +st.b) cls += " end";
       if (st.a && st.b && d > st.a && d < st.b) cls += " in";
-      h += '<button type="button" class="' + cls + '" data-k="' + +d + '" aria-label="' + lab + '"' + (dis ? " disabled" : "") + ">" + dd + "</button>";
+      h += '<button type="button" class="' + cls + '" data-k="' + +d + '" aria-label="' + lab + '"' + (st.a && +d === +st.a || st.b && +d === +st.b ? ' aria-pressed="true"' : "") + (dis ? " disabled" : "") + ">" + dd + "</button>";
     }
     return h + "</div></div>";
   }
@@ -127,25 +139,41 @@
     var v = st.view, v2 = new Date(v.getFullYear(), v.getMonth() + 1, 1);
     months.innerHTML = monthHTML(v.getFullYear(), v.getMonth()) + monthHTML(v2.getFullYear(), v2.getMonth());
     $("#calTitle").textContent = byId[st.room].name;
+    $("#calMin").textContent = "Mindestaufenthalt " + byId[st.room].min + " Nächte";
     $("#calPrev").disabled = v <= new Date(today.getFullYear(), today.getMonth(), 1);
     $("#calNext").disabled = v >= new Date(today.getFullYear(), today.getMonth() + 6, 1);
   }
   $("#calPrev").addEventListener("click", function () { st.view = new Date(st.view.getFullYear(), st.view.getMonth() - 1, 1); renderCal(); });
   $("#calNext").addEventListener("click", function () { st.view = new Date(st.view.getFullYear(), st.view.getMonth() + 1, 1); renderCal(); });
+  function pickHint() {
+    var first = addDays(st.a, byId[st.room].min), last = first;
+    while (canEnd(st.room, st.a, addDays(last, 1))) last = addDays(last, 1);
+    return "Anreise " + fmt(st.a) + " Abreise möglich " + (+first === +last ? "am " + fmt(first) : "von " + fmt(first) + " bis " + fmt(last)) + " (grün). Nochmal auf die Anreise tippen hebt sie auf.";
+  }
+  function startHere(d) {
+    var r = byId[st.room];
+    if (busy[st.room][key(d)]) { hint("Dieser Tag ist schon belegt. Wähle einen grünen Tag als Anreise.", true); return false; }
+    if (!canStart(st.room, d)) { hint("Ab diesem Tag sind " + r.im + " keine " + r.min + " Nächte am Stück frei. Wähle einen grünen Tag.", true); return false; }
+    st.a = d; st.b = null; hint(pickHint());
+    return true;
+  }
   months.addEventListener("click", function (e) {
     var b = e.target.closest(".day"); if (!b || b.disabled) return;
-    var d = new Date(+b.dataset.k), r = byId[st.room], isBusy = !!busy[st.room][key(d)];
-    if (!st.a || st.b || d <= st.a) {
-      if (isBusy) { hint("Dieser Tag ist schon belegt. Wähle einen grünen Tag als Anreise.", true); return; }
-      st.a = d; st.b = null; hint("Und jetzt den Abreisetag antippen (mindestens " + r.min + " Nächte).");
-    } else {
-      var n = nightsBetween(st.a, d);
-      if (!rangeFree(st.room, st.a, d)) { hint("Dazwischen ist schon belegt. Wähle einen früheren Abreisetag oder eine neue Anreise.", true); return; }
-      if (n < r.min) { hint("Im " + r.name + " bleibst du mindestens " + r.min + " Nächte.", true); return; }
-      st.b = d; hint(n + " Nächte ausgewählt. Passt? Dann rechts anfragen.");
-    }
+    var d = new Date(+b.dataset.k);
+    if (st.a && +d === +st.a) { st.a = st.b = null; hint("Anreise aufgehoben. Tippe auf einen neuen Anreisetag."); }
+    else if (st.a && st.b && +d === +st.b) { st.b = null; hint(pickHint()); }
+    else if (st.a && !st.b && canEnd(st.room, st.a, d)) { st.b = d; hint(nightsBetween(st.a, d) + " Nächte ausgewählt. Passt? Dann rechts anfragen."); }
+    else if (!startHere(d)) return;
     renderAll();
+    // Liegt kein möglicher Abreisetag im sichtbaren Monat (am Handy nur einer), einen Monat weiterblättern
+    if (st.a && !st.b && !$$(".day.ok", months).some(function (x) { return x.offsetParent; }) && !$("#calNext").disabled) $("#calNext").click();
   });
+  // Vorschau des Zeitraums beim Zeigen auf einen möglichen Abreisetag
+  function preview(to) {
+    $$(".day", months).forEach(function (x) { var t = +x.dataset.k; x.classList.toggle("pre", !!to && t > +st.a && t < to); });
+  }
+  months.addEventListener("mouseover", function (e) { var b = e.target.closest(".day.ok"); preview(b ? +b.dataset.k : 0); });
+  months.addEventListener("mouseleave", function () { preview(0); });
 
   function fmt(d) { return d ? d.toLocaleDateString("de-AT", { weekday: "short", day: "numeric", month: "short" }) : "–"; }
   var boardEl = $("#board");
@@ -180,7 +208,7 @@
     var r = byId[st.room];
     $("#sImg").src = "/beispiele/pension/bilder/" + r.id + "-640.webp";
     $("#sName").textContent = r.name;
-    $("#sMeta").textContent = r.kind + " · bis " + r.max + " Personen";
+    $("#sMeta").textContent = r.kind + " · bis " + r.max + " Personen · ab\u00a0" + nights(r.min);
     $("#sIn").textContent = fmt(st.a); $("#sOut").textContent = fmt(st.b);
     $("#oAd").textContent = st.ad; $("#oKi").textContent = st.ki;
     $$("[data-step]").forEach(function (b) {
@@ -343,18 +371,18 @@
   // Sommer / Winter
   var TRIPS = {
     sommer: [
-      ["Ötschergräben", "Schluchtwanderung mit Wasserfällen und Hängebrücken", "ca. 25 min", "m3 20 6-10 4 6 2-3 6 7z"],
-      ["Ötscher, 1.893 m", "Mit dem Sessellift hinauf, zu Fuß über den Rauhen Kamm", "ca. 15 min", "m3 20 6-10 4 6 2-3 6 7z"],
-      ["Erlaufsee", "Baden, Tretboot fahren, Radweg rund um den See", "ca. 30 min", "M2 16c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2M2 20c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2M12 3v8"],
-      ["Ybbstalradweg", "Auf der alten Bahntrasse durchs Tal, E-Bikes leihen wir dir", "ca. 20 min", "M5 18a3 3 0 1 0 0-.01M19 18a3 3 0 1 0 0-.01M5 18l4-8h6l4 8M9 10l-1-3H6m9 3 2-3h2"],
+      ["Ötschergräben", "Schluchtwanderung mit Wasserfällen und Hängebrücken", "ca. 25 min", "M12 3c3.2 4.6 6 7.6 6 11a6 6 0 0 1-12 0c0-3.4 2.8-6.4 6-11Z"],
+      ["Ötscher, 1.893 m", "Mit dem Sessellift hinauf, zu Fuß über den Rauhen Kamm", "ca. 15 min", "M2 18 9 6l4 6 2.5-3L22 18Z"],
+      ["Erlaufsee", "Baden, Tretboot fahren, Radweg rund um den See", "ca. 30 min", "M2 8c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2M2 13c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2M2 18c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2"],
+      ["Ybbstalradweg", "Auf der alten Bahntrasse durchs Tal, E-Bikes leihen wir dir", "ca. 20 min", "M2 15a4 4 0 1 0 8 0a4 4 0 1 0-8 0M14 15a4 4 0 1 0 8 0a4 4 0 1 0-8 0M6 15l4-8h5l3 8M10 7 9 5H7m8 2 1.5-2H18"],
       ["Mariazellerbahn", "Mit der Himmelstreppe über Viadukte bis Mariazell", "ca. 35 min", "M6 3h12v12a3 3 0 0 1-3 3H9a3 3 0 0 1-3-3zM6 10h12M8 21l2-3m6 3-2-3"]
     ],
     winter: [
-      ["Skigebiet am Ötscher", "Familienskigebiet, der Skibus hält vor dem Haus", "ca. 10 min", "m3 20 6-10 4 6 2-3 6 7z"],
-      ["Langlaufloipe", "Klassisch und Skating, Einstieg hinter dem Haus", "ab Haus", "M4 20 20 8M4 16l16-12M8 22l2-4m6-6 2-4"],
-      ["Rodeln", "Zwei Rodeln pro Zimmer gratis, Bahn mit Flutlicht", "ab Haus", "M4 15h14l2-3M6 15v3h12M3 18h18"],
+      ["Skigebiet am Ötscher", "Familienskigebiet, der Skibus hält vor dem Haus", "ca. 10 min", "M2 18 9 6l4 6 2.5-3L22 18Z"],
+      ["Langlaufloipe", "Klassisch und Skating, Einstieg hinter dem Haus", "ab Haus", "M3 15.5 19 19.5q2 .5 2-1.5M3 11.5l16 4q2 .5 2-1.5M8 3l2 14M15 3l-2 14"],
+      ["Rodeln", "Zwei Rodeln pro Zimmer gratis, Bahn mit Flutlicht", "ab Haus", "M2 16h16.5a2.5 2.5 0 0 0 2.5-2.5M6 16v-6M16 16v-6M4 10h14"],
       ["Schneeschuhwandern", "Geführte Tour jeden Mittwoch, Schneeschuhe inklusive", "ab Haus", "M12 2v20M3.3 7l17.4 10M3.3 17 20.7 7"],
-      ["Advent in Mariazell", "Adventmarkt vor der Basilika, im Dezember jeden Freitag", "ca. 35 min", "M12 3l2 4 4 .5-3 3 .8 4.5L12 13l-3.8 2 .8-4.5-3-3 4-.5z"]
+      ["Advent in Mariazell", "Adventmarkt vor der Basilika, im Dezember jeden Freitag", "ca. 35 min", "M12 2.50 L14.35 8.76 L21.04 9.06 L15.80 13.24 L17.58 19.69 L12 16 L6.42 19.69 L8.20 13.24 L2.96 9.06 L9.65 8.76Z"]
     ]
   };
   var tripsEl = $("#trips");
@@ -362,6 +390,11 @@
     tripsEl.innerHTML = TRIPS[sn].map(function (t) {
       return '<li><span class="n"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + t[3] + '"/></svg></span><span><b>' + t[0] + "</b><small>" + t[1] + "</small></span><em>" + t[2] + "</em></li>";
     }).join("");
+    // Jedes Symbol genau in die Mitte seines Kreises setzen
+    $$("svg", tripsEl).forEach(function (sv) {
+      var bb = sv.firstChild.getBBox(); if (!bb.width) return;
+      sv.setAttribute("viewBox", (bb.x + bb.width / 2 - 12).toFixed(2) + " " + (bb.y + bb.height / 2 - 12).toFixed(2) + " 24 24");
+    });
     tripsEl.classList.remove("swap"); void tripsEl.offsetWidth; tripsEl.classList.add("swap");
     $$("[data-season]").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.season === sn ? "true" : "false"); });
     $("#imgS").classList.toggle("off", sn !== "sommer"); $("#imgW").classList.toggle("off", sn === "sommer");
