@@ -65,8 +65,8 @@
   if (ex && "IntersectionObserver" in window) {
     new IntersectionObserver(function (es) { exVisible = es[0].isIntersecting; show(); }, { threshold: 0.15 }).observe(ex);
   }
-  // Auch nicht über Formularen, sonst verdeckt der Hinweis unten links den Absende-Knopf
-  var forms = document.querySelectorAll("form[data-cx-form]"), formsOn = 0;
+  // Auch nicht über Formularen (sonst verdeckt der Hinweis unten links den Absende-Knopf) und nicht über Bereichen mit data-no-float
+  var forms = document.querySelectorAll("form[data-cx-form], [data-no-float]"), formsOn = 0;
   if (forms.length && "IntersectionObserver" in window) {
     var fio = new IntersectionObserver(function (es) {
       es.forEach(function (e) { formsOn += e.isIntersecting ? 1 : (e.target._tkSeen ? -1 : 0); e.target._tkSeen = e.isIntersecting; });
