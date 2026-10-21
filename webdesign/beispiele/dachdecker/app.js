@@ -116,7 +116,8 @@
     var m = curMat(), L = st.L, B = st.B, p = st.N * Math.PI / 180, H = 3.1;
     var hr = st.form === "sattel" ? B / 2 * Math.tan(p) : st.form === "walm" ? Math.min(B, L) / 2 * Math.tan(p) : st.form === "pult" ? B * Math.tan(p) : 0.35;
     var ca = Math.cos(.6) * .5, sa = Math.sin(.6) * .5;
-    var wTot = B + L * ca, hTot = H + hr + L * sa;
+    var sx = (H + hr * .5) * .55, sz = (H + hr * .5) * .35;
+    var wTot = B + L * ca + sx * .6, hTot = H + hr + L * sa;
     var s = Math.min(520 / wTot, 270 / hTot), X0 = 320 - wTot * s / 2, Y0 = 330;
     function P(x, y, z) { return [X0 + (x + z * ca) * s, Y0 - (y + z * sa) * s]; }
     function poly(pts, f, extra) { return '<polygon points="' + pts.map(function (q) { return q[0].toFixed(1) + "," + q[1].toFixed(1); }).join(" ") + '" fill="' + f + '" stroke="rgba(0,0,0,.35)" stroke-width="1" stroke-linejoin="round"' + (extra || "") + "/>"; }
@@ -132,7 +133,13 @@
       return o;
     }
     var wall = "#e9e2d6", wallS = "#c9c0b2", cL = shade(m.c, .18), cR = shade(m.c, -.18), o = "";
-    o += '<ellipse cx="320" cy="' + (Y0 + 6) + '" rx="290" ry="14" fill="rgba(0,0,0,.25)"/>';
+    // Bodenschatten in der Perspektive des Hauses: weicher Schlagschatten nach hinten rechts plus dunkle Kontaktkante
+    var e = .15, bl = (s * .3).toFixed(1);
+    function path(pts) { return pts.map(function (q, i) { return (i ? "L" : "M") + q[0].toFixed(1) + " " + q[1].toFixed(1); }).join("") + "Z"; }
+    o += '<defs><filter id="rsh1" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="' + bl + '"/></filter>' +
+      '<filter id="rsh2" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="' + (s * .08).toFixed(1) + '"/></filter></defs>';
+    o += '<path d="' + path([P(-e, 0, -e), P(B + e, 0, -e), P(B + sx, 0, sz), P(B + sx, 0, L + sz), P(sx, 0, L + sz), P(-e, 0, L + e)]) + '" fill="rgba(8,12,18,.42)" filter="url(#rsh1)"/>';
+    o += '<path d="' + path([P(-e, 0, -e), P(B + e, 0, -e), P(B + e, 0, L + e), P(-e, 0, L + e)]) + '" fill="rgba(8,12,18,.45)" filter="url(#rsh2)"/>';
     // Seitenwand rechts und Front
     o += poly([P(B, 0, 0), P(B, 0, L), P(B, H, L), P(B, H, 0)], wallS);
     var front = [P(0, 0, 0), P(B, 0, 0), P(B, H, 0), P(0, H, 0)];
