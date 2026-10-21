@@ -287,7 +287,7 @@
 
   // ---------------- Antwort-Assistent ----------------
   var LINKS = {
-    pakete: ["Zu den Paketen", "/#pakete"], rechner: ["Richtpreis berechnen", "/#rechner"], anfrage: ["Anfrage stellen", "/#anfrage"], ablauf: ["Zum Ablauf", "/#ablauf"],
+    pakete: ["Zu den Paketen", "/#pakete"], rechner: ["Richtpreis berechnen", "/#rechner"], anfrage: ["Anfrage stellen", "/#anfrage"], ablauf: ["So läuft ein Projekt", "/ablauf/"],
     email: ["Landingpages & E-Mail", "/#email"], beispiele: ["Beispielseiten ansehen", "/beispiele/"],
     mail: ["E-Mail schreiben", "mailto:office@tim-kofler.at"], allinkl: ["ALL-INKL ansehen (Partnerlink)", "https://all-inkl.com/PA56CC1CF457650"], webspace: ["Meine Empfehlung", "/#webspace"], tel: ["Anrufen", "tel:+4367761773118"], whatsapp: ["Auf WhatsApp schreiben", "https://wa.me/4367761773118?text=Hallo%20Tim%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Webseite."], telegram: ["Auf Telegram schreiben", "https://t.me/TimKofler"]
   };
