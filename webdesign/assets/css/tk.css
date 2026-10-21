@@ -849,3 +849,11 @@ html.tk-3d-on.tk-3d-view .header { -webkit-backdrop-filter: none; backdrop-filte
 }
 .tk-ask--faq .tk-ask__wa { flex: 1 1 100%; }
 .tk-ask--faq .tk-ask__row .btn--line { flex: 1 1 0; justify-content: center; }
+/* Wege zur Seite "So läuft ein Projekt" */
+.anf__more, .tk-ask__more { display: inline-flex; align-items: center; gap: 8px; font-size: .9rem; font-weight: 600; color: var(--text); text-decoration: none; }
+.anf__more { margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--line-2); width: 100%; }
+.tk-ask__more { margin-top: 14px; }
+.anf__more svg, .tk-ask__more svg { width: 16px; height: 16px; color: var(--hot); transition: transform .2s; }
+.anf__more:hover, .tk-ask__more:hover { color: var(--hot-2); }
+.anf__more:hover svg, .tk-ask__more:hover svg { transform: translateX(3px); }
+.price-once .price-once__more { color: var(--text); white-space: nowrap; text-decoration-color: var(--hot); }
