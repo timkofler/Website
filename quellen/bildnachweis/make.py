@@ -73,6 +73,7 @@ inhalt = """<section class="page-head">
     </ul>
     <p>Die runden Vorschaubilder im schwebenden Hinweis „Beispielseiten ansehen“ sind Ausschnitte aus den unten genannten Videos und Fotos der jeweiligen Beispielseite.</p>
     <p>Der Vorher-Nachher-Vergleich auf <a href="/entwurf/#vorher-nachher">/entwurf/</a> zeigt Bildschirmfotos der Beispielseiten. Die erfundenen „alten“ Webseiten daneben verwenden kleine Ausschnitte aus den unten genannten Fotos und Videos der Beispielseiten.</p>
+    <p>Die Vorschaubilder im Abschnitt „Web-Apps &amp; Dashboards“ der Startseite sind Bildschirmfotos meiner eigenen Beispielseiten. Darin sichtbare Fotos stammen aus den unten genannten Quellen der jeweiligen Seite (Luma Drive, Haustechnik Kofler, Fleischerei Haselberger).</p>
 
 """ + "\n\n".join(teile) + """
 

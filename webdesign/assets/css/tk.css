@@ -94,7 +94,7 @@ p a:not(.btn), li a:not(.btn), .form__check a, .faq a {
   text-decoration: underline; text-decoration-color: rgba(255,255,255,.45); text-underline-offset: 3px;
 }
 p a:not(.btn):hover, li a:not(.btn):hover, .form__check a:hover { text-decoration-color: currentColor; }
-.footer ul a, .nav a { text-decoration: none; }
+.footer ul a, .nav a, main li a.tk-try { text-decoration: none; }
 
 /* ---------- Beispiel-Karussell ---------- */
 .tk-car { position: relative; overflow: hidden; padding: 30px 0 10px; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; perspective: 1500px; outline: none; }
@@ -293,15 +293,43 @@ h1 .lime, h2 .lime, h3 .lime { background: var(--hot-grad); -webkit-background-c
 .tk-progress { position: fixed; top: 0; left: 0; height: 3px; width: 100%; z-index: 100; transform-origin: 0 50%; transform: scaleX(0); background: var(--hot-grad); box-shadow: 0 0 12px rgba(255,90,31,.6); pointer-events: none; }
 
 /* ---------- Web-Apps & Dashboards ---------- */
-.tk-apps__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(28px, 4vw, 56px); align-items: start; }
-.tk-apps__list { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.tk-app { border: 1px solid var(--line); border-radius: 18px; background: var(--bg-2); padding: 22px 22px 20px; transition: border-color .3s, transform .3s; }
-.tk-app:hover { border-color: rgba(255,90,31,.55); transform: translateY(-3px); }
-.tk-app h3 { font-size: 1.05rem; margin: 10px 0 8px; }
-.tk-app p { margin: 0; color: var(--muted); font-size: .93rem; line-height: 1.55; }
-.tk-apps__cta { display: flex; flex-wrap: wrap; gap: 18px 32px; align-items: center; justify-content: space-between; margin-top: 32px; }
-.tk-apps__cta .note-legal { margin: 0; }
-.tk-dash { position: sticky; top: 100px; border-radius: 18px; overflow: hidden; border: 1px solid #2c2c2c; background: #101010;
+.head--stack { grid-template-columns: 1fr; gap: 22px; margin-bottom: 56px; }
+.head--stack p { justify-self: start; max-width: 680px; }
+.tk-apps__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 72px); align-items: center; }
+.tk-feat { list-style: none; margin: 0; padding: 0; display: grid; }
+.tk-feat li { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 16px; align-items: start; padding: 16px 0; border-top: 1px solid var(--line); }
+.tk-feat li:first-child { border-top: 0; padding-top: 0; }
+.tk-feat li:last-child { padding-bottom: 0; }
+.tk-feat__ic { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; color: var(--hot); background: rgba(255,90,31,.1); border: 1px solid rgba(255,90,31,.32); }
+.tk-feat__ic svg { width: 21px; height: 21px; }
+.tk-feat h3 { font-size: 1.06rem; margin: 1px 0 4px; }
+.tk-feat p { margin: 0; color: var(--muted); font-size: .94rem; line-height: 1.5; }
+.tk-apps__try { margin-top: clamp(56px, 7vw, 88px); }
+.tk-apps__try-h { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 28px; margin-bottom: 22px; }
+.tk-apps__try-h h3 { margin: 0; font-family: var(--display); font-size: clamp(1.3rem, 2.2vw, 1.7rem); letter-spacing: -.01em; }
+.tk-apps__try-h p { margin: 0; color: var(--muted); font-size: .94rem; }
+.tk-apps__try-h a { color: var(--text); text-decoration-color: rgba(255,90,31,.7); text-underline-offset: 3px; }
+.tk-apps__try-h a:hover { color: var(--hot); }
+.tk-tries { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.tk-tries > li { display: flex; min-width: 0; }
+.tk-try { display: flex; flex-direction: column; width: 100%; border: 1px solid var(--line); border-radius: 18px; background: var(--bg-2); overflow: hidden; color: inherit; text-decoration: none; transition: border-color .3s, transform .3s, box-shadow .3s; }
+.tk-try:hover, .tk-try:focus-visible { border-color: rgba(255,90,31,.6); transform: translateY(-4px); box-shadow: 0 24px 60px rgba(0,0,0,.45), 0 0 40px rgba(255,90,31,.12); }
+.tk-try__shot { position: relative; display: block; padding-top: 30px; background: #101010; border-bottom: 1px solid #262626; }
+.tk-try__shot .tk-ex__bar { height: 30px; }
+.tk-try__shot .tk-ex__bar span { font-size: 11px; padding: 2px 8px; }
+.tk-try__shot img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.tk-try:hover .tk-try__shot img { transform: scale(1.03); }
+.tk-try__body { display: flex; flex-direction: column; flex: 1; padding: 16px 18px 18px; }
+.tk-try__body .rule__k { margin: 0; }
+.tk-try__body b { font-family: var(--display); font-size: 1.06rem; font-weight: 600; margin: 8px 0 6px; line-height: 1.25; }
+.tk-try__p { color: var(--muted); font-size: .9rem; line-height: 1.5; }
+.tk-try__go { display: inline-flex; align-items: center; gap: 6px; margin-top: auto; padding-top: 14px; font-weight: 600; font-size: .92rem; color: var(--hot); }
+.tk-try__go svg { width: 16px; height: 16px; transition: transform .3s; }
+.tk-try:hover .tk-try__go svg { transform: translateX(4px); }
+.tk-apps__ask { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px 32px; margin-top: 28px; padding: 22px 28px; }
+.tk-apps__ask .tk-ask__p { margin: 0; max-width: 640px; }
+.tk-apps__ask .btn { flex: none; }
+.tk-dash { position: relative; border-radius: 18px; overflow: hidden; border: 1px solid #2c2c2c; background: #101010;
   box-shadow: 0 40px 90px rgba(0,0,0,.6), 0 0 0 1px rgba(255,90,31,.08), 0 0 80px rgba(255,90,31,.10); transform: perspective(1400px) rotateY(6deg) rotateX(3deg); transition: transform .6s cubic-bezier(.2,.7,.2,1); }
 .tk-dash:hover { transform: perspective(1400px) rotateY(0) rotateX(0); }
 .tk-dash__bar { display: flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; background: #181818; border-bottom: 1px solid #2a2a2a; }
@@ -336,8 +364,17 @@ h1 .lime, h2 .lime, h3 .lime { background: var(--hot-grad); -webkit-background-c
 .tk-dash__menu i.is-on { background: var(--hot); }
 .tk-dash__menu i.is-on::after { transform: translateX(14px); background: #0b0b0b; }
 .tk-dash__save { margin-top: 10px; text-align: center; font: 600 .78rem var(--body); color: #0b0b0b; background: var(--hot-grad); border-radius: 999px; padding: 8px; }
-@media (max-width: 1000px) { .tk-apps__grid { grid-template-columns: 1fr; } .tk-dash { position: relative; top: 0; transform: none; max-width: 560px; } }
-@media (max-width: 600px) { .tk-apps__list { grid-template-columns: 1fr; } .tk-dash__kpis strong { font-size: 1.25rem; } .tk-dash__body { padding: 14px; } }
+@media (max-width: 1100px) { .tk-tries { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 1000px) { .tk-apps__grid { grid-template-columns: 1fr; } .tk-dash { transform: none; max-width: 560px; } }
+@media (max-width: 600px) {
+  .tk-dash__kpis strong { font-size: 1.25rem; } .tk-dash__body { padding: 14px; }
+  .head--stack { margin-bottom: 40px; }
+  .tk-tries { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -16px; padding: 4px 16px 14px; scrollbar-width: none; }
+  .tk-tries::-webkit-scrollbar { display: none; }
+  .tk-tries > li { flex: 0 0 80%; scroll-snap-align: start; scroll-margin-left: 16px; }
+  .tk-apps__ask { padding: 20px; }
+  .tk-apps__ask .btn { width: 100%; justify-content: center; }
+}
 
 /* ---------- Schwebender Hinweis auf die Beispielseiten ---------- */
 .tk-float { position: fixed; left: 20px; bottom: 20px; z-index: 59; display: flex; align-items: center; gap: 12px; max-width: min(360px, calc(100vw - 190px));
@@ -812,3 +849,11 @@ html.tk-3d-on.tk-3d-view .header { -webkit-backdrop-filter: none; backdrop-filte
 }
 .tk-ask--faq .tk-ask__wa { flex: 1 1 100%; }
 .tk-ask--faq .tk-ask__row .btn--line { flex: 1 1 0; justify-content: center; }
+/* Wege zur Seite "So läuft ein Projekt" */
+.anf__more, .tk-ask__more { display: inline-flex; align-items: center; gap: 8px; font-size: .9rem; font-weight: 600; color: var(--text); text-decoration: none; }
+.anf__more { margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--line-2); width: 100%; }
+.tk-ask__more { margin-top: 14px; }
+.anf__more svg, .tk-ask__more svg { width: 16px; height: 16px; color: var(--hot); transition: transform .2s; }
+.anf__more:hover, .tk-ask__more:hover { color: var(--hot-2); }
+.anf__more:hover svg, .tk-ask__more:hover svg { transform: translateX(3px); }
+.price-once .price-once__more { color: var(--text); white-space: nowrap; text-decoration-color: var(--hot); }
