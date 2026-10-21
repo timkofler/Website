@@ -252,15 +252,15 @@ button.tile:hover::after{opacity:.8}
 
 /* ---------- Flotte ---------- */
 .fleet{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr))}
-.fc{position:relative;overflow:hidden;border-radius:var(--r);background:#111814;border:1px solid rgba(255,255,255,.12);box-shadow:0 24px 50px -30px rgba(0,0,0,.9);animation:vin .5s var(--ease) backwards}
+.fc{position:relative;overflow:hidden;display:flex;flex-direction:column;border-radius:var(--r);background:#111814;border:1px solid rgba(255,255,255,.12);box-shadow:0 24px 50px -30px rgba(0,0,0,.9);animation:vin .5s var(--ease) backwards}
 .fc__img{position:relative;aspect-ratio:16/10;overflow:hidden}
 .fc__img img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
 .fc:hover .fc__img img{transform:scale(1.05)}
-.fc__img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,15,13,0) 45%,rgba(17,24,20,1) 100%)}
+.fc__img img{-webkit-mask-image:linear-gradient(180deg,#000 45%,transparent 100%);mask-image:linear-gradient(180deg,#000 45%,transparent 100%)}
 .fc__st{position:absolute;z-index:1;top:12px;left:12px;display:inline-flex;align-items:center;gap:7px;height:30px;padding:0 12px;border-radius:999px;font-size:12.5px;font-weight:500;background:rgba(10,15,13,.55);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.16)}
 .fc__pr{position:absolute;z-index:1;top:12px;right:12px;padding:6px 11px;border-radius:999px;font-size:13px;background:rgba(244,247,243,.92);color:#121915;font-weight:600}
 .fc__pr small{font-weight:400;opacity:.7}
-.fc__b{position:relative;margin-top:-34px;padding:0 16px 16px}
+.fc__b{position:relative;flex:1;display:flex;flex-direction:column;margin-top:-34px;padding:0 16px 16px}
 .fc__b h3{font-size:20px;font-weight:500;letter-spacing:-.01em}
 .fc__kl{display:flex;justify-content:space-between;gap:8px;color:var(--mu);font-size:13px;margin-top:2px}
 .fc__kz{white-space:nowrap;flex:none;align-self:flex-start;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;padding:1px 7px;border-radius:5px;background:#f4f7f3;color:#121915;border-left:5px solid #c8102e;letter-spacing:.04em}
@@ -277,8 +277,19 @@ button.tile:hover::after{opacity:.8}
 .fc__dl dt{font-size:11px;color:var(--mu)}
 .fc__dl dd{margin:0;font-size:13.5px;font-weight:500}
 .fc__dl dd.warn{color:var(--peach)}
-.fc__act{display:flex;gap:8px}
+.fc__act{display:flex;gap:8px;margin-top:auto}
 .fc__act .btn{flex:1;min-height:42px;font-size:14px;padding:0 12px}
+/* Alle Karten einer Reihe teilen sich die Zeilen: Name, Balken, Kästchen und Knöpfe liegen quer auf einer Linie */
+@supports (grid-template-rows:subgrid){
+  .fc{display:grid;grid-row:span 7;grid-template-rows:subgrid;row-gap:0}
+  .fc__img{margin-bottom:-34px}
+  .fc__b{display:contents}
+  .fc__b>*{padding-inline:16px}
+  .fc__b>h3{position:relative;z-index:1}
+  .fc__kl{align-items:flex-start}
+  .fc__chips{align-content:flex-start}
+  .fc__act{padding-bottom:16px;align-self:end}
+}
 
 /* ---------- Übergabe ---------- */
 .ueb{display:grid;gap:12px}
@@ -553,6 +564,9 @@ html.dlg-open .tkv,html.ki-open .tkv{display:none}
 }
 @media (min-width:1000px){
   .grid2{grid-template-columns:1.25fr 1fr}
+  .stack{grid-template-rows:auto 1fr}
+  .stack>.card:last-child{display:flex;flex-direction:column}
+  .stack>.card:last-child .mix{flex:1;align-content:space-between}
   .tiles{grid-template-columns:repeat(4,minmax(0,1fr))}
   .app{display:grid;grid-template-columns:96px minmax(0,1fr)}
   .rail{position:sticky;top:calc(var(--bar) + 16px);left:auto;bottom:auto;transform:none;flex-direction:column;justify-content:flex-start;gap:26px;height:calc(100vh - var(--bar) - 32px);margin:16px 0 16px 16px;padding:14px 0;border-radius:40px;width:72px}
