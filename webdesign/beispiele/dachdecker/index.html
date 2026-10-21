@@ -153,7 +153,8 @@ h2 em,h1 em{font-style:normal;color:var(--tile2)}
 .seg button:hover,.mats button:hover{border-color:rgba(25,28,32,.4)}
 .seg button[aria-pressed="true"],.mats button[aria-pressed="true"]{border-color:#c0512b;background:#fff4ee;box-shadow:0 0 0 3px rgba(208,96,58,.16)}
 .mats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-.mats button{flex-direction:row;justify-content:flex-start;padding:10px;text-align:left}
+.mats button{justify-content:center;padding:10px 6px;text-align:center;min-width:0;overflow-wrap:break-word;hyphens:manual;line-height:1.25}
+.mats .nw{white-space:nowrap}
 .mats i{flex:none;width:26px;height:26px;border-radius:7px;background:var(--sw);box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
 input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:30px;background:transparent;cursor:pointer;margin:0}
 input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:6px;background:linear-gradient(90deg,#c0512b var(--p,50%),#e3ddd3 var(--p,50%))}
@@ -241,6 +242,23 @@ input[type=range]:disabled{opacity:.4;cursor:not-allowed}
 .foerd{margin-top:clamp(32px,5vw,56px);display:flex;flex-wrap:wrap;gap:16px 28px;align-items:center;justify-content:space-between;padding:22px 26px;border-radius:18px;background:linear-gradient(110deg,rgba(208,96,58,.22),rgba(208,96,58,.06));border:1px solid rgba(229,122,78,.35)}
 .foerd p{max-width:70ch;color:#e6e0d8}
 .foerd strong{color:#fff}
+/* Zeitleiste: Linie füllt sich beim Scrollen nach rechts, läuft hinunter und umrahmt den Förderungs-Kasten */
+.tl{position:relative}
+.tl__svg{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:1}
+.tl__svg path{fill:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:round}
+.tl__base{stroke:var(--line)}
+.tl__draw{stroke:url(#tl-grad);visibility:hidden;filter:drop-shadow(0 0 5px rgba(229,122,78,.75))}
+.tl__draw.is-anim{transition:stroke-dashoffset .95s cubic-bezier(.45,0,.25,1)}
+.tl__glint{stroke:#ffd9c2;stroke-dasharray:.05 .95;opacity:0;filter:drop-shadow(0 0 6px #f0a070) drop-shadow(0 0 12px rgba(208,96,58,.9));transition:opacity .25s ease}
+.tl.is-js .st::before{display:none}
+.tl.is-js .st::after{z-index:2;background:#3a414a;box-shadow:0 0 0 5px rgba(243,238,230,.05);transition:background .4s,box-shadow .4s}
+.tl.is-js .st.on::after{background:var(--tile2);box-shadow:0 0 0 5px rgba(229,122,78,.22),0 0 16px rgba(229,122,78,.8)}
+.tl.is-js .st b{transition:color .5s}
+.tl.is-js .st.on b{color:rgba(229,122,78,.5)}
+.tl.is-js .foerd{border-top-right-radius:0;transition:box-shadow .8s ease,background .8s ease}
+.tl.is-js .foerd.on{background:linear-gradient(110deg,rgba(208,96,58,.32),rgba(208,96,58,.08));box-shadow:0 0 38px rgba(229,122,78,.22),inset 0 0 26px rgba(229,122,78,.07);transition-delay:.7s}
+.tl.on .tl__glint{opacity:1;transition:opacity .8s ease 1s;animation:tl-glint 6s linear 1s infinite}
+@keyframes tl-glint{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
 
 /* Kontakt */
 .contact{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,5vw,64px);padding:clamp(24px,4vw,52px);border-radius:26px;background:var(--paper);color:var(--ink)}
@@ -318,6 +336,8 @@ footer{padding:56px 0 110px;border-top:1px solid var(--line);color:var(--mut);fo
   .st{padding:0 0 0 30px}
   .st::before{left:5px;right:auto;top:0;bottom:-28px;width:3px;height:auto}
   .st::after{left:0;top:4px}
+  .foerd{margin-left:5px}
+  .tl.is-js .foerd{border-top-right-radius:18px;border-top-left-radius:0}
   .contact{grid-template-columns:minmax(0,1fr);border-radius:20px}
   .foot{grid-template-columns:1fr}
 }
@@ -335,7 +355,7 @@ footer{padding:56px 0 110px;border-top:1px solid var(--line);color:var(--mut);fo
   .mats{grid-template-columns:repeat(2,minmax(0,1fr))}
   .two,.row2{grid-template-columns:minmax(0,1fr)}
   .res__row{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
-  .mp{grid-template-columns:92px 1fr 64px}
+  .mp{grid-template-columns:118px 1fr 64px}
   .refs{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .ref:nth-child(1){grid-column:span 2;grid-row:auto;aspect-ratio:4/3}
   .quote{grid-template-columns:minmax(0,1fr)}
@@ -621,15 +641,18 @@ footer{padding:56px 0 110px;border-top:1px solid var(--line);color:var(--mut);fo
   <div class="wrap">
     <p class="k" data-reveal>Ablauf</p>
     <h2 class="h2" id="a-h" data-reveal style="--d:.06s">Vom Anruf zum <em>dichten Dach.</em></h2>
-    <div class="flow4" data-reveal>
+    <div class="tl" data-tl data-reveal>
+    <svg class="tl__svg" aria-hidden="true" focusable="false"><defs><linearGradient id="tl-grad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f0a070"/><stop offset=".5" stop-color="#e57a4e"/><stop offset="1" stop-color="#d0603a"/></linearGradient></defs><path class="tl__base" d=""/><path class="tl__draw" d=""/><path class="tl__glint" pathLength="1" d=""/></svg>
+    <div class="flow4">
       <div class="st"><b>01</b><h3>Besichtigung</h3><p>Wir kommen vorbei, steigen aufs Dach oder schicken die Drohne, und messen auf.</p><small>kostenlos</small></div>
       <div class="st"><b>02</b><h3>Fixpreis-Angebot</h3><p>Schriftlich, aufgeschlüsselt, mit Material zur Auswahl. Keine Überraschung auf der Rechnung.</p><small>in 5 Werktagen</small></div>
       <div class="st"><b>03</b><h3>Gerüst &amp; Bau</h3><p>Ein fester Bauleiter, tägliches Abdecken bei Regen, Container für den Altbestand.</p><small>meist 1–2 Wochen</small></div>
       <div class="st"><b>04</b><h3>Abnahme</h3><p>Gemeinsamer Rundgang, Fotodokumentation und 10 Jahre Garantie auf die Eindeckung.</p><small>mit Wartungsplan</small></div>
     </div>
-    <div class="foerd" data-reveal>
+    <div class="foerd">
       <p><strong>Förderung für Dämmung und Sanierung?</strong> Wir sagen Ihnen, welche Programme für Ihr Dach in Frage kommen, und liefern die Unterlagen, die der Antrag braucht.</p>
       <a class="btn btn--l" href="#kontakt" data-art="sanierung">Beratung anfragen</a>
+    </div>
     </div>
   </div>
 </section>
@@ -687,5 +710,5 @@ footer{padding:56px 0 110px;border-top:1px solid var(--line);color:var(--mut);fo
     <div class="demo-note"><strong>Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb · <a href="/bildnachweis/#dachdecker">Bildnachweis</a></strong><span>Musteradresse, keine echten Kontaktdaten</span></div>
   </div>
 </footer>
-<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/_shared/handwerk-umschalter.js?v=2" defer></script><script src="/beispiele/dachdecker/app.js?v=1" defer></script>
+<script src="/beispiele/_shared/demo.js" defer></script><script src="/beispiele/_shared/handwerk-umschalter.js?v=2" defer></script><script src="/beispiele/dachdecker/app.js?v=2" defer></script>
 </body></html>

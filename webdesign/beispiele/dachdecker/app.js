@@ -91,6 +91,8 @@
       { k: "gruen", n: "Gründach", c: "#5f8a3c", pr: [130, 180], kg: 120, life: [.8, "50 J."], st: [.95, "sehr hoch"], min: 2 }
     ]
   };
+  // Trennstellen für lange Namen, damit sie in schmalen Knöpfen sauber umbrechen
+  var SHY = { ziegel: "Ton&shy;dach&shy;ziegel", beton: "Beton&shy;dach&shy;stein", bitumen: 'Bitumen <span class="nw">2-lagig</span>', epdm: '<span class="nw">EPDM-Bahn</span>', gruen: "Grün&shy;dach" };
   var NAMES = { sattel: "Satteldach", walm: "Walmdach", pult: "Pultdach", flach: "Flachdach" };
   var st = { form: "sattel", L: 12, B: 9, N: 38, mat: "ziegel" }, keepN = 38;
   var rL = $("#rL"), rB = $("#rB"), rN = $("#rN"), mats = $("#mats"), draw = $("#rdraw");
@@ -100,7 +102,7 @@
     var list = MATS[st.form === "flach" ? "flach" : "steil"];
     if (!list.some(function (m) { return m.k === st.mat; })) st.mat = list[0].k;
     mats.innerHTML = list.map(function (m) {
-      return '<button type="button" data-mat="' + m.k + '" aria-pressed="' + (m.k === st.mat) + '"><i style="--sw:' + m.c + '"></i>' + m.n + "</button>";
+      return '<button type="button" data-mat="' + m.k + '" aria-pressed="' + (m.k === st.mat) + '"><i style="--sw:' + m.c + '"></i>' + (SHY[m.k] || m.n) + "</button>";
     }).join("");
   }
   function fill(r) { r.style.setProperty("--p", ((r.value - r.min) / (r.max - r.min) * 100).toFixed(1) + "%"); }
@@ -227,6 +229,82 @@
     };
     dv.addEventListener("timeupdate", upd);
     if (reduce) pins.forEach(function (p) { p.classList.add("on"); });
+  }
+
+  // Ablauf: Die Linie füllt sich beim Scrollen nach rechts (am Handy nach unten), läuft hinunter in den Förderungs-Kasten
+  // und schließt seinen Rahmen dann von selbst. Beim Hochscrollen zieht sie sich in derselben Bahn weich zurück.
+  var tl = $("[data-tl]");
+  if (tl) {
+    var tsvg = $(".tl__svg", tl), tbase = $(".tl__base", tl), tdraw = $(".tl__draw", tl), tglint = $(".tl__glint", tl);
+    var tgrad = $("#tl-grad"), tsts = $$(".st", tl), box = $(".foerd", tl);
+    var T = { total: 0, driven: 0, lead: 0, wide: true, pos: [] }, tfull = false, tAnimT = 0, tTick = false;
+    tl.classList.add("is-js");
+    var tLayout = function () {
+      var W = tl.offsetWidth, w = box.offsetWidth, h = box.offsetHeight, bx = box.offsetLeft, by = box.offsetTop;
+      var k = parseFloat(getComputedStyle(box).borderBottomLeftRadius) || 18, c = 18, a = 1.5, d, base, loop;
+      T.wide = tsts.length > 1 && tsts[1].offsetTop === tsts[0].offsetTop;
+      if (T.wide) {
+        // Waagrecht über alle Schritte, an der rechten Kante weich nach unten, dann gegen den Uhrzeigersinn um den Kasten
+        var X = W - a, Y = a;
+        base = "M0 " + Y + "H" + (X - c) + "A" + c + " " + c + " 0 0 1 " + X + " " + (Y + c) + "V" + by;
+        loop = "V" + (by + h - k) + "A" + k + " " + k + " 0 0 1 " + (X - k) + " " + (by + h - a) +
+          "H" + (bx + a + k) + "A" + k + " " + k + " 0 0 1 " + (bx + a) + " " + (by + h - k) +
+          "V" + (by + k) + "A" + k + " " + k + " 0 0 1 " + (bx + a + k) + " " + (by + a) + "H" + X;
+        T.lead = X - c + Math.PI * c / 2;
+        T.driven = (X - c) + Math.PI * c / 2 + (by - Y - c) + (h - k);
+        T.pos = tsts.map(function (s) { return s.offsetLeft; });
+      } else {
+        // Am Handy senkrecht an den Punkten entlang, dann im Uhrzeigersinn um den Kasten
+        var x = 6.5, y0 = tsts[0].offsetTop + 10.5, L = bx + a;
+        base = "M" + x + " " + y0 + "V" + by;
+        loop = "V" + (by + h - k) + "A" + k + " " + k + " 0 0 0 " + (L + k) + " " + (by + h - a) +
+          "H" + (bx + w - a - k) + "A" + k + " " + k + " 0 0 0 " + (bx + w - a) + " " + (by + h - k) +
+          "V" + (by + k) + "A" + k + " " + k + " 0 0 0 " + (bx + w - a - k) + " " + (by + a) + "H" + L;
+        if (Math.abs(L - x) > .5) base += "H" + L;
+        T.lead = 0;
+        T.driven = by - y0 + (h - k);
+        T.pos = tsts.map(function (s) { return s.offsetTop - tsts[0].offsetTop; });
+      }
+      tsvg.setAttribute("viewBox", "0 0 " + W + " " + tl.offsetHeight);
+      tgrad.setAttribute("x2", W); tgrad.setAttribute("y2", tl.offsetHeight);
+      tbase.setAttribute("d", base);
+      tdraw.setAttribute("d", base + loop);
+      tglint.setAttribute("d", "M" + (T.wide ? (W - a) + " " + by : (bx + a) + " " + by) + loop);
+      T.total = tdraw.getTotalLength();
+      tdraw.style.strokeDasharray = T.total + " " + T.total;
+    };
+    var tAnim = function () {
+      tdraw.classList.add("is-anim");
+      clearTimeout(tAnimT);
+      tAnimT = setTimeout(function () { tdraw.classList.remove("is-anim"); }, 1000);
+    };
+    var tUpdate = function () {
+      tTick = false;
+      if (!T.total) return;
+      var mark = window.innerHeight * .6, top = tl.getBoundingClientRect().top + (T.wide ? 0 : tsts[0].offsetTop + 10.5);
+      var t = mark - top, run = window.innerHeight * .28, len;
+      // Breit: Die waagrechte Strecke füllt sich, während die Linie von 88 % auf 60 % der Fensterhöhe wandert,
+      // danach folgt die Spitze genau der Scrollposition hinunter. Am Handy folgt sie von Anfang an.
+      if (reduce) len = T.driven;
+      else if (T.wide) len = t < 0 ? T.lead * clamp(1 + t / run) : T.lead + t;
+      else len = t;
+      len = clamp(len, 0, T.driven);
+      var nowFull = reduce || len >= T.driven - .5;
+      if (nowFull !== tfull) { tfull = nowFull; if (!reduce) tAnim(); }
+      var shown = tfull ? T.total : len;
+      tdraw.style.strokeDashoffset = (T.total - shown).toFixed(2);
+      tdraw.style.visibility = shown > .5 || tdraw.classList.contains("is-anim") ? "visible" : "hidden";
+      tsts.forEach(function (s, i) { s.classList.toggle("on", tfull || len >= T.pos[i] - .5 && len > .5); });
+      box.classList.toggle("on", tfull);
+      tl.classList.toggle("on", tfull);
+    };
+    var tAsk = function () { if (!tTick) { tTick = true; requestAnimationFrame(tUpdate); } };
+    tdraw.addEventListener("transitionend", function () { tdraw.classList.remove("is-anim"); tUpdate(); });
+    window.addEventListener("scroll", tAsk, { passive: true });
+    window.addEventListener("resize", function () { tLayout(); tAsk(); });
+    tLayout(); tUpdate();
+    window.addEventListener("load", function () { tLayout(); tUpdate(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { tLayout(); tUpdate(); });
   }
 
   // Formular
