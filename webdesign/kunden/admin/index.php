@@ -1,6 +1,6 @@
 <?php
 // Tim Kofler – Kundenportal, Admin-Bereich: Kunden anlegen, Zugänge verwalten, Uploads ansehen und herunterladen,
-// dazu die Anfragen für einen Gratis-Entwurf von /entwurf/. Anmeldung mit Passwort und, wenn eingerichtet,
+// dazu die Anfragen für einen Gratis-Entwurf von /entwurf/ und der anonyme Besucherzähler. Anmeldung mit Passwort und, wenn eingerichtet,
 // einem zweiten Faktor (Code aus der Authenticator-App oder Notfall-Code).
 
 declare(strict_types=1);
@@ -8,6 +8,7 @@ declare(strict_types=1);
 require __DIR__ . '/../../api/kunden-lib.php';
 require __DIR__ . '/../../api/entwurf-lib.php';
 require __DIR__ . '/../../api/admin-2fa-lib.php';
+require __DIR__ . '/../../api/zaehler-lib.php';
 
 kp_headers();
 kp_session();
@@ -202,6 +203,17 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
             kp_flash(true, 'Neue Notfall-Codes erzeugt. Die alten gelten ab sofort nicht mehr.');
         }
         kp_redirect($back);
+    }
+
+    // Besucherzähler: dieses Gerät mitzählen oder nicht. Das Cookie geht nur an den Zähler-Endpunkt
+    // und an den Admin (damit er den Stand anzeigen kann), ein Jahr gültig.
+    if ($action === 'zaehlen') {
+        $aus = cx_field('wert', 5) === 'aus';
+        foreach (['/api/zaehler.php', KP_ADMIN] as $path) {
+            setcookie(ZL_NOCOUNT, '1', ['expires' => $aus ? time() + 365 * 86400 : 1, 'path' => $path, 'secure' => true, 'httponly' => true, 'samesite' => 'Strict']);
+        }
+        kp_flash(true, $aus ? 'Dieses Gerät wird ab jetzt nicht mehr mitgezählt.' : 'Dieses Gerät wird wieder mitgezählt.');
+        kp_redirect(KP_ADMIN . '?zeit=' . (int) ($_GET['zeit'] ?? 30) . '#besucher');
     }
 
     // Gratis-Entwurf: Status setzen oder Anfrage löschen
@@ -798,15 +810,100 @@ $kSub = ($nK === 1 ? '1 Kunde' : $nK . ' Kunden') . ($sumNeu > 0 ? ' · <b>' . $
 $ewSub = $ewNeu > 0 ? '<b>' . ($ewNeu === 1 ? '1 neue Anfrage' : $ewNeu . ' neue Anfragen') . '</b>' : 'Gratis-Entwürfe von /entwurf/';
 $neuOpen = $nK === 0 ? ' open' : '';
 
+// Besucher: anonyme Tagessummen aus /api/zaehler.php, dazu die Gratis-Entwurf-Anfragen im selben Zeitraum.
+$zeit = (int) ($_GET['zeit'] ?? 30);
+$zeit = in_array($zeit, [7, 30, 90], true) ? $zeit : 30;
+$bz = zl_range($zeit);
+$bzHeute = end($bz['tage']) ?: ['besuche' => 0, 'aufrufe' => 0];
+$bzLabel = static function (string $q): string {
+    $fest = ['google-anzeige' => 'Google-Anzeige', 'google (suche)' => 'Google-Suche', 'direkt' => 'Direkt',
+        'chatgpt' => 'ChatGPT', 'perplexity' => 'Perplexity', 'gemini' => 'Gemini', 'claude' => 'Claude', 'x' => 'X (Twitter)', 'andere' => 'Andere'];
+    if (isset($fest[$q])) {
+        return $fest[$q];
+    }
+    return strpos($q, '.') !== false ? $q : ucfirst($q);
+};
+$bzList = static function (array $map, callable $label, string $leer, int $max = 12): string {
+    if (!$map) {
+        return '<p class="muted kp-leer">' . $leer . '</p>';
+    }
+    $top = max(1, (int) reset($map));
+    $out = '';
+    foreach (array_slice($map, 0, $max, true) as $k => $n) {
+        $out .= '<li><span class="kp-bz__name">' . cx_h($label((string) $k)) . '</span><span class="kp-bz__bar"><i style="width:' . max(2, (int) round($n / $top * 100)) . '%"></i></span><b>' . (int) $n . '</b></li>';
+    }
+    $rest = count($map) - $max;
+    return '<ul class="kp-bz__list">' . $out . '</ul>' . ($rest > 0 ? '<p class="kp-hint">… und ' . $rest . ' weitere</p>' : '');
+};
+$bzSeite = static fn(string $p): string => $p === '/' ? 'Startseite' : rtrim($p, '/');
+$bzKamp = static function (string $k) use ($bzLabel): string {
+    [$q, $c] = array_pad(explode(' / ', $k, 2), 2, '');
+    return $bzLabel($q) . ' · ' . $c;
+};
+// Gratis-Entwurf-Anfragen im Zeitraum, nach ihrem Feld „Gefunden über“.
+$bzAnf = [];
+$bzVon = (new DateTimeImmutable('today'))->modify('-' . ($zeit - 1) . ' days')->getTimestamp();
+foreach (ew_all() as $d) {
+    if ((strtotime((string) ($d['zeit'] ?? '')) ?: 0) >= $bzVon) {
+        $q = trim(preg_replace('/\s*\(gclid.*$/', '', (string) ($d['quelle'] ?? '')) ?? '');
+        $q = $q === '' ? 'direkt' : $q;
+        $bzAnf[$q] = ($bzAnf[$q] ?? 0) + 1;
+    }
+}
+arsort($bzAnf);
+$bzAnfSum = array_sum($bzAnf);
+$bzTop = max(1, ...array_column($bz['tage'], 'besuche'));
+$bzBars = '';
+foreach ($bz['tage'] as $day => $t) {
+    $lbl = date('d.m.', strtotime($day) ?: 0);
+    $bzBars .= '<span class="kp-bz__day" title="' . $lbl . ': ' . $t['besuche'] . ' Besuche, ' . $t['aufrufe'] . ' Aufrufe"><i style="height:' . ($t['besuche'] ? max(4, (int) round($t['besuche'] / $bzTop * 100)) : 0) . '%"></i></span>';
+}
+$bzFirst = date('d.m.', strtotime((string) array_key_first($bz['tage'])) ?: 0);
+$bzZeiten = '';
+foreach ([7 => '7 Tage', 30 => '30 Tage', 90 => '90 Tage'] as $z => $t) {
+    $bzZeiten .= '<a class="kp-pill' . ($z === $zeit ? ' kp-pill--hot' : '') . '" href="/kunden/admin/?zeit=' . $z . '#besucher"' . ($z === $zeit ? ' aria-current="true"' : '') . '>' . $t . '</a>';
+}
+$bzAus = isset($_COOKIE[ZL_NOCOUNT]);
+$bzSeit = $bz['seit'] !== '' ? 'Gezählt wird seit ' . date('d.m.Y', strtotime($bz['seit']) ?: 0) . '. ' : 'Noch keine Zahlen: Die Zählung beginnt mit dem ersten Besuch nach dem Hochladen. ';
+$bzGeraet = '<form method="post" action="/kunden/admin/?zeit=' . $zeit . '" class="kp-bz__geraet">' . $csrf . '<input type="hidden" name="aktion" value="zaehlen"><input type="hidden" name="wert" value="' . ($bzAus ? 'ein' : 'aus') . '">'
+    . '<span>' . ($bzAus ? '<b>Dieses Gerät wird nicht mitgezählt.</b>' : 'Dieses Gerät wird mitgezählt.') . '</span>'
+    . '<button class="btn btn--line" type="submit">' . ($bzAus ? 'Wieder mitzählen' : 'Dieses Gerät nicht mitzählen') . '</button></form>';
+$bzSub = 'heute <b>' . $bzHeute['besuche'] . '</b> · ' . $zeit . ' Tage ' . $bz['besuche'];
+$bzQuellen = $bzList($bz['quellen'], $bzLabel, 'Noch keine Besuche im Zeitraum.');
+$bzKampagnen = $bzList($bz['kampagnen'], $bzKamp, 'Noch keine Besuche über Links mit utm_campaign.');
+$bzEinstieg = $bzList($bz['einstieg'], $bzSeite, 'Noch keine Besuche im Zeitraum.');
+$bzSeiten = $bzList($bz['seiten'], $bzSeite, 'Noch keine Aufrufe im Zeitraum.');
+$bzAnfragen = $bzList($bzAnf, static fn(string $q): string => $q, 'Keine Gratis-Entwurf-Anfragen im Zeitraum.');
+$bzQuote = $bz['besuche'] > 0 && $bzAnfSum > 0 ? number_format($bzAnfSum / $bz['besuche'] * 100, 1, ',', '') . ' % der Besuche' : 'im Zeitraum';
+$bzPanel = <<<HTML
+<div class="kp-bz__head"><h2>Besucher</h2><nav class="kp-bz__zeit" aria-label="Zeitraum">{$bzZeiten}</nav></div>
+<div class="kp-bz__kpis">
+  <div class="kp-card"><small>Besuche von außen</small><b>{$bz['besuche']}</b><span>letzte {$zeit} Tage</span></div>
+  <div class="kp-card"><small>Seitenaufrufe</small><b>{$bz['aufrufe']}</b><span>inkl. Weiterklicken</span></div>
+  <div class="kp-card"><small>Heute</small><b>{$bzHeute['besuche']}</b><span>{$bzHeute['aufrufe']} Aufrufe</span></div>
+  <div class="kp-card"><small>Entwurf-Anfragen</small><b>{$bzAnfSum}</b><span>{$bzQuote}</span></div>
+</div>
+<div class="kp-card kp-bz__chart"><div class="kp-bz__days" role="img" aria-label="Besuche pro Tag, letzte {$zeit} Tage">{$bzBars}</div><div class="kp-bz__axis"><span>{$bzFirst}</span><span>heute</span></div></div>
+<div class="kp-bz__grid">
+  <div class="kp-card"><h3>Woher die Besucher kommen</h3>{$bzQuellen}</div>
+  <div class="kp-card"><h3>Kampagnen <em>(utm_campaign)</em></h3>{$bzKampagnen}</div>
+  <div class="kp-card"><h3>Erste Seite beim Besuch</h3>{$bzEinstieg}</div>
+  <div class="kp-card"><h3>Meistgesehene Seiten</h3>{$bzSeiten}</div>
+  <div class="kp-card"><h3>Gratis-Entwurf-Anfragen nach Quelle</h3>{$bzAnfragen}</div>
+  <div class="kp-card kp-bz__info"><h3>So wird gezählt</h3><p class="kp-hint">{$bzSeit}Gespeichert werden nur Tagessummen pro Seite und Quelle, ohne Cookies, ohne IP-Adresse und ohne Kennung. Neu laden, Zurück-Taste, Suchmaschinen-Bots und Vorschau-Dienste zählen nicht. Ein „Besuch“ ist ein Aufruf von außen (über einen Link, eine Suche oder einen QR-Code), Weiterklicken auf der Seite zählt nur als Seitenaufruf. „Direkt“ heißt: Adresse getippt, Lesezeichen oder aus einer App ohne Link-Kennung.</p>{$bzGeraet}</div>
+</div>
+HTML;
+
 kp_page('Kunden', <<<HTML
 <span class="label"><b>●</b> Kundenportal · Admin</span>
 <h1 class="kp-hello">Übersicht</h1>
 {$zugang}
 {$flash}
 {$tfHint}
-<nav class="kp-tiles" data-kp-tabs data-default="kunden" aria-label="Bereiche">
+<nav class="kp-tiles kp-tiles--3" data-kp-tabs data-default="kunden" aria-label="Bereiche">
   <a class="kp-tile" href="#kunden" data-kp-tab="kunden"><span class="kp-tile__txt"><b>Kunden {$kBadge}</b><small>{$kSub}</small></span></a>
   <a class="kp-tile" href="#entwuerfe" data-kp-tab="entwuerfe"><span class="kp-tile__txt"><b>Entwürfe {$ewBadge}</b><small>{$ewSub}</small></span></a>
+  <a class="kp-tile" href="#besucher" data-kp-tab="besucher"><span class="kp-tile__txt"><b>Besucher</b><small>{$bzSub}</small></span></a>
 </nav>
 
 <section class="kp-panel" data-kp-panel="kunden">
@@ -832,5 +929,9 @@ kp_page('Kunden', <<<HTML
 
 <section class="kp-panel" data-kp-panel="entwuerfe">
   {$ewTable}
+</section>
+
+<section class="kp-panel" data-kp-panel="besucher">
+  {$bzPanel}
 </section>
 HTML, $logout);
