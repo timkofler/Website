@@ -358,19 +358,19 @@
   var sec = $("#secret");
   function unlockedUI() {
     sec.classList.add("is-open");
-    $("#pw").value = "Basilico"; $("#pw").disabled = true;
+    $("#pw").value = "Salami"; $("#pw").disabled = true;
     $("button", sec).disabled = true; $("button", sec).textContent = "Willkommen";
     $("#pwHint").innerHTML = 'Willkommen in der Familie. Die Pizza Proibita steht jetzt auf Ihrer Karte. <a href="#d-proibita">Ansehen</a>';
   }
   sec.addEventListener("submit", function (e) {
     e.preventDefault();
     var v = $("#pw").value.trim().toLowerCase().replace(/[^a-zäöü]/g, "");
-    if (v === "basilico" || v === "basilikum" || v === "basil") {
+    if (v === "salami" || v === "salame") {
       sec.classList.remove("is-wrong"); st.unlocked = true; save(); renderMenu(); unlockedUI();
       toast("Die Tür geht auf. Pizza Proibita freigeschaltet.");
     } else {
       sec.classList.remove("is-wrong"); void sec.offsetWidth; sec.classList.add("is-wrong");
-      $("#pwHint").textContent = v ? "Leider falsch. Kleiner Tipp: Es ist grün und liegt auf jeder Margherita." : "Ohne Kennwort bleibt die Tür zu.";
+      $("#pwHint").textContent = v ? "Leider falsch. Kleiner Tipp: Was liegt auf jeder Salamipizza?" : "Ohne Kennwort bleibt die Tür zu.";
     }
   });
   if (st.unlocked) unlockedUI();
