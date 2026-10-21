@@ -63,13 +63,17 @@ function init(THREE) {
   var dL = part(door(-1), [-.895, .465, .235], [-.9, .1, 1.2], [0, -1.2, 0], .46, .55);
   var dR = part(door(1), [.895, .465, .235], [.9, .1, 1.2], [0, 1.2, 0], .52, .61);
   function drawer() {
+    // Ladenkasten oben offen (Boden, zwei Seiten, Rückwand), damit man beim Öffnen hineinsieht
     var g = new THREE.Group(); g.add(box(.585, .275, .02, nutH));
-    var bx = box(.54, .2, .36, inner); bx.position.set(0, -.02, -.19); g.add(bx);
+    [[.54, .012, .36, 0, -.114, -.19, inner], [.012, .2, .36, -.264, -.02, -.19, oakH], [.012, .2, .36, .264, -.02, -.19, oakH], [.516, .2, .012, 0, -.02, -.364, oakH]].forEach(function (b) {
+      var m = box(b[0], b[1], b[2], b[6]); m.position.set(b[3], b[4], b[5]); g.add(m);
+    });
     var h = new THREE.Mesh(new THREE.CylinderGeometry(.007, .007, .2, 10), brass); h.rotation.z = Math.PI / 2; h.position.set(0, .02, .02); g.add(h);
     return g;
   }
-  var lo = part(drawer(), [0, .325, .235], [0, -.3, 1.4], [.5, 0, 0], .48, .57);
-  var hi = part(drawer(), [0, .61, .235], [0, .4, 1.4], [-.5, 0, 0], .5, .59);
+  // Laden kommen waagrecht von vorne, sonst fahren sie durch Deckplatte oder Boden
+  var lo = part(drawer(), [0, .325, .235], [0, 0, 1.5], [.35, 0, 0], .48, .57);
+  var hi = part(drawer(), [0, .61, .235], [0, 0, 1.5], [-.35, 0, 0], .5, .59);
 
   // Konische Füße
   [[-.8, -.16], [.8, -.16], [-.8, .16], [.8, .16]].forEach(function (f, i) {
@@ -91,10 +95,12 @@ function init(THREE) {
     var p = progress();
     shown += (p - shown) * Math.min(1, dt * 9);
     parts.forEach(function (c) {
-      var k = clamp((shown - c.a) / (c.b - c.a)), e = easeOut(k), q = 1 - e;
+      // Erst gerade ausrichten, dann einschieben: die Drehung ist vor dem letzten Wegstück fertig,
+      // damit kein Teil schräg durch ein anderes fährt
+      var k = clamp((shown - c.a) / (c.b - c.a)), q = 1 - easeOut(k), qr = 1 - easeOut(clamp(k / .55));
       c.o.visible = k > 0;
       c.o.position.copy(c.p).addScaledVector(c.off, q);
-      c.o.rotation.set(c.base.x + c.r[0] * q, c.base.y + c.r[1] * q, c.base.z + c.r[2] * q);
+      c.o.rotation.set(c.base.x + c.r[0] * qr, c.base.y + c.r[1] * qr, c.base.z + c.r[2] * qr);
     });
     // Zum Schluss öffnet sich kurz eine Tür und die obere Lade, damit man das Innenleben sieht
     var open = clamp((shown - .8) / .07) * (1 - clamp((shown - .93) / .05));
