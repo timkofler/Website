@@ -20,6 +20,14 @@
 .gr-price .btn { align-self: stretch; justify-content: center; }
 .gr-once { margin-top: 28px; }
 
+/* Vereinsseite: Kacheln reichen bis zum unteren Ende des Preis-Kastens */
+.vr-page .gr-paket { align-items: stretch; }
+.vr-page .gr-price { align-self: stretch; position: relative; top: auto; }
+.vr-page .gr-price .price__note { margin-top: auto; }
+.vr-online { display: flex; gap: 12px; align-items: flex-start; margin: 22px 0 22px; padding: 14px 16px; border: 1px dashed rgba(255,90,31,.45); border-radius: 14px; background: var(--hot-dim); font-size: .92rem; color: var(--muted); }
+.vr-online svg { flex: none; width: 22px; height: 22px; margin-top: 1px; color: var(--hot); }
+.vr-online b { color: var(--text); }
+
 /* Warum: drei Kacheln */
 .gr-why .rule h3 { font-family: var(--display); font-size: 1.15rem; font-weight: 500; }
 
