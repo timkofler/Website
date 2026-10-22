@@ -1,9 +1,10 @@
 <?php
-// Tim Kofler – Zwei-Faktor-Anmeldung für den Admin-Bereich des Kundenportals.
+// Tim Kofler – Zwei-Faktor-Anmeldung für den Admin-Bereich des Kundenportals und, freiwillig, für Kunden.
 // Zeitbasierte Codes nach RFC 6238 (TOTP, SHA-1, 6 Ziffern, 30 Sekunden), wie sie Google Authenticator,
 // Microsoft Authenticator, 1Password und ähnliche Apps anzeigen. Dazu zehn Notfall-Codes zum einmaligen Gebrauch.
 // Das Geheimnis liegt nur auf dem Webspace in api/_data/kunden/admin-2fa.json (per .htaccess gesperrt, nicht im Repo).
 // Wer sich aussperrt: diese Datei im KAS-Dateimanager löschen, dann gilt wieder nur das Passwort.
+// Kunden: je Kunde api/_data/kunden/<benutzer>/2fa.json. Tim kann sie im Admin unter „Zugang“ ausschalten.
 
 declare(strict_types=1);
 
@@ -91,9 +92,9 @@ function tf_match(string $secret, string $code, int $last = 0): ?int
     return null;
 }
 
-function tf_uri(string $secret): string
+function tf_uri(string $secret, string $account = TF_ACCOUNT): string
 {
-    return 'otpauth://totp/' . rawurlencode(TF_ISSUER) . ':' . rawurlencode(TF_ACCOUNT)
+    return 'otpauth://totp/' . rawurlencode(TF_ISSUER) . ':' . rawurlencode($account)
         . '?secret=' . $secret . '&issuer=' . rawurlencode(TF_ISSUER) . '&algorithm=SHA1&digits=' . TF_DIGITS . '&period=' . TF_PERIOD;
 }
 
@@ -130,50 +131,57 @@ function tf_hash_backups(array $codes): array
 
 // ---------------- Speicher ----------------
 
-function tf_state(): array
+// Alle Speicherfunktionen nehmen optional die Datei: ohne Angabe die des Admins, für Kunden tf_kunde_file().
+function tf_kunde_file(string $u): string
 {
-    $d = kp_read_json(TF_FILE);
+    return kp_user_dir($u) . '/2fa.json';
+}
+
+function tf_state(string $file = TF_FILE): array
+{
+    $d = kp_read_json($file);
     return (($d['secret'] ?? '') !== '' && is_string($d['secret'])) ? $d : [];
 }
 
-function tf_active(): bool
+function tf_active(string $file = TF_FILE): bool
 {
-    return tf_state() !== [];
+    return tf_state($file) !== [];
 }
 
-function tf_save(array $d): bool
+function tf_save(array $d, string $file = TF_FILE): bool
 {
-    return kp_write_json(TF_FILE, $d);
+    return kp_write_json($file, $d);
 }
 
-function tf_enable(string $secret, int $step, array $backups): bool
+function tf_enable(string $secret, int $step, array $backups, string $file = TF_FILE): bool
 {
-    return tf_save(['secret' => $secret, 'seit' => date('c'), 'zuletzt' => $step, 'notfall' => tf_hash_backups($backups)]);
+    return tf_save(['secret' => $secret, 'seit' => date('c'), 'zuletzt' => $step, 'notfall' => tf_hash_backups($backups)], $file);
 }
 
-function tf_disable(): void
+function tf_disable(string $file = TF_FILE): void
 {
-    @unlink(TF_FILE);
+    @unlink($file);
 }
 
 // Prüft einen Code aus der App oder einen Notfall-Code und merkt sich den Verbrauch.
 // Rückgabe: 'app', 'notfall' oder '' (falsch). Ohne $backup zählt nur der Code aus der App.
-function tf_check(string $input, bool $backup = true): string
+function tf_check(string $input, bool $backup = true, string $file = TF_FILE): string
 {
     // Unter Sperre, damit ein Code bei gleichzeitigen Anfragen nicht mehrfach gilt.
-    return (string) cx_locked(KP_DIR . '/admin-2fa.lock', static fn() => tf_check_unlocked($input, $backup));
+    $lock = $file === TF_FILE ? KP_DIR . '/admin-2fa.lock' : dirname($file) . '/2fa.lock';
+    return (string) cx_locked($lock, static fn() => tf_check_unlocked($input, $backup, $file));
 }
 
-function tf_check_unlocked(string $input, bool $backup): string
+function tf_check_unlocked(string $input, bool $backup, string $file = TF_FILE): string
 {
-    $d = tf_state();
+    $d = tf_state($file);
     if (!$d) {
         return '';
     }
     $step = tf_match((string) $d['secret'], $input, (int) ($d['zuletzt'] ?? 0));
     if ($step !== null) {
         $d['zuletzt'] = $step;
-        tf_save($d);
+        tf_save($d, $file);
         return 'app';
     }
     $n = tf_norm_backup($input);
@@ -182,7 +190,7 @@ function tf_check_unlocked(string $input, bool $backup): string
             if (is_string($h) && password_verify($n, $h)) {
                 unset($d['notfall'][$i]);
                 $d['notfall'] = array_values($d['notfall']);
-                tf_save($d);
+                tf_save($d, $file);
                 return 'notfall';
             }
         }
@@ -190,7 +198,7 @@ function tf_check_unlocked(string $input, bool $backup): string
     return '';
 }
 
-function tf_backups_left(): int
+function tf_backups_left(string $file = TF_FILE): int
 {
-    return count((array) (tf_state()['notfall'] ?? []));
+    return count((array) (tf_state($file)['notfall'] ?? []));
 }
