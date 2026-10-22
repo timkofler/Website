@@ -1,0 +1,68 @@
+/* Tim Kofler – Branchenseiten (/webseite/ und /webseite/<branche>/), ergänzt style.css, tk.css, entwurf.css und gruender.css.
+   Die HTML-Seiten entstehen mit quellen/branchen/build.py aus quellen/branchen/daten.json. */
+
+.br-hero h1 { max-width: 20ch; }
+.br-hero h1 .lime { display: block; }
+.br-crumbs { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; font-size: .88rem; color: var(--muted); }
+.br-crumbs a { color: var(--muted); text-underline-offset: 3px; }
+.br-crumbs a:hover { color: var(--text); }
+.br-crumbs span:last-child { color: var(--text); }
+
+/* Beispiel-Handys als Karten: Bild oben angeschnitten, Beschriftung darunter */
+.br-demos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; }
+.br-demos--1, .br-demos--2 { grid-template-columns: repeat(2, minmax(0, 300px)); justify-content: center; }
+.br-demos--3 { grid-template-columns: repeat(3, minmax(0, 300px)); justify-content: center; }
+.br-demos > li > a { display: flex; flex-direction: column; height: 100%; color: var(--text); text-decoration: none; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; background: var(--bg-2, #111); transition: border-color .25s, transform .25s; }
+.br-demos > li > a:hover { border-color: rgba(255,90,31,.6); transform: translateY(-3px); }
+.br-demo__ph { display: block; aspect-ratio: 560 / 700; overflow: hidden; background: #111; border-bottom: 1px solid var(--line); }
+.br-demo__ph img { display: block; width: 100%; height: auto; }
+.br-demo__cap { display: block; padding: 16px 18px 4px; font-size: .95rem; color: var(--muted); }
+.br-demo__cap b { display: block; font-family: var(--display); font-weight: 500; font-size: 1.05rem; color: var(--text); margin-bottom: 2px; }
+.br-demo__go { display: inline-flex; align-items: center; gap: 6px; margin: auto 18px 18px; padding-top: 10px; font-weight: 600; font-size: .92rem; color: var(--text); }
+.br-demo__go svg { width: 16px; height: 16px; color: var(--hot); transition: transform .25s; }
+.br-demos > li > a:hover .br-demo__go svg { transform: translateX(3px); }
+
+/* Übersicht /webseite/: gleiche Karten mit Titel und einem Satz */
+.br-hub__t { display: block; padding: 18px 18px 6px; font-family: var(--display); font-weight: 500; font-size: 1.08rem; }
+.br-hub__p { display: block; padding: 0 18px; color: var(--muted); font-size: .93rem; }
+.br-also { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+.br-also a { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 20px; border-radius: 16px; border: 1px dashed rgba(255,90,31,.45); background: var(--hot-dim); color: var(--muted); text-decoration: none; font-size: .95rem; }
+.br-also a b { color: var(--text); margin-right: 4px; }
+.br-also a svg { flex: none; width: 18px; height: 18px; color: var(--hot); }
+.br-also a:hover { border-style: solid; }
+
+/* Karten und Chips ohne Unterstreichung (style.css unterstreicht Links in main li) */
+main .br-demos li > a:not(.btn), main .br-other li > a:not(.btn) { text-decoration: none; }
+
+/* Preis-Kasten: Link im Hinweis sichtbar */
+.br-page .price__note a { color: var(--text); text-underline-offset: 3px; }
+
+/* Extras im Preis-Kasten: abgesetzt vom Paketinhalt, Preis kommt aus dem Rechner */
+.br-page .gr-price .ticks { flex: none; margin-bottom: 18px; }
+.br-extras-h { margin: 0 0 10px; font-family: var(--mono); font-size: .75rem; letter-spacing: .03em; color: var(--muted); text-transform: uppercase; }
+.br-extras { list-style: none; margin: 0 0 20px; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.br-extras li { padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); font-size: .86rem; color: var(--text); }
+.br-extras li::before { content: "+ "; color: var(--hot); font-weight: 700; }
+
+/* Andere Branchen unter dem Abschluss */
+.br-other { margin-top: 34px; text-align: center; }
+.br-other p { margin: 0 0 12px; color: var(--muted); font-size: .9rem; }
+.br-other ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.br-other a { display: inline-block; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--line-2); color: var(--text); font-size: .9rem; text-decoration: none; }
+.br-other a:hover { border-color: var(--hot); color: var(--hot-2, var(--text)); }
+
+@media (max-width: 1100px) {
+  .br-demos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .br-demos--1, .br-demos--2, .br-demos--3 { grid-template-columns: repeat(2, minmax(0, 300px)); }
+}
+@media (max-width: 680px) {
+  .br-demos, .br-demos--1, .br-demos--2, .br-demos--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .br-demos > li > a { border-radius: 16px; }
+  .br-demo__cap { padding: 12px 12px 2px; font-size: .85rem; }
+  .br-demo__cap b, .br-hub__t { font-size: .95rem; }
+  .br-hub__t { padding: 12px 12px 4px; }
+  .br-hub__p { padding: 0 12px; font-size: .84rem; }
+  .br-demo__go { margin: auto 12px 14px; font-size: .85rem; }
+  .br-also { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { .br-demos > li > a, .br-demo__go svg { transition: none; } }

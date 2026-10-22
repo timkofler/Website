@@ -1,0 +1,956 @@
+{
+  "branchen": [
+    {
+      "slug": "gasthaus",
+      "kurz": "Gasthaus & Restaurant",
+      "karte": "Speisekarte, Mittagsmenü und Reservierung, die du selbst änderst.",
+      "title": "Webseite für Gasthaus & Restaurant | Tim Kofler – Webdesign",
+      "description": "Webseite für Gasthaus, Wirtshaus und Restaurant: Speisekarte und Mittagsmenü selbst ändern, Tischreservierung, Allergene, schnell am Handy.",
+      "og": "Webseiten für Gasthaus und Restaurant: Speisekarte selbst ändern, Reservierung, Allergene.",
+      "label": "Gastronomie",
+      "h1": "Webseite für dein Gasthaus.",
+      "h1b": "Mit Speisekarte, die du selbst änderst.",
+      "lead": "Gäste schauen vor dem Besuch am Handy nach: Was gibt es heute, hat das Wirtshaus offen, ist noch ein Tisch frei? Ich baue dir eine Seite, auf der das in Sekunden klar ist, und das Mittagsmenü trägst du selbst ein.",
+      "trust": [
+        "<b>Menü</b> selbst ändern",
+        "<b>Reservierung</b> per Anfrage",
+        "<b>Allergene</b> A bis R",
+        "<b>Kein Tracking</b>, keine Cookies"
+      ],
+      "service": "Webdesign für Gasthäuser und Restaurants",
+      "warum_h2": "Was eine <span class=\"lime\">Wirtshaus-Seite</span> können sollte.",
+      "warum_p": "Eine Gasthaus-Seite ist kein Prospekt. Sie wird meistens kurz vor dem Besuch am Handy geöffnet, oft im Auto oder auf der Couch. Darum zählt, was schnell gefunden wird.",
+      "features": [
+        [
+          "menu",
+          "Mittagsmenü und Wochenkarte",
+          "Du trägst das Menü der Woche selbst ein, am Handy oder am PC, ohne mich anzurufen. Es erscheint sofort auf der Seite."
+        ],
+        [
+          "kalender",
+          "Tisch reservieren",
+          "Gäste schicken eine Reservierungsanfrage mit Datum, Uhrzeit und Personen. Du bestätigst per E-Mail oder Telefon, ganz ohne Portal und Provision."
+        ],
+        [
+          "info",
+          "Allergene richtig angeben",
+          "Die Allergene stehen mit den Buchstaben A bis R direkt bei den Gerichten, so wie es in Österreich üblich ist. Das spart Fragen beim Bestellen."
+        ],
+        [
+          "uhr",
+          "Öffnungszeiten und Ruhetage",
+          "Ruhetage, Betriebsurlaub und Feiertage sind auf einen Blick sichtbar. Die gleichen Zeiten stehen auch im Google-Profil, damit nichts widersprüchlich ist."
+        ],
+        [
+          "kamera",
+          "Gaststube, Gastgarten, Saal",
+          "Fotos von Räumen und Gerichten machen Lust auf den Besuch. Für Feiern zeigt eine eigene Seite Saal, Plätze und Menüvorschläge."
+        ],
+        [
+          "pin",
+          "Anfahrt und Parkplatz",
+          "Adresse, Karte und Parkmöglichkeiten, dazu ein Anruf-Knopf. Die Karte lädt erst nach einem Klick, so bleibt die Seite schnell und ohne Tracking."
+        ]
+      ],
+      "demos": [
+        [
+          "/beispiele/gasthaus/",
+          "gasthaus-v1.webp?v=2",
+          1185,
+          "Gasthaus",
+          "Hollerhof",
+          "Beispiel Landgasthof Hollerhof mit Wochenmenü, Speisekarte und Reservierung"
+        ],
+        [
+          "/beispiele/gasthaus/v2/",
+          "gasthaus-v2.webp",
+          1185,
+          "Restaurant",
+          "Glut Feuerküche",
+          "Beispiel Restaurant Glut Feuerküche mit Gerichten zum Durchwischen und Tischreservierung"
+        ],
+        [
+          "/beispiele/pizzeria/",
+          "pizzeria-v.webp",
+          1185,
+          "Pizzeria",
+          "Proibito",
+          "Beispiel Pizzeria Proibito mit Online-Bestellung und Lieferung"
+        ]
+      ],
+      "paket": "business",
+      "paket_text": "Für ein Gasthaus mit Speisekarte, Menü, Feiern und Anfahrt passt meistens das Business-Paket. Dazu kommt die Funktion, mit der du Menü und Karte selbst änderst.",
+      "extras": [
+        "Speisekarte und Menü selbst ändern",
+        "Reservierungsanfrage",
+        "Bildergalerie",
+        "Online-Bestellung (nach Aufwand)"
+      ],
+      "google": [
+        [
+          "Das Google-Profil zuerst",
+          "Für hungrige Gäste zählt Google Maps. Ich richte dein Profil mit der passenden Kategorie ein, zum Beispiel Gasthaus oder österreichisches Restaurant, und verlinke die Speisekarte."
+        ],
+        [
+          "Menü auch als Beitrag",
+          "Das Mittagsmenü kannst du zusätzlich als Beitrag im Google-Profil posten. Ich zeige dir, wie das in einer Minute geht."
+        ],
+        [
+          "Bewertungen sammeln",
+          "Ein kleiner QR-Code am Tisch oder auf der Rechnung führt direkt zur Bewertung. Du bekommst ihn fertig zum Ausdrucken."
+        ]
+      ],
+      "faq": [
+        [
+          "Kann ich das Mittagsmenü wirklich selbst ändern?",
+          "Ja. Du meldest dich an, tippst das Menü der Woche ein und speicherst. Das geht auch am Handy. Ich zeige dir das einmal, danach brauchst du mich dafür nicht mehr."
+        ],
+        [
+          "Brauche ich ein Reservierungs-Portal?",
+          "Nein. Die Reservierungsanfrage kommt per E-Mail direkt zu dir, ohne monatliche Gebühr und ohne Provision pro Gast. Wenn du schon ein System nutzt, kann ich es auch einbinden."
+        ],
+        [
+          "Was ist mit den Allergenen?",
+          "Die Allergene stehen bei jedem Gericht als Buchstaben A bis R, darunter die Legende. Die Angaben lieferst du, ich setze sie sauber um."
+        ],
+        [
+          "Geht auch Abholung oder Lieferung?",
+          "Ja, eine Online-Bestellung zum Abholen oder Liefern ist möglich, wie im Beispiel der Pizzeria. Das ist ein größeres Extra, der Preis richtet sich nach dem Umfang."
+        ]
+      ],
+      "firma_ph": "z. B. Gasthaus Huber, Wirtshaus mit Saal",
+      "nachricht_ph": "z. B. Wirtshaus mit Mittagsmenü und Gastgarten, Ruhetag Montag, Saal für 80 Personen",
+      "wa": "ich habe ein Gasthaus und interessiere mich für eine Webseite.",
+      "suche": "Gasthaus in der Nähe"
+    },
+    {
+      "slug": "friseur",
+      "kurz": "Friseur & Kosmetik",
+      "karte": "Online-Termin, Preisliste und Team, damit das Telefon stiller wird.",
+      "title": "Webseite für Friseur & Friseursalon | Tim Kofler – Webdesign",
+      "description": "Webseite für Friseur, Friseursalon und Kosmetikstudio: Online-Termin, Preisliste, Team und Gutscheine. Ohne Baukasten, aus Niederösterreich.",
+      "og": "Webseiten für Friseure: Online-Termin, Preisliste, Team, Gutscheine.",
+      "label": "Friseur",
+      "h1": "Webseite für deinen Salon.",
+      "h1b": "Termine buchen, auch nach Ladenschluss.",
+      "lead": "Viele Kundinnen und Kunden wollen den Termin am Abend am Handy ausmachen, nicht anrufen, während du gerade färbst. Ich baue dir eine Seite mit Preisen, Team und Online-Termin, die zu deinem Salon passt.",
+      "trust": [
+        "<b>Online</b>-Termin",
+        "<b>Preise</b> klar sichtbar",
+        "<b>Gutscheine</b> möglich",
+        "<b>Kein Tracking</b>, keine Cookies"
+      ],
+      "service": "Webdesign für Friseursalons",
+      "warum_h2": "Was eine <span class=\"lime\">Salon-Seite</span> können sollte.",
+      "warum_p": "Beim Friseur entscheiden Bilder und Vertrauen. Die Seite soll zeigen, wie ihr arbeitet, und den Weg zum Termin so kurz wie möglich machen.",
+      "features": [
+        [
+          "kalender",
+          "Termin online anfragen",
+          "Kundinnen wählen Leistung, Wunschtag und Uhrzeit. Du bekommst die Anfrage per E-Mail und bestätigst. Ein bestehendes Buchungssystem kann ich auch einbinden."
+        ],
+        [
+          "liste",
+          "Preisliste ohne Rätselraten",
+          "Schneiden, Färben, Strähnen, Herren, Kinder: klar gegliedert und am Handy gut lesbar. Das spart Rückfragen am Telefon."
+        ],
+        [
+          "team",
+          "Team vorstellen",
+          "Fotos und ein paar Sätze zu jeder Person. Wer zum ersten Mal kommt, weiß dann schon, wer ihn erwartet."
+        ],
+        [
+          "kamera",
+          "Vorher und Nachher",
+          "Eine Galerie mit euren Arbeiten, auf Wunsch mit Schieberegler für Vorher und Nachher. Nur mit Fotos, die du selbst gemacht hast."
+        ],
+        [
+          "geschenk",
+          "Gutscheine",
+          "Gutscheine zum Verschenken, angefragt über die Seite oder mit QR-Code. Gerade vor Weihnachten und Muttertag ein gutes Zusatzgeschäft."
+        ],
+        [
+          "herz",
+          "Euer Stil, nicht ein Baukasten",
+          "Dunkel und edel, knallig bunt oder ganz ruhig: die Seite passt zur Stimmung im Salon. Drei Entwürfe dazu siehst du unten."
+        ]
+      ],
+      "demos": [
+        [
+          "/beispiele/friseur/v2/",
+          "friseur-v2.webp",
+          1185,
+          "Friseur",
+          "Mähne",
+          "Beispiel Friseur Mähne, knallig mit Haarfarben zum Durchschalten"
+        ],
+        [
+          "/beispiele/friseur/",
+          "friseur-v1.webp",
+          1185,
+          "Friseur",
+          "Haarwerk Studio",
+          "Beispiel Friseur Haarwerk Studio, dunkel mit Online-Termin"
+        ],
+        [
+          "/beispiele/friseur/v3/",
+          "friseur-v3.webp",
+          1185,
+          "Friseur",
+          "Seide",
+          "Beispiel Friseur Seide, dezent mit 3D-Haar"
+        ]
+      ],
+      "paket": "start",
+      "paket_text": "Für einen Salon mit Leistungen, Preisen, Team und Kontakt reicht oft das Start-Paket. Mit Online-Termin und Galerie wird es meistens Business.",
+      "extras": [
+        "Terminanfrage",
+        "Bildergalerie",
+        "Gutscheine",
+        "Eigene App mit Stempelkarte (nach Aufwand)"
+      ],
+      "google": [
+        [
+          "Kategorie und Leistungen",
+          "Im Google-Profil stelle ich die Kategorie Friseursalon ein und trage die wichtigsten Leistungen mit Preisen ein, gleich wie auf der Webseite."
+        ],
+        [
+          "Termin-Link im Profil",
+          "Der Knopf Termin buchen im Google-Profil führt direkt zur Terminanfrage auf deiner Seite. So kommen Buchungen auch über Google Maps."
+        ],
+        [
+          "Fotos regelmäßig",
+          "Neue Fotos von Frisuren und vom Salon halten das Profil lebendig. Ein Foto pro Woche reicht schon, ich zeige dir, wie es geht."
+        ]
+      ],
+      "faq": [
+        [
+          "Muss ich ein Buchungssystem kaufen?",
+          "Nein. Eine einfache Terminanfrage kommt per E-Mail zu dir und kostet keine monatliche Gebühr. Wenn du schon ein Buchungssystem verwendest, binde ich es ein."
+        ],
+        [
+          "Kann ich die Preise selbst ändern?",
+          "Ja, wenn du das möchtest. Mit dem Extra zum Selbst-Ändern passt du Preise und Angebote an, ohne mich zu fragen. Sonst erledige ich das im Rahmen der Betreuung."
+        ],
+        [
+          "Darf ich Fotos aus dem Internet verwenden?",
+          "Bitte nicht. Fremde Fotos können teure Abmahnungen bringen. Am besten sind eigene Fotos aus deinem Salon, ich sage dir, worauf du beim Fotografieren achten sollst."
+        ],
+        [
+          "Was ist die eigene App mit Stempelkarte?",
+          "Eine Erweiterung zur Webseite mit Online-Termin, digitaler Stempelkarte und Gutscheinen unter dem Namen deines Salons. Zum Ausprobieren gibt es eine <a href=\"/beispiele/betriebs-app/\">Beispiel-App</a>."
+        ]
+      ],
+      "firma_ph": "z. B. Friseursalon Anna, Damen und Herren",
+      "nachricht_ph": "z. B. Salon mit drei Plätzen, Damen und Herren, Termine auch am Samstag",
+      "wa": "ich habe einen Friseursalon und interessiere mich für eine Webseite.",
+      "suche": "Friseur in der Nähe"
+    },
+    {
+      "slug": "handwerk",
+      "kurz": "Handwerk & Bau",
+      "karte": "Referenzen, Leistungen und Anfrage mit Fotos, für Dachdecker bis Tischler.",
+      "title": "Webseite für Handwerker & Baubetriebe | Tim Kofler – Webdesign",
+      "description": "Webseite für Handwerksbetriebe: Dachdecker, Tischler, Maler, Bodenleger, Installateur. Referenzen, Leistungen, Anfrage mit Fotos und Rechner.",
+      "og": "Webseiten für Handwerker: Referenzen, Leistungen, Anfrage mit Fotos, Rechner.",
+      "label": "Handwerk",
+      "h1": "Webseite für deinen Handwerksbetrieb.",
+      "h1b": "Damit die richtigen Aufträge anrufen.",
+      "lead": "Wer ein Dach, eine Küche oder einen neuen Boden braucht, schaut sich zuerst Arbeiten an. Ich baue dir eine Seite, die eure Projekte zeigt, das Einzugsgebiet klar macht und Anfragen mit allen Infos bringt.",
+      "trust": [
+        "<b>Referenzen</b> mit Fotos",
+        "<b>Anfrage</b> mit Bildern",
+        "<b>Rechner</b> möglich",
+        "<b>Kein Tracking</b>, keine Cookies"
+      ],
+      "service": "Webdesign für Handwerksbetriebe",
+      "warum_h2": "Was eine <span class=\"lime\">Handwerker-Seite</span> können sollte.",
+      "warum_p": "Im Handwerk fehlt selten Arbeit, eher die passende. Eine gute Seite filtert vor: Sie zeigt, was ihr macht, wo ihr hinfahrt und was ein Projekt ungefähr kostet.",
+      "features": [
+        [
+          "kamera",
+          "Referenzen statt Versprechen",
+          "Fertige Projekte mit Fotos, Ort und ein paar Sätzen dazu. Das überzeugt mehr als jeder Werbetext, und Google mag es auch."
+        ],
+        [
+          "liste",
+          "Eine Seite pro Leistung",
+          "Dachsanierung, Spenglerarbeiten, Fenstertausch: jede Hauptleistung bekommt eine eigene Seite. So wirst du für genau diese Suchen gefunden."
+        ],
+        [
+          "pin",
+          "Einsatzgebiet klar zeigen",
+          "Welche Orte und Bezirke ihr anfahrt, steht deutlich da. Das spart Anfragen von zu weit weg."
+        ],
+        [
+          "rechner",
+          "Rechner für Richtpreise",
+          "Dachfläche, Bodenfläche mit Verschnitt oder Wandfarbe: ein kleiner Rechner gibt einen ersten Richtwert und macht die Anfrage konkreter."
+        ],
+        [
+          "upload",
+          "Anfrage mit Fotos",
+          "Kunden schicken gleich Fotos vom Schaden oder vom Raum mit. Du siehst vor dem Rückruf, worum es geht."
+        ],
+        [
+          "team",
+          "Betrieb und Lehrlinge",
+          "Team, Werkstatt, Ausbildungsplätze: eine Seite über euch hilft auch bei der Suche nach Fachkräften und Lehrlingen."
+        ]
+      ],
+      "demos": [
+        [
+          "/beispiele/dachdecker/",
+          "handwerk-v1.webp",
+          1185,
+          "Dachdecker",
+          "First &amp; Falz",
+          "Beispiel Dachdecker First und Falz mit Dachrechner und Dach-Check per Drohne"
+        ],
+        [
+          "/beispiele/tischlerei/",
+          "handwerk-v2.webp",
+          1185,
+          "Tischlerei",
+          "Holzwerk Brandl",
+          "Beispiel Tischlerei Holzwerk Brandl mit Holzarten und Galerie"
+        ],
+        [
+          "/beispiele/maler/",
+          "handwerk-v3.webp",
+          1185,
+          "Maler",
+          "Malerei Lindner",
+          "Beispiel Malerei Lindner mit Farbe testen und Flächenrechner"
+        ],
+        [
+          "/beispiele/bodenleger/",
+          "handwerk-v4.webp",
+          1185,
+          "Bodenleger",
+          "Grund &amp; Holz",
+          "Beispiel Bodenleger Grund und Holz mit Bodenplaner und Flächenrechner"
+        ]
+      ],
+      "paket": "business",
+      "paket_text": "Mit eigenen Seiten für die wichtigsten Leistungen und Referenzen passt meistens das Business-Paket. Ein Rechner oder eine Anfrage mit Foto-Upload kommt als Extra dazu.",
+      "extras": [
+        "Rechner für Richtpreise",
+        "Bildergalerie für Referenzen",
+        "Anfrage mit Fotos",
+        "Dashboard für Aufträge (nach Aufwand)"
+      ],
+      "google": [
+        [
+          "Einzugsgebiet im Profil",
+          "Im Google-Profil trage ich die Orte ein, die ihr anfahrt. Wer keine Kunden im Betrieb empfängt, kann die Adresse dort auch ausblenden."
+        ],
+        [
+          "Projektfotos posten",
+          "Jede fertige Baustelle ist ein Foto fürs Google-Profil und eine Referenz für die Seite. Das hält beides aktuell, ohne viel Aufwand."
+        ],
+        [
+          "Bewertungen nach dem Auftrag",
+          "Nach der Abnahme freuen sich zufriedene Kunden, wenn sie gefragt werden. Ein Link oder QR-Code auf der Rechnung macht es leicht."
+        ]
+      ],
+      "faq": [
+        [
+          "Ich habe kaum Zeit für die Webseite. Geht das trotzdem?",
+          "Ja. Du schickst mir Fotos von Baustellen und Stichworte, den Rest mache ich. Die Zusammenarbeit läuft über das Kundenportal, wann es dir passt, auch am Abend."
+        ],
+        [
+          "Ich habe keine guten Fotos.",
+          "Handyfotos reichen meistens, wenn sie bei Tageslicht und ohne Durcheinander im Bild gemacht sind. Ich sage dir vorher, worauf du achten sollst. Fremde Fotos aus dem Internet verwende ich nicht."
+        ],
+        [
+          "Was bringt ein Rechner auf der Seite?",
+          "Er gibt Kunden einen ersten Richtwert, zum Beispiel für eine Dachfläche. Die Anfragen kommen dann mit Fläche und Wunsch und sind schon vorsortiert. Den Preis legst du am Ende trotzdem selbst fest."
+        ],
+        [
+          "Kann ich auch Lehrlinge über die Seite suchen?",
+          "Ja. Eine Seite für Jobs und Lehrstellen mit Ansprechperson und Bewerbung per E-Mail oder WhatsApp lässt sich gut einbauen."
+        ]
+      ],
+      "firma_ph": "z. B. Dachdeckerei Berger, Tischlerei Maier",
+      "nachricht_ph": "z. B. Dachdecker und Spengler, Bezirk Melk und Scheibbs, 6 Mitarbeiter",
+      "wa": "ich habe einen Handwerksbetrieb und interessiere mich für eine Webseite.",
+      "suche": "Dachdecker Bezirk Melk"
+    },
+    {
+      "slug": "pension",
+      "kurz": "Pension & Gästehaus",
+      "karte": "Zimmer, Belegungskalender und Buchung direkt bei dir, ohne Provision.",
+      "title": "Webseite für Pension & Gästehaus | Tim Kofler – Webdesign",
+      "description": "Webseite für Pension, Gästehaus, Gasthof mit Zimmern und Ferienwohnung: Zimmer, Belegungskalender, Preisrechnung und Buchungsanfrage direkt beim Haus.",
+      "og": "Webseiten für Pensionen: Zimmer, Belegungskalender, Direktbuchung ohne Provision.",
+      "label": "Unterkunft",
+      "h1": "Webseite für deine Pension.",
+      "h1b": "Mehr Gäste, die direkt bei dir buchen.",
+      "lead": "Buchungsportale bringen Gäste, nehmen aber für jede Buchung Provision. Eine eigene Seite mit Zimmern, freien Terminen und Preisrechnung holt sich einen Teil davon zurück, vor allem bei Stammgästen.",
+      "trust": [
+        "<b>Direkt</b> buchen",
+        "<b>Kalender</b> pro Zimmer",
+        "<b>Preis</b> mit Ortstaxe",
+        "<b>Kein Tracking</b>, keine Cookies"
+      ],
+      "service": "Webdesign für Pensionen und Gästehäuser",
+      "warum_h2": "Was eine <span class=\"lime\">Pensions-Seite</span> können sollte.",
+      "warum_p": "Gäste vergleichen. Wer auf deiner Seite in einer Minute Zimmer, Preis und freie Tage sieht, fragt eher direkt an, statt über das Portal zu buchen.",
+      "features": [
+        [
+          "bett",
+          "Zimmer einzeln zeigen",
+          "Jedes Zimmer mit Fotos, Größe, Ausstattung und Preis. Gäste wissen, was sie bekommen, und fragen gezielt an."
+        ],
+        [
+          "kalender",
+          "Belegungskalender",
+          "Freie und belegte Tage pro Zimmer, von dir selbst gepflegt. So kommen keine Anfragen für Tage, an denen du voll bist."
+        ],
+        [
+          "rechner",
+          "Preis gleich ausrechnen",
+          "Nächte, Personen, Frühstück oder Halbpension und Ortstaxe: der Gast sieht den Gesamtpreis vor der Anfrage."
+        ],
+        [
+          "mail",
+          "Buchungsanfrage ohne Provision",
+          "Die Anfrage kommt per E-Mail direkt zu dir. Du bestätigst, und das Geld bleibt im Haus."
+        ],
+        [
+          "pin",
+          "Ausflugsziele rundherum",
+          "Wanderwege, Radrouten, Ausflugsziele und Veranstaltungen in der Gegend. Das hilft Gästen bei der Planung und bringt Suchanfragen aus der Region."
+        ],
+        [
+          "sprache",
+          "Auf Wunsch zweisprachig",
+          "Für Gäste aus dem Ausland gibt es die Seite auch auf Englisch. Die Übersetzung wird pro Seite gerechnet."
+        ]
+      ],
+      "demos": [
+        [
+          "/beispiele/pension/",
+          "pension.webp",
+          4200,
+          "Pension",
+          "Zirbenhof",
+          "Beispiel Pension Zirbenhof mit Zimmern, Belegungskalender und Buchungsanfrage"
+        ],
+        [
+          "/beispiele/gasthaus/",
+          "gasthaus-v1.webp?v=2",
+          1185,
+          "Gasthof",
+          "Hollerhof",
+          "Beispiel Landgasthof Hollerhof mit Wochenmenü und Reservierung"
+        ]
+      ],
+      "paket": "business",
+      "paket_text": "Mit Zimmerseiten, Umgebung und Anfahrt passt meistens das Business-Paket. Belegungskalender und Preisrechnung kommen als Extra dazu.",
+      "extras": [
+        "Belegungskalender selbst pflegen",
+        "Preisrechnung",
+        "Buchungsanfrage",
+        "Zweite Sprache"
+      ],
+      "google": [
+        [
+          "Profil als Unterkunft",
+          "Im Google-Profil steht die passende Kategorie, zum Beispiel Pension oder Gästehaus, mit Ausstattung wie WLAN, Parkplatz oder Frühstück."
+        ],
+        [
+          "Direkt-Link statt Portal",
+          "Im Profil und bei deinem Tourismusverband verlinke ich auf deine eigene Seite. So landen Gäste bei dir statt beim Portal."
+        ],
+        [
+          "Bewertungen beantworten",
+          "Gäste lesen Antworten auf Bewertungen genau. Eine kurze, freundliche Antwort auf jede Bewertung wirkt oft mehr als die Sterne selbst."
+        ]
+      ],
+      "faq": [
+        [
+          "Muss ich die Buchungsportale aufgeben?",
+          "Nein. Die eigene Seite läuft zusätzlich. Viele Häuser nutzen die Portale für neue Gäste und die eigene Seite für Stammgäste und Direktbuchungen."
+        ],
+        [
+          "Wie aktuell ist der Belegungskalender?",
+          "So aktuell, wie du ihn pflegst. Du klickst belegte Tage an, das geht am Handy. Eine automatische Verbindung zu Portalen ist ein größeres Extra und hängt vom Portal ab."
+        ],
+        [
+          "Wird die Ortstaxe richtig berechnet?",
+          "Die Preisrechnung nimmt den Betrag, den du mir nennst, pro Person und Nacht. Ändert sich die Taxe, passe ich den Wert an."
+        ],
+        [
+          "Kann man online bezahlen?",
+          "Normalerweise schickst du nach der Anfrage eine Bestätigung mit Bankdaten oder Anzahlung. Eine Online-Zahlung ist möglich, kostet aber Gebühren beim Zahlungsanbieter."
+        ]
+      ],
+      "firma_ph": "z. B. Pension Waldblick, Gästehaus mit 8 Zimmern",
+      "nachricht_ph": "z. B. 8 Zimmer, Frühstück, Radweg vor der Tür, bisher nur über Buchungsportal",
+      "wa": "ich habe eine Pension und interessiere mich für eine Webseite.",
+      "suche": "Zimmer im Mostviertel"
+    },
+    {
+      "slug": "cafe",
+      "kurz": "Café & Konditorei",
+      "karte": "Karte, Torten der Woche und Vorbestellung, mit Stimmung wie im Lokal.",
+      "title": "Webseite für Café, Kaffeehaus & Konditorei | Tim Kofler",
+      "description": "Webseite für Café, Kaffeehaus, Konditorei und Rösterei: Karte, Torten der Woche, Frühstück, Reservierung und Vorbestellung. Schnell am Handy.",
+      "og": "Webseiten für Cafés und Konditoreien: Karte, Torten der Woche, Vorbestellung.",
+      "label": "Café",
+      "h1": "Webseite für dein Café.",
+      "h1b": "So gemütlich wie dein Lokal.",
+      "lead": "Ins Café geht man wegen der Stimmung. Ich baue dir eine Seite, die genau die rüberbringt, mit Karte, Torten der Woche und Frühstück, und die am Handy schnell zeigt, ob heute offen ist.",
+      "trust": [
+        "<b>Karte</b> selbst ändern",
+        "<b>Vorbestellung</b> für Torten",
+        "<b>Reservierung</b> möglich",
+        "<b>Kein Tracking</b>, keine Cookies"
+      ],
+      "service": "Webdesign für Cafés und Konditoreien",
+      "warum_h2": "Was eine <span class=\"lime\">Café-Seite</span> können sollte.",
+      "warum_p": "Ein Café lebt von Stammgästen und von Leuten, die zufällig vorbeikommen. Die Seite soll beide abholen: mit dem, was heute gut ist, und mit dem Gefühl, dass man dort gern sitzt.",
+      "features": [
+        [
+          "menu",
+          "Karte und Tagesangebot",
+          "Frühstück, Kuchen, Kaffee und Mittagstisch, klar gegliedert. Das Tagesangebot oder die Torten der Woche änderst du selbst."
+        ],
+        [
+          "geschenk",
+          "Torten vorbestellen",
+          "Geburtstagstorte oder Kuchen fürs Büro: Kunden schicken die Bestellung mit Wunschtermin über die Seite."
+        ],
+        [
+          "kalender",
+          "Tisch oder Frühstück reservieren",
+          "Für Frühstück am Sonntag oder eine kleine Feier kommt die Reservierungsanfrage direkt per E-Mail."
+        ],
+        [
+          "kamera",
+          "Stimmung zeigen",
+          "Gute Fotos, auf Wunsch kleine Animationen wie dampfender Kaffee. Die Seite bleibt trotzdem schnell."
+        ],
+        [
+          "uhr",
+          "Öffnungszeiten und Ruhetag",
+          "Auf einen Blick sichtbar, auch Urlaub und Feiertage, und im Google-Profil gleich eingetragen."
+        ],
+        [
+          "herz",
+          "Rösterei oder Shop",
+          "Wer eigenen Kaffee röstet, zeigt Sorten und Herkunft. Bohnen zum Mitnehmen lassen sich vorbestellen."
+        ]
+      ],
+      "demos": [
+        [
+          "/beispiele/cafe/",
+          "kaffee-v1.webp",
+          1185,
+          "Café",
+          "Café Mühlbach",
+          "Beispiel Café Mühlbach mit Speisekarte, Reservierung und Kaffee-Animation"
+        ],
+        [
+          "/beispiele/kaffeebar/",
+          "kaffee-v2.webp",
+          1185,
+          "Kaffeehaus",
+          "röstzeit",
+          "Beispiel Kaffeehaus mit Rösterei röstzeit mit Karte und Online-Vorbestellung"
+        ]
+      ],
+      "paket": "start",
+      "paket_text": "Für ein Café mit Karte, Öffnungszeiten und Kontakt reicht oft das Start-Paket. Mit Vorbestellung, Galerie und selbst geänderter Karte wird es meistens Business.",
+      "extras": [
+        "Karte selbst ändern",
+        "Vorbestellung",
+        "Reservierungsanfrage",
+        "Bildergalerie"
+      ],
+      "google": [
+        [
+          "Kategorie und Merkmale",
+          "Im Google-Profil stehen Kategorie, Frühstück, Gastgarten, WLAN oder barrierefreier Zugang. Genau danach filtern viele in Google Maps."
+        ],
+        [
+          "Fotos von Torten",
+          "Fotos vom Kuchen der Woche funktionieren im Profil besonders gut. Ein Foto pro Woche hält das Profil frisch."
+        ],
+        [
+          "Bewertungen am Tisch",
+          "Ein kleiner Aufsteller mit QR-Code führt direkt zur Bewertung. Ich gestalte ihn passend zum Café."
+        ]
+      ],
+      "faq": [
+        [
+          "Kann ich die Torten der Woche selbst eintragen?",
+          "Ja. Mit dem Extra zum Selbst-Ändern trägst du Tagesangebot oder Torten ein, am Handy oder am PC, und sie stehen sofort auf der Seite."
+        ],
+        [
+          "Geht eine Vorbestellung mit Bezahlung?",
+          "Die Vorbestellung kommt normalerweise als Anfrage, bezahlt wird beim Abholen. Eine Online-Zahlung ist möglich, kostet aber Gebühren beim Zahlungsanbieter."
+        ],
+        [
+          "Brauche ich eine Speisekarte als PDF?",
+          "Besser nicht. Eine Karte als normaler Text lädt schneller, ist am Handy gut lesbar und wird von Google gefunden. Ein PDF zum Ausdrucken kann es zusätzlich geben."
+        ],
+        [
+          "Was kostet die laufende Pflege?",
+          "Die Seite gehört dir, du zahlst nur den Webspace beim Anbieter, etwa 5 bis 10 € im Monat. Betreuung durch mich ist freiwillig, ab 29 € im Monat."
+        ]
+      ],
+      "firma_ph": "z. B. Café Lindner, Konditorei am Hauptplatz",
+      "nachricht_ph": "z. B. Café mit Frühstück und eigenen Torten, Gastgarten, Ruhetag Dienstag",
+      "wa": "ich habe ein Café und interessiere mich für eine Webseite.",
+      "suche": "Café in der Nähe"
+    },
+    {
+      "slug": "baeckerei",
+      "kurz": "Bäckerei & Fleischerei",
+      "karte": "Sortiment, Wochenangebote, Vorbestellung und Partyservice.",
+      "title": "Webseite für Bäckerei & Fleischerei | Tim Kofler – Webdesign",
+      "description": "Webseite für Bäckerei, Konditorei und Fleischerei: Sortiment, Wochenangebote, Vorbestellung, Partyservice, Filialen und Öffnungszeiten.",
+      "og": "Webseiten für Bäckereien und Fleischereien: Wochenangebote, Vorbestellung, Partyservice.",
+      "label": "Nahversorger",
+      "h1": "Webseite für deine Bäckerei oder Fleischerei.",
+      "h1b": "Vorbestellen statt anstellen.",
+      "lead": "Semmeln fürs Wochenende, die Platte für die Feier, das Angebot der Woche: vieles davon lässt sich vorher klären. Ich baue dir eine Seite mit Sortiment und Vorbestellung, die am Handy schnell geht.",
+      "trust": [
+        "<b>Vorbestellung</b> online",
+        "<b>Angebote</b> selbst ändern",
+        "<b>Partyservice</b> anfragen",
+        "<b>Kein Tracking</b>, keine Cookies"
+      ],
+      "service": "Webdesign für Bäckereien und Fleischereien",
+      "warum_h2": "Was eine <span class=\"lime\">Nahversorger-Seite</span> können sollte.",
+      "warum_p": "Beim Bäcker und Fleischhauer kauft man aus Gewohnheit und wegen der Qualität. Die Seite soll beides zeigen und zusätzliche Bestellungen bringen, vor allem für Feiern.",
+      "features": [
+        [
+          "liste",
+          "Sortiment mit Herkunft",
+          "Brot, Gebäck, Fleisch und Wurst mit Zutaten, Herkunft und Allergenen. Das zeigt Qualität und spart Fragen an der Theke."
+        ],
+        [
+          "menu",
+          "Wochenangebote selbst ändern",
+          "Aktionen und Angebote der Woche trägst du selbst ein. Wer auf der Seite schaut, kommt mit einer Einkaufsliste."
+        ],
+        [
+          "geschenk",
+          "Vorbestellung und Partyservice",
+          "Brötchen für die Feier, Torten, Platten oder Spanferkel: die Bestellung kommt mit Abholtag und Personenzahl."
+        ],
+        [
+          "pin",
+          "Filialen und Öffnungszeiten",
+          "Alle Standorte mit Öffnungszeiten, Feiertagen und Anfahrt. Bei mehreren Filialen bekommt jede ihren eigenen Eintrag."
+        ],
+        [
+          "uhr",
+          "Mittagstisch",
+          "Wer mittags kocht, zeigt das Menü des Tages. Gerade für Leute aus Betrieben in der Nähe ein Grund zu kommen."
+        ],
+        [
+          "team",
+          "Lehrlinge und Personal",
+          "Eine Jobseite mit Lehrstellen und offenen Stellen hilft bei der Suche nach Personal in der Backstube oder hinter der Theke."
+        ]
+      ],
+      "demos": [
+        [
+          "/beispiele/baeckerei/",
+          "baeckerei.webp?v=3",
+          4200,
+          "Bäckerei",
+          "Kornfeld",
+          "Beispiel Bäckerei Kornfeld mit Sortiment und Vorbestellung"
+        ],
+        [
+          "/beispiele/fleischerei/",
+          "fleischerei.webp?v=3",
+          4200,
+          "Fleischerei",
+          "Haselberger",
+          "Beispiel Fleischerei Haselberger mit Kreidetafel und Partyservice"
+        ]
+      ],
+      "paket": "business",
+      "paket_text": "Mit Sortiment, Filialen und Partyservice passt meistens das Business-Paket. Vorbestellung und Angebote zum Selbst-Ändern kommen als Extra dazu.",
+      "extras": [
+        "Angebote selbst ändern",
+        "Vorbestellung und Partyservice",
+        "Bildergalerie",
+        "Eigene App mit Stempelkarte (nach Aufwand)"
+      ],
+      "google": [
+        [
+          "Öffnungszeiten genau pflegen",
+          "Bei Bäckerei und Fleischerei wird oft kurz vor dem Einkauf nach offen gesucht. Richtige Zeiten, auch an Feiertagen, sind daher das Wichtigste im Google-Profil."
+        ],
+        [
+          "Jede Filiale eigenes Profil",
+          "Mehrere Standorte bekommen jeweils ein eigenes Profil und einen eigenen Eintrag auf der Webseite, mit genau gleicher Adresse."
+        ],
+        [
+          "Angebote als Beitrag",
+          "Das Angebot der Woche als Beitrag im Google-Profil bringt zusätzliche Aufmerksamkeit. Es dauert eine Minute."
+        ]
+      ],
+      "faq": [
+        [
+          "Kann man bei mir online bestellen und zahlen?",
+          "Bestellt wird normalerweise per Anfrage und bezahlt beim Abholen. Das ist einfach und kostet keine Gebühren. Eine Online-Zahlung ist möglich, wenn du sie willst."
+        ],
+        [
+          "Wie komme ich zu den Allergenen auf der Seite?",
+          "Du lieferst mir die Angaben, wie du sie auch an der Theke hast. Ich setze sie mit den Buchstaben A bis R bei den Produkten um."
+        ],
+        [
+          "Ich habe zwei Filialen. Brauche ich zwei Webseiten?",
+          "Nein. Eine Seite mit allen Filialen reicht. Jede bekommt einen eigenen Bereich mit Adresse und Öffnungszeiten und ihr eigenes Google-Profil."
+        ],
+        [
+          "Was ist die eigene App mit Stempelkarte?",
+          "Eine Erweiterung zur Webseite mit digitaler Stempelkarte, Gutscheinen und Vorbestellung unter deinem Namen. Zum Ausprobieren gibt es eine <a href=\"/beispiele/betriebs-app/\">Beispiel-App</a>."
+        ]
+      ],
+      "firma_ph": "z. B. Bäckerei Hofer, Fleischerei Gruber",
+      "nachricht_ph": "z. B. Bäckerei mit zwei Filialen, Vorbestellung für Wochenende und Feiern",
+      "wa": "ich habe eine Bäckerei oder Fleischerei und interessiere mich für eine Webseite.",
+      "suche": "Bäckerei offen"
+    },
+    {
+      "slug": "werkstatt",
+      "kurz": "Kfz-Werkstatt",
+      "karte": "Pickerl- und Reifentermine, Leistungen und Ersatzauto.",
+      "title": "Webseite für Kfz-Werkstatt & Autohaus | Tim Kofler – Webdesign",
+      "description": "Webseite für Kfz-Werkstatt, Autohaus und Reifenservice: Pickerl- und Reifenwechsel-Termine online anfragen, Leistungen, Preise, Ersatzauto.",
+      "og": "Webseiten für Kfz-Werkstätten: Pickerl- und Reifentermine online anfragen.",
+      "label": "Werkstatt",
+      "h1": "Webseite für deine Werkstatt.",
+      "h1b": "Pickerl und Reifen, online angefragt.",
+      "lead": "Zweimal im Jahr läutet bei jeder Werkstatt das Telefon ohne Pause: Reifenwechsel. Dazu kommen Pickerl-Termine und Service. Ich baue dir eine Seite, über die das als ordentliche Anfrage kommt.",
+      "trust": [
+        "<b>Pickerl</b>-Termin",
+        "<b>Reifenwechsel</b> anfragen",
+        "<b>Leistungen</b> klar",
+        "<b>Kein Tracking</b>, keine Cookies"
+      ],
+      "service": "Webdesign für Kfz-Werkstätten",
+      "warum_h2": "Was eine <span class=\"lime\">Werkstatt-Seite</span> können sollte.",
+      "warum_p": "Werkstatt-Kunden wollen wissen: Machst du meine Marke, wann habe ich einen Termin, und was kostet es ungefähr? Die Seite soll genau das schnell beantworten.",
+      "features": [
+        [
+          "kalender",
+          "Termin anfragen",
+          "Pickerl (§57a-Begutachtung), Service, Reifenwechsel: Kunden wählen die Leistung, geben Kennzeichen oder Modell an und schlagen Termine vor."
+        ],
+        [
+          "reifen",
+          "Reifensaison im Griff",
+          "Vor der Saison ein eigener Bereich für den Reifenwechsel, mit Einlagerung und Terminwunsch. Das entlastet das Telefon genau dann, wenn es am meisten läutet."
+        ],
+        [
+          "liste",
+          "Leistungen und Marken",
+          "Was ihr macht, für welche Marken, und wo ihr spezialisiert seid, etwa Klima, Elektroauto oder Oldtimer."
+        ],
+        [
+          "auto",
+          "Ersatzauto und Hol-Service",
+          "Wenn ihr ein Ersatzauto oder Abholung anbietet, steht das deutlich da. Für viele ist genau das der Grund für die Wahl der Werkstatt."
+        ],
+        [
+          "info",
+          "Richtpreise",
+          "Fixpreise oder Richtwerte für häufige Arbeiten schaffen Vertrauen. Was du zeigst, entscheidest du."
+        ],
+        [
+          "pin",
+          "Öffnungszeiten und Anfahrt",
+          "Mit Hinweis, ob man auf das Auto warten kann und wie man zum nächsten Bus oder Bahnhof kommt."
+        ]
+      ],
+      "demos": [
+        [
+          "/beispiele/werkstatt/",
+          "werkstatt.webp?v=3",
+          4200,
+          "Werkstatt",
+          "KFZ Steiner",
+          "Beispiel Autowerkstatt KFZ Steiner mit Termin-Anfrage, Pickerl und Reifenwechsel"
+        ],
+        [
+          "/beispiele/dashboard/v2/",
+          "dashboard-v2.webp",
+          1185,
+          "Web-App",
+          "Luma Drive",
+          "Beispiel Web-App für Autovermietung Luma Drive mit Reservierungssystem und Belegungsplan"
+        ]
+      ],
+      "paket": "start",
+      "paket_text": "Für eine Werkstatt mit Leistungen, Terminanfrage und Kontakt reicht oft das Start-Paket mit Terminanfrage als Extra. Mit eigenen Seiten pro Leistung wird es Business.",
+      "extras": [
+        "Terminanfrage",
+        "Reifen-Bereich für die Saison",
+        "Bildergalerie",
+        "Web-App für Ersatzautos (nach Aufwand)"
+      ],
+      "google": [
+        [
+          "Kategorie und Leistungen",
+          "Im Google-Profil stehen Kategorie Autowerkstatt und Leistungen wie §57a-Begutachtung, Reifenwechsel oder Klimaservice. Danach wird gezielt gesucht."
+        ],
+        [
+          "Saison-Beitrag",
+          "Vor der Reifensaison ein Beitrag mit Link zur Terminanfrage. So kommen die Anfragen früher und verteilter."
+        ],
+        [
+          "Bewertungen nach dem Service",
+          "Nach der Abholung ein kurzer Hinweis oder QR-Code auf der Rechnung. Bei Werkstätten zählen Bewertungen besonders, weil es um Vertrauen geht."
+        ]
+      ],
+      "faq": [
+        [
+          "Werden Termine automatisch fix eingetragen?",
+          "Normalerweise nicht. Die Anfrage kommt per E-Mail, und du bestätigst den Termin. So behältst du die Kontrolle über die Auslastung. Ein Buchungskalender ist als Extra möglich."
+        ],
+        [
+          "Kann ich die Reifenwechsel-Aktion selbst ein- und ausschalten?",
+          "Ja. Mit dem Extra zum Selbst-Ändern blendest du den Reifen-Bereich je nach Saison ein oder aus und änderst den Text."
+        ],
+        [
+          "Darf ich Fotos von Kundenautos zeigen?",
+          "Mit Erlaubnis der Besitzer ja. Kennzeichen mache ich unkenntlich. Fotos von der Werkstatt und vom Team sind meistens noch besser."
+        ],
+        [
+          "Ich verleihe auch Autos. Geht das?",
+          "Ja. Für Ersatzautos oder eine kleine Vermietung gibt es eine Web-App mit Reservierung und Belegungsplan, wie im Beispiel Luma Drive."
+        ]
+      ],
+      "firma_ph": "z. B. Kfz Wagner, Autohaus mit Werkstatt",
+      "nachricht_ph": "z. B. freie Werkstatt, alle Marken, Pickerl und Reifeneinlagerung",
+      "wa": "ich habe eine Werkstatt und interessiere mich für eine Webseite.",
+      "suche": "Pickerl Werkstatt in der Nähe"
+    },
+    {
+      "slug": "massage",
+      "kurz": "Massage & Gesundheit",
+      "karte": "Behandlungen, Preise und Online-Termin, ruhig und vertrauensvoll.",
+      "title": "Webseite für Massage, Praxis & Physiotherapie | Tim Kofler",
+      "description": "Webseite für Heilmasseure, Massagepraxis, Physiotherapie und Kosmetik: Behandlungen, Preise, Online-Termin, Gutscheine. Ohne Tracking.",
+      "og": "Webseiten für Massage und Praxis: Behandlungen, Preise, Online-Termin, Gutscheine.",
+      "label": "Gesundheit",
+      "h1": "Webseite für deine Praxis.",
+      "h1b": "Ruhig, klar und vertrauensvoll.",
+      "lead": "Wer eine Massage oder Behandlung sucht, will zuerst wissen, wer die Person ist und wie es abläuft. Ich baue dir eine ruhige Seite mit Behandlungen, Preisen und Online-Termin, die Vertrauen schafft.",
+      "trust": [
+        "<b>Online</b>-Termin",
+        "<b>Behandlungen</b> erklärt",
+        "<b>Gutscheine</b> möglich",
+        "<b>Kein Tracking</b>, keine Cookies"
+      ],
+      "service": "Webdesign für Massage- und Gesundheitspraxen",
+      "warum_h2": "Was eine <span class=\"lime\">Praxis-Seite</span> können sollte.",
+      "warum_p": "Gerade bei Gesundheitsthemen ist Vertrauen alles. Die Seite soll sachlich informieren, dich als Person zeigen und den ersten Termin leicht machen.",
+      "features": [
+        [
+          "liste",
+          "Behandlungen verständlich",
+          "Jede Behandlung mit Dauer, Preis und ein paar Sätzen, was dabei passiert. Sachlich und ohne Heilversprechen."
+        ],
+        [
+          "kalender",
+          "Termin online anfragen",
+          "Behandlung und Wunschtermin auswählen, Anfrage kommt per E-Mail. Ein bestehendes Buchungssystem binde ich auch ein."
+        ],
+        [
+          "team",
+          "Dich vorstellen",
+          "Ausbildung, Erfahrung und ein Foto von dir. Das ist für viele der wichtigste Teil der Seite."
+        ],
+        [
+          "geschenk",
+          "Gutscheine",
+          "Massage-Gutscheine sind ein beliebtes Geschenk. Anfrage über die Seite, auf Wunsch mit QR-Code."
+        ],
+        [
+          "info",
+          "Ablauf und erster Besuch",
+          "Was mitbringen, wie lange es dauert, ob es eine Verordnung braucht und wie die Rückerstattung bei der Kasse funktioniert, wenn das bei dir möglich ist."
+        ],
+        [
+          "herz",
+          "Ruhige Gestaltung",
+          "Viel Weißraum, sanfte Farben, auf Wunsch eine kleine Atemübung oder Animation. Die Seite soll schon entspannen."
+        ]
+      ],
+      "demos": [
+        [
+          "/beispiele/massage/",
+          "massage.webp?v=3",
+          4200,
+          "Heilmasseurin",
+          "Praxis Sonnfeld",
+          "Beispiel Praxis Sonnfeld mit Behandlungen, Körperkarte und Online-Buchung"
+        ],
+        [
+          "/beispiele/friseur/v3/",
+          "friseur-v3.webp",
+          1185,
+          "Salon",
+          "Seide",
+          "Beispiel Salon Seide, dezent und ruhig gestaltet"
+        ]
+      ],
+      "paket": "start",
+      "paket_text": "Für eine Praxis mit Behandlungen, Preisen und Kontakt reicht oft das Start-Paket. Mit Online-Termin und eigenen Seiten pro Behandlung wird es meistens Business.",
+      "extras": [
+        "Terminanfrage",
+        "Gutscheine",
+        "Texte schreiben lassen",
+        "Eigene App mit Online-Termin (nach Aufwand)"
+      ],
+      "google": [
+        [
+          "Passende Kategorie",
+          "Im Google-Profil wähle ich die Kategorie, die deinem Beruf genau entspricht, zum Beispiel Massagetherapeut oder Physiotherapeut, und trage die Behandlungen ein."
+        ],
+        [
+          "Fotos von der Praxis",
+          "Ein heller Behandlungsraum und ein freundliches Foto von dir nehmen die Hemmschwelle vor dem ersten Termin."
+        ],
+        [
+          "Bewertungen mit Feingefühl",
+          "Bei Gesundheitsthemen antwortest du auf Bewertungen ohne Details zur Behandlung. Ich gebe dir dafür ein paar Mustersätze."
+        ]
+      ],
+      "faq": [
+        [
+          "Was darf ich auf der Seite versprechen?",
+          "Für Gesundheitsberufe gelten Regeln für Werbung. Die Seite bleibt sachlich: was die Behandlung ist, wie sie abläuft und was sie kostet, ohne Heilversprechen. Im Zweifel fragst du bei deiner Berufsvertretung nach."
+        ],
+        [
+          "Kann ich meine Preise selbst ändern?",
+          "Ja, wenn du das Extra zum Selbst-Ändern möchtest. Sonst passe ich die Preise im Rahmen der Betreuung an."
+        ],
+        [
+          "Werden Gesundheitsdaten über das Formular gesammelt?",
+          "Nein, nur Name, Kontakt und Terminwunsch. Beschwerden besprecht ihr persönlich. Die Seite hat kein Tracking und keine Cookies."
+        ],
+        [
+          "Geht ein Online-Termin mit fixer Buchung?",
+          "Ja, mit einem Buchungskalender als Extra oder über ein System, das du schon nutzt. Die einfache Variante ist eine Anfrage, die du bestätigst."
+        ]
+      ],
+      "firma_ph": "z. B. Massagepraxis Lehner, Heilmasseurin",
+      "nachricht_ph": "z. B. Heilmasseurin, Einzelpraxis, klassische Massage und Lymphdrainage",
+      "wa": "ich habe eine Praxis und interessiere mich für eine Webseite.",
+      "suche": "Massage in der Nähe"
+    }
+  ]
+}
