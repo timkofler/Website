@@ -781,6 +781,10 @@ html.tk-3d-on.tk-3d-view .header { -webkit-backdrop-filter: none; backdrop-filte
   .nav a { padding: 8px 10px; }
   .nav__free span { display: none; }
 }
+/* Seit dem Menüpunkt „Branchen“ ist es knapp: kurz vor dem Umschalten aufs Handy-Menü etwas enger setzen */
+@media (min-width: 1101px) and (max-width: 1200px) {
+  .nav a { padding: 8px 7px; font-size: .9rem; }
+}
 @media (max-width: 680px) { .tk-hero__calc { display: none; } }
 
 /* WKO-Hinweis "Informationspflicht lt. ECG und Mediengesetz" (Impressum) */
