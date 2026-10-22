@@ -129,8 +129,9 @@ function cx_webseite(array $c, string $email, string $name, string $fallback): v
         'Empfohlen von' => cx_field('empfohlen', 120),
         'Gefunden über' => cx_field('quelle', 120),
     ];
-    // Nur von der Gründer-Seite (/gruender/): Gründungszeitpunkt und Logo-Stand
-    foreach (['Gegründet' => 'gegruendet', 'Logo vorhanden' => 'logo'] as $k => $field) {
+    // Nur von der Gründer-Seite (/gruender/): Gründungszeitpunkt und Logo-Stand,
+    // nur von der Vereins-Seite (/verein/): Art des Vereins und Funktion
+    foreach (['Gegründet' => 'gegruendet', 'Logo vorhanden' => 'logo', 'Art des Vereins' => 'vereinsart', 'Funktion im Verein' => 'funktion'] as $k => $field) {
         $v = cx_field($field, 40);
         if ($v !== '') {
             $f[$k] = $v;
@@ -163,11 +164,14 @@ function cx_webseite(array $c, string $email, string $name, string $fallback): v
         cx_respond(false, 'Deine Anfrage konnte gerade nicht übermittelt werden. ' . $fallback);
     }
 
+    $verein = str_starts_with($f['Paket'], 'Vereinsseite');
     $inner = '<p style="margin:0 0 14px">Hallo ' . cx_h($name) . ',</p>'
         . '<p style="margin:0 0 14px">danke für deine Anfrage! Ich sehe mir deine Angaben an und melde mich innerhalb von zwei Werktagen persönlich bei dir, per E-Mail oder telefonisch, wenn du eine Nummer angegeben hast.</p>'
-        . '<p style="margin:0 0 14px">Gemeinsam klären wir dann, was deine Seite können soll, und du bekommst ein unverbindliches Angebot.</p>'
+        . ($verein
+            ? '<p style="margin:0 0 14px">Gemeinsam klären wir dann, was auf eure Vereinsseite soll. Die Gestaltung ist für euch kostenlos.</p>'
+            : '<p style="margin:0 0 14px">Gemeinsam klären wir dann, was deine Seite können soll, und du bekommst ein unverbindliches Angebot.</p>')
         . '<p style="margin:0 0 4px">Viele Grüße<br>Tim</p>';
-    cx_mail($email, $name, 'Deine Anfrage für eine Webseite', cx_mail_layout('Danke für deine Anfrage', $inner), $notify);
+    cx_mail($email, $name, $verein ? 'Deine Anfrage für eine Vereinsseite' : 'Deine Anfrage für eine Webseite', cx_mail_layout('Danke für deine Anfrage', $inner), $notify);
 
     cx_respond(true, 'Danke! Deine Anfrage ist angekommen.', (string) ($c['weiter_webseite'] ?? '/webseite-erstellen-lassen/danke/'));
 }
