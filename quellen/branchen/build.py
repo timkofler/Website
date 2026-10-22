@@ -42,6 +42,7 @@ ICONS = {
     "mail": '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
     "sprache": '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/>',
     "reifen": '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M12 3v5.5M12 15.5V21M3 12h5.5M15.5 12H21"/>',
+    "rakete": '<path d="M12 15c-1.6-1.2-2.7-2.3-3.9-3.9C10 6.5 13.5 3.6 20.4 3.6c0 6.9-2.9 10.4-7.5 12.3z"/><path d="M8.1 11.1 4 10.5l2.7-3.2h4.1M12.9 15.9l.6 4.1 3.2-2.7v-4.1"/><circle cx="15.4" cy="8.6" r="1.6"/><path d="M5.6 15.8c-1.4.9-1.9 3.2-1.9 4.5 1.3 0 3.6-.5 4.5-1.9"/>',
     "auto": '<path d="M4 16v-4l2-5h12l2 5v4z"/><path d="M4 12h16"/><circle cx="7.5" cy="16.5" r="1.8"/><circle cx="16.5" cy="16.5" r="1.8"/>',
 }
 
@@ -136,6 +137,13 @@ FUSS = """
 def wa_link(text):
     from urllib.parse import quote
     return "https://wa.me/4367761773118?text=" + quote("Hallo Tim, " + text, safe="")
+
+
+def also_karte(href, ic, tag, titel, text):
+    return (f'<a class="br-also__card" href="{href}"><span class="br-also__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" '
+            f'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">{ICONS[ic]}</svg></span>'
+            f'<span class="br-also__txt"><span class="br-also__tag">{tag}</span><span class="br-also__t">{titel}</span>'
+            f'<span class="br-also__p">{text}</span></span><span class="br-also__go">{PFEIL}</span></a>')
 
 
 def demo_cards(demos):
@@ -400,6 +408,11 @@ def uebersicht(alle):
             f'width="560" height="{h}" loading="lazy"></span><span class="br-hub__t">{escape(b["kurz"])}</span>'
             f'<span class="br-hub__p">{escape(b["karte"])}</span><span class="br-demo__go">Mehr dazu {PFEIL}</span></a></li>')
     karten_html = "\n      ".join(karten)
+    also_karten = "\n      ".join([
+        also_karte("/verein/", "team", "Gratis", "Verein?", "Kostenlose Webseite für Vereine im Mostviertel"),
+        also_karte("/gruender/", "rakete", "590&nbsp;€ fix", "Gerade gegründet?",
+                   "Start-Paket mit Webseite, Google&#8209;Eintrag und Impressum"),
+    ])
     html = head("Webseite für deine Branche | Tim Kofler – Webdesign", desc, url,
                 "Webseite für deine Branche", desc, ld)
     html += f"""
@@ -427,8 +440,7 @@ def uebersicht(alle):
       {karten_html}
     </ul>
     <div class="br-also">
-      <a href="/verein/"><b>Verein?</b> Gratis-Webseite für Vereine im Mostviertel {PFEIL}</a>
-      <a href="/gruender/"><b>Gerade gegründet?</b> Start-Paket für 590&nbsp;€ fix {PFEIL}</a>
+      {also_karten}
     </div>
   </div>
 </section>

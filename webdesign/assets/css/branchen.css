@@ -26,10 +26,22 @@
 .br-hub__t { display: block; padding: 18px 18px 6px; font-family: var(--display); font-weight: 500; font-size: 1.08rem; }
 .br-hub__p { display: block; padding: 0 18px; color: var(--muted); font-size: .93rem; }
 .br-also { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
-.br-also a { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 20px; border-radius: 16px; border: 1px dashed rgba(255,90,31,.45); background: var(--hot-dim); color: var(--muted); text-decoration: none; font-size: .95rem; }
-.br-also a b { color: var(--text); margin-right: 4px; }
-.br-also a svg { flex: none; width: 18px; height: 18px; color: var(--hot); }
-.br-also a:hover { border-style: solid; }
+.br-also__card { position: relative; display: flex; align-items: center; gap: 18px; padding: 20px 20px 20px 22px; border-radius: 20px; border: 1px solid rgba(255,90,31,.28); background: radial-gradient(120% 140% at 0% 0%, rgba(255,90,31,.16), rgba(255,90,31,.04) 55%, transparent 80%), var(--bg-2); color: var(--text); text-decoration: none; overflow: hidden; isolation: isolate; transition: border-color .3s, transform .3s, box-shadow .3s; }
+.br-also__card::after { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(60% 90% at 100% 100%, rgba(255,178,63,.10), transparent 70%); opacity: 0; transition: opacity .3s; }
+main .br-also__card { text-decoration: none; }
+.br-also__ic { flex: none; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 15px; background: var(--hot-grad); color: #160a04; box-shadow: 0 8px 22px -8px rgba(255,90,31,.7), inset 0 1px 0 rgba(255,255,255,.35); }
+.br-also__ic svg { width: 26px; height: 26px; }
+.br-also__txt { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.br-also__tag { font: 600 .68rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: #ffb27a; background: var(--hot-dim); border: 1px solid rgba(255,90,31,.35); border-radius: 999px; padding: 5px 9px; margin-bottom: 4px; }
+.br-also__t { font-family: var(--display); font-weight: 500; font-size: 1.12rem; line-height: 1.2; letter-spacing: -.01em; }
+.br-also__p { color: var(--muted); font-size: .92rem; line-height: 1.45; }
+.br-also__go { flex: none; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(255,90,31,.45); color: var(--hot); transition: background .3s, color .3s, border-color .3s; }
+.br-also__go svg { width: 18px; height: 18px; transition: transform .3s; }
+.br-also__card:hover { border-color: rgba(255,90,31,.7); transform: translateY(-2px); box-shadow: 0 14px 34px -18px rgba(255,90,31,.55); }
+.br-also__card:hover::after { opacity: 1; }
+.br-also__card:hover .br-also__go { background: var(--hot); border-color: var(--hot); color: #160a04; }
+.br-also__card:hover .br-also__go svg { transform: translateX(2px); }
+.br-also__card:focus-visible { outline: 2px solid var(--hot-2); outline-offset: 3px; }
 
 /* Karten und Chips ohne Unterstreichung (style.css unterstreicht Links in main li) */
 main .br-demos li > a:not(.btn), main .br-other li > a:not(.btn) { text-decoration: none; }
@@ -63,6 +75,12 @@ main .br-demos li > a:not(.btn), main .br-other li > a:not(.btn) { text-decorati
   .br-hub__t { padding: 12px 12px 4px; }
   .br-hub__p { padding: 0 12px; font-size: .84rem; }
   .br-demo__go { margin: auto 12px 14px; font-size: .85rem; }
-  .br-also { grid-template-columns: 1fr; }
+  .br-also { grid-template-columns: 1fr; gap: 12px; }
+  .br-also__card { gap: 14px; padding: 16px 14px 16px 16px; border-radius: 18px; }
+  .br-also__ic { width: 44px; height: 44px; border-radius: 13px; }
+  .br-also__ic svg { width: 22px; height: 22px; }
+  .br-also__t { font-size: 1rem; }
+  .br-also__p { font-size: .86rem; }
+  .br-also__go { width: 36px; height: 36px; }
 }
-@media (prefers-reduced-motion: reduce) { .br-demos > li > a, .br-demo__go svg { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .br-demos > li > a, .br-demo__go svg, .br-also__card, .br-also__go, .br-also__go svg { transition: none; } .br-also__card:hover { transform: none; } }
