@@ -132,8 +132,8 @@ function zl_count(string $page, bool $entry, string $source, string $campaign): 
     });
 }
 
-// Kontaktaufnahmen: Klicks auf WhatsApp, Telegram, Telefon, E-Mail und abgeschickte Anfragen (nur Summen pro Tag).
-const ZL_KONTAKTE = ['whatsapp', 'telegram', 'telefon', 'email', 'formular'];
+// Kontaktaufnahmen: Klicks auf WhatsApp, Telegram, Telefon, E-Mail und abgeschickte Formulare (nur Summen pro Tag).
+const ZL_KONTAKTE = ['whatsapp', 'telegram', 'telefon', 'email', 'formular', 'rueckruf'];
 
 function zl_kontakt(string $art): void
 {

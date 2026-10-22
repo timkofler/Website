@@ -22,6 +22,11 @@ if (cx_has_link($name)) {
     cx_respond(false, 'Bitte gib nur deinen Namen an, ohne Links, Adressen oder Telefonnummern.');
 }
 
+// Rückruf-Wunsch (tim-kofler.at): nur Name und Telefonnummer, daher vor der E-Mail-Prüfung.
+if ($form === 'rueckruf' && array_key_exists('list_webdesign', $c)) {
+    cx_rueckruf($c, $name, $fallback);
+}
+
 if ($email === '') {
     cx_respond(false, 'Bitte gib eine gültige E-Mail-Adresse ein.');
 }
@@ -166,7 +171,7 @@ function cx_webseite(array $c, string $email, string $name, string $fallback): v
 
     $verein = str_starts_with($f['Paket'], 'Vereinsseite');
     $inner = '<p style="margin:0 0 14px">Hallo ' . cx_h($name) . ',</p>'
-        . '<p style="margin:0 0 14px">danke für deine Anfrage! Ich sehe mir deine Angaben an und melde mich innerhalb von zwei Werktagen persönlich bei dir, per E-Mail oder auf WhatsApp, wenn du eine Nummer angegeben hast.</p>'
+        . '<p style="margin:0 0 14px">danke für deine Anfrage! Ich sehe mir deine Angaben an und melde mich innerhalb von zwei Werktagen persönlich bei dir, per E-Mail, oder auf WhatsApp bzw. Telegram, wenn du eine Nummer angegeben hast.</p>'
         . ($verein
             ? '<p style="margin:0 0 14px">Gemeinsam klären wir dann, was auf eure Vereinsseite soll. Die Gestaltung ist für euch kostenlos.</p>'
             : '<p style="margin:0 0 14px">Gemeinsam klären wir dann, was deine Seite können soll, und du bekommst ein unverbindliches Angebot.</p>')
@@ -176,6 +181,38 @@ function cx_webseite(array $c, string $email, string $name, string $fallback): v
     cx_respond(true, 'Danke! Deine Anfrage ist angekommen.', (string) ($c['weiter_webseite'] ?? '/webseite-erstellen-lassen/danke/'));
 }
 
+
+// ---------------- Rückruf-Wunsch ----------------
+// Kein Kontakt bei Brevo und keine Bestätigungsmail (es gibt keine E-Mail-Adresse), nur eine Nachricht an Tim.
+function cx_rueckruf(array $c, string $name, string $fallback): void
+{
+    $tel = trim(preg_replace('/[^0-9+\/ ()-]/', '', cx_field('telefon', 40)) ?? '');
+    $wann = cx_field('wann', 40);
+    if ($name === '') {
+        cx_respond(false, 'Bitte gib deinen Namen an.');
+    }
+    if (strlen(preg_replace('/\D/', '', $tel) ?? '') < 6) {
+        cx_respond(false, 'Bitte gib eine Telefonnummer an, unter der ich dich erreiche.');
+    }
+    if (cx_field('datenschutz', 5) !== 'ja') {
+        cx_respond(false, 'Bitte bestätige, dass ich dich unter dieser Nummer zurückrufen darf.');
+    }
+    $f = ['Name' => $name, 'Telefon' => $tel, 'Erreichbar' => $wann, 'Gefunden über' => cx_field('quelle', 120)];
+    $rows = '';
+    foreach ($f as $k => $v) {
+        $rows .= '<tr><td style="padding:6px 12px 6px 0;color:#a1a1a1;vertical-align:top;white-space:nowrap">' . cx_h($k)
+            . '</td><td style="padding:6px 0;color:#f4f4f0">' . cx_h($v !== '' ? $v : '–') . '</td></tr>';
+    }
+    $notify = (string) ($c['notify_email'] ?? 'tk@crypto-x.at');
+    $ok = cx_mail($notify, 'Tim', 'Rückruf-Wunsch: ' . $name . ' (' . $tel . ')',
+        cx_mail_layout('Bitte zurückrufen', '<table role="presentation" cellpadding="0" cellspacing="0" style="font-size:15px">' . $rows . '</table>'
+            . '<p style="margin:18px 0 0;font-size:14px;color:#a1a1a1">Die Person hat keine E-Mail-Adresse angegeben, nur die Telefonnummer.</p>'));
+    if (!$ok) {
+        cx_respond(false, 'Dein Rückruf-Wunsch konnte gerade nicht übermittelt werden. Ruf mich gerne direkt an: +43 677 61773118.');
+    }
+    cx_zaehle_anfrage('rueckruf');
+    cx_respond(true, 'Danke, ' . $name . '! Ich rufe dich so bald wie möglich zurück, meistens noch am selben oder am nächsten Werktag.');
+}
 
 // Abgeschickte Anfragen im anonymen Besucherzähler mitzählen (nur die Summe pro Tag und Art, keine Angaben zur Person).
 function cx_zaehle_anfrage(string $art): void
