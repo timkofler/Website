@@ -745,6 +745,36 @@ const KP_PHASEN = [
     'online' => ['Online', 'Deine Webseite ist online', 'Geschafft! Wenn du später etwas ändern möchtest, schreib mir einfach hier.'],
 ];
 
+// Art des Kunden: Betriebe zahlen, Vereine bekommen ihre Seite gratis (tim-kofler.at/verein). Ändert nur Texte und Beispiele.
+const KP_KUNDENARTEN = ['betrieb' => 'Betrieb', 'verein' => 'Verein (gratis)'];
+
+function kp_is_verein(array $acc): bool
+{
+    return ($acc['art'] ?? '') === 'verein';
+}
+
+function kp_art_options(string $sel): string
+{
+    $out = '';
+    foreach (KP_KUNDENARTEN as $key => $label) {
+        $out .= '<option value="' . $key . '"' . ($key === $sel ? ' selected' : '') . '>' . cx_h($label) . '</option>';
+    }
+    return $out;
+}
+
+// Was Tim für die Webseite braucht, als kurze Liste über dem Hochladen. Stichworte reichen.
+function kp_needs(array $acc): string
+{
+    $items = kp_is_verein($acc)
+        ? ['Logo oder Wappen', 'Fotos vom Vereinsleben', 'Termine der nächsten Monate', 'Fürs Impressum: Vereinsname, ZVR-Zahl, wer den Verein vertritt']
+        : ['Logo (am besten SVG oder PNG)', '5–10 Fotos: Geschäft, Team, Arbeit', 'Stichworte zu Angebot und Preisen', 'Öffnungszeiten und Kontakt'];
+    $li = '';
+    foreach ($items as $i) {
+        $li .= '<li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>' . cx_h($i) . '</li>';
+    }
+    return '<div class="kp-needs"><b>Was ich von dir brauche</b><ul>' . $li . '</ul><small>Stichworte reichen, daraus mache ich fertige Texte.</small></div>';
+}
+
 function kp_phase(array $acc): string
 {
     $p = (string) ($acc['phase'] ?? '');
@@ -858,7 +888,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/css/style.css?v=17ee6a2e">
   <link rel="stylesheet" href="/assets/css/tk.css?v=4bd8659a">
-  <link rel="stylesheet" href="/assets/css/portal.css?v=2dda0702">
+  <link rel="stylesheet" href="/assets/css/portal.css?v=8b0ccd3b">
 </head>
 <body class="kp">
 <header class="header">
