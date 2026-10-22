@@ -903,7 +903,7 @@ $bzKampagnen = $bzList($bz['kampagnen'], $bzKamp, 'Noch keine Besuche über Link
 $bzEinstieg = $bzList($bz['einstieg'], $bzSeite, 'Noch keine Besuche im Zeitraum.');
 $bzSeiten = $bzList($bz['seiten'], $bzSeite, 'Noch keine Aufrufe im Zeitraum.');
 $bzAnfragen = $bzList($bzAnf, static fn(string $q): string => $q, 'Keine Gratis-Entwurf-Anfragen im Zeitraum.');
-// Kontaktaufnahmen: Klicks auf WhatsApp/Telegram/Telefon/E-Mail, abgeschickte Anfragen und Rückruf-Wünsche, dazu die Entwürfe.
+// Kontaktaufnahmen: Klicks auf WhatsApp/Telegram/Telefon/E-Mail und abgeschickte Anfragen, dazu die Entwürfe.
 $bzKontakt = $bz['kontakte'];
 if ($bzAnfSum > 0) {
     $bzKontakt['entwurf'] = $bzAnfSum;
@@ -912,7 +912,7 @@ if ($bzAnfSum > 0) {
 $bzKontaktSum = array_sum($bzKontakt);
 $bzKontaktName = static fn(string $k): string => [
     'whatsapp' => 'WhatsApp geöffnet', 'telegram' => 'Telegram geöffnet', 'telefon' => 'Nummer angetippt', 'email' => 'E-Mail geöffnet',
-    'formular' => 'Anfrage abgeschickt', 'rueckruf' => 'Rückruf-Wunsch', 'entwurf' => 'Gratis-Entwurf angefragt',
+    'formular' => 'Anfrage abgeschickt', 'entwurf' => 'Gratis-Entwurf angefragt',
 ][$k] ?? ucfirst($k);
 $bzKontakte = $bzList($bzKontakt, $bzKontaktName, 'Noch keine Kontaktaufnahmen im Zeitraum. Gezählt werden Klicks auf WhatsApp, Telegram, Telefon und E-Mail sowie abgeschickte Formulare.');
 $bzQuote = $bz['besuche'] > 0 && $bzKontaktSum > 0 ? number_format($bzKontaktSum / $bz['besuche'] * 100, 1, ',', '') . ' % der Besuche' : 'im Zeitraum';

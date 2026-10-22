@@ -83,7 +83,7 @@
         .then(function (data) {
           if (data.ok && data.next) { window.location.href = data.next; return; }
           show(data.message || "Das hat leider nicht geklappt.", !!data.ok);
-          // Erfolg ohne eigene Danke-Seite (z. B. Rückruf): Knopf bleibt aus, damit nicht doppelt gesendet wird.
+          // Erfolg ohne eigene Danke-Seite: Knopf bleibt aus, damit nicht doppelt gesendet wird.
           if (data.ok) { button.textContent = "Gesendet"; return; }
           button.disabled = false;
           button.innerHTML = label;
