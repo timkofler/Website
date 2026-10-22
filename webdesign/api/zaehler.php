@@ -31,6 +31,12 @@ if ($ua === '' || preg_match('/bot|crawl|spider|slurp|preview|headless|lighthous
     $done();
 }
 
+// Klick auf einen Kontakt-Link (WhatsApp, Telegram, Telefon, E-Mail): nur die Art zählen.
+if (isset($_POST['k'])) {
+    zl_kontakt((string) $_POST['k']);
+    $done();
+}
+
 $page = zl_page((string) ($_POST['p'] ?? ''));
 if ($page === '') {
     $done();

@@ -796,9 +796,10 @@ html.tk-3d-on.tk-3d-view .header { -webkit-backdrop-filter: none; backdrop-filte
 .tk-wko { margin: 22px 0 0; }
 
 /* ---------- Anfrage [10]: Formular links, Ablauf + Direktkontakt rechts ---------- */
-.anf { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); grid-template-areas: "form steps" "form direkt" "form legal"; grid-template-rows: auto auto 1fr; gap: 18px 36px; align-items: start; }
-.anf__form { grid-area: form; }
-.anf__steps { grid-area: steps; border: 1px solid var(--line-2); background: var(--bg-2); border-radius: 22px; padding: 28px 28px 26px; }
+/* Zwei Spalten: links Formular + Rückruf, rechts Ablauf + Direktkontakt. Am Handy lösen sich die Spalten auf (display: contents). */
+.anf { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 18px 36px; align-items: start; }
+.anf__col { display: grid; gap: 18px; align-content: start; min-width: 0; }
+.anf__steps { border: 1px solid var(--line-2); background: var(--bg-2); border-radius: 22px; padding: 28px 28px 26px; }
 .anf__steps h3, .nl__card h3 { font-size: 1.25rem; font-weight: 600; margin: 0 0 22px; }
 .anf-steps { list-style: none; counter-reset: s; margin: 0; padding: 0; display: grid; gap: 20px; }
 .anf-steps li { counter-increment: s; position: relative; padding-left: 52px; min-height: 36px; }
@@ -806,8 +807,7 @@ html.tk-3d-on.tk-3d-view .header { -webkit-backdrop-filter: none; backdrop-filte
 .anf-steps li:not(:last-child)::after { content: ""; position: absolute; left: 17px; top: 42px; bottom: -16px; width: 2px; border-radius: 2px; background: linear-gradient(var(--hot), rgba(255,90,31,.12)); }
 .anf-steps b { display: block; font-family: var(--display); font-weight: 600; font-size: 1.02rem; margin: 6px 0 3px; }
 .anf-steps span { display: block; color: var(--muted); font-size: .94rem; line-height: 1.5; }
-.anf__direkt { grid-area: direkt; }
-.anf__legal { grid-area: legal; margin: 4px 0 0; padding: 0 6px; font-size: .82rem; line-height: 1.5; color: var(--muted); }
+.anf__legal { margin: 4px 0 0; padding: 0 6px; font-size: .82rem; line-height: 1.5; color: var(--muted); }
 
 /* Orange Kontakt-Box (Anfrage + Häufige Fragen) */
 .tk-ask { border: 1px solid rgba(255,90,31,.5); border-radius: 22px; padding: 26px 28px; background: linear-gradient(155deg, rgba(255,90,31,.17), rgba(255,90,31,.03) 62%), var(--bg-2); box-shadow: 0 0 44px rgba(255,90,31,.09); }
@@ -842,7 +842,9 @@ html.tk-3d-on.tk-3d-view .header { -webkit-backdrop-filter: none; backdrop-filte
 .nl__doi { font-size: .85rem; line-height: 1.5; }
 
 @media (max-width: 900px) {
-  .anf { grid-template-columns: minmax(0, 1fr); grid-template-areas: "steps" "form" "direkt" "legal"; grid-template-rows: none; }
+  .anf { grid-template-columns: minmax(0, 1fr); }
+  .anf__col { display: contents; }
+  .anf__steps { order: 1; } .anf__form { order: 2; } .anf__direkt { order: 3; } .anf__rr { order: 4; } .anf__legal { order: 5; }
   .nl { grid-template-columns: minmax(0, 1fr); }
   .faq-wrap { grid-template-columns: minmax(0, 1fr); }
   .faq-wrap__ask { position: static; }
@@ -861,3 +863,35 @@ html.tk-3d-on.tk-3d-view .header { -webkit-backdrop-filter: none; backdrop-filte
 .anf__more:hover, .tk-ask__more:hover { color: var(--hot-2); }
 .anf__more:hover svg, .tk-ask__more:hover svg { transform: translateX(3px); }
 .price-once .price-once__more { color: var(--text); white-space: nowrap; text-decoration-color: var(--hot); }
+/* Anfrage: freiwillige Angaben zum Aufklappen */
+.form__more { border: 1px solid var(--line-2); border-radius: 14px; background: var(--surface); }
+.form__more summary { list-style: none; cursor: pointer; display: block; padding: 14px 16px; font-size: .95rem; font-weight: 600; color: var(--text); }
+.form__more summary::-webkit-details-marker { display: none; }
+.form__more summary em { color: var(--muted); font-style: normal; font-weight: 400; }
+.form__more summary::before { content: ""; display: inline-block; vertical-align: 2px; width: 8px; height: 8px; margin: 0 14px 0 2px; border-right: 2px solid var(--hot); border-bottom: 2px solid var(--hot); transform: rotate(-45deg); transition: transform .2s; }
+.form__more[open] summary::before { transform: rotate(45deg); }
+.form__more summary:hover { color: var(--hot-2); }
+.form__more summary:focus-visible { outline: 2px solid var(--hot); outline-offset: 2px; border-radius: 14px; }
+.form__more-in { display: grid; gap: 18px; padding: 4px 16px 18px; }
+.form__more input[type=text], .form__more select { background-color: var(--bg-2); }
+/* Anfrage: Rückruf in der orangen Box */
+.tk-rr { display: grid; gap: 12px; }
+.tk-rr__row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+/* PC: Name + Telefon, darunter Einwilligung, dann Wunschzeit und Knopf nebeneinander */
+@media (min-width: 901px) {
+  .tk-rr { grid-template-columns: 1fr 1fr; align-items: end; }
+  .tk-rr__row, .tk-rr .form__check, .tk-rr .form__status { grid-column: 1 / -1; }
+}
+.tk-rr__f { display: grid; gap: 5px; font-size: .85rem; }
+.tk-rr__f > span { color: var(--muted); }
+.tk-rr input[type=text], .tk-rr input[type=tel], .tk-rr select { width: 100%; font: inherit; font-size: 16px; color: var(--text); background: var(--surface); border: 1px solid rgba(255,90,31,.3); border-radius: 12px; padding: 10px 12px; transition: border-color .2s, box-shadow .2s; }
+.tk-rr select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--hot) 50%), linear-gradient(135deg, var(--hot) 50%, transparent 50%); background-position: calc(100% - 20px) 52%, calc(100% - 15px) 52%; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 40px; }
+.tk-rr input:focus, .tk-rr select:focus { outline: none; border-color: var(--hot); box-shadow: 0 0 0 3px rgba(255,90,31,.2); }
+.tk-rr .form__check { font-size: .85rem; grid-template-columns: 20px 1fr; gap: 10px; }
+.tk-rr .form__check input { width: 18px; height: 18px; accent-color: var(--hot); }
+.tk-rr .form__check a { color: var(--text); }
+.tk-rr .btn { width: 100%; justify-content: center; border-color: rgba(255,90,31,.55); }
+.tk-rr .btn:hover { border-color: var(--hot); }
+.tk-rr .btn:disabled { opacity: .6; cursor: wait; }
+.tk-rr .form__status.is-ok { background: rgba(255,90,31,.12); border-color: rgba(255,90,31,.45); color: var(--text); }
+@media (max-width: 380px) { .tk-rr__row { grid-template-columns: 1fr; } }

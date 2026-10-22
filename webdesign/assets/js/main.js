@@ -148,4 +148,15 @@ document.addEventListener("DOMContentLoaded", () => {
   };
   if (document.prerendering) document.addEventListener("prerenderingchange", send, { once: true });
   else send();
+  // Klicks auf Kontakt-Links nur als Summe pro Art zählen (WhatsApp, Telegram, Telefon, E-Mail), ohne Seite oder Kennung.
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest("a[href]");
+    if (!a) return;
+    var h = a.getAttribute("href"), k = "";
+    if (/^https:\/\/wa\.me\//.test(h)) k = "whatsapp";
+    else if (/^https:\/\/t\.me\//.test(h)) k = "telegram";
+    else if (/^tel:/.test(h)) k = "telefon";
+    else if (/^mailto:/.test(h)) k = "email";
+    if (k) navigator.sendBeacon("/api/zaehler.php", new URLSearchParams({ k: k }));
+  });
 })();
