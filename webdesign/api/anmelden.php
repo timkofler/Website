@@ -42,7 +42,7 @@ if ($form === 'newsletter') {
     if (!cx_send_optin($email, $name, $thema)) {
         cx_respond(false, 'Die Bestätigungsmail konnte gerade nicht verschickt werden. ' . $fallback);
     }
-    cx_respond(true, 'Fast geschafft! Bitte bestätige deine Anmeldung über den Link in der E-Mail, die wir dir gerade geschickt haben.', '/newsletter/danke/');
+    cx_respond(true, 'Fast geschafft! Bitte bestätige deine Anmeldung über den Link in der E-Mail, die wir dir gerade geschickt haben.', $thema === 'sicherheit' ? '/sicherheit/danke/' : '/newsletter/danke/');
 }
 
 if ($form === 'entwurf') {

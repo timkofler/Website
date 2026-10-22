@@ -22,9 +22,10 @@ if ($email === '') {
 }
 
 $c = cx_config();
+$sicherheit = ($data['s'] ?? '') === 'sicherheit'; // Anmeldung über /sicherheit/
 $attrs = ['OPTIN_DATUM' => date('Y-m-d')];
-if (($data['s'] ?? '') === 'sicherheit') {
-    $attrs['NL_THEMA'] = 'Sicherheit'; // Anmeldung über /sicherheit/
+if ($sicherheit) {
+    $attrs['NL_THEMA'] = 'Sicherheit';
 }
 $ok = cx_contact($email, (string) ($data['n'] ?? ''), [(int) ($c['list_newsletter'] ?? 0)], $attrs, ['emailBlacklisted' => false]); // neue, ausdrückliche Einwilligung hebt eine frühere Abmeldung auf
 if (!$ok) {
@@ -35,6 +36,10 @@ cx_consent_log('optin_bestaetigt_' . preg_replace('/[^a-z]/', '', (string) ($dat
 
 // Dankeschön nach der Bestätigung (nur wenn in der config.php eingestellt, z. B. die Checkliste auf tim-kofler.at).
 $geschenk = (array) ($c['newsletter_geschenk'] ?? []);
+if ($sicherheit) {
+    // Statt der Checkliste die Anleitung zur PHP-Sicherheitslücke
+    $geschenk = ['titel' => 'PHP-Check-Liste', 'url' => '/sicherheit/bestaetigt/'];
+}
 if (!empty($geschenk['url']) && !empty($geschenk['titel'])) {
     $n = (string) ($data['n'] ?? '');
     $inner = '<p style="margin:0 0 14px">' . ($n !== '' ? 'Hallo ' . cx_h($n) . ',' : 'Hallo,') . '</p>'
@@ -43,4 +48,4 @@ if (!empty($geschenk['url']) && !empty($geschenk['titel'])) {
         . '<p style="margin:0 0 4px">Viele Grüße<br>Tim</p>';
     cx_mail($email, $n, 'Deine ' . (string) $geschenk['titel'], cx_mail_layout('Danke für deine Anmeldung', $inner));
 }
-header('Location: /newsletter/bestaetigt/', true, 303);
+header('Location: ' . ($sicherheit ? '/sicherheit/bestaetigt/' : '/newsletter/bestaetigt/'), true, 303);
