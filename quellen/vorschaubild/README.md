@@ -10,4 +10,4 @@ Es entstehen 5 Bilder (Plakette in leicht verschiedener Drehung); das schönste 
 unter `webdesign/assets/img/` speichern. Bei jeder Änderung einen NEUEN Dateinamen verwenden (Caches).
 
 - og-tk-3.jpg: Startseite und alle übrigen Seiten (start.json)
-- og-entwurf.jpg, og-gruender.jpg, og-ablauf.jpg: jeweilige Unterseite
+- og-entwurf.jpg, og-gruender.jpg, og-ablauf.jpg, og-sicherheit.jpg: jeweilige Unterseite
