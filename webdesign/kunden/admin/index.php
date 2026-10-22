@@ -259,7 +259,8 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
             $pw = kp_new_password();
             $all[$u] = [
                 'name' => kp_text('name', 80), 'firma' => kp_text('firma', 120), 'email' => $email,
-                'webseite' => kp_text('webseite', 200), 'hash' => password_hash($pw, PASSWORD_DEFAULT),
+                'webseite' => kp_text('webseite', 200), 'art' => isset(KP_KUNDENARTEN[cx_field('art', 20)]) ? cx_field('art', 20) : 'betrieb',
+                'hash' => password_hash($pw, PASSWORD_DEFAULT),
                 'aktiv' => true, 'erstellt' => date('c'),
             ];
             if (kp_save_accounts($all)) {
@@ -286,6 +287,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         $all[$k]['firma'] = kp_text('firma', 120);
         $all[$k]['email'] = $email;
         $all[$k]['webseite'] = kp_text('webseite', 200);
+        if (isset(KP_KUNDENARTEN[cx_field('art', 20)])) {
+            $all[$k]['art'] = cx_field('art', 20);
+        }
         kp_save_accounts($all);
         kp_flash(true, 'Gespeichert.');
         kp_redirect($back . '#zugang');
@@ -440,8 +444,10 @@ if (!$isAdmin) {
 HTML);
 }
 
-$logout = '<a class="btn btn--sm btn--line" href="/kunden/admin/">Übersicht</a><a class="btn btn--sm btn--line" href="/kunden/admin/?sicherheit">Sicherheit</a><form method="post" action="/kunden/admin/">' . $csrf
+// Kopfzeile: „Übersicht“ nur auf Unterseiten, auf der Übersicht selbst wäre der Knopf doppelt.
+$logoutHome = '<a class="btn btn--sm btn--line" href="/kunden/admin/?sicherheit">Sicherheit</a><form method="post" action="/kunden/admin/">' . $csrf
     . '<input type="hidden" name="aktion" value="abmelden"><button class="btn btn--sm btn--line" type="submit">Abmelden</button></form>';
+$logout = '<a class="btn btn--sm btn--line" href="/kunden/admin/">Übersicht</a>' . $logoutHome;
 $all = kp_accounts();
 
 // Frisch erzeugte Zugangsdaten genau einmal anzeigen.
@@ -615,6 +621,7 @@ if ($k !== '' && isset($all[$k])) {
     $status = !empty($a['aktiv']) ? 'aktiv' : 'gesperrt';
     $last = !empty($a['letzte_anmeldung']) ? cx_h(date('d.m.Y, H:i', strtotime((string) $a['letzte_anmeldung']) ?: 0)) . ' Uhr' : 'noch nie';
     $lock = !empty($a['aktiv']) ? 'Zugang sperren' : 'Zugang wieder freigeben';
+    $lockAsk = !empty($a['aktiv']) ? ' data-kp-confirm="Zugang sperren? Die Anmeldung geht dann nicht mehr, die Dateien bleiben erhalten."' : '';
     $used = kp_bytes(kp_used_bytes($k));
 
     $batchList = kp_batches($k);
@@ -664,7 +671,8 @@ if ($k !== '' && isset($all[$k])) {
     $webLink = ($a['webseite'] ?? '') !== ''
         ? '<a href="' . cx_h(preg_match('~^https?://~i', (string) $a['webseite']) ? (string) $a['webseite'] : 'https://' . $a['webseite']) . '" target="_blank" rel="noopener noreferrer">' . $h('webseite') . '</a>' : '';
     $sub = implode(' · ', array_filter([$h('firma'), $webLink]));
-    $statusChip = '<span class="kp-chip-st kp-chip-st--' . $status . '">' . $status . '</span>';
+    $statusChip = '<span class="kp-chip-st kp-chip-st--' . $status . '">' . $status . '</span>' . (kp_is_verein($a) ? '<span class="kp-pill kp-pill--verein">Verein · gratis</span>' : '');
+    $artOpts = kp_art_options(kp_is_verein($a) ? 'verein' : 'betrieb');
     $msgSub = $unread > 0 ? '<b>' . $unread . ' neu</b>' . ($open ? ' · ' . count($open) . ' offen' : '')
         : ($open ? count($open) . (count($open) === 1 ? ' Wunsch offen' : ' Wünsche offen') : ($msgs['liste'] ? count($msgs['liste']) . ' im Verlauf' : 'noch keine'));
     $badge = $unread > 0 ? '<span class="kp-badge">' . $unread . '</span>' : '';
@@ -721,7 +729,10 @@ if ($k !== '' && isset($all[$k])) {
       <input type="hidden" name="aktion" value="bearbeiten">
       <h2>Daten</h2>
       <label class="form__field"><span>Name</span><input type="text" name="name" required maxlength="80" value="{$h('name')}"></label>
-      <label class="form__field"><span>Betrieb</span><input type="text" name="firma" maxlength="120" value="{$h('firma')}"></label>
+      <div class="form__row">
+        <label class="form__field"><span>Betrieb oder Verein</span><input type="text" name="firma" maxlength="120" value="{$h('firma')}"></label>
+        <label class="form__field"><span>Art</span><select name="art">{$artOpts}</select></label>
+      </div>
       <label class="form__field"><span>E-Mail <em>(für Benachrichtigungen)</em></span><input type="email" name="email" maxlength="254" value="{$h('email')}"></label>
       <label class="form__field"><span>Webseite</span><input type="text" name="webseite" maxlength="200" value="{$h('webseite')}"></label>
       <button class="btn btn--line" type="submit">Speichern</button>
@@ -729,8 +740,8 @@ if ($k !== '' && isset($all[$k])) {
     <div class="form form--small">
       <h2>Zugang</h2>
       <p class="kp-hint kp-hint--top">Zugang {$status} · letzte Anmeldung {$last} · {$used} belegt</p>
-      <form method="post" action="{$form}">{$csrf}<input type="hidden" name="aktion" value="passwort"><button class="btn btn--line" type="submit">Neues Passwort erzeugen</button></form>
-      <form method="post" action="{$form}">{$csrf}<input type="hidden" name="aktion" value="sperren"><button class="btn btn--line" type="submit">{$lock}</button></form>
+      <form method="post" action="{$form}" data-kp-confirm="Neues Passwort für {$hk} erzeugen? Das bisherige gilt dann sofort nicht mehr.">{$csrf}<input type="hidden" name="aktion" value="passwort"><button class="btn btn--line" type="submit">Neues Passwort erzeugen</button></form>
+      <form method="post" action="{$form}"{$lockAsk}>{$csrf}<input type="hidden" name="aktion" value="sperren"><button class="btn btn--line" type="submit">{$lock}</button></form>
       <form method="post" action="{$form}" class="kp-danger">{$csrf}<input type="hidden" name="aktion" value="kunde_loeschen">
         <label class="form__field"><span>Kunde und alle Dateien löschen: zur Bestätigung <b class="kp-user">{$hk}</b> eintippen</span><input type="text" name="sicher" required placeholder="{$hk}" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false"></label>
         <button class="btn btn--line" type="submit">Endgültig löschen</button></form>
@@ -770,6 +781,7 @@ foreach ($list as $r) {
     $tags = ($r['neu'] > 0 ? '<span class="kp-badge">' . ($r['neu'] === 1 ? '1 neue Nachricht' : $r['neu'] . ' neue Nachrichten') . '</span>' : '')
         . ($r['neuUp'] > 0 ? '<span class="kp-badge">' . ($r['neuUp'] === 1 ? '1 neuer Upload' : $r['neuUp'] . ' neue Uploads') . '</span>' : '')
         . ($r['offen'] > 0 ? '<span class="kp-pill kp-pill--hot">' . $r['offen'] . ($r['offen'] === 1 ? ' Wunsch offen' : ' Wünsche offen') . '</span>' : '')
+        . (kp_is_verein($a) ? '<span class="kp-pill kp-pill--verein">Verein</span>' : '')
         . '<span class="kp-pill kp-pill--phase' . (kp_phase($a) === 'online' ? ' kp-pill--ok' : '') . '">' . cx_h(KP_PHASEN[kp_phase($a)][0]) . '</span>'
         . '<span class="kp-pill">' . ($r['uploads'] === 1 ? '1 Upload' : $r['uploads'] . ' Uploads') . '</span>'
         . (!$aktiv ? '<span class="kp-pill kp-pill--aus">gesperrt</span>' : '');
@@ -809,6 +821,7 @@ $nK = count($list);
 $kSub = ($nK === 1 ? '1 Kunde' : $nK . ' Kunden') . ($sumNeu > 0 ? ' · <b>' . $sumNeu . ($sumNeu === 1 ? ' neue Nachricht' : ' neue Nachrichten') . '</b>' : '') . ($sumUp > 0 ? ' · <b>' . $sumUp . ($sumUp === 1 ? ' neuer Upload' : ' neue Uploads') . '</b>' : '') . ($sumOffen > 0 ? ' · ' . $sumOffen . ($sumOffen === 1 ? ' Wunsch offen' : ' Wünsche offen') : '');
 $ewSub = $ewNeu > 0 ? '<b>' . ($ewNeu === 1 ? '1 neue Anfrage' : $ewNeu . ' neue Anfragen') . '</b>' : 'Gratis-Entwürfe von /entwurf/';
 $neuOpen = $nK === 0 ? ' open' : '';
+$artNeu = kp_art_options('betrieb');
 
 // Besucher: anonyme Tagessummen aus /api/zaehler.php, dazu die Gratis-Entwurf-Anfragen im selben Zeitraum.
 $zeit = (int) ($_GET['zeit'] ?? 30);
@@ -918,10 +931,13 @@ kp_page('Kunden', <<<HTML
         <label class="form__field"><span>Name</span><input type="text" name="name" required maxlength="80" placeholder="Maria Muster"></label>
       </div>
       <div class="form__row">
-        <label class="form__field"><span>Betrieb</span><input type="text" name="firma" maxlength="120" placeholder="Bäckerei Muster"></label>
-        <label class="form__field"><span>Webseite</span><input type="text" name="webseite" maxlength="200" placeholder="baeckerei-muster.at"></label>
+        <label class="form__field"><span>Betrieb oder Verein</span><input type="text" name="firma" maxlength="120" placeholder="Bäckerei Muster"></label>
+        <label class="form__field"><span>Art</span><select name="art">{$artNeu}</select></label>
       </div>
-      <label class="form__field"><span>E-Mail <em>(optional, für Benachrichtigungen)</em></span><input type="email" name="email" maxlength="254"></label>
+      <div class="form__row">
+        <label class="form__field"><span>Webseite</span><input type="text" name="webseite" maxlength="200" placeholder="baeckerei-muster.at"></label>
+        <label class="form__field"><span>E-Mail <em>(optional, für Benachrichtigungen)</em></span><input type="email" name="email" maxlength="254"></label>
+      </div>
       <button class="btn" type="submit">Anlegen und Passwort erzeugen</button>
     </form>
   </details>
@@ -934,4 +950,4 @@ kp_page('Kunden', <<<HTML
 <section class="kp-panel" data-kp-panel="besucher">
   {$bzPanel}
 </section>
-HTML, $logout);
+HTML, $logoutHome);

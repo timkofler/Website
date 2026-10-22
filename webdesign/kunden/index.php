@@ -17,6 +17,25 @@ if ($user !== '' && ($acc === null || empty($acc['aktiv']) || !hash_equals(kp_pw
     $acc = null;
 }
 
+// Vorschaubild einer eigenen hochgeladenen Bilddatei (nur angemeldet, nur aus dem eigenen Ordner, nur Bildformate).
+if ($acc !== null && isset($_GET['vorschau'], $_GET['e'], $_GET['f']) && is_string($_GET['e']) && is_string($_GET['f']) && kp_valid_batch($_GET['e'])) {
+    $dir = kp_user_dir($user) . '/' . $_GET['e'];
+    $batch = kp_read_json($dir . '/eingang.json');
+    $f = $_GET['f'];
+    $ext = strtolower(pathinfo($f, PATHINFO_EXTENSION));
+    if (!$batch || !isset(KP_PREVIEW[$ext]) || !in_array($f, array_column((array) ($batch['dateien'] ?? []), 'datei'), true) || !is_file($dir . '/' . $f)) {
+        http_response_code(404);
+        exit('Nicht gefunden.');
+    }
+    header('Content-Type: ' . KP_PREVIEW[$ext]);
+    header('X-Content-Type-Options: nosniff');
+    header("Content-Security-Policy: default-src 'none'; sandbox");
+    header('Cache-Control: private, max-age=600');
+    header('Content-Length: ' . filesize($dir . '/' . $f));
+    readfile($dir . '/' . $f);
+    exit;
+}
+
 // Zu große Uploads: PHP verwirft dann das ganze Formular, auch den Formular-Schlüssel.
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && !$_POST && (int) ($_SERVER['CONTENT_LENGTH'] ?? 0) > 0) {
     kp_flash(false, 'Das waren zu viele Daten auf einmal (höchstens ' . kp_bytes(kp_max_post()) . ' pro Durchgang). Bitte lade die Dateien in mehreren kleineren Portionen hoch.');
@@ -147,7 +166,7 @@ if ($acc === null) {
   <div class="kp-login__form">
     <span class="label"><b>●</b> Kundenportal</span>
     <h1>Anmelden</h1>
-    <p class="lead">Dein persönlicher Bereich für deine neue Webseite. Die Zugangsdaten bekommst du von mir persönlich.</p>
+    <p class="lead">Dein persönlicher Bereich für die neue Webseite deines Betriebs oder Vereins. Die Zugangsdaten bekommst du von mir persönlich.</p>
     <form class="form" method="post" action="/kunden/">
       {$csrf}
       <input type="hidden" name="aktion" value="anmelden">
@@ -191,19 +210,28 @@ $history = '';
 foreach ($batches as $b) {
     $files = '';
     $sum = 0;
+    $cover = '';
     $del = static fn(string $f, string $label, string $ask) => '<form method="post" action="/kunden/#dateien" class="kp-del" data-kp-confirm="' . cx_h($ask) . '">' . $csrf
         . '<input type="hidden" name="aktion" value="loeschen"><input type="hidden" name="e" value="' . cx_h((string) $b['id']) . '"><input type="hidden" name="f" value="' . cx_h($f) . '">'
         . '<button type="submit" class="kp-del__btn" aria-label="' . cx_h($label) . '" title="' . cx_h($label) . '"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12"/></svg></button></form>';
     foreach ((array) ($b['dateien'] ?? []) as $d) {
         $ext = strtoupper(pathinfo((string) $d['original'], PATHINFO_EXTENSION));
         $orig = (string) $d['original'];
-        $files .= '<li><span class="kp-ext">' . cx_h(substr($ext, 0, 4)) . '</span><span class="kp-batch__name">' . cx_h($orig) . ' <em>' . kp_bytes((int) $d['bytes']) . '</em></span>'
+        // Bilder mit kleinem Vorschaubild, alles andere mit der Dateiendung.
+        $thumb = isset(KP_PREVIEW[strtolower(pathinfo((string) $d['datei'], PATHINFO_EXTENSION))])
+            ? '<img class="kp-thumb" src="/kunden/?vorschau=1&amp;e=' . rawurlencode((string) $b['id']) . '&amp;f=' . rawurlencode((string) $d['datei']) . '" alt="" width="42" height="42" loading="lazy">'
+            : '<span class="kp-ext">' . cx_h(substr($ext, 0, 4)) . '</span>';
+        // Das erste Bild steht auch zugeklappt vorne, damit man den Upload auf einen Blick erkennt.
+        if ($cover === '' && str_starts_with($thumb, '<img')) {
+            $cover = str_replace('class="kp-thumb"', 'class="kp-batch__cover"', $thumb);
+        }
+        $files .= '<li>' . $thumb . '<span class="kp-batch__name">' . cx_h($orig) . ' <em>' . kp_bytes((int) $d['bytes']) . '</em></span>'
             . $del((string) $d['datei'], '„' . $orig . '“ löschen', '„' . $orig . '“ wirklich löschen? Das kann nicht rückgängig gemacht werden.') . '</li>';
         $sum += (int) $d['bytes'];
     }
     $when = cx_h(date('d.m.Y, H:i', strtotime((string) ($b['zeit'] ?? 'now')) ?: time()));
     $n = count((array) ($b['dateien'] ?? []));
-    $history .= '<details class="kp-batch"><summary><span class="kp-batch__n">' . $n . '</span><span><span><b>' . ($n === 1 ? '1 Datei' : $n . ' Dateien') . '</b> · ' . kp_bytes($sum) . '</span>'
+    $history .= '<details class="kp-batch"><summary><span class="kp-batch__n">' . ($cover !== '' ? $cover . '<i>' . $n . '</i>' : $n) . '</span><span><span><b>' . ($n === 1 ? '1 Datei' : $n . ' Dateien') . '</b> · ' . kp_bytes($sum) . '</span>'
         . '<small>' . $when . ' Uhr · ' . cx_h((string) ($b['webseite'] ?? '')) . '</small></span></summary><ul>' . $files . '</ul>'
         . (($b['nachricht'] ?? '') !== '' ? '<p>' . nl2br(cx_h((string) $b['nachricht'])) . '</p>' : '')
         . ($n > 1 ? '<div class="kp-batch__alle">' . str_replace(['kp-del__btn" aria-label', '</svg></button>'], ['kp-del__btn kp-del__btn--text" aria-label', '</svg>Ganzen Upload löschen</button>'],
@@ -218,7 +246,13 @@ $nUploads = count($batches);
 $msgs = kp_messages($user);
 $unread = kp_unread($msgs, 'kunde');
 $chat = kp_render_messages($msgs, 'kunde', (string) ($acc['name'] ?? $user));
-$chatForm = kp_message_form('/kunden/#nachrichten', $csrf, 'z. B. Die Farbe vom Kopfbereich gefällt mir sehr. Können wir die Öffnungszeiten größer machen?');
+$verein = kp_is_verein($acc);
+$chatForm = kp_message_form('/kunden/#nachrichten', $csrf, $verein
+    ? 'z. B. Die Farben passen super zu unserem Wappen. Können wir die Termine weiter oben zeigen?'
+    : 'z. B. Die Farbe vom Kopfbereich gefällt mir sehr. Können wir die Öffnungszeiten größer machen?');
+$needs = kp_needs($acc);
+$notePh = $verein ? 'z. B. Das Gruppenfoto bitte auf die Startseite, die Termine gelten ab März.' : 'z. B. Das Foto mit dem Team bitte auf die Startseite, die Preise gelten ab Jänner.';
+$sitePh = $verein ? 'z. B. musikverein-muster.at' : 'z. B. baeckerei-muster.at';
 kp_mark_read($user, 'kunde');
 
 // Die beiden großen Kacheln oben sind zugleich die Reiter. Ohne JavaScript stehen beide Bereiche untereinander.
@@ -273,6 +307,7 @@ kp_page('Kundenportal', <<<HTML
         <h2>Dateien hochladen</h2>
         <p>Alles, was auf deine Webseite soll. Ich bekomme sofort Bescheid.</p>
       </div>
+      {$needs}
       <label class="kp-pick">
         <input type="file" name="dateien[]" multiple required accept="{$accept}">
         <span class="kp-pick__ico">{$icoUp}</span>
@@ -281,8 +316,8 @@ kp_page('Kundenportal', <<<HTML
         <span class="kp-pick__info">Keine Datei ausgewählt</span>
       </label>
       <p class="kp-hint">{$types}. {$limit}</p>
-      <label class="form__field"><span>Für welche Webseite?</span><input type="text" name="webseite" required maxlength="200" value="{$site}" placeholder="z. B. baeckerei-muster.at"></label>
-      <label class="form__field"><span>Kurze Notiz dazu <em>(optional)</em></span><textarea name="nachricht" rows="3" maxlength="3000" placeholder="z. B. Das Foto mit dem Team bitte auf die Startseite, die Preise gelten ab Jänner."></textarea></label>
+      <label class="form__field"><span>Für welche Webseite?</span><input type="text" name="webseite" required maxlength="200" value="{$site}" placeholder="{$sitePh}"></label>
+      <label class="form__field"><span>Kurze Notiz dazu <em>(optional)</em></span><textarea name="nachricht" rows="3" maxlength="3000" placeholder="{$notePh}"></textarea></label>
       <label class="form__check"><input type="checkbox" name="rechte" value="ja" required><span>Ich darf diese Bilder und Texte für meine Webseite verwenden (z. B. selbst fotografiert oder mit Erlaubnis der Fotografin bzw. des Fotografen).</span></label>
       <div class="kp-progress" hidden><div class="kp-progress__bar"></div><span class="kp-progress__text"></span></div>
       <button class="btn" type="submit">Hochladen</button>
