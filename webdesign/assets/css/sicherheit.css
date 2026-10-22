@@ -1,0 +1,13 @@
+/* Seite /sicherheit/: Sicherheits-Hinweis (PHP-Versionen) mit Anmeldung */
+.sec-box { margin-top: 8px; padding: 26px 26px 24px; border: 1px solid var(--line-2); border-radius: 18px; background: var(--surface); }
+.sec-box__lbl { margin: 0; font-family: var(--mono, ui-monospace, monospace); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted, #a1a1a1); }
+.sec-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 0; }
+.sec-chips span { padding: 7px 14px; border-radius: 999px; background: var(--hot, #ff5a1f); color: #fff; font-weight: 700; font-variant-numeric: lining-nums tabular-nums; }
+.sec-box .ticks { margin-top: 20px; }
+.sec-page .form-steps li::before { background: var(--hot-grad); color: #0b0b0b; }
+.sec-page .form-aside .form__field { margin-bottom: 14px; }
+.sec-page .sec-h1 { font-size: clamp(38px, 5.2vw, 68px); }
+.sec-h2 { margin: 48px 0 22px; font-size: clamp(26px, 3vw, 36px); }
+.sec-jump { display: none; margin: 0 0 22px; }
+#hinweise { scroll-margin-top: 90px; }
+@media (max-width: 900px) { .sec-jump { display: inline-flex; } }

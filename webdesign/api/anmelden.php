@@ -37,7 +37,9 @@ if ($form === 'newsletter') {
     if (cx_field('zustimmung', 5) !== 'ja') {
         cx_respond(false, 'Bitte bestätige, dass du den Newsletter erhalten möchtest.');
     }
-    if (!cx_send_optin($email, $name, 'newsletter')) {
+    // Anmeldung über /sicherheit/ wird als eigenes Thema vermerkt (gleiche Liste, Attribut NL_THEMA in Brevo).
+    $thema = cx_field('thema', 20) === 'sicherheit' ? 'sicherheit' : 'newsletter';
+    if (!cx_send_optin($email, $name, $thema)) {
         cx_respond(false, 'Die Bestätigungsmail konnte gerade nicht verschickt werden. ' . $fallback);
     }
     cx_respond(true, 'Fast geschafft! Bitte bestätige deine Anmeldung über den Link in der E-Mail, die wir dir gerade geschickt haben.', '/newsletter/danke/');
