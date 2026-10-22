@@ -342,6 +342,10 @@ function cx_send_optin(string $email, string $firstname, string $source): bool
     $c = cx_config();
     $nl = (string) ($c['newsletter_name'] ?? 'CryptoX Newsletter');
     $was = (string) ($c['newsletter_inhalt'] ?? 'Darin geht es um neue Funktionen im CryptoX Dashboard, Software-Tipps und neue Artikel. Keine Anlageberatung, keine Signale.');
+    if ($source === 'sicherheit') {
+        $nl .= ' mit Sicherheits-Hinweisen';
+        $was = 'Ich schreibe dir, wenn eine wichtige Sicherheitslücke kleine Websites betrifft, dazu ab und zu Tipps für deine Webseite. Kein Spam.';
+    }
     $token = cx_token(['e' => $email, 'n' => $firstname, 's' => $source, 't' => time()]);
     $link = cx_brand()['site'] . '/api/bestaetigen.php?t=' . rawurlencode($token);
     $hallo = $firstname !== '' ? 'Hallo ' . cx_h($firstname) . ',' : 'Hallo,';

@@ -22,9 +22,11 @@ if ($email === '') {
 }
 
 $c = cx_config();
-$ok = cx_contact($email, (string) ($data['n'] ?? ''), [(int) ($c['list_newsletter'] ?? 0)], [
-    'OPTIN_DATUM' => date('Y-m-d'),
-], ['emailBlacklisted' => false]); // neue, ausdrückliche Einwilligung hebt eine frühere Abmeldung auf
+$attrs = ['OPTIN_DATUM' => date('Y-m-d')];
+if (($data['s'] ?? '') === 'sicherheit') {
+    $attrs['NL_THEMA'] = 'Sicherheit'; // Anmeldung über /sicherheit/
+}
+$ok = cx_contact($email, (string) ($data['n'] ?? ''), [(int) ($c['list_newsletter'] ?? 0)], $attrs, ['emailBlacklisted' => false]); // neue, ausdrückliche Einwilligung hebt eine frühere Abmeldung auf
 if (!$ok) {
     cx_page('Das hat nicht geklappt', 'Deine Anmeldung konnte gerade nicht gespeichert werden. Bitte klick den Link später noch einmal an.', 502);
 }

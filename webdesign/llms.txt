@@ -21,6 +21,7 @@
 - [Referenz](https://tim-kofler.at/#referenz): crypto-x.at, selbst programmiert, Lighthouse 100 am Computer, 97–99 am Handy.
 - [Anfrage](https://tim-kofler.at/#anfrage): unverbindliches Anfrageformular.
 - [Checkliste und Newsletter](https://tim-kofler.at/newsletter/): kostenlose Checkliste mit 10 Punkten für mehr Anfragen über Webseite und Google-Profil, dazu gelegentlich Tipps per E-Mail (Double-Opt-in).
+- [Sicherheits-Hinweise](https://tim-kofler.at/sicherheit/): verständliche Erklärung zum PHP-Sicherheitsupdate vom 21. Oktober 2026 (CVE-2026-109618, CVE-2026-109619), abgesicherte Versionen, wie man die eigene PHP-Version findet, dazu Anmeldung für Sicherheits-Hinweise per E-Mail (Double-Opt-in).
 - [Empfehlungsbonus](https://tim-kofler.at/#empfehlen): 50 € für jeden vermittelten Neukunden (Auftrag ab 290 €), ausgezahlt nach Bezahlung der ersten Rechnung. Der Name der empfehlenden Person wird bei der Anfrage angegeben.
 
 ## Über
