@@ -321,6 +321,14 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         kp_redirect($back . '#zugang');
     }
 
+    // Kunde hat Handy und Notfall-Codes verloren: Zwei-Faktor-Anmeldung für ihn ausschalten, danach reicht wieder das Passwort.
+    if ($action === 'tf_kunde_aus') {
+        tf_disable(tf_kunde_file($k));
+        kp_fail_reset('kunde:' . $k);
+        kp_flash(true, 'Zwei-Faktor-Anmeldung für „' . $k . '“ ausgeschaltet. Die Anmeldung geht jetzt wieder nur mit dem Passwort.');
+        kp_redirect($back . '#zugang');
+    }
+
     if ($action === 'sperren') {
         $all[$k]['aktiv'] = empty($all[$k]['aktiv']);
         kp_save_accounts($all);
@@ -621,6 +629,12 @@ if ($k !== '' && isset($all[$k])) {
     $status = !empty($a['aktiv']) ? 'aktiv' : 'gesperrt';
     $last = !empty($a['letzte_anmeldung']) ? cx_h(date('d.m.Y, H:i', strtotime((string) $a['letzte_anmeldung']) ?: 0)) . ' Uhr' : 'noch nie';
     $lock = !empty($a['aktiv']) ? 'Zugang sperren' : 'Zugang wieder freigeben';
+    $tf = tf_state(tf_kunde_file($k));
+    $tfInfo = $tf
+        ? '<p class="kp-hint kp-hint--top">Zwei-Faktor-Anmeldung <b>ein</b> seit ' . cx_h(date('d.m.Y', strtotime((string) ($tf['seit'] ?? '')) ?: 0)) . ', noch ' . count((array) ($tf['notfall'] ?? [])) . ' Notfall-Codes</p>'
+            . '<form method="post" action="' . KP_ADMIN . '?k=' . cx_h($k) . '" data-kp-confirm="Zwei-Faktor-Anmeldung für ' . cx_h($k) . ' ausschalten? Bitte nur, wenn du sicher weißt, dass wirklich der Kunde darum bittet (z. B. am Telefon erkannt).">' . $csrf
+            . '<input type="hidden" name="aktion" value="tf_kunde_aus"><button class="btn btn--line" type="submit">Zwei-Faktor ausschalten</button></form>'
+        : '<p class="kp-hint kp-hint--top">Zwei-Faktor-Anmeldung: aus (der Kunde kann sie im Portal freiwillig einschalten)</p>';
     $lockAsk = !empty($a['aktiv']) ? ' data-kp-confirm="Zugang sperren? Die Anmeldung geht dann nicht mehr, die Dateien bleiben erhalten."' : '';
     $used = kp_bytes(kp_used_bytes($k));
 
@@ -671,7 +685,8 @@ if ($k !== '' && isset($all[$k])) {
     $webLink = ($a['webseite'] ?? '') !== ''
         ? '<a href="' . cx_h(preg_match('~^https?://~i', (string) $a['webseite']) ? (string) $a['webseite'] : 'https://' . $a['webseite']) . '" target="_blank" rel="noopener noreferrer">' . $h('webseite') . '</a>' : '';
     $sub = implode(' · ', array_filter([$h('firma'), $webLink]));
-    $statusChip = '<span class="kp-chip-st kp-chip-st--' . $status . '">' . $status . '</span>' . (kp_is_verein($a) ? '<span class="kp-pill kp-pill--verein">Verein · gratis</span>' : '');
+    $statusChip = '<span class="kp-chip-st kp-chip-st--' . $status . '">' . $status . '</span>' . (kp_is_verein($a) ? '<span class="kp-pill kp-pill--verein">Verein · gratis</span>' : '')
+        . (tf_active(tf_kunde_file($k)) ? '<span class="kp-pill kp-pill--ok">2FA</span>' : '');
     $artOpts = kp_art_options(kp_is_verein($a) ? 'verein' : 'betrieb');
     $msgSub = $unread > 0 ? '<b>' . $unread . ' neu</b>' . ($open ? ' · ' . count($open) . ' offen' : '')
         : ($open ? count($open) . (count($open) === 1 ? ' Wunsch offen' : ' Wünsche offen') : ($msgs['liste'] ? count($msgs['liste']) . ' im Verlauf' : 'noch keine'));
@@ -741,6 +756,7 @@ if ($k !== '' && isset($all[$k])) {
       <h2>Zugang</h2>
       <p class="kp-hint kp-hint--top">Zugang {$status} · letzte Anmeldung {$last} · {$used} belegt</p>
       <form method="post" action="{$form}" data-kp-confirm="Neues Passwort für {$hk} erzeugen? Das bisherige gilt dann sofort nicht mehr.">{$csrf}<input type="hidden" name="aktion" value="passwort"><button class="btn btn--line" type="submit">Neues Passwort erzeugen</button></form>
+      {$tfInfo}
       <form method="post" action="{$form}"{$lockAsk}>{$csrf}<input type="hidden" name="aktion" value="sperren"><button class="btn btn--line" type="submit">{$lock}</button></form>
       <form method="post" action="{$form}" class="kp-danger">{$csrf}<input type="hidden" name="aktion" value="kunde_loeschen">
         <label class="form__field"><span>Kunde und alle Dateien löschen: zur Bestätigung <b class="kp-user">{$hk}</b> eintippen</span><input type="text" name="sicher" required placeholder="{$hk}" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false"></label>

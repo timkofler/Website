@@ -888,7 +888,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/css/style.css?v=17ee6a2e">
   <link rel="stylesheet" href="/assets/css/tk.css?v=4bd8659a">
-  <link rel="stylesheet" href="/assets/css/portal.css?v=8b0ccd3b">
+  <link rel="stylesheet" href="/assets/css/portal.css?v=1e53b4c6">
 </head>
 <body class="kp">
 <header class="header">
