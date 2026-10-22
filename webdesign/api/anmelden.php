@@ -166,7 +166,7 @@ function cx_webseite(array $c, string $email, string $name, string $fallback): v
 
     $verein = str_starts_with($f['Paket'], 'Vereinsseite');
     $inner = '<p style="margin:0 0 14px">Hallo ' . cx_h($name) . ',</p>'
-        . '<p style="margin:0 0 14px">danke für deine Anfrage! Ich sehe mir deine Angaben an und melde mich innerhalb von zwei Werktagen persönlich bei dir, per E-Mail oder telefonisch, wenn du eine Nummer angegeben hast.</p>'
+        . '<p style="margin:0 0 14px">danke für deine Anfrage! Ich sehe mir deine Angaben an und melde mich innerhalb von zwei Werktagen persönlich bei dir, per E-Mail oder auf WhatsApp, wenn du eine Nummer angegeben hast.</p>'
         . ($verein
             ? '<p style="margin:0 0 14px">Gemeinsam klären wir dann, was auf eure Vereinsseite soll. Die Gestaltung ist für euch kostenlos.</p>'
             : '<p style="margin:0 0 14px">Gemeinsam klären wir dann, was deine Seite können soll, und du bekommst ein unverbindliches Angebot.</p>')
@@ -176,3 +176,13 @@ function cx_webseite(array $c, string $email, string $name, string $fallback): v
     cx_respond(true, 'Danke! Deine Anfrage ist angekommen.', (string) ($c['weiter_webseite'] ?? '/webseite-erstellen-lassen/danke/'));
 }
 
+
+// Abgeschickte Anfragen im anonymen Besucherzähler mitzählen (nur die Summe pro Tag und Art, keine Angaben zur Person).
+function cx_zaehle_anfrage(string $art): void
+{
+    $lib = __DIR__ . '/zaehler-lib.php';
+    if (is_file($lib)) {
+        require_once $lib;
+        zl_kontakt($art);
+    }
+}

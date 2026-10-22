@@ -1,5 +1,5 @@
 <?php
-// Tim Kofler – anonymer Besucherzähler: nur Summen pro Tag (Seite, Quelle, Kampagne).
+// Tim Kofler – anonymer Besucherzähler: nur Summen pro Tag (Seite, Quelle, Kampagne, Art der Kontaktaufnahme).
 // Keine Cookies, keine IP-Adresse, keine Kennung pro Besucher. Wird nur per include geladen (per .htaccess gesperrt).
 // Daten: api/_data/zaehler/JJJJ-MM.json (per .htaccess gesperrt, nicht im Repo).
 
@@ -96,16 +96,29 @@ function zl_bump(array &$map, string $key): void
     $map[$key] = (int) ($map[$key] ?? 0) + 1;
 }
 
-// Ein Aufruf: $entry = true, wenn der Besuch von außen kommt (nicht beim Weiterklicken innerhalb der Seite).
-function zl_count(string $page, bool $entry, string $source, string $campaign): void
+// Einen Tag der Monatsdatei unter Sperre lesen, ändern und wieder schreiben.
+function zl_update(callable $fn): void
 {
     $day = date('Y-m-d');
     $file = ZL_DIR . '/' . substr($day, 0, 7) . '.json';
-    cx_locked(ZL_DIR . '/.lock', static function () use ($file, $day, $page, $entry, $source, $campaign) {
+    cx_locked(ZL_DIR . '/.lock', static function () use ($file, $day, $fn) {
         $all = is_file($file) ? json_decode((string) file_get_contents($file), true) : [];
         $all = is_array($all) ? $all : [];
         $d = is_array($all[$day] ?? null) ? $all[$day] : [];
-        $d += ['aufrufe' => 0, 'besuche' => 0, 'seiten' => [], 'einstieg' => [], 'quellen' => [], 'kampagnen' => []];
+        $d += ['aufrufe' => 0, 'besuche' => 0, 'seiten' => [], 'einstieg' => [], 'quellen' => [], 'kampagnen' => [], 'kontakte' => []];
+        $fn($d);
+        $all[$day] = $d;
+        $tmp = $file . '.tmp';
+        if (@file_put_contents($tmp, json_encode($all, JSON_UNESCAPED_SLASHES)) !== false) {
+            @rename($tmp, $file);
+        }
+    });
+}
+
+// Ein Aufruf: $entry = true, wenn der Besuch von außen kommt (nicht beim Weiterklicken innerhalb der Seite).
+function zl_count(string $page, bool $entry, string $source, string $campaign): void
+{
+    zl_update(static function (array &$d) use ($page, $entry, $source, $campaign) {
         $d['aufrufe']++;
         zl_bump($d['seiten'], $page);
         if ($entry && $source !== '') {
@@ -116,18 +129,26 @@ function zl_count(string $page, bool $entry, string $source, string $campaign): 
                 zl_bump($d['kampagnen'], $source . ' / ' . $campaign);
             }
         }
-        $all[$day] = $d;
-        $tmp = $file . '.tmp';
-        if (@file_put_contents($tmp, json_encode($all, JSON_UNESCAPED_SLASHES)) !== false) {
-            @rename($tmp, $file);
-        }
+    });
+}
+
+// Kontaktaufnahmen: Klicks auf WhatsApp, Telegram, Telefon, E-Mail und abgeschickte Anfragen (nur Summen pro Tag).
+const ZL_KONTAKTE = ['whatsapp', 'telegram', 'telefon', 'email', 'formular'];
+
+function zl_kontakt(string $art): void
+{
+    if (!in_array($art, ZL_KONTAKTE, true)) {
+        return;
+    }
+    zl_update(static function (array &$d) use ($art) {
+        zl_bump($d['kontakte'], $art);
     });
 }
 
 // Summen für die letzten $days Tage (heute eingeschlossen), für die Ansicht im Admin.
 function zl_range(int $days): array
 {
-    $out = ['tage' => [], 'aufrufe' => 0, 'besuche' => 0, 'seiten' => [], 'einstieg' => [], 'quellen' => [], 'kampagnen' => [], 'seit' => ''];
+    $out = ['tage' => [], 'aufrufe' => 0, 'besuche' => 0, 'seiten' => [], 'einstieg' => [], 'quellen' => [], 'kampagnen' => [], 'kontakte' => [], 'seit' => ''];
     $months = [];
     $today = new DateTimeImmutable('today');
     for ($i = $days - 1; $i >= 0; $i--) {
@@ -141,13 +162,13 @@ function zl_range(int $days): array
         $out['tage'][$day] = ['aufrufe' => (int) ($d['aufrufe'] ?? 0), 'besuche' => (int) ($d['besuche'] ?? 0)];
         $out['aufrufe'] += (int) ($d['aufrufe'] ?? 0);
         $out['besuche'] += (int) ($d['besuche'] ?? 0);
-        foreach (['seiten', 'einstieg', 'quellen', 'kampagnen'] as $k) {
+        foreach (['seiten', 'einstieg', 'quellen', 'kampagnen', 'kontakte'] as $k) {
             foreach ((array) ($d[$k] ?? []) as $key => $n) {
                 $out[$k][$key] = ($out[$k][$key] ?? 0) + (int) $n;
             }
         }
     }
-    foreach (['seiten', 'einstieg', 'quellen', 'kampagnen'] as $k) {
+    foreach (['seiten', 'einstieg', 'quellen', 'kampagnen', 'kontakte'] as $k) {
         arsort($out[$k]);
     }
     $files = glob(ZL_DIR . '/[0-9][0-9][0-9][0-9]-[0-9][0-9].json') ?: [];

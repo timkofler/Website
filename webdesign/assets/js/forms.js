@@ -18,11 +18,17 @@
   else if (q.get("utm_source")) src = q.get("utm_source").slice(0, 40) + (q.get("utm_campaign") ? " / " + q.get("utm_campaign").slice(0, 40) : "");
   else if (document.referrer && document.referrer.indexOf(location.host) === -1) { try { src = new URL(document.referrer).host; } catch (e) {} }
 
+  // Liegt das Paket in den aufklappbaren „Mehr Angaben“, aufklappen, damit man die Vorauswahl sieht.
+  function openMore(el) {
+    var d = el && el.closest ? el.closest("details") : null;
+    if (d) d.open = true;
+  }
+
   // Paket-Buttons wählen das passende Paket im Formular vor.
   document.querySelectorAll("[data-paket]").forEach(function (a) {
     a.addEventListener("click", function () {
       var sel = document.querySelector('select[name="paket"]');
-      if (sel) sel.value = a.getAttribute("data-paket");
+      if (sel) { sel.value = a.getAttribute("data-paket"); openMore(sel); }
     });
   });
 
@@ -30,7 +36,7 @@
   var PAKET_Q = { app: "Eigene App (Zusatzleistung)" };
   if (PAKET_Q[q.get("paket")]) {
     var ps = document.querySelector('select[name="paket"]');
-    if (ps && !ps.value) ps.value = PAKET_Q[q.get("paket")];
+    if (ps && !ps.value) { ps.value = PAKET_Q[q.get("paket")]; openMore(ps); }
   }
 
   forms.forEach(function (form) {
@@ -48,11 +54,11 @@
     });
     // Nur echte Optionen übernehmen, sonst würde die Auswahl leer (z. B. ?paket=app ist schon oben erledigt).
     var fp = form.querySelector('select[name="paket"]'), pv = q.get("paket");
-    if (fp && pv && !PAKET_Q[pv] && Array.prototype.some.call(fp.options, function (o) { return o.value === pv; })) fp.value = pv;
+    if (fp && pv && !PAKET_Q[pv] && Array.prototype.some.call(fp.options, function (o) { return o.value === pv; })) { fp.value = pv; openMore(fp); }
     var status = form.querySelector(".form__status");
     var button = form.querySelector('button[type="submit"]');
     var mailLink = form.querySelector('a[href^="mailto:"]');
-    var mail = mailLink ? mailLink.textContent : "tk@crypto-x.at";
+    var mail = mailLink ? mailLink.textContent : (location.hostname === "tim-kofler.at" ? "office@tim-kofler.at" : "tk@crypto-x.at");
 
     function show(msg, ok) {
       if (!status) return;
@@ -77,6 +83,8 @@
         .then(function (data) {
           if (data.ok && data.next) { window.location.href = data.next; return; }
           show(data.message || "Das hat leider nicht geklappt.", !!data.ok);
+          // Erfolg ohne eigene Danke-Seite: Knopf bleibt aus, damit nicht doppelt gesendet wird.
+          if (data.ok) { button.textContent = "Gesendet"; return; }
           button.disabled = false;
           button.innerHTML = label;
         })

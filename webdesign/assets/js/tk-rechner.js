@@ -159,7 +159,12 @@
     var r = render();
     var form = document.querySelector('form[data-cx-form] select[name="paket"]');
     var ta = document.querySelector('form[data-cx-form] textarea[name="nachricht"]');
-    if (form) form.value = PAKET_OPTION[r.paket] || "Noch unsicher";
+    if (form) {
+      form.value = PAKET_OPTION[r.paket] || "Noch unsicher";
+      // Das Paket steht unter „Mehr Angaben“: aufklappen, damit man die Auswahl sieht.
+      var more = form.closest ? form.closest("details") : null;
+      if (more) more.open = true;
+    }
     var hidden = document.querySelector('form[data-cx-form] input[name="rechner"]');
     if (hidden) hidden.value = detail(r).slice(0, 1000);
     if (ta) {
