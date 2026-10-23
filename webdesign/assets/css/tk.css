@@ -647,17 +647,6 @@ p.tk-abo__deal b { color: #ffb27a; display: block; }
   background: linear-gradient(100deg, #ff4d1a 0%, #ff7a2a 30%, #ffd9a0 46%, #ff7a2a 58%, #ff4d1a 80%, #ff4d1a 100%); background-size: 260% 100%; background-position: 100% 0;
   animation: tk-shine 7s ease-in-out infinite; }
 
-/* Menü-Knopf: mittlerer Strich in Signalfarbe, offen wird daraus ein oranges X */
-.nav-toggle { border-color: rgba(255,90,31,.38); transition: border-color .3s, box-shadow .3s; }
-.nav-toggle:hover, .nav-toggle[aria-expanded="true"] { border-color: var(--hot); box-shadow: 0 0 18px rgba(255,90,31,.28); }
-.nav-toggle path { transform-origin: 12px 12px; transition: transform .35s cubic-bezier(.2,.7,.2,1), opacity .25s, stroke .3s; }
-.nav-toggle .nt-2 { stroke: var(--hot); }
-.nav-toggle:hover .nt-1, .nav-toggle:hover .nt-3 { stroke: var(--hot-2); }
-.nav-toggle[aria-expanded="true"] .nt-1, .nav-toggle[aria-expanded="true"] .nt-3 { stroke: var(--hot); }
-.nav-toggle[aria-expanded="true"] .nt-1 { transform: translateY(5px) rotate(45deg); }
-.nav-toggle[aria-expanded="true"] .nt-2 { opacity: 0; transform: scaleX(0); }
-.nav-toggle[aria-expanded="true"] .nt-3 { transform: translateY(-5px) rotate(-45deg); }
-
 /* Footer: glühende Linie oben, Links in Signalfarbe, großer Schriftzug unten */
 .footer { position: relative; }
 .footer::before { content: ""; position: absolute; left: 50%; top: -1px; width: min(720px, 80%); height: 1px; transform: translateX(-50%); pointer-events: none;
@@ -706,24 +695,6 @@ html.tk-3d-still .tk-hero__still { display: block; }
 /* Unschärfe im Kopf über der laufenden 3D-Szene kostet am Handy viel; solange sie sichtbar ist, deckt der Kopf einfach etwas mehr ab. */
 html.tk-3d-on.tk-3d-view .header { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(11,11,11,.94); }
 
-/* ================= Menüknopf am Handy als Münze (2026-10) ================= */
-/* Dunkles Metall mit umlaufendem orangem Rand wie die 3D-Plakette; beim Öffnen dreht sich die Münze einmal. */
-@property --nt-a { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
-.nav-toggle { position: relative; border: 0; isolation: isolate;
-  background: radial-gradient(circle at 34% 28%, #3c3c3c 0%, #1a1a1a 46%, #0b0b0b 100%);
-  box-shadow: inset 0 2px 3px rgba(255,255,255,.16), inset 0 -4px 7px rgba(0,0,0,.7), 0 6px 16px rgba(0,0,0,.55), 0 0 18px rgba(255,90,31,.2);
-  transform: perspective(240px) rotateY(0deg); transition: transform .8s cubic-bezier(.2,.7,.2,1), box-shadow .3s; }
-.nav-toggle::before { content: ""; position: absolute; inset: 0; border-radius: 50%; padding: 2px; z-index: -1; pointer-events: none;
-  background: conic-gradient(from var(--nt-a), #ff5a1f, #4a1a08 22%, #ffd9a0 38%, #4a1a08 60%, #ff7a2a 80%, #4a1a08);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-  animation: nt-spin 6s linear infinite; }
-.nav-toggle::after { content: ""; position: absolute; inset: 5px; border-radius: 50%; border: 1px solid rgba(255,90,31,.25); pointer-events: none; }
-.nav-toggle:hover, .nav-toggle[aria-expanded="true"] { box-shadow: inset 0 2px 3px rgba(255,255,255,.16), inset 0 -4px 7px rgba(0,0,0,.7), 0 6px 16px rgba(0,0,0,.55), 0 0 26px rgba(255,90,31,.38); }
-.nav-toggle[aria-expanded="true"] { transform: perspective(240px) rotateY(360deg); }
-.nav-toggle svg { width: 18px; height: 18px; }
-.nav-toggle path { transition: transform .35s cubic-bezier(.2,.7,.2,1) .2s, opacity .25s .2s, stroke .3s; }
-@keyframes nt-spin { to { --nt-a: 360deg; } }
-@media (prefers-reduced-motion: reduce) { .nav-toggle, .nav-toggle path { transition: none; } .nav-toggle::before { animation: none; } }
 /* Friseur im Karussell: drei Entwürfe wechseln sich ab statt zu scrollen (tk-ui.js, data-vers) */
 .tk-vers { position: absolute; inset: 0; }
 .tk-vers > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; clip-path: circle(0% at 50% 88%); z-index: 0; }
@@ -784,18 +755,8 @@ html.tk-3d-on.tk-3d-view .header { -webkit-backdrop-filter: none; backdrop-filte
 .tk-free ul { list-style: none; padding: 0; margin: 0 0 24px; display: grid; gap: 10px; }
 .tk-free li { display: flex; align-items: center; gap: 12px; }
 .tk-free li::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--hot); box-shadow: 0 0 10px rgba(255,90,31,.6); flex: none; }
-.nav__free span { margin-left: 6px; font-family: var(--mono); font-size: .58rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; background: var(--hot); color: #0b0b0b; padding: 3px 7px; border-radius: 999px; vertical-align: 2px; }
 @media (max-width: 800px) {
   .tk-free__in { grid-template-columns: 1fr; padding: 30px 24px; }
-}
-@media (min-width: 1101px) and (max-width: 1320px) {
-  .nav { gap: 2px; }
-  .nav a { padding: 8px 10px; }
-  .nav__free span { display: none; }
-}
-/* Seit dem Menüpunkt „Branchen“ ist es knapp: kurz vor dem Umschalten aufs Handy-Menü etwas enger setzen */
-@media (min-width: 1101px) and (max-width: 1200px) {
-  .nav a { padding: 8px 7px; font-size: .9rem; }
 }
 @media (max-width: 680px) { .tk-hero__calc { display: none; } }
 
@@ -932,3 +893,79 @@ html.tk-3d-on.tk-3d-view .header { -webkit-backdrop-filter: none; backdrop-filte
 .tk-review__box--danke + .tk-host--mini { margin-top: 16px; }
 @media (max-width: 560px) { .tk-review__box { flex-direction: column; align-items: stretch; gap: 12px; } .tk-review { width: 100%; } }
 @media (prefers-reduced-motion: reduce) { .tk-review svg { transition: none; } .tk-review:hover svg { transform: none; } }
+
+/* ================= Kopfzeile neu (2026-10-23) ================= */
+/* PC: vier Punkte + „Mehr“, rechts Gratis-Entwurf und Anfragen. Beim Scrollen wird die Leiste zur schwebenden Kapsel. */
+.nav { gap: 4px; }
+.nav__more { position: relative; }
+.nav__more-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border: 0; border-radius: 999px; background: none; color: var(--muted); font: 600 .95rem var(--body); cursor: pointer; white-space: nowrap; transition: color .2s, background .2s; }
+.nav__more-btn svg { width: 14px; height: 14px; color: var(--hot); transition: transform .25s; }
+.nav__more-btn:hover, .nav__more.is-open .nav__more-btn { color: var(--text); background: var(--surface-2); }
+.nav__more.is-open .nav__more-btn svg { transform: rotate(180deg); }
+.nav__drop { position: absolute; top: calc(100% + 14px); left: 50%; min-width: 220px; padding: 8px; display: grid; gap: 2px; border-radius: 18px; background: rgba(21,21,21,.97); border: 1px solid rgba(255,90,31,.32); box-shadow: 0 24px 60px rgba(0,0,0,.6), 0 0 40px rgba(255,90,31,.12);
+  opacity: 0; visibility: hidden; transform: translate(-50%, -6px); transition: opacity .2s, transform .25s cubic-bezier(.2,.7,.2,1), visibility .2s; }
+.nav__drop::before { content: ""; position: absolute; top: -6px; left: 50%; width: 12px; height: 12px; background: #151515; border-left: 1px solid rgba(255,90,31,.32); border-top: 1px solid rgba(255,90,31,.32); transform: translateX(-50%) rotate(45deg); }
+.nav__drop::after { content: ""; position: absolute; left: 0; right: 0; top: -16px; height: 16px; } /* Brücke, damit die Maus den Weg nach unten schafft */
+.nav__more.is-open .nav__drop { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+@media (hover: hover) { .nav__more:hover .nav__drop { opacity: 1; visibility: visible; transform: translate(-50%, 0); } .nav__more:hover .nav__more-btn { color: var(--text); background: var(--surface-2); } .nav__more:hover .nav__more-btn svg { transform: rotate(180deg); } }
+.nav .nav__drop a { display: block; padding: 11px 14px; border-radius: 12px; color: var(--text); background: none; }
+.nav .nav__drop a:hover { background: var(--hot-dim); color: var(--text); }
+.header__end { display: flex; align-items: center; gap: 10px; }
+.header__free { display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(255,90,31,.55); background: rgba(255,90,31,.08); color: var(--text); font-weight: 700; font-size: .9rem; text-decoration: none; white-space: nowrap; transition: background .2s, border-color .2s; }
+.header__free:hover { color: var(--text); background: rgba(255,90,31,.18); border-color: var(--hot); }
+.header__free i { font-style: normal; font-family: var(--mono); font-size: .58rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; background: var(--hot); color: #0b0b0b; padding: 3px 7px; border-radius: 999px; }
+@media (min-width: 1101px) {
+  .header { transition: background .35s, border-color .35s; }
+  .header__inner { transition: height .35s cubic-bezier(.2,.7,.2,1), max-width .35s cubic-bezier(.2,.7,.2,1), margin .35s cubic-bezier(.2,.7,.2,1), padding .35s, background .35s, border-color .35s, box-shadow .35s; border: 1px solid transparent; border-radius: 999px; }
+  .header .tk-logo img { transition: width .35s cubic-bezier(.2,.7,.2,1); }
+  /* Gleiche Gesamthöhe wie oben (76px), damit beim Umschalten nichts springt. Höhere Gewichtung als der Kopf über der 3D-Szene. */
+  html.js .header.is-pill { background: transparent; border-bottom-color: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; pointer-events: none; }
+  .header.is-pill .header__inner { pointer-events: auto; height: 58px; max-width: 1000px; margin: 10px auto 8px; padding: 0 8px 0 22px; background: rgba(17,17,17,.84); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border-color: rgba(255,90,31,.35); box-shadow: 0 14px 40px rgba(0,0,0,.55), 0 0 30px rgba(255,90,31,.14); }
+  .header.is-pill .tk-logo img { width: 52px; height: auto; }
+  .header.is-pill .nav > a, .header.is-pill .nav__more-btn { padding: 7px 11px; font-size: .9rem; }
+  .header.is-pill .header__free { min-height: 40px; }
+  .header.is-pill .header__free i { display: none; }
+  .header.is-pill .header__cta { min-height: 40px; }
+  .header.is-pill .nav__drop { top: calc(100% + 12px); }
+}
+@media (min-width: 1101px) and (max-width: 1200px) { .nav > a, .nav__more-btn { padding: 8px 11px; } .header__free i { display: none; } }
+
+/* Handy: runder Knopf, der sich beim Öffnen zur „Schließen“-Pille streckt */
+.nav-toggle { position: relative; align-items: center; justify-content: flex-end; width: 44px; height: 44px; padding: 0; border-radius: 999px; border: 1px solid var(--line-2); background: var(--surface-2); color: var(--text); cursor: pointer; overflow: hidden;
+  transition: width .45s cubic-bezier(.2,.7,.2,1), border-color .3s, background .3s, box-shadow .3s; }
+.nav-toggle:hover { border-color: rgba(255,90,31,.6); }
+.nav-toggle svg { flex: none; width: 42px; height: 20px; }
+.nav-toggle path { transform-box: fill-box; transform-origin: center; transition: transform .4s cubic-bezier(.2,.7,.2,1); }
+.nav-toggle .nt-3 { stroke: var(--hot); }
+.nav-toggle__t { position: absolute; left: 16px; top: 50%; font: 700 .9rem var(--body); white-space: nowrap; opacity: 0; transform: translate(8px, -50%); transition: opacity .2s, transform .3s; pointer-events: none; }
+.nav-toggle[aria-expanded="true"] { width: 126px; border-color: rgba(255,90,31,.6); background: rgba(255,90,31,.1); box-shadow: 0 0 22px rgba(255,90,31,.18); }
+.nav-toggle[aria-expanded="true"] .nav-toggle__t { opacity: 1; transform: translate(0, -50%); transition: opacity .25s .15s, transform .35s .15s; }
+.nav-toggle[aria-expanded="true"] .nt-1 { transform: translateY(3px) rotate(45deg); stroke: var(--hot); }
+.nav-toggle[aria-expanded="true"] .nt-3 { transform: translate(-2px, -3px) rotate(-45deg) scaleX(1.4); }
+.mnav { display: none; }
+@media (max-width: 1100px) {
+  .header__free { display: none; }
+  .mnav.is-open { display: block; position: absolute; top: 100%; left: 0; right: 0; max-height: calc(100vh - 76px); max-height: calc(100dvh - 76px); overflow-y: auto; overscroll-behavior: contain;
+    padding: 14px 16px 22px; background: var(--bg); border-bottom: 1px solid var(--line); box-shadow: 0 30px 60px rgba(0,0,0,.6); animation: tk-mnav .35s cubic-bezier(.2,.7,.2,1); }
+  .mnav__free { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border-radius: 16px; border: 1px solid rgba(255,90,31,.5); background: radial-gradient(120% 140% at 100% 0%, rgba(255,90,31,.25), rgba(255,90,31,0) 60%), var(--surface); color: var(--text); text-decoration: none; }
+  .mnav__free:hover { color: var(--text); border-color: var(--hot); }
+  .mnav__free span { display: grid; gap: 2px; }
+  .mnav__free i { justify-self: start; margin-bottom: 4px; font-style: normal; font-family: var(--mono); font-size: .56rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; background: var(--hot); color: #0b0b0b; padding: 3px 7px; border-radius: 999px; }
+  .mnav__free b { font-size: 1.05rem; }
+  .mnav__free small { color: var(--muted); font-size: .82rem; font-weight: 500; }
+  .mnav__free svg { flex: none; width: 20px; height: 20px; color: var(--hot); }
+  .mnav__k { margin: 18px 4px 8px; font-family: var(--mono); font-size: .64rem; letter-spacing: .2em; text-transform: uppercase; color: var(--hot); }
+  .mnav__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .mnav__grid a { padding: 13px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); color: var(--text); font-weight: 600; text-decoration: none; transition: border-color .2s, background .2s; }
+  .mnav__grid a:hover, .mnav__grid a:active { color: var(--text); border-color: rgba(255,90,31,.5); background: var(--hot-dim); }
+  .mnav__row { display: grid; grid-template-columns: auto 1fr; gap: 10px; margin-top: 18px; }
+  .mnav__wa { display: inline-flex; align-items: center; gap: 8px; min-height: 52px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line-2); color: var(--text); font-weight: 700; text-decoration: none; }
+  .mnav__wa:hover { color: var(--text); border-color: #25d366; }
+  .mnav__wa svg { width: 20px; height: 20px; color: #25d366; }
+  html.tk-menu-open .tk-chat-btn, html.tk-menu-open .tk-float { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+@keyframes tk-mnav { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .nav-toggle, .nav-toggle path, .nav-toggle__t, .nav__drop, .header__inner, .header .tk-logo img { transition: none !important; }
+  .mnav.is-open { animation: none; }
+}
