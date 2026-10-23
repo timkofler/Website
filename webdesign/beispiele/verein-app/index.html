@@ -19,7 +19,7 @@
 <link rel="apple-touch-icon" href="/assets/img/tk-badge-2-256.png">
 <link rel="preload" href="/beispiele/_shared/fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/beispiele/_shared/demo.css">
-<link rel="stylesheet" href="/beispiele/verein-app/style.css?v=7">
+<link rel="stylesheet" href="/beispiele/verein-app/style.css?v=8">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://tim-kofler.at/"},{"@type":"ListItem","position":2,"name":"Beispiele","item":"https://tim-kofler.at/beispiele/"},{"@type":"ListItem","position":3,"name":"Vereins-App","item":"https://tim-kofler.at/beispiele/verein-app/"}]},{"@type":"WebPage","@id":"https://tim-kofler.at/beispiele/verein-app/#seite","url":"https://tim-kofler.at/beispiele/verein-app/","name":"Vereinsverwaltung ohne Abo: Beispiel einer Vereins-App","description":"Mitglieder, Beiträge mit QR-Zahlschein, Termine mit Zusagen und Kassabuch in einer eigenen Vereins-App. Einmal gebaut, ohne monatliches Abo.","inLanguage":"de-AT","isPartOf":{"@id":"https://tim-kofler.at/#website"},"author":{"@id":"https://tim-kofler.at/#tim"}}]}</script>
 </head>
 <body>
@@ -59,6 +59,7 @@
   <symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-14 15-15-1 10-7 15-15 15z"/><path d="M5 19 13 11"/></symbol>
   <symbol id="i-peak" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2.5 20 7-12 4 6.5 2.5-3.5 5.5 9z"/><path d="m7.6 11.3 1.9 1.4 1.6-1.6"/></symbol>
   <symbol id="i-cup" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0zM7 6H4v1.5A3.5 3.5 0 0 0 7.5 11M17 6h3v1.5a3.5 3.5 0 0 1-3.5 3.5M12 14v3.5M8 21h8M9 17.5h6V21H9z"/></symbol>
+  <symbol id="i-tk" viewBox="0 0 702 358.5"><path fill="currentColor" d="M0 .5h502L389 87.5H286v194l-98.5 73V87.5H104z"/><path fill="#ff5a1f" d="M540 0h162L470 180.5 701 358.5H540L307 181.5z"/></symbol>
   <symbol id="i-wifi" viewBox="0 0 24 16" fill="currentColor"><path d="M12 15.5 8.6 12a4.8 4.8 0 0 1 6.8 0zM5.7 9.2a8.9 8.9 0 0 1 12.6 0l-1.8 1.8a6.3 6.3 0 0 0-9 0zM2.8 6.3a13 13 0 0 1 18.4 0l-1.8 1.8a10.4 10.4 0 0 0-14.8 0z"/></symbol>
   <symbol id="i-bat" viewBox="0 0 28 14" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="1.5" width="22" height="11" rx="3.2"/><rect x="3" y="3.5" width="16" height="7" rx="1.6" fill="currentColor" stroke="none"/><path d="M25.5 5.5v3" stroke-linecap="round"/></symbol>
 </svg>
@@ -176,6 +177,7 @@
                   </div>
                   <div class="done" data-j-done hidden><div class="done__ic"><svg><use href="#i-check"/></svg></div><h3>Willkommen!</h3><p data-j-msg>Der Vorstand bestätigt deinen Beitritt. Den Zahlschein für den Beitrag bekommst du per E-Mail.</p><button class="abtn ghost" type="button" data-j-again>Noch jemand anmelden</button></div>
                 </div>
+                <a class="credit" href="/"><svg viewBox="0 0 702 358.5" aria-hidden="true"><use href="#i-tk"/></svg><span>App von <b>Tim Kofler</b> – Webdesign</span></a>
               </div>
               <nav class="tabs tabs--4" role="tablist" aria-label="App-Bereiche" data-m-tabs>
                 <span class="tabs__blob" aria-hidden="true"></span>
@@ -334,6 +336,7 @@
                       <div class="site__hd"><span class="lg" data-v-logo>MV</span><b data-v-name>Musikverein Lindenau</b><nav><span>Termine</span><span>Verein</span><span>Kontakt</span></nav></div>
                       <div class="site__hero"><small>Willkommen</small><h5>Musik verbindet.</h5><p data-b-claim>Neue Mitglieder sind jederzeit willkommen.</p><span>Mitglied werden</span></div>
                       <div class="site__cards"><div><b>Termine</b>aus der App</div><div><b>Beitreten</b>online</div><div><b>Neues</b>vom Verein</div></div>
+                      <div class="site__ft"><span>Impressum · Datenschutz</span><span>Webseite und App: <b>Tim Kofler</b></span></div>
                     </div>
                     <p class="hint2">Vereinsseite und App kommen aus einer Hand, darum passen Farbe, Logo und Schrift zusammen. Tag- und Nachtansicht gibt es oben rechts beim Schalter.</p>
                   </div>
@@ -342,6 +345,7 @@
             </div>
             <div class="mcard" data-mcard hidden role="dialog" aria-modal="false" aria-label="Karteikarte"></div>
           </div>
+          <div class="desk__foot"><a class="credit" href="/"><svg viewBox="0 0 702 358.5" aria-hidden="true"><use href="#i-tk"/></svg><span>App von <b>Tim Kofler</b> – Webdesign</span></a></div>
         </div>
       </div>
     </div>
