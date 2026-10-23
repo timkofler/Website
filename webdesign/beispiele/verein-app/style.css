@@ -751,21 +751,18 @@ svg{flex:none}
 .site__ft{display:flex;justify-content:space-between;gap:8px;white-space:nowrap;padding:7px 14px;border-top:1px solid #eef1f6;font-size:10px;color:#94a3b8}
 .site__ft b{color:#64748b}
 
-/* Glas-Optik: Farbkugeln in der Vereinsfarbe hinter Milchglas-Karten (Vorstand und Handy-App) */
-.desk__in{--bg2:rgba(13,20,40,.5);--g-b:rgba(255,255,255,.12);--g-hl:rgba(255,255,255,.1);
-  background:radial-gradient(circle 190px at 34% 9%,color-mix(in srgb,var(--vc) 85%,transparent) 0,color-mix(in srgb,var(--vc) 55%,transparent) 55%,transparent 100%),
-    radial-gradient(circle 230px at 96% 46%,color-mix(in srgb,var(--vc2) 70%,transparent) 0,color-mix(in srgb,var(--vc2) 35%,transparent) 55%,transparent 100%),
-    radial-gradient(circle 210px at 48% 92%,color-mix(in srgb,var(--vc) 60%,#fff 10%) 0,color-mix(in srgb,var(--vc) 30%,transparent) 55%,transparent 100%),
-    radial-gradient(circle 160px at 4% 72%,color-mix(in srgb,var(--vc2) 45%,transparent) 0,transparent 100%),var(--card)}
-.app{--p-card:rgba(21,29,51,.5);--g-b:rgba(255,255,255,.12);--g-hl:rgba(255,255,255,.1)}
-.phone__scr{background:radial-gradient(circle 120px at 88% 22%,color-mix(in srgb,var(--vc) 85%,transparent) 0,color-mix(in srgb,var(--vc) 50%,transparent) 55%,transparent 100%),
-    radial-gradient(circle 130px at 4% 58%,color-mix(in srgb,var(--vc2) 75%,transparent) 0,color-mix(in srgb,var(--vc2) 35%,transparent) 55%,transparent 100%),
-    radial-gradient(circle 120px at 80% 92%,color-mix(in srgb,var(--vc) 60%,transparent) 0,transparent 100%),var(--p-bg)}
+/* Glas-Optik: ruhiger Schimmer in der Vereinsfarbe hinter Milchglas-Karten mit Lichtkante (Vorstand und Handy-App) */
+.desk__in{--bg2:rgba(13,20,40,.5);--g-b:rgba(255,255,255,.12);--g-hl:rgba(255,255,255,.1);--g-sh:rgba(255,255,255,.07);
+  background:radial-gradient(120% 55% at 50% -12%,color-mix(in srgb,var(--vc) 30%,transparent),transparent 70%),
+    linear-gradient(165deg,color-mix(in srgb,var(--vc) 10%,var(--card)) 0%,var(--card) 50%,color-mix(in srgb,var(--vc2) 12%,var(--card)) 100%)}
+.app{--p-card:rgba(21,29,51,.5);--g-b:rgba(255,255,255,.12);--g-hl:rgba(255,255,255,.1);--g-sh:rgba(255,255,255,.07)}
+.phone__scr{background:radial-gradient(140% 40% at 50% -6%,color-mix(in srgb,var(--vc) 36%,transparent),transparent 72%),
+    linear-gradient(170deg,var(--p-bg) 30%,color-mix(in srgb,var(--vc2) 14%,var(--p-bg)) 100%)}
 @media (prefers-color-scheme: light){
-  :root:not([data-theme="dark"]) .desk__in{--bg2:rgba(255,255,255,.55);--g-b:rgba(255,255,255,.85);--g-hl:#fff}
-  :root:not([data-theme="dark"]) .app{--p-card:rgba(255,255,255,.58);--g-b:rgba(255,255,255,.9);--g-hl:#fff}}
-:root[data-theme="light"] .desk__in{--bg2:rgba(255,255,255,.55);--g-b:rgba(255,255,255,.85);--g-hl:#fff}
-:root[data-theme="light"] .app{--p-card:rgba(255,255,255,.58);--g-b:rgba(255,255,255,.9);--g-hl:#fff}
+  :root:not([data-theme="dark"]) .desk__in{--bg2:rgba(255,255,255,.55);--g-b:rgba(255,255,255,.85);--g-hl:#fff;--g-sh:rgba(255,255,255,.55)}
+  :root:not([data-theme="dark"]) .app{--p-card:rgba(255,255,255,.58);--g-b:rgba(255,255,255,.9);--g-hl:#fff;--g-sh:rgba(255,255,255,.55)}}
+:root[data-theme="light"] .desk__in{--bg2:rgba(255,255,255,.55);--g-b:rgba(255,255,255,.85);--g-hl:#fff;--g-sh:rgba(255,255,255,.55)}
+:root[data-theme="light"] .app{--p-card:rgba(255,255,255,.58);--g-b:rgba(255,255,255,.9);--g-hl:#fff;--g-sh:rgba(255,255,255,.55)}
 .side{background:var(--bg2);border-right-color:var(--g-b)}
 .side,.desk__in :is(.kpi,.box,.tbl,.srch,.dev,.report,.calc__card,.sh,.pin,.docs,.mcard,.pk,.eig,.sws button,.jub li,.sent li),
 .app :is(.ev,.due,.pin,.docs,.mcard,.jub li,.fld,.chips button,.ev__btn button),.tabs{
@@ -793,3 +790,4 @@ svg{flex:none}
 @media (prefers-reduced-motion:reduce){.tabs button svg{transition:none}}
 .app::after{content:"";position:absolute;left:0;right:0;bottom:0;height:64px;z-index:4;pointer-events:none;background:linear-gradient(to bottom,transparent,var(--p-bg) 75%)}
 .tabs button[aria-selected="true"] i{opacity:0}
+.desk__in :is(.kpi,.box,.dev,.report,.calc__card,.sh,.pin,.docs,.mcard),.app :is(.ev,.due){background-image:linear-gradient(135deg,var(--g-sh),transparent 45%)}
