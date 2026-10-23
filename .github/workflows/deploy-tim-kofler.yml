@@ -66,6 +66,9 @@ jobs:
           set net:max-retries 3
           set net:reconnect-interval-base 5
           set net:timeout 30
+          # Zuerst CSS/JS/Bilder, dann die Seiten: sonst holt ein Besucher während des Uploads die neue Seite mit
+          # neuem ?v= aber noch die alte Datei und behält diese 7 Tage im Cache (so am 2026-10-23 beim Handy-Menü passiert).
+          mirror --reverse --verbose --no-perms --parallel=2 ./webdesign/assets/ /assets
           mirror --reverse --verbose --no-perms --parallel=2 ./webdesign/ /
           bye
           EOF

@@ -1,4 +1,4 @@
-// Mobile Navigation + aktuelles Jahr im Footer. Keine Tracker, keine Cookies (nur ein anonymer Zähler, siehe unten).
+// Menü (PC-Kapsel, „Mehr“, Handy-Kacheln) + aktuelles Jahr im Footer. Keine Tracker, keine Cookies (nur ein anonymer Zähler, siehe unten).
 document.addEventListener("DOMContentLoaded", () => {
   // Handy-Menü: runder Knopf öffnet die Kacheln (#mnav) und streckt sich dabei zur „Schließen“-Pille.
   const toggle = document.querySelector(".nav-toggle");

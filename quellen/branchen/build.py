@@ -126,7 +126,7 @@ FUSS = """
   </div>
 </footer>
 
-<script src="/assets/js/main.js?v=08580a6a"></script>
+<script src="/assets/js/main.js?v=dcc375f8"></script>
 <script src="/assets/js/forms.js?v=e27fc2c5"></script>
 <script src="/assets/js/tk-fx.js?v=d255dc7d"></script>
 </body>
