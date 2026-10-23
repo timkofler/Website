@@ -581,7 +581,8 @@
   // ---------- Helfer-Einteilung ----------
   var shBox = $("[data-h-shifts]"), poolBox = $("[data-h-pool]");
   function hChip(m, inShift) {
-    return '<span class="hc' + (m === S.me ? " is-me" : "") + (S.help.sel === m.nr ? " sel" : "") + '" data-hc="' + m.nr + '"' + (inShift ? ' role="button" tabindex="0" title="Zurück zu „Haben Zeit“"' : ' role="button" tabindex="0"') + "><i>" + ini(m.name) + "</i>" + esc(m.name) + (inShift ? "<em aria-hidden=\"true\">×</em>" : "") + "</span>";
+    if (inShift) return '<span class="hc" data-in="' + m.nr + '"><i>' + ini(m.name) + "</i>" + esc(m.name) + '<button type="button" class="hc__x" data-rm="' + m.nr + '" aria-label="' + esc(m.name) + ' aus der Schicht nehmen"><span>Entfernen?</span>×</button></span>';
+    return '<span class="hc' + (m === S.me ? " is-me" : "") + (S.help.sel === m.nr ? " sel" : "") + '" data-hc="' + m.nr + '" role="button" tabindex="0"><i>' + ini(m.name) + "</i>" + esc(m.name) + "</span>";
   }
   function helpFree() { return S.help.shifts.reduce(function (s, sh) { return s + sh.need - sh.who.length; }, 0); }
   function renderHelp() {
@@ -654,18 +655,27 @@
   document.addEventListener("pointerup", function (e) { endDrag(e, false); });
   document.addEventListener("pointercancel", function (e) { endDrag(e, true); });
   shBox.addEventListener("click", function (e) {
-    var c = e.target.closest("[data-hc]");
-    if (c) { unassign(+c.getAttribute("data-hc")); return; }
+    // Entfernen nur über das ×, und erst nach einer Rückfrage (zweites Antippen), damit niemand aus Versehen rausfliegt
+    var x = e.target.closest("[data-rm]");
+    if (x) {
+      var chip = x.closest(".hc");
+      if (chip.classList.contains("ask")) { clearTimeout(askT); unassign(+x.getAttribute("data-rm")); return; }
+      resetAsk(); chip.classList.add("ask"); x.setAttribute("aria-label", "Wirklich entfernen? Nochmal antippen");
+      askT = setTimeout(resetAsk, 3500); return;
+    }
+    if (e.target.closest("[data-in]")) return;
     var sh = e.target.closest("[data-shift]");
     if (sh && S.help.sel) { var nr = S.help.sel; if (assign(nr, sh.getAttribute("data-shift"))) feed("pop", "i-heart", findMem(nr).name + " hilft beim " + S.help.ev.t); }
   });
+  var askT;
+  function resetAsk() { clearTimeout(askT); $$(".hc.ask", shBox).forEach(function (c) { c.classList.remove("ask"); }); }
+  document.addEventListener("click", function (e) { if (!e.target.closest("[data-rm]")) resetAsk(); }, true);
   // Tastatur: Enter/Leertaste wählt einen Namen, Schichten sind dann per Klick wählbar
   $("[data-dp=helfer]").addEventListener("keydown", function (e) {
     if (e.key !== "Enter" && e.key !== " ") return;
-    var c = e.target.closest("[data-hc]"); if (!c) return;
+    var c = e.target.closest(".pool [data-hc]"); if (!c) return;
     e.preventDefault();
-    if (c.closest(".pool")) { S.help.sel = +c.getAttribute("data-hc"); renderHelp(); var f = shBox.querySelector(".sh:not(.full)"); if (f) { f.tabIndex = 0; f.focus(); } }
-    else unassign(+c.getAttribute("data-hc"));
+    S.help.sel = +c.getAttribute("data-hc"); renderHelp(); var f = shBox.querySelector(".sh:not(.full)"); if (f) { f.tabIndex = 0; f.focus(); }
   });
   shBox.addEventListener("keydown", function (e) {
     if ((e.key === "Enter" || e.key === " ") && e.target.matches("[data-shift]") && S.help.sel) { e.preventDefault(); assign(S.help.sel, e.target.getAttribute("data-shift")); }
