@@ -59,7 +59,9 @@
       events: [["Gesamtprobe", "Musikheim", "19:30", 2, 38, 4], ["Registerprobe Blech", "Musikheim", "18:30", 6, 14, 2], ["Herbstkonzert", "Festsaal", "19:00", 16, 41, 3], ["Cäcilienmesse", "Pfarrkirche", "09:30", 30, 29, 6]],
       probe: ["Registerprobe Holz", "18:30", "Probenbesuch", "Proben"],
       fest: { ev: 2, shifts: [["Aufbau", "15–18 Uhr", 4], ["Kassa", "18–21 Uhr", 2], ["Schank", "18–20:30 Uhr", 3], ["Schank", "20:30–23 Uhr", 3], ["Abbau", "23–24 Uhr", 4]] },
-      start: 5230,
+      start: 5230, color: "#1f6f54", logoT: "symbol", sym: "i-note", shape: "wappen", claim: "Blasmusik für Jung und Alt, Proben jeden Freitag.", hero: "Musik verbindet.",
+      msgs: [["Tracht fürs Herbstkonzert", "Bitte bis Freitag die Tracht kontrollieren. Wer eine neue Bluse braucht, meldet sich bei Eva.", "Schriftführerin", 2], ["Neue Noten sind da", "Die Mappe für die Cäcilienmesse liegt im Musikheim. Bitte zur nächsten Probe mitnehmen.", "Kapellmeister", 6]],
+      docs: [["Probenplan Herbst", "PDF · 1 Seite"], ["Statuten", "PDF · 6 Seiten"], ["Protokoll Generalversammlung", "PDF · 4 Seiten"], ["Datenschutzinfo", "PDF · 2 Seiten"]],
       cash: [["Förderung Gemeinde", "Förderungen", 1500], ["Frühschoppen", "Feste", 4380], ["Getränke Frühschoppen", "Feste", -1645.4], ["Noten Frühlingskonzert", "Noten & Instrumente", -386], ["Reparatur Tuba", "Noten & Instrumente", -540], ["Spende Raiffeisen-Fest", "Spenden", 300], ["Trachtenblusen (4 Stück)", "Tracht", -712], ["Versicherung Instrumente", "Verwaltung", -268.5], ["Konzertkarten Frühlingskonzert", "Feste", 2140], ["Webspace und Domain", "Verwaltung", -96]]
     },
     sport: {
@@ -70,7 +72,9 @@
       events: [["Training Kampfmannschaft", "Sportplatz", "18:00", 1, 19, 3], ["Heimspiel gegen SC Talheim", "Sportplatz", "15:00", 3, 22, 1], ["Saisonabschluss", "Kantine", "19:00", 22, 64, 8], ["Generalversammlung", "Gasthaus Post", "19:30", 35, 41, 5]],
       probe: ["Training Nachwuchs", "17:00", "Trainingsbesuch", "Trainings"],
       fest: { ev: 2, shifts: [["Aufbau", "14–17 Uhr", 4], ["Grill", "17–20 Uhr", 2], ["Schank", "17–20 Uhr", 3], ["Schank", "20–23 Uhr", 3], ["Abbau", "23–24 Uhr", 4]] },
-      start: 7810,
+      start: 7810, color: "#1d4ed8", logoT: "kuerzel", sym: "i-ball", shape: "rund", claim: "Fußball, Tennis und Turnen für die ganze Gemeinde.", hero: "Gemeinsam am Ball.",
+      msgs: [["Training Mittwoch in der Halle", "Wegen der Rasenpflege findet das Training am Mittwoch in der Turnhalle statt. Hallenschuhe mitnehmen!", "Sportliche Leitung", 1], ["Buffet Saisonabschluss", "Wer etwas fürs Buffet mitbringt, trägt sich bitte bis Monatsende in der App ein.", "Obmann", 5]],
+      docs: [["Trainingsplan Herbst", "PDF · 1 Seite"], ["Statuten", "PDF · 8 Seiten"], ["Protokoll Generalversammlung", "PDF · 5 Seiten"], ["Datenschutzinfo", "PDF · 2 Seiten"]],
       cash: [["Förderung Sportland", "Förderungen", 2400], ["Kantine September", "Kantine", 3125.6], ["Einkauf Kantine", "Kantine", -1380.2], ["Dressen Nachwuchs", "Dressen & Bälle", -1190], ["Bälle und Hütchen", "Dressen & Bälle", -312], ["Sponsor Bandenwerbung", "Sponsoren", 1800], ["Rasenpflege", "Sportplatz", -860], ["Schiedsrichtergebühren", "Spielbetrieb", -540], ["Eintritt Heimspiele", "Spielbetrieb", 1460], ["Webspace und Domain", "Verwaltung", -96]]
     },
     kultur: {
@@ -81,7 +85,9 @@
       events: [["Probe Theatergruppe", "Mühlenstadl", "19:00", 3, 12, 1], ["Lesung: Mostviertler Geschichten", "Bibliothek", "19:30", 9, 18, 2], ["Filmabend im Hof", "Mühlenstadl", "20:00", 17, 26, 4], ["Vorstandssitzung", "Mühlenstadl", "18:30", 24, 7, 0]],
       probe: ["Leseprobe", "19:00", "Probenbesuch", "Proben"],
       fest: { ev: 2, shifts: [["Aufbau und Leinwand", "17–19:30 Uhr", 3], ["Kassa", "19–20:30 Uhr", 2], ["Buffet", "19–21 Uhr", 2], ["Technik", "19:30–22:30 Uhr", 1], ["Abbau", "22:30–24 Uhr", 3]] },
-      start: 3120,
+      start: 3120, color: "#8a2b62", logoT: "symbol", sym: "i-mask", shape: "eckig", claim: "Theater, Lesungen und Kino in der alten Mühle.", hero: "Kultur im Ort.",
+      msgs: [["Requisiten gesucht", "Für das Wintertheater suchen wir einen alten Koffer und zwei Laternen. Wer hat etwas daheim?", "Obfrau", 3], ["Programmheft ist fertig", "Das Programm fürs Halbjahr liegt im Mühlenstadl auf und ist unten bei den Dokumenten.", "Schriftführer", 8]],
+      docs: [["Programm Herbst und Winter", "PDF · 4 Seiten"], ["Statuten", "PDF · 5 Seiten"], ["Protokoll Generalversammlung", "PDF · 3 Seiten"], ["Datenschutzinfo", "PDF · 2 Seiten"]],
       cash: [["Förderung Land (Kultur)", "Förderungen", 1200], ["Eintritt Sommertheater", "Veranstaltungen", 3860], ["Bühnenbild und Kostüme", "Veranstaltungen", -1240], ["Filmrechte Filmabend", "Veranstaltungen", -180], ["Spenden Lesung", "Spenden", 245], ["Tontechnik Miete", "Technik", -420], ["Plakate und Flyer", "Werbung", -315.8], ["Versicherung", "Verwaltung", -189], ["Buffet Sommertheater", "Veranstaltungen", 960], ["Webspace und Domain", "Verwaltung", -96]]
     }
   };
@@ -113,8 +119,10 @@
     S = {
       k: k, P: P, mem: mem, me: me, cash: cash, filter: "alle", q: "", io: "out", newMem: {},
       ev: P.events.map(function (e, j) { return { id: "e" + j, t: e[0], o: e[1], h: e[2], d: addDays(e[3]), yes: e[4], no: e[5], mine: "" }; }),
-      feed: []
+      feed: [], rem: 0,
+      msgs: P.msgs.map(function (m, j) { return { id: "m" + j, t: m[0], x: m[1], from: m[2], d: addDays(-m[3]), to: "alle", toMe: true, n: 0, read: 0, mail: true, unread: j === 0 }; })
     };
+    S.msgs.forEach(function (m) { m.n = mem.length; m.read = Math.round(mem.length * (0.62 + r() * 0.25)); });
     // Anwesenheit: 24 aktive Mitglieder, Probenbesuch bisher im Jahr (seit Jänner etwa jede Woche eine Probe)
     var act = mem.filter(function (m) { return m.art !== 2 && !m.role && m !== me; }).slice(0, 23).concat([me]);
     act.sort(function (a, b) { return a.name.localeCompare(b.name, "de"); });
@@ -194,7 +202,7 @@
   function renderDue() {
     var P = S.P, me = S.me, amt = P.arts[me.art].b, ref = "Beitrag " + YEAR + " · M-" + ("000" + me.nr).slice(-4);
     $("[data-m-amt]").textContent = eur(amt, true);
-    $("[data-m-rcv]").textContent = P.name;
+    $("[data-m-rcv]").textContent = S.brand ? S.brand.name : P.name;
     $("[data-m-ref]").textContent = ref;
     var st = $("[data-m-st]");
     st.className = "pill " + me.st; st.textContent = me.st === "ok" ? "bezahlt" : me.st === "wait" ? "gemeldet" : "offen";
@@ -205,7 +213,7 @@
     var cv = $("[data-m-qr]");
     if (cv && window.qrcode) {
       var q = qrcode(0, "M");
-      q.addData(["BCD", "002", "1", "SCT", "", P.name, "AT000000000000000000", "EUR" + amt.toFixed(2), "", "", ref.replace(" · ", " ")].join("\n"));
+      q.addData(["BCD", "002", "1", "SCT", "", (S.brand ? S.brand.name : P.name).slice(0, 70), "AT000000000000000000", "EUR" + amt.toFixed(2), "", "", ref.replace(" · ", " ")].join("\n"));
       q.make();
       var n = q.getModuleCount(), px = Math.floor(164 / (n + 4)), off = Math.floor((164 - px * n) / 2), cx = cv.getContext("2d");
       cx.fillStyle = "#fff"; cx.fillRect(0, 0, 164, 164); cx.fillStyle = "#0f172a";
@@ -264,6 +272,7 @@
     $$("[data-tab]", this).forEach(function (x) { x.setAttribute("aria-selected", x === b); });
     $$(".v").forEach(function (v) { v.classList.toggle("on", v.getAttribute("data-v") === b.getAttribute("data-tab")); });
     $(".app__body").scrollTop = 0;
+    if (b.getAttribute("data-tab") === "neues") setTimeout(function () { S.msgs.forEach(function (m) { m.unread = false; }); renderPins(); }, 1600);
   });
 
   // ---------- Vorstand ----------
@@ -274,6 +283,7 @@
     $$(".dp").forEach(function (p) { p.classList.toggle("on", p.getAttribute("data-dp") === t); });
     if (t === "mitglieder") $("[data-d-newbadge]").hidden = true;
     if (t === "helfer") $("[data-d-helpbadge]").hidden = true;
+    mcard.hidden = true;
   });
 
   function cashSums() {
@@ -305,12 +315,13 @@
     var open = S.mem.filter(function (m) { return m.st !== "ok"; });
     open.sort(function (a, b) { return (b.st === "wait") - (a.st === "wait") || b.nr - a.nr; });
     var h = open.slice(0, 5).map(function (m) {
-      return "<li><span>" + esc(m.name) + "</span><span>" + (m.st === "wait" ? "gemeldet" : S.P.arts[m.art].b + " €") + "</span></li>";
+      return "<li><span>" + esc(m.name) + (m.rem && m.st === "bad" ? "<em>" + m.rem + ". Erinnerung</em>" : "") + "</span><span>" + (m.st === "wait" ? "gemeldet" : S.P.arts[m.art].b + " €") + "</span></li>";
     }).join("");
     if (open.length > 5) h += '<li class="more">und ' + (open.length - 5) + " weitere</li>";
     if (!open.length) h = '<li class="more">Alle Beiträge sind bezahlt. 🎉</li>';
     $("[data-open]").innerHTML = h;
     $("[data-remind]").hidden = !open.some(function (m) { return m.st === "bad"; });
+    $("[data-remind-t]").textContent = S.rem ? "Freundliche Erinnerung schicken (" + (S.rem + 1) + ".)" : "Allen Offenen einen Zahlschein schicken";
   }
   var ST = { ok: "bezahlt", bad: "offen", wait: "gemeldet" };
   function renderMembers() {
@@ -324,7 +335,7 @@
     $("[data-th-grp]").textContent = S.P.glbl;
     $("[data-m-q]").placeholder = "Name oder " + S.P.glbl + " suchen";
     $("[data-m-rows]").innerHTML = list.map(function (m) {
-      return "<tr" + (S.newMem[m.nr] ? ' class="is-new"' : "") + "><td>M-" + ("000" + m.nr).slice(-4) + "</td><td>" + esc(m.name) + (m.role ? '<span class="role">' + esc(m.role) + "</span>" : "") +
+      return "<tr" + (S.newMem[m.nr] ? ' class="is-new"' : "") + "><td>M-" + ("000" + m.nr).slice(-4) + "</td><td>" + '<button type="button" class="nm" data-card="' + m.nr + '">' + esc(m.name) + "</button>" + (m.role ? '<span class="role">' + esc(m.role) + "</span>" : "") +
         "</td><td>" + esc(m.grp) + "</td><td>" + m.seit + '</td><td><button type="button" class="st ' + m.st + '" data-pay="' + m.nr + '" title="' + (m.st === "ok" ? "Als offen markieren" : "Als bezahlt abhaken") + '">' + ST[m.st] + "</button></td></tr>";
     }).join("") || '<tr><td colspan="5">Niemand gefunden.</td></tr>';
     $("[data-m-count]").textContent = list.length + " von " + S.mem.length + " Mitgliedern · Status antippen zum Abhaken";
@@ -336,6 +347,7 @@
     S.filter = b.getAttribute("data-f"); renderMembers();
   });
   $("[data-m-rows]").addEventListener("click", function (e) {
+    var c = e.target.closest("[data-card]"); if (c) { openCard(+c.getAttribute("data-card")); return; }
     var b = e.target.closest("[data-pay]"); if (!b) return;
     var m = S.mem[+b.getAttribute("data-pay") - 1], amt = S.P.arts[m.art].b;
     if (m.st === "ok") {
@@ -349,11 +361,20 @@
     }
     renderMembers(); renderKpis(); renderOpen(); renderCash(); flash("[data-k-cash]");
     if (m === S.me) renderDue();
+    if (!mcard.hidden && +mcard.getAttribute("data-nr") === m.nr) openCard(m.nr);
   });
   $("[data-remind]").addEventListener("click", function () {
-    var n = S.mem.filter(function (m) { return m.st === "bad"; }).length;
-    feed("", "i-mail", "Zahlschein mit QR-Code an " + n + " Mitglieder geschickt");
-    toast(n + " E-Mails mit Zahlschein", "jeder mit eigenem Betrag und QR-Code");
+    var l = S.mem.filter(function (m) { return m.st === "bad"; }), n = l.length;
+    l.forEach(function (m) { m.rem = (m.rem || 0) + 1; });
+    S.rem++;
+    if (S.rem === 1) {
+      feed("", "i-mail", "Zahlschein mit QR-Code an " + n + " Mitglieder geschickt");
+      toast(n + " E-Mails mit Zahlschein", "jeder mit eigenem Betrag und QR-Code");
+    } else {
+      feed("", "i-mail", S.rem + ". Erinnerung an " + n + " Mitglieder geschickt, freundlich formuliert");
+      toast(S.rem + ". Erinnerung verschickt", n + " Mitglieder · wer zahlt, fällt automatisch raus");
+    }
+    renderOpen();
   });
 
   // Termine im Vorstand
@@ -716,13 +737,224 @@
     }
   });
 
+  // ---------- Vereinsfarbe und Logo ----------
+  // Aus einer Farbe werden alle Töne der App abgeleitet: hell und dunkel, Text darauf lesbar.
+  var hex2rgb = function (h) { var n = parseInt(h.slice(1), 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; };
+  function rgb2hsl(c) {
+    var r = c[0] / 255, g = c[1] / 255, b = c[2] / 255, mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, h = 0, s = 0, d = mx - mn;
+    if (d) { s = d / (1 - Math.abs(2 * l - 1)); h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h *= 60; if (h < 0) h += 360; }
+    return [h, s * 100, l * 100];
+  }
+  function hsl(h, s, l) {
+    s /= 100; l /= 100;
+    var k = function (n) { return (n + h / 30) % 12; }, a = s * Math.min(l, 1 - l);
+    var f = function (n) { return Math.round(255 * (l - a * Math.max(-1, Math.min(k(n) - 3, 9 - k(n), 1)))).toString(16).padStart(2, "0"); };
+    return "#" + f(0) + f(8) + f(4);
+  }
+  function lum(h) { return hex2rgb(h).map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }).reduce(function (s, v, i) { return s + v * [0.2126, 0.7152, 0.0722][i]; }, 0); }
+  var clamp = function (v, a, b) { return Math.max(a, Math.min(b, v)); };
+  function applyColor(hex) {
+    var c = rgb2hsl(hex2rgb(hex)), h = c[0], s = c[1], l = c[2], st = document.body.style;
+    var light = lum(hex) > 0.36, tx = light ? hsl(h, s, clamp(l, 22, 32)) : hex;
+    st.setProperty("--vc", hex);
+    st.setProperty("--vc2", hsl(h, s, clamp(l + 11, 0, light ? l + 4 : 62)));
+    st.setProperty("--vcl", hsl(h, Math.min(s, 75), 94));
+    st.setProperty("--vc-on", light ? "#111827" : "#ffffff");
+    st.setProperty("--vc-tx", tx);
+    st.setProperty("--acc-d", hsl(h, Math.max(s, 52), clamp(l, 58, 68)));
+    st.setProperty("--acc-l", hsl(h, s, clamp(l, 26, 36)));
+    S.brand.color = hex;
+  }
+  var SYMS = ["i-note", "i-ball", "i-mask", "i-heart", "i-star", "i-leaf", "i-peak", "i-cup"];
+  var SWS = ["#1f6f54", "#1d4ed8", "#8a2b62", "#b91c1c", "#c2410c", "#ca8a04", "#0f766e", "#334155"];
+  function paintLogo() {
+    var B = S.brand;
+    $$("[data-v-logo]").forEach(function (el) {
+      el.classList.remove("lg--rund", "lg--wappen", "has-img"); el.textContent = "";
+      if (B.shape !== "eckig") el.classList.add("lg--" + B.shape);
+      if (B.type === "bild" && B.img) {
+        var im = document.createElement("img"); im.src = B.img; im.alt = ""; el.appendChild(im); el.classList.add("has-img");
+      } else if (B.type === "symbol") {
+        el.innerHTML = '<svg aria-hidden="true"><use href="#' + B.sym + '"/></svg>';
+      } else el.textContent = B.short || ini(B.name);
+    });
+  }
+  var slug = function (n) { return n.toLowerCase().replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue").replace(/ß/g, "ss").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 32) || "verein"; };
+  function paintName() {
+    var B = S.brand;
+    $$("[data-v-name]").forEach(function (el) { el.textContent = B.name; });
+    var dom = B.name === S.P.name ? S.P.url.split("/")[0] : slug(B.name) + ".at";
+    $("[data-v-url]").textContent = dom + "/vorstand";
+    $("[data-b-url]").textContent = dom;
+    $("[data-m-rcv]").textContent = B.name;
+  }
+  function renderBrand() {
+    var B = S.brand;
+    $("[data-b-name]").value = B.name; $("[data-b-short]").value = B.short;
+    $("[data-b-sws]").innerHTML = SWS.map(function (c) { return '<button type="button" style="--c:' + c + '" data-c="' + c + '" aria-pressed="' + (c === B.color) + '" aria-label="Farbe ' + c + '"></button>'; }).join("");
+    $("[data-b-color]").value = B.color; $("[data-b-hex]").value = B.color;
+    $$("[data-t]", $("[data-b-type]")).forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-t") === B.type); });
+    $$("[data-s]", $("[data-b-shape]")).forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-s") === B.shape); });
+    $("[data-b-syms]").hidden = B.type !== "symbol"; $("[data-b-up]").hidden = B.type !== "bild";
+    $("[data-b-syms]").innerHTML = SYMS.map(function (s) { return '<button type="button" data-sym="' + s + '" aria-pressed="' + (s === B.sym) + '" aria-label="Symbol ' + s.slice(2) + '"><svg><use href="#' + s + '"/></svg></button>'; }).join("");
+    $("[data-b-claim]").textContent = S.P.claim;
+    $(".site__hero h5").textContent = S.P.hero;
+  }
+  function setColor(hex, from) {
+    if (!/^#[0-9a-f]{6}$/i.test(hex)) return;
+    hex = hex.toLowerCase(); applyColor(hex);
+    $$("[data-c]", $("[data-b-sws]")).forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-c") === hex); });
+    if (from !== "picker") $("[data-b-color]").value = hex;
+    if (from !== "hex") $("[data-b-hex]").value = hex;
+    renderDue();
+  }
+  $("[data-b-sws]").addEventListener("click", function (e) { var b = e.target.closest("[data-c]"); if (b) setColor(b.getAttribute("data-c")); });
+  $("[data-b-color]").addEventListener("input", function () { setColor(this.value, "picker"); });
+  $("[data-b-hex]").addEventListener("input", function () { var v = this.value.trim(); if (v[0] !== "#") v = "#" + v; if (/^#[0-9a-f]{3}$/i.test(v)) v = "#" + v[1] + v[1] + v[2] + v[2] + v[3] + v[3]; setColor(v, "hex"); });
+  $("[data-b-name]").addEventListener("input", function () {
+    S.brand.name = this.value.replace(/\s+/g, " ").trim() || S.P.name; paintName(); if (S.brand.type === "kuerzel" && !S.brand.short) paintLogo();
+  });
+  $("[data-b-short]").addEventListener("input", function () { S.brand.short = this.value.trim().toUpperCase().slice(0, 3); paintLogo(); });
+  $("[data-b-type]").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-t]"); if (!b) return;
+    S.brand.type = b.getAttribute("data-t"); renderBrand(); paintLogo();
+    if (S.brand.type === "bild" && !S.brand.img) $("[data-b-file]").click();
+  });
+  $("[data-b-syms]").addEventListener("click", function (e) { var b = e.target.closest("[data-sym]"); if (!b) return; S.brand.sym = b.getAttribute("data-sym"); renderBrand(); paintLogo(); });
+  $("[data-b-shape]").addEventListener("click", function (e) { var b = e.target.closest("[data-s]"); if (!b) return; S.brand.shape = b.getAttribute("data-s"); renderBrand(); paintLogo(); });
+  $("[data-b-file]").addEventListener("change", function () {
+    var f = this.files && this.files[0]; this.value = "";
+    if (!f) return;
+    if (!/^image\/(png|jpeg|webp|svg\+xml)$/.test(f.type)) { toast("Dieses Format geht nicht", "bitte PNG, JPG, WebP oder SVG"); return; }
+    if (f.size > 1.5 * 1024 * 1024) { toast("Die Datei ist zu groß", "bitte höchstens 1,5 MB"); return; }
+    var fr = new FileReader();
+    fr.onload = function () { S.brand.img = String(fr.result); S.brand.type = "bild"; renderBrand(); paintLogo(); toast("Logo übernommen", "nur in deinem Browser, nichts wird hochgeladen"); };
+    fr.readAsDataURL(f);
+  });
+  $("[data-b-reset]").addEventListener("click", function () { initBrand(); toast("Zurückgesetzt", "Farbe und Logo vom Beispielverein"); });
+  function initBrand() {
+    var P = S.P;
+    S.brand = { name: P.name, short: P.logo, color: P.color, type: P.logoT, sym: P.sym, shape: P.shape, img: (S.brand && S.brand.img) || "" };
+    applyColor(P.color); renderBrand(); paintLogo(); paintName(); renderDue();
+  }
+
+  // ---------- Nachrichten an Gruppen und Pinnwand am Handy ----------
+  var nTo = $("[data-n-to]");
+  function targets() {
+    var o = [["alle", "Alle Mitglieder"], ["vorstand", "Nur Vorstand"], ["offen", "Mitglieder mit offenem Beitrag"], ["jugend", S.P.arts[1].l]];
+    return o.concat(S.P.groups.map(function (g) { return ["g:" + g, S.P.glbl + " " + g]; }));
+  }
+  function who(to) {
+    return S.mem.filter(function (m) {
+      if (to === "alle") return true;
+      if (to === "vorstand") return !!m.role;
+      if (to === "offen") return m.st !== "ok";
+      if (to === "jugend") return m.art === 1;
+      return to.slice(2) === m.grp;
+    });
+  }
+  function renderNCount() { var l = who(nTo.value); $("[data-n-cnt]").innerHTML = "Geht an <b>" + l.length + "</b> " + (l.length === 1 ? "Mitglied" : "Mitglieder") + (l.indexOf(S.me) > -1 ? ", auch an " + esc(S.me.name) + " am Handy" : ""); }
+  nTo.addEventListener("change", renderNCount);
+  function renderSent() {
+    $("[data-n-sent]").innerHTML = S.msgs.map(function (m) {
+      var lbl = targets().filter(function (x) { return x[0] === m.to; })[0];
+      return '<li' + (m.fresh ? ' class="is-new"' : "") + "><b>" + esc(m.t) + "</b><p>" + esc(m.x) + "</p><small><span>" + dshort(m.d) + " · " + esc(m.from) + "</span><span>An: " + esc(lbl ? lbl[1] : m.to) + " (" + m.n + ")</span>" + (m.mail ? "<span>+ E-Mail</span>" : "") + '</small><span class="rd"><i style="--r:' + Math.round(m.read / Math.max(1, m.n) * 100) + '%"></i>' + m.read + " gelesen</span></li>";
+    }).join("");
+  }
+  function renderPins() {
+    var mine = S.msgs.filter(function (m) { return m.toMe; }), un = mine.some(function (m) { return m.unread; });
+    $("[data-m-pins]").innerHTML = mine.map(function (m) {
+      return '<div class="pin' + (m.unread ? " unread" : "") + (m.fresh ? " is-new" : "") + '"><small><span>' + esc(m.from) + " · " + dshort(m.d) + "</span>" + (m.unread ? "<em>Neu</em>" : "") + "</small><b>" + esc(m.t) + "</b><p>" + esc(m.x) + "</p></div>";
+    }).join("") || '<p class="note">Gerade nichts Neues.</p>';
+    $("[data-m-docs]").innerHTML = S.P.docs.map(function (d, i) {
+      return '<button type="button" data-doc="' + i + '"><i><svg><use href="#i-file"/></svg></i><span>' + esc(d[0]) + "<small>" + esc(d[1]) + '</small></span><svg><use href="#i-dl"/></svg></button>';
+    }).join("");
+    $("[data-m-ndot]").className = un ? "" : "off";
+  }
+  $("[data-m-docs]").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-doc]"); if (!b) return;
+    toast("Muster-Dokument", S.P.docs[+b.getAttribute("data-doc")][0] + " · im echten Verein öffnet sich die PDF");
+  });
+  $("[data-n-form]").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var go = $("[data-n-go]"); if (go.classList.contains("is-busy") || go.classList.contains("is-done")) return;
+    var t = $("[data-n-t]").value.trim().slice(0, 60), x = $("[data-n-x]").value.trim().slice(0, 400);
+    if (!t || !x) return;
+    var to = nTo.value, l = who(to), me = l.indexOf(S.me) > -1, mail = $("[data-n-mail]").checked;
+    fillSend(go, "Gesendet", function () {
+      S.msgs.forEach(function (m) { m.fresh = false; });
+      var m = { id: "n" + Date.now(), t: t, x: x, from: S.P.board[3][0], d: new Date(today), to: to, toMe: me, n: l.length, read: 0, mail: mail, unread: me, fresh: true };
+      S.msgs.unshift(m);
+      $("[data-n-t]").value = ""; $("[data-n-x]").value = "";
+      fillReset(go, "Nachricht senden");
+      renderSent(); renderPins();
+      feed("", "i-mail", "Nachricht „" + t + "“ an " + l.length + " Mitglieder");
+      toast("Nachricht ist in der App", me ? "schau aufs Handy, Reiter „Neues“" : l.length + " Mitglieder bekommen sie");
+      // Die ersten lesen gleich
+      setTimeout(function () { m.read = Math.max(1, Math.round(l.length * 0.18)); renderSent(); }, 1800);
+      setTimeout(function () { m.read = Math.max(1, Math.round(l.length * 0.41)); renderSent(); }, 5200);
+    });
+  });
+  function renderNForm() { nTo.innerHTML = targets().map(function (o) { return '<option value="' + esc(o[0]) + '">' + esc(o[1]) + "</option>"; }).join(""); renderNCount(); }
+
+  // ---------- Jubiläen und Ehrungen ----------
+  var JUB = [10, 25, 40, 50, 60];
+  function jubList() {
+    return S.mem.filter(function (m) { return JUB.indexOf(YEAR - m.seit) > -1; }).sort(function (a, b) { return a.seit - b.seit || a.name.localeCompare(b.name, "de"); });
+  }
+  function renderJub() {
+    var l = jubList();
+    $("[data-jub-t]").textContent = "Jubiläen und Ehrungen " + YEAR + " · " + l.length + " Mitglieder";
+    $("[data-jub]").innerHTML = l.slice(0, 8).map(function (m) {
+      return '<li><i>' + (YEAR - m.seit) + "</i><span>" + esc(m.name) + "<small>Mitglied seit " + m.seit + "</small></span></li>";
+    }).join("") + (l.length > 8 ? '<li><span><small>und ' + (l.length - 8) + " weitere in der Liste</small></span></li>" : "");
+  }
+  $("[data-jub-csv]").addEventListener("click", function () {
+    csv("ehrungen-muster.csv", [["Nr", "Name", "Mitglied seit", "Jahre", S.P.glbl]].concat(jubList().map(function (m) { return ["M-" + ("000" + m.nr).slice(-4), m.name, m.seit, YEAR - m.seit, m.grp]; })));
+    toast("Ehrungsliste heruntergeladen", "für die Generalversammlung");
+  });
+  $("[data-jub-send]").addEventListener("click", function () {
+    var n = jubList().length;
+    feed("pop", "i-heart", "Glückwunsch zum Vereinsjubiläum an " + n + " Mitglieder geschickt");
+    toast("Glückwünsche verschickt", n + " Jubilare bekommen eine Nachricht in der App");
+  });
+
+  // ---------- Karteikarte eines Mitglieds ----------
+  var mcard = $("[data-mcard]");
+  function openCard(nr) {
+    var m = S.mem[nr - 1]; if (!m) return;
+    var A = S.att, inAtt = A.list.indexOf(m) > -1, sh = null;
+    S.help.shifts.forEach(function (x) { if (x.who.indexOf(m) > -1) sh = x; });
+    var y = YEAR - m.seit;
+    mcard.innerHTML = '<div class="mcard__hd"><i>' + ini(m.name) + "</i><span><b>" + esc(m.name) + "</b><small>M-" + ("000" + m.nr).slice(-4) + (m.role ? " · " + esc(m.role) : "") + '</small></span><button type="button" class="mcard__x" data-mc-x aria-label="Karteikarte schließen"><svg><use href="#i-x"/></svg></button></div>' +
+      "<dl><dt>" + esc(S.P.glbl) + "</dt><dd>" + esc(m.grp) + "</dd><dt>Mitgliedschaft</dt><dd>" + esc(S.P.arts[m.art].l) + " · " + S.P.arts[m.art].b + " € im Jahr</dd>" +
+      "<dt>Mitglied seit</dt><dd>" + m.seit + (y ? " · " + y + (y === 1 ? " Jahr" : " Jahre") : " · neu") + (JUB.indexOf(y) > -1 ? " 🎉" : "") + "</dd>" +
+      "<dt>Beitrag " + YEAR + '</dt><dd><span class="st ' + m.st + '">' + ST[m.st] + "</span></dd>" +
+      (m.st !== "ok" ? "<dt>Erinnerungen</dt><dd>" + (m.rem ? m.rem + " geschickt" : "noch keine") + "</dd>" : "") +
+      (inAtt ? "<dt>" + esc(S.P.probe[2]) + "</dt><dd>" + (A.seen[m.nr] + (A.saved && A.here[m.nr] ? 1 : 0)) + " von " + (A.held + (A.saved ? 1 : 0)) + " " + esc(S.P.probe[3]) + "</dd>" : "") +
+      "<dt>Helferdienst</dt><dd>" + (sh ? esc(S.help.ev.t) + ": " + esc(sh.t) + ", " + esc(sh.h) : "nicht eingeteilt") + "</dd>" +
+      "<dt>Kontakt</dt><dd>Adresse, Telefon, E-Mail · nur für den Vorstand sichtbar</dd></dl>" +
+      '<div class="mcard__ft">' + (m.st === "bad" ? '<button class="dbtn sm" type="button" data-mc-rem><svg><use href="#i-mail"/></svg>Zahlschein schicken</button>' : "") + '<button class="dbtn sm ghost" type="button" data-mc-x>Schließen</button></div>';
+    mcard.hidden = false; mcard.setAttribute("data-nr", nr);
+    var x = mcard.querySelector(".mcard__x"); if (x) x.focus({ preventScroll: true });
+  }
+  function closeCard() { if (mcard.hidden) return; var nr = mcard.getAttribute("data-nr"); mcard.hidden = true; var b = $('[data-card="' + nr + '"]'); if (b) b.focus({ preventScroll: true }); }
+  mcard.addEventListener("click", function (e) {
+    if (e.target.closest("[data-mc-x]")) { closeCard(); return; }
+    if (e.target.closest("[data-mc-rem]")) {
+      var m = S.mem[+mcard.getAttribute("data-nr") - 1]; m.rem = (m.rem || 0) + 1;
+      feed("", "i-mail", "Zahlschein mit QR-Code an " + m.name + " geschickt");
+      toast("Zahlschein verschickt", m.name + " · " + S.P.arts[m.art].b + " €");
+      renderOpen(); openCard(m.nr);
+    }
+  });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeCard(); });
+
   // ---------- Vereinsart wechseln ----------
   function load(k) {
     build(k);
     document.body.setAttribute("data-vk", k);
-    $$("[data-v-name]").forEach(function (el) { el.textContent = S.P.name; });
-    $$("[data-v-logo]").forEach(function (el) { el.textContent = S.P.logo; });
-    $("[data-v-url]").textContent = S.P.url;
+    mcard.hidden = true;
     $("[data-m-year]").textContent = YEAR;
     $("[data-me-first]").textContent = S.me.name.split(" ")[0];
     $("[data-d-newbadge]").hidden = true;
@@ -730,7 +962,8 @@
     jn.value = ""; jok.checked = false;
     $("[data-j-form]").hidden = false; $("[data-j-done]").hidden = true;
     evD.min = iso(today); evD.value = iso(addDays(12));
-    renderPhoneEvents(); renderDue(); renderJoin();
+    initBrand();
+    renderPhoneEvents(); renderJoin(); renderPins(); renderNForm(); renderSent(); renderJub();
     $("[data-d-helpbadge]").hidden = true;
     renderKpis(); renderFeed(); renderOpen(); renderMembers(); renderDeskEvents(); renderCash();
     renderWeek(); renderAtt(); renderHelp();
