@@ -57,6 +57,8 @@
       arts: [{ k: "aktiv", l: "Aktiv", b: 40 }, { k: "jugend", l: "Jugend", b: 15 }, { k: "unter", l: "Unterstützend", b: 25 }],
       board: [["Obfrau", "Maria Leitner"], ["Kapellmeister", "Stefan Pichler"], ["Kassier", "Josef Brandstetter"], ["Schriftführerin", "Eva Hofer"]],
       events: [["Gesamtprobe", "Musikheim", "19:30", 2, 38, 4], ["Registerprobe Blech", "Musikheim", "18:30", 6, 14, 2], ["Herbstkonzert", "Festsaal", "19:00", 16, 41, 3], ["Cäcilienmesse", "Pfarrkirche", "09:30", 30, 29, 6]],
+      probe: ["Registerprobe Holz", "18:30", "Probenbesuch", "Proben"],
+      fest: { ev: 2, shifts: [["Aufbau", "15–18 Uhr", 4], ["Kassa", "18–21 Uhr", 2], ["Schank", "18–20:30 Uhr", 3], ["Schank", "20:30–23 Uhr", 3], ["Abbau", "23–24 Uhr", 4]] },
       start: 5230,
       cash: [["Förderung Gemeinde", "Förderungen", 1500], ["Frühschoppen", "Feste", 4380], ["Getränke Frühschoppen", "Feste", -1645.4], ["Noten Frühlingskonzert", "Noten & Instrumente", -386], ["Reparatur Tuba", "Noten & Instrumente", -540], ["Spende Raiffeisen-Fest", "Spenden", 300], ["Trachtenblusen (4 Stück)", "Tracht", -712], ["Versicherung Instrumente", "Verwaltung", -268.5], ["Konzertkarten Frühlingskonzert", "Feste", 2140], ["Webspace und Domain", "Verwaltung", -96]]
     },
@@ -66,6 +68,8 @@
       arts: [{ k: "aktiv", l: "Erwachsene", b: 60 }, { k: "jugend", l: "Jugend", b: 25 }, { k: "unter", l: "Unterstützend", b: 30 }],
       board: [["Obmann", "Thomas Ecker"], ["Sportliche Leitung", "Sabine Wurm"], ["Kassier", "Markus Lehner"], ["Schriftführer", "Peter Riegler"]],
       events: [["Training Kampfmannschaft", "Sportplatz", "18:00", 1, 19, 3], ["Heimspiel gegen SC Talheim", "Sportplatz", "15:00", 3, 22, 1], ["Saisonabschluss", "Kantine", "19:00", 22, 64, 8], ["Generalversammlung", "Gasthaus Post", "19:30", 35, 41, 5]],
+      probe: ["Training Nachwuchs", "17:00", "Trainingsbesuch", "Trainings"],
+      fest: { ev: 2, shifts: [["Aufbau", "14–17 Uhr", 4], ["Grill", "17–20 Uhr", 2], ["Schank", "17–20 Uhr", 3], ["Schank", "20–23 Uhr", 3], ["Abbau", "23–24 Uhr", 4]] },
       start: 7810,
       cash: [["Förderung Sportland", "Förderungen", 2400], ["Kantine September", "Kantine", 3125.6], ["Einkauf Kantine", "Kantine", -1380.2], ["Dressen Nachwuchs", "Dressen & Bälle", -1190], ["Bälle und Hütchen", "Dressen & Bälle", -312], ["Sponsor Bandenwerbung", "Sponsoren", 1800], ["Rasenpflege", "Sportplatz", -860], ["Schiedsrichtergebühren", "Spielbetrieb", -540], ["Eintritt Heimspiele", "Spielbetrieb", 1460], ["Webspace und Domain", "Verwaltung", -96]]
     },
@@ -75,6 +79,8 @@
       arts: [{ k: "aktiv", l: "Mitglied", b: 30 }, { k: "jugend", l: "Ermäßigt", b: 15 }, { k: "unter", l: "Förderer", b: 60 }],
       board: [["Obfrau", "Claudia Fuchsberger"], ["Stellvertreter", "Andreas Wieser"], ["Kassierin", "Renate Kogler"], ["Schriftführer", "Martin Bauer"]],
       events: [["Probe Theatergruppe", "Mühlenstadl", "19:00", 3, 12, 1], ["Lesung: Mostviertler Geschichten", "Bibliothek", "19:30", 9, 18, 2], ["Filmabend im Hof", "Mühlenstadl", "20:00", 17, 26, 4], ["Vorstandssitzung", "Mühlenstadl", "18:30", 24, 7, 0]],
+      probe: ["Leseprobe", "19:00", "Probenbesuch", "Proben"],
+      fest: { ev: 2, shifts: [["Aufbau und Leinwand", "17–19:30 Uhr", 3], ["Kassa", "19–20:30 Uhr", 2], ["Buffet", "19–21 Uhr", 2], ["Technik", "19:30–22:30 Uhr", 1], ["Abbau", "22:30–24 Uhr", 3]] },
       start: 3120,
       cash: [["Förderung Land (Kultur)", "Förderungen", 1200], ["Eintritt Sommertheater", "Veranstaltungen", 3860], ["Bühnenbild und Kostüme", "Veranstaltungen", -1240], ["Filmrechte Filmabend", "Veranstaltungen", -180], ["Spenden Lesung", "Spenden", 245], ["Tontechnik Miete", "Technik", -420], ["Plakate und Flyer", "Werbung", -315.8], ["Versicherung", "Verwaltung", -189], ["Buffet Sommertheater", "Veranstaltungen", 960], ["Webspace und Domain", "Verwaltung", -96]]
     }
@@ -109,6 +115,19 @@
       ev: P.events.map(function (e, j) { return { id: "e" + j, t: e[0], o: e[1], h: e[2], d: addDays(e[3]), yes: e[4], no: e[5], mine: "" }; }),
       feed: []
     };
+    // Anwesenheit: 24 aktive Mitglieder, Probenbesuch bisher im Jahr (seit Jänner etwa jede Woche eine Probe)
+    var act = mem.filter(function (m) { return m.art !== 2 && !m.role && m !== me; }).slice(0, 23).concat([me]);
+    act.sort(function (a, b) { return a.name.localeCompare(b.name, "de"); });
+    var held = Math.max(4, Math.round((today - new Date(YEAR, 0, 8)) / 864e5 / 7) - 3);
+    S.att = { list: act, here: {}, held: held, saved: false, seen: {} };
+    act.forEach(function (m) { S.att.seen[m.nr] = Math.round(held * (0.45 + Math.pow(r(), 0.55) * 0.55)); });
+    S.att.seen[me.nr] = held - 2;
+    // Helfer fürs Fest: ein Teil ist schon eingeteilt, die anderen haben Zeit
+    var pool = mem.filter(function (m) { return m.art !== 1 && m !== me; }).slice(30, 52);
+    S.help = { ev: S.ev[P.fest.ev], pool: [], sel: null, asked: false, shifts: P.fest.shifts.map(function (h, j) { return { id: "s" + j, t: h[0], h: h[1], need: h[2], who: [] }; }) };
+    var pi = 0;
+    S.help.shifts.forEach(function (sh, j) { var n = [2, 1, 1, 1, 2][j] || 0; for (var q = 0; q < n && q < sh.need; q++) sh.who.push(pool[pi++]); });
+    S.help.pool = pool.slice(pi, pi + 9);
     var who = function (j) { return mem[(j * 13 + 5) % mem.length].name; };
     S.feed = [
       { c: "ok", ic: "i-check", t: who(1) + " hat für „" + S.ev[0].t + "“ zugesagt", s: "vor 12 Minuten" },
@@ -130,6 +149,25 @@
     S.feed = S.feed.slice(0, 6);
     renderFeed();
   }
+  var ini = function (n) { var p = n.split(" "); return (p[0][0] + (p[1] ? p[1][0] : "")).toUpperCase(); };
+  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Knopf, der sich beim Senden füllt und zum Häkchen wird
+  function fillSend(btn, label, done) {
+    var t = btn.querySelector(".fill__t");
+    btn.classList.add("is-busy"); btn.setAttribute("aria-busy", "true");
+    t.textContent = "Wird gesendet …";
+    setTimeout(function () {
+      btn.classList.remove("is-busy"); btn.classList.add("is-done"); btn.removeAttribute("aria-busy");
+      t.innerHTML = '<svg class="fill__ok" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>' + esc(label);
+      setTimeout(done, 750);
+    }, reduce ? 150 : 1200);
+  }
+  function fillReset(btn, label) {
+    btn.classList.remove("is-busy", "is-done"); btn.removeAttribute("aria-busy");
+    btn.querySelector(".fill__t").textContent = label;
+  }
+
   function flash(sel) { var el = $(sel); if (!el) return; el.classList.add("flash"); setTimeout(function () { el.classList.remove("flash"); }, 1200); }
 
   // ---------- Handy: Termine ----------
@@ -184,6 +222,7 @@
   var jn = $("[data-j-name]"), jok = $("[data-j-ok]"), jgo = $("[data-j-go]"), jGrp = "", jArt = 0;
   function renderJoin() {
     $("[data-j-glbl]").textContent = S.P.glbl;
+    fillReset(jgo, "Beitritt senden");
     jGrp = ""; jArt = 0;
     $("[data-j-grp]").innerHTML = S.P.groups.map(function (g) { return '<button type="button" aria-pressed="false" data-g="' + esc(g) + '">' + esc(g) + "</button>"; }).join("");
     $("[data-j-art]").innerHTML = S.P.arts.map(function (a, i) { return '<button type="button" aria-pressed="' + (i === 0) + '" data-a="' + i + '">' + esc(a.l) + " · " + a.b + " €</button>"; }).join("");
@@ -200,7 +239,11 @@
   });
   jn.addEventListener("input", checkJoin); jok.addEventListener("change", checkJoin);
   jgo.addEventListener("click", function () {
+    if (jgo.classList.contains("is-busy") || jgo.classList.contains("is-done")) return;
     var name = jn.value.trim().replace(/\s+/g, " ").slice(0, 40);
+    fillSend(jgo, "Gesendet", function () { joined(name); });
+  });
+  function joined(name) {
     var m = { nr: S.mem.length + 1, name: name, grp: jGrp, seit: YEAR, art: jArt, role: "", st: "bad" };
     S.mem.push(m); S.newMem[m.nr] = 1;
     $("[data-j-form]").hidden = true; $("[data-j-done]").hidden = false;
@@ -209,7 +252,7 @@
     renderMembers(); renderKpis(); renderOpen(); flash("[data-k-mem]");
     feed("pop", "i-plus", name + " ist dem Verein beigetreten (" + jGrp + ")");
     toast("Neues Mitglied: " + name, "steht schon in der Mitgliederliste");
-  });
+  }
   $("[data-j-again]").addEventListener("click", function () {
     jn.value = ""; jok.checked = false; renderJoin();
     $("[data-j-form]").hidden = false; $("[data-j-done]").hidden = true;
@@ -230,6 +273,7 @@
     $$("[data-dt]", this).forEach(function (x) { x.setAttribute("aria-selected", x === b); });
     $$(".dp").forEach(function (p) { p.classList.toggle("on", p.getAttribute("data-dp") === t); });
     if (t === "mitglieder") $("[data-d-newbadge]").hidden = true;
+    if (t === "helfer") $("[data-d-helpbadge]").hidden = true;
   });
 
   function cashSums() {
@@ -249,6 +293,7 @@
     var e = S.ev[0];
     $("[data-k-next]").textContent = e.yes;
     $("[data-k-nextsub]").textContent = "Zusagen · " + e.t + ", " + dshort(e.d);
+    if (S.help) renderSparks();
   }
   function renderFeed() {
     $("[data-feed]").innerHTML = S.feed.map(function (f) {
@@ -326,7 +371,7 @@
     var ev = { id: "n" + Date.now(), t: t, o: "Vereinsheim", h: h, d: d, yes: 0, no: 0, mine: "", fresh: true };
     S.ev.push(ev); S.ev.sort(function (a, b) { return a.d - b.d; });
     $("[data-ev-t]").value = "";
-    renderDeskEvents(); renderPhoneEvents(); renderKpis();
+    renderDeskEvents(); renderPhoneEvents(); renderKpis(); renderWeek();
     feed("", "i-cal", "Termin „" + t + "“ am " + dshort(d) + " angelegt");
     toast("Termin ist in der App", "alle Mitglieder können zu- oder absagen");
   });
@@ -403,6 +448,264 @@
     toast("Kassabuch heruntergeladen", "für Rechnungsprüfer oder Steuerberater");
   });
 
+  // ---------- Flüssige Tab-Leiste: ein Tropfen fließt zum angetippten Reiter ----------
+  function liquidTabs(nav, sel) {
+    var blob = nav.querySelector(".tabs__blob"), cur = null;
+    if (!blob) return function () {};
+    function x(b) { return b.offsetLeft + b.offsetWidth / 2 - blob.offsetWidth / 2; }
+    function place(b, anim) {
+      var x1 = x(b);
+      if (anim && cur !== null && !reduce && blob.animate) {
+        var d = x1 - cur, mid = cur + d * 0.5, st = 1 + Math.min(1.6, Math.abs(d) / blob.offsetWidth * 0.55);
+        blob.animate([
+          { transform: "translateX(" + cur + "px) scale(1,1)" },
+          { transform: "translateX(" + (cur + d * 0.18) + "px) scale(" + (st * 0.8) + ",.82)", offset: 0.25 },
+          { transform: "translateX(" + mid + "px) scale(" + st + ",.7)", offset: 0.5 },
+          { transform: "translateX(" + (x1 - d * 0.04) + "px) scale(.86,1.12)", offset: 0.82 },
+          { transform: "translateX(" + x1 + "px) scale(1,1)" }
+        ], { duration: 520, easing: "cubic-bezier(.45,.05,.25,1)" });
+      }
+      blob.style.transform = "translateX(" + x1 + "px)";
+      blob.classList.add("on"); cur = x1;
+    }
+    var on = nav.querySelector(sel + '[aria-selected="true"]');
+    if (on) requestAnimationFrame(function () { place(on, false); });
+    window.addEventListener("resize", function () { var b = nav.querySelector(sel + '[aria-selected="true"]'); if (b) place(b, false); });
+    return place;
+  }
+  var mTabs = $("[data-m-tabs]"), mBlob = liquidTabs(mTabs, "[data-tab]");
+  mTabs.addEventListener("click", function (e) { var b = e.target.closest("[data-tab]"); if (b) mBlob(b, true); });
+
+  // ---------- Hell/Dunkel-Schalter (gilt für die ganze Seite) ----------
+  var root = document.documentElement, sw = $("[data-theme-sw]");
+  var isLight = function () { var t = root.getAttribute("data-theme"); return t ? t === "light" : !!(window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches); };
+  function syncSw() { var l = isLight(); sw.setAttribute("aria-checked", l); sw.setAttribute("aria-label", l ? "Dunkle Ansicht" : "Helle Ansicht"); }
+  try { var saved = localStorage.getItem("va-theme"); if (saved === "light" || saved === "dark") root.setAttribute("data-theme", saved); } catch (e) {}
+  syncSw();
+  sw.addEventListener("click", function () {
+    var t = isLight() ? "dark" : "light";
+    root.setAttribute("data-theme", t); syncSw();
+    try { localStorage.setItem("va-theme", t); } catch (e) {}
+  });
+  if (window.matchMedia) { var mq = matchMedia("(prefers-color-scheme: light)"); if (mq.addEventListener) mq.addEventListener("change", syncSw); }
+
+  // ---------- Verlaufslinien in den Kacheln ----------
+  function spark(el, vals, draw) {
+    var w = 120, h = 34, mn = Math.min.apply(null, vals), mx = Math.max.apply(null, vals), rg = mx - mn || 1;
+    var pts = vals.map(function (v, i) { return [i / (vals.length - 1) * w, 4 + (1 - (v - mn) / rg) * (h - 8)]; });
+    var d = pts.map(function (p, i) { return (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1); }).join("");
+    var last = pts[pts.length - 1];
+    el.innerHTML = '<path class="a" d="' + d + "L" + w + " " + h + "L0 " + h + 'Z"/><path class="l" d="' + d + '"/><circle cx="' + last[0] + '" cy="' + last[1].toFixed(1) + '" r="3"/>';
+    var l = el.querySelector(".l");
+    if (draw && !reduce && l.getTotalLength) {
+      var len = Math.ceil(l.getTotalLength()); l.style.strokeDasharray = len; l.style.setProperty("--len", len); l.classList.add("draw");
+    }
+  }
+  var sparkDrawn = {};
+  function renderSparks() {
+    // Mitglieder: Stand am Ende der letzten 12 Monate (wer schon dabei war, plus leichte Austritte)
+    var n = S.mem.length, mv = [];
+    for (var i = 11; i >= 0; i--) mv.push(n - Math.round(i * 0.9 + (i % 3 === 1 ? 1 : 0)));
+    mv[11] = n;
+    // Kassastand: echte Buchungen dieses Jahres, Monat für Monat aufsummiert
+    var cv = [], run = S.P.start, months = today.getMonth() + 1, byM = {};
+    S.cash.forEach(function (c) { if (c.d.getFullYear() === YEAR) byM[c.d.getMonth()] = (byM[c.d.getMonth()] || 0) + c.a; });
+    for (var m = 0; m < months; m++) { run += byM[m] || 0; cv.push(run); }
+    if (cv.length < 2) cv.unshift(S.P.start);
+    spark($('[data-spark="mem"]'), mv, !sparkDrawn[S.k]);
+    spark($('[data-spark="cash"]'), cv, !sparkDrawn[S.k]);
+    sparkDrawn[S.k] = 1;
+  }
+
+  // ---------- Wochenleiste mit Jetzt-Linie ----------
+  function renderWeek() {
+    var days = [], h = "";
+    for (var i = -1; i < 7; i++) days.push(addDays(i));
+    $("[data-week-range]").textContent = dshort(days[0]) + " bis " + dshort(days[7]);
+    days.forEach(function (d, i) {
+      var evs = S.ev.filter(function (e) { return e.d - d === 0; }).map(function (e) { return '<span class="wev' + (e === S.help.ev ? " fest" : "") + '"><b>' + esc(e.t) + "</b><span>" + esc(e.h) + "</span></span>"; });
+      if (i === 1) evs.unshift('<span class="wev att"><b>' + esc(S.P.probe[0]) + "</b><span>" + esc(S.P.probe[1]) + "</span></span>");
+      h += '<div class="wd' + (i === 1 ? " is-today" : i === 0 ? " is-past" : "") + '"><small>' + (i === 1 ? "Heute" : WT[d.getDay()]) + "<b>" + d.getDate() + ".</b></small>" + evs.join("") + "</div>";
+    });
+    var now = new Date(), f = (now.getHours() + now.getMinutes() / 60) / 24;
+    h += '<i class="now" style="left:' + ((1 + f) / 8 * 100).toFixed(2) + '%"><span>' + ("0" + now.getHours()).slice(-2) + ":" + ("0" + now.getMinutes()).slice(-2) + "</span></i>";
+    $("[data-week]").innerHTML = h;
+  }
+  setInterval(function () { if (S) renderWeek(); }, 60000);
+
+  // ---------- Anwesenheit ----------
+  var attList = $("[data-a-list]");
+  function renderAtt() {
+    var A = S.att, n = 0;
+    $("[data-a-when]").textContent = "Heute, " + WT[today.getDay()] + " " + dshort(today) + " · " + S.P.probe[1] + " Uhr";
+    $("[data-a-title]").textContent = S.P.probe[0];
+    attList.innerHTML = A.list.map(function (m) {
+      var on = !!A.here[m.nr]; if (on) n++;
+      return '<button type="button" aria-pressed="' + on + '" data-a="' + m.nr + '"><i>' + ini(m.name) + '<svg><use href="#i-check"/></svg></i><span>' + esc(m.name) + "</span></button>";
+    }).join("");
+    $("[data-a-n]").textContent = n;
+    $("[data-a-of]").textContent = "von " + A.list.length + " da";
+    renderAttStat();
+  }
+  function renderAttStat() {
+    var A = S.att, held = A.held + (A.saved ? 1 : 0);
+    var rows = A.list.map(function (m) { var s = A.seen[m.nr] + (A.saved && A.here[m.nr] ? 1 : 0); return { m: m, s: s, p: s / held }; });
+    rows.sort(function (a, b) { return b.p - a.p || a.m.name.localeCompare(b.m.name, "de"); });
+    var top = rows.filter(function (r) { return r.p >= 0.9; });
+    $("[data-a-stat-t]").textContent = S.P.probe[2] + " " + YEAR + " · " + held + " " + S.P.probe[3];
+    $("[data-a-stat]").innerHTML = rows.slice(0, 8).map(function (r) {
+      return '<li class="' + (r.p >= 0.9 ? "top" : "") + '"><span>' + esc(r.m.name) + '</span><span class="b"><i style="width:' + Math.round(r.p * 100) + '%"></i></span><span>' + r.s + " · " + Math.round(r.p * 100) + " %</span></li>";
+    }).join("");
+    $("[data-a-ehrung]").textContent = top.length ? top.length + (top.length === 1 ? " Mitglied war" : " Mitglieder waren") + " bei mindestens 90 % dabei. Die Liste für die Ehrungen bei der Generalversammlung ist damit schon fertig." : "";
+  }
+  attList.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-a]"); if (!b) return;
+    var nr = +b.getAttribute("data-a"), A = S.att;
+    if (A.saved) { A.saved = false; }
+    A.here[nr] = !A.here[nr];
+    b.setAttribute("aria-pressed", !!A.here[nr]);
+    var n = A.list.filter(function (m) { return A.here[m.nr]; }).length;
+    $("[data-a-n]").textContent = n; renderAttStat();
+  });
+  $("[data-a-all]").addEventListener("click", function () {
+    S.att.list.forEach(function (m) { S.att.here[m.nr] = true; }); S.att.saved = false; renderAtt();
+  });
+  $("[data-a-save]").addEventListener("click", function () {
+    var A = S.att, n = A.list.filter(function (m) { return A.here[m.nr]; }).length;
+    if (!n) { toast("Noch niemand angetippt", "wer da ist, einfach antippen"); return; }
+    A.saved = true; renderAttStat();
+    feed("ok", "i-hand", S.P.probe[0] + ": " + n + " von " + A.list.length + " da, Anwesenheit gespeichert");
+    toast("Anwesenheit gespeichert", n + " von " + A.list.length + " · Statistik ist aktuell");
+  });
+
+  // ---------- Helfer-Einteilung ----------
+  var shBox = $("[data-h-shifts]"), poolBox = $("[data-h-pool]");
+  function hChip(m, inShift) {
+    return '<span class="hc' + (m === S.me ? " is-me" : "") + (S.help.sel === m.nr ? " sel" : "") + '" data-hc="' + m.nr + '"' + (inShift ? ' role="button" tabindex="0" title="Zurück zu „Haben Zeit“"' : ' role="button" tabindex="0"') + "><i>" + ini(m.name) + "</i>" + esc(m.name) + (inShift ? "<em aria-hidden=\"true\">×</em>" : "") + "</span>";
+  }
+  function helpFree() { return S.help.shifts.reduce(function (s, sh) { return s + sh.need - sh.who.length; }, 0); }
+  function renderHelp() {
+    var H = S.help, tot = 0, got = 0;
+    $("[data-h-when]").textContent = "Fest · " + WT[H.ev.d.getDay()] + " " + dshort(H.ev.d) + " · " + H.ev.o;
+    $("[data-h-title]").textContent = H.ev.t;
+    poolBox.innerHTML = H.pool.map(function (m) { return hChip(m, false); }).join("") || '<span class="hint2">Alle sind eingeteilt.</span>';
+    $("[data-h-poolc]").textContent = "(" + H.pool.length + ")";
+    shBox.innerHTML = H.shifts.map(function (sh) {
+      tot += sh.need; got += sh.who.length;
+      var free = sh.need - sh.who.length, slots = "";
+      for (var i = 0; i < free; i++) slots += '<span class="slot">frei</span>';
+      return '<div class="sh' + (free ? "" : " full") + '" data-shift="' + sh.id + '"><div class="sh__hd"><b>' + esc(sh.t) + "</b><small>" + (free ? esc(sh.h) : "voll") + '</small></div><div class="sh__list">' + sh.who.map(function (m) { return hChip(m, true); }).join("") + slots + "</div></div>";
+    }).join("");
+    shBox.classList.toggle("pick", !!H.sel);
+    $("[data-h-n]").textContent = got;
+    $("[data-h-of]").textContent = "von " + tot + " Plätzen besetzt";
+    renderAsk();
+  }
+  function findMem(nr) { return S.mem[nr - 1]; }
+  function assign(nr, sid) {
+    var H = S.help, m = findMem(nr), sh = H.shifts.filter(function (x) { return x.id === sid; })[0];
+    if (!m || !sh) return false;
+    if (sh.who.indexOf(m) > -1) return false;
+    if (sh.who.length >= sh.need) { toast(sh.t + " ist schon voll", "eine andere Schicht wählen"); return false; }
+    H.shifts.forEach(function (x) { var k = x.who.indexOf(m); if (k > -1) x.who.splice(k, 1); });
+    H.pool = H.pool.filter(function (x) { return x !== m; });
+    sh.who.push(m); H.sel = null;
+    renderHelp();
+    var el = shBox.querySelector('[data-shift="' + sid + '"]'); if (el) el.classList.add("pulse");
+    if (sh.who.length === sh.need) toast(sh.t + " (" + sh.h + ") ist voll", "alle Plätze besetzt");
+    return true;
+  }
+  function unassign(nr) {
+    var H = S.help, m = findMem(nr);
+    H.shifts.forEach(function (x) { var k = x.who.indexOf(m); if (k > -1) x.who.splice(k, 1); });
+    if (H.pool.indexOf(m) < 0) H.pool.unshift(m);
+    renderHelp();
+  }
+  // Ziehen mit Maus oder Finger; ohne Bewegung wirkt es wie Antippen (erst Name, dann Schicht)
+  var drag = null;
+  document.addEventListener("pointerdown", function (e) {
+    var c = e.target.closest(".pool [data-hc]"); if (!c || e.button > 0) return;
+    drag = { c: c, nr: +c.getAttribute("data-hc"), x: e.clientX, y: e.clientY, ghost: null, over: null };
+  });
+  document.addEventListener("pointermove", function (e) {
+    if (!drag) return;
+    if (!drag.ghost) {
+      if (Math.abs(e.clientX - drag.x) + Math.abs(e.clientY - drag.y) < 6) return;
+      var r = drag.c.getBoundingClientRect();
+      drag.dx = drag.x - r.left; drag.dy = drag.y - r.top;
+      drag.ghost = drag.c.cloneNode(true); drag.ghost.classList.add("drag"); drag.ghost.classList.remove("sel");
+      document.body.appendChild(drag.ghost); drag.c.classList.add("ghost");
+    }
+    drag.ghost.style.left = (e.clientX - drag.dx) + "px"; drag.ghost.style.top = (e.clientY - drag.dy) + "px";
+    var t = document.elementFromPoint(e.clientX, e.clientY), sh = t && t.closest("[data-shift]");
+    if (drag.over && drag.over !== sh) drag.over.classList.remove("over");
+    if (sh && !sh.classList.contains("full")) { sh.classList.add("over"); drag.over = sh; } else drag.over = null;
+  });
+  function endDrag(e, cancel) {
+    if (!drag) return;
+    var d = drag; drag = null;
+    if (!d.ghost) {
+      if (cancel) return;
+      S.help.sel = S.help.sel === d.nr ? null : d.nr; renderHelp(); return;
+    }
+    d.ghost.remove(); d.c.classList.remove("ghost");
+    if (d.over) { d.over.classList.remove("over"); if (!cancel && assign(d.nr, d.over.getAttribute("data-shift"))) feed("pop", "i-heart", findMem(d.nr).name + " hilft beim " + S.help.ev.t + " (" + S.help.shifts.filter(function (x) { return x.id === d.over.getAttribute("data-shift"); })[0].t + ")"); }
+  }
+  document.addEventListener("pointerup", function (e) { endDrag(e, false); });
+  document.addEventListener("pointercancel", function (e) { endDrag(e, true); });
+  shBox.addEventListener("click", function (e) {
+    var c = e.target.closest("[data-hc]");
+    if (c) { unassign(+c.getAttribute("data-hc")); return; }
+    var sh = e.target.closest("[data-shift]");
+    if (sh && S.help.sel) { var nr = S.help.sel; if (assign(nr, sh.getAttribute("data-shift"))) feed("pop", "i-heart", findMem(nr).name + " hilft beim " + S.help.ev.t); }
+  });
+  // Tastatur: Enter/Leertaste wählt einen Namen, Schichten sind dann per Klick wählbar
+  $("[data-dp=helfer]").addEventListener("keydown", function (e) {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    var c = e.target.closest("[data-hc]"); if (!c) return;
+    e.preventDefault();
+    if (c.closest(".pool")) { S.help.sel = +c.getAttribute("data-hc"); renderHelp(); var f = shBox.querySelector(".sh:not(.full)"); if (f) { f.tabIndex = 0; f.focus(); } }
+    else unassign(+c.getAttribute("data-hc"));
+  });
+  shBox.addEventListener("keydown", function (e) {
+    if ((e.key === "Enter" || e.key === " ") && e.target.matches("[data-shift]") && S.help.sel) { e.preventDefault(); assign(S.help.sel, e.target.getAttribute("data-shift")); }
+  });
+  $("[data-h-send]").addEventListener("click", function () {
+    var n = S.help.shifts.reduce(function (s, sh) { return s + sh.who.length; }, 0), f = helpFree();
+    feed("", "i-mail", "Dienstplan " + S.help.ev.t + " an " + n + " Helfer geschickt");
+    toast("Dienstplan verschickt", n + " Helfer bekommen ihre Schicht" + (f ? " · " + f + " Plätze noch frei" : ""));
+  });
+  $("[data-h-ask]").addEventListener("click", function () {
+    var f = helpFree();
+    if (!f) { toast("Alle Schichten sind voll", "nichts mehr zu fragen"); return; }
+    S.help.asked = true; renderAsk();
+    var a = $(".ask__c"); if (a) { a.classList.remove("flash"); void a.offsetWidth; a.classList.add("flash"); }
+    feed("", "i-bell", "Helfer-Aufruf in der App: " + f + " Plätze frei");
+    toast("Aufruf ist in der App", "alle sehen die freien Plätze und tippen „Ich helfe“");
+  });
+
+  // Handy: Karte „Helfer gesucht“
+  function renderAsk() {
+    var H = S.help, box = $("[data-m-help]"), mine = null;
+    H.shifts.forEach(function (sh) { if (sh.who.indexOf(S.me) > -1) mine = sh; });
+    var open = H.shifts.filter(function (sh) { return sh.who.length < sh.need; });
+    if (mine) {
+      box.innerHTML = '<div class="ask__c ok"><small><i></i>Du hilfst mit</small><b>' + esc(H.ev.t) + ": " + esc(mine.t) + "</b><p>" + WT[H.ev.d.getDay()] + " " + dshort(H.ev.d) + ", " + esc(mine.h) + ". Danke!</p></div>";
+    } else if (open.length) {
+      var sh = open.sort(function (a, b) { return (b.need - b.who.length) - (a.need - a.who.length); })[0], f = sh.need - sh.who.length;
+      box.innerHTML = '<div class="ask__c"><small><i></i>Helfer gesucht</small><b>' + esc(H.ev.t) + ": " + esc(sh.t) + "</b><p>" + WT[H.ev.d.getDay()] + " " + dshort(H.ev.d) + ", " + esc(sh.h) + " · noch " + f + (f === 1 ? " Platz" : " Plätze") + ' frei</p><button class="abtn" type="button" data-help-me="' + sh.id + '"><svg><use href="#i-heart"/></svg>Ich helfe</button></div>';
+    } else box.innerHTML = "";
+  }
+  $("[data-m-help]").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-help-me]"); if (!b) return;
+    var sid = b.getAttribute("data-help-me"), sh = S.help.shifts.filter(function (x) { return x.id === sid; })[0];
+    if (assign(S.me.nr, sid)) {
+      $("[data-d-helpbadge]").hidden = false;
+      feed("pop", "i-heart", S.me.name + " hilft beim " + S.help.ev.t + " (" + sh.t + ")");
+      toast("Im Dienstplan eingetragen", S.me.name + " · " + sh.t + ", " + sh.h);
+    }
+  });
+
   // ---------- Vereinsart wechseln ----------
   function load(k) {
     build(k);
@@ -418,7 +721,9 @@
     $("[data-j-form]").hidden = false; $("[data-j-done]").hidden = true;
     evD.min = iso(today); evD.value = iso(addDays(12));
     renderPhoneEvents(); renderDue(); renderJoin();
+    $("[data-d-helpbadge]").hidden = true;
     renderKpis(); renderFeed(); renderOpen(); renderMembers(); renderDeskEvents(); renderCash();
+    renderWeek(); renderAtt(); renderHelp();
   }
   $("[data-switch]").addEventListener("click", function (e) {
     var b = e.target.closest("[data-vk]"); if (!b || b.getAttribute("aria-pressed") === "true") return;

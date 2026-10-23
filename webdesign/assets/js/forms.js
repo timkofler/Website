@@ -67,12 +67,24 @@
       status.className = "form__status " + (ok ? "is-ok" : "is-error");
     }
 
+    // Senden-Knopf füllt sich, solange die Anfrage läuft, und wird bei Erfolg zum Häkchen.
+    var FILL = '<span class="tk-fill" aria-hidden="true"></span>';
+    var OK = '<svg class="tk-fill__ok" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+    function reset(label) {
+      button.disabled = false;
+      button.classList.remove("is-sending", "is-sent");
+      button.removeAttribute("aria-busy");
+      button.innerHTML = label;
+    }
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       if (button.disabled) return;
       button.disabled = true;
       var label = button.innerHTML;
-      button.textContent = "Wird gesendet …";
+      button.innerHTML = FILL + "Wird gesendet …";
+      button.setAttribute("aria-busy", "true");
+      button.classList.add("is-sending");
       fetch(form.action, {
         method: "POST",
         body: new FormData(form),
@@ -81,17 +93,21 @@
       })
         .then(function (r) { return r.json(); })
         .then(function (data) {
-          if (data.ok && data.next) { window.location.href = data.next; return; }
+          if (data.ok) {
+            button.classList.add("is-sent");
+            button.removeAttribute("aria-busy");
+            button.innerHTML = FILL + OK + "Gesendet";
+          }
+          // Kurz das Häkchen zeigen, dann weiter zur Danke-Seite
+          if (data.ok && data.next) { setTimeout(function () { window.location.href = data.next; }, 650); return; }
           show(data.message || "Das hat leider nicht geklappt.", !!data.ok);
           // Erfolg ohne eigene Danke-Seite (z. B. Rückruf): Knopf bleibt aus, damit nicht doppelt gesendet wird.
-          if (data.ok) { button.textContent = "Gesendet"; return; }
-          button.disabled = false;
-          button.innerHTML = label;
+          if (data.ok) return;
+          reset(label);
         })
         .catch(function () {
           show("Verbindung fehlgeschlagen. Bitte versuche es noch einmal oder schreib an " + mail + ".", false);
-          button.disabled = false;
-          button.innerHTML = label;
+          reset(label);
         });
     });
   });

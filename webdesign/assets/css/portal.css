@@ -450,3 +450,26 @@
 @media (max-width: 680px) { .kp-konto__body { padding: 16px 18px 20px; } }
 .kp-tf-kunde .kp-steps p { font-size: .94rem; }
 .kp-tf-kunde .kp-tf-actions { margin-top: 0; }
+
+/* Code-Feld mit sechs Kästchen, das bei voller Eingabe zum Häkchen wird (portal.js) */
+.kp-code { position: relative; display: block; max-width: 380px; }
+.form .kp-code input.kp-otp { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; padding: 0; border: 0; background: transparent; box-shadow: none; color: transparent; caret-color: transparent; font-size: 16px; letter-spacing: 0; opacity: .01; }
+.kp-code__cells { position: relative; display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+.kp-code__cells i { display: grid; place-items: center; height: 58px; font: 600 1.6rem/1 var(--mono); font-style: normal; color: var(--text); background: var(--surface); border: 1px solid var(--line-2); border-radius: 12px; transition: border-color .2s, box-shadow .2s, transform .45s cubic-bezier(.6,-0.3,.4,1), opacity .35s, background .2s; }
+.kp-code__cells i:nth-child(3) { margin-right: 8px; }
+.kp-code__cells i.is-set { animation: kp-digit .25s ease; }
+.kp-code.is-focus .kp-code__cells i.is-cur { border-color: var(--hot, #ff5a1f); box-shadow: 0 0 0 3px rgba(255,90,31,.22); }
+.kp-code.is-focus .kp-code__cells i.is-cur:not(.is-set)::after { content: ""; width: 2px; height: 26px; background: var(--hot, #ff5a1f); animation: kp-caret 1s steps(1) infinite; }
+@keyframes kp-digit { from { transform: translateY(6px) scale(.85); opacity: .3; } }
+@keyframes kp-caret { 50% { opacity: 0; } }
+.kp-code.is-full .kp-code__cells i { transform: translateX(var(--to)) scale(.2); opacity: 0; border-color: var(--hot, #ff5a1f); }
+.kp-code__cells i:nth-child(1) { --to: 250%; } .kp-code__cells i:nth-child(2) { --to: 150%; transition-delay: .03s; } .kp-code__cells i:nth-child(3) { --to: 55%; transition-delay: .06s; }
+.kp-code__cells i:nth-child(4) { --to: -55%; transition-delay: .06s; } .kp-code__cells i:nth-child(5) { --to: -150%; transition-delay: .03s; } .kp-code__cells i:nth-child(6) { --to: -250%; }
+.kp-code__ok { position: absolute; left: 50%; top: 50%; width: 52px; height: 52px; margin: -26px 0 0 -26px; fill: none; stroke: var(--hot, #ff5a1f); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; opacity: 0; transform: scale(.6); transition: opacity .2s .25s, transform .4s .25s cubic-bezier(.3,1.6,.5,1); pointer-events: none; }
+.kp-code__ok circle { stroke-dasharray: 145; stroke-dashoffset: 145; fill: rgba(255,90,31,.12); }
+.kp-code__ok path { stroke-dasharray: 34; stroke-dashoffset: 34; }
+.kp-code.is-full .kp-code__ok { opacity: 1; transform: none; }
+.kp-code.is-full .kp-code__ok circle { transition: stroke-dashoffset .45s .3s ease; stroke-dashoffset: 0; }
+.kp-code.is-full .kp-code__ok path { transition: stroke-dashoffset .3s .6s ease; stroke-dashoffset: 0; }
+@media (max-width: 420px) { .kp-code__cells { gap: 6px; } .kp-code__cells i { height: 50px; font-size: 1.35rem; } .kp-code__cells i:nth-child(3) { margin-right: 4px; } }
+@media (prefers-reduced-motion: reduce) { .kp-code__cells i, .kp-code__ok, .kp-code__ok circle, .kp-code__ok path { transition: none !important; animation: none !important; } }

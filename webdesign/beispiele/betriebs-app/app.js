@@ -178,8 +178,29 @@
 
   // Tabs in der App und Funktions-Karten darunter
   var tab = "termin";
+  // Flüssige Tab-Leiste: ein Tropfen dehnt sich zum neuen Reiter und zieht sich dort wieder zusammen
+  var blob = $(".tabs__blob"), blobX = null;
+  var moveBlob = function (b, anim) {
+    if (!blob || !b) return;
+    var x1 = b.offsetLeft + b.offsetWidth / 2 - blob.offsetWidth / 2;
+    if (anim && blobX !== null && !reduce && blob.animate) {
+      var d = x1 - blobX, st = 1 + Math.min(1.6, Math.abs(d) / blob.offsetWidth * 0.55);
+      blob.animate([
+        { transform: "translateX(" + blobX + "px) scale(1,1)" },
+        { transform: "translateX(" + (blobX + d * 0.18) + "px) scale(" + (st * 0.8) + ",.82)", offset: 0.25 },
+        { transform: "translateX(" + (blobX + d * 0.5) + "px) scale(" + st + ",.7)", offset: 0.5 },
+        { transform: "translateX(" + (x1 - d * 0.04) + "px) scale(.86,1.12)", offset: 0.82 },
+        { transform: "translateX(" + x1 + "px) scale(1,1)" }
+      ], { duration: 520, easing: "cubic-bezier(.45,.05,.25,1)" });
+    }
+    blob.style.transform = "translateX(" + x1 + "px)"; blob.classList.add("on"); blobX = x1;
+  };
+  var curTab = function () { return $('[data-tab][aria-selected="true"]'); };
+  requestAnimationFrame(function () { moveBlob(curTab(), false); });
+  addEventListener("resize", function () { moveBlob(curTab(), false); });
   var setTab = function (t, focus) {
     tab = t;
+    moveBlob($('[data-tab="' + t + '"]'), true);
     $$("[data-tab]").forEach(function (b) { b.setAttribute("aria-selected", b.getAttribute("data-tab") === t ? "true" : "false"); });
     $$("[data-v]").forEach(function (v) { v.classList.toggle("on", v.getAttribute("data-v") === t); });
     $$("[data-feat]").forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-feat") === t ? "true" : "false"); });

@@ -19,7 +19,7 @@
 <link rel="apple-touch-icon" href="/assets/img/tk-badge-2-256.png">
 <link rel="preload" href="/beispiele/_shared/fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/beispiele/_shared/demo.css">
-<link rel="stylesheet" href="/beispiele/verein-app/style.css?v=3">
+<link rel="stylesheet" href="/beispiele/verein-app/style.css?v=4">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://tim-kofler.at/"},{"@type":"ListItem","position":2,"name":"Beispiele","item":"https://tim-kofler.at/beispiele/"},{"@type":"ListItem","position":3,"name":"Vereins-App","item":"https://tim-kofler.at/beispiele/verein-app/"}]},{"@type":"WebPage","@id":"https://tim-kofler.at/beispiele/verein-app/#seite","url":"https://tim-kofler.at/beispiele/verein-app/","name":"Vereinsverwaltung ohne Abo: Beispiel einer Vereins-App","description":"Mitglieder, Beiträge mit QR-Zahlschein, Termine mit Zusagen und Kassabuch in einer eigenen Vereins-App. Einmal gebaut, ohne monatliches Abo.","inLanguage":"de-AT","isPartOf":{"@id":"https://tim-kofler.at/#website"},"author":{"@id":"https://tim-kofler.at/#tim"}}]}</script>
 </head>
 <body>
@@ -51,6 +51,8 @@
   <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 0 1-11.8 7L4 20l1.1-3.9A8 8 0 1 1 20 12z"/></symbol>
   <symbol id="i-sheet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 9h16M4 15h16M10 3v18"/></symbol>
   <symbol id="i-qr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="6" height="6" rx="1"/><rect x="14.5" y="3.5" width="6" height="6" rx="1"/><rect x="3.5" y="14.5" width="6" height="6" rx="1"/><path d="M14.5 14.5h2.5v2.5M20.5 14.5v.01M17 20.5h3.5V18M14.5 20.5v.01"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 11V5.5a1.5 1.5 0 0 1 3 0V10M11 9.5v-6a1.5 1.5 0 0 1 3 0v6M14 9.5V5a1.5 1.5 0 0 1 3 0v8"/><path d="M17 10.5a1.5 1.5 0 0 1 3 0V15a7 7 0 0 1-7 7h-1a7 7 0 0 1-5.6-2.8L3.6 15.5a1.6 1.6 0 0 1 2.4-2L8 15V11"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5S3.5 15.6 3.5 9.3A4.8 4.8 0 0 1 12 6.2a4.8 4.8 0 0 1 8.5 3.1c0 6.3-8.5 11.2-8.5 11.2z"/></symbol>
   <symbol id="i-wifi" viewBox="0 0 24 16" fill="currentColor"><path d="M12 15.5 8.6 12a4.8 4.8 0 0 1 6.8 0zM5.7 9.2a8.9 8.9 0 0 1 12.6 0l-1.8 1.8a6.3 6.3 0 0 0-9 0zM2.8 6.3a13 13 0 0 1 18.4 0l-1.8 1.8a10.4 10.4 0 0 0-14.8 0z"/></symbol>
   <symbol id="i-bat" viewBox="0 0 28 14" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="1.5" width="22" height="11" rx="3.2"/><rect x="3" y="3.5" width="16" height="7" rx="1.6" fill="currentColor" stroke="none"/><path d="M25.5 5.5v3" stroke-linecap="round"/></symbol>
 </svg>
@@ -128,6 +130,7 @@
                 <!-- Termine -->
                 <div class="v on" data-v="termine" role="tabpanel" aria-label="Termine">
                   <h3>Nächste Termine</h3>
+                  <div class="ask" data-m-help></div>
                   <div class="evs" data-m-evs></div>
                   <p class="note">Musterdaten · nichts wird gesendet</p>
                 </div>
@@ -154,13 +157,14 @@
                     <span class="lbl">Mitgliedschaft</span>
                     <div class="chips" data-j-art></div>
                     <label class="chk"><input type="checkbox" data-j-ok><span>Ich habe die Statuten und die Datenschutzinfo gelesen.</span></label>
-                    <button class="abtn" type="button" data-j-go disabled>Beitritt senden</button>
+                    <button class="abtn fill" type="button" data-j-go disabled><span class="fill__t">Beitritt senden</span></button>
                     <p class="note">Musterdaten · nichts wird gesendet</p>
                   </div>
                   <div class="done" data-j-done hidden><div class="done__ic"><svg><use href="#i-check"/></svg></div><h3>Willkommen!</h3><p data-j-msg>Der Vorstand bestätigt deinen Beitritt. Den Zahlschein für den Beitrag bekommst du per E-Mail.</p><button class="abtn ghost" type="button" data-j-again>Noch jemand anmelden</button></div>
                 </div>
               </div>
               <nav class="tabs" role="tablist" aria-label="App-Bereiche" data-m-tabs>
+                <span class="tabs__blob" aria-hidden="true"></span>
                 <button type="button" role="tab" aria-selected="true" data-tab="termine"><svg><use href="#i-cal"/></svg>Termine</button>
                 <button type="button" role="tab" aria-selected="false" data-tab="beitrag"><svg><use href="#i-euro"/></svg>Beitrag<i data-m-dot></i></button>
                 <button type="button" role="tab" aria-selected="false" data-tab="beitreten"><svg><use href="#i-plus"/></svg>Beitreten</button>
@@ -174,23 +178,27 @@
       <div class="play__desk">
         <span class="play__lbl"><svg><use href="#i-lock"/></svg>Vorstand · nur mit Anmeldung</span>
         <div class="desk">
-          <div class="desk__bar"><i></i><i></i><i></i><span data-v-url>mv-lindenau.at/vorstand</span></div>
+          <div class="desk__bar"><i></i><i></i><i></i><span data-v-url>mv-lindenau.at/vorstand</span>
+            <button class="sw" type="button" role="switch" aria-checked="false" aria-label="Helle Ansicht" data-theme-sw><span class="sw__sky"><i></i><i></i><i></i><i></i></span><span class="sw__knob"><span class="sw__rays"></span></span></button></div>
           <div class="desk__in">
             <nav class="side" role="tablist" aria-label="Vorstand-Bereiche" data-d-tabs>
               <button type="button" role="tab" aria-selected="true" data-dt="uebersicht"><svg><use href="#i-home"/></svg><span>Übersicht</span></button>
               <button type="button" role="tab" aria-selected="false" data-dt="mitglieder"><svg><use href="#i-users"/></svg><span>Mitglieder</span><em data-d-newbadge hidden>neu</em></button>
               <button type="button" role="tab" aria-selected="false" data-dt="termine"><svg><use href="#i-cal"/></svg><span>Termine</span></button>
+              <button type="button" role="tab" aria-selected="false" data-dt="anwesenheit"><svg><use href="#i-hand"/></svg><span>Anwesenheit</span></button>
+              <button type="button" role="tab" aria-selected="false" data-dt="helfer"><svg><use href="#i-heart"/></svg><span>Helfer</span><em data-d-helpbadge hidden>1</em></button>
               <button type="button" role="tab" aria-selected="false" data-dt="kassa"><svg><use href="#i-book"/></svg><span>Kassabuch</span></button>
             </nav>
             <div class="dv">
               <!-- Übersicht -->
               <div class="dp on" data-dp="uebersicht" role="tabpanel" aria-label="Übersicht">
                 <div class="kpis">
-                  <div class="kpi"><small>Mitglieder</small><b class="num" data-k-mem>126</b><span data-k-memsub>davon 21 Jugend</span></div>
+                  <div class="kpi"><small>Mitglieder</small><b class="num" data-k-mem>126</b><span data-k-memsub>davon 21 Jugend</span><svg class="spark" data-spark="mem" viewBox="0 0 120 34" preserveAspectRatio="none" aria-hidden="true"></svg></div>
                   <div class="kpi"><small>Beiträge <span data-k-year>2026</span></small><b class="num" data-k-paid>0 %</b><span class="bar"><i data-k-paidbar></i></span><span data-k-paidsub>0 von 0 bezahlt</span></div>
-                  <div class="kpi"><small>Kassastand</small><b class="num" data-k-cash>0 €</b><span data-k-cashsub>Stand heute</span></div>
+                  <div class="kpi"><small>Kassastand</small><b class="num" data-k-cash>0 €</b><span data-k-cashsub>Stand heute</span><svg class="spark" data-spark="cash" viewBox="0 0 120 34" preserveAspectRatio="none" aria-hidden="true"></svg></div>
                   <div class="kpi"><small>Nächster Termin</small><b class="num" data-k-next>0</b><span data-k-nextsub>Zusagen</span></div>
                 </div>
+                <div class="week box"><div class="week__hd"><h4>Diese Woche</h4><span data-week-range></span></div><div class="week__grid" data-week></div></div>
                 <div class="dgrid">
                   <div class="box"><h4>Was gerade passiert</h4><ul class="feed" data-feed></ul></div>
                   <div class="box"><h4>Beiträge offen</h4><ul class="open" data-open></ul><button class="dbtn" type="button" data-remind><svg><use href="#i-mail"/></svg>Allen Offenen einen Zahlschein schicken</button></div>
@@ -224,6 +232,24 @@
                   </div>
                   <p class="hint2">Erscheint sofort in der App der Mitglieder, mit Zu- und Absage.</p>
                 </form>
+              </div>
+              <!-- Anwesenheit -->
+              <div class="dp" data-dp="anwesenheit" role="tabpanel" aria-label="Anwesenheit">
+                <div class="att__hd"><div><small data-a-when>Heute</small><h4 data-a-title>Gesamtprobe</h4></div><div class="att__n"><b class="num" data-a-n>0</b><span data-a-of>von 0 da</span></div></div>
+                <p class="hint2">Antippen, wer da ist. Das geht am Handy in Sekunden, auch während die Probe schon läuft.</p>
+                <div class="att" data-a-list></div>
+                <div class="row2"><button class="dbtn sm" type="button" data-a-all><svg><use href="#i-check"/></svg>Alle da</button><button class="dbtn sm ghost" type="button" data-a-save><svg><use href="#i-check"/></svg>Speichern</button></div>
+                <div class="box stat"><h4 data-a-stat-t>Probenbesuch 2026</h4><ul class="statl" data-a-stat></ul><p class="hint2" data-a-ehrung></p></div>
+              </div>
+              <!-- Helfer -->
+              <div class="dp" data-dp="helfer" role="tabpanel" aria-label="Helfer">
+                <div class="att__hd"><div><small data-h-when>Fest</small><h4 data-h-title>Herbstkonzert</h4></div><div class="att__n"><b class="num" data-h-n>0</b><span data-h-of>von 0 Plätzen</span></div></div>
+                <p class="hint2">Namen auf eine Schicht ziehen oder erst antippen und dann die Schicht antippen. Freie Plätze leuchten orange.</p>
+                <div class="help">
+                  <div class="help__pool box"><h4>Haben Zeit <span data-h-poolc></span></h4><div class="pool" data-h-pool></div></div>
+                  <div class="shifts" data-h-shifts></div>
+                </div>
+                <div class="row2"><button class="dbtn sm" type="button" data-h-send><svg><use href="#i-mail"/></svg>Dienstplan an alle Helfer schicken</button><button class="dbtn sm ghost" type="button" data-h-ask><svg><use href="#i-bell"/></svg>Für freie Plätze in der App fragen</button></div>
               </div>
               <!-- Kassabuch -->
               <div class="dp" data-dp="kassa" role="tabpanel" aria-label="Kassabuch">
@@ -267,6 +293,8 @@
       <article class="f" data-reveal><i><svg><use href="#i-book"/></svg></i><h3>Kassabuch</h3><p>Einnahmen und Ausgaben nach Bereichen, der Kassastand immer aktuell und ein fertiger Bericht für die Rechnungsprüfung.</p></article>
       <article class="f" data-reveal style="--d:.05s"><i><svg><use href="#i-plus"/></svg></i><h3>Online beitreten</h3><p>Das Beitrittsformular direkt auf eurer Vereinsseite. Neue Mitglieder landen gleich in der Liste, ohne Abtippen.</p></article>
       <article class="f" data-reveal style="--d:.1s"><i><svg><use href="#i-mail"/></svg></i><h3>Rundmail an Gruppen</h3><p>Einladung zur Hauptversammlung an alle, Probenplan nur an ein Register, Erinnerung nur an die Offenen. Gesendet von eurer Vereinsadresse.</p></article>
+      <article class="f" data-reveal><i><svg><use href="#i-heart"/></svg></i><h3>Helfer fürs Fest</h3><p>Schichten für Aufbau, Schank und Kassa anlegen, Namen draufziehen. Freie Plätze sieht jeder in der App und tippt einfach „Ich helfe“.</p></article>
+      <article class="f" data-reveal style="--d:.05s"><i><svg><use href="#i-hand"/></svg></i><h3>Anwesenheit per Tipp</h3><p>Bei Probe oder Training antippen, wer da ist. Die Jahresstatistik ergibt sich von selbst, die Liste für die Ehrungen auch.</p></article>
     </div>
   </div>
 </section>
@@ -339,5 +367,5 @@
 
 <script src="/beispiele/_shared/demo.js?v=29766291" defer></script>
 <script src="/beispiele/_shared/vendor/qrcode-generator-2.0.4/qrcode.js" defer></script>
-<script src="/beispiele/verein-app/app.js?v=2" defer></script>
+<script src="/beispiele/verein-app/app.js?v=3" defer></script>
 </body></html>

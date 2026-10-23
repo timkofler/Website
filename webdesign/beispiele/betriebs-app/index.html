@@ -165,6 +165,10 @@ button{cursor:pointer}
 .app__tabs svg{width:21px;height:21px}
 .app__tabs button[aria-selected="true"]{color:var(--ad)}
 .app__tabs button[aria-selected="true"] svg{color:var(--a)}
+.app__tabs{position:relative}
+.app__tabs button{position:relative;z-index:1}
+.tabs__blob{position:absolute;left:0;top:8px;width:54px;height:28px;border-radius:999px;background:var(--al);pointer-events:none;z-index:0;opacity:0}
+.tabs__blob.on{opacity:1}
 .v{display:none;animation:vin .35s cubic-bezier(.2,.7,.2,1)}
 .v.on{display:block}
 @keyframes vin{from{opacity:0;transform:translateY(8px)}}
@@ -593,6 +597,7 @@ button{cursor:pointer}
                 </div>
               </div>
               <div class="app__tabs" role="tablist" aria-label="Bereiche der App" data-tabs>
+                <span class="tabs__blob" aria-hidden="true"></span>
                 <button type="button" role="tab" aria-selected="true" data-tab="termin"><svg><use href="#i-cal"/></svg><span data-tab-l="termin">Termin</span></button>
                 <button type="button" role="tab" aria-selected="false" data-tab="gutschein"><svg><use href="#i-gift"/></svg>Gutschein</button>
                 <button type="button" role="tab" aria-selected="false" data-tab="treue"><svg><use href="#i-stamp"/></svg>Treue</button>
@@ -720,5 +725,5 @@ button{cursor:pointer}
 
 <script src="/beispiele/_shared/demo.js?v=29766291" defer></script>
 <script src="/beispiele/_shared/vendor/qrcode-generator-2.0.4/qrcode.js" defer></script>
-<script src="/beispiele/betriebs-app/app.js?v=3" defer></script>
+<script src="/beispiele/betriebs-app/app.js?v=4" defer></script>
 </body></html>
