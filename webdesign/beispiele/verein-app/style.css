@@ -750,3 +750,108 @@ svg{flex:none}
 .desk__foot .credit svg{width:22px;height:11.2px;color:var(--ink)}
 .site__ft{display:flex;justify-content:space-between;gap:8px;white-space:nowrap;padding:7px 14px;border-top:1px solid #eef1f6;font-size:10px;color:#94a3b8}
 .site__ft b{color:#64748b}
+
+/* Glas-Optik: ruhiger Schimmer in der Vereinsfarbe hinter Milchglas-Karten mit Lichtkante (Vorstand und Handy-App) */
+.desk__in{--bg2:rgba(13,20,40,.5);--g-b:rgba(255,255,255,.12);--g-hl:rgba(255,255,255,.1);--g-sh:rgba(255,255,255,.07);
+  background:radial-gradient(120% 55% at 50% -12%,color-mix(in srgb,var(--vc) 30%,transparent),transparent 70%),
+    linear-gradient(165deg,color-mix(in srgb,var(--vc) 10%,var(--card)) 0%,var(--card) 50%,color-mix(in srgb,var(--vc2) 12%,var(--card)) 100%)}
+.app{--p-card:rgba(21,29,51,.5);--g-b:rgba(255,255,255,.12);--g-hl:rgba(255,255,255,.1);--g-sh:rgba(255,255,255,.07)}
+.phone__scr{background:radial-gradient(140% 40% at 50% -6%,color-mix(in srgb,var(--vc) 36%,transparent),transparent 72%),
+    linear-gradient(170deg,var(--p-bg) 30%,color-mix(in srgb,var(--vc2) 14%,var(--p-bg)) 100%)}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]) .desk__in{--bg2:rgba(255,255,255,.55);--g-b:rgba(255,255,255,.85);--g-hl:#fff;--g-sh:rgba(255,255,255,.55)}
+  :root:not([data-theme="dark"]) .app{--p-card:rgba(255,255,255,.58);--g-b:rgba(255,255,255,.9);--g-hl:#fff;--g-sh:rgba(255,255,255,.55)}}
+:root[data-theme="light"] .desk__in{--bg2:rgba(255,255,255,.55);--g-b:rgba(255,255,255,.85);--g-hl:#fff;--g-sh:rgba(255,255,255,.55)}
+:root[data-theme="light"] .app{--p-card:rgba(255,255,255,.58);--g-b:rgba(255,255,255,.9);--g-hl:#fff;--g-sh:rgba(255,255,255,.55)}
+.side{background:var(--bg2);border-right-color:var(--g-b)}
+.side,.desk__in :is(.kpi,.box,.tbl,.srch,.dev,.report,.calc__card,.sh,.pin,.docs,.mcard,.pk,.eig,.sws button,.jub li,.sent li),
+.app :is(.ev,.due,.pin,.docs,.mcard,.jub li,.fld,.chips button,.ev__btn button),.tabs{
+  -webkit-backdrop-filter:blur(22px) saturate(1.6);backdrop-filter:blur(22px) saturate(1.6)}
+.desk__in :is(.kpi,.box,.tbl,.srch,.dev,.report,.calc__card,.sh,.pin,.docs,.mcard){border-color:var(--g-b);box-shadow:inset 0 1px 0 var(--g-hl),0 16px 36px -22px rgba(4,8,20,.55)}
+.app :is(.ev,.due){box-shadow:inset 0 0 0 1px var(--g-b),inset 0 1px 0 var(--g-hl),0 10px 24px -16px rgba(4,8,20,.45)}
+.tabs{border-top-color:var(--g-b);box-shadow:inset 0 1px 0 var(--g-hl)}
+.tbl th{background:color-mix(in srgb,var(--card2) 92%,transparent)}
+@media (prefers-reduced-transparency:reduce){.desk__in{--bg2:var(--card)}.app{--p-card:var(--p-bg)}}
+/* Schwebende Glas-Reiterleiste: die Vereinsfarbe als leuchtende Kugel, die flüssig zum Reiter fließt */
+.app{position:relative}
+.app__body{padding-bottom:92px}
+.tabs{position:absolute;left:10px;right:10px;bottom:12px;z-index:5;padding:9px 4px 7px;border:1px solid var(--g-b);border-radius:24px;
+  background:var(--g-bar,rgba(18,25,45,.9));box-shadow:inset 0 1px 0 var(--g-hl),0 14px 30px -14px rgba(4,8,20,.6)}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .tabs{--g-bar:rgba(255,255,255,.9)}}
+:root[data-theme="light"] .tabs{--g-bar:rgba(255,255,255,.9)}
+.tabs__blob{top:-6px;left:0;width:42px;height:42px;border-radius:50%;
+  background:radial-gradient(circle at 34% 28%,color-mix(in srgb,var(--vc) 55%,#fff),var(--vc) 58%,var(--vc2));
+  box-shadow:0 8px 20px -4px color-mix(in srgb,var(--vc) 75%,transparent),0 0 0 4px color-mix(in srgb,var(--p-bg) 70%,transparent)}
+.tabs__blob::after{content:"";position:absolute;left:50%;top:100%;width:70px;height:26px;margin-left:-35px;border-radius:50%;
+  background:radial-gradient(closest-side,color-mix(in srgb,var(--vc) 55%,transparent),transparent);filter:blur(4px);pointer-events:none}
+.tabs button svg{transition:transform .35s cubic-bezier(.3,1.4,.5,1),color .25s}
+.tabs button[aria-selected="true"] svg{transform:translateY(-12px);color:var(--vc-on)}
+.tabs button[aria-selected="true"]{color:var(--p-ink)}
+@media (prefers-reduced-motion:reduce){.tabs button svg{transition:none}}
+.app::after{content:"";position:absolute;left:0;right:0;bottom:0;height:64px;z-index:4;pointer-events:none;background:linear-gradient(to bottom,transparent,var(--p-bg) 75%)}
+.tabs button[aria-selected="true"] i{opacity:0}
+.desk__in :is(.kpi,.box,.dev,.report,.calc__card,.sh,.pin,.docs,.mcard),.app :is(.ev,.due){background-image:linear-gradient(135deg,var(--g-sh),transparent 45%)}
+/* Glänzende Lichtkante quer über den Vorstand */
+.desk__in{position:relative}
+.desk__in::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:linear-gradient(118deg,transparent 34%,rgba(255,255,255,.045) 41%,transparent 47%,transparent 58%,rgba(255,255,255,.03) 63%,transparent 68%)}
+.desk__in>.side,.desk__in>.dv{position:relative;z-index:1}
+.desk__in>.lgn{position:absolute;z-index:20}
+.desk__in>.side__tog{position:absolute;z-index:6}
+/* Seitenleiste: leuchtender Balken am aktiven Punkt, am PC einklappbar über den Knopf am Rand */
+.side button{position:relative}
+.side button[aria-selected="true"]{background:linear-gradient(90deg,color-mix(in srgb,var(--vc) 24%,transparent),color-mix(in srgb,var(--vc) 4%,transparent))}
+.side button[aria-selected="true"]::before{content:"";position:absolute;left:-10px;top:9px;bottom:9px;width:3px;border-radius:0 3px 3px 0;background:var(--vc);box-shadow:0 0 14px 1px var(--vc)}
+.side__tog{display:none}
+@media (min-width:721px){
+  .desk__in{--sw:190px;grid-template-columns:var(--sw) minmax(0,1fr);transition:grid-template-columns .35s cubic-bezier(.3,.7,.2,1)}
+  .desk__in.is-rail{--sw:72px}
+  .side__tog{display:grid;place-items:center;top:52px;left:calc(var(--sw) - 13px);width:26px;height:26px;padding:0;border-radius:50%;border:1px solid var(--line2);
+    background:var(--card2);color:var(--mu);box-shadow:0 6px 14px -6px rgba(0,0,0,.5),inset 0 1px 0 var(--g-hl);transition:left .35s cubic-bezier(.3,.7,.2,1),color .2s}
+  .side__tog:hover{color:var(--ink)}
+  .side__tog svg{width:14px;height:14px;transform:rotate(180deg);transition:transform .35s}
+  .is-rail .side__tog svg{transform:none}
+  .is-rail .side{overflow:hidden}
+  .is-rail .side__brand{justify-content:center}
+  .is-rail .side__brand>span:not(.lg),.is-rail .side button>span{display:none}
+  .is-rail .side button{justify-content:center;padding:10px 0}
+  .is-rail .side em{position:absolute;top:3px;right:6px;margin:0;font-size:9px;padding:1px 5px}
+}
+@media (max-width:720px){.side button[aria-selected="true"]::before{left:12px;right:12px;top:auto;bottom:-8px;width:auto;height:3px;border-radius:3px 3px 0 0}}
+/* Glas-Anmeldung mit Code-Eingabe */
+.lgn{inset:0;display:grid;justify-items:center;align-content:start;padding:clamp(28px,7vw,72px) 16px 24px;transition:opacity .45s,visibility .45s;
+  background:radial-gradient(80% 60% at 50% -5%,color-mix(in srgb,var(--vc) 34%,transparent),transparent 70%),
+    linear-gradient(125deg,transparent 28%,rgba(255,255,255,.07) 38%,transparent 47%,transparent 60%,rgba(255,255,255,.05) 66%,transparent 73%),
+    color-mix(in srgb,var(--card) 82%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+.lgn.out{opacity:0;visibility:hidden}
+.lgn__card{width:min(380px,100%);padding:26px 24px 18px;border-radius:22px;border:1px solid var(--g-b);
+  background:linear-gradient(140deg,var(--g-sh),transparent 50%),var(--bg2);-webkit-backdrop-filter:blur(22px) saturate(1.5);backdrop-filter:blur(22px) saturate(1.5);
+  box-shadow:inset 0 1px 0 var(--g-hl),0 30px 60px -30px rgba(4,8,20,.7)}
+.lgn__hd{display:flex;align-items:center;gap:12px}
+.lgn__hd .lg{width:46px;height:46px;font-size:16px}
+.lgn__hd b{display:block;font:800 16px/1.2 var(--hd);color:var(--ink)}
+.lgn__hd small{display:block;font-size:13px;color:var(--mu);margin-top:2px}
+.lgn__step{display:grid;gap:10px;margin-top:20px;animation:vin .35s ease}
+.lgn__f{display:flex;align-items:center;gap:10px;padding:0 13px;border:1px solid var(--line2);border-radius:12px;background:color-mix(in srgb,var(--card) 55%,transparent);transition:border-color .2s,box-shadow .2s}
+.lgn__f:focus-within,.otp input:focus{border-color:var(--vc);box-shadow:0 0 0 3px color-mix(in srgb,var(--vc) 26%,transparent)}
+.lgn__f svg{width:17px;height:17px;color:var(--mu);flex:none}
+.lgn__f input{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font-size:14.5px;padding:12px 0;outline:none}
+.lgn__btn{min-height:46px;margin-top:4px;border:0;border-radius:12px;font-weight:700;font-size:15px;color:var(--vc-on);
+  background:linear-gradient(180deg,color-mix(in srgb,var(--vc) 78%,#fff),var(--vc) 55%,var(--vc2));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 12px 26px -12px var(--vc);transition:transform .2s,filter .2s}
+.lgn__btn:hover{transform:translateY(-1px);filter:brightness(1.06)}
+.lgn__t{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--ink);font-size:14.5px;margin:0}
+.lgn__t svg{width:18px;height:18px;color:var(--vc-tx)}
+.lgn__s{font-size:12.5px;color:var(--mu);margin:-4px 0 4px;line-height:1.4}
+.otp{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px}
+.otp input{width:100%;height:50px;text-align:center;border:1px solid var(--line2);border-radius:12px;background:color-mix(in srgb,var(--card) 55%,transparent);color:var(--ink);font:800 21px/1 var(--hd);caret-color:var(--vc);outline:none;padding:0;transition:border-color .2s,box-shadow .2s,background .3s}
+.otp.ok input{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 14%,transparent)}
+.lgn__link,.lgn__skip{justify-self:center;border:0;background:transparent;color:var(--mu);font-size:13px;text-decoration:underline;text-underline-offset:3px;padding:6px}
+.lgn__link:hover,.lgn__skip:hover{color:var(--ink)}
+.lgn__skip{display:block;margin:12px auto 0}
+.lgn__ok{display:grid;justify-items:center;gap:6px;margin-top:22px;text-align:center}
+.lgn__ok span{width:60px;height:60px;border-radius:50%;display:grid;place-items:center;color:var(--ok);background:color-mix(in srgb,var(--ok) 14%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--ok) 45%,transparent),0 0 30px -4px color-mix(in srgb,var(--ok) 60%,transparent);animation:okpop .5s cubic-bezier(.3,1.5,.5,1)}
+.lgn__ok span svg{width:28px;height:28px}
+.lgn__ok b{font:800 17px/1.2 var(--hd);color:var(--ink)}
+.lgn__ok small{color:var(--mu);font-size:13px}
+@keyframes okpop{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}

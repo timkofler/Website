@@ -19,7 +19,7 @@
 <link rel="apple-touch-icon" href="/assets/img/tk-badge-2-256.png">
 <link rel="preload" href="/beispiele/_shared/fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/beispiele/_shared/demo.css">
-<link rel="stylesheet" href="/beispiele/verein-app/style.css?v=10">
+<link rel="stylesheet" href="/beispiele/verein-app/style.css?v=12">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://tim-kofler.at/"},{"@type":"ListItem","position":2,"name":"Beispiele","item":"https://tim-kofler.at/beispiele/"},{"@type":"ListItem","position":3,"name":"Vereins-App","item":"https://tim-kofler.at/beispiele/verein-app/"}]},{"@type":"WebPage","@id":"https://tim-kofler.at/beispiele/verein-app/#seite","url":"https://tim-kofler.at/beispiele/verein-app/","name":"Vereinsverwaltung ohne Abo: Beispiel einer Vereins-App","description":"Mitglieder, Beiträge mit QR-Zahlschein, Termine mit Zusagen und Kassabuch in einer eigenen Vereins-App. Einmal gebaut, ohne monatliches Abo.","inLanguage":"de-AT","isPartOf":{"@id":"https://tim-kofler.at/#website"},"author":{"@id":"https://tim-kofler.at/#tim"}}]}</script>
 </head>
 <body>
@@ -209,6 +209,7 @@
               <button type="button" role="tab" aria-selected="false" data-dt="kassa"><svg><use href="#i-book"/></svg><span>Kassabuch</span></button>
               <button type="button" role="tab" aria-selected="false" data-dt="aussehen"><svg><use href="#i-palette"/></svg><span>Aussehen</span></button>
             </nav>
+            <button type="button" class="side__tog" aria-label="Seitenleiste einklappen" aria-expanded="true" data-side-tog><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
             <div class="dv">
               <!-- Übersicht -->
               <div class="dp on" data-dp="uebersicht" role="tabpanel" aria-label="Übersicht">
@@ -351,6 +352,24 @@
               </div>
             </div>
             <div class="mcard" data-mcard hidden role="dialog" aria-modal="false" aria-label="Karteikarte"></div>
+            <div class="lgn" data-login>
+              <div class="lgn__card">
+                <div class="lgn__hd"><span class="lg" data-v-logo>MV</span><span><b data-v-name>Musikverein Lindenau</b><small>Vorstand anmelden</small></span></div>
+                <form class="lgn__step" data-lgn-1>
+                  <label class="lgn__f"><svg aria-hidden="true"><use href="#i-mail"/></svg><input type="email" value="obfrau@mv-lindenau.at" aria-label="E-Mail-Adresse" autocomplete="off" spellcheck="false"></label>
+                  <label class="lgn__f"><svg aria-hidden="true"><use href="#i-lock"/></svg><input type="password" value="musikverein-demo" aria-label="Passwort" autocomplete="off"></label>
+                  <button class="lgn__btn" type="submit">Anmelden</button>
+                </form>
+                <div class="lgn__step" data-lgn-2 hidden>
+                  <p class="lgn__t"><svg aria-hidden="true"><use href="#i-shield"/></svg>Code aus der Authenticator-App</p>
+                  <p class="lgn__s">Sechs Ziffern, die Prüfung startet von selbst. In der Demo passt jeder Code.</p>
+                  <div class="otp" role="group" aria-label="Sechsstelliger Code" data-otp><input inputmode="numeric" maxlength="1" aria-label="Ziffer 1"><input inputmode="numeric" maxlength="1" aria-label="Ziffer 2"><input inputmode="numeric" maxlength="1" aria-label="Ziffer 3"><input inputmode="numeric" maxlength="1" aria-label="Ziffer 4"><input inputmode="numeric" maxlength="1" aria-label="Ziffer 5"><input inputmode="numeric" maxlength="1" aria-label="Ziffer 6"></div>
+                  <button type="button" class="lgn__link" data-otp-fill>Code für die Demo einfügen</button>
+                </div>
+                <div class="lgn__ok" data-lgn-ok hidden><span><svg aria-hidden="true"><use href="#i-check"/></svg></span><b>Angemeldet</b><small>Willkommen zurück im Vorstand.</small></div>
+                <button type="button" class="lgn__skip" data-lgn-skip>Ohne Anmeldung ansehen</button>
+              </div>
+            </div>
           </div>
           <div class="desk__foot"><a class="credit" href="/"><svg viewBox="0 0 702 358.5" aria-hidden="true"><use href="#i-tk"/></svg><span>App von <b>Tim Kofler</b> – Webdesign</span></a></div>
         </div>
@@ -452,5 +471,5 @@
 
 <script src="/beispiele/_shared/demo.js?v=29766291" defer></script>
 <script src="/beispiele/_shared/vendor/qrcode-generator-2.0.4/qrcode.js" defer></script>
-<script src="/beispiele/verein-app/app.js?v=6" defer></script>
+<script src="/beispiele/verein-app/app.js?v=7" defer></script>
 </body></html>
