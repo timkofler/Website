@@ -365,6 +365,18 @@ h1 .lime, h2 .lime, h3 .lime { background: var(--hot-grad); -webkit-background-c
 .tk-dash__menu i.is-on::after { transform: translateX(14px); background: #0b0b0b; }
 .tk-dash__save { margin-top: 10px; text-align: center; font: 600 .78rem var(--body); color: #0b0b0b; background: var(--hot-grad); border-radius: 999px; padding: 8px; }
 @media (max-width: 1100px) { .tk-tries { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* Fünf Karten: oben zwei breite, darunter drei; bis 1100 px die erste quer über die ganze Breite */
+.tk-tries--5 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.tk-tries--5 > li { grid-column: span 2; }
+.tk-tries--5 > li:nth-child(-n+2) { grid-column: span 3; }
+@media (max-width: 1100px) and (min-width: 601px) {
+  .tk-tries--5 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tk-tries--5 > li, .tk-tries--5 > li:nth-child(-n+2) { grid-column: auto; }
+  .tk-tries--5 > li:first-child { grid-column: 1 / -1; }
+  .tk-tries--5 > li:first-child .tk-try { flex-direction: row; }
+  .tk-tries--5 > li:first-child .tk-try__shot { flex: 0 0 52%; border-bottom: 0; border-right: 1px solid #262626; }
+  .tk-tries--5 > li:first-child .tk-try__body { justify-content: center; padding: 22px 24px; }
+}
 @media (max-width: 1000px) { .tk-apps__grid { grid-template-columns: 1fr; } .tk-dash { transform: none; max-width: 560px; } }
 @media (max-width: 600px) {
   .tk-dash__kpis strong { font-size: 1.25rem; } .tk-dash__body { padding: 14px; }
