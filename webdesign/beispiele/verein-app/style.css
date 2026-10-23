@@ -750,3 +750,46 @@ svg{flex:none}
 .desk__foot .credit svg{width:22px;height:11.2px;color:var(--ink)}
 .site__ft{display:flex;justify-content:space-between;gap:8px;white-space:nowrap;padding:7px 14px;border-top:1px solid #eef1f6;font-size:10px;color:#94a3b8}
 .site__ft b{color:#64748b}
+
+/* Glas-Optik: Farbkugeln in der Vereinsfarbe hinter Milchglas-Karten (Vorstand und Handy-App) */
+.desk__in{--bg2:rgba(13,20,40,.5);--g-b:rgba(255,255,255,.12);--g-hl:rgba(255,255,255,.1);
+  background:radial-gradient(circle 190px at 34% 9%,color-mix(in srgb,var(--vc) 85%,transparent) 0,color-mix(in srgb,var(--vc) 55%,transparent) 55%,transparent 100%),
+    radial-gradient(circle 230px at 96% 46%,color-mix(in srgb,var(--vc2) 70%,transparent) 0,color-mix(in srgb,var(--vc2) 35%,transparent) 55%,transparent 100%),
+    radial-gradient(circle 210px at 48% 92%,color-mix(in srgb,var(--vc) 60%,#fff 10%) 0,color-mix(in srgb,var(--vc) 30%,transparent) 55%,transparent 100%),
+    radial-gradient(circle 160px at 4% 72%,color-mix(in srgb,var(--vc2) 45%,transparent) 0,transparent 100%),var(--card)}
+.app{--p-card:rgba(21,29,51,.5);--g-b:rgba(255,255,255,.12);--g-hl:rgba(255,255,255,.1)}
+.phone__scr{background:radial-gradient(circle 120px at 88% 22%,color-mix(in srgb,var(--vc) 85%,transparent) 0,color-mix(in srgb,var(--vc) 50%,transparent) 55%,transparent 100%),
+    radial-gradient(circle 130px at 4% 58%,color-mix(in srgb,var(--vc2) 75%,transparent) 0,color-mix(in srgb,var(--vc2) 35%,transparent) 55%,transparent 100%),
+    radial-gradient(circle 120px at 80% 92%,color-mix(in srgb,var(--vc) 60%,transparent) 0,transparent 100%),var(--p-bg)}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]) .desk__in{--bg2:rgba(255,255,255,.55);--g-b:rgba(255,255,255,.85);--g-hl:#fff}
+  :root:not([data-theme="dark"]) .app{--p-card:rgba(255,255,255,.58);--g-b:rgba(255,255,255,.9);--g-hl:#fff}}
+:root[data-theme="light"] .desk__in{--bg2:rgba(255,255,255,.55);--g-b:rgba(255,255,255,.85);--g-hl:#fff}
+:root[data-theme="light"] .app{--p-card:rgba(255,255,255,.58);--g-b:rgba(255,255,255,.9);--g-hl:#fff}
+.side{background:var(--bg2);border-right-color:var(--g-b)}
+.side,.desk__in :is(.kpi,.box,.tbl,.srch,.dev,.report,.calc__card,.sh,.pin,.docs,.mcard,.pk,.eig,.sws button,.jub li,.sent li),
+.app :is(.ev,.due,.pin,.docs,.mcard,.jub li,.fld,.chips button,.ev__btn button),.tabs{
+  -webkit-backdrop-filter:blur(22px) saturate(1.6);backdrop-filter:blur(22px) saturate(1.6)}
+.desk__in :is(.kpi,.box,.tbl,.srch,.dev,.report,.calc__card,.sh,.pin,.docs,.mcard){border-color:var(--g-b);box-shadow:inset 0 1px 0 var(--g-hl),0 16px 36px -22px rgba(4,8,20,.55)}
+.app :is(.ev,.due){box-shadow:inset 0 0 0 1px var(--g-b),inset 0 1px 0 var(--g-hl),0 10px 24px -16px rgba(4,8,20,.45)}
+.tabs{border-top-color:var(--g-b);box-shadow:inset 0 1px 0 var(--g-hl)}
+.tbl th{background:color-mix(in srgb,var(--card2) 92%,transparent)}
+@media (prefers-reduced-transparency:reduce){.desk__in{--bg2:var(--card)}.app{--p-card:var(--p-bg)}}
+/* Schwebende Glas-Reiterleiste: die Vereinsfarbe als leuchtende Kugel, die flüssig zum Reiter fließt */
+.app{position:relative}
+.app__body{padding-bottom:92px}
+.tabs{position:absolute;left:10px;right:10px;bottom:12px;z-index:5;padding:9px 4px 7px;border:1px solid var(--g-b);border-radius:24px;
+  background:var(--g-bar,rgba(18,25,45,.9));box-shadow:inset 0 1px 0 var(--g-hl),0 14px 30px -14px rgba(4,8,20,.6)}
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .tabs{--g-bar:rgba(255,255,255,.9)}}
+:root[data-theme="light"] .tabs{--g-bar:rgba(255,255,255,.9)}
+.tabs__blob{top:-6px;left:0;width:42px;height:42px;border-radius:50%;
+  background:radial-gradient(circle at 34% 28%,color-mix(in srgb,var(--vc) 55%,#fff),var(--vc) 58%,var(--vc2));
+  box-shadow:0 8px 20px -4px color-mix(in srgb,var(--vc) 75%,transparent),0 0 0 4px color-mix(in srgb,var(--p-bg) 70%,transparent)}
+.tabs__blob::after{content:"";position:absolute;left:50%;top:100%;width:70px;height:26px;margin-left:-35px;border-radius:50%;
+  background:radial-gradient(closest-side,color-mix(in srgb,var(--vc) 55%,transparent),transparent);filter:blur(4px);pointer-events:none}
+.tabs button svg{transition:transform .35s cubic-bezier(.3,1.4,.5,1),color .25s}
+.tabs button[aria-selected="true"] svg{transform:translateY(-12px);color:var(--vc-on)}
+.tabs button[aria-selected="true"]{color:var(--p-ink)}
+@media (prefers-reduced-motion:reduce){.tabs button svg{transition:none}}
+.app::after{content:"";position:absolute;left:0;right:0;bottom:0;height:64px;z-index:4;pointer-events:none;background:linear-gradient(to bottom,transparent,var(--p-bg) 75%)}
+.tabs button[aria-selected="true"] i{opacity:0}
