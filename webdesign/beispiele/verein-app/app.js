@@ -286,6 +286,54 @@
     mcard.hidden = true;
   });
 
+  // Seitenleiste am PC über den Knopf am Rand einklappen (nur Symbole)
+  var deskIn = $(".desk__in"), sideTog = $("[data-side-tog]");
+  $$("[data-dt]").forEach(function (b) { var l = b.querySelector("span"); if (l) b.title = l.textContent; });
+  sideTog.addEventListener("click", function () {
+    var rail = deskIn.classList.toggle("is-rail");
+    sideTog.setAttribute("aria-expanded", !rail);
+    sideTog.setAttribute("aria-label", rail ? "Seitenleiste ausklappen" : "Seitenleiste einklappen");
+  });
+
+  // ---------- Anmeldung mit Code (Demo: jeder Code passt) ----------
+  var lgn = $("[data-login]"), otp = $("[data-otp]"), oIn = $$("input", otp), oBusy = false;
+  function lgnClose(now) {
+    lgn.classList.add("out");
+    setTimeout(function () { lgn.hidden = true; }, now ? 0 : 450);
+  }
+  $("[data-lgn-1]").addEventListener("submit", function (e) {
+    e.preventDefault();
+    this.hidden = true; $("[data-lgn-2]").hidden = false;
+    oIn[0].focus({ preventScroll: true });
+  });
+  function oCheck() {
+    if (oBusy || !oIn.every(function (i) { return /^\d$/.test(i.value); })) return;
+    oBusy = true; otp.classList.add("ok");
+    setTimeout(function () {
+      $("[data-lgn-2]").hidden = true; $("[data-lgn-ok]").hidden = false; $("[data-lgn-skip]").hidden = true;
+      setTimeout(function () { lgnClose(false); }, 1100);
+    }, 450);
+  }
+  oIn.forEach(function (inp, k) {
+    inp.addEventListener("input", function () {
+      var v = inp.value.replace(/\D/g, "");
+      if (v.length > 1) { v.split("").slice(0, 6 - k).forEach(function (c, j) { oIn[k + j].value = c; }); (oIn[Math.min(5, k + v.length)]).focus(); }
+      else { inp.value = v; if (v && k < 5) oIn[k + 1].focus(); }
+      oCheck();
+    });
+    inp.addEventListener("keydown", function (e) {
+      if (e.key === "Backspace" && !inp.value && k > 0) { oIn[k - 1].value = ""; oIn[k - 1].focus(); e.preventDefault(); }
+    });
+  });
+  $("[data-otp-fill]").addEventListener("click", function () {
+    var code = "482915";
+    oIn.forEach(function (i) { i.value = ""; });
+    code.split("").forEach(function (c, j) {
+      setTimeout(function () { oIn[j].value = c; oIn[j].focus({ preventScroll: true }); if (j === 5) oCheck(); }, reduce ? 0 : 110 * (j + 1));
+    });
+  });
+  $("[data-lgn-skip]").addEventListener("click", function () { lgnClose(true); });
+
   function cashSums() {
     var inn = 0, out = 0;
     S.cash.forEach(function (c) { if (c.a >= 0) inn += c.a; else out -= c.a; });
