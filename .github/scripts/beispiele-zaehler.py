@@ -14,6 +14,7 @@ AUSGENOMMEN = {
     "_shared",
     "dashboard",      # Betriebs-Dashboards, werden extra genannt
     "betriebs-app",   # Zusatzleistung, kein Branchen-Beispiel
+    "verein-app",     # Zusatzleistung für Vereine, kein Branchen-Beispiel
     "halloween",      # Saison-Seite, nicht in der Übersicht
     "pizzeria",       # dritter Entwurf der Branche Gasthaus & Restaurant
 }

@@ -58,3 +58,6 @@
   .gr-price { max-width: none; }
 }
 @media (prefers-reduced-motion: reduce) { .gr-item { transition: none; } }
+/* Hinweis auf die Beispiel-Vereins-App unter dem Beispiel-Band auf /verein */
+.vr-app { margin: 28px 0 6px; animation: none; }
+.vr-app a { color: var(--hot); font-weight: 700; white-space: nowrap; }
