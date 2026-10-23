@@ -59,7 +59,7 @@
       events: [["Gesamtprobe", "Musikheim", "19:30", 2, 38, 4], ["Registerprobe Blech", "Musikheim", "18:30", 6, 14, 2], ["Herbstkonzert", "Festsaal", "19:00", 16, 41, 3], ["Cäcilienmesse", "Pfarrkirche", "09:30", 30, 29, 6]],
       probe: ["Registerprobe Holz", "18:30", "Probenbesuch", "Proben"],
       fest: { ev: 2, shifts: [["Aufbau", "15–18 Uhr", 4], ["Kassa", "18–21 Uhr", 2], ["Schank", "18–20:30 Uhr", 3], ["Schank", "20:30–23 Uhr", 3], ["Abbau", "23–24 Uhr", 4]] },
-      start: 5230, color: "#1f6f54", logoT: "symbol", sym: "i-note", shape: "wappen", claim: "Blasmusik für Jung und Alt, Proben jeden Freitag.", hero: "Musik verbindet.",
+      start: 5230, color: "#2f8f4e", logoT: "symbol", sym: "i-note", shape: "wappen", claim: "Blasmusik für Jung und Alt, Proben jeden Freitag.", hero: "Musik verbindet.",
       msgs: [["Tracht fürs Herbstkonzert", "Bitte bis Freitag die Tracht kontrollieren. Wer eine neue Bluse braucht, meldet sich bei Eva.", "Schriftführerin", 2], ["Neue Noten sind da", "Die Mappe für die Cäcilienmesse liegt im Musikheim. Bitte zur nächsten Probe mitnehmen.", "Kapellmeister", 6]],
       docs: [["Probenplan Herbst", "PDF · 1 Seite"], ["Statuten", "PDF · 6 Seiten"], ["Protokoll Generalversammlung", "PDF · 4 Seiten"], ["Datenschutzinfo", "PDF · 2 Seiten"]],
       cash: [["Förderung Gemeinde", "Förderungen", 1500], ["Frühschoppen", "Feste", 4380], ["Getränke Frühschoppen", "Feste", -1645.4], ["Noten Frühlingskonzert", "Noten & Instrumente", -386], ["Reparatur Tuba", "Noten & Instrumente", -540], ["Spende Raiffeisen-Fest", "Spenden", 300], ["Trachtenblusen (4 Stück)", "Tracht", -712], ["Versicherung Instrumente", "Verwaltung", -268.5], ["Konzertkarten Frühlingskonzert", "Feste", 2140], ["Webspace und Domain", "Verwaltung", -96]]
@@ -72,7 +72,7 @@
       events: [["Training Kampfmannschaft", "Sportplatz", "18:00", 1, 19, 3], ["Heimspiel gegen SC Talheim", "Sportplatz", "15:00", 3, 22, 1], ["Saisonabschluss", "Kantine", "19:00", 22, 64, 8], ["Generalversammlung", "Gasthaus Post", "19:30", 35, 41, 5]],
       probe: ["Training Nachwuchs", "17:00", "Trainingsbesuch", "Trainings"],
       fest: { ev: 2, shifts: [["Aufbau", "14–17 Uhr", 4], ["Grill", "17–20 Uhr", 2], ["Schank", "17–20 Uhr", 3], ["Schank", "20–23 Uhr", 3], ["Abbau", "23–24 Uhr", 4]] },
-      start: 7810, color: "#1d4ed8", logoT: "kuerzel", sym: "i-ball", shape: "rund", claim: "Fußball, Tennis und Turnen für die ganze Gemeinde.", hero: "Gemeinsam am Ball.",
+      start: 7810, color: "#2459d6", logoT: "kuerzel", sym: "i-ball", shape: "rund", claim: "Fußball, Tennis und Turnen für die ganze Gemeinde.", hero: "Gemeinsam am Ball.",
       msgs: [["Training Mittwoch in der Halle", "Wegen der Rasenpflege findet das Training am Mittwoch in der Turnhalle statt. Hallenschuhe mitnehmen!", "Sportliche Leitung", 1], ["Buffet Saisonabschluss", "Wer etwas fürs Buffet mitbringt, trägt sich bitte bis Monatsende in der App ein.", "Obmann", 5]],
       docs: [["Trainingsplan Herbst", "PDF · 1 Seite"], ["Statuten", "PDF · 8 Seiten"], ["Protokoll Generalversammlung", "PDF · 5 Seiten"], ["Datenschutzinfo", "PDF · 2 Seiten"]],
       cash: [["Förderung Sportland", "Förderungen", 2400], ["Kantine September", "Kantine", 3125.6], ["Einkauf Kantine", "Kantine", -1380.2], ["Dressen Nachwuchs", "Dressen & Bälle", -1190], ["Bälle und Hütchen", "Dressen & Bälle", -312], ["Sponsor Bandenwerbung", "Sponsoren", 1800], ["Rasenpflege", "Sportplatz", -860], ["Schiedsrichtergebühren", "Spielbetrieb", -540], ["Eintritt Heimspiele", "Spielbetrieb", 1460], ["Webspace und Domain", "Verwaltung", -96]]
@@ -85,7 +85,7 @@
       events: [["Probe Theatergruppe", "Mühlenstadl", "19:00", 3, 12, 1], ["Lesung: Mostviertler Geschichten", "Bibliothek", "19:30", 9, 18, 2], ["Filmabend im Hof", "Mühlenstadl", "20:00", 17, 26, 4], ["Vorstandssitzung", "Mühlenstadl", "18:30", 24, 7, 0]],
       probe: ["Leseprobe", "19:00", "Probenbesuch", "Proben"],
       fest: { ev: 2, shifts: [["Aufbau und Leinwand", "17–19:30 Uhr", 3], ["Kassa", "19–20:30 Uhr", 2], ["Buffet", "19–21 Uhr", 2], ["Technik", "19:30–22:30 Uhr", 1], ["Abbau", "22:30–24 Uhr", 3]] },
-      start: 3120, color: "#8a2b62", logoT: "symbol", sym: "i-mask", shape: "eckig", claim: "Theater, Lesungen und Kino in der alten Mühle.", hero: "Kultur im Ort.",
+      start: 3120, color: "#7d1f3a", logoT: "symbol", sym: "i-mask", shape: "eckig", claim: "Theater, Lesungen und Kino in der alten Mühle.", hero: "Kultur im Ort.",
       msgs: [["Requisiten gesucht", "Für das Wintertheater suchen wir einen alten Koffer und zwei Laternen. Wer hat etwas daheim?", "Obfrau", 3], ["Programmheft ist fertig", "Das Programm fürs Halbjahr liegt im Mühlenstadl auf und ist unten bei den Dokumenten.", "Schriftführer", 8]],
       docs: [["Programm Herbst und Winter", "PDF · 4 Seiten"], ["Statuten", "PDF · 5 Seiten"], ["Protokoll Generalversammlung", "PDF · 3 Seiten"], ["Datenschutzinfo", "PDF · 2 Seiten"]],
       cash: [["Förderung Land (Kultur)", "Förderungen", 1200], ["Eintritt Sommertheater", "Veranstaltungen", 3860], ["Bühnenbild und Kostüme", "Veranstaltungen", -1240], ["Filmrechte Filmabend", "Veranstaltungen", -180], ["Spenden Lesung", "Spenden", 245], ["Tontechnik Miete", "Technik", -420], ["Plakate und Flyer", "Werbung", -315.8], ["Versicherung", "Verwaltung", -189], ["Buffet Sommertheater", "Veranstaltungen", 960], ["Webspace und Domain", "Verwaltung", -96]]
@@ -766,12 +766,25 @@
     S.brand.color = hex;
   }
   var SYMS = ["i-note", "i-ball", "i-mask", "i-heart", "i-star", "i-leaf", "i-peak", "i-cup"];
-  var SWS = ["#1f6f54", "#1d4ed8", "#8a2b62", "#b91c1c", "#c2410c", "#ca8a04", "#0f766e", "#334155"];
+  // Dieselbe Farbskala wie beim Gratis-Entwurf auf tim-kofler.at
+  var SWS = [["#ff5a1f", "Orange"], ["#d62f2f", "Rot"], ["#7d1f3a", "Bordeaux"], ["#c99a2e", "Gold"], ["#2f8f4e", "Grün"], ["#7f9f86", "Salbei"], ["#11707a", "Petrol"], ["#2459d6", "Blau"], ["#6b3fc4", "Lila"], ["#262626", "Schwarz-Weiß"]];
+  var pk = $("[data-b-picker]"), eigBtn = $("[data-b-eigen]"), hR = $("[data-b-h]"), sR = $("[data-b-s]"), lR = $("[data-b-l]");
+  var isSw = function (hex) { return SWS.some(function (s) { return s[0] === hex; }); };
+  function paintPicker(hex) {
+    var c = rgb2hsl(hex2rgb(hex)), h = Math.round(c[0]), s = Math.round(c[1]);
+    pk.style.setProperty("--eigen", hex); eigBtn.style.setProperty("--eigen", hex);
+    sR.style.setProperty("--track", "linear-gradient(90deg, hsl(" + h + ",0%," + Math.round(c[2]) + "%), hsl(" + h + ",100%," + Math.round(c[2]) + "%))");
+    lR.style.setProperty("--track", "linear-gradient(90deg, #000, hsl(" + h + "," + s + "%,50%), #fff)");
+  }
+  function syncPicker(hex) {
+    var c = rgb2hsl(hex2rgb(hex)); hR.value = Math.round(c[0]); sR.value = Math.round(c[1]); lR.value = Math.round(c[2]);
+    paintPicker(hex);
+  }
   function paintLogo() {
     var B = S.brand;
     $$("[data-v-logo]").forEach(function (el) {
       el.classList.remove("lg--rund", "lg--wappen", "has-img"); el.textContent = "";
-      if (B.shape !== "eckig") el.classList.add("lg--" + B.shape);
+      if (B.shape !== "eckig" && !(B.type === "bild" && B.img)) el.classList.add("lg--" + B.shape);
       if (B.type === "bild" && B.img) {
         var im = document.createElement("img"); im.src = B.img; im.alt = ""; el.appendChild(im); el.classList.add("has-img");
       } else if (B.type === "symbol") {
@@ -791,11 +804,12 @@
   function renderBrand() {
     var B = S.brand;
     $("[data-b-name]").value = B.name; $("[data-b-short]").value = B.short;
-    $("[data-b-sws]").innerHTML = SWS.map(function (c) { return '<button type="button" style="--c:' + c + '" data-c="' + c + '" aria-pressed="' + (c === B.color) + '" aria-label="Farbe ' + c + '"></button>'; }).join("");
-    $("[data-b-color]").value = B.color; $("[data-b-hex]").value = B.color;
+    $("[data-b-sws]").innerHTML = SWS.map(function (c) { return '<button type="button" class="' + (c[0] === "#262626" ? "bw" : "") + '" style="--c:' + c[0] + '" data-c="' + c[0] + '" aria-pressed="' + (c[0] === B.color) + '"><span></span>' + c[1] + "</button>"; }).join("");
+    $("[data-b-hex]").value = B.color; syncPicker(B.color);
+    eigBtn.setAttribute("aria-pressed", !isSw(B.color));
     $$("[data-t]", $("[data-b-type]")).forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-t") === B.type); });
     $$("[data-s]", $("[data-b-shape]")).forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-s") === B.shape); });
-    $("[data-b-syms]").hidden = B.type !== "symbol"; $("[data-b-up]").hidden = B.type !== "bild";
+    $("[data-b-syms]").hidden = B.type !== "symbol"; $("[data-b-up]").hidden = B.type !== "bild"; $("[data-b-formg]").hidden = B.type === "bild";
     $("[data-b-syms]").innerHTML = SYMS.map(function (s) { return '<button type="button" data-sym="' + s + '" aria-pressed="' + (s === B.sym) + '" aria-label="Symbol ' + s.slice(2) + '"><svg><use href="#' + s + '"/></svg></button>'; }).join("");
     $("[data-b-claim]").textContent = S.P.claim;
     $(".site__hero h5").textContent = S.P.hero;
@@ -804,12 +818,17 @@
     if (!/^#[0-9a-f]{6}$/i.test(hex)) return;
     hex = hex.toLowerCase(); applyColor(hex);
     $$("[data-c]", $("[data-b-sws]")).forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-c") === hex); });
-    if (from !== "picker") $("[data-b-color]").value = hex;
+    eigBtn.setAttribute("aria-pressed", from === "picker" || from === "hex" || !isSw(hex));
     if (from !== "hex") $("[data-b-hex]").value = hex;
+    if (from === "picker") paintPicker(hex); else syncPicker(hex);
     renderDue();
   }
-  $("[data-b-sws]").addEventListener("click", function (e) { var b = e.target.closest("[data-c]"); if (b) setColor(b.getAttribute("data-c")); });
-  $("[data-b-color]").addEventListener("input", function () { setColor(this.value, "picker"); });
+  $("[data-b-sws]").addEventListener("click", function (e) { var b = e.target.closest("[data-c]"); if (b) { setColor(b.getAttribute("data-c")); openPicker(false); } });
+  // Eigene Farbe: eigene Regler statt des System-Farbwählers (der ist am Handy winzig), wie beim Gratis-Entwurf
+  function openPicker(on) { pk.hidden = !on; eigBtn.setAttribute("aria-expanded", on); }
+  eigBtn.addEventListener("click", function () { var on = pk.hidden; openPicker(on); if (on) { eigBtn.setAttribute("aria-pressed", "true"); setColor(S.brand.color, "picker"); } });
+  [hR, sR, lR].forEach(function (rg) { rg.addEventListener("input", function () { setColor(hsl(+hR.value, +sR.value, +lR.value), "picker"); }); });
+  $("[data-b-pick-ok]").addEventListener("click", function () { openPicker(false); eigBtn.focus({ preventScroll: true }); });
   $("[data-b-hex]").addEventListener("input", function () { var v = this.value.trim(); if (v[0] !== "#") v = "#" + v; if (/^#[0-9a-f]{3}$/i.test(v)) v = "#" + v[1] + v[1] + v[2] + v[2] + v[3] + v[3]; setColor(v, "hex"); });
   $("[data-b-name]").addEventListener("input", function () {
     S.brand.name = this.value.replace(/\s+/g, " ").trim() || S.P.name; paintName(); if (S.brand.type === "kuerzel" && !S.brand.short) paintLogo();
@@ -835,7 +854,7 @@
   function initBrand() {
     var P = S.P;
     S.brand = { name: P.name, short: P.logo, color: P.color, type: P.logoT, sym: P.sym, shape: P.shape, img: (S.brand && S.brand.img) || "" };
-    applyColor(P.color); renderBrand(); paintLogo(); paintName(); renderDue();
+    applyColor(P.color); openPicker(false); renderBrand(); paintLogo(); paintName(); renderDue();
   }
 
   // ---------- Nachrichten an Gruppen und Pinnwand am Handy ----------
