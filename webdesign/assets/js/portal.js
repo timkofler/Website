@@ -117,12 +117,47 @@
     qr.innerHTML = q.createSvgTag({ cellSize: 6, margin: 0, scalable: true });
   }
 
-  // Codefelder: Leerzeichen beim Tippen erlaubt, Ziffern werden in Dreiergruppen angezeigt.
+  // Codefelder: sechs Kästchen über dem echten Eingabefeld (Einfügen und Autofill vom Handy gehen weiter).
+  // Sind alle sechs Ziffern da, werden sie zum Häkchen und das Formular geht ab; prüfen tut wie bisher der Server.
   Array.prototype.forEach.call(document.querySelectorAll('input.kp-otp[inputmode=numeric]'), function (el) {
-    el.addEventListener('input', function () {
+    var wrap = document.createElement('span'), cells = document.createElement('span'), i;
+    wrap.className = 'kp-code';
+    cells.className = 'kp-code__cells';
+    cells.setAttribute('aria-hidden', 'true');
+    for (i = 0; i < 6; i++) cells.appendChild(document.createElement('i'));
+    cells.insertAdjacentHTML('beforeend', '<svg class="kp-code__ok" viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7.5 7.5L37.5 19"/></svg>');
+    el.parentNode.insertBefore(wrap, el);
+    wrap.appendChild(el); wrap.appendChild(cells);
+    el.removeAttribute('placeholder');
+    var form = el.form, fields = form ? Array.prototype.filter.call(form.elements, function (f) { return f.type !== 'hidden' && f.type !== 'submit' && f.tagName !== 'BUTTON'; }) : [];
+    // Automatisch abschicken nur beim Anmelden (nicht beim Ein- oder Ausschalten der Zwei-Faktor-Anmeldung)
+    var auto = fields.length === 1 && !!form.querySelector('input[name=aktion][value=code]'), sent = false, timer;
+    var paint = function () {
       var d = el.value.replace(/\D/g, '').slice(0, 6);
-      el.value = d.length > 3 ? d.slice(0, 3) + ' ' + d.slice(3) : d;
-    });
+      if (el.value !== d) el.value = d;
+      Array.prototype.forEach.call(cells.children, function (c, k) {
+        if (c.tagName !== 'I') return;
+        c.textContent = d[k] || '';
+        c.className = (d[k] ? 'is-set' : '') + (k === Math.min(d.length, 5) ? ' is-cur' : '');
+      });
+      var full = d.length === 6;
+      wrap.classList.toggle('is-full', full);
+      clearTimeout(timer);
+      if (full && auto && !sent) {
+        timer = setTimeout(function () {
+          if (el.value.length !== 6 || sent) return;
+          sent = true;
+          var b = form.querySelector('button[type=submit], button:not([type])');
+          if (b) { b.disabled = true; b.textContent = 'Wird geprüft …'; }
+          form.submit();
+        }, 750);
+      }
+    };
+    el.addEventListener('input', paint);
+    el.addEventListener('focus', function () { wrap.classList.add('is-focus'); });
+    el.addEventListener('blur', function () { wrap.classList.remove('is-focus'); });
+    if (form) form.addEventListener('submit', function () { sent = true; });
+    paint();
   });
 
   // Nachrichtenfeld wächst mit dem Text mit, Strg/Cmd + Enter schickt ab.

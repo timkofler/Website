@@ -907,3 +907,14 @@ html.tk-3d-on.tk-3d-view .header { -webkit-backdrop-filter: none; backdrop-filte
 .tk-rr .btn:disabled { opacity: .6; cursor: wait; }
 .tk-rr .form__status.is-ok { background: rgba(255,90,31,.12); border-color: rgba(255,90,31,.45); color: var(--text); }
 @media (max-width: 380px) { .tk-rr__row { grid-template-columns: 1fr; } }
+
+/* Senden-Knopf, der sich füllt (forms.js) */
+.btn.is-sending:disabled, .btn.is-sent:disabled { position: relative; overflow: hidden; isolation: isolate; cursor: default; opacity: 1; }
+.btn.is-sending::after, .btn.is-sent::after { display: none; }
+.tk-fill { position: absolute; inset: 0; z-index: -1; background: rgba(255,255,255,.38); transform: scaleX(0); transform-origin: 0 50%; animation: tk-fill 2.4s cubic-bezier(.2,.6,.2,1) forwards; }
+.btn--line .tk-fill { background: rgba(255,90,31,.28); }
+.btn.is-sent .tk-fill { animation: none; transform: scaleX(1); transition: transform .35s ease, opacity .4s .35s; opacity: 0; }
+@keyframes tk-fill { 0% { transform: scaleX(0); } 60% { transform: scaleX(.7); } 100% { transform: scaleX(.9); } }
+.tk-fill__ok { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 24; stroke-dashoffset: 24; animation: tk-ok .45s .1s cubic-bezier(.3,.7,.3,1) forwards; }
+@keyframes tk-ok { to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) { .tk-fill { animation: none; transform: scaleX(.9); } .tk-fill__ok { animation: none; stroke-dashoffset: 0; } }
