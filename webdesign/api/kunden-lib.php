@@ -745,6 +745,9 @@ const KP_PHASEN = [
     'online' => ['Online', 'Deine Webseite ist online', 'Geschafft! Wenn du später etwas ändern möchtest, schreib mir einfach hier.'],
 ];
 
+// Bewertungslink des Google-Unternehmensprofils „Tim Kofler – Webdesign“ (auch auf /danke/).
+const KP_REVIEW_URL = 'https://g.page/r/CS2eZ1lg7mbtEBM/review';
+
 // Art des Kunden: Betriebe zahlen, Vereine bekommen ihre Seite gratis (tim-kofler.at/verein). Ändert nur Texte und Beispiele.
 const KP_KUNDENARTEN = ['betrieb' => 'Betrieb', 'verein' => 'Verein (gratis)'];
 
@@ -813,13 +816,16 @@ function kp_project_card(array $acc, bool $forKunde, string $edit = ''): string
         . ' <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></a>' : '';
     $next = trim((string) ($acc['naechstes'] ?? ''));
     $nextHtml = $next !== '' ? '<p class="kp-next"><b>Als Nächstes</b><span>' . nl2br(cx_h($next)) . '</span></p>' : '';
+    // Ist die Seite online, bitte ich um eine Google-Bewertung (öffnet das Bewertungsfenster des Unternehmensprofils).
+    $review = $phase === 'online' ? '<div class="tk-review__box kp-review"><p><b>Zufrieden mit deiner Webseite?</b>Eine kurze Google-Bewertung hilft mir sehr, dauert nur eine Minute.</p>'
+        . '<a class="tk-review" href="' . KP_REVIEW_URL . '" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4l-5.8 3.1 1.1-6.5L2.6 9.4l6.5-.9z"/></svg>Bewertung abgeben</a></div>' : '';
     if (!$forKunde) {
         $text = 'So sieht ' . cx_h((string) ($acc['name'] ?? 'der Kunde')) . ' den Stand oben im Portal.';
     }
     return '<section class="kp-card kp-projekt" aria-label="Stand der Webseite">'
         . '<div class="kp-projekt__kopf"><div><span class="kp-eyebrow">Stand deiner Webseite · Schritt ' . ($pos + 1) . ' von ' . count($keys) . '</span>'
         . '<h2>' . cx_h($title) . '</h2><p>' . ($forKunde ? cx_h($text) : $text) . '</p></div>' . $btn . '</div>'
-        . '<ol class="kp-phasen" style="--fill:' . $fill . '%">' . $steps . '</ol>' . $nextHtml . $edit . '</section>';
+        . '<ol class="kp-phasen" style="--fill:' . $fill . '%">' . $steps . '</ol>' . $nextHtml . $review . $edit . '</section>';
 }
 
 // Eingabefeld unter dem Verlauf.
@@ -887,8 +893,8 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <meta name="theme-color" content="#0b0b0b">
   <link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/css/style.css?v=17ee6a2e">
-  <link rel="stylesheet" href="/assets/css/tk.css?v=ed6012f4">
-  <link rel="stylesheet" href="/assets/css/portal.css?v=43e93449">
+  <link rel="stylesheet" href="/assets/css/tk.css?v=93b9b96c">
+  <link rel="stylesheet" href="/assets/css/portal.css?v=556ea43c">
 </head>
 <body class="kp">
 <header class="header">
