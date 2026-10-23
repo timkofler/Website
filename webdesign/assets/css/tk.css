@@ -918,3 +918,17 @@ html.tk-3d-on.tk-3d-view .header { -webkit-backdrop-filter: none; backdrop-filte
 .tk-fill__ok { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 24; stroke-dashoffset: 24; animation: tk-ok .45s .1s cubic-bezier(.3,.7,.3,1) forwards; }
 @keyframes tk-ok { to { stroke-dashoffset: 0; } }
 @media (prefers-reduced-motion: reduce) { .tk-fill { animation: none; transform: scaleX(.9); } .tk-fill__ok { animation: none; stroke-dashoffset: 0; } }
+
+/* Google-Bewertung (Kundenportal bei „Online“, Danke-Seite) */
+.tk-review { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 42px; padding: 0 18px; border-radius: 999px; border: 1px solid rgba(255,90,31,.5); background: rgba(255,90,31,.1); color: var(--text); font: 700 .9rem var(--body); text-decoration: none; white-space: nowrap; transition: background .2s, border-color .2s, transform .2s; }
+.tk-review:hover, .tk-review:focus-visible { background: rgba(255,90,31,.2); border-color: var(--hot); color: var(--text); }
+.tk-review:focus-visible { outline: 2px solid var(--hot); outline-offset: 3px; }
+.tk-review svg { flex: none; width: 17px; height: 17px; fill: var(--hot); transition: transform .3s cubic-bezier(.3,1.6,.5,1); }
+.tk-review:hover svg { transform: rotate(-14deg) scale(1.12); }
+.tk-review__box { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 14px 16px; border: 1px solid var(--line-2); border-radius: 14px; background: rgba(255,255,255,.02); }
+.tk-review__box p { margin: 0; text-wrap: pretty; font-size: .92rem; color: var(--muted); line-height: 1.5; }
+.tk-review__box p b { display: block; color: var(--text); font-weight: 700; }
+.tk-review__box--danke { margin-top: 32px; }
+.tk-review__box--danke + .tk-host--mini { margin-top: 16px; }
+@media (max-width: 560px) { .tk-review__box { flex-direction: column; align-items: stretch; gap: 12px; } .tk-review { width: 100%; } }
+@media (prefers-reduced-motion: reduce) { .tk-review svg { transition: none; } .tk-review:hover svg { transform: none; } }

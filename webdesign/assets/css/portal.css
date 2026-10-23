@@ -473,3 +473,5 @@
 .kp-code.is-full .kp-code__ok path { transition: stroke-dashoffset .3s .6s ease; stroke-dashoffset: 0; }
 @media (max-width: 420px) { .kp-code__cells { gap: 6px; } .kp-code__cells i { height: 50px; font-size: 1.35rem; } .kp-code__cells i:nth-child(3) { margin-right: 4px; } }
 @media (prefers-reduced-motion: reduce) { .kp-code__cells i, .kp-code__ok, .kp-code__ok circle, .kp-code__ok path { transition: none !important; animation: none !important; } }
+.kp-review { margin-top: 12px; }
+.kp-phasen + .kp-review { margin-top: 22px; }
