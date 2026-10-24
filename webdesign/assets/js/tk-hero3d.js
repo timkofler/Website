@@ -252,7 +252,7 @@ function build(THREE, RoomEnvironment) {
     // Fortschritt: 0 oben, 1 sobald der Kopfbereich zu drei Vierteln (Handy: ganz) weggescrollt ist
     var raw = clamp((scrollY - heroTop + 80) / (heroH * span), 0, 1);
     // Langsam nachziehen, damit Mausrad-Rucke nicht als Sprung ankommen
-    prog = damp(prog, raw, 2.4, dt);
+    prog = damp(prog, raw, 3, dt);
     var p = prog, fade;
 
     // Mitfahren: Die Plakette wandert langsamer nach oben als der Inhalt und taucht dabei hinter das Laufband.
@@ -269,10 +269,10 @@ function build(THREE, RoomEnvironment) {
     var a = ease(t / 1.6), a2 = ease((t - .5) / 1.2);
     mx = damp(mx, nx, 3, dt); my = damp(my, ny, 3, dt);
     if (!drag) { extra += vel * dt; vel = damp(vel, 0, 2.2, dt); extra = damp(extra, Math.round(extra / (Math.PI * 2)) * Math.PI * 2, vel * vel < .2 ? 1.6 : 0, dt); }
-    // Beim Scrollen nur eine ruhige, leichte Neigung statt einer ganzen Umdrehung; das Logo bleibt von vorn lesbar
-    var idle = Math.sin(t * .55) * .16, tilt = p * p * (3 - 2 * p);
-    spin.rotation.y = (1 - a) * -2.4 + idle + tilt * .45 + extra;
-    spin.rotation.x = Math.sin(t * .4) * .05 + tilt * .2;
+    // Beim Scrollen eine weiche Dreivierteldrehung statt einer ganzen schnellen Runde; weich ein- und ausgeblendet
+    var idle = Math.sin(t * .55) * .2, tilt = p * p * (3 - 2 * p);
+    spin.rotation.y = (1 - a) * -2.4 + idle + tilt * Math.PI * .75 + extra;
+    spin.rotation.x = Math.sin(t * .4) * .06 + tilt * .3;
     rig.rotation.x = my * .22; rig.rotation.y = mx * .3;
     rig.position.y = Math.sin(t * .9) * .05 - p * .4;
     var sc = (.82 + a * .18) * (1 - p * .22);
