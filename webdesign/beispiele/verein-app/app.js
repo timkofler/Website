@@ -306,6 +306,23 @@
     mcard.hidden = true;
   });
 
+  // Vorstand im Vollbild: so sieht die App wirklich am PC aus (Esc oder Knopf beendet es)
+  var desk = $(".desk"), fullB = $("[data-full]");
+  function setFull(on) {
+    desk.classList.toggle("is-full", on);
+    document.documentElement.classList.toggle("va-full", on);
+    fullB.setAttribute("aria-pressed", on);
+    $("[data-full-t]").textContent = on ? "Vollbild beenden" : "Vollbild";
+  }
+  fullB.addEventListener("click", function () {
+    var on = !desk.classList.contains("is-full");
+    if (on && desk.requestFullscreen) desk.requestFullscreen().catch(function () {});
+    if (!on && document.fullscreenElement) document.exitFullscreen().catch(function () {});
+    setFull(on);
+  });
+  document.addEventListener("fullscreenchange", function () { if (!document.fullscreenElement && desk.classList.contains("is-full")) setFull(false); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && desk.classList.contains("is-full") && !document.fullscreenElement) setFull(false); });
+
   // Seitenleiste am PC über den Knopf am Rand einklappen (nur Symbole)
   var deskIn = $(".desk__in"), sideTog = $("[data-side-tog]");
   $$("[data-dt]").forEach(function (b) { var l = b.querySelector("span"); if (l) b.title = l.textContent; });
@@ -1140,6 +1157,7 @@
   // ---------- Vereinsart wechseln ----------
   function load(k) {
     wk = 0;
+    $("[data-lgn-mail]").value = (k === "musik" ? "obfrau@" : "obmann@") + VK[k].url.split("/")[0];
     build(k);
     document.body.setAttribute("data-vk", k);
     mcard.hidden = true;
@@ -1162,6 +1180,6 @@
     load(b.getAttribute("data-vk"));
   });
   // qrcode.js wird ebenfalls mit defer geladen und ist hier schon da; zur Sicherheit erst nach "load" zeichnen.
-  load("musik");
+  load("sport");
   if (!window.qrcode) window.addEventListener("load", renderDue);
 })();
