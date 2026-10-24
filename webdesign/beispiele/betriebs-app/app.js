@@ -33,10 +33,22 @@
     { n: "Kundenkartei", s: "Kunden", p: 20, c: "#e64980", i: "i-users" },
     { n: "Website", p: 25, c: "#1098ad", i: "i-web" }
   ];
+  // Echter QR-Code als SVG: runde Punkte, Ecken als abgerundete Quadrate
+  var qrSvg = function (text) {
+    if (typeof qrcode !== "function") return "";
+    var q = qrcode(0, "L"); q.addData(text); q.make();
+    var n = q.getModuleCount(), d = "", r, c;
+    var finder = function (r, c) { return (r < 7 && c < 7) || (r < 7 && c >= n - 7) || (r >= n - 7 && c < 7); };
+    for (r = 0; r < n; r++) for (c = 0; c < n; c++) if (q.isDark(r, c) && !finder(r, c)) d += "M" + (c + .5) + " " + (r + .08) + "a.42 .42 0 1 0 .001 0z";
+    var eye = function (x, y) {
+      return '<rect x="' + (x + .5) + '" y="' + (y + .5) + '" width="6" height="6" rx="1.8" fill="none" stroke="#141a2e" stroke-width="1"/><rect x="' + (x + 2) + '" y="' + (y + 2) + '" width="3" height="3" rx=".9" fill="#ff5a1f"/>';
+    };
+    return '<svg viewBox="0 0 ' + n + " " + n + '" aria-hidden="true"><path fill="#141a2e" d="' + d + '"/>' + eye(0, 0) + eye(n - 7, 0) + eye(0, n - 7) + "</svg>";
+  };
   // Kleine echte Inhalte je Abo-Fenster statt Platzhalter-Balken
   var WIN = {
     Terminbuchung: '<div class="w-slots"><span class="x">09:00</span><span class="on">10:30</span><span>14:00</span></div><span class="w-sub">Mo, 26. Okt. · 3 Termine frei</span>',
-    Gutscheine: '<div class="w-gift"><span><small>Gutschein</small><b>50 €</b></span><i></i></div>',
+    Gutscheine: '<div class="w-gift"><span><small>Gutschein</small><b>50 €</b></span><span class="w-qr">' + qrSvg("GL-50") + '</span></div>',
     Stempelkarte: '<div class="w-stamps"><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span></div><span class="w-sub">Noch 2 Stempel bis gratis</span>',
     Angebote: '<div class="w-row"><span>Angebot 041</span><b>1.180 €</b></div><div class="w-row"><span>Unterschrift</span><em class="w-chip">offen</em></div>',
     Rechnungen: '<div class="w-row"><span>Nr. 1042</span><b>89 €</b><em class="w-chip">offen</em></div><div class="w-row"><span>Nr. 1041</span><b>120 €</b><em class="w-chip ok">bezahlt</em></div>',

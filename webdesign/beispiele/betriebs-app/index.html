@@ -12,7 +12,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#070b16" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#0c1430" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f4f6fb" media="(prefers-color-scheme: light)">
 <meta name="color-scheme" content="dark light">
 <link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
@@ -24,11 +24,11 @@
 
 /* Farben: dunkel ist der Standard, hell folgt der Einstellung am Gerät. */
 :root{
-  --bg:#070b16;--bg2:#0b1122;--card:#101a30;--card2:#16223d;--line:rgba(160,180,230,.14);--line2:rgba(160,180,230,.24);
+  --bg:#0c1430;--bg2:#101a3a;--card:#15224a;--card2:#1b2b57;--line:rgba(160,180,230,.14);--line2:rgba(160,180,230,.24);
   --ink:#eef2fb;--mu:#a7b1c6;--mu2:#7f8aa3;
   --pop:#ff5a1f;--pop2:#ffb23f;--popt:#ff7a45;--popl:rgba(255,90,31,.14);--on-pop:#1a0a03;
   --blue:#5b8cff;--bluel:rgba(91,140,255,.16);--ok:#2fd39a;--okl:rgba(47,211,154,.14);--bad:#ff6b6b;--badl:rgba(255,107,107,.14);
-  --glow1:rgba(91,140,255,.32);--glow2:rgba(255,90,31,.22);
+  --glow1:rgba(91,140,255,.42);--glow2:rgba(255,90,31,.22);
   --shadow:0 40px 90px -40px rgba(0,0,0,.85);--shadow2:0 18px 40px -18px rgba(0,0,0,.7);
   --hd:"Bricolage",system-ui,-apple-system,"Segoe UI",sans-serif;--bd:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
@@ -131,9 +131,8 @@ button{cursor:pointer}
   background:radial-gradient(90% 120% at 100% 0%,rgba(255,255,255,.3),transparent 60%),linear-gradient(130deg,var(--c),color-mix(in srgb,var(--c) 55%,#3b0a00))}
 .w-gift b{font:800 2.6em/1 var(--hd);letter-spacing:-.03em}
 .w-gift small{display:block;font-size:.85em;opacity:.85;margin-bottom:.3em;letter-spacing:.08em;text-transform:uppercase}
-.w-gift i{width:3.4em;height:3.4em;border-radius:.5em;background:#fff;
-  background-image:linear-gradient(#111 0 0),linear-gradient(#111 0 0),linear-gradient(#111 0 0),linear-gradient(#111 0 0),linear-gradient(#111 0 0);
-  background-size:1.1em 1.1em,1.1em 1.1em,1.1em 1.1em,.55em .55em,.55em .55em;background-position:.3em .3em,2em .3em,.3em 2em,2.2em 2.2em,1.5em 1.6em;background-repeat:no-repeat}
+.w-qr{flex:none;width:4.3em;height:4.3em;padding:.34em;border-radius:.7em;background:#fff;box-shadow:0 .4em 1em -.4em rgba(0,0,0,.5)}
+.w-qr svg{display:block;width:100%;height:100%}
 .w-stamps{display:grid;grid-template-columns:repeat(5,2.5em);gap:.7em;margin-top:.3em}
 .w-stamps span{aspect-ratio:1;border-radius:50%;border:1.5px dashed var(--line2)}
 .w-stamps span.on{border:0;background:radial-gradient(circle at 32% 28%,color-mix(in srgb,var(--c) 55%,#fff),var(--c));box-shadow:0 .4em .8em -.4em var(--c)}
@@ -956,5 +955,5 @@ button{cursor:pointer}
 
 <script src="/beispiele/_shared/demo.js?v=29766291" defer></script>
 <script src="/beispiele/_shared/vendor/qrcode-generator-2.0.4/qrcode.js" defer></script>
-<script src="/beispiele/betriebs-app/app.js?v=7" defer></script>
+<script src="/beispiele/betriebs-app/app.js?v=8" defer></script>
 </body></html>
