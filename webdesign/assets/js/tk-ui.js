@@ -670,20 +670,33 @@
     });
   }
   function open(key) { set(key, true); }
+  // Teile, die im Quelltext vor ihrem Knopf stehen (Web-Apps: Funktionsliste, Fragen 7 bis 13), wandern hinter den Knopf,
+  // damit alles unter dem Knopf aufgeht und nichts darüber die Seite verschiebt. Karten (.mf-slot) gibt es nur am Handy,
+  // ihre Teile kommen am PC wieder an den alten Platz; Knöpfe wie „Alle Fragen anzeigen“ gelten überall.
+  var mq = window.matchMedia("(max-width: 680px)"), moved = [];
+  openers.forEach(function (b) {
+    var anchor = b.closest(".mf-slot") || b, after = anchor;
+    document.querySelectorAll('[data-mf="' + b.getAttribute("data-mf-open") + '"]').forEach(function (el) {
+      if (!(el.compareDocumentPosition(anchor) & Node.DOCUMENT_POSITION_FOLLOWING)) return;
+      var mark = document.createComment("mf"); el.parentNode.insertBefore(mark, el);
+      moved.push({ el: el, mark: mark, after: after, mobile: anchor !== b }); after = el;
+    });
+  });
+  function place() {
+    moved.forEach(function (m) {
+      var ref = !m.mobile || mq.matches ? m.after : m.mark;
+      ref.parentNode.insertBefore(m.el, ref.nextSibling);
+    });
+  }
+  if (moved.length) { place(); if (mq.addEventListener) mq.addEventListener("change", place); }
   openers.forEach(function (b) {
     b.addEventListener("click", function () {
       var key = b.getAttribute("data-mf-open"), on = b.getAttribute("aria-expanded") !== "true";
       var top = b.getBoundingClientRect().top;
       set(key, on);
-      // Der Knopf bleibt an derselben Stelle im Bild, statt dass die Seite springt. Geht der Inhalt oberhalb
-      // des Knopfs auf, rollt die Seite sanft zu seinem Anfang, damit man sieht, was aufgeklappt wurde.
+      // Der Knopf bleibt an derselben Stelle im Bild, statt dass die Seite springt
       var d = b.getBoundingClientRect().top - top;
       if (d) window.scrollBy({ top: d, behavior: "instant" });
-      var first = on && document.querySelector('[data-mf="' + key + '"]');
-      if (first && (first.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING)) {
-        var hd = document.querySelector(".header"), off = (hd ? hd.getBoundingClientRect().bottom : 0) + 16;
-        window.scrollBy({ top: first.getBoundingClientRect().top - off, behavior: "smooth" });
-      }
     });
   });
   function fromHash() {
