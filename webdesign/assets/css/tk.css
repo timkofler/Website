@@ -1324,3 +1324,6 @@ html:not(:has(#mf-nojs)) .mf-home #fragen [data-mf="faq"]:not(.mf-open) { displa
 .header { transition: background .35s, border-color .35s, opacity .3s ease, transform .35s ease; }
 html.tk-at-foot:not(.tk-menu-open) .tk-progress { opacity: 0; }
 html.tk-at-foot:not(.tk-menu-open) .header { opacity: 0; transform: translateY(-100%); pointer-events: none; }
+
+/* Web-Apps am Handy: Funktionsliste steht hinter der Karte (tk-ui.js) und geht darunter auf */
+@media (max-width: 680px) { .mf-home .mf-slot + .tk-feat { margin-top: 16px; } }
