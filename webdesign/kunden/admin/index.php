@@ -408,7 +408,7 @@ HTML);
 // ---------------- Anmeldung, zweiter Schritt: Code aus der App ----------------
 if ($codeStep) {
     $action = KP_ADMIN . ($k !== '' ? '?k=' . $k : '');
-    kp_page('Bestätigen', <<<HTML
+    kp_page('Code bestätigen', <<<HTML
 <div class="kp-narrow kp-auth">
   <span class="kp-auth__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5.5c0 4.3-2.9 8.1-7 9.5-4.1-1.4-7-5.2-7-9.5V6z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg></span>
   <span class="label"><b>●</b> Kundenportal · Admin</span>
@@ -439,7 +439,7 @@ HTML);
 // ---------------- Anmeldung ----------------
 if (!$isAdmin) {
     $action = KP_ADMIN . ($k !== '' ? '?k=' . $k : '');
-    kp_page('Admin', <<<HTML
+    kp_page('Anmelden', <<<HTML
 <div class="kp-narrow kp-auth">
   <span class="kp-auth__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
   <span class="label"><b>●</b> Kundenportal · Admin</span>
@@ -940,7 +940,7 @@ $bzPanel = <<<HTML
 </div>
 HTML;
 
-kp_page('Kunden', <<<HTML
+kp_page('Übersicht', <<<HTML
 <span class="label"><b>●</b> Kundenportal · Admin</span>
 <h1 class="kp-hello">Übersicht</h1>
 {$zugang}
