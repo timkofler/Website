@@ -57,6 +57,12 @@ h2 .lime, h3 .lime { background: linear-gradient(100deg, #dcf763 0%, #ecff9e 55%
 .fx-marquee span { font-family: var(--display); font-weight: 500; font-size: clamp(1rem, 2.2vw, 1.4rem); color: #cfcfcf; white-space: nowrap; padding: 0 28px; display: inline-flex; align-items: center; gap: 56px; letter-spacing: -.01em; }
 .fx-marquee span::after { content: ""; width: 9px; height: 9px; border-radius: 2px; background: var(--lime); box-shadow: 0 0 12px rgba(220,247,99,.7); transform: rotate(45deg); display: inline-block; }
 @keyframes fx-marquee { to { transform: translateX(-50%); } }
+/* Laufschrift als Lime-Streifen mit dunkler Schrift */
+.fx-marquee { margin-top: 28px; padding: 16px 0; border: 0; -webkit-mask-image: none; mask-image: none;
+  background: linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,0) 55%), var(--lime);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.55), inset 0 -1px 0 rgba(0,0,0,.18), 0 0 40px rgba(220,247,99,.28), 0 18px 50px -20px rgba(220,247,99,.45); }
+.fx-marquee span { color: var(--ink); font-weight: 600; }
+.fx-marquee span::after { background: var(--ink); box-shadow: none; }
 
 /* Lesefortschritt oben */
 /* Abschneiden statt Stauchen (clip-path setzt fx.js): mit scaleX wurde der Leuchtschein am Anfang zu einem hohen Fleck */
