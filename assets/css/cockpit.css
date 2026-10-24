@@ -80,3 +80,12 @@
 @media (prefers-reduced-motion: reduce) { .cockpit .meter .fill { transition: none; } }
 .cockpit-intro .container { max-width: 1144px; }
 @media (max-width: 680px) { .cockpit-intro .container { padding: 0 16px; } }
+
+/* Glas-Optik wie auf der restlichen Seite (Werte aus fx.css) */
+.cockpit .card { background: var(--g-sheen), var(--g-bg); border-color: var(--g-line); box-shadow: var(--g-hi), var(--g-shadow); }
+.cockpit .result { background: rgba(0,0,0,.28); border-color: var(--g-line); box-shadow: inset 0 1px 2px rgba(0,0,0,.3); }
+.cockpit input[type="number"], .cockpit input[type="text"], .cockpit select { background-color: rgba(0,0,0,.32); border-color: var(--g-line-2); }
+.cockpit button:not(.win):not(.loss) { background: rgba(255,255,255,.035); border-color: var(--g-line-2); box-shadow: var(--g-hi); }
+.cockpit button.win { background-image: linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,0) 52%); box-shadow: inset 0 1px 0 rgba(255,255,255,.6); }
+.cockpit .checks label { border-color: var(--g-line); background: rgba(255,255,255,.02); }
+.cockpit .checks label.done { background: var(--ok-bg); }

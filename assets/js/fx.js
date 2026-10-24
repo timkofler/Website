@@ -57,6 +57,38 @@
     tilt();
   }
 
+  // Gleitende Glas-Kapsel im Menü (nur am PC, wo das Menü in einer Zeile steht)
+  var navEl = document.querySelector(".nav");
+  if (navEl && window.matchMedia) {
+    var wide = window.matchMedia("(min-width: 1101px)");
+    var ind = document.createElement("span");
+    ind.className = "nav__ind";
+    ind.setAttribute("aria-hidden", "true");
+    navEl.insertBefore(ind, navEl.firstChild);
+    var links = [].slice.call(navEl.querySelectorAll("a:not(.nav__cta)"));
+    var current = navEl.querySelector("a.is-active:not(.nav__cta)");
+    var moveInd = function (a) {
+      if (!a || !wide.matches) { ind.classList.remove("is-on"); return; }
+      var jump = !ind.classList.contains("is-on");
+      if (jump) ind.style.transition = "opacity .25s ease"; // erstes Erscheinen ohne Gleiten
+      ind.style.width = a.offsetWidth + "px";
+      ind.style.setProperty("--ix", a.offsetLeft + "px");
+      if (jump) { void ind.offsetWidth; ind.style.transition = ""; }
+      ind.classList.add("is-on");
+    };
+    links.forEach(function (a) {
+      a.addEventListener("pointerenter", function () { moveInd(a); });
+      a.addEventListener("focus", function () { moveInd(a); });
+    });
+    navEl.addEventListener("pointerleave", function () { moveInd(current); });
+    navEl.addEventListener("focusout", function (e) { if (!navEl.contains(e.relatedTarget)) moveInd(current); });
+    var syncInd = function () { navEl.classList.toggle("has-ind", wide.matches); moveInd(current); };
+    if (wide.addEventListener) wide.addEventListener("change", syncInd);
+    window.addEventListener("resize", function () { moveInd(current); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { moveInd(current); });
+    syncInd();
+  }
+
   // Lesefortschritt als dünne Linie am oberen Rand
   var bar = document.createElement("div");
   bar.className = "fx-progress";

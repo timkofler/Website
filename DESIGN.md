@@ -1,7 +1,7 @@
 ---
 version: alpha
 name: CryptoX-design-system
-description: "Dunkle, technische Marketing-Seite für CryptoX (crypto-x.at): fast schwarzer Hintergrund #0b0b0b, warmweißer Text #f4f4f0 und ein einziger Akzent, das CryptoX-Lime #dcf763. Überschriften in Unbounded (breit, geometrisch, leicht negativ gesperrt), Fließtext in Manrope, Labels und Zahlen in JetBrains Mono. Flächen sind dunkle Panels mit Haarlinien-Rahmen und großen Radien. Hauptdarsteller sind Screenshots des CryptoX Dashboards in Fenster- oder Handy-Rahmen. In den Dashboard-Bereichen kommt gezielt Glas-Optik (halbtransparent, Unschärfe) mit weichem grünem Schimmer dazu, passend zum Dashboard selbst. Bewegung ist dezent und respektiert „Bewegung reduzieren“."
+description: "Dunkle, technische Marketing-Seite für CryptoX (crypto-x.at): fast schwarzer Hintergrund #0b0b0b, warmweißer Text #f4f4f0 und ein einziger Akzent, das CryptoX-Lime #dcf763. Überschriften in Unbounded (breit, geometrisch, leicht negativ gesperrt), Fließtext in Manrope, Labels und Zahlen in JetBrains Mono. Flächen sind dunkle Panels mit Haarlinien-Rahmen und großen Radien. Hauptdarsteller sind Screenshots des CryptoX Dashboards in Fenster- oder Handy-Rahmen. Seit Oktober 2026 liegt über der ganzen Seite eine Glas-Optik: Karten und Kachel-Raster sind halbtransparent mit heller Glaskante, dahinter ruhiges Lime-Licht, die Kanten leuchten am Zeiger in Lime. Keine weitere Farbe. Bewegung ist dezent und respektiert „Bewegung reduzieren“."
 
 colors:
   primary: "#dcf763"          # CryptoX-Lime, einziger Farbakzent
@@ -62,7 +62,7 @@ CryptoX ist ein IT-Dienstleister aus Niederösterreich (Software, Software-Schul
 - **Dunkle Fläche:** `canvas` #0b0b0b, darauf eine Stufenleiter aus Panels (`surface-1` bis `surface-3`) mit 1px-Haarlinien. Hierarchie entsteht über Flächen und Linien, kaum über Schatten.
 - **Ein Akzent:** Lime #dcf763 für primäre Buttons, Hervorhebungen im Überschriftentext (`.lime`), Label-Nummern, Rauten-Aufzählungen, Fokusrahmen und Status „live“. Keine zweite Akzentfarbe.
 - **Produkt im Mittelpunkt:** Screenshots des Dashboards in Fenster-Rahmen (`.window`) oder Handy-Rahmen (`.phone`), immer aus der Demo-Installation mit erfundenen Daten.
-- **Glas nur gezielt:** Halbtransparente Panels mit Unschärfe (`.glass`) und weicher grüner Schimmer (`.section--glow`) ausschließlich in den Dashboard-Bereichen, als Brücke zum Look des Dashboards.
+- **Glas-Optik:** Die Glas-Werte stehen als `--g-*` in `assets/css/fx.css` (Abschnitt „Glas-Optik“). Karten (`.step`, `.post`, `.faq__item`, `.form` …) bekommen `--g-sheen` über `--g-bg`, Kachel-Raster (`.rules`, `.modules`, `.xgrid`) werden eine Glasplatte mit durchscheinenden Feldern. Hinter allem liegt ruhiges Lime-Licht (`body::before`, je Abschnitt ein weiches Licht). Lime-Lichtkante folgt dem Zeiger, im Menü gleitet am PC eine Glas-Kapsel mit Leuchtpunkt (`.nav__ind`, fx.js). Unschärfe nur an Kopfleiste und Rahmen-Buttons, am Handy gar nicht. Fenster mit `.glass` und `.section--glow` gibt es weiter in den Dashboard-Bereichen.
 - **Raster-Hintergrund** (`.grid-bg`) im Hero und in Seitenköpfen, nach außen ausgeblendet.
 
 ## Colors
