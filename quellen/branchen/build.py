@@ -91,7 +91,7 @@ def head(title, desc, url, og_title, og_desc, ld, extra_css=""):
   <link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/style.css?v=5d1d811a">
-  <link rel="stylesheet" href="/assets/css/tk.css?v=30caca89">
+  <link rel="stylesheet" href="/assets/css/tk.css?v=45a7f665">
   <link rel="stylesheet" href="/assets/css/entwurf.css?v=6fe37e4b">
   <link rel="stylesheet" href="/assets/css/gruender.css?v=4cfe3d90">
   <link rel="stylesheet" href="/assets/css/branchen.css?v={CSS_V}">
@@ -483,8 +483,8 @@ def uebersicht(alle):
     b = {"firma_ph": "z. B. Tischlerei Maier", "nachricht_ph": "z. B. was du anbietest und was die Seite können soll",
          "wa": "ich interessiere mich für eine Webseite.", "paket": "start",
          "faq": [["Machst du auch Seiten für andere Branchen?", "Ja. Die Branchen hier sind Beispiele, an denen man gut sieht, was geht. Ich baue Seiten für jeden kleinen Betrieb und jede Selbstständige, vom Steuerberater bis zur Hundeschule."],
-                 ["Was kostet eine Webseite?", "Start ab 590 €, Business ab 1.190 €, einmal zahlen, kein Abo. Für Neugründungen gibt es das <a href=\"/gruender/\">Start-Paket</a> zum Fixpreis. Den Richtpreis mit Extras rechnet der <a href=\"/#rechner\">Angebots-Rechner</a> aus."],
-                 ["Muss ich dafür zu dir kommen?", "Nein. Wir besprechen alles per Telefon oder Videocall, Fotos und Texte lädst du im Kundenportal hoch. Das klappt in ganz Österreich."]]}
+                 ["Was kostet eine Webseite?", "Start ab 590 €, Business ab 1.190 €, einmal zahlen, kein Abo. Für Neugründungen gibt es das <a href=\"/gruender/\">Start-Paket</a> fix um 590 €, für Vereine eine <a href=\"/verein/\">Gratis-Seite</a>. Den Richtpreis mit Extras rechnet der <a href=\"/#rechner\">Angebots-Rechner</a> aus."],
+                 ["Muss ich dafür zu dir kommen?", "Nein. Alles läuft online: Abstimmung per WhatsApp oder Telegram, Fotos und Texte lädst du im Kundenportal hoch. Das klappt in ganz Österreich."]]}
     html += formular(b, 3)
     html += fragen(b, 4)
     html += FUSS
