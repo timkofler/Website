@@ -245,6 +245,167 @@ function kp_new_password(): string
     return $out;
 }
 
+// ---------------- Willkommensmail mit Link zum Passwort-Festlegen ----------------
+// Der Kunde bekommt nie ein Passwort per Mail, sondern einen einmaligen Link, mit dem er sein eigenes festlegt.
+// Gespeichert wird nur eine Prüfsumme des Links; ein neuer Link macht den alten ungültig, nach dem Festlegen ist er verbraucht.
+
+const KP_INVITE_TTL = 7 * 86400;   // Link gilt 7 Tage
+const KP_INVITE_GAP = 60;          // höchstens eine Mail pro Minute und Kunde ...
+const KP_INVITE_DAY = 5;           // ... und höchstens 5 pro Tag
+
+function kp_invite_file(string $u): string
+{
+    return kp_user_dir($u) . '/einladung.json';
+}
+
+// Neuen Link erzeugen (mit Versandgrenze). Ergebnis: [true, Link] oder [false, Fehlermeldung].
+function kp_invite_create(string $u): array
+{
+    $dir = kp_user_dir($u);
+    if (!is_dir($dir) && !@mkdir($dir, 0700, true)) {
+        return [false, 'Der Ordner des Kunden konnte nicht angelegt werden (Schreibrechte im Ordner api/_data prüfen).'];
+    }
+    $token = bin2hex(random_bytes(32));
+    $res = cx_locked($dir . '/.einladung.lock', static function () use ($u, $token) {
+        $now = time();
+        $d = kp_read_json(kp_invite_file($u));
+        $sent = array_values(array_filter((array) ($d['gesendet'] ?? []), static fn($t) => is_int($t) && $t > $now - 86400));
+        if ($sent && $now - max($sent) < KP_INVITE_GAP) {
+            return [false, 'Gerade erst verschickt. Bitte warte eine Minute, bevor du die Mail noch einmal sendest.'];
+        }
+        if (count($sent) >= KP_INVITE_DAY) {
+            return [false, 'Heute sind schon ' . KP_INVITE_DAY . ' Willkommensmails an diesen Kunden gegangen. Bitte morgen noch einmal versuchen.'];
+        }
+        $sent[] = $now;
+        $ok = kp_write_json(kp_invite_file($u), ['hash' => hash('sha256', $token), 'bis' => $now + KP_INVITE_TTL, 'gesendet' => $sent]);
+        return $ok ? [true, ''] : [false, 'Der Link konnte nicht gespeichert werden (Schreibrechte im Ordner api/_data prüfen).'];
+    });
+    if (!is_array($res) || !$res[0]) {
+        return is_array($res) ? $res : [false, 'Bitte noch einmal versuchen.'];
+    }
+    return [true, kp_portal_url('/kunden/?willkommen=' . $u . '.' . $token)];
+}
+
+// Prüft einen Link aus der Mail, ohne ihn zu verbrauchen. Ergebnis: Benutzername oder ''.
+function kp_invite_check(string $raw): string
+{
+    if (!preg_match('/^([a-z0-9-]{3,40})\.([a-f0-9]{64})$/', $raw, $m) || !kp_valid_user($m[1]) || kp_account($m[1]) === null) {
+        return '';
+    }
+    $d = kp_read_json(kp_invite_file($m[1]));
+    $hash = (string) ($d['hash'] ?? '');
+    if ($hash === '' || (int) ($d['bis'] ?? 0) < time() || !hash_equals($hash, hash('sha256', $m[2]))) {
+        return '';
+    }
+    return $m[1];
+}
+
+// Link verbrauchen: nur der erste von zwei gleichzeitigen Versuchen gewinnt.
+function kp_invite_use(string $raw): bool
+{
+    $u = kp_invite_check($raw);
+    if ($u === '') {
+        return false;
+    }
+    return (bool) cx_locked(kp_user_dir($u) . '/.einladung.lock', static function () use ($u, $raw) {
+        if (kp_invite_check($raw) !== $u) {
+            return false;
+        }
+        $d = kp_read_json(kp_invite_file($u));
+        unset($d['hash'], $d['bis']);
+        return kp_write_json(kp_invite_file($u), $d);
+    });
+}
+
+// Wann ging die letzte Willkommensmail raus, und ist ihr Link noch offen? Für die Anzeige im Admin.
+function kp_invite_state(string $u): array
+{
+    $d = kp_read_json(kp_invite_file($u));
+    $sent = array_filter((array) ($d['gesendet'] ?? []), 'is_int');
+    return ['zuletzt' => $sent ? max($sent) : 0, 'offen' => !empty($d['hash']) && (int) ($d['bis'] ?? 0) >= time(), 'bis' => (int) ($d['bis'] ?? 0)];
+}
+
+// Willkommensmail im Auftritt von tim-kofler.at (dunkel, TK-Logo, Orange). Der Link steht nur in der Mail, nie im Log.
+function kp_send_welcome(string $u, array $acc): array
+{
+    $email = (string) ($acc['email'] ?? '');
+    if ($email === '') {
+        return [false, 'Für diesen Kunden ist keine E-Mail-Adresse hinterlegt.'];
+    }
+    if (!cx_ready()) {
+        return [false, 'Der Mailversand ist auf dem Server nicht eingerichtet (brevo_api_key und secret in der config.php).'];
+    }
+    [$ok, $link] = kp_invite_create($u);
+    if (!$ok) {
+        return [false, $link];
+    }
+    $name = trim((string) ($acc['name'] ?? ''));
+    $vorname = $name !== '' ? explode(' ', $name)[0] : '';
+    $portal = kp_portal_url();
+    $bis = date('d.m.Y', time() + KP_INVITE_TTL);
+    $was = kp_is_verein($acc) ? 'die neue Webseite deines Vereins' : 'deine neue Webseite';
+    $p = 'margin:0 0 14px';
+    $step = static fn(string $n, string $t) => '<tr><td valign="top" style="padding:0 12px 12px 0;width:28px"><span style="display:inline-block;width:26px;height:26px;line-height:26px;border-radius:13px;background:#ff5a1f;color:#0b0b0b;font-weight:bold;font-size:13px;text-align:center">' . $n . '</span></td>'
+        . '<td valign="top" style="padding:3px 0 12px;font-size:15px;line-height:1.5;color:#e6e6e2">' . $t . '</td></tr>';
+    $inner = '<p style="' . $p . '">' . ($vorname !== '' ? 'Hallo ' . cx_h($vorname) . ',' : 'Hallo,') . '</p>'
+        . '<p style="' . $p . '">schön, dass wir zusammenarbeiten! Ich habe dir einen Zugang zu meinem <b style="color:#f4f4f0">Kundenportal</b> eingerichtet. Dort sammeln wir alles für ' . $was . ' an einem Ort.</p>'
+        . '<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:6px 0 18px;background:#1d1d1d;border:1px solid #2c2c2c;border-radius:12px"><tr><td style="padding:16px 18px;font-size:15px;line-height:1.7;color:#e6e6e2">'
+        . 'Adresse: <a href="' . cx_h($portal) . '" style="color:#ff7a45;text-decoration:none">' . cx_h(preg_replace('#^https?://#', '', rtrim($portal, '/'))) . '</a><br>'
+        . 'Benutzername: <b style="color:#f4f4f0;font-family:Consolas,Menlo,monospace">' . cx_h($u) . '</b></td></tr></table>'
+        . '<p style="' . $p . '">Ein Passwort schicke ich dir aus Sicherheitsgründen nicht per Mail. Du legst dein eigenes mit diesem Knopf fest:</p>'
+        . kp_mail_button($link, 'Passwort festlegen')
+        . '<p style="margin:0 0 22px;font-size:13px;line-height:1.6;color:#a1a1a1">Der Knopf funktioniert einmal und bis ' . $bis . '. Danach meldest du dich unter ' . cx_h(preg_replace('#^https?://#', '', rtrim($portal, '/'))) . ' mit Benutzername und deinem Passwort an. Ändern kannst du es dort jederzeit unter „Passwort“.</p>'
+        . '<p style="margin:0 0 10px;font-weight:bold;color:#f4f4f0">Was du im Portal machen kannst</p>'
+        . '<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:0 0 8px">'
+        . $step('1', '<b style="color:#f4f4f0">Fotos, Logo und Texte hochladen</b>, direkt vom Handy oder PC.')
+        . $step('2', '<b style="color:#f4f4f0">Nachrichten schreiben</b>: Wünsche, Fragen oder „Gefällt mir“ zum Entwurf.')
+        . $step('3', '<b style="color:#f4f4f0">Projektstand sehen</b>: welcher Schritt gerade dran ist und den Link zur Vorschau.')
+        . '</table>'
+        . '<p style="' . $p . '">Wenn du Hilfe brauchst, antworte einfach auf diese Mail oder schreib mir auf <a href="https://wa.me/4367761773118" style="color:#ff7a45">WhatsApp</a>.</p>'
+        . '<p style="margin:0">Liebe Grüße<br><b style="color:#f4f4f0">Tim Kofler</b></p>'
+        . '<p style="margin:22px 0 0;font-size:12px;line-height:1.6;color:#8a8a8a">Du hast diese Mail nicht erwartet? Dann ignoriere sie einfach, ohne Klick auf den Knopf passiert nichts.</p>';
+    $c = cx_config();
+    $notify = (string) ($c['notify_email'] ?? 'office@tim-kofler.at');
+    if (!cx_mail($email, $name, 'Dein Zugang zum Kundenportal von Tim Kofler', kp_mail_layout('Willkommen im Kundenportal', $inner), $notify)) {
+        return [false, 'Die Mail konnte nicht verschickt werden. Bitte später noch einmal mit „Willkommensmail erneut senden“ versuchen.'];
+    }
+    return [true, 'Willkommensmail an ' . $email . ' verschickt. Der Link zum Passwort-Festlegen gilt bis ' . $bis . '.'];
+}
+
+function kp_mail_button(string $href, string $label): string
+{
+    return '<table role="presentation" cellpadding="0" cellspacing="0" style="margin:4px 0 14px"><tr><td style="border-radius:999px;background:#ff5a1f">'
+        . '<a href="' . cx_h($href) . '" style="display:inline-block;padding:14px 26px;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;color:#0b0b0b;text-decoration:none;border-radius:999px">' . cx_h($label) . '</a></td></tr></table>';
+}
+
+// Mail-Rahmen für das Kundenportal: wie tim-kofler.at dunkel, mit TK-Logo und oranger Linie.
+function kp_mail_layout(string $title, string $inner): string
+{
+    $t = cx_h($title);
+    $site = cx_h(rtrim(cx_brand()['site'], '/'));
+    return <<<HTML
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark light"><title>{$t}</title></head>
+<body style="margin:0;padding:0;background:#0b0b0b">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0b0b0b;padding:28px 12px">
+<tr><td align="center">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#151515;border:1px solid #262626;border-top:3px solid #ff5a1f;border-radius:16px">
+<tr><td style="padding:26px 32px 4px;font-family:Arial,Helvetica,sans-serif">
+<table role="presentation" cellpadding="0" cellspacing="0"><tr>
+<td style="padding-right:12px"><img src="{$site}/assets/img/tk-badge-2-256.png" width="44" height="44" alt="TK" style="display:block;border:0;border-radius:22px"></td>
+<td style="font-size:15px;line-height:1.3;color:#f4f4f0;font-weight:bold">Tim Kofler<br><span style="font-weight:normal;font-size:12px;color:#a1a1a1;letter-spacing:.06em;text-transform:uppercase">Webdesign · Kundenportal</span></td>
+</tr></table></td></tr>
+<tr><td style="padding:8px 32px 28px;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.6;color:#e6e6e2">
+<h1 style="margin:18px 0 16px;font-size:23px;line-height:1.3;color:#f4f4f0">{$t}</h1>
+{$inner}
+</td></tr>
+<tr><td style="padding:18px 32px 26px;border-top:1px solid #262626;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#8a8a8a">
+Tim Kofler – Webdesign · Lehen 2, 3281 Oberndorf an der Melk, Österreich<br>
+<a href="{$site}/" style="color:#8a8a8a">tim-kofler.at</a> · <a href="{$site}/impressum/" style="color:#8a8a8a">Impressum</a> · <a href="{$site}/datenschutz/#kundenportal" style="color:#8a8a8a">Datenschutz</a>
+</td></tr>
+</table></td></tr></table></body></html>
+HTML;
+}
+
 // ---------------- Schutz vor Passwort-Raten ----------------
 
 function kp_fail_file(string $key): string
@@ -903,7 +1064,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/css/style.css?v=5d1d811a">
   <link rel="stylesheet" href="/assets/css/tk.css?v=9be50e3a">
-  <link rel="stylesheet" href="/assets/css/portal.css?v=f3b8d15c">
+  <link rel="stylesheet" href="/assets/css/portal.css?v=70e638eb">
 </head>
 <body class="kp">
 <header class="header">

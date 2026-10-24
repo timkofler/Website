@@ -591,3 +591,12 @@ body.kp:not(:has(.kp-auth)) .kp-main .kp-tile.is-active { border-color: var(--ho
   animation: kp-kitt 3.6s cubic-bezier(.45,0,.55,1) infinite alternate; }
 @keyframes kp-kitt { from { background-position: 4% 0; } to { background-position: 96% 0; } }
 @media (prefers-reduced-motion: reduce) { .kp-foot::after { animation: none; background-position: 50% 0; } }
+/* Hinweis: Kunde verwendet noch das von Tim erzeugte Passwort */
+.kp-main .kp-pw-hint { background: rgba(255,90,31,.1); border: 1px solid rgba(255,90,31,.45); color: var(--text); }
+.kp-pw-hint a { color: #ff7a45; font-weight: 700; }
+/* Willkommensmail im Admin: Stand und Knopf */
+.kp-invite { margin: 4px 0 0; }
+.kp-invite .kp-hint { margin: 0 0 10px; }
+/* Fuß mittig: auf den Anmeldeseiten (Karte steht mittig) und am Handy auf allen Portalseiten */
+body:has(.kp-auth) .kp-foot .footer__bottom { flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+@media (max-width: 760px) { .kp-foot .footer__bottom { flex-direction: column; align-items: center; text-align: center; gap: 8px; } }

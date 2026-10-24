@@ -255,15 +255,24 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
             kp_flash(false, 'Bitte einen Namen angeben.');
         } elseif (cx_field('email', 254) !== '' && $email === '') {
             kp_flash(false, 'Die E-Mail-Adresse ist ungültig.');
+        } elseif (cx_field('willkommen', 5) === 'ja' && $email === '') {
+            kp_flash(false, 'Für die Willkommensmail bitte die E-Mail-Adresse des Kunden eintragen (oder das Häkchen weglassen).');
         } else {
+            $welcome = cx_field('willkommen', 5) === 'ja';
             $pw = kp_new_password();
             $all[$u] = [
                 'name' => kp_text('name', 80), 'firma' => kp_text('firma', 120), 'email' => $email,
                 'webseite' => kp_text('webseite', 200), 'art' => isset(KP_KUNDENARTEN[cx_field('art', 20)]) ? cx_field('art', 20) : 'betrieb',
-                'hash' => password_hash($pw, PASSWORD_DEFAULT),
+                'hash' => password_hash($pw, PASSWORD_DEFAULT), 'pw_eigen' => false,
                 'aktiv' => true, 'erstellt' => date('c'),
             ];
             if (kp_save_accounts($all)) {
+                if ($welcome) {
+                    // Mit Willkommensmail legt der Kunde sein Passwort selbst fest; das Zufallspasswort sieht niemand.
+                    [$ok, $text] = kp_send_welcome($u, $all[$u]);
+                    kp_flash($ok, $ok ? 'Kunde angelegt. ' . $text : 'Kunde angelegt, aber: ' . $text);
+                    kp_redirect(KP_ADMIN . '?k=' . $u . '#zugang');
+                }
                 $_SESSION['zugang'] = ['benutzer' => $u, 'passwort' => $pw];
                 kp_redirect(KP_ADMIN . '?k=' . $u);
             }
@@ -315,9 +324,17 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     if ($action === 'passwort') {
         $pw = kp_new_password();
         $all[$k]['hash'] = password_hash($pw, PASSWORD_DEFAULT);
+        $all[$k]['pw_eigen'] = false;
         kp_save_accounts($all);
         kp_fail_reset('kunde:' . $k);
         $_SESSION['zugang'] = ['benutzer' => $k, 'passwort' => $pw];
+        kp_redirect($back . '#zugang');
+    }
+
+    // Willkommensmail (erneut) senden: neuer Link zum Passwort-Festlegen, der vorige gilt dann nicht mehr.
+    if ($action === 'willkommen') {
+        [$ok, $text] = kp_send_welcome($k, $all[$k]);
+        kp_flash($ok, $text);
         kp_redirect($back . '#zugang');
     }
 
@@ -641,6 +658,17 @@ if ($k !== '' && isset($all[$k])) {
         : '<p class="kp-hint kp-hint--top">Zwei-Faktor-Anmeldung: aus (der Kunde kann sie im Portal freiwillig einschalten)</p>';
     $lockAsk = !empty($a['aktiv']) ? ' data-kp-confirm="Zugang sperren? Die Anmeldung geht dann nicht mehr, die Dateien bleiben erhalten."' : '';
     $used = kp_bytes(kp_used_bytes($k));
+    $inv = kp_invite_state($k);
+    $invLabel = $inv['zuletzt'] ? 'Willkommensmail erneut senden' : 'Willkommensmail senden';
+    if (($a['email'] ?? '') === '') {
+        $invite = '<p class="kp-hint">Willkommensmail: dafür oben bei „Daten“ eine E-Mail-Adresse eintragen.</p>';
+    } else {
+        $invTxt = !$inv['zuletzt'] ? 'noch nicht verschickt'
+            : 'zuletzt am ' . date('d.m.Y, H:i', $inv['zuletzt']) . ' Uhr, ' . ($inv['offen'] ? 'Link offen bis ' . date('d.m.Y', $inv['bis']) : (($a['pw_eigen'] ?? false) ? 'Passwort festgelegt' : 'Link verbraucht oder abgelaufen'));
+        $invite = '<div class="kp-invite"><p class="kp-hint">Willkommensmail: ' . cx_h($invTxt) . '</p>'
+            . '<form method="post" action="' . KP_ADMIN . '?k=' . cx_h($k) . '" data-kp-confirm="Willkommensmail mit neuem Link zum Passwort-Festlegen an ' . cx_h((string) $a['email']) . ' schicken? Ein früherer Link gilt dann nicht mehr, das bisherige Passwort bleibt gültig, bis der Kunde ein neues festlegt.">' . $csrf
+            . '<input type="hidden" name="aktion" value="willkommen"><button class="btn btn--line" type="submit">' . $invLabel . '</button></form></div>';
+    }
 
     $batchList = kp_batches($k);
     $batches = '';
@@ -752,13 +780,14 @@ if ($k !== '' && isset($all[$k])) {
         <label class="form__field"><span>Betrieb oder Verein</span><input type="text" name="firma" maxlength="120" value="{$h('firma')}"></label>
         <label class="form__field"><span>Art</span><select name="art">{$artOpts}</select></label>
       </div>
-      <label class="form__field"><span>E-Mail <em>(für Benachrichtigungen)</em></span><input type="email" name="email" maxlength="254" value="{$h('email')}"></label>
+      <label class="form__field"><span>E-Mail <em>(für Willkommensmail und Benachrichtigungen)</em></span><input type="email" name="email" maxlength="254" value="{$h('email')}"></label>
       <label class="form__field"><span>Webseite</span><input type="text" name="webseite" maxlength="200" value="{$h('webseite')}"></label>
       <button class="btn btn--line" type="submit">Speichern</button>
     </form>
     <div class="form form--small">
       <h2>Zugang</h2>
       <p class="kp-hint kp-hint--top">Zugang {$status} · letzte Anmeldung {$last} · {$used} belegt</p>
+      {$invite}
       <form method="post" action="{$form}" data-kp-confirm="Neues Passwort für {$hk} erzeugen? Das bisherige gilt dann sofort nicht mehr.">{$csrf}<input type="hidden" name="aktion" value="passwort"><button class="btn btn--line" type="submit">Neues Passwort erzeugen</button></form>
       {$tfInfo}
       <form method="post" action="{$form}"{$lockAsk}>{$csrf}<input type="hidden" name="aktion" value="sperren"><button class="btn btn--line" type="submit">{$lock}</button></form>
@@ -969,9 +998,10 @@ kp_page('Übersicht', <<<HTML
       </div>
       <div class="form__row">
         <label class="form__field"><span>Webseite</span><input type="text" name="webseite" maxlength="200" placeholder="baeckerei-muster.at"></label>
-        <label class="form__field"><span>E-Mail <em>(optional, für Benachrichtigungen)</em></span><input type="email" name="email" maxlength="254"></label>
+        <label class="form__field"><span>E-Mail <em>(für Willkommensmail und Benachrichtigungen)</em></span><input type="email" name="email" maxlength="254"></label>
       </div>
-      <button class="btn" type="submit">Anlegen und Passwort erzeugen</button>
+      <label class="form__check"><input type="checkbox" name="willkommen" value="ja" checked><span><b>Willkommensmail senden</b>: Der Kunde bekommt Benutzername, Link zum Portal und einen einmaligen Link, mit dem er sein eigenes Passwort festlegt (7 Tage gültig). Ohne Häkchen zeige ich dir ein Passwort zum Weitergeben.</span></label>
+      <button class="btn" type="submit">Kunde anlegen</button>
     </form>
   </details>
 </section>
