@@ -152,6 +152,19 @@
 .ew-prev[data-stil="frech"] .ew-prev__cta { transform: rotate(-3deg); box-shadow: 3px 3px 0 rgba(0,0,0,.25); }
 .ew-prev[data-stil="frech"] .ew-prev__logo { border-radius: 50%; }
 .ew-prev.is-handy[data-stil="frech"] .ew-prev__hero strong { font-size: 1.45rem; }
+/* Jeder Stil ordnet die Skizze etwas anders an; beim Wechsel gleiten die Teile an ihren Platz (entwurf.js, flip) */
+.ew-prev[data-stil="warm"] .ew-prev__hero, .ew-prev[data-stil="edel"] .ew-prev__hero { text-align: center; }
+.ew-prev[data-stil="warm"] .ew-prev__hero p, .ew-prev[data-stil="edel"] .ew-prev__hero p { margin-left: auto; margin-right: auto; }
+.ew-prev[data-stil="edel"] .ew-prev__nav { justify-content: center; }
+.ew-prev[data-stil="edel"] .ew-prev__links { margin-left: 18px; }
+.ew-prev[data-stil="edel"] .ew-prev__blocks { grid-template-columns: 1fr; gap: 6px; padding-inline: 34px; }
+.ew-prev[data-stil="edel"] .ew-prev__blocks span { flex-direction: row; align-items: center; }
+.ew-prev[data-stil="edel"] .ew-prev__blocks span::after { flex: 1; height: 6px; }
+.ew-prev[data-stil="natur"] .ew-prev__blocks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.ew-prev[data-stil="frech"] .ew-prev__hero { text-align: right; }
+.ew-prev[data-stil="frech"] .ew-prev__hero p { margin-left: auto; }
+.ew-prev[data-stil="frech"] .ew-prev__hero strong { transform-origin: right; }
+.ew-prev[data-stil="frech"] .ew-prev__blocks span:nth-child(even) { margin-top: 12px; }
 
 /* Ablauf, Beispiele, Abschluss */
 .ew-steps { list-style: none; padding: 0; margin: 0; }

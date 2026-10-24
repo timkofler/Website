@@ -406,9 +406,33 @@
     }).join("") : '<tr><td colspan="8" class="empty">Keine Rechnungen in dieser Ansicht.</td></tr>') + "</tbody>";
     S.inv.forEach(function (i) { delete i.fresh; });
   }
+  // Bezahlt-Stempel: Die Rechnung erscheint kurz, der Stempel landet, dann geht es in der Liste weiter.
+  // Klick oder Escape überspringt, bei reduzierter Bewegung gibt es keinen Stempel.
+  function stampPaid(i, done) {
+    if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) { done(); return; }
+    var box = document.createElement("div"), finished = false;
+    box.className = "stampbox"; box.setAttribute("role", "status");
+    box.innerHTML = '<div class="stampbox__p"><div class="stampbox__h"><div><b>Rechnung ' + esc(i.nr) + '</b><small>Haustechnik Kofler · ' + short(i.date) + '</small></div><span class="stampbox__st">offen</span></div>'
+      + '<div class="stampbox__row"><span>Kunde</span><b>' + esc(i.kunde) + '</b></div><div class="stampbox__row"><span>Leistung</span><b>' + esc(i.txt) + '</b></div>'
+      + '<div class="stampbox__row"><span>Netto</span><b>' + eur(i.net, 2) + '</b></div><div class="stampbox__tot"><span>Gesamt</span><b>' + eur(gross(i), 2) + '</b></div>'
+      + '<div class="stampbox__s" aria-hidden="true">BEZAHLT</div></div>';
+    document.body.appendChild(box);
+    var paper = box.firstChild, st = box.querySelector(".stampbox__st"), timers = [];
+    timers.push(setTimeout(function () { box.querySelector(".stampbox__s").classList.add("is-on"); }, 420));
+    timers.push(setTimeout(function () { paper.classList.add("is-thud"); st.textContent = "bezahlt"; st.classList.add("is-ok"); }, 700));
+    timers.push(setTimeout(finish, 1900));
+    function finish() {
+      if (finished) return; finished = true;
+      timers.forEach(clearTimeout); document.removeEventListener("keydown", key);
+      box.classList.add("is-out"); setTimeout(function () { box.remove(); }, 340);
+      done();
+    }
+    function key(e) { if (e.key === "Escape") finish(); }
+    box.addEventListener("click", finish); document.addEventListener("keydown", key);
+  }
   document.addEventListener("click", function (e) {
     var p = e.target.closest("[data-pay]");
-    if (p) { var i = S.inv.filter(function (x) { return x.nr === p.getAttribute("data-pay"); })[0]; i.paid = today; log("Zahlung eingegangen: " + i.kunde + ", " + eur(gross(i), 2)); save(); render(); toast("Rechnung " + i.nr + " ist bezahlt"); return; }
+    if (p) { var i = S.inv.filter(function (x) { return x.nr === p.getAttribute("data-pay"); })[0]; stampPaid(i, function () { i.paid = today; log("Zahlung eingegangen: " + i.kunde + ", " + eur(gross(i), 2)); save(); render(); toast("Rechnung " + i.nr + " ist bezahlt"); }); return; }
     var r = e.target.closest("[data-remind]");
     if (r) { openMail(mailMahn(S.inv.filter(function (x) { return x.nr === r.getAttribute("data-remind"); })[0])); }
   });

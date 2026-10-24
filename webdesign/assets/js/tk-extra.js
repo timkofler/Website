@@ -103,6 +103,39 @@
     form.addEventListener("reset", function () { btns.forEach(function (b) { b.setAttribute("aria-pressed", "false"); }); });
   });
 
+  // Buchstaben-Ring um das Logo ([data-tk-ring]): Buchstaben fliegen verstreut herein und ordnen sich zum Kreis
+  // (Idee aus moxen.cl, eigener Code). Nur beim ersten Besuch pro Sitzung, danach steht der Ring sofort.
+  var ring = document.querySelector("[data-tk-ring]");
+  if (ring) {
+    var txt = ring.getAttribute("data-tk-ring"), seen = false;
+    try { seen = sessionStorage.getItem("tk-ring") === "1"; sessionStorage.setItem("tk-ring", "1"); } catch (e) {}
+    var wild = !reduce && !seen, letters = [];
+    for (var ci = 0; ci < txt.length; ci++) {
+      var li = document.createElement("i"); li.textContent = txt.charAt(ci); ring.appendChild(li); letters.push(li);
+    }
+    var place = function () {
+      var r = ring.clientWidth / 2 - 8;
+      letters.forEach(function (l, k) {
+        var a = k / letters.length * 360;
+        l.style.transform = "rotate(" + a + "deg) translateY(" + (-r) + "px)";
+      });
+    };
+    if (wild) {
+      ring.classList.add("is-wild");
+      letters.forEach(function (l) {
+        l.style.transform = "translate(" + (Math.random() * 600 - 300) + "px," + (Math.random() * 500 - 250) + "px) rotate(" + (Math.random() * 360) + "deg)";
+      });
+      void ring.offsetWidth;
+      setTimeout(function () {
+        ring.classList.remove("is-wild");
+        letters.forEach(function (l, k) { l.style.transitionDelay = (k * 18) + "ms"; });
+        place();
+        setTimeout(function () { letters.forEach(function (l) { l.style.transitionDelay = ""; }); }, 2600);
+      }, 500);
+    } else place();
+    window.addEventListener("resize", place);
+  }
+
   // Schwebender Hinweis auf die Beispielseiten (nicht auf den Beispielseiten selbst)
   if (/^\/beispiele\//.test(location.pathname)) return;
   try { if (sessionStorage.getItem("tk-float-zu") === "1") return; } catch (e) {}

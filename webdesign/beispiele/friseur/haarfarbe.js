@@ -40,7 +40,28 @@ function setup() {
   bb.addEventListener("keyup", hold(false));
 
   // Quellen
-  $("#ft-cam").addEventListener("click", startCam);
+  $("#ft-cam").addEventListener("click", askCam);
+
+  // Freundlich fragen: Bevor der Browser sein eigenes Fenster zeigt, erklärt eine Karte, wofür die Kamera gebraucht wird
+  // (Idee aus moxen.cl, eigener Code). Ist die Kamera schon erlaubt, startet sie sofort.
+  var ask = $("#ft-ask"), askOk = $("#ft-ask-ok"), asked = false;
+  function askCam() {
+    if (stream) return;
+    if (!ask || asked) { startCam(); return; }
+    var show = function () { state("ask"); ask.hidden = false; askOk.focus({ preventScroll: true }); };
+    if (navigator.permissions && navigator.permissions.query) {
+      navigator.permissions.query({ name: "camera" }).then(function (r) { if (r.state === "granted") { asked = true; startCam(); } else show(); }, show);
+    } else show();
+  }
+  function state(st) {
+    ask.className = "ft__ask" + (st === "ask" ? "" : " is-" + st);
+    Array.prototype.forEach.call(ask.querySelectorAll("[data-s]"), function (el) { el.hidden = el.getAttribute("data-s").split(" ").indexOf(st) < 0; });
+  }
+  if (ask) {
+    askOk.addEventListener("click", function () { asked = true; state("wait"); startCam(); });
+    $("#ft-ask-foto").addEventListener("click", function () { ask.hidden = true; $("#ft-file").click(); });
+    $("#ft-ask-x").addEventListener("click", function () { ask.hidden = true; $("#ft-cam").focus(); });
+  }
   $("#ft-file").addEventListener("change", function (e) {
     var f = e.target.files && e.target.files[0]; if (!f) return;
     var r = new FileReader();
@@ -126,10 +147,14 @@ function setup() {
     navigator.mediaDevices.getUserMedia({ video: { facingMode: "user", width: { ideal: 960 }, height: { ideal: 1280 } }, audio: false }).then(function (st) {
       stream = st; vid.srcObject = st; return vid.play();
     }).then(function () {
+      if (ask && !ask.hidden) { state("ok"); setTimeout(function () { ask.hidden = true; }, 900); }
       src = "cam"; size(vid.videoWidth, vid.videoHeight); root.classList.add("is-cam"); status("");
       if (!color) sw.querySelector("button").click();
       ensure().then(loop);
-    }).catch(function () { status("Kein Kamerazugriff. Sie können die Kamera in den Browser-Einstellungen erlauben – oder ein Foto nehmen."); });
+    }).catch(function () {
+      if (ask && !ask.hidden) { state("no"); status(""); asked = false; return; }
+      status("Kein Kamerazugriff. Sie können die Kamera in den Browser-Einstellungen erlauben – oder ein Foto nehmen.");
+    });
   }
   function stopCam() {
     cancelAnimationFrame(rafId); root.classList.remove("is-cam");

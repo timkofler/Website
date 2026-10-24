@@ -118,17 +118,23 @@
   }
 
   // Codefelder: sechs Kästchen über dem echten Eingabefeld (Einfügen und Autofill vom Handy gehen weiter).
-  // Sind alle sechs Ziffern da, werden sie zum Häkchen und das Formular geht ab; prüfen tut wie bisher der Server.
+  // Beim Anmelden läuft eine Linie prüfend um jedes Kästchen, dann kippen alle langsam in die Mitte zu einem einzigen.
+  // Das schickt den Code im Hintergrund ab: richtig = grünes Häkchen und weiter, falsch = rotes Kreuz und die Seite
+  // des Servers mit seiner Meldung. Prüfen tut wie bisher nur der Server.
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function later(ms, fn) { setTimeout(fn, reduce ? 0 : ms); }
   Array.prototype.forEach.call(document.querySelectorAll('input.kp-otp[inputmode=numeric]'), function (el) {
     var wrap = document.createElement('span'), cells = document.createElement('span'), i;
     wrap.className = 'kp-code';
     cells.className = 'kp-code__cells';
     cells.setAttribute('aria-hidden', 'true');
     for (i = 0; i < 6; i++) cells.appendChild(document.createElement('i'));
-    cells.insertAdjacentHTML('beforeend', '<svg class="kp-code__ok" viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7.5 7.5L37.5 19"/></svg>');
+    cells.insertAdjacentHTML('beforeend', '<svg class="kp-code__ok" viewBox="0 0 52 52"><circle cx="26" cy="26" r="23"/><path d="M15 27l7.5 7.5L37.5 19"/></svg>'
+      + '<b class="kp-code__m"><svg class="kp-code__y" viewBox="0 0 24 24"><path d="m5.5 12.5 4.2 4.2L18.5 7.8"/></svg><svg class="kp-code__n" viewBox="0 0 24 24"><path d="M7 7l10 10M17 7 7 17"/></svg></b>');
     el.parentNode.insertBefore(wrap, el);
     wrap.appendChild(el); wrap.appendChild(cells);
     el.removeAttribute('placeholder');
+    var m = cells.querySelector('.kp-code__m');
     var form = el.form, fields = form ? Array.prototype.filter.call(form.elements, function (f) { return f.type !== 'hidden' && f.type !== 'submit' && f.tagName !== 'BUTTON'; }) : [];
     // Automatisch abschicken nur beim Anmelden (nicht beim Ein- oder Ausschalten der Zwei-Faktor-Anmeldung)
     var auto = fields.length === 1 && !!form.querySelector('input[name=aktion][value=code]'), sent = false, timer;
@@ -141,7 +147,7 @@
         c.className = (d[k] ? 'is-set' : '') + (k === Math.min(d.length, 5) ? ' is-cur' : '');
       });
       var full = d.length === 6;
-      wrap.classList.toggle('is-full', full);
+      if (!auto) wrap.classList.toggle('is-full', full);
       clearTimeout(timer);
       if (full && auto && !sent) {
         timer = setTimeout(function () {
@@ -149,10 +155,57 @@
           sent = true;
           var b = form.querySelector('button[type=submit], button:not([type])');
           if (b) { b.disabled = true; b.textContent = 'Wird geprüft …'; }
-          form.submit();
-        }, 750);
+          check(b);
+        }, 450);
       }
     };
+    var anims = [];
+    function merge() {
+      var r = cells.getBoundingClientRect(), mid = r.left + r.width / 2, box = cells.children[0].getBoundingClientRect();
+      wrap.classList.add('is-merge');
+      m.style.width = box.width + 'px'; m.style.height = box.height + 'px';
+      anims = Array.prototype.slice.call(cells.querySelectorAll('i')).map(function (c, k) {
+        var b = c.getBoundingClientRect(), dx = mid - b.left - b.width / 2, rot = (k - 2.5) * 5;
+        return c.animate([
+          { transform: 'none' },
+          { transform: 'translateX(' + dx * 0.9 + 'px) rotate(' + rot * 1.5 + 'deg)', offset: 0.72 },
+          { transform: 'translateX(' + dx + 'px) rotate(' + rot * 0.6 + 'deg)' }
+        ], { duration: reduce ? 0 : 720, easing: 'cubic-bezier(.6,0,.25,1)', fill: 'forwards' });
+      });
+    }
+    function swapTitle(t) {
+      var h = wrap.closest('.kp-narrow'), h1 = h && h.querySelector('h1');
+      if (!h1) return;
+      h1.classList.add('kp-swap');
+      later(300, function () { h1.textContent = t; h1.classList.remove('kp-swap'); });
+    }
+    // Code im Hintergrund schicken; der Server leitet wie gewohnt weiter. Steht danach wieder das Codeformular
+    // (oder die Passwort-Anmeldung) da, war es falsch: dann zeigen wir genau diese Seite mit der Meldung des Servers.
+    function check(btn) {
+      if (!window.fetch || !window.FormData || !cells.animate) { form.submit(); return; }
+      el.blur(); el.readOnly = true;
+      wrap.classList.add('is-chk');
+      var body = new FormData(form), started = Date.now(), res = null, html = '';
+      var req = fetch(form.action, { method: 'POST', body: body, credentials: 'same-origin', headers: { Accept: 'text/html' } })
+        .then(function (r) { res = r; return r.text(); }).then(function (t) { html = t; });
+      later(760, merge);
+      later(1400, function () { wrap.classList.add('is-one'); });
+      req.then(function () {
+        var wait = reduce ? 0 : Math.max(0, 1500 - (Date.now() - started));
+        var ok = res.ok && html.indexOf('name="aktion" value="code"') === -1 && html.indexOf('name="aktion" value="anmelden"') === -1;
+        setTimeout(function () {
+          wrap.classList.add(ok ? 'is-done' : 'is-bad');
+          var fl = form.querySelector('.form__status');
+          if (ok && fl) { fl.style.transition = 'opacity .4s'; fl.style.opacity = '0'; }
+          if (btn) btn.textContent = ok ? 'Angemeldet' : 'Code falsch';
+          swapTitle(ok ? 'Angemeldet' : 'Code falsch');
+          later(ok ? 1300 : 1500, function () {
+            if (ok) { location.replace(res.url || form.action); return; }
+            document.open(); document.write(html); document.close();
+          });
+        }, wait);
+      }).catch(function () { form.submit(); });
+    }
     el.addEventListener('input', paint);
     el.addEventListener('focus', function () { wrap.classList.add('is-focus'); });
     el.addEventListener('blur', function () { wrap.classList.remove('is-focus'); });
