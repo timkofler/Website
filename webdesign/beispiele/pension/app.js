@@ -348,11 +348,42 @@
       el.clock.textContent = (hh < 10 ? "0" : "") + hh + ":" + (mm < 10 ? "0" : "") + mm;
       var si = 0; for (var k = 0; k < STEPS.length; k++) if (hour >= STEPS[k][0]) si = k;
       if (si !== lastStep) { lastStep = si; el.h.textContent = STEPS[si][1]; el.p.textContent = STEPS[si][2]; }
+      var kn = 0;
       el.bars.forEach(function (b, k) {
-        var a0 = STEPS[k][0], a1 = k < STEPS.length - 1 ? STEPS[k + 1][0] : 22.6;
-        b.style.transform = "scaleX(" + clamp((hour - a0) / (a1 - a0), 0, 1).toFixed(3) + ")";
+        var a0 = STEPS[k][0], a1 = k < STEPS.length - 1 ? STEPS[k + 1][0] : 22.6, f = clamp((hour - a0) / (a1 - a0), 0, 1);
+        b.style.transform = "scaleX(" + f.toFixed(3) + ")";
+        kn += f;
       });
+      // Regler auf der Leiste: gleiche Abschnitte pro Station, wie die Balken darunter
+      tlBar.style.setProperty("--k", (kn / STEPS.length * 100).toFixed(2) + "%");
+      tlBar.setAttribute("aria-valuenow", hh); tlBar.setAttribute("aria-valuetext", el.clock.textContent + ", " + STEPS[si][1]);
     }
+    var tlBar = $("#tlBar");
+    // Ziehen an der Leiste spult den Tag vor und zurück (Idee aus moxen.cl, eigener Code).
+    // Die Seite scrollt dabei mit, damit Himmel, Text und Scrollposition zusammenpassen.
+    function hourAt(f) {
+      f = clamp(f, 0, .9999) * STEPS.length;
+      var k = Math.floor(f), a0 = STEPS[k][0], a1 = k < STEPS.length - 1 ? STEPS[k + 1][0] : 22.6;
+      return a0 + (f - k) * (a1 - a0);
+    }
+    function goHour(hour) {
+      $("#tag .tl__card").classList.add("is-used");
+      if (reduce) { lastH = -1; render(hour); return; }
+      var r = sec.getBoundingClientRect(), total = r.height - innerHeight;
+      if (total <= 0) { lastH = -1; render(hour); return; }
+      var y = scrollY + r.top + (hour - 6.5) / 16.1 * total;
+      scrollTo({ top: Math.round(y), behavior: "instant" });
+    }
+    var dragging = false;
+    function dragAt(e) { var b = tlBar.getBoundingClientRect(); goHour(hourAt((e.clientX - b.left) / b.width)); }
+    tlBar.addEventListener("pointerdown", function (e) { dragging = true; tlBar.classList.add("is-drag"); tlBar.setPointerCapture(e.pointerId); dragAt(e); });
+    tlBar.addEventListener("pointermove", function (e) { if (dragging) dragAt(e); });
+    var stop = function () { dragging = false; tlBar.classList.remove("is-drag"); };
+    tlBar.addEventListener("pointerup", stop); tlBar.addEventListener("pointercancel", stop);
+    tlBar.addEventListener("keydown", function (e) {
+      var d = e.key === "ArrowRight" || e.key === "ArrowUp" ? .5 : e.key === "ArrowLeft" || e.key === "ArrowDown" ? -.5 : 0;
+      if (!d) return; e.preventDefault(); goHour(clamp((lastH < 0 ? 6.5 : lastH) + d, 6.5, 22.6));
+    });
     if (reduce) render(19.2);
     else {
       var tick = false;

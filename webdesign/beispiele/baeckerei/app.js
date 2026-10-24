@@ -330,6 +330,77 @@
     render(cur);
     if (cur !== target) requestAnimationFrame(loop); else running = false;
   }
+  // Mehl: Der Name "Kornfeld" besteht aus Mehlstaub. Maus oder Finger wirbeln ihn auf, danach legt er sich wieder.
+  // Ohne JavaScript oder mit reduzierter Bewegung bleibt der Name als normale Schrift stehen.
+  (function () {
+    var board = $("[data-mehl]");
+    if (!board || reduce) return;
+    var cv = $("canvas", board), cx = cv.getContext("2d"), word = $(".mehl__word", board);
+    var P = [], q = 1, W = 0, H = 0, on = false, raf = 0, calm = 0;
+    var m = { x: -1e4, y: -1e4, vx: 0, vy: 0, t: 0 };
+    function build() {
+      var r = board.getBoundingClientRect();
+      if (!r.width) return;
+      q = Math.min(window.devicePixelRatio || 1, 2);
+      W = cv.width = Math.round(r.width * q); H = cv.height = Math.round(r.height * q);
+      var off = document.createElement("canvas"); off.width = W; off.height = H;
+      var o = off.getContext("2d"), cs = getComputedStyle(word);
+      o.font = "italic 400 " + parseFloat(cs.fontSize) * q + "px " + cs.fontFamily;
+      o.textAlign = "center"; o.textBaseline = "middle"; o.fillStyle = "#fff";
+      o.fillText(word.textContent, W / 2, H / 2);
+      var d = o.getImageData(0, 0, W, H).data, step = Math.max(2, Math.round(1.6 * q)), old = P;
+      P = [];
+      for (var y = 0; y < H; y += step) for (var x = 0; x < W; x += step) {
+        if (d[(y * W + x) * 4 + 3] > 120 && Math.random() < 0.94) {
+          P.push({ hx: x, hy: y, x: x, y: y, vx: 0, vy: 0, s: (Math.random() * 0.8 + 0.7) * q, a: Math.random() * 0.35 + 0.65 });
+        }
+      }
+      board.classList.add("is-live");
+      if (!old.length) frame();
+    }
+    function move(e) {
+      var r = board.getBoundingClientRect(), nx = (e.clientX - r.left) * q, ny = (e.clientY - r.top) * q;
+      m.vx = m.x < -1e3 ? 0 : nx - m.x; m.vy = m.y < -1e3 ? 0 : ny - m.y; m.x = nx; m.y = ny; m.t = performance.now();
+      board.classList.add("is-touched");
+      wake();
+    }
+    board.addEventListener("pointermove", move);
+    board.addEventListener("pointerdown", move);
+    board.addEventListener("pointerleave", function () { m.x = m.y = -1e4; });
+    function wake() { if (!raf && on) raf = requestAnimationFrame(frame); }
+    function frame(now) {
+      raf = 0;
+      now = now || performance.now();
+      var R = 64 * q, live = now - m.t < 120, moving = 0;
+      cx.clearRect(0, 0, W, H);
+      for (var i = 0; i < P.length; i++) {
+        var p = P[i], dx = p.x - m.x, dy = p.y - m.y, d2 = dx * dx + dy * dy;
+        if (live && d2 < R * R) {
+          var dd = Math.sqrt(d2) || 1, f = 1 - dd / R;
+          p.vx += (dx / dd * 2 + m.vx * 0.2) * f + (Math.random() - 0.5) * 1.6 * f;
+          p.vy += (dy / dd * 2 + m.vy * 0.2) * f - 0.9 * f + (Math.random() - 0.5) * 1.6 * f;
+        }
+        p.vx += (p.hx - p.x) * 0.011; p.vy += (p.hy - p.y) * 0.011; p.vx *= 0.9; p.vy *= 0.9;
+        p.x += p.vx; p.y += p.vy;
+        var sp = Math.abs(p.vx) + Math.abs(p.vy);
+        if (sp > 0.05 || Math.abs(p.hx - p.x) > 0.3) moving++;
+        var k = Math.min(1, sp / 6);
+        cx.globalAlpha = p.a * (1 - k * 0.4);
+        cx.fillStyle = k > 0.2 ? "#fff9ee" : "#f1e5d0";
+        cx.fillRect(p.x, p.y, p.s, p.s);
+      }
+      cx.globalAlpha = 1;
+      // Nur rechnen, solange sich noch Staub bewegt; danach steht das Bild still
+      if (moving || live) wake();
+    }
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (es) { on = es[0].isIntersecting; if (on) wake(); }, { rootMargin: "100px" }).observe(board);
+    } else on = true;
+    var rt;
+    window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(build, 200); });
+    (document.fonts && document.fonts.load ? document.fonts.load("italic 400 40px \"Libre Caslon\"") : Promise.resolve()).then(build, build);
+  })();
+
   function kick() { measure(); if (!running) { running = true; requestAnimationFrame(loop); } }
   window.addEventListener("scroll", kick, { passive: true });
   window.addEventListener("resize", kick);
