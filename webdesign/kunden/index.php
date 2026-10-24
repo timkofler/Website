@@ -60,6 +60,25 @@ if ($acc !== null && isset($_GET['vorschau'], $_GET['e'], $_GET['f']) && is_stri
     exit;
 }
 
+// Link aus der Willkommensmail: Schlüssel in die Sitzung übernehmen und auf eine saubere Adresse weiterleiten,
+// damit er nicht im Verlauf oder in der Adresszeile stehen bleibt. Verbraucht wird er erst beim Speichern des Passworts.
+if (isset($_GET['willkommen']) && is_string($_GET['willkommen']) && $_GET['willkommen'] !== '') {
+    $raw = $_GET['willkommen'];
+    if (kp_invite_check($raw) === '') {
+        kp_fail_wait();
+        unset($_SESSION['willkommen']);
+        kp_flash(false, 'Dieser Link ist abgelaufen oder wurde schon verwendet. Schreib mir kurz, dann schicke ich dir einen neuen.');
+        kp_redirect('/kunden/');
+    }
+    $_SESSION['willkommen'] = $raw;
+    kp_redirect('/kunden/?willkommen');
+}
+$invite = is_string($_SESSION['willkommen'] ?? null) ? $_SESSION['willkommen'] : '';
+$inviteUser = $invite !== '' ? kp_invite_check($invite) : '';
+if ($invite !== '' && $inviteUser === '') {
+    unset($_SESSION['willkommen']);
+}
+
 // Zu große Uploads: PHP verwirft dann das ganze Formular, auch den Formular-Schlüssel.
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && !$_POST && (int) ($_SERVER['CONTENT_LENGTH'] ?? 0) > 0) {
     kp_flash(false, 'Das waren zu viele Daten auf einmal (höchstens ' . kp_bytes(kp_max_post()) . ' pro Durchgang). Bitte lade die Dateien in mehreren kleineren Portionen hoch.');
@@ -144,6 +163,42 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         kp_redirect('/kunden/');
     }
 
+    // Eigenes Passwort über den Link aus der Willkommensmail festlegen.
+    if ($action === 'festlegen') {
+        $new = (string) ($_POST['neu'] ?? '');
+        if ($inviteUser === '') {
+            kp_flash(false, 'Dieser Link ist abgelaufen oder wurde schon verwendet. Schreib mir kurz, dann schicke ich dir einen neuen.');
+            kp_redirect('/kunden/');
+        }
+        if (strlen($new) < 10 || strlen($new) > 200) {
+            kp_flash(false, 'Das Passwort muss mindestens 10 Zeichen lang sein.');
+            kp_redirect('/kunden/?willkommen');
+        }
+        if ($new !== (string) ($_POST['neu2'] ?? '')) {
+            kp_flash(false, 'Die beiden Passwörter sind nicht gleich.');
+            kp_redirect('/kunden/?willkommen');
+        }
+        if (!kp_invite_use($invite)) {
+            unset($_SESSION['willkommen']);
+            kp_flash(false, 'Dieser Link wurde gerade schon verwendet. Bitte melde dich mit deinem Passwort an.');
+            kp_redirect('/kunden/');
+        }
+        $all = kp_accounts();
+        $all[$inviteUser]['hash'] = password_hash($new, PASSWORD_DEFAULT);
+        $all[$inviteUser]['pw_eigen'] = true;
+        kp_save_accounts($all);
+        kp_fail_reset('kunde:' . $inviteUser);
+        $_SESSION = ['csrf' => $_SESSION['csrf'], 'seen' => time()];
+        if (!empty($all[$inviteUser]['aktiv']) && !tf_active(tf_kunde_file($inviteUser))) {
+            kp_kunde_login($inviteUser);
+            kp_flash(true, 'Dein Passwort ist gespeichert. Willkommen im Kundenportal!');
+        } else {
+            session_regenerate_id(true);
+            kp_flash(true, 'Dein Passwort ist gespeichert. Bitte melde dich jetzt damit an.');
+        }
+        kp_redirect('/kunden/');
+    }
+
     if ($acc === null) {
         kp_flash(false, 'Bitte melde dich zuerst an.');
         kp_redirect('/kunden/');
@@ -208,6 +263,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         } else {
             $all = kp_accounts();
             $all[$user]['hash'] = password_hash($new, PASSWORD_DEFAULT);
+            $all[$user]['pw_eigen'] = true;
             kp_save_accounts($all);
             session_regenerate_id(true);
             $_SESSION['kunde_pw'] = kp_pw_tag($all[$user]['hash']);
@@ -282,6 +338,29 @@ if (!empty($_SESSION['tf_flash'])) {
     }
 }
 
+// ---------------- Eigenes Passwort festlegen (Link aus der Willkommensmail) ----------------
+if ($inviteUser !== '' && isset($_GET['willkommen'])) {
+    $hu = cx_h($inviteUser);
+    kp_page('Passwort festlegen', <<<HTML
+<div class="kp-narrow kp-auth">
+  <span class="kp-auth__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8M16 7l3 3M14 9l2 2"/></svg></span>
+  <span class="label"><b>●</b> Kundenportal</span>
+  <h1>Willkommen!</h1>
+  <p class="lead">Leg jetzt dein eigenes Passwort fest. Damit meldest du dich ab sofort im Kundenportal an.</p>
+  <form class="form" method="post" action="/kunden/?willkommen">
+    {$csrf}
+    <input type="hidden" name="aktion" value="festlegen">
+    {$flash}
+    <label class="form__field"><span>Benutzername</span><input type="text" name="benutzer" value="{$hu}" readonly autocomplete="username"></label>
+    <label class="form__field"><span>Neues Passwort <em>(mind. 10 Zeichen)</em></span><span class="kp-pw"><input type="password" name="neu" required minlength="10" maxlength="200" autocomplete="new-password" data-kp-reveal autofocus></span></label>
+    <label class="form__field"><span>Passwort wiederholen</span><input type="password" name="neu2" required minlength="10" maxlength="200" autocomplete="new-password"></label>
+    <p class="kp-hint">Tipp: ein kurzer Satz ist leicht zu merken und trotzdem sicher, z. B. „Unser Brot ist das beste 2026“.</p>
+    <button class="btn" type="submit">Passwort speichern</button>
+  </form>
+</div>
+HTML);
+}
+
 // ---------------- Anmeldung, zweiter Schritt: Code aus der App ----------------
 if ($codeStep) {
     kp_page('Code bestätigen', <<<HTML
@@ -321,7 +400,7 @@ if ($acc === null) {
     <span class="kp-auth__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
     <span class="label"><b>●</b> Kundenportal</span>
     <h1>Anmelden</h1>
-    <p class="lead">Dein persönlicher Bereich für die neue Webseite deines Betriebs oder Vereins. Die Zugangsdaten bekommst du von mir persönlich.</p>
+    <p class="lead">Dein persönlicher Bereich für die neue Webseite deines Betriebs oder Vereins. Deinen Zugang bekommst du von mir per E-Mail oder persönlich.</p>
     <form class="form" method="post" action="/kunden/">
       {$csrf}
       <input type="hidden" name="aktion" value="anmelden">
@@ -427,6 +506,10 @@ $icoChat = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 
 $icoUp = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4m0 0L7.5 8.5M12 4l4.5 4.5M4.5 15v2.5A2.5 2.5 0 0 0 7 20h10a2.5 2.5 0 0 0 2.5-2.5V15"/></svg>';
 
 $project = kp_project_card($acc, true);
+// Kunde verwendet noch das Passwort, das Tim im Admin erzeugt hat: freundlich ans eigene Passwort erinnern.
+$pwHint = ($acc['pw_eigen'] ?? null) === false
+    ? '<p class="form__status kp-pw-hint" role="status">Du verwendest noch das Passwort, das ich dir gegeben habe. Bitte leg dir ein eigenes fest: <a href="#passwort">Passwort ändern</a></p>'
+    : '';
 
 // Zwei-Faktor-Anmeldung (freiwillig): Einrichtung oder Stand, neue Notfall-Codes werden genau einmal angezeigt.
 $tfFile = tf_kunde_file($user);
@@ -522,6 +605,7 @@ kp_page('Kundenportal', <<<HTML
 <h1 class="kp-hello">Hallo {$first}!</h1>
 <p class="lead kp-intro">Hier hast du alles zu deiner Webseite an einem Ort: wie weit wir sind, unsere Nachrichten und deine Dateien.</p>
 {$flash}
+{$pwHint}
 {$project}
 <nav class="kp-tiles" data-kp-tabs data-default="{$default}" aria-label="Bereiche">
   <a class="kp-tile" href="#nachrichten" data-kp-tab="nachrichten">
