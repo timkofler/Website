@@ -97,7 +97,7 @@ foreach ([
 }
 $notify = (string) ($c['notify_email'] ?? 'tk@crypto-x.at');
 $toTim = cx_mail($notify, 'Tim', 'Neue Beta-Bewerbung: ' . $name,
-    cx_mail_layout('Neue Beta-Bewerbung', '<table role="presentation" cellpadding="0" cellspacing="0" style="font-size:15px">' . $rows . '</table>'
+    cx_mail_layout('Neue Beta-Bewerbung', cx_mail_table($rows)
         . '<p style="margin:18px 0 0;font-size:14px;color:#a1a1a1">' . ($saved ? 'Der Kontakt steht in der Beta-Liste in Brevo.' : 'Achtung: Der Kontakt konnte nicht in Brevo gespeichert werden.') . ' Mit „Antworten“ schreibst du direkt an die Person.</p>'),
     $email);
 
@@ -109,8 +109,8 @@ if (!$saved && !$toTim) {
 $inner = '<p style="margin:0 0 14px">Hallo ' . cx_h($name) . ',</p>'
     . '<p style="margin:0 0 14px">danke für deine Bewerbung als Beta-Tester für das CryptoX Dashboard! Ich sehe mir deine Angaben an und melde mich in den nächsten Tagen persönlich bei dir, meistens per E-Mail.</p>'
     . '<p style="margin:0 0 14px">Sobald dein Zugang eingerichtet ist, bekommst du von mir die Adresse, deine Anmeldedaten und eine kurze Anleitung für die ersten Schritte.</p>'
-    . '<p style="margin:0 0 14px">Bis dahin kannst du dir die <a href="https://crypto-x.at/cockpit/" target="_blank" rel="noopener" style="color:#dcf763">Live-Demo</a> ansehen.</p>'
-    . '<p style="margin:0 0 4px">Viele Grüße<br>Tim</p>'
+    . '<p style="margin:0 0 14px">Bis dahin kannst du dir die <a href="https://crypto-x.at/cockpit/" target="_blank" rel="noopener" style="color:#ff7a45">Live-Demo</a> ansehen.</p>'
+    . cx_mail_gruss()
     . '<p style="margin:18px 0 0;font-size:13px;color:#8a8a8a">Das CryptoX Dashboard ist ein Werkzeug zur Organisation und Kontrolle deiner eigenen Kontoregeln. Es gibt keine Handelssignale und keine Anlageberatung.</p>';
 cx_mail($email, $name, 'Deine Beta-Bewerbung für das CryptoX Dashboard', cx_mail_layout('Danke für deine Bewerbung', $inner), $notify);
 
@@ -165,7 +165,7 @@ function cx_webseite(array $c, string $email, string $name, string $fallback): v
     $notify = (string) ($c['notify_email'] ?? 'tk@crypto-x.at');
     $toTim = cx_mail($notify, 'Tim', 'Neue Webseiten-Anfrage: ' . $name . ($f['Paket'] !== '' ? ' (' . $f['Paket'] . ')' : '')
         . ($f['Empfohlen von'] !== '' ? ' – Empfehlung von ' . $f['Empfohlen von'] : ''),
-        cx_mail_layout('Neue Webseiten-Anfrage', '<table role="presentation" cellpadding="0" cellspacing="0" style="font-size:15px">' . $rows . '</table>'
+        cx_mail_layout('Neue Webseiten-Anfrage', cx_mail_table($rows)
             . '<p style="margin:18px 0 0;font-size:14px;color:#a1a1a1">Mit „Antworten“ schreibst du direkt an die Person.</p>'),
         $email);
 
@@ -179,7 +179,7 @@ function cx_webseite(array $c, string $email, string $name, string $fallback): v
         . ($verein
             ? '<p style="margin:0 0 14px">Gemeinsam klären wir dann, was auf eure Vereinsseite soll. Die Gestaltung ist für euch kostenlos.</p>'
             : '<p style="margin:0 0 14px">Gemeinsam klären wir dann, was deine Seite können soll, und du bekommst ein unverbindliches Angebot.</p>')
-        . '<p style="margin:0 0 4px">Viele Grüße<br>Tim</p>';
+        . cx_mail_gruss();
     cx_mail($email, $name, $verein ? 'Deine Anfrage für eine Vereinsseite' : 'Deine Anfrage für eine Webseite', cx_mail_layout('Danke für deine Anfrage', $inner), $notify);
 
     cx_respond(true, 'Danke! Deine Anfrage ist angekommen.', (string) ($c['weiter_webseite'] ?? '/webseite-erstellen-lassen/danke/'));
@@ -213,7 +213,7 @@ function cx_rueckruf(array $c, string $name, string $fallback): void
     }
     $notify = (string) ($c['notify_email'] ?? 'tk@crypto-x.at');
     $ok = cx_mail($notify, 'Tim', 'Rückruf-Wunsch: ' . $name . ' (' . $tel . ')',
-        cx_mail_layout('Bitte zurückrufen', '<table role="presentation" cellpadding="0" cellspacing="0" style="font-size:15px">' . $rows . '</table>'
+        cx_mail_layout('Bitte zurückrufen', cx_mail_table($rows)
             . '<p style="margin:18px 0 0;font-size:14px;color:#a1a1a1">Die Person hat keine E-Mail-Adresse angegeben, nur die Telefonnummer.</p>'));
     if (!$ok) {
         cx_respond(false, 'Dein Rückruf-Wunsch konnte gerade nicht übermittelt werden. Schreib mir gerne auf WhatsApp oder an office@tim-kofler.at.');

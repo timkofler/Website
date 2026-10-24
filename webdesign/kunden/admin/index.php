@@ -1000,7 +1000,7 @@ kp_page('Übersicht', <<<HTML
         <label class="form__field"><span>Webseite</span><input type="text" name="webseite" maxlength="200" placeholder="baeckerei-muster.at"></label>
         <label class="form__field"><span>E-Mail <em>(für Willkommensmail und Benachrichtigungen)</em></span><input type="email" name="email" maxlength="254"></label>
       </div>
-      <label class="form__check"><input type="checkbox" name="willkommen" value="ja" checked><span><b>Willkommensmail senden</b>: Der Kunde bekommt Benutzername, Link zum Portal und einen einmaligen Link, mit dem er sein eigenes Passwort festlegt (7 Tage gültig). Ohne Häkchen zeige ich dir ein Passwort zum Weitergeben.</span></label>
+      <label class="form__check"><input type="checkbox" name="willkommen" value="ja" checked><span><b>Willkommensmail senden</b>: Der Kunde bekommt Benutzername, Link zum Portal und einen einmaligen Link, mit dem er sein eigenes Passwort festlegt (14 Tage gültig). Ohne Häkchen zeige ich dir ein Passwort zum Weitergeben.</span></label>
       <button class="btn" type="submit">Kunde anlegen</button>
     </form>
   </details>
