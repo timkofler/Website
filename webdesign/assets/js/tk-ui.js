@@ -455,7 +455,7 @@
     '<div class="tk-chat__head"><img src="/assets/img/tk-badge-2.svg" alt=""><div><b>Fragen zur Webseite?</b><small>Antworten auf die häufigsten Fragen</small></div>' +
     '<button type="button" class="tk-chat__x" aria-label="Schließen">✕</button></div>' +
     '<div class="tk-chat__log" aria-live="polite"></div>' +
-    '<div class="tk-chat__chips"></div>' +
+    '<div class="tk-chat__cw"><button type="button" class="tk-chat__arr tk-chat__arr--l" aria-label="Vorherige Themen" tabindex="-1">‹</button><div class="tk-chat__chips"></div><button type="button" class="tk-chat__arr tk-chat__arr--r" aria-label="Weitere Themen" tabindex="-1">›</button></div>' +
     '<a class="tk-chat__wabar" href="https://wa.me/4367761773118?text=Hallo%20Tim%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Webseite." target="_blank" rel="noopener"><img src="/assets/img/wa-badge.svg?v=c266c6f8" alt=""><span><b>Lieber direkt mit Tim schreiben?</b> Per WhatsApp</span><em aria-hidden="true">→</em></a>' +
     '<form class="tk-chat__form"><label class="sr-only" for="tk-chat-in">Deine Frage</label><input id="tk-chat-in" type="text" maxlength="200" autocomplete="off" placeholder="Frage eintippen …"><button type="submit" aria-label="Senden">→</button></form>' +
     '<p class="tk-chat__note">Automatische Antworten, keine KI. Es wird nichts gespeichert oder gesendet.</p>';
@@ -510,7 +510,50 @@
       b.addEventListener("click", function () { answer(k); });
       chips.appendChild(b);
     });
+    chipEdges();
   }
+  // Themen-Leiste auch mit der Maus bedienbar: Pfeile, Mausrad und Ziehen
+  var cw = box.querySelector(".tk-chat__cw");
+  function chipEdges() {
+    var max = chips.scrollWidth - chips.clientWidth;
+    cw.classList.toggle("is-start", chips.scrollLeft > 2);
+    cw.classList.toggle("is-end", chips.scrollLeft < max - 2);
+  }
+  chips.addEventListener("scroll", chipEdges, { passive: true });
+  window.addEventListener("resize", chipEdges);
+  cw.querySelectorAll(".tk-chat__arr").forEach(function (a) {
+    a.addEventListener("click", function () {
+      var dir = a.classList.contains("tk-chat__arr--l") ? -1 : 1;
+      chips.scrollBy({ left: dir * chips.clientWidth * 0.7, behavior: "smooth" });
+    });
+  });
+  chips.addEventListener("wheel", function (e) {
+    if (chips.scrollWidth <= chips.clientWidth || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+    e.preventDefault();
+    chips.scrollLeft += e.deltaY;
+  }, { passive: false });
+  var drag = null;
+  chips.addEventListener("pointerdown", function (e) {
+    if (e.pointerType !== "mouse" || e.button !== 0) return;
+    drag = { x: e.clientX, left: chips.scrollLeft, moved: false };
+  });
+  window.addEventListener("pointermove", function (e) {
+    if (!drag) return;
+    var dx = e.clientX - drag.x;
+    if (Math.abs(dx) > 5) { drag.moved = true; cw.classList.add("is-drag"); }
+    if (drag.moved) chips.scrollLeft = drag.left - dx;
+  });
+  window.addEventListener("pointerup", function () {
+    if (!drag) return;
+    var moved = drag.moved;
+    drag = null;
+    cw.classList.remove("is-drag");
+    // Nach dem Ziehen keinen Klick auf ein Thema auslösen
+    if (!moved) return;
+    var stop = function (ev) { ev.stopPropagation(); ev.preventDefault(); };
+    chips.addEventListener("click", stop, true);
+    setTimeout(function () { chips.removeEventListener("click", stop, true); }, 0);
+  });
   function open() {
     box.classList.add("is-open");
     btn.setAttribute("aria-expanded", "true");
