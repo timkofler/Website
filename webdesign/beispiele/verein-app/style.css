@@ -11,7 +11,7 @@
   --glow1:rgba(91,140,255,.3);--glow2:rgba(255,90,31,.22);
   --shadow:0 40px 90px -40px rgba(0,0,0,.85);--shadow2:0 18px 40px -18px rgba(0,0,0,.7);
   --hd:"Bricolage",system-ui,-apple-system,"Segoe UI",sans-serif;--bd:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --vc:#1f6f54;--vc2:#2f9a74;--vcl:#e6f4ee;--vc-on:#fff;--vc-tx:#1f6f54;--acc-d:#3fc492;--acc-l:#17573f;--acc-on-d:#06120d;--acc-on-l:#fff;
+  --vc:#2459d6;--vc2:#5a82e6;--vcl:#e7eefc;--vc-on:#fff;--vc-tx:#2459d6;--acc-d:#5179e3;--acc-l:#1b40a0;--acc-on-d:#050a1a;--acc-on-l:#fff;
 }
 /* Hell: folgt dem Gerät, außer der Schalter im Vorstand legt es fest (data-theme am <html>). */
 @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
@@ -72,7 +72,7 @@ svg{flex:none}
 .row{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
 .checks{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:22px;color:var(--mu);font-size:14px}
 .checks span{display:inline-flex;align-items:center;gap:7px}
-.checks svg{width:16px;height:16px;color:var(--ok)}
+.checks svg{width:16px;height:16px;color:var(--popt)}
 .sec{padding:clamp(72px,10vw,120px) 0}
 .sec__head{max-width:760px;margin-bottom:clamp(30px,4vw,48px)}
 .sec__head h2{font-size:clamp(32px,4.8vw,56px);margin-top:16px}
@@ -127,26 +127,26 @@ svg{flex:none}
 /* Nachher: aufgeräumte App */
 .clean{position:absolute;inset:0;background:linear-gradient(160deg,#f7f9fc,#eaf0f8);color:#0f172a;padding:clamp(56px,9%,72px) clamp(18px,6%,40px) 20px;display:flex;flex-direction:column;gap:clamp(10px,2.2%,16px)}
 .clean__hd{display:flex;align-items:center;gap:12px}
-.clean__lg{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#1f6f54,#2f9a74);color:#fff;display:grid;place-items:center;font:800 16px/1 var(--hd)}
+.clean__lg{width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#1d4fbf,#3b78ee);color:#fff;display:grid;place-items:center;font:800 16px/1 var(--hd)}
 .clean__hd b{display:block;font:800 19px/1.1 var(--hd)}
 .clean__hd small{color:#64748b;font-size:13px}
 .clean__kpi{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .clean__kpi div{background:#fff;border-radius:14px;padding:12px;box-shadow:0 8px 20px -14px rgba(15,23,42,.4);min-width:0}
 .clean__kpi small{display:block;font-size:11.5px;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .clean__kpi b{display:block;font:800 clamp(18px,2.2vw,24px)/1.15 var(--hd);margin-top:3px}
-.clean__kpi em{font-style:normal;font-size:11.5px;color:#0b8a5c;font-weight:600}
+.clean__kpi em{font-style:normal;font-size:11.5px;color:#1d4fbf;font-weight:600}
 .clean__kpi i{display:block;height:6px;border-radius:9px;background:#e2e8f0;margin-top:6px;position:relative;overflow:hidden}
-.clean__kpi i::after{content:"";position:absolute;inset:0;width:var(--p);background:linear-gradient(90deg,#1f6f54,#2fd39a);border-radius:inherit}
+.clean__kpi i::after{content:"";position:absolute;inset:0;width:var(--p);background:linear-gradient(90deg,#1d4fbf,#5b8cff);border-radius:inherit}
 .clean__ev{display:flex;align-items:center;gap:12px;background:#fff;border-radius:14px;padding:10px 12px;box-shadow:0 8px 20px -14px rgba(15,23,42,.4)}
-.clean__d{width:46px;flex:none;text-align:center;font:700 10.5px/1 var(--bd);color:#1f6f54;background:#e6f4ee;border-radius:10px;padding:6px 0;letter-spacing:.06em}
+.clean__d{width:46px;flex:none;text-align:center;font:700 10.5px/1 var(--bd);color:#1d4fbf;background:#e8effd;border-radius:10px;padding:6px 0;letter-spacing:.06em}
 .clean__d b{display:block;font:800 19px/1 var(--hd);color:#0f172a;margin-bottom:2px;letter-spacing:0}
 .clean__ev>span:nth-child(2){flex:1;min-width:0}
 .clean__ev b{font-size:15px}
 .clean__ev small{display:block;color:#64748b;font-size:12.5px}
-.clean__z{font:800 18px/1 var(--hd);color:#0b8a5c;text-align:right}
+.clean__z{font:800 18px/1 var(--hd);color:#1d4fbf;text-align:right}
 .clean__z small{display:block;font:500 11px/1.2 var(--bd);color:#64748b}
-.clean__ok{display:flex;gap:9px;align-items:flex-start;background:#e6f4ee;color:#14532d;border-radius:14px;padding:11px 13px;font-size:13.5px;font-weight:600;line-height:1.35}
-.clean__ok svg{width:18px;height:18px;color:#0b8a5c;margin-top:1px}
+.clean__ok{display:flex;gap:9px;align-items:flex-start;background:#e8effd;color:#1e3a8a;border-radius:14px;padding:11px 13px;font-size:13.5px;font-weight:600;line-height:1.35}
+.clean__ok svg{width:18px;height:18px;color:#1d4fbf;margin-top:1px}
 @media (max-width:520px){
   .vn{aspect-ratio:1/1.25}
   .vn figcaption{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -985,3 +985,20 @@ button.wev:focus-visible{outline:2px solid var(--vc2);outline-offset:1px}
 .week__grid .wev{background:color-mix(in srgb,var(--blue) 16%,var(--card))}
 .week__grid .wev.att{background:color-mix(in srgb,var(--ok) 16%,var(--card))}
 .week__grid .wev.fest{background:color-mix(in srgb,var(--pop) 16%,var(--card))}
+/* Vollbild für den Vorstand (nur PC): echtes Vollbild über die Fullscreen-API, sonst fest über die ganze Seite */
+.fullb{display:none;align-items:center;gap:6px;margin-left:auto;height:30px;padding:0 11px;border-radius:9px;border:1px solid var(--line2);background:var(--bg);color:var(--ink);font:700 12px var(--bd,inherit);cursor:pointer;transition:border-color .2s,background .2s}
+.fullb:hover{border-color:color-mix(in srgb,var(--vc) 60%,var(--line2))}
+.fullb svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.fullb__zu,.is-full .fullb__auf{display:none}.is-full .fullb__zu{display:inline}
+@media (min-width:900px){.fullb{display:inline-flex}.desk__bar .fullb+.sw{margin-left:8px}}
+.desk.is-full{position:fixed;inset:0;z-index:800;border-radius:0;border:0;display:flex;flex-direction:column}
+.desk.is-full:fullscreen{width:100vw;height:100vh}
+.desk.is-full>.desk__in{flex:1;min-height:0;grid-template-columns:230px minmax(0,1fr)}
+.desk.is-full>.desk__in.is-rail{grid-template-columns:72px minmax(0,1fr)}
+.desk.is-full .dv{overflow:auto;padding:26px 32px}
+.desk.is-full .side{overflow:auto}
+.desk.is-full .desk__bar>span{max-width:520px}
+html.va-full,html.va-full body{overflow:hidden}
+/* Beitrags-Balken und Kassa-Kurve in der Vereinsfarbe statt fix Grün */
+.kpi .bar i{background:linear-gradient(90deg,var(--vc),var(--vc2))}
+.spark[data-spark="cash"]{--sc:var(--vc2)}
