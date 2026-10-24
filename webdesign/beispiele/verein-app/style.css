@@ -470,7 +470,7 @@ svg{flex:none}
 .week{margin-top:12px}
 .week__hd{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
 .week__hd span{font-size:12px;color:var(--mu2)}
-.week__grid{position:relative;display:grid;grid-template-columns:repeat(8,minmax(0,1fr));border:1px solid var(--line);border-radius:12px;overflow:hidden;min-height:118px}
+.week__grid{position:relative;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid var(--line);border-radius:12px;overflow:hidden;min-height:118px}
 .wd{position:relative;border-left:1px solid var(--line);padding:7px 6px 8px;min-width:0}
 .wd:first-child{border-left:0}
 .wd>small{display:block;font-size:11px;color:var(--mu2);font-weight:600;white-space:nowrap}
@@ -959,3 +959,17 @@ svg{flex:none}
 .sh{container-type:inline-size}
 @container (max-width:290px){.hc.ask .hc__x span{display:none}.hc.ask .hc__x{width:28px;min-width:28px;padding:0}}
 .hc__x svg{width:14px;height:14px;flex:none;stroke-width:2.6}
+/* Wochenübersicht Mo–So mit Blättern */
+.week__nav{display:inline-flex;align-items:center;gap:6px}
+.week__btn,.week__heute{display:inline-grid;place-items:center;height:28px;min-width:28px;border-radius:9px;border:1px solid var(--line2);background:var(--card2);color:var(--ink);cursor:pointer;transition:background .2s,border-color .2s}
+.week__btn:hover,.week__heute:hover{border-color:color-mix(in srgb,var(--vc) 55%,var(--line2))}
+.week__btn svg{width:15px;height:15px;transform:scaleX(-1)}
+.week__btn.nx svg{transform:none}
+.week__heute{padding:0 10px;font:700 12px var(--bd,inherit);color:var(--popt)}
+.week__nav>span{margin-right:4px}
+.wd>small em{font-style:normal;margin-left:5px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.week__grid.w-r .wd{animation:wkr .35s cubic-bezier(.2,.8,.3,1) both}
+.week__grid.w-l .wd{animation:wkl .35s cubic-bezier(.2,.8,.3,1) both}
+@keyframes wkr{from{opacity:0;transform:translateX(18px)}}
+@keyframes wkl{from{opacity:0;transform:translateX(-18px)}}
+@media (max-width:720px){.week__hd{flex-wrap:wrap}}

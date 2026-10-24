@@ -675,19 +675,41 @@
   }
 
   // ---------- Wochenleiste mit Jetzt-Linie ----------
+  // Woche immer Montag bis Sonntag; mit den Pfeilen vor und zurück (wk = 0 ist diese Woche)
+  var wk = 0;
   function renderWeek() {
-    var days = [], h = "";
-    for (var i = -1; i < 7; i++) days.push(addDays(i));
-    $("[data-week-range]").textContent = dshort(days[0]) + " bis " + dshort(days[7]);
+    var days = [], h = "", mo = (today.getDay() + 6) % 7, ti = -1;
+    for (var i = 0; i < 7; i++) days.push(addDays(wk * 7 - mo + i));
+    $("[data-week-t]").textContent = wk === 0 ? "Diese Woche" : wk === 1 ? "Nächste Woche" : wk === -1 ? "Letzte Woche" : "Woche " + kw(days[0]);
+    $("[data-week-range]").textContent = dshort(days[0]) + " bis " + dshort(days[6]);
+    $("[data-week-heute]").hidden = wk === 0;
     days.forEach(function (d, i) {
+      var isT = d - today === 0;
+      if (isT) ti = i;
       var evs = S.ev.filter(function (e) { return e.d - d === 0; }).map(function (e) { return '<span class="wev' + (e === S.help.ev ? " fest" : "") + '"><b>' + esc(e.t) + "</b><span>" + esc(e.h) + "</span></span>"; });
-      if (i === 1) evs.unshift('<span class="wev att"><b>' + esc(S.P.probe[0]) + "</b><span>" + esc(S.P.probe[1]) + "</span></span>");
-      h += '<div class="wd' + (i === 1 ? " is-today" : i === 0 ? " is-past" : "") + '"><small>' + (i === 1 ? "Heute" : WT[d.getDay()]) + "<b>" + d.getDate() + ".</b></small>" + evs.join("") + "</div>";
+      if (isT) evs.unshift('<span class="wev att"><b>' + esc(S.P.probe[0]) + "</b><span>" + esc(S.P.probe[1]) + "</span></span>");
+      h += '<div class="wd' + (isT ? " is-today" : d < today ? " is-past" : "") + '"><small>' + (isT ? "Heute" : WT[d.getDay()]) + "<b>" + d.getDate() + ".</b>" + "</small>" + evs.join("") + "</div>";
     });
-    var now = new Date(), f = (now.getHours() + now.getMinutes() / 60) / 24;
-    h += '<i class="now" style="left:' + ((1 + f) / 8 * 100).toFixed(2) + '%"><span>' + ("0" + now.getHours()).slice(-2) + ":" + ("0" + now.getMinutes()).slice(-2) + "</span></i>";
-    $("[data-week]").innerHTML = h;
+    if (ti > -1) {
+      var now = new Date(), f = (now.getHours() + now.getMinutes() / 60) / 24;
+      h += '<i class="now" style="left:' + ((ti + f) / 7 * 100).toFixed(2) + '%"><span>' + ("0" + now.getHours()).slice(-2) + ":" + ("0" + now.getMinutes()).slice(-2) + "</span></i>";
+    }
+    var g = $("[data-week]");
+    g.innerHTML = h;
+    if (renderWeek.dir && !reduce) { g.classList.remove("w-l", "w-r"); void g.offsetWidth; g.classList.add(renderWeek.dir > 0 ? "w-r" : "w-l"); }
+    renderWeek.dir = 0;
   }
+  function kw(d) {
+    var t = new Date(d); t.setDate(t.getDate() + 3 - (t.getDay() + 6) % 7);
+    var j = new Date(t.getFullYear(), 0, 4);
+    return 1 + Math.round(((t - j) / 864e5 - 3 + (j.getDay() + 6) % 7) / 7);
+  }
+  $("[data-week-go='-1']").closest(".week__nav").addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    var go = b.hasAttribute("data-week-heute") ? -wk : +b.getAttribute("data-week-go");
+    if (!go) return;
+    wk += go; renderWeek.dir = go; renderWeek();
+  });
   setInterval(function () { if (S) renderWeek(); }, 60000);
 
   // ---------- Anwesenheit ----------
@@ -1107,6 +1129,7 @@
 
   // ---------- Vereinsart wechseln ----------
   function load(k) {
+    wk = 0;
     build(k);
     document.body.setAttribute("data-vk", k);
     mcard.hidden = true;
