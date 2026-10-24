@@ -326,52 +326,69 @@
     this.hidden = true; $("[data-lgn-2]").hidden = false;
     oIn[0].focus({ preventScroll: true });
   });
-  // Alle sechs Kästchen fahren langsam in der Mitte zu einem zusammen, daraus wird Häkchen (grün) oder Kreuz (rot).
+  // Wie beim Vorbild-Video: eine Linie läuft prüfend um jedes Kästchen, dann kippen alle sechs langsam in die Mitte
+  // und werden zu einem einzigen, das grün wird und ein Häkchen zeichnet (bei falschem Code rot mit Kreuz).
   var lCard = $(".lgn__card", lgn), lT = $(".lgn__t", lgn), lS = $(".lgn__s", lgn), oSt = $(".otp__st", lgn);
-  var lTxt = [lT.innerHTML, lS.textContent];
+  var oCell = $$(".otp__c", otp), oAnim = [], lTxt = [lT.innerHTML, lS.textContent];
   function oSwap(t, sub) {
     [lT, lS].forEach(function (el) { el.classList.add("swap"); });
     setTimeout(function () {
       lT.innerHTML = t; lS.textContent = sub;
       [lT, lS].forEach(function (el) { el.classList.remove("swap"); });
-    }, reduce ? 0 : 260);
+    }, reduce ? 0 : 300);
   }
-  function oMerge(good) {
-    var cx = otp.getBoundingClientRect(), mid = cx.left + cx.width / 2, ms = reduce ? 0 : 900;
-    otp.classList.add("merge"); lCard.classList.add("is-busy");
-    oIn.forEach(function (inp) {
-      inp.blur(); inp.readOnly = true;
-      var b = inp.getBoundingClientRect();
-      inp.animate([{ transform: "none" }, { transform: "translateX(" + (mid - b.left - b.width / 2) + "px)" }],
-        { duration: ms, easing: "cubic-bezier(.65,0,.3,1)", fill: "forwards", delay: reduce ? 0 : 180 });
+  function oAt(ms, fn) { setTimeout(fn, reduce ? 0 : ms); }
+  function oRun(good, then) {
+    oIn.forEach(function (inp) { inp.blur(); inp.readOnly = true; });
+    lCard.classList.add("is-busy"); otp.classList.add("chk");
+    oAt(760, function () {
+      var r = otp.getBoundingClientRect(), mid = r.left + r.width / 2;
+      otp.classList.add("merge");
+      oAnim = oCell.map(function (c, k) {
+        var b = c.getBoundingClientRect(), dx = mid - b.left - b.width / 2, rot = (k - 2.5) * 5;
+        return c.animate([
+          { transform: "none" },
+          { transform: "translateX(" + dx * 0.9 + "px) rotate(" + rot * 1.5 + "deg)", offset: 0.72 },
+          { transform: "translateX(" + dx + "px) rotate(" + rot * 0.6 + "deg)" }
+        ], { duration: reduce ? 0 : 720, easing: "cubic-bezier(.6,0,.25,1)", fill: "forwards" });
+      });
     });
-    setTimeout(function () {
+    oAt(1400, function () { otp.classList.add("one"); });
+    oAt(1520, function () {
       otp.classList.add(good ? "done" : "bad");
       lCard.classList.add(good ? "is-ok" : "is-bad");
       oSt.textContent = good ? "Code bestätigt" : "Code falsch";
-    }, ms + (reduce ? 0 : 160));
-    return ms + 160;
+    });
+    oAt(1700, then);
   }
   function oReset() {
-    oIn.forEach(function (inp) { inp.getAnimations().forEach(function (a) { a.cancel(); }); inp.value = ""; inp.readOnly = false; });
-    otp.classList.remove("merge", "done", "bad"); lCard.classList.remove("is-bad", "is-busy");
-    oSt.textContent = ""; oSwap(lTxt[0], lTxt[1]); oBusy = false;
-    oIn[0].focus({ preventScroll: true });
+    otp.classList.remove("one", "done", "bad"); lCard.classList.remove("is-bad");
+    oIn.forEach(function (inp) { inp.value = ""; });
+    oSwap(lTxt[0], lTxt[1]); oSt.textContent = "";
+    var left = oAnim.length;
+    function fin() {
+      oAnim.forEach(function (a) { a.cancel(); }); oAnim = [];
+      otp.classList.remove("merge", "chk"); lCard.classList.remove("is-busy");
+      oIn.forEach(function (inp) { inp.readOnly = false; });
+      oBusy = false; oIn[0].focus({ preventScroll: true });
+    }
+    if (reduce || !left) return fin();
+    oAnim.forEach(function (a) { a.onfinish = function () { if (!--left) fin(); }; a.reverse(); });
   }
   function oCheck() {
     if (oBusy || !oIn.every(function (i) { return /^\d$/.test(i.value); })) return;
     oBusy = true;
-    var good = oIn.map(function (i) { return i.value; }).join("") !== "000000", t = oMerge(good);
-    setTimeout(function () {
+    var good = oIn.map(function (i) { return i.value; }).join("") !== "000000";
+    oRun(good, function () {
       if (good) {
         oSwap('<svg aria-hidden="true"><use href="#i-check"/></svg>Angemeldet', "Willkommen zurück im Vorstand.");
         $("[data-lgn-skip]").hidden = true;
-        setTimeout(function () { lgnClose(false); }, reduce ? 600 : 1500);
+        oAt(1700, function () { lgnClose(false); });
       } else {
         oSwap('<svg aria-hidden="true"><use href="#i-x"/></svg>Der Code passt nicht', "Bitte noch einmal eingeben. Nach fünf Fehlversuchen wird kurz gesperrt.");
-        setTimeout(oReset, reduce ? 1200 : 1900);
+        oAt(1300, oReset);
       }
-    }, t);
+    });
   }
   oIn.forEach(function (inp, k) {
     inp.addEventListener("input", function () {

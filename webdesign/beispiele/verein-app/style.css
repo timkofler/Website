@@ -873,29 +873,41 @@ svg{flex:none}
 .otp{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px}
 .otp input{width:100%;height:50px;text-align:center;border:1px solid var(--line2);border-radius:12px;background:color-mix(in srgb,var(--card) 55%,transparent);color:var(--ink);font:800 21px/1 var(--hd);caret-color:var(--vc);outline:none;padding:0;transition:border-color .2s,box-shadow .2s,background .3s}
 .otp{position:relative}
-.otp.merge input{color:transparent;caret-color:transparent;border-color:color-mix(in srgb,var(--vc) 60%,var(--line2));transition:color .25s,border-color .6s,background .6s,opacity .3s .1s}
-.otp.done input,.otp.bad input{opacity:0}
-.otp__m{position:absolute;top:0;left:50%;width:calc((100% - 35px)/6);height:50px;margin-left:calc((100% - 35px)/-12);display:grid;place-items:center;border-radius:12px;border:1px solid var(--line2);
-  background:color-mix(in srgb,var(--card) 55%,transparent);opacity:0;pointer-events:none;transition:opacity .2s,border-color .5s,background .5s,box-shadow .6s}
-.otp__m svg{position:absolute;width:22px;height:22px;opacity:0;transform:scale(.4)}
-.otp.done .otp__m{opacity:1;border-color:var(--ok);background:color-mix(in srgb,var(--ok) 18%,transparent);box-shadow:0 0 0 4px color-mix(in srgb,var(--ok) 16%,transparent),0 0 34px -4px color-mix(in srgb,var(--ok) 70%,transparent)}
-.otp.bad .otp__m{opacity:1;border-color:var(--bad);background:color-mix(in srgb,var(--bad) 16%,transparent);box-shadow:0 0 0 4px color-mix(in srgb,var(--bad) 14%,transparent),0 0 30px -6px color-mix(in srgb,var(--bad) 70%,transparent);animation:oshake .45s .1s}
-.otp.done .otp__ok,.otp.bad .otp__no{opacity:1;transform:none;transition:opacity .3s .15s,transform .55s .15s cubic-bezier(.3,1.6,.5,1)}
-.otp__ok{color:var(--ok)}.otp__no{color:var(--bad)}
+.otp__c{position:relative;display:block;z-index:calc(6 - var(--i))}
+/* Prüf-Linie läuft einmal um jedes Kästchen */
+@property --oa{syntax:"<angle>";inherits:false;initial-value:0deg}
+.otp__r{position:absolute;inset:-1px;border-radius:13px;padding:2px;pointer-events:none;opacity:0;
+  background:conic-gradient(from 0deg,var(--vc) var(--oa),transparent 0);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.otp.chk .otp__r{opacity:1;animation:oring .55s cubic-bezier(.45,0,.25,1) forwards;animation-delay:calc(var(--i) * 40ms)}
+@keyframes oring{to{--oa:360deg}}
+.otp.chk input{transition:border-color .3s}
+.otp.merge input{color:transparent;caret-color:transparent;background:color-mix(in srgb,var(--card) 80%,transparent);transition:color .2s,background .4s}
+.otp.one .otp__c{opacity:0;transition:opacity .18s}
+.otp__m{position:absolute;top:0;left:50%;width:calc((100% - 35px)/6);height:50px;margin-left:calc((100% - 35px)/-12);display:grid;place-items:center;border-radius:12px;border:2px solid var(--vc);
+  background:color-mix(in srgb,var(--card) 80%,transparent);opacity:0;transform:rotate(-7deg) scale(.96);pointer-events:none;
+  transition:opacity .15s,transform .7s cubic-bezier(.3,1.5,.45,1),border-color .5s,background .6s,box-shadow .8s}
+.otp.one .otp__m{opacity:1}
+.otp__m svg{position:absolute;width:24px;height:24px;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:24;stroke-dashoffset:24}
+.otp__ok{stroke:var(--ok)}.otp__no{stroke:var(--bad)}
+.otp.done .otp__m{transform:none;border-color:var(--ok);background:color-mix(in srgb,var(--ok) 16%,var(--card));box-shadow:0 0 0 5px color-mix(in srgb,var(--ok) 14%,transparent),0 0 36px -4px color-mix(in srgb,var(--ok) 75%,transparent)}
+.otp.bad .otp__m{transform:none;border-color:var(--bad);background:color-mix(in srgb,var(--bad) 14%,var(--card));box-shadow:0 0 0 5px color-mix(in srgb,var(--bad) 12%,transparent),0 0 30px -6px color-mix(in srgb,var(--bad) 70%,transparent);animation:oshake .45s .35s}
+.otp.done .otp__ok,.otp.bad .otp__no{stroke-dashoffset:0;transition:stroke-dashoffset .45s .2s cubic-bezier(.5,0,.2,1)}
 .otp__st{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);margin:0}
 @keyframes oshake{20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(2px)}}
-.lgn__t,.lgn__s{transition:opacity .26s,filter .26s,transform .26s}
-.lgn__t.swap,.lgn__s.swap{opacity:0;filter:blur(6px);transform:translateY(-3px)}
-/* Karte leuchtet nach dem Code grün (bzw. rot) auf, wie Licht hinter Milchglas */
+.lgn__t,.lgn__s{transition:opacity .3s,filter .3s,transform .3s}
+.lgn__t.swap,.lgn__s.swap{opacity:0;filter:blur(7px);transform:translateY(-3px)}
+/* Grünes (bzw. rotes) Licht steigt nach dem Code von unten in der Glaskarte auf */
 .lgn__card{position:relative;isolation:isolate}
-.lgn__card::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:-1;pointer-events:none;opacity:0;transition:opacity .9s ease,background .3s;
-  background:radial-gradient(90% 75% at 50% 62%,color-mix(in srgb,var(--ok) 30%,transparent),transparent 72%)}
-.lgn__card.is-ok::after{opacity:1}
-.lgn__card.is-bad::after{opacity:1;background:radial-gradient(90% 75% at 50% 62%,color-mix(in srgb,var(--bad) 24%,transparent),transparent 72%)}
+.lgn__card::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:-1;pointer-events:none;opacity:0;transform:scaleY(.35);transform-origin:50% 100%;
+  transition:opacity 1s ease,transform 1.2s cubic-bezier(.2,.7,.2,1);
+  background:radial-gradient(110% 80% at 50% 100%,color-mix(in srgb,var(--ok) 34%,transparent),transparent 75%)}
+.lgn__card.is-ok::after,.lgn__card.is-bad::after{opacity:1;transform:none}
+.lgn__card.is-bad::after{background:radial-gradient(110% 80% at 50% 100%,color-mix(in srgb,var(--bad) 26%,transparent),transparent 75%)}
 .lgn__link{transition:opacity .3s,visibility .3s}
 .lgn__card.is-busy .lgn__link{opacity:0;visibility:hidden}
-.lgn__card.is-ok{border-color:color-mix(in srgb,var(--ok) 40%,var(--g-b))}
-@media (prefers-reduced-motion:reduce){.otp.bad .otp__m{animation:none}}
+.lgn__card.is-ok{border-color:color-mix(in srgb,var(--ok) 40%,var(--g-b));transition:border-color 1s}
+@media (prefers-reduced-motion:reduce){.otp.bad .otp__m{animation:none}.otp.chk .otp__r{animation:none;opacity:0}}
 .lgn__link,.lgn__skip{justify-self:center;border:0;background:transparent;color:var(--mu);font-size:13px;text-decoration:underline;text-underline-offset:3px;padding:6px}
 .lgn__link:hover,.lgn__skip:hover{color:var(--ink)}
 .lgn__skip{display:block;margin:12px auto 0}
