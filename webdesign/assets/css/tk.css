@@ -1224,8 +1224,8 @@ html:not(.anf-js) .anf__panel--rr { padding-bottom: 0; }
   .mf-home .tk-calc__toggle { min-height: 40px; padding: 0 18px; font-size: .86rem; gap: 6px; }
   .mf-home .tk-calc__toggle svg { width: 15px; height: 15px; }
   .mf-home #fragen .faq__item summary { padding: 15px 44px 15px 18px; font-family: var(--body); font-weight: 600; font-size: .9rem; }
-  .mf-home #fragen .faq__item summary::after { content: ""; right: 18px; width: 13px; height: 13px; color: var(--muted); background: linear-gradient(currentColor, currentColor) center / 100% 1.5px no-repeat, linear-gradient(currentColor, currentColor) center / 1.5px 100% no-repeat; transition: transform .25s ease, color .25s; }
-  .mf-home #fragen .faq__item[open] summary::after { content: ""; color: var(--hot); transform: translateY(-50%) rotate(45deg); }
+  .mf-home #fragen .faq__item summary::after { content: ""; right: 18px; width: 13px; height: 13px; background: linear-gradient(var(--hot), var(--hot)) center / 100% 1.5px no-repeat, linear-gradient(#fff, #fff) center / 1.5px 100% no-repeat; transition: transform .25s ease; }
+  .mf-home #fragen .faq__item[open] summary::after { content: ""; background: linear-gradient(var(--hot), var(--hot)) center / 100% 1.5px no-repeat, linear-gradient(var(--hot), var(--hot)) center / 1.5px 100% no-repeat; transform: translateY(-50%) rotate(45deg); }
   .mf-home #referenz .tk-ref__shot, .mf-home #ueber .tk-worte, .mf-home #anfrage .anf__steps, .mf-home #fragen .faq-wrap__ask { display: none; }
   .mf-home .footer__grid > div:nth-child(2), .mf-home .footer__grid > div:nth-child(3) { display: none; }
   html:not(:has(#mf-nojs)) .mf-home .mf-card, html:not(:has(#mf-nojs)) .mf-home .mf-more { display: flex; }
