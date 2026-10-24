@@ -568,3 +568,44 @@
     document.documentElement.classList.toggle("tk-at-end", e[0].isIntersecting);
   }, { rootMargin: "0px 0px -15% 0px" }).observe(sign);
 })();
+
+// Im Anfrage-Bereich sind alle Kontaktwege schon da: schwebende Knöpfe ausblenden, damit sie keine Felder verdecken (Klasse tk-in-anf)
+(function () {
+  var anf = document.querySelector("[data-anf]");
+  if (!anf || !("IntersectionObserver" in window)) return;
+  new IntersectionObserver(function (e) {
+    document.documentElement.classList.toggle("tk-in-anf", e[0].isIntersecting);
+  }, { rootMargin: "0px 0px -25% 0px" }).observe(anf);
+})();
+
+// Anfrage [10]: Reiter "Anfrage schreiben" / "Rückruf". Ohne JS stehen beide Formulare untereinander.
+(function () {
+  var box = document.querySelector("[data-anf]");
+  if (!box) return;
+  var list = box.querySelector(".anf__tabs");
+  var tabs = Array.prototype.slice.call(box.querySelectorAll('[role="tab"]'));
+  if (!list || !tabs.length) return;
+  var panel = function (t) { return document.getElementById(t.getAttribute("aria-controls")); };
+  var select = function (t, focus) {
+    tabs.forEach(function (o) {
+      var on = o === t, p = panel(o);
+      o.setAttribute("aria-selected", on ? "true" : "false");
+      o.tabIndex = on ? 0 : -1;
+      if (p) { p.hidden = !on; p.classList.toggle("is-in", on); }
+    });
+    if (focus) t.focus();
+  };
+  tabs.forEach(function (t, i) {
+    t.addEventListener("click", function () { select(t); });
+    t.addEventListener("keydown", function (e) {
+      var d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+      if (!d) return;
+      e.preventDefault();
+      select(tabs[(i + d + tabs.length) % tabs.length], true);
+    });
+  });
+  document.documentElement.classList.add("anf-js");
+  list.hidden = false;
+  select(tabs[0]);
+  box.querySelectorAll(".anf__panel").forEach(function (p) { p.classList.remove("is-in"); });
+})();
