@@ -883,3 +883,5 @@ svg{flex:none}
 .lgn__ok small{color:var(--mu);font-size:13px}
 @keyframes okpop{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}
 .spark[data-spark="mem"]{--sc:var(--vc2)}
+/* Handy: App-Inhalt kompakter (Tim: "am Handy alles so riesig") */
+@media (max-width:720px){.app,.phone__st{zoom:.86}.desk__in{zoom:.84}}
