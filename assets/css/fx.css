@@ -148,13 +148,8 @@ main > .section > .container { position: relative; z-index: 1; }
   transform: translateX(var(--ix, 0)); transition: transform .45s cubic-bezier(.3,1.3,.5,1), width .45s cubic-bezier(.3,1.3,.5,1), opacity .25s ease; }
 .nav__ind::after { content: ""; position: absolute; left: 50%; bottom: -5px; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 10px 2px rgba(220,247,99,.65); }
 .nav.has-ind .nav__ind.is-on { opacity: 1; }
-.nav.has-ind a { position: relative; z-index: 1; }
-.nav.has-ind a:not(.nav__cta), .nav.has-ind a:not(.nav__cta):hover, .nav.has-ind a.is-active:not(.nav__cta) { background: transparent; }
-@media (max-width: 1100px) {
-  .nav__ind { display: none; }
-  .nav { background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0)), #0b0b0b; border-bottom-color: rgba(255,255,255,.08); box-shadow: 0 30px 60px -20px rgba(0,0,0,.8); }
-  .nav a:not(.nav__cta):hover, .nav a.is-active:not(.nav__cta) { background: rgba(255,255,255,.06); box-shadow: var(--g-hi); }
-}
+.nav.has-ind > a, .nav.has-ind > a:hover, .nav.has-ind > a.is-active, .nav.has-ind .nav__more-btn { position: relative; z-index: 1; background: transparent; }
+@media (max-width: 1100px) { .nav__ind { display: none; } }
 
 /* Buttons: Lime als flüssige Kapsel, Rahmen-Button als Glas */
 .btn:not(.btn--line) { background-image: linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,0) 52%); box-shadow: inset 0 1px 0 rgba(255,255,255,.6), inset 0 -2px 6px rgba(0,0,0,.1), 0 8px 24px -10px rgba(220,247,99,.5); }

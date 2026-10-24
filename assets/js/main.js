@@ -1,18 +1,45 @@
-// Mobile Navigation + aktuelles Jahr im Footer. Keine Tracker, keine Cookies.
+// Menü (PC-Kapsel, „Mehr“, Handy-Kacheln) wie auf tim-kofler.at + aktuelles Jahr im Footer. Keine Tracker, keine Cookies.
 document.addEventListener("DOMContentLoaded", () => {
+  // Handy-Menü: runder Knopf öffnet die Kacheln (#mnav) und streckt sich dabei zur „Schließen“-Pille.
   const toggle = document.querySelector(".nav-toggle");
-  const nav = document.querySelector(".nav");
-  if (toggle && nav) {
-    toggle.addEventListener("click", () => {
-      const open = nav.classList.toggle("is-open");
-      toggle.setAttribute("aria-expanded", String(open));
-    });
-    nav.querySelectorAll("a").forEach((a) =>
-      a.addEventListener("click", () => {
-        nav.classList.remove("is-open");
-        toggle.setAttribute("aria-expanded", "false");
-      })
-    );
+  const mnav = document.getElementById("mnav");
+  const setMenu = (open) => {
+    mnav.classList.toggle("is-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Menü schließen" : "Menü öffnen");
+  };
+  if (toggle && mnav) {
+    toggle.addEventListener("click", () => setMenu(!mnav.classList.contains("is-open")));
+    mnav.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setMenu(false)));
+  }
+
+  // PC: „Mehr“ klappt per Maus (CSS :hover), Klick, Tippen und Tastatur auf.
+  const more = document.querySelector(".nav__more");
+  if (more) {
+    const btn = more.querySelector(".nav__more-btn");
+    const setMore = (open) => { more.classList.toggle("is-open", open); btn.setAttribute("aria-expanded", String(open)); };
+    btn.addEventListener("click", () => setMore(!more.classList.contains("is-open")));
+    document.addEventListener("click", (e) => { if (!more.contains(e.target)) setMore(false); });
+    more.addEventListener("focusout", (e) => { if (!more.contains(e.relatedTarget)) setMore(false); });
+    more.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setMore(false)));
+  }
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    if (more && more.classList.contains("is-open")) { more.classList.remove("is-open"); more.querySelector(".nav__more-btn").setAttribute("aria-expanded", "false"); more.querySelector(".nav__more-btn").focus(); }
+    if (mnav && mnav.classList.contains("is-open")) { setMenu(false); toggle.focus(); }
+  });
+
+  // PC: beim Scrollen wird die Leiste zur schwebenden Glas-Kapsel (fx.js richtet danach die Menü-Kapsel neu aus).
+  const header = document.querySelector(".header");
+  if (header && more) {
+    let pill = false;
+    const onScroll = () => {
+      const y = window.scrollY || 0;
+      const next = pill ? y > 60 : y > 140;
+      if (next !== pill) { pill = next; header.classList.toggle("is-pill", pill); document.dispatchEvent(new CustomEvent("x:pill")); }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
   }
   document.querySelectorAll("[data-year]").forEach((el) => {
     el.textContent = new Date().getFullYear();
