@@ -1,0 +1,28 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:M;src:url(/assets/fonts/manrope.woff2)}
+@font-face{font-family:J;src:url(/assets/fonts/jetbrains-mono.woff2)}
+*{box-sizing:border-box;margin:0}
+html,body{width:720px;height:450px;overflow:hidden;background:#0b0b0c}
+.st{position:relative;width:720px;height:450px;overflow:hidden;
+ background:radial-gradient(420px 300px at 62% 18%,rgba(255,90,31,.30),transparent 70%),radial-gradient(360px 260px at 18% 90%,rgba(255,140,60,.12),transparent 70%),linear-gradient(180deg,#141210,#0b0b0c)}
+.ph{position:absolute;border-radius:34px;background:#1a1a1c;padding:7px;box-shadow:0 0 0 1px rgba(255,255,255,.10),0 30px 60px rgba(0,0,0,.6),0 0 80px rgba(255,90,31,.10)}
+.ph img{display:block;width:100%;border-radius:27px}
+.ph::after{content:"";position:absolute;inset:0;border-radius:34px;box-shadow:inset 0 1px 0 rgba(255,255,255,.14);pointer-events:none}
+.p1{left:92px;top:96px;width:196px;transform:rotate(-6deg);opacity:.92;filter:saturate(.95) brightness(.85)}
+.p2{left:262px;top:44px;width:226px}
+.card{position:absolute;background:rgba(24,22,22,.82);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.12);border-radius:18px;box-shadow:0 18px 40px rgba(0,0,0,.55);color:#f4f1ee;font-family:M}
+.qr{left:520px;top:92px;width:150px;padding:12px}
+.qr img{display:block;width:100%;border-radius:10px}
+.k{font-family:J;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:#ffb27a;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.k i{width:6px;height:6px;border-radius:50%;background:#ff5a1f;display:inline-block}
+.qr p{font-size:11.5px;font-weight:700;margin-top:9px;line-height:1.3}
+.qr small{display:block;font-size:10px;color:#a9a39d;font-weight:500;margin-top:2px}
+.chip{left:446px;top:368px;padding:9px 14px;font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:8px;border-radius:999px}
+.chip b{width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#ff5a1f,#ffa53a);display:grid;place-items:center}
+.chip b svg{width:12px;height:12px}
+</style></head><body><div class="st">
+<div class="ph p1"><img src="login.png"></div>
+<div class="ph p2"><img src="dash2.png"></div>
+<div class="card qr"><div class="k"><i></i>Zwei-Faktor</div><img src="qr.png"><p>Extraschutz per App<small>freiwillig, in 2 Minuten</small></p></div>
+<div class="card chip"><b><svg viewBox="0 0 24 24" fill="none" stroke="#1a0d05" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></b>3 Dateien hochgeladen</div>
+</div></body></html>
