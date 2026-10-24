@@ -1,4 +1,4 @@
-// Kundenportal-Video für /ablauf/: echte Bedienung am Handy (390×844, 2x), aufgenommen per CDP-Screencast in Echtzeit.
+// Kundenportal-Video für /ablauf/: echte Bedienung am Handy (390×844, 2x), aufgenommen per CDP-Screencast in Echtzeit, bewusst ruhiges Tempo.
 const { chromium } = require('/opt/node22/lib/node_modules/playwright');
 const fs = require('fs');
 const BASE = process.env.BASE || 'http://localhost:8096';
@@ -29,42 +29,48 @@ const BASE = process.env.BASE || 'http://localhost:8096';
   };
   await p.goto(BASE + '/kunden/'); await p.waitForLoadState('networkidle');
   await cdp.send('Page.startScreencast', { format: 'jpeg', quality: 92, everyNthFrame: 1 });
-  // 1) Anmelden
-  await wait(1300);
-  await tap('input[name=benutzer]'); await p.keyboard.type('baeckerei-muster', { delay: 55 });
-  await wait(250);
-  await tap('input[name=passwort]'); await p.keyboard.type('kornspitz-2026', { delay: 45 });
-  await wait(400);
-  await tap('button[type=submit]');
-  await p.waitForLoadState('networkidle'); await wait(1800);
-  // 2) Stand der Webseite
-  await scrollTo('.kp-projekt', 60, 1000); await wait(2600);
-  // 3) Wunsch schreiben
-  await scrollTo('.kp-chat .kp-chip', 470, 1300); await wait(900);
-  await tap('.kp-chip--wunsch'); await wait(300);
-  await tap('.kp-chat textarea'); await p.keyboard.type('Bitte noch unser Kornspitz-Foto auf die Startseite. Ich lade es gleich hoch.', { delay: 32 });
+  // 1) Anmelden (Glas-Karte, ruhig tippen)
+  await wait(2600);
+  await tap('input[name=benutzer]'); await p.keyboard.type('baeckerei-muster', { delay: 95 });
   await wait(500);
+  await tap('input[name=passwort]'); await p.keyboard.type('kornspitz-2026', { delay: 85 });
+  await wait(800);
+  await tap('button[type=submit]');
+  await p.waitForLoadState('networkidle'); await wait(2800);
+  // 2) Stand der Webseite
+  await scrollTo('.kp-projekt', 60, 1800); await wait(3800);
+  // 3) Wunsch schreiben
+  await scrollTo('.kp-chat .kp-chip', 470, 2000); await wait(1600);
+  await tap('.kp-chip--wunsch'); await wait(600);
+  await tap('.kp-chat textarea'); await p.keyboard.type('Bitte noch unser Kornspitz-Foto auf die Startseite. Ich lade es gleich hoch.', { delay: 55 });
+  await wait(900);
   await tap('.kp-chat button[type=submit]');
-  await p.waitForLoadState('networkidle'); await wait(300);
-  await scrollTo('.kp-chat .kp-chip', 520, 700); await wait(2400);
+  await p.waitForLoadState('networkidle'); await wait(500);
+  await scrollTo('.kp-chat .kp-chip', 520, 1000); await wait(3200);
   // 4) Dateien hochladen
-  await scrollTo('.kp-tiles', 90, 1000); await wait(500);
-  await tap('[data-kp-tab=dateien]'); await wait(700);
-  await scrollTo('.kp-upload', 70, 800); await wait(500);
+  await scrollTo('.kp-tiles', 90, 1600); await wait(900);
+  await tap('[data-kp-tab=dateien]'); await wait(1200);
+  await scrollTo('.kp-upload', 70, 1300); await wait(900);
   const pick = p.locator('.kp-pick'); const bb = await pick.boundingBox();
-  await p.evaluate(([x, y]) => window.__tap(x, y), [bb.x + bb.width / 2, bb.y + bb.height / 2]); await wait(400);
-  await p.setInputFiles('.kp-pick input', ['up/kornspitz.jpg', 'up/verkaufsraum.jpg', 'up/logo-baeckerei.png']); await wait(1200);
-  await tap('.kp-upload .form__check input'); await wait(500);
+  await p.evaluate(([x, y]) => window.__tap(x, y), [bb.x + bb.width / 2, bb.y + bb.height / 2]); await wait(600);
+  await p.setInputFiles('.kp-pick input', ['up/kornspitz.jpg', 'up/verkaufsraum.jpg', 'up/logo-baeckerei.png']); await wait(1800);
+  await tap('.kp-upload .form__check input'); await wait(800);
   await cdp.send('Network.enable');
-  await cdp.send('Network.emulateNetworkConditions', { offline: false, latency: 20, downloadThroughput: -1, uploadThroughput: 2.6e6 });
+  await cdp.send('Network.emulateNetworkConditions', { offline: false, latency: 20, downloadThroughput: -1, uploadThroughput: 2.2e6 });
   await tap('.kp-upload button[type=submit]');
   await p.waitForFunction(() => !!document.querySelector('.form__status.is-ok'), null, { timeout: 30000 });
   await cdp.send('Network.emulateNetworkConditions', { offline: false, latency: 0, downloadThroughput: -1, uploadThroughput: -1 });
-  await wait(1800);
-  await scrollTo('.kp-tiles', 90, 900); await wait(400);
-  await tap('[data-kp-tab=dateien]'); await wait(500);
+  await wait(2400);
+  await scrollTo('.kp-tiles', 90, 1400); await wait(600);
+  await tap('[data-kp-tab=dateien]'); await wait(800);
   await p.evaluate(() => { const d = document.querySelector('.kp-batch'); if (d) d.open = true; });
-  await scrollTo('.kp-batch', 300, 1000); await wait(2600);
+  await scrollTo('.kp-batch', 300, 1500); await wait(3400);
+  // 5) Zwei-Faktor-Anmeldung (freiwillig) mit QR-Code
+  await scrollTo('#zweifaktor', 120, 1800); await wait(900);
+  await tap('#zweifaktor > summary'); await wait(1000);
+  await scrollTo('.kp-qr', 230, 1500); await wait(3600);
+  // 6) Fuß mit Lauflicht
+  await p.evaluate(() => window.__scroll(document.documentElement.scrollHeight - innerHeight, 2200)); await wait(4500);
   await cdp.send('Page.stopScreencast'); await wait(200);
   fs.rmSync('f', { recursive: true, force: true }); fs.mkdirSync('f');
   let list = '';
