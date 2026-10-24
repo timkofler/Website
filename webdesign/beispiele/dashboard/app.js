@@ -206,6 +206,46 @@
   });
 
   // ---- Übersicht ----
+  // Auslastung der Monteure als feine Kurve (Musterdaten, immer gleich): Ziellinie 85 %, Bänder und hohle Punkte über dem Ziel,
+  // Tage unter 60 % in Warnfarbe. Zeichnet in Pixeln, damit Haarlinien und Schrift scharf bleiben.
+  function feinKurve() {
+    var box = $("#ausl"); if (!box) return;
+    var seed = 11, rnd = function () { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+    var n = 30, v = [], x0 = 0, W = Math.max(280, box.clientWidth || 600), H = box.clientHeight || 190, R = 44, top = 8, bot = 24, ZIEL = 85;
+    for (var i = 0; i < n; i++) { var t = i / n, b = 70 + t * 14 + Math.sin(i * .9) * 6 + (rnd() - .5) * 12; if (i === 3 || i === 4) b = 52 + rnd() * 5; if (i >= 12 && i <= 14) b = 89 + rnd() * 5; if (i >= 23 && i <= 25) b = 90 + rnd() * 4; v.push(Math.max(40, Math.min(99, b))); }
+    var avg = v.reduce(function (a, b) { return a + b; }, 0) / n;
+    $("#ausl-n").textContent = Math.floor(avg);
+    $("#ausl-d").textContent = "," + Math.round((avg % 1) * 10) % 10;
+    var X = function (i) { return x0 + i * (W - R - x0) / (n - 1); }, Y = function (p) { return top + (100 - p) / 60 * (H - top - bot); };
+    var svg = "";
+    [100, 85, 70, 55].forEach(function (g) { if (g !== ZIEL) svg += '<line class="gl" x1="0" x2="' + (W - R) + '" y1="' + Y(g) + '" y2="' + Y(g) + '"/>'; svg += '<text class="lb" x="' + (W - R + 10) + '" y="' + (Y(g) + 4) + '">' + g + ' %</text>'; });
+    // Schnittpunkte mit der Ziellinie genau auf der Kurve (zwischen zwei Tagen interpoliert)
+    var cx = function (i) { return X(i - 1) + (ZIEL - v[i - 1]) / (v[i] - v[i - 1]) * (X(i) - X(i - 1)); };
+    var cross = [], st = null;
+    for (i = 0; i <= n; i++) {
+      var over = i < n && v[i] > ZIEL;
+      if (over && st === null) st = i;
+      if (!over && st !== null) {
+        if (i - st >= 2) {
+          var a = st ? cx(st) : X(0), e = i < n ? cx(i) : X(n - 1);
+          svg += '<rect class="bd" x="' + a + '" y="' + Y(ZIEL) + '" width="' + (e - a) + '" height="' + (H - bot - Y(ZIEL)) + '"/>';
+          if (st) cross.push(a);
+          if (i < n) cross.push(e);
+        }
+        st = null;
+      }
+    }
+    svg += '<line class="zl" x1="0" x2="' + (W - R) + '" y1="' + Y(ZIEL) + '" y2="' + Y(ZIEL) + '"/>';
+    var pts = v.map(function (p, i) { return X(i).toFixed(1) + "," + Y(p).toFixed(1); });
+    svg += '<polyline class="ln" points="' + pts.join(" ") + '"/>';
+    for (i = 1; i < n; i++) if (v[i] < 60 || v[i - 1] < 60) svg += '<polyline class="lo" points="' + pts[i - 1] + " " + pts[i] + '"/>';
+    v.forEach(function (p, i) { if (p < 60) svg += '<circle class="pu" cx="' + X(i) + '" cy="' + Y(p) + '" r="3.2"/>'; });
+    cross.forEach(function (x) { svg += '<circle class="pt" cx="' + x + '" cy="' + Y(ZIEL) + '" r="3.8"/>'; });
+    var d0 = new Date(now); d0.setDate(d0.getDate() - 41);
+    [0, 10, 20, 29].forEach(function (i) { var d = new Date(d0); d.setDate(d.getDate() + Math.round(i * 42 / 30)); svg += '<text class="lb" x="' + X(i) + '" y="' + (H - 4) + '" text-anchor="' + (i ? (i === 29 ? "end" : "middle") : "start") + '">' + (i === 29 ? "heute" : d.getDate() + "." + (d.getMonth() + 1) + ".") + "</text>"; });
+    box.innerHTML = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Auslastung der Monteure, letzte 30 Arbeitstage, Schnitt ' + avg.toFixed(1).replace(".", ",") + ' Prozent, Ziel 85 Prozent">' + svg + "</svg>";
+  }
+
   function renderHome() {
     var d = now;
     var h = now.getHours();
@@ -239,6 +279,8 @@
       svg += '<text class="lb" x="' + (x + bw / 2) + '" y="' + (H - 4) + '" text-anchor="middle">' + labs[i] + '</text>';
     });
     $("#chart").innerHTML = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Umsatz der letzten sechs Monate"><defs><linearGradient id="barg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--pop2)"/><stop offset="1" stop-color="var(--pop)"/></linearGradient></defs>' + svg + "</svg>";
+
+    feinKurve();
 
     var nd = plan[0];
     $("#next-h").firstChild.textContent = (nd === today ? "Heute im Einsatz " : "Nächster Arbeitstag ");
