@@ -107,7 +107,7 @@ p { margin: 0 0 18px; }
 }
 
 /* Hero */
-.hero { position: relative; padding: 110px 0 0; overflow: hidden; }
+.hero { position: relative; padding: 110px 0 72px; overflow: hidden; }
 .hero__inner { position: relative; text-align: center; }
 .hero__badge {
   display: inline-flex; align-items: center; gap: 10px; padding: 6px 14px 6px 6px; border-radius: 999px;
@@ -131,7 +131,7 @@ p { margin: 0 0 18px; }
 .window__bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--line-2); }
 .window__bar i:first-child { background: var(--lime); }
 .window__bar span { margin-left: 10px; font-family: var(--mono); font-size: .75rem; color: var(--muted); }
-.hero__shot .window { border-bottom: 0; border-radius: 18px 18px 0 0; }
+.hero__shot .window { border-radius: 18px; }
 
 /* Zahlenleiste */
 .figures { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -286,7 +286,7 @@ p { margin: 0 0 18px; }
   body { font-size: 16px; }
   .container { padding: 0 16px; }
   .section { padding: 80px 0; }
-  .hero { padding-top: 64px; }
+  .hero { padding-top: 64px; padding-bottom: 44px; }
   .hero__shot { margin-top: 56px; }
   .xgrid { grid-template-columns: 1fr; }
   .xcell { min-height: 0; padding: 36px 24px; border-right: 0 !important; border-bottom: 1px solid var(--line); }
@@ -372,7 +372,7 @@ main p a:not(.btn), main li a:not(.btn), .faq__item p a, .glance dd a { text-dec
 .glass img { display: block; width: 100%; height: auto; }
 
 /* Hero: Fenster + schwebendes Handy */
-.hero__shot .window.glass { border-radius: 18px 18px 0 0; border-bottom: 0; }
+.hero__shot .window.glass { border-radius: 18px; }
 .hero__phone { position: absolute; right: -3%; bottom: 3%; width: 210px; z-index: 3; animation: float 7s ease-in-out infinite; }
 @keyframes float { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-14px) rotate(-1deg); } }
 
@@ -480,6 +480,7 @@ main p a:not(.btn), main li a:not(.btn), .faq__item p a, .glance dd a { text-dec
 .form ::placeholder { color: #6f6f6f; }
 .form__check { display: grid; grid-template-columns: 22px 1fr; gap: 12px; align-items: start; font-size: .92rem; color: var(--muted); line-height: 1.55; cursor: pointer; }
 .form__check input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--lime); cursor: pointer; }
+.form__check a { text-decoration: underline; text-underline-offset: 3px; }
 .form .btn { justify-self: start; margin-top: 6px; }
 .form .btn:disabled { opacity: .6; cursor: wait; }
 .form__status { margin: 0; padding: 12px 16px; border-radius: 12px; font-size: .95rem; }
@@ -551,7 +552,7 @@ main p a:not(.btn), main li a:not(.btn), .faq__item p a, .glance dd a { text-dec
   /* Gleiche Gesamthöhe wie oben (76px), damit beim Umschalten nichts springt */
   html.js .header.is-pill { background: transparent; border-bottom-color: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; pointer-events: none; }
   html.js .header.is-pill::after { opacity: 0; }
-  .header.is-pill .header__inner { pointer-events: auto; height: 58px; max-width: 1000px; margin: 10px auto 8px; padding: 0 8px 0 18px;
+  .header.is-pill .header__inner { pointer-events: auto; height: 58px; width: calc(100% - 64px); max-width: calc(var(--max) - 64px); margin: 10px auto 8px; padding: 0 8px 0 18px;
     background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.015)), rgba(15,15,15,.9); -webkit-backdrop-filter: blur(16px) saturate(1.4); backdrop-filter: blur(16px) saturate(1.4);
     border-color: rgba(220,247,99,.32); box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 18px 50px rgba(0,0,0,.6), 0 0 30px rgba(220,247,99,.12);
     transform: translateY(10px); animation: x-pill-in .6s cubic-bezier(.2,.8,.2,1); }
