@@ -581,3 +581,13 @@ body.kp:not(:has(.kp-auth)) .kp-main .kp-tile.is-active { border-color: var(--ho
 .kp-help__links a { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line-2); background: rgba(255,255,255,.03); color: var(--text); font-weight: 600; font-size: .84rem; text-decoration: none; transition: border-color .2s, background .2s, color .2s; }
 .kp-help__links a:hover, .kp-help__links a:focus-visible { border-color: rgba(255,90,31,.55); background: rgba(255,90,31,.1); color: #ffd2bd; }
 .kp-help__links svg { width: 16px; height: 16px; fill: none; stroke: #ff8a5c; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Fuß im Portal: orange Lichtlinie läuft langsam hin und her (wie das Lauflicht bei KITT) */
+.kp-foot::before { left: 0; width: 100%; transform: none; box-shadow: none;
+  background: linear-gradient(90deg, transparent, rgba(255,90,31,.22) 15%, rgba(255,90,31,.22) 85%, transparent); }
+.kp-foot::after { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 2px; pointer-events: none;
+  background: linear-gradient(90deg, transparent, #ff5a1f 30%, #ffb23f 50%, #ff5a1f 70%, transparent) 0 0 / 28% 100% no-repeat;
+  filter: drop-shadow(0 0 6px rgba(255,90,31,.9)) drop-shadow(0 0 14px rgba(255,90,31,.5));
+  animation: kp-kitt 3.6s cubic-bezier(.45,0,.55,1) infinite alternate; }
+@keyframes kp-kitt { from { background-position: 4% 0; } to { background-position: 96% 0; } }
+@media (prefers-reduced-motion: reduce) { .kp-foot::after { animation: none; background-position: 50% 0; } }
