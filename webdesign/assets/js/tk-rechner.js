@@ -271,10 +271,16 @@
   }
   if (toggle && body) {
     toggleWrap.hidden = false;
-    setOpen(location.hash === "#rechner", true);
+    // Nur ein frischer Link auf #rechner öffnet ihn. Beim Neuladen oder Zurückblättern bleibt er zu,
+    // sonst steht er am Handy offen da, nur weil früher einmal "Preis berechnen" angetippt wurde.
+    var nav = window.performance && performance.getEntriesByType ? performance.getEntriesByType("navigation")[0] : null;
+    var fresh = !nav || nav.type === "navigate";
+    setOpen(location.hash === "#rechner" && fresh, true);
     toggle.addEventListener("click", function () {
       setOpen(!isOpen);
       if (!isOpen) {
+        // #rechner aus der Adresse nehmen, damit er nach dem Neuladen zu bleibt
+        if (location.hash === "#rechner" && history.replaceState) history.replaceState(null, "", location.pathname + location.search);
         // Beim Einklappen nicht ins Leere schauen: den Kopf des Rechners im Bild halten
         var top = root.getBoundingClientRect().top;
         if (top < 0) root.scrollIntoView({ behavior: "auto", block: "start" });

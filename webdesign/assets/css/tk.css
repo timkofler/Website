@@ -791,7 +791,7 @@ html.tk-at-end .tk-float, html.tk-at-end .tk-chat-btn, html.tk-in-anf .tk-float,
 
 /* ================= 3D-Plakette im Kopfbereich (2026-10) ================= */
 /* Die Bühne hält nur den Platz frei; gezeichnet wird auf einer Leinwand hinter dem Text, die beim Scrollen mitfährt. */
-.tk-hero__stage { position: relative; width: min(330px, 82vw); aspect-ratio: 1; margin: 10px auto -30px; touch-action: pan-y; cursor: grab; -webkit-tap-highlight-color: transparent; }
+.tk-hero__stage { position: relative; width: min(320px, 76vw); aspect-ratio: 1; margin: 64px auto -6px; touch-action: pan-y; cursor: grab; -webkit-tap-highlight-color: transparent; }
 .tk-hero__stage.is-drag { cursor: grabbing; }
 .tk-hero__still { display: none; position: absolute; left: -50%; top: -50%; width: 200%; height: 200%; max-width: none; pointer-events: none; user-select: none; -webkit-user-select: none; }
 html.tk-3d-still .tk-hero__still { display: block; }
@@ -804,6 +804,17 @@ html.tk-3d-still .tk-hero__still { display: block; }
 }
 /* Unschärfe im Kopf über der laufenden 3D-Szene kostet am Handy viel; solange sie sichtbar ist, deckt der Kopf einfach etwas mehr ab. */
 html.tk-3d-on.tk-3d-view .header { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(11,11,11,.94); }
+/* Handy/Tablet: Inhalt soll unter dem Kopf verschwinden statt durchzuscheinen. Fast deckender Kopf
+   plus ein weicher Verlauf darunter, in dem Text und Knöpfe beim Scrollen ausblenden. */
+@media (max-width: 1099px) {
+  .header { background: rgba(11,11,11,.95); }
+  .header::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 26px; pointer-events: none;
+    background: linear-gradient(rgba(11,11,11,.92), rgba(11,11,11,.55) 45%, rgba(11,11,11,0)); }
+  .header:has(.mnav.is-open)::after { display: none; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .header { background: #0b0b0b; -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
 
 /* Friseur im Karussell: drei Entwürfe wechseln sich ab statt zu scrollen (tk-ui.js, data-vers) */
 .tk-vers { position: absolute; inset: 0; }
