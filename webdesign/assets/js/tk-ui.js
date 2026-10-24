@@ -612,26 +612,28 @@
   box.querySelectorAll(".anf__panel").forEach(function (p) { p.classList.remove("is-in"); });
 })();
 
-/* Startseite am Handy: aufklappbare Karten (data-mf-open). Anker-Links auf eingeklappte Inhalte klappen sie automatisch auf. */
+/* Startseite am Handy: aufklappbare Karten (data-mf-open), klappen auch wieder zu. Anker-Links auf eingeklappte Inhalte klappen sie automatisch auf. */
 (function () {
   var openers = document.querySelectorAll("[data-mf-open]");
   if (!openers.length) return;
-  function open(key) {
+  function set(key, on) {
     var sec = document.querySelector('[data-mf-sec="' + key + '"]');
-    if (sec) sec.classList.add("mf-open");
-    document.querySelectorAll('[data-mf="' + key + '"]').forEach(function (el) { el.classList.add("mf-open"); });
+    if (sec) sec.classList.toggle("mf-open", on);
+    document.querySelectorAll('[data-mf="' + key + '"]').forEach(function (el) { el.classList.toggle("mf-open", on); });
     document.querySelectorAll('[data-mf-open="' + key + '"]').forEach(function (b) {
-      b.setAttribute("aria-expanded", "true");
-      (b.parentNode.classList.contains("mf-slot") ? b.parentNode : b).classList.add("mf-done");
+      b.setAttribute("aria-expanded", on ? "true" : "false");
+      var l = b.querySelector("[data-less]");
+      if (l) { if (!l.hasAttribute("data-more")) l.setAttribute("data-more", l.textContent); l.textContent = l.getAttribute(on ? "data-less" : "data-more"); }
     });
   }
+  function open(key) { set(key, true); }
   openers.forEach(function (b) {
     b.addEventListener("click", function () {
-      var key = b.getAttribute("data-mf-open");
-      var first = document.querySelector('[data-mf="' + key + '"]');
-      open(key);
-      var sec = document.querySelector('[data-mf-sec="' + key + '"]');
-      if (first && !sec) { var f = first.querySelector("summary, a, button"); if (f) f.focus({ preventScroll: true }); }
+      var key = b.getAttribute("data-mf-open"), on = b.getAttribute("aria-expanded") !== "true";
+      var top = b.getBoundingClientRect().top;
+      set(key, on);
+      // Beim Zuklappen bleibt der Knopf an derselben Stelle im Bild, statt dass die Seite springt
+      if (!on) { var d = b.getBoundingClientRect().top - top; if (d) window.scrollBy(0, d); }
     });
   });
   function fromHash() {

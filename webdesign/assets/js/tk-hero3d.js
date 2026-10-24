@@ -221,7 +221,8 @@ function build(THREE, RoomEnvironment) {
   function measure() {
     var hr = hero.getBoundingClientRect(), sr = stageEl.getBoundingClientRect();
     heroTop = hr.top + scrollY; heroH = hr.height || 1; bottom = heroTop + heroH;
-    cut = mq ? mq.getBoundingClientRect().bottom + scrollY : bottom;
+    var mr = mq && mq.getBoundingClientRect();
+    cut = mr && mr.height ? mr.bottom + scrollY : bottom; // Laufband am Handy ausgeblendet: dann am Ende des Kopfbereichs schneiden
     S = Math.round(Math.max(sr.width, sr.height) * 2);
     cx = sr.left + sr.width / 2; cy = sr.top + scrollY + sr.height / 2;
     if (S !== W) { W = H = S; R.setSize(S, S, false); cv.style.width = cv.style.height = S + "px"; cam.aspect = 1; cam.updateProjectionMatrix(); }
