@@ -285,7 +285,8 @@ if (!empty($_SESSION['tf_flash'])) {
 // ---------------- Anmeldung, zweiter Schritt: Code aus der App ----------------
 if ($codeStep) {
     kp_page('Code bestätigen', <<<HTML
-<div class="kp-narrow">
+<div class="kp-narrow kp-auth">
+  <span class="kp-auth__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5.5c0 4.3-2.9 8.1-7 9.5-4.1-1.4-7-5.2-7-9.5V6z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg></span>
   <span class="label"><b>●</b> Kundenportal</span>
   <h1>Code bestätigen</h1>
   <p class="lead">Öffne deine Authenticator-App und gib den 6-stelligen Code für <b>tim-kofler.at</b> ein.</p>
@@ -316,7 +317,8 @@ if ($acc === null) {
     $lock = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
     kp_page('Anmelden', <<<HTML
 <div class="kp-login">
-  <div class="kp-login__form">
+  <div class="kp-login__form kp-auth">
+    <span class="kp-auth__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
     <span class="label"><b>●</b> Kundenportal</span>
     <h1>Anmelden</h1>
     <p class="lead">Dein persönlicher Bereich für die neue Webseite deines Betriebs oder Vereins. Die Zugangsdaten bekommst du von mir persönlich.</p>
