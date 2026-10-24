@@ -208,7 +208,7 @@
   if (/^\/beispiele\//.test(location.pathname)) return;
   try { if (sessionStorage.getItem("tk-float-zu") === "1") return; } catch (e) {}
   // Zahl der Branchen-Beispiele: muss zu Startseite, /beispiele/ und llms.txt passen (prüft .github/scripts/beispiele-zaehler.py)
-  var ANZAHL = 18;
+  var ANZAHL = 19;
   // Runde Ausschnitte aus den Videos/Fotos der Beispielseiten (Lizenzen siehe /bildnachweis/)
   var pics = ["dachdecker", "gasthaus", "pension", "friseur", "werkstatt", "baeckerei", "cafe", "fleischerei", "tischlerei", "maler", "massage", "bodenleger"];
   var a = document.createElement("a");
