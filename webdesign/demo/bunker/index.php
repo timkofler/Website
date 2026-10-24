@@ -11,7 +11,7 @@
 <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/bigshoulders.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/style.css?v=17ee6a2e">
-<link rel="stylesheet" href="assets/v2.css?v=2">
+<link rel="stylesheet" href="assets/v2.css?v=3">
 <script src="assets/early.js?v=2"></script>
 <script type="application/ld+json">
 {
@@ -613,7 +613,7 @@
 </svg>
 
 <script src="assets/app.js?v=8" defer></script>
-<script src="assets/portal.js?v=2" defer></script>
+<script src="assets/portal.js?v=3" defer></script>
 <script type="module" src="assets/bunker3d.js?v=10"></script>
 </body>
 </html>
