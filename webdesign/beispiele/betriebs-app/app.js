@@ -25,12 +25,12 @@
 
   /* ---------------- Kopfbereich ---------------- */
   var APPS = [
-    { n: "Terminbuchung", p: 39, c: "#3b6cf6", i: "i-cal" },
+    { n: "Terminbuchung", s: "Termine", p: 39, c: "#3b6cf6", i: "i-cal" },
     { n: "Gutscheine", p: 29, c: "#ff5a1f", i: "i-gift" },
-    { n: "Stempelkarte", p: 35, c: "#9b5cff", i: "i-stamp" },
+    { n: "Stempelkarte", s: "Treue", p: 35, c: "#9b5cff", i: "i-stamp" },
     { n: "Angebote", p: 25, c: "#12a36b", i: "i-sign" },
     { n: "Rechnungen", p: 15, c: "#d99a00", i: "i-inv" },
-    { n: "Kundenkartei", p: 20, c: "#e64980", i: "i-users" },
+    { n: "Kundenkartei", s: "Kunden", p: 20, c: "#e64980", i: "i-users" },
     { n: "Website", p: 25, c: "#1098ad", i: "i-web" }
   ];
   var EXTRA = [{ n: "Stunden", c: "#5b6cff", i: "i-clock" }, { n: "Lager", c: "#6aa121", i: "i-box" }];
@@ -48,7 +48,7 @@
     APPS.concat(EXTRA).forEach(function (a, i) {
       var s = document.createElement("div");
       s.className = "slot";
-      s.innerHTML = '<i style="--c:' + a.c + '">' + ico(a.i) + "</i><span>" + a.n + "</span>";
+      s.innerHTML = '<i style="--c:' + a.c + '">' + ico(a.i) + "</i><span>" + (a.s || a.n) + "</span>";
       slotsEl.appendChild(s); slots.push(s);
       if (i >= APPS.length) return;
       var w = document.createElement("div");
@@ -86,7 +86,7 @@
       var p = progress(), now = (performance.now() - t0) / 1000;
       var q = ease(clamp((p - .1) / .6, 0, 1));
       var ph = clamp((p - .03) / .2, 0, 1);
-      hphone.style.setProperty("--po", (narrow ? ph : .25 + .75 * ph).toFixed(3));
+      hphone.style.setProperty("--po", (narrow ? ph : .5 + .5 * ph).toFixed(3));
       hphone.style.setProperty("--ps", (.86 + .14 * ease(ph)).toFixed(3));
       var paid = 0;
       geo.forEach(function (g, i) {
@@ -123,7 +123,7 @@
   /* ---------------- Kunden-App ---------------- */
   var BR = {
     beauty: {
-      name: "Studio Glanz", logo: "G", a: "#d63a74", al: "#fde8f1", ad: "#a8285a", url: "app.studio-glanz.at/buero",
+      name: "Studio Glanz", logo: "G", a: "#d63a74", a2: "#f472b6", a3: "#8f1d4a", url: "app.studio-glanz.at/buero",
       open: "Heute geöffnet bis 18 Uhr", closed: [0, 1], times: ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30"],
       tTitle: "Termin buchen", tWhat: "Leistung", tTab: "Termin", tTile: "Termine", tUnit: "Termin",
       svcs: [["Damenhaarschnitt", "45 Min.", 42], ["Herrenhaarschnitt", "30 Min.", 26], ["Färben & Schnitt", "2 Std.", 95], ["Maniküre", "45 Min.", 32]],
@@ -131,10 +131,11 @@
       loy: { n: 10, start: 6, rule: "Jeder 10. Haarschnitt gratis", reward: "Voll! Dein nächster Haarschnitt ist gratis.", what: "Haarschnitt" },
       offer: { t: "Brautstyling", no: "2026-041", tax: "inkl. 20 % USt.", items: [["Probetermin Frisur & Make-up", "ca. 2 Std.", 120], ["Brautfrisur am Hochzeitstag", "inkl. Anfahrt", 180], ["Make-up Braut", "langhaltend", 90], ["Frisur Trauzeugin", "", 65]] },
       base: { termin: 6, gutschein: 150, treue: 84, open: 2, ok: 1 },
+      plan: [["09:00", "Maria P.", "Damenhaarschnitt"], ["10:00", "Claudia W.", "Färben & Schnitt"], ["12:30", "Thomas R.", "Herrenhaarschnitt"], ["14:00", "Lena S.", "Maniküre"], ["15:30", "Sabine K.", "Damenhaarschnitt"], ["17:00", "Jakob M.", "Herrenhaarschnitt"]],
       seed: [["termin", "Termin: Damenhaarschnitt", "Sabine K. · morgen 10:30", "08:12"], ["gutschein", "Gutschein verkauft: 50 €", "Für Oma, von Jakob", "07:45"], ["angebot", "Angebot angenommen", "Hochsteckfrisur · Familie Berger", "gestern"]]
     },
     gastro: {
-      name: "Gasthaus Lindenhof", logo: "L", a: "#b45309", al: "#fdf1e3", ad: "#8a3f06", url: "app.gasthaus-lindenhof.at/buero",
+      name: "Gasthaus Lindenhof", logo: "L", a: "#c2620a", a2: "#f59e0b", a3: "#7a3a05", url: "app.gasthaus-lindenhof.at/buero",
       open: "Heute Küche bis 21 Uhr", closed: [1, 2], times: ["11:30", "12:00", "12:30", "13:00", "13:30", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30"],
       tTitle: "Tisch reservieren", tWhat: "Personen", tTab: "Tisch", tTile: "Reservierungen", tUnit: "Tisch",
       svcs: [["2 Personen", "", null], ["4 Personen", "", null], ["6 Personen", "", null], ["Gruppe", "bis 20 Personen, Extrastüberl", null]],
@@ -142,10 +143,11 @@
       loy: { n: 10, start: 3, rule: "Jedes 10. Mittagsmenü gratis", reward: "Voll! Dein nächstes Mittagsmenü ist gratis.", what: "Mittagsmenü" },
       offer: { t: "Geburtstagsfeier, 30 Personen", no: "2026-118", tax: "inkl. USt.", items: [["Aperitif mit Häppchen", "30 × 6,50 €", 195], ["3-Gänge-Menü", "30 × 34 €", 1020], ["Getränkepauschale", "30 × 18 €", 540], ["Geburtstagstorte", "vom Konditor im Ort", 120]] },
       base: { termin: 14, gutschein: 240, treue: 126, open: 3, ok: 2 },
+      plan: [["11:30", "Fam. Huber", "Tisch 3 · 4 Personen"], ["12:00", "Firma Leitner", "Extrastüberl · 12 Personen"], ["12:30", "Herbert L.", "Tisch 7 · Mittagsmenü"], ["18:00", "Fam. Wagner", "Tisch 5 · 4 Personen"], ["19:00", "Anna & Paul", "Tisch 2 · 2 Personen"], ["19:30", "Stammtisch", "Ecktisch · 8 Personen"]],
       seed: [["termin", "Reservierung: 4 Personen", "Fam. Wagner · heute 18:30", "09:02"], ["gutschein", "Gutschein verkauft: 80 €", "Für Peter, von den Kollegen", "08:20"], ["treue", "Stempel vergeben", "Mittagsmenü · Herbert L. (9/10)", "gestern"]]
     },
     hand: {
-      name: "Elektro Brunner", logo: "B", a: "#2563eb", al: "#e8efff", ad: "#1d4ed8", url: "app.elektro-brunner.at/buero",
+      name: "Elektro Brunner", logo: "B", a: "#2563eb", a2: "#38bdf8", a3: "#1e3a8a", url: "app.elektro-brunner.at/buero",
       open: "Heute erreichbar bis 17 Uhr", closed: [0, 6], times: ["08:00", "09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"],
       tTitle: "Termin vereinbaren", tWhat: "Worum geht es?", tTab: "Termin", tTile: "Termine", tUnit: "Termin",
       svcs: [["Besichtigung vor Ort", "für ein Angebot", 0], ["E-Check Wohnung", "ca. 1,5 Std.", 149], ["Störung / Reparatur", "Anfahrt + 1. Stunde", 89], ["Beratung Wallbox & PV", "ca. 1 Std.", 0]],
@@ -153,6 +155,7 @@
       loy: { n: 5, start: 2, rule: "Jede 5. Wartung zum halben Preis", reward: "Voll! Deine nächste Wartung kostet die Hälfte.", what: "Wartung" },
       offer: { t: "Elektrik Badsanierung", no: "2026-073", tax: "inkl. 20 % USt.", items: [["Leitungen und Dosen neu", "Material und Arbeit", 1180], ["FI-Schutzschalter", "inkl. Einbau und Prüfung", 210], ["LED-Spiegelleuchte", "", 260], ["Elektrische Fußbodenheizung", "4 m²", 640]] },
       base: { termin: 4, gutschein: 100, treue: 57, open: 4, ok: 1 },
+      plan: [["08:00", "Fam. Pichler", "Zählerkasten tauschen"], ["10:30", "M. Steiner", "E-Check Wohnung"], ["13:00", "Bäckerei Kornfeld", "Störung Backofen"], ["15:00", "Fam. Wagner", "Beratung Wallbox & PV"]],
       seed: [["angebot", "Angebot angenommen", "Zählerkasten neu · Fam. Pichler", "08:40"], ["termin", "Termin: E-Check Wohnung", "M. Steiner · Mi 10:00", "07:58"], ["gutschein", "Gutschein verkauft: 100 €", "Für Papa, Smart-Home-Beratung", "gestern"]]
     }
   };
@@ -167,7 +170,7 @@
   };
   if (!S || !S.d || !S.d.beauty) S = fresh();
   var save = function () { store.set(KEY, S); };
-  var app = $("[data-app]");
+  var app = $("[data-app]"), demo = $(".demo");
   if (!app) return;
   var B = function () { return BR[S.br]; }, D = function () { return S.d[S.br]; };
   var now = new Date();
@@ -213,6 +216,34 @@
 
   // Büro: Kacheln, Liste, Hinweis
   var feedEl = $("[data-o-feed]"), toastEl = $("[data-toast]"), toastT;
+  // Verlaufslinien der letzten Tage in den Kacheln (Musterwerte, der letzte Punkt ist der aktuelle Stand)
+  var sparkVals = function (k) {
+    var d = D(), cur = { termin: d.termin, gutschein: d.gutschein, treue: d.treue, angebot: d.open + d.ok }[k];
+    var form = { termin: [.7, .95, .6, 1.05, .8, 1.15], gutschein: [.35, .55, .45, .7, .6, .85], treue: [.84, .87, .89, .92, .94, .97], angebot: [.4, .7, .5, .9, .6, .8] }[k];
+    return form.map(function (f) { return Math.round(cur * f * 10) / 10; }).concat([cur]);
+  };
+  var spark = function (k, draw) {
+    var el = $('[data-spk="' + k + '"]'); if (!el) return;
+    var v = sparkVals(k), w = 120, h = 34, mn = Math.min.apply(null, v), mx = Math.max.apply(null, v), rg = mx - mn || 1;
+    var pts = v.map(function (x, i) { return [i / (v.length - 1) * w, 4 + (1 - (x - mn) / rg) * (h - 8)]; });
+    var dd = pts.map(function (p, i) { return (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1); }).join(""), last = pts[pts.length - 1];
+    el.innerHTML = '<path class="a" d="' + dd + "L" + w + " " + h + "L0 " + h + 'Z"/><path class="l" d="' + dd + '"/><circle cx="' + last[0] + '" cy="' + last[1].toFixed(1) + '" r="3"/>';
+    var l = el.querySelector(".l");
+    if (draw && !reduce && l.getTotalLength) { var len = Math.ceil(l.getTotalLength()); l.style.strokeDasharray = len; l.style.setProperty("--len", len); l.classList.add("draw"); }
+  };
+  var tmin = function (t) { return +t.slice(0, 2) * 60 + +t.slice(3); };
+  var renderPlan = function (freshT) {
+    var b = B(), d = D(), n = new Date(), nm = n.getHours() * 60 + n.getMinutes();
+    $("[data-o-plan]").textContent = b === BR.gastro ? "Heute reserviert" : "Heute im Kalender";
+    $("[data-o-date]").textContent = WD[n.getDay()] + ", " + n.getDate() + "." + (n.getMonth() + 1) + ".";
+    var list = b.plan.concat(d.today || []).slice().sort(function (x, y) { return tmin(x[0]) - tmin(y[0]); }), html = "", nowDone = false;
+    list.forEach(function (p) {
+      if (!nowDone && tmin(p[0]) > nm) { html += '<li class="now"><time>Jetzt</time><u></u></li>'; nowDone = true; }
+      html += '<li class="' + (tmin(p[0]) <= nm ? "past" : "") + (p[0] === freshT ? " new" : "") + '"><time>' + p[0] + "</time><i></i><div><b>" + esc(p[1]) + "</b><span>" + esc(p[2]) + "</span></div></li>";
+    });
+    if (!nowDone) html += '<li class="now"><time>Jetzt</time><u></u></li>';
+    $("[data-o-planlist]").innerHTML = html;
+  };
   var renderOffice = function () {
     var b = B(), d = D();
     $("[data-o-url]").textContent = b.url;
@@ -228,15 +259,39 @@
       return '<li' + (e.fresh ? ' class="new"' : "") + '><i style="--c:' + COLORS[e.k] + '">' + ico(ICONS[e.k]) + "</i><div><b>" + esc(e.t) + "</b><span>" + esc(e.s) + "</span></div><time>" + esc(e.at) + "</time></li>";
     }).join("");
     d.feed.forEach(function (e) { e.fresh = false; });
+    ["termin", "gutschein", "treue", "angebot"].forEach(function (k) { spark(k, false); });
+    renderPlan();
   };
-  var event = function (k, t, s) {
+  var tapAt = null;
+  app.addEventListener("pointerdown", function (e) { tapAt = { x: e.clientX, y: e.clientY }; }, true);
+  var fly = function (k, done) {
+    var tile = $('[data-tile="' + k + '"]'), tr = tile.getBoundingClientRect(), pr = $(".play__phone .phone").getBoundingClientRect();
+    var from = tapAt && tapAt.x >= pr.left && tapAt.x <= pr.right ? tapAt : { x: pr.left + pr.width / 2, y: pr.top + pr.height * .45 };
+    var to = { x: tr.left + 30, y: tr.top + 26 };
+    var seen = tr.top > 0 && tr.bottom < innerHeight && from.y > 0 && from.y < innerHeight;
+    if (reduce || !seen || !document.body.animate || innerWidth <= 920) { done(); return; }
+    var f = document.createElement("span");
+    f.className = "fly"; f.style.setProperty("--c", COLORS[k]); f.innerHTML = ico(ICONS[k]);
+    document.body.appendChild(f);
+    var mx = (from.x + to.x) / 2, my = Math.min(from.y, to.y) - 120;
+    f.animate([
+      { transform: "translate(" + from.x + "px," + from.y + "px) scale(.3)", opacity: 0 },
+      { transform: "translate(" + from.x + "px," + (from.y - 30) + "px) scale(1)", opacity: 1, offset: .16 },
+      { transform: "translate(" + mx + "px," + my + "px) scale(1.08) rotate(-8deg)", offset: .56 },
+      { transform: "translate(" + to.x + "px," + to.y + "px) scale(.55)", opacity: .9 }
+    ], { duration: 820, easing: "cubic-bezier(.45,.05,.3,1)" }).onfinish = function () { f.remove(); done(); };
+  };
+  var event = function (k, t, s, todayT) {
     var d = new Date(), at = d.getHours() + ":" + pad(d.getMinutes());
     D().feed.unshift({ k: k, t: t, s: s, at: at, fresh: true });
     D().feed = D().feed.slice(0, 12);
-    save(); renderOffice();
+    save();
     var tile = $('[data-tile="' + k + '"]');
-    tile.classList.remove("flash"); void tile.offsetWidth; tile.classList.add("flash");
-    setTimeout(function () { tile.classList.remove("flash"); }, 1600);
+    fly(k, function () {
+      renderOffice(); spark(k, true); if (todayT) renderPlan(todayT);
+      tile.classList.remove("flash"); void tile.offsetWidth; tile.classList.add("flash");
+      setTimeout(function () { tile.classList.remove("flash"); }, 1600);
+    });
     $("[data-toast-t]").textContent = "Im Büro: " + t;
     $("[data-toast-s]").textContent = s;
     var o = $(".office").getBoundingClientRect();
@@ -309,7 +364,9 @@
     $("[data-t-form]").hidden = true; $("[data-t-done]").hidden = false; $("[data-body]").scrollTop = 0;
     D().termin++;
     var short = name.split(/\s+/); short = short[0] + (short[1] ? " " + short[1][0] + "." : "");
-    event("termin", (b === BR.gastro ? "Reservierung: " : "Termin: ") + s[0], short + " · " + dt + " " + T.slot);
+    var isToday = dkey(T.day) === dkey(new Date());
+    if (isToday) { D().today = (D().today || []).concat([[T.slot, short, s[0]]]); }
+    event("termin", (b === BR.gastro ? "Reservierung: " : "Termin: ") + s[0], short + " · " + dt + " " + T.slot, isToday ? T.slot : null);
   });
   $("[data-t-again]").addEventListener("click", function () { T = { svc: null, day: null, slot: null }; tName.value = ""; $("[data-t-form]").hidden = false; $("[data-t-done]").hidden = true; renderTermin(); });
 
@@ -335,7 +392,7 @@
   var voucher = function (b, amt, to, from, code) {
     var W = 1200, H = 720, c = document.createElement("canvas"); c.width = W; c.height = H;
     var x = c.getContext("2d");
-    var g = x.createLinearGradient(0, 0, W, H); g.addColorStop(0, b.a); g.addColorStop(1, b.ad);
+    var g = x.createLinearGradient(0, 0, W, H); g.addColorStop(0, b.a); g.addColorStop(1, b.a3);
     rrect(x, 0, 0, W, H, 48); x.fillStyle = g; x.fill();
     x.save(); rrect(x, 0, 0, W, H, 48); x.clip();
     var rg = x.createRadialGradient(W * .9, 0, 10, W * .9, 0, 700); rg.addColorStop(0, "rgba(255,255,255,.28)"); rg.addColorStop(1, "rgba(255,255,255,0)");
@@ -455,7 +512,7 @@
   // Branche wechseln
   var applyBranch = function () {
     var b = B();
-    app.style.setProperty("--a", b.a); app.style.setProperty("--al", b.al); app.style.setProperty("--ad", b.ad);
+    demo.style.setProperty("--vc", b.a); demo.style.setProperty("--vc2", b.a2);
     $("[data-b-logo]").textContent = b.logo; $("[data-b-name]").textContent = b.name; $("[data-b-open]").textContent = b.open;
     $$("[data-br]").forEach(function (x) { x.setAttribute("aria-pressed", x.getAttribute("data-br") === S.br ? "true" : "false"); });
     T = { svc: null, day: null, slot: null }; G.amt = null;
@@ -465,6 +522,20 @@
   $$("[data-br]").forEach(function (x) { x.addEventListener("click", function () { S.br = x.getAttribute("data-br"); save(); applyBranch(); }); });
   addEventListener("resize", function () { if (tab === "angebot") sizeSig(); });
   applyBranch();
+
+  // Hell/Dunkel-Schalter im Büro (gilt für die ganze Seite)
+  var root = document.documentElement, sw = $("[data-theme-sw]");
+  var isLight = function () { var t = root.getAttribute("data-theme"); return t ? t === "light" : !!(window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches); };
+  var syncSw = function () { var l = isLight(); sw.setAttribute("aria-checked", l); sw.setAttribute("aria-label", l ? "Dunkle Ansicht" : "Helle Ansicht"); };
+  try { var th = localStorage.getItem("ba-theme"); if (th === "light" || th === "dark") root.setAttribute("data-theme", th); } catch (e) {}
+  syncSw();
+  sw.addEventListener("click", function () {
+    var t = isLight() ? "dark" : "light";
+    root.setAttribute("data-theme", t); syncSw();
+    try { localStorage.setItem("ba-theme", t); } catch (e) {}
+  });
+  if (window.matchMedia) { var mq = matchMedia("(prefers-color-scheme: light)"); if (mq.addEventListener) mq.addEventListener("change", syncSw); }
+  setInterval(function () { renderPlan(); }, 60000);
 
   /* ---------------- Abo-Rechner ---------------- */
   var SUBS = [
