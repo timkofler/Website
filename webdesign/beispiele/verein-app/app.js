@@ -317,6 +317,8 @@
   var desk = $(".desk"), fullB = $("[data-full]");
   function setFull(on) {
     desk.classList.toggle("is-full", on);
+    // Hinweise müssen im Vollbild-Element liegen, sonst zeigt der Browser sie nicht
+    (on ? desk : document.body).appendChild($("[data-toast]"));
     document.documentElement.classList.toggle("va-full", on);
     fullB.setAttribute("aria-pressed", on);
     $("[data-full-t]").textContent = on ? "Vollbild beenden" : "Vollbild";
@@ -839,6 +841,7 @@
   var drag = null;
   document.addEventListener("pointerdown", function (e) {
     var c = e.target.closest(".pool [data-hc]"); if (!c || e.button > 0) return;
+    if (drag) endDrag(e, true);
     drag = { c: c, nr: +c.getAttribute("data-hc"), x: e.clientX, y: e.clientY, ghost: null, over: null };
   });
   document.addEventListener("pointermove", function (e) {
@@ -848,12 +851,15 @@
       var r = drag.c.getBoundingClientRect();
       drag.dx = drag.x - r.left; drag.dy = drag.y - r.top;
       drag.ghost = drag.c.cloneNode(true); drag.ghost.classList.add("drag"); drag.ghost.classList.remove("sel");
-      document.body.appendChild(drag.ghost); drag.c.classList.add("ghost");
+      // Im Vollbild zeigt der Browser nur das Vollbild-Element, der Name muss also dort hinein
+      (document.fullscreenElement || document.body).appendChild(drag.ghost); drag.c.classList.add("ghost");
     }
     drag.ghost.style.left = (e.clientX - drag.dx) + "px"; drag.ghost.style.top = (e.clientY - drag.dy) + "px";
     var t = document.elementFromPoint(e.clientX, e.clientY), sh = t && t.closest("[data-shift]");
     if (drag.over && drag.over !== sh) drag.over.classList.remove("over");
-    if (sh && !sh.classList.contains("full")) { sh.classList.add("over"); drag.over = sh; } else drag.over = null;
+    if (drag.no && drag.no !== sh) drag.no.classList.remove("no");
+    drag.no = sh && sh.classList.contains("full") ? sh : null; if (drag.no) drag.no.classList.add("no");
+    if (sh && !drag.no) { sh.classList.add("over"); drag.over = sh; } else drag.over = null;
   });
   function endDrag(e, cancel) {
     if (!drag) return;
@@ -863,6 +869,7 @@
       S.help.sel = S.help.sel === d.nr ? null : d.nr; renderHelp(); return;
     }
     d.ghost.remove(); d.c.classList.remove("ghost");
+    if (d.no) { d.no.classList.remove("no"); if (!cancel) toast(d.no.querySelector("b").textContent + " ist schon voll", "eine Schicht mit freiem Platz wählen"); }
     if (d.over) { d.over.classList.remove("over"); if (!cancel && assign(d.nr, d.over.getAttribute("data-shift"))) feed("pop", "i-heart", findMem(d.nr).name + " hilft beim " + S.help.ev.t + " (" + S.help.shifts.filter(function (x) { return x.id === d.over.getAttribute("data-shift"); })[0].t + ")"); }
   }
   document.addEventListener("pointerup", function (e) { endDrag(e, false); });

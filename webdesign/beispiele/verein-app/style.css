@@ -495,7 +495,7 @@ svg{flex:none}
 .att__hd small{font-size:12px;color:var(--mu);font-weight:600}
 .att__hd h4{font:800 22px/1.15 var(--hd);margin-top:2px}
 .att__n{text-align:right}
-.att__n b{display:block;font:800 30px/1 var(--hd);color:var(--ok)}
+.att__n b{display:block;font:800 30px/1 var(--hd);color:var(--popt)}
 .att__n span{font-size:12px;color:var(--mu)}
 .att{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin-top:12px}
 .att button{display:flex;align-items:center;gap:8px;min-width:0;padding:6px 10px 6px 6px;border:1px solid var(--line2);border-radius:12px;background:var(--bg2);color:var(--mu);font-size:13px;font-weight:600;text-align:left;transition:background .2s,border-color .2s,color .2s,transform .15s}
@@ -528,7 +528,7 @@ svg{flex:none}
 .hc.is-me i{background:var(--popl);color:var(--pop)}
 .hc.ghost{opacity:.35}
 .hc.drag{position:fixed;z-index:1000;pointer-events:none;cursor:grabbing;box-shadow:0 18px 30px -12px rgba(0,0,0,.6),0 0 0 2px var(--pop);transform:rotate(-4deg) scale(1.06)}
-.shifts{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:8px}
+.shifts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:8px}
 .sh{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:11px;transition:border-color .2s,background .2s,transform .2s}
 .sh__hd{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
 .sh__hd b{font-size:14px}
@@ -544,8 +544,9 @@ svg{flex:none}
 .slot{display:flex;align-items:center;gap:6px;min-height:34px;padding:0 10px;border:1.5px dashed color-mix(in srgb,var(--pop) 70%,transparent);border-radius:999px;color:var(--popt);font-size:12.5px;font-weight:700;background:var(--popl);animation:slot 2.2s ease-in-out infinite}
 .slot::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--pop);box-shadow:0 0 8px var(--pop)}
 @keyframes slot{0%,100%{box-shadow:0 0 0 0 transparent}50%{box-shadow:0 0 14px 1px color-mix(in srgb,var(--pop) 38%,transparent)}}
-.sh.full{border-color:color-mix(in srgb,var(--ok) 45%,transparent)}
-.sh.full .sh__hd small{color:var(--ok);font-weight:700}
+.sh.full{border-color:color-mix(in srgb,var(--popt) 40%,transparent)}
+.sh.full .sh__hd small{color:var(--popt);font-weight:700}
+.sh.no{border-color:color-mix(in srgb,var(--bad) 60%,transparent);animation:shp .4s ease}
 .sh.over{border-color:var(--pop);background:var(--popl);transform:scale(1.02)}
 .shifts.pick .sh:not(.full){cursor:pointer;border-color:color-mix(in srgb,var(--pop) 50%,transparent)}
 .sh.pulse{animation:shp .6s ease}
