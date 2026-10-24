@@ -560,8 +560,17 @@ body.kp:not(:has(.kp-auth)) .kp-main :is(.kp-card, .kp-tile, .kp-row, .kp-projek
   box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 26px 60px -38px rgba(0,0,0,.85); }
 body.kp:not(:has(.kp-auth)) .kp-main .kp-projekt { border-color: rgba(255,90,31,.32); box-shadow: inset 0 1px 0 rgba(255,160,110,.16), 0 30px 70px -40px rgba(255,90,31,.45); }
 body.kp:not(:has(.kp-auth)) .kp-main .kp-tile.is-active { border-color: var(--hot); box-shadow: inset 0 1px 0 rgba(255,170,120,.22), 0 12px 34px -16px rgba(255,90,31,.7); }
-.kp-main .kp-row { transition: border-color .25s, transform .25s, box-shadow .25s; }
-@media (hover: hover) { .kp-main .kp-row:hover { border-color: rgba(255,90,31,.38); transform: translateY(-1px); } }
+.kp-main .kp-row { transition: border-color .25s, transform .25s, box-shadow .25s, background-color .25s; }
+/* Mit der Maus über Zeilen und Kacheln: zart orange hinterlegt, Rand glüht leicht (nur Maus, am Handy bliebe es hängen) */
+@media (hover: hover) {
+  body.kp:not(:has(.kp-auth)) .kp-main :is(.kp-row, .kp-tile:not(.is-active)):hover {
+    border-color: rgba(255,90,31,.5); background-color: rgba(255,90,31,.07);
+    background-image: linear-gradient(135deg, rgba(255,90,31,.12), rgba(255,90,31,.02));
+    box-shadow: inset 0 1px 0 rgba(255,170,120,.14), 0 0 0 1px rgba(255,90,31,.12), 0 14px 36px -20px rgba(255,90,31,.6); }
+  .kp-main .kp-row:hover { transform: translateY(-1px); }
+}
+@media (hover: hover) and (prefers-reduced-transparency: reduce) {
+  body.kp:not(:has(.kp-auth)) .kp-main :is(.kp-row, .kp-tile:not(.is-active)):hover { background-color: #1a1310; } }
 .kp-main > .container > * { animation: kp-rise .6s cubic-bezier(.2,.8,.2,1) both; }
 .kp-main > .container > *:nth-child(2) { animation-delay: .05s; } .kp-main > .container > *:nth-child(3) { animation-delay: .1s; }
 .kp-main > .container > *:nth-child(4) { animation-delay: .15s; } .kp-main > .container > *:nth-child(n+5) { animation-delay: .2s; }
