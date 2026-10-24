@@ -1,4 +1,4 @@
-// Tim Kofler – Lesefortschritt, Dashboard-Vorschau und schwebender Hinweis auf die Beispielseiten.
+// Tim Kofler – Lesefortschritt, Verwaltungs-Vorschau und schwebender Hinweis auf die Beispielseiten.
 (function () {
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -18,28 +18,91 @@
   window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(progress); } }, { passive: true });
   progress();
 
-  // Dashboard-Vorschau: Balken wachsen und Zahlen zählen hoch, sobald der Abschnitt sichtbar ist
-  var apps = document.querySelector(".tk-apps");
-  if (apps && "IntersectionObserver" in window) {
+  // Verwaltungs-Vorschau: wechselt zwischen unseren Beispiel-Apps (Reiter), Zahlen zählen, Balken wachsen,
+  // ein Schalter springt um und „Speichern“ zeigt kurz die Bestätigung. Läuft nur, solange sie zu sehen ist.
+  var apps = document.querySelector(".tk-apps"), wrap = document.querySelector("[data-tkd]");
+  if (apps && wrap && "IntersectionObserver" in window) (function () {
+    var D = [
+      { url: "gasthaus-muster.at/verwaltung", hi: "Guten Morgen, Maria", k: [["Reservierungen heute", 18, "", "+4 seit gestern"], ["Neue Anfragen", 5, "", "2 unbeantwortet"], ["Besucher diese Woche", 1240, "", "+12 %"]],
+        ct: "Gäste pro Tag", h: [42, 58, 51, 73, 66, 92, 80], pk: 5, tip: "92 Gäste", lt: "Mittagsmenü", ls: "Woche 43",
+        r: ["Mo · Rindsuppe, Wiener Schnitzel", "Di · Gemüsestrudel mit Salat", "Mi · Schweinsbraten, Knödel"], sv: "Speichern · erscheint sofort auf der Webseite", go: "Gasthaus-App", href: "/beispiele/betriebs-app/#gastro" },
+      { url: "friseur-muster.at/verwaltung", hi: "Hallo, Sandra", k: [["Termine heute", 14, "", "3 online gebucht"], ["Freie Plätze", 4, "", "ab 14:30 Uhr"], ["Gutscheine verkauft", 9, "", "+2 diese Woche"]],
+        ct: "Termine pro Tag", h: [8, 62, 55, 70, 84, 95, 6], pk: 5, tip: "19 Termine", lt: "Online buchbar", ls: "Leistungen",
+        r: ["Damenschnitt & Föhnen", "Balayage & Pflege", "Herrenschnitt"], sv: "Speichern · sofort online buchbar", go: "Friseur-App", href: "/beispiele/betriebs-app/#beauty" },
+      { url: "haustechnik-muster.at/buero", hi: "Servus, Thomas", k: [["Offene Aufträge", 23, "", "5 neu heute"], ["Angebote offen", 7, "", "2 heute fällig"], ["Stunden diese Woche", 164, " h", "+8 %"]],
+        ct: "Arbeitsstunden pro Tag", h: [78, 86, 74, 92, 64, 14, 4], pk: 3, tip: "37 Stunden", lt: "Einsätze morgen", ls: "3 Monteure",
+        r: ["07:30 · Therme tauschen, Purgstall", "10:00 · Badsanierung, Scheibbs", "14:00 · Wartung Wärmepumpe"], sv: "Speichern · Monteure sehen es am Handy", go: "Büro-App", href: "/beispiele/dashboard/" },
+      { url: "autoverleih-muster.at/flotte", hi: "Hallo, Lena", k: [["Autos unterwegs", 12, "", "von 16"], ["Abholungen heute", 5, "", "nächste um 10:30"], ["Umsatz diese Woche", 4380, " €", "+14 %"]],
+        ct: "Buchungen pro Tag", h: [48, 52, 57, 64, 88, 96, 72], pk: 5, tip: "24 Buchungen", lt: "Flotte", ls: "heute buchbar",
+        r: ["Kombi Elektro · W-LD 214", "SUV Elektro · W-LD 377", "Kleinbus 9 Sitze · W-LD 509"], sv: "Speichern · sofort online buchbar", go: "Autovermietung", href: "/beispiele/dashboard/v2/" },
+      { url: "verein-muster.at/verwaltung", hi: "Hallo, Peter", k: [["Mitglieder", 248, "", "+6 dieses Jahr"], ["Beiträge bezahlt", 212, "", "36 noch offen"], ["Helfer fürs Fest", 31, "", "9 werden gesucht"]],
+        ct: "Anmeldungen Sommerfest", h: [30, 44, 38, 52, 61, 90, 72], pk: 5, tip: "54 Anmeldungen", lt: "Helfer Sommerfest", ls: "3 Schichten",
+        r: ["Schank · 14 bis 18 Uhr", "Grill · 16 bis 20 Uhr", "Kassa · 18 bis 22 Uhr"], sv: "Speichern · Mitglieder sehen es sofort", go: "Vereins-App", href: "/beispiele/verein-app/" },
+      { url: "pension-muster.at/verwaltung", hi: "Guten Morgen, Anna", k: [["Belegung heute", 85, " %", "11 von 13 Zimmern"], ["Anreisen heute", 4, "", "2 vor 15 Uhr"], ["Neue Anfragen", 6, "", "+3 seit gestern"]],
+        ct: "Belegung pro Tag", h: [62, 58, 66, 74, 92, 100, 70], pk: 5, tip: "100 % belegt", lt: "Online buchbar", ls: "Zimmer",
+        r: ["Doppelzimmer Zirbe", "Familienzimmer mit Balkon", "Einzelzimmer"], sv: "Speichern · Zimmer sofort buchbar", go: "Pension mit Buchung", href: "/beispiele/pension/#buchen" }
+    ];
+    var dash = wrap.querySelector(".tk-dash"), body = dash.querySelector(".tk-dash__body"), go = wrap.querySelector(".tk-dash__go");
+    var tabs = dash.querySelectorAll(".tk-dash__tabs button"), nums = dash.querySelectorAll(".tk-dash__kpis strong");
+    var bars = dash.querySelectorAll(".tk-dash__chart span"), chart = dash.querySelector(".tk-dash__chart");
+    var rows = dash.querySelectorAll(".tk-dash__menu p"), sw = dash.querySelectorAll(".tk-dash__menu p > i"), save = dash.querySelector(".tk-dash__save");
+    var K = {}; dash.querySelectorAll("[data-k]").forEach(function (el) { K[el.getAttribute("data-k")] = el; });
+    K.go = go.querySelector("[data-k]");
+    var cur = 0, shown = [18, 5, 1240], timers = [], seen = false, inView = false, hold = false, DUR = 8000;
+    var fmt = function (v, suf) { return v.toLocaleString("de-AT") + (suf ? "<span>" + suf + "</span>" : ""); };
+    function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
+    function clear() { timers.forEach(clearTimeout); timers = []; save.removeAttribute("data-s"); rows[2].classList.remove("is-flash"); }
+    function count(i, end, suf) {
+      var from = shown[i]; shown[i] = end;
+      if (reduce || from === end) { nums[i].innerHTML = fmt(end, suf); return; }
+      var t0 = performance.now();
+      (function tick(t) {
+        var p = Math.min(1, (t - t0) / 900), v = Math.round(from + (end - from) * (1 - Math.pow(1 - p, 3)));
+        nums[i].innerHTML = fmt(v, suf);
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+    }
+    function show(n) {
+      var d = D[n]; cur = n;
+      tabs.forEach(function (b, i) { b.classList.toggle("is-on", i === n); });
+      var tb = tabs[n]; tb.parentNode.scrollTo && tb.parentNode.scrollTo({ left: tb.offsetLeft - 40, behavior: reduce ? "auto" : "smooth" });
+      body.classList.add("is-out");
+      setTimeout(function () {
+        K.url.textContent = d.url; K.hi.textContent = d.hi; K.ct.textContent = d.ct; K.tip.textContent = d.tip;
+        K.lt.textContent = d.lt; K.ls.textContent = d.ls; K.sv.textContent = d.sv; K.go.textContent = d.go + " live ansehen"; go.href = d.href;
+        d.k.forEach(function (k, i) { K["k" + i].textContent = k[0]; K["d" + i].textContent = k[3]; count(i, k[1], k[2]); });
+        d.r.forEach(function (t, i) { K["r" + i].textContent = t; });
+        sw.forEach(function (s, i) { s.classList.toggle("is-on", i < 2); });
+        bars.forEach(function (b, i) { b.style.setProperty("--h", d.h[i] + "%"); b.classList.toggle("is-pk", i === d.pk); });
+        chart.style.setProperty("--px", d.pk); chart.style.setProperty("--py", d.h[d.pk]);
+        body.classList.remove("is-out");
+      }, reduce ? 0 : 200);
+    }
+    // Ablauf pro Beispiel: Schalter springt um, Speichern bestätigt, dann das nächste Beispiel
+    function play() {
+      clear();
+      dash.classList.remove("is-auto"); void dash.offsetWidth; setAuto();
+      if (reduce || !inView) return;
+      later(function () { sw[2].classList.add("is-on"); rows[2].classList.add("is-flash"); later(function () { rows[2].classList.remove("is-flash"); }, 500); }, 2400);
+      later(function () { save.setAttribute("data-s", "1"); }, 3400);
+      later(function () { save.setAttribute("data-s", "2"); }, 4300);
+      later(function () { save.removeAttribute("data-s"); }, 6200);
+      if (!hold) later(function () { show((cur + 1) % D.length); play(); }, DUR);
+    }
+    dash.style.setProperty("--tkd-dur", DUR + "ms");
+    function setAuto() { dash.classList.toggle("is-auto", !hold && !reduce && inView); }
+    tabs.forEach(function (b, i) {
+      b.addEventListener("click", function () { hold = true; setAuto(); if (i !== cur) show(i); play(); });
+    });
     var io = new IntersectionObserver(function (es) {
-      if (!es[0].isIntersecting) return;
-      io.disconnect();
-      apps.classList.add("is-visible");
-      if (reduce) return;
-      apps.querySelectorAll("[data-count]").forEach(function (el) {
-        var end = +el.getAttribute("data-count"), t0 = performance.now();
-        (function tick(t) {
-          var p = Math.min(1, (t - t0) / 1200), v = Math.round(end * (1 - Math.pow(1 - p, 3)));
-          el.textContent = v.toLocaleString("de-AT");
-          if (p < 1) requestAnimationFrame(tick);
-        })(t0);
-      });
-      // Schalter im Menü wechseln ab und zu, damit die Vorschau lebendig wirkt
-      var sw = apps.querySelectorAll(".tk-dash__menu i");
-      if (sw.length) setInterval(function () { sw[2].classList.toggle("is-on"); }, 2600);
-    }, { threshold: 0.25 });
-    io.observe(apps);
-  }
+      inView = es[0].isIntersecting;
+      if (inView && !seen) { seen = true; apps.classList.add("is-visible"); if (!reduce) [0, 1, 2].forEach(function (i) { shown[i] = 0; count(i, D[0].k[i][1], D[0].k[i][2]); }); }
+      setAuto();
+      if (inView) play(); else clear();
+    }, { threshold: 0.2 });
+    io.observe(wrap);
+    document.addEventListener("visibilitychange", function () { if (document.hidden) clear(); else if (inView) play(); });
+  })();
 
   // Text hellt sich beim Scrollen Wort für Wort auf ([data-tk-worte], wichtige Wörter in <b class="tk-w-k">).
   // Ohne JavaScript oder mit reduzierter Bewegung steht der Text ganz normal da.
