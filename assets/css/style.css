@@ -521,27 +521,95 @@ main p a:not(.btn), main li a:not(.btn), .faq__item p a, .glance dd a { text-dec
 .price .ticks { align-content: start; }
 @media (max-width: 900px) { #anfrage .form-aside { order: -1; } }
 
-/* ---------- Menüknopf am Handy als Münze (2026-10) ---------- */
-/* Dunkles Metall mit umlaufendem Lime-Rand; beim Öffnen dreht sich die Münze einmal und die Striche werden zum X. */
-@property --nt-a { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
-.nav-toggle { position: relative; border: 0; color: var(--lime); isolation: isolate;
-  background: radial-gradient(circle at 34% 28%, #3c3c3c 0%, #1a1a1a 46%, #0b0b0b 100%);
-  box-shadow: inset 0 2px 3px rgba(255,255,255,.16), inset 0 -4px 7px rgba(0,0,0,.7), 0 6px 16px rgba(0,0,0,.55), 0 0 18px rgba(220,247,99,.16);
-  transform: perspective(240px) rotateY(0deg); transition: transform .8s cubic-bezier(.2,.7,.2,1), box-shadow .3s; }
-.nav-toggle::before { content: ""; position: absolute; inset: 0; border-radius: 50%; padding: 2px; z-index: -1; pointer-events: none;
-  background: conic-gradient(from var(--nt-a), #dcf763, #3d4710 22%, #f3ffb5 38%, #3d4710 60%, #dcf763 80%, #3d4710);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-  animation: nt-spin 6s linear infinite; }
-.nav-toggle::after { content: ""; position: absolute; inset: 5px; border-radius: 50%; border: 1px solid rgba(220,247,99,.22); pointer-events: none; }
-.nav-toggle:hover { box-shadow: inset 0 2px 3px rgba(255,255,255,.16), inset 0 -4px 7px rgba(0,0,0,.7), 0 6px 16px rgba(0,0,0,.55), 0 0 26px rgba(220,247,99,.32); }
-.nav-toggle[aria-expanded="true"] { transform: perspective(240px) rotateY(360deg); }
-.nav-toggle svg { width: 18px; height: 18px; }
-.nav-toggle path { transform-origin: 12px 12px; transition: transform .35s cubic-bezier(.2,.7,.2,1) .2s, opacity .25s .2s; }
-.nav-toggle[aria-expanded="true"] .nt-1 { transform: translateY(5px) rotate(45deg); }
-.nav-toggle[aria-expanded="true"] .nt-2 { opacity: 0; transform: scaleX(0); }
-.nav-toggle[aria-expanded="true"] .nt-3 { transform: translateY(-5px) rotate(-45deg); }
-@keyframes nt-spin { to { --nt-a: 360deg; } }
-@media (prefers-reduced-motion: reduce) { .nav-toggle, .nav-toggle path { transition: none; } .nav-toggle::before { animation: none; } }
+/* ================= Kopfzeile wie tim-kofler.at (2026-10-24) ================= */
+/* PC: vier Punkte + „Mehr“, rechts Live-Demo und Beta testen. Beim Scrollen wird die Leiste zur schwebenden Glas-Kapsel.
+   Handy: runder Knopf, der sich beim Öffnen zur „Schließen“-Pille streckt, darunter Kachel-Menü (#mnav). Logik in main.js. */
+.nav { gap: 4px; }
+.nav__more { position: relative; }
+.nav__more-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border: 0; border-radius: 999px; background: none; color: var(--muted); font: 600 .95rem var(--body); cursor: pointer; white-space: nowrap; transition: color .2s, background .2s; }
+.nav__more-btn svg { width: 14px; height: 14px; color: var(--lime); transition: transform .25s; }
+.nav__more-btn:hover, .nav__more.is-open .nav__more-btn { color: var(--text); }
+.nav__more.is-open .nav__more-btn svg { transform: rotate(180deg); }
+.nav__drop { position: absolute; top: calc(100% + 14px); left: 50%; min-width: 230px; padding: 8px; display: grid; gap: 2px; border-radius: 18px; z-index: 2;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.015)), rgba(18,18,18,.96); border: 1px solid rgba(220,247,99,.3);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 24px 60px rgba(0,0,0,.6), 0 0 40px rgba(220,247,99,.1);
+  opacity: 0; visibility: hidden; transform: translate(-50%, -6px); transition: opacity .2s, transform .25s cubic-bezier(.2,.7,.2,1), visibility .2s; }
+.nav__drop::before { content: ""; position: absolute; top: -6px; left: 50%; width: 12px; height: 12px; background: #1a1a1a; border-left: 1px solid rgba(220,247,99,.3); border-top: 1px solid rgba(220,247,99,.3); transform: translateX(-50%) rotate(45deg); }
+.nav__drop::after { content: ""; position: absolute; left: 0; right: 0; top: -16px; height: 16px; } /* Brücke, damit die Maus den Weg nach unten schafft */
+.nav__more.is-open .nav__drop { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+@media (hover: hover) { .nav__more:hover .nav__drop { opacity: 1; visibility: visible; transform: translate(-50%, 0); } .nav__more:hover .nav__more-btn { color: var(--text); } .nav__more:hover .nav__more-btn svg { transform: rotate(180deg); } }
+.nav .nav__drop a { display: block; padding: 11px 14px; border-radius: 12px; color: var(--text); background: none; }
+.nav .nav__drop a:hover, .nav .nav__drop a.is-active { background: var(--lime-dim); color: var(--text); }
+.header__end { display: flex; align-items: center; gap: 10px; }
+.header__free { display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(220,247,99,.5); background: rgba(220,247,99,.07); color: var(--text); font-weight: 700; font-size: .9rem; white-space: nowrap; box-shadow: inset 0 1px 0 rgba(255,255,255,.07); transition: background .2s, border-color .2s; }
+.header__free:hover, .header__free.is-active { color: var(--text); background: rgba(220,247,99,.16); border-color: var(--lime); }
+.header__free i { font-style: normal; font-family: var(--mono); font-size: .58rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; background: var(--lime); color: var(--ink); padding: 3px 7px; border-radius: 999px; }
+@media (min-width: 1101px) {
+  .header { transition: background .35s, border-color .35s; }
+  .header__inner { transition: height .35s cubic-bezier(.2,.7,.2,1), max-width .35s cubic-bezier(.2,.7,.2,1), margin .35s cubic-bezier(.2,.7,.2,1), padding .35s, background .35s, border-color .35s, box-shadow .35s; border: 1px solid transparent; border-radius: 999px; }
+  .header__logo img { transition: width .35s cubic-bezier(.2,.7,.2,1), height .35s cubic-bezier(.2,.7,.2,1), transform .4s cubic-bezier(.2,.7,.2,1); }
+  /* Gleiche Gesamthöhe wie oben (76px), damit beim Umschalten nichts springt */
+  html.js .header.is-pill { background: transparent; border-bottom-color: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; pointer-events: none; }
+  html.js .header.is-pill::after { opacity: 0; }
+  .header.is-pill .header__inner { pointer-events: auto; height: 58px; max-width: 1000px; margin: 10px auto 8px; padding: 0 8px 0 18px;
+    background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.015)), rgba(15,15,15,.9); -webkit-backdrop-filter: blur(16px) saturate(1.4); backdrop-filter: blur(16px) saturate(1.4);
+    border-color: rgba(220,247,99,.32); box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 18px 50px rgba(0,0,0,.6), 0 0 30px rgba(220,247,99,.12);
+    transform: translateY(10px); animation: x-pill-in .6s cubic-bezier(.2,.8,.2,1); }
+  .header.is-pill .header__logo img { width: 36px; height: 36px; }
+  .header.is-pill .nav > a, .header.is-pill .nav__more-btn { padding: 7px 11px; font-size: .9rem; }
+  .header.is-pill .header__free { min-height: 40px; }
+  .header.is-pill .header__free i { display: none; }
+  .header.is-pill .header__cta { min-height: 40px; }
+  .header.is-pill .nav__drop { top: calc(100% + 12px); }
+}
+@media (min-width: 1101px) and (max-width: 1200px) { .nav > a, .nav__more-btn { padding: 8px 11px; } .header__free i { display: none; } }
+
+.nav-toggle { position: relative; display: none; align-items: center; justify-content: flex-end; width: 44px; height: 44px; padding: 0; border-radius: 999px; border: 1px solid rgba(220,247,99,.42); background: var(--surface-2); color: var(--text); cursor: pointer; overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 0 0 3px rgba(220,247,99,.07), 0 0 14px rgba(220,247,99,.14);
+  transition: width .45s cubic-bezier(.2,.7,.2,1), border-color .3s, background .3s, box-shadow .3s; }
+.nav-toggle:hover { border-color: rgba(220,247,99,.7); }
+.nav-toggle svg { flex: none; width: 42px; height: 20px; }
+.nav-toggle path { transform-box: fill-box; transform-origin: center; transition: transform .4s cubic-bezier(.2,.7,.2,1); }
+.nav-toggle .nt-3 { stroke: var(--lime); }
+.nav-toggle__t { position: absolute; left: 16px; top: 50%; font: 700 .9rem var(--body); white-space: nowrap; opacity: 0; transform: translate(8px, -50%); transition: opacity .2s, transform .3s; pointer-events: none; }
+.nav-toggle[aria-expanded="true"] { width: 126px; border-color: rgba(220,247,99,.6); background: rgba(220,247,99,.09); box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 0 22px rgba(220,247,99,.16); }
+.nav-toggle[aria-expanded="true"] .nav-toggle__t { opacity: 1; transform: translate(0, -50%); transition: opacity .25s .15s, transform .35s .15s; }
+.nav-toggle[aria-expanded="true"] .nt-1 { transform: translateY(3px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nt-3 { transform: translate(-2px, -3px) rotate(-45deg) scaleX(1.4); }
+.mnav { display: none; }
+@media (max-width: 1100px) {
+  .nav-toggle { display: inline-flex; }
+  .nav, .header__free, .header__cta { display: none !important; }
+  .mnav.is-open { display: block; position: absolute; top: 100%; left: 0; right: 0; max-height: calc(100vh - 76px); max-height: calc(100dvh - 76px); overflow-y: auto; overscroll-behavior: contain;
+    padding: 14px 16px 22px; background: linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,0) 40%), #0b0b0b; border-bottom: 1px solid var(--line); box-shadow: 0 30px 60px rgba(0,0,0,.6); animation: x-mnav .35s cubic-bezier(.2,.7,.2,1); }
+  .header:has(.mnav.is-open) { background: #0b0b0b; }
+  .mnav__free { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 12px 12px 16px; border-radius: 16px; border: 1px solid rgba(220,247,99,.45); background: radial-gradient(120% 140% at 100% 0%, rgba(220,247,99,.2), rgba(220,247,99,0) 60%), var(--surface); color: var(--text); box-shadow: inset 0 1px 0 rgba(255,255,255,.07); }
+  .mnav__free:hover { color: var(--text); border-color: var(--lime); }
+  .mnav__free span { display: grid; gap: 2px; }
+  .mnav__free i { display: inline-block; margin-left: 6px; vertical-align: 2px; font-style: normal; font-family: var(--mono); font-size: .56rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; background: var(--lime); color: var(--ink); padding: 3px 7px; border-radius: 999px; }
+  .mnav__free b { display: block; font-size: 1.05rem; }
+  .mnav__free small { color: var(--muted); font-size: .82rem; font-weight: 500; }
+  /* Tipp-Hinweis: Lime-Kreis mit Pfeil, der leicht pulsiert und nach rechts stupst */
+  .mnav__go { position: relative; flex: none; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: var(--lime); color: var(--ink); box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 0 16px rgba(220,247,99,.45); }
+  .mnav__go::before { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--lime); animation: x-go-ring 2.2s ease-out infinite; }
+  .mnav__go svg { width: 20px; height: 20px; animation: x-go-nudge 2.2s ease-in-out infinite; }
+  .mnav__k { margin: 18px 4px 8px; font-family: var(--mono); font-size: .64rem; letter-spacing: .2em; text-transform: uppercase; color: var(--lime); }
+  .mnav__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .mnav__grid a { padding: 13px 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,.085); background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.015)), var(--bg-2); color: var(--text); font-weight: 600; box-shadow: inset 0 1px 0 rgba(255,255,255,.06); transition: border-color .2s, background .2s; }
+  .mnav__grid a:hover, .mnav__grid a:active, .mnav__grid a.is-active { color: var(--text); border-color: rgba(220,247,99,.5); background: var(--lime-dim); }
+  .mnav__row { display: grid; grid-template-columns: auto 1fr; gap: 10px; margin-top: 18px; }
+  .mnav__tg { display: inline-flex; align-items: center; gap: 8px; min-height: 52px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line-2); color: var(--text); font-weight: 700; }
+  .mnav__tg:hover { color: var(--text); border-color: var(--lime); }
+  .mnav__tg svg { width: 20px; height: 20px; color: var(--lime); }
+}
+@keyframes x-pill-in { from { transform: translateY(-40px); opacity: 0; } to { transform: translateY(10px); opacity: 1; } }
+@keyframes x-go-ring { 0% { transform: scale(1); opacity: .8; } 70%, 100% { transform: scale(1.55); opacity: 0; } }
+@keyframes x-go-nudge { 0%, 55%, 100% { transform: none; } 70% { transform: translateX(4px); } 85% { transform: translateX(-1px); } }
+@keyframes x-mnav { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .nav-toggle, .nav-toggle path, .nav-toggle__t, .nav__drop, .header__inner, .header__logo img { transition: none !important; }
+  .mnav.is-open, .mnav__go::before, .mnav__go svg, .header.is-pill .header__inner { animation: none; }
+}
 
 /* Handy-Menü: "Beta testen" auf Lime mit dunkler Schrift statt grauer (Kontrast) */
 .nav a.nav__cta, .nav a.nav__cta:hover { color: var(--ink); background: var(--lime); justify-content: center; }

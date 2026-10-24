@@ -104,3 +104,121 @@ h2 .lime, h3 .lime { background: linear-gradient(100deg, #dcf763 0%, #ecff9e 55%
   .hero__badge { font-size: .76rem; gap: 8px; padding-right: 12px; white-space: nowrap; }
   .hero__badge span { font-size: .66rem; padding: 3px 8px; }
 }
+
+/* ===================== Glas-Optik =====================
+   Halbtransparente Flächen über einem ruhigen Lime-Licht im Hintergrund, helle Glaskante oben,
+   Lichtkante in Lime, die dem Zeiger folgt. Nur Lime und neutrales Weiß, keine weitere Farbe.
+   Unschärfe (backdrop-filter) nur an wenigen Stellen (Kopfleiste, Menü, Buttons), Karten brauchen sie nicht. */
+:root {
+  --g-bg: rgba(16,16,16,.58);
+  --g-sheen: linear-gradient(115deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.035) 42%, rgba(255,255,255,0) 54%), linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.015) 55%, rgba(255,255,255,.025));
+  --g-line: rgba(255,255,255,.085);
+  --g-line-2: rgba(255,255,255,.14);
+  --g-hi: inset 0 1px 0 rgba(255,255,255,.075);
+  --g-shadow: 0 24px 60px -28px rgba(0,0,0,.75);
+}
+
+/* Licht im Hintergrund, durch das die Glasflächen schimmern */
+body::before {
+  content: ""; position: fixed; z-index: -1; inset: -20vmax; pointer-events: none;
+  background:
+    radial-gradient(38vmax 30vmax at 18% 22%, rgba(220,247,99,.09), transparent 70%),
+    radial-gradient(34vmax 28vmax at 84% 34%, rgba(244,244,240,.045), transparent 70%),
+    radial-gradient(44vmax 32vmax at 62% 86%, rgba(220,247,99,.075), transparent 70%);
+  animation: g-aurora 34s ease-in-out infinite alternate;
+}
+@keyframes g-aurora { 0% { transform: translate3d(-3%, -2%, 0) rotate(0deg); } 100% { transform: translate3d(3%, 3%, 0) rotate(8deg); } }
+
+/* Je Abschnitt ein weiches Lime-Licht hinter den Glasflächen, abwechselnd links und rechts */
+main > .section:not(.section--glow)::before { content: ""; position: absolute; z-index: 0; pointer-events: none; width: min(820px, 75%); height: min(620px, 92%); top: 50%; left: 0; transform: translateY(-46%); border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(220,247,99,.11), rgba(220,247,99,.035) 55%, transparent); }
+main > .section:not(.section--glow):nth-of-type(even)::before { left: auto; right: 0; }
+main > .section > .container { position: relative; z-index: 1; }
+@media (max-width: 680px) { main > .section:not(.section--glow)::before { width: 92%; } }
+
+/* Kopfleiste: klareres Glas mit leuchtender Unterkante */
+.header { background: rgba(11,11,11,.78); -webkit-backdrop-filter: blur(18px) saturate(1.5); backdrop-filter: blur(18px) saturate(1.5); border-bottom-color: rgba(255,255,255,.07); }
+.header::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(220,247,99,.38) 30%, rgba(255,255,255,.22) 50%, rgba(220,247,99,.38) 70%, transparent); opacity: .7; }
+
+/* Gleitende Glas-Kapsel unter dem Menü (fx.js setzt Lage und Breite) */
+@media (min-width: 1101px) { .nav { position: relative; } }
+.nav__ind { position: absolute; left: 0; top: 50%; height: 38px; width: 0; margin-top: -19px; border-radius: 999px; pointer-events: none; z-index: 0; opacity: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.035)); border: 1px solid rgba(255,255,255,.12); box-shadow: var(--g-hi), 0 8px 22px -10px rgba(0,0,0,.8);
+  transform: translateX(var(--ix, 0)); transition: transform .45s cubic-bezier(.3,1.3,.5,1), width .45s cubic-bezier(.3,1.3,.5,1), opacity .25s ease; }
+.nav__ind::after { content: ""; position: absolute; left: 50%; bottom: -5px; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 10px 2px rgba(220,247,99,.65); }
+.nav.has-ind .nav__ind.is-on { opacity: 1; }
+.nav.has-ind > a, .nav.has-ind > a:hover, .nav.has-ind > a.is-active, .nav.has-ind .nav__more-btn { position: relative; z-index: 1; background: transparent; }
+@media (max-width: 1100px) { .nav__ind { display: none; } }
+
+/* Buttons: Lime als flüssige Kapsel, Rahmen-Button als Glas */
+.btn:not(.btn--line) { background-image: linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,0) 52%); box-shadow: inset 0 1px 0 rgba(255,255,255,.6), inset 0 -2px 6px rgba(0,0,0,.1), 0 8px 24px -10px rgba(220,247,99,.5); }
+.btn--line { background: rgba(255,255,255,.035); border-color: var(--g-line-2); box-shadow: var(--g-hi); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.btn--line:hover { background: rgba(255,255,255,.075); border-color: rgba(220,247,99,.55); }
+.band .btn--line { background: rgba(255,255,255,.24); border-color: rgba(11,11,11,.22); box-shadow: inset 0 1px 0 rgba(255,255,255,.55); }
+.band .btn--line:hover { background: rgba(255,255,255,.38); }
+.band .btn:not(.btn--line) { background-image: linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,0) 50%); box-shadow: inset 0 1px 0 rgba(255,255,255,.14), 0 10px 26px -12px rgba(0,0,0,.6); }
+
+/* Glas-Karten */
+.step, .post, .faq__item, .glance, .form, .callout, .planned, .beta__lists > div, .feature__shot, .hero__badge {
+  background: var(--g-sheen), var(--g-bg); border-color: var(--g-line); box-shadow: var(--g-hi), var(--g-shadow);
+}
+.callout--lime { background: linear-gradient(180deg, rgba(220,247,99,.13), rgba(220,247,99,.05)), var(--g-bg); border-color: rgba(220,247,99,.32); }
+.planned { border-style: dashed; border-color: var(--g-line-2); box-shadow: none; }
+.faq__item[open] { border-color: rgba(220,247,99,.28); }
+.faq__item summary:hover { color: #fff; }
+.post:hover { border-color: rgba(220,247,99,.55); }
+.beta { background: linear-gradient(180deg, rgba(220,247,99,.1), rgba(220,247,99,0) 70%), var(--g-sheen), rgba(16,16,16,.4); box-shadow: inset 0 1px 0 rgba(220,247,99,.18), var(--g-shadow); }
+.form input[type=text], .form input[type=email], .form input[type=tel], .form select, .form textarea { background-color: rgba(0,0,0,.32); border-color: var(--g-line-2); box-shadow: inset 0 1px 2px rgba(0,0,0,.35); }
+
+/* Kachel-Raster als eine Glasplatte: Haarlinien bleiben, Felder werden durchscheinend */
+.rules, .modules { background: var(--g-sheen), rgba(255,255,255,.07); border-color: var(--g-line); box-shadow: var(--g-hi), var(--g-shadow); }
+.rule, .module { background: rgba(13,13,13,.76); }
+.module:hover, .rule:hover { background: rgba(22,22,22,.66); }
+.xgrid { background: var(--g-sheen); border-color: var(--g-line); box-shadow: var(--g-hi), var(--g-shadow); }
+.xcell { background: rgba(12,12,12,.5); }
+.xcell:hover { background: rgba(24,24,24,.5); }
+.xcell:nth-child(1), .xcell:nth-child(2), .xcell:nth-child(odd) { border-color: var(--g-line); }
+.xcell .tag { background: rgba(255,255,255,.04); border-color: var(--g-line-2); box-shadow: var(--g-hi); }
+.xcell .tag--live { border-color: var(--lime); background: rgba(220,247,99,.08); }
+
+/* Lichtkante in Lime, die dem Zeiger folgt (Karten mit .fx-spot) */
+.rule::before, .module::before, .xcell::before, .post::before, .figure::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none; z-index: 1;
+  background: radial-gradient(200px circle at var(--mx, 50%) var(--my, 50%), rgba(220,247,99,.75), rgba(220,247,99,.12) 55%, transparent 75%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: 0; transition: opacity .35s ease;
+}
+.rule:hover::before, .module:hover::before, .xcell:hover::before, .post:hover::before, .figure:hover::before { opacity: 1; }
+.step:hover { border-color: rgba(220,247,99,.5); box-shadow: var(--g-hi), 0 0 0 1px rgba(220,247,99,.12), 0 30px 70px -30px rgba(220,247,99,.25); }
+
+/* Dashboard-Fenster und Handys: Glasrahmen */
+.window { background: rgba(14,14,14,.7); border-color: var(--g-line-2); }
+.window__bar { background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)), rgba(18,18,18,.7); border-bottom-color: var(--g-line); }
+.phone { background: linear-gradient(150deg, rgba(255,255,255,.16), rgba(255,255,255,.035) 40%, rgba(255,255,255,.07)), rgba(14,14,14,.6);
+  border-color: rgba(255,255,255,.16); box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 30px 70px rgba(0,0,0,.6), 0 0 0 1px rgba(220,247,99,.06); }
+.glass { background: var(--g-sheen), rgba(18,18,18,.55); border-color: var(--g-line-2); box-shadow: 0 30px 80px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.09); }
+
+/* Funktions-Tour: Reiter als Glas, aktiver Reiter als Lime-Kapsel */
+.tour__tab { background: rgba(255,255,255,.04); border-color: var(--g-line-2); box-shadow: var(--g-hi); }
+.tour__tab:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.22); }
+.tour__tab[aria-selected="true"] { background-image: linear-gradient(180deg, rgba(255,255,255,.3), rgba(255,255,255,0) 55%); box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 8px 22px -8px rgba(220,247,99,.55); }
+
+/* Zahlenleiste und Footer: leichte Glasfläche */
+.figures { background: var(--g-sheen); border-color: var(--g-line); }
+.figure { position: relative; border-left-color: var(--g-line); }
+.footer { background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0) 60%); border-top-color: var(--g-line); }
+
+@media (max-width: 900px) { .figure:nth-child(-n+2) { border-bottom-color: var(--g-line); } }
+@media (max-width: 680px) {
+  .xcell { border-bottom-color: var(--g-line); }
+  /* Am Handy ohne Unschärfe, dafür etwas deckender (spart Akku und ruckelt nicht) */
+  .btn--line { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(255,255,255,.06); }
+  .band .btn--line { background: rgba(255,255,255,.3); }
+}
+@media (prefers-reduced-motion: reduce) { body::before { animation: none; } .nav__ind { transition: opacity .2s; } }
+@media (prefers-reduced-transparency: reduce) {
+  .header { background: rgba(11,11,11,.97); }
+  .step, .post, .faq__item, .glance, .form, .callout, .beta__lists > div { background: var(--bg-2); }
+}
