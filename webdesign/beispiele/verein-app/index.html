@@ -19,7 +19,7 @@
 <link rel="apple-touch-icon" href="/assets/img/tk-badge-2-256.png">
 <link rel="preload" href="/beispiele/_shared/fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/beispiele/_shared/demo.css">
-<link rel="stylesheet" href="/beispiele/verein-app/style.css?v=15">
+<link rel="stylesheet" href="/beispiele/verein-app/style.css?v=16">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://tim-kofler.at/"},{"@type":"ListItem","position":2,"name":"Beispiele","item":"https://tim-kofler.at/beispiele/"},{"@type":"ListItem","position":3,"name":"Vereins-App","item":"https://tim-kofler.at/beispiele/verein-app/"}]},{"@type":"WebPage","@id":"https://tim-kofler.at/beispiele/verein-app/#seite","url":"https://tim-kofler.at/beispiele/verein-app/","name":"Vereinsverwaltung ohne Abo: Beispiel einer Vereins-App","description":"Mitglieder, Beiträge mit QR-Zahlschein, Termine mit Zusagen und Kassabuch in einer eigenen Vereins-App. Einmal gebaut, ohne monatliches Abo.","inLanguage":"de-AT","isPartOf":{"@id":"https://tim-kofler.at/#website"},"author":{"@id":"https://tim-kofler.at/#tim"}}]}</script>
 </head>
 <body>
@@ -369,11 +369,11 @@
                 </form>
                 <div class="lgn__step" data-lgn-2 hidden>
                   <p class="lgn__t"><svg aria-hidden="true"><use href="#i-shield"/></svg>Code aus der Authenticator-App</p>
-                  <p class="lgn__s">Sechs Ziffern, die Prüfung startet von selbst. In der Demo passt jeder Code.</p>
-                  <div class="otp" role="group" aria-label="Sechsstelliger Code" data-otp><input inputmode="numeric" maxlength="1" aria-label="Ziffer 1"><input inputmode="numeric" maxlength="1" aria-label="Ziffer 2"><input inputmode="numeric" maxlength="1" aria-label="Ziffer 3"><input inputmode="numeric" maxlength="1" aria-label="Ziffer 4"><input inputmode="numeric" maxlength="1" aria-label="Ziffer 5"><input inputmode="numeric" maxlength="1" aria-label="Ziffer 6"></div>
+                  <p class="lgn__s">Sechs Ziffern, die Prüfung startet von selbst. In der Demo passt jeder Code außer 000000.</p>
+                  <div class="otp" role="group" aria-label="Sechsstelliger Code" data-otp><input inputmode="numeric" maxlength="1" aria-label="Ziffer 1"><input inputmode="numeric" maxlength="1" aria-label="Ziffer 2"><input inputmode="numeric" maxlength="1" aria-label="Ziffer 3"><input inputmode="numeric" maxlength="1" aria-label="Ziffer 4"><input inputmode="numeric" maxlength="1" aria-label="Ziffer 5"><input inputmode="numeric" maxlength="1" aria-label="Ziffer 6"><span class="otp__m" aria-hidden="true"><svg class="otp__ok"><use href="#i-check"/></svg><svg class="otp__no"><use href="#i-x"/></svg></span></div>
+                  <p class="otp__st" role="status" aria-live="polite"></p>
                   <button type="button" class="lgn__link" data-otp-fill>Code für die Demo einfügen</button>
                 </div>
-                <div class="lgn__ok" data-lgn-ok hidden><span><svg aria-hidden="true"><use href="#i-check"/></svg></span><b>Angemeldet</b><small>Willkommen zurück im Vorstand.</small></div>
                 <button type="button" class="lgn__skip" data-lgn-skip>Ohne Anmeldung ansehen</button>
               </div>
             </div>
@@ -478,5 +478,5 @@
 
 <script src="/beispiele/_shared/demo.js?v=29766291" defer></script>
 <script src="/beispiele/_shared/vendor/qrcode-generator-2.0.4/qrcode.js" defer></script>
-<script src="/beispiele/verein-app/app.js?v=8" defer></script>
+<script src="/beispiele/verein-app/app.js?v=9" defer></script>
 </body></html>

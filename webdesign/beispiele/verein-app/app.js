@@ -326,13 +326,52 @@
     this.hidden = true; $("[data-lgn-2]").hidden = false;
     oIn[0].focus({ preventScroll: true });
   });
+  // Alle sechs Kästchen fahren langsam in der Mitte zu einem zusammen, daraus wird Häkchen (grün) oder Kreuz (rot).
+  var lCard = $(".lgn__card", lgn), lT = $(".lgn__t", lgn), lS = $(".lgn__s", lgn), oSt = $(".otp__st", lgn);
+  var lTxt = [lT.innerHTML, lS.textContent];
+  function oSwap(t, sub) {
+    [lT, lS].forEach(function (el) { el.classList.add("swap"); });
+    setTimeout(function () {
+      lT.innerHTML = t; lS.textContent = sub;
+      [lT, lS].forEach(function (el) { el.classList.remove("swap"); });
+    }, reduce ? 0 : 260);
+  }
+  function oMerge(good) {
+    var cx = otp.getBoundingClientRect(), mid = cx.left + cx.width / 2, ms = reduce ? 0 : 900;
+    otp.classList.add("merge"); lCard.classList.add("is-busy");
+    oIn.forEach(function (inp) {
+      inp.blur(); inp.readOnly = true;
+      var b = inp.getBoundingClientRect();
+      inp.animate([{ transform: "none" }, { transform: "translateX(" + (mid - b.left - b.width / 2) + "px)" }],
+        { duration: ms, easing: "cubic-bezier(.65,0,.3,1)", fill: "forwards", delay: reduce ? 0 : 180 });
+    });
+    setTimeout(function () {
+      otp.classList.add(good ? "done" : "bad");
+      lCard.classList.add(good ? "is-ok" : "is-bad");
+      oSt.textContent = good ? "Code bestätigt" : "Code falsch";
+    }, ms + (reduce ? 0 : 160));
+    return ms + 160;
+  }
+  function oReset() {
+    oIn.forEach(function (inp) { inp.getAnimations().forEach(function (a) { a.cancel(); }); inp.value = ""; inp.readOnly = false; });
+    otp.classList.remove("merge", "done", "bad"); lCard.classList.remove("is-bad", "is-busy");
+    oSt.textContent = ""; oSwap(lTxt[0], lTxt[1]); oBusy = false;
+    oIn[0].focus({ preventScroll: true });
+  }
   function oCheck() {
     if (oBusy || !oIn.every(function (i) { return /^\d$/.test(i.value); })) return;
-    oBusy = true; otp.classList.add("ok");
+    oBusy = true;
+    var good = oIn.map(function (i) { return i.value; }).join("") !== "000000", t = oMerge(good);
     setTimeout(function () {
-      $("[data-lgn-2]").hidden = true; $("[data-lgn-ok]").hidden = false; $("[data-lgn-skip]").hidden = true;
-      setTimeout(function () { lgnClose(false); }, 1100);
-    }, 450);
+      if (good) {
+        oSwap('<svg aria-hidden="true"><use href="#i-check"/></svg>Angemeldet', "Willkommen zurück im Vorstand.");
+        $("[data-lgn-skip]").hidden = true;
+        setTimeout(function () { lgnClose(false); }, reduce ? 600 : 1500);
+      } else {
+        oSwap('<svg aria-hidden="true"><use href="#i-x"/></svg>Der Code passt nicht', "Bitte noch einmal eingeben. Nach fünf Fehlversuchen wird kurz gesperrt.");
+        setTimeout(oReset, reduce ? 1200 : 1900);
+      }
+    }, t);
   }
   oIn.forEach(function (inp, k) {
     inp.addEventListener("input", function () {

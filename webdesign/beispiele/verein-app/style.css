@@ -872,16 +872,33 @@ svg{flex:none}
 .lgn__s{font-size:12.5px;color:var(--mu);margin:-4px 0 4px;line-height:1.4}
 .otp{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px}
 .otp input{width:100%;height:50px;text-align:center;border:1px solid var(--line2);border-radius:12px;background:color-mix(in srgb,var(--card) 55%,transparent);color:var(--ink);font:800 21px/1 var(--hd);caret-color:var(--vc);outline:none;padding:0;transition:border-color .2s,box-shadow .2s,background .3s}
-.otp.ok input{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 14%,transparent)}
+.otp{position:relative}
+.otp.merge input{color:transparent;caret-color:transparent;border-color:color-mix(in srgb,var(--vc) 60%,var(--line2));transition:color .25s,border-color .6s,background .6s,opacity .3s .1s}
+.otp.done input,.otp.bad input{opacity:0}
+.otp__m{position:absolute;top:0;left:50%;width:calc((100% - 35px)/6);height:50px;margin-left:calc((100% - 35px)/-12);display:grid;place-items:center;border-radius:12px;border:1px solid var(--line2);
+  background:color-mix(in srgb,var(--card) 55%,transparent);opacity:0;pointer-events:none;transition:opacity .2s,border-color .5s,background .5s,box-shadow .6s}
+.otp__m svg{position:absolute;width:22px;height:22px;opacity:0;transform:scale(.4)}
+.otp.done .otp__m{opacity:1;border-color:var(--ok);background:color-mix(in srgb,var(--ok) 18%,transparent);box-shadow:0 0 0 4px color-mix(in srgb,var(--ok) 16%,transparent),0 0 34px -4px color-mix(in srgb,var(--ok) 70%,transparent)}
+.otp.bad .otp__m{opacity:1;border-color:var(--bad);background:color-mix(in srgb,var(--bad) 16%,transparent);box-shadow:0 0 0 4px color-mix(in srgb,var(--bad) 14%,transparent),0 0 30px -6px color-mix(in srgb,var(--bad) 70%,transparent);animation:oshake .45s .1s}
+.otp.done .otp__ok,.otp.bad .otp__no{opacity:1;transform:none;transition:opacity .3s .15s,transform .55s .15s cubic-bezier(.3,1.6,.5,1)}
+.otp__ok{color:var(--ok)}.otp__no{color:var(--bad)}
+.otp__st{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);margin:0}
+@keyframes oshake{20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(2px)}}
+.lgn__t,.lgn__s{transition:opacity .26s,filter .26s,transform .26s}
+.lgn__t.swap,.lgn__s.swap{opacity:0;filter:blur(6px);transform:translateY(-3px)}
+/* Karte leuchtet nach dem Code grün (bzw. rot) auf, wie Licht hinter Milchglas */
+.lgn__card{position:relative;isolation:isolate}
+.lgn__card::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:-1;pointer-events:none;opacity:0;transition:opacity .9s ease,background .3s;
+  background:radial-gradient(90% 75% at 50% 62%,color-mix(in srgb,var(--ok) 30%,transparent),transparent 72%)}
+.lgn__card.is-ok::after{opacity:1}
+.lgn__card.is-bad::after{opacity:1;background:radial-gradient(90% 75% at 50% 62%,color-mix(in srgb,var(--bad) 24%,transparent),transparent 72%)}
+.lgn__link{transition:opacity .3s,visibility .3s}
+.lgn__card.is-busy .lgn__link{opacity:0;visibility:hidden}
+.lgn__card.is-ok{border-color:color-mix(in srgb,var(--ok) 40%,var(--g-b))}
+@media (prefers-reduced-motion:reduce){.otp.bad .otp__m{animation:none}}
 .lgn__link,.lgn__skip{justify-self:center;border:0;background:transparent;color:var(--mu);font-size:13px;text-decoration:underline;text-underline-offset:3px;padding:6px}
 .lgn__link:hover,.lgn__skip:hover{color:var(--ink)}
 .lgn__skip{display:block;margin:12px auto 0}
-.lgn__ok{display:grid;justify-items:center;gap:6px;margin-top:22px;text-align:center}
-.lgn__ok span{width:60px;height:60px;border-radius:50%;display:grid;place-items:center;color:var(--ok);background:color-mix(in srgb,var(--ok) 14%,transparent);box-shadow:0 0 0 1px color-mix(in srgb,var(--ok) 45%,transparent),0 0 30px -4px color-mix(in srgb,var(--ok) 60%,transparent);animation:okpop .5s cubic-bezier(.3,1.5,.5,1)}
-.lgn__ok span svg{width:28px;height:28px}
-.lgn__ok b{font:800 17px/1.2 var(--hd);color:var(--ink)}
-.lgn__ok small{color:var(--mu);font-size:13px}
-@keyframes okpop{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}
 .spark[data-spark="mem"]{--sc:var(--vc2)}
 /* Handy: App-Inhalt kompakter (Tim: "am Handy alles so riesig") */
 @media (max-width:720px){.app,.phone__st{zoom:.86}.desk__in{zoom:.84}}
