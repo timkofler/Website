@@ -168,6 +168,36 @@
     if (ev) downloadIcs(ev);
   });
 
+  // ---- Galerie mit der Maus ziehen (am Handy wischt man ohnehin) ----
+  document.querySelectorAll(".gallery__track").forEach(function (tr) {
+    var x0 = 0, s0 = 0, id = null, moved = false, vx = 0, lx = 0, lt = 0;
+    tr.classList.add("can-drag");
+    tr.addEventListener("dragstart", function (e) { e.preventDefault(); });
+    tr.addEventListener("pointerdown", function (e) {
+      if (e.pointerType !== "mouse" || e.button !== 0) return;
+      id = e.pointerId; x0 = lx = e.clientX; s0 = tr.scrollLeft; moved = false; vx = 0; lt = performance.now();
+    });
+    tr.addEventListener("pointermove", function (e) {
+      if (e.pointerId !== id) return;
+      var dx = e.clientX - x0;
+      if (!moved && Math.abs(dx) > 4) { moved = true; tr.classList.add("is-drag"); tr.setPointerCapture(id); }
+      if (!moved) return;
+      var now = performance.now(); vx = (e.clientX - lx) / Math.max(1, now - lt); lx = e.clientX; lt = now;
+      tr.scrollLeft = s0 - dx;
+    });
+    function end(e) {
+      if (e.pointerId !== id) return;
+      id = null; if (!moved) return;
+      // etwas Schwung mitnehmen, dann rastet das nächste Bild wieder ein
+      var go = tr.scrollLeft - vx * 260;
+      tr.classList.remove("is-drag");
+      tr.scrollTo({ left: go, behavior: reduce ? "auto" : "smooth" });
+    }
+    tr.addEventListener("pointerup", end);
+    tr.addEventListener("pointercancel", end);
+    tr.addEventListener("click", function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
+  });
+
   // ---- Videos: YouTube erst nach Klick laden (ohne Cookies) -----------
   document.querySelectorAll("[data-yt]").forEach(function (b) {
     b.addEventListener("click", function () {

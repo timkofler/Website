@@ -44,6 +44,7 @@ html:not(.v2) .v2only{display:none!important}
 .v2 .kicker{display:inline-flex;align-items:center;gap:8px;padding:7px 12px 7px 10px;border-radius:999px;background:rgba(79,230,225,.08);box-shadow:inset 0 0 0 1px rgba(79,230,225,.28);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);letter-spacing:.16em}
 .v2 .kicker::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
 .v2 .beat .kicker{background:rgba(10,10,12,.35)}
+.v2 .modal__form .kicker{justify-self:start;align-self:start;width:fit-content;max-width:calc(100% - 60px)}
 
 /* Knöpfe */
 .v2 .btn{border-radius:999px}
@@ -245,10 +246,30 @@ html:not(.v2) .v2only{display:none!important}
 .hc button:hover{color:#fff;background:rgba(255,61,154,.25)}
 .hc button svg{width:13px;height:13px}
 @keyframes hcin{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:none}}
-.sh__add{position:relative}
-.sh__add select{width:100%;min-height:42px;border:0;border-radius:12px;padding:0 38px 0 13px;appearance:none;-webkit-appearance:none;background:rgba(0,0,0,.25);color:var(--text);font:600 14px/1 var(--body);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);cursor:pointer;color-scheme:dark}
-.sh__add::after{content:"+";position:absolute;right:14px;top:50%;transform:translateY(-52%);font:700 20px/1 var(--body);color:var(--cyan);pointer-events:none}
-.sh__add select:focus{outline:none;box-shadow:inset 0 0 0 2px var(--cyan)}
+.sh{position:relative}
+.sh.is-dd{z-index:4}
+.dd{position:relative}
+.dd__btn{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:44px;padding:0 12px 0 14px;border:0;border-radius:13px;cursor:pointer;
+  background:linear-gradient(140deg,rgba(255,255,255,.08),rgba(255,255,255,.015) 60%),rgba(0,0,0,.22);color:var(--text);font:600 14px/1 var(--body);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.14),inset 0 1px 0 rgba(255,255,255,.12);transition:box-shadow .25s,background .25s}
+.dd__btn:hover{box-shadow:inset 0 0 0 1px rgba(79,230,225,.5),inset 0 1px 0 rgba(255,255,255,.12)}
+.dd__btn svg{width:18px;height:18px;color:var(--cyan);transition:transform .35s cubic-bezier(.3,1.4,.5,1)}
+.dd.is-open .dd__btn{box-shadow:inset 0 0 0 2px var(--cyan),0 0 22px -6px rgba(79,230,225,.7)}
+.dd.is-open .dd__btn svg{transform:rotate(45deg)}
+.dd__list{position:absolute;left:0;right:0;top:calc(100% + 8px);z-index:5;margin:0;padding:6px;list-style:none;max-height:288px;overflow:auto;overscroll-behavior:contain;border-radius:18px;
+  background:linear-gradient(150deg,rgba(255,255,255,.07),rgba(255,255,255,0) 45%) #14141c;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.14),inset 0 1px 0 rgba(255,255,255,.2),0 24px 60px -18px rgba(0,0,0,.9),0 0 50px -20px rgba(79,230,225,.45);
+  scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.2) transparent;transform-origin:50% 0;animation:ddin .26s cubic-bezier(.3,1.3,.5,1)}
+.dd__list[hidden]{display:none}
+@keyframes ddin{from{opacity:0;transform:translateY(-6px) scale(.97)}to{opacity:1;transform:none}}
+.dd__grp{padding:10px 10px 6px;font:700 10.5px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.dd__list [role="option"]{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:12px;cursor:pointer;outline:none;transition:background .15s}
+.dd__list [role="option"] .av{width:30px;height:30px;font-size:11px}
+.dd__list [role="option"] b{display:block;font-size:14px;line-height:1.25}
+.dd__list [role="option"] small{display:block;color:var(--muted);font-size:12px;line-height:1.3}
+.dd__list [role="option"].is-busy small{color:#ff8cc2}
+.dd__list [role="option"]:hover,.dd__list [role="option"]:focus{background:rgba(79,230,225,.1);box-shadow:inset 0 0 0 1px rgba(79,230,225,.35)}
+@media (prefers-reduced-motion:reduce){.dd__list{animation:none}}
 
 /* Mitglieder */
 .mtools{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px}
@@ -417,3 +438,9 @@ html:not(.v2) .v2only{display:none!important}
   .ptoast{bottom:calc(66px + env(safe-area-inset-bottom))}
 }
 @media (max-width:620px){.kp__t:last-child{grid-column:1/-1}}
+
+/* Galerie mit der Maus ziehen (beide Versionen) */
+.gallery__track.can-drag{cursor:grab}
+.gallery__track.is-drag{cursor:grabbing;scroll-snap-type:none;user-select:none}
+.gallery__track.is-drag img{pointer-events:none}
+.gallery__track img{-webkit-user-drag:none;user-select:none}
