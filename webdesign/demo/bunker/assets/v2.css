@@ -58,6 +58,7 @@ html:not(.v2) .v2only{display:none!important}
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.12),inset 0 1px 0 rgba(255,255,255,.16)}
 .v2 .nav.is-solid{background:linear-gradient(140deg,rgba(255,255,255,.09),rgba(255,255,255,.01) 55%),rgba(12,12,18,.62);box-shadow:inset 0 0 0 1px rgba(255,255,255,.13),inset 0 1px 0 rgba(255,255,255,.16),0 16px 40px -18px rgba(0,0,0,.8)}
 .v2 .nav__logo{width:38px;height:38px}
+.v2 .nav{padding-left:24px}
 .v2 .nav__links{gap:2px}
 .v2 .nav__links a{padding:10px 13px;border-radius:999px;transition:background .25s,color .25s}
 .v2 .nav__links a::after{display:none}
@@ -446,3 +447,6 @@ html:not(.v2) .v2only{display:none!important}
 .gallery__track.is-drag{cursor:grabbing;scroll-snap-type:none;user-select:none}
 .gallery__track.is-drag img{pointer-events:none}
 .gallery__track img{-webkit-user-drag:none;user-select:none}
+
+/* Logo im Menü etwas weiter eingerückt (Tim) */
+@media (max-width:620px){.v2 .nav{padding-left:16px}}
