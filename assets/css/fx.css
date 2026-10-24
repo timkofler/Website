@@ -59,8 +59,9 @@ h2 .lime, h3 .lime { background: linear-gradient(100deg, #dcf763 0%, #ecff9e 55%
 @keyframes fx-marquee { to { transform: translateX(-50%); } }
 
 /* Lesefortschritt oben */
-.fx-progress { position: fixed; top: 0; left: 0; height: 3px; width: 100%; z-index: 100; transform-origin: 0 50%; transform: scaleX(0);
-  background: linear-gradient(90deg, #b9d94a, #dcf763 60%, #f3ffb5); box-shadow: 0 0 12px rgba(220,247,99,.55); pointer-events: none; }
+/* Abschneiden statt Stauchen (clip-path setzt fx.js): mit scaleX wurde der Leuchtschein am Anfang zu einem hohen Fleck */
+.fx-progress { position: fixed; top: 0; left: 0; height: 3px; width: 100%; z-index: 100; clip-path: inset(0 100% -14px 0);
+  background: linear-gradient(90deg, #b9d94a, #dcf763 60%, #f3ffb5); box-shadow: 0 2px 10px rgba(220,247,99,.5); pointer-events: none; }
 
 ::selection { background: var(--lime); color: var(--ink); }
 

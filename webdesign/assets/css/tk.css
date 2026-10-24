@@ -1047,7 +1047,7 @@ html:not(.anf-js) .anf__panel--rr { margin-top: 30px; padding-top: 28px; border-
   .header .tk-logo img { transition: width .35s cubic-bezier(.2,.7,.2,1); }
   /* Gleiche Gesamthöhe wie oben (76px), damit beim Umschalten nichts springt. Höhere Gewichtung als der Kopf über der 3D-Szene. */
   html.js .header.is-pill { background: transparent; border-bottom-color: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; pointer-events: none; }
-  .header.is-pill .header__inner { pointer-events: auto; height: 58px; max-width: 1000px; margin: 10px auto 8px; padding: 0 8px 0 22px; background: rgba(17,17,17,.84); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border-color: rgba(255,90,31,.35); box-shadow: 0 18px 50px rgba(0,0,0,.6), 0 0 30px rgba(255,90,31,.16);
+  .header.is-pill .header__inner { pointer-events: auto; height: 58px; width: calc(100% - 64px); max-width: calc(var(--max) - 64px); margin: 10px auto 8px; padding: 0 8px 0 22px; background: rgba(17,17,17,.84); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border-color: rgba(255,90,31,.35); box-shadow: 0 18px 50px rgba(0,0,0,.6), 0 0 30px rgba(255,90,31,.16);
     transform: translateY(10px); animation: tk-pill-in .6s cubic-bezier(.2,.8,.2,1); }
   /* Kapsel schwebt beim Umschalten sichtbar von oben herein (transform ändert die Höhe nicht, nichts springt) */
   .header.is-pill .tk-logo img { width: 52px; height: auto; }
