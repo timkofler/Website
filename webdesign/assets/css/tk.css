@@ -1327,3 +1327,9 @@ html.tk-at-foot:not(.tk-menu-open) .header { opacity: 0; transform: translateY(-
 
 /* Web-Apps am Handy: Funktionsliste steht hinter der Karte (tk-ui.js) und geht darunter auf */
 @media (max-width: 680px) { .mf-home .mf-slot + .tk-feat { margin-top: 16px; } }
+
+/* Kästchen (Datenschutz, Rechner-Extras): dunkel mit feinem Rand, angehakt oranger Rand, oranger Haken, leichtes Leuchten (Tim 2026-10-24) */
+.form__check input, .tk-calc__opt input { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; margin: 1px 0 0; flex: none; border: 1.5px solid rgba(255,255,255,.28); border-radius: 6px; background: rgba(255,255,255,.04) center / 14px 14px no-repeat; cursor: pointer; transition: border-color .2s, background-color .2s, box-shadow .2s; }
+.form__check input:hover, .tk-calc__opt input:hover { border-color: rgba(255,90,31,.7); }
+.form__check input:checked, .tk-calc__opt input:checked { border-color: #ff5a1f; background-color: rgba(255,90,31,.14); box-shadow: 0 0 12px -2px rgba(255,90,31,.55); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff5a1f' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E"); }
+.form__check input:focus-visible, .tk-calc__opt input:focus-visible { outline: 2px solid #ff5a1f; outline-offset: 2px; }
