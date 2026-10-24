@@ -84,3 +84,17 @@ main .br-demos li > a:not(.btn), main .br-other li > a:not(.btn) { text-decorati
   .br-also__go { width: 36px; height: 36px; }
 }
 @media (prefers-reduced-motion: reduce) { .br-demos > li > a, .br-demo__go svg, .br-also__card, .br-also__go, .br-also__go svg { transition: none; } .br-also__card:hover { transform: none; } }
+
+/* Übersicht /webseite/: Web-Apps als Karten mit Querformat-Screenshot */
+.br-app__ph { display: block; aspect-ratio: 16 / 10; overflow: hidden; background: #0d0d0d; border-bottom: 1px solid var(--line); }
+.br-app__ph img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform .5s; }
+.br-apps > li > a:hover .br-app__ph img { transform: scale(1.03); }
+.br-app__tag { align-self: flex-start; margin: 16px 18px 0; font: 600 .66rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: #ffb27a; background: var(--hot-dim); border: 1px solid rgba(255,90,31,.35); border-radius: 999px; padding: 5px 9px; }
+.br-apps .br-hub__t { padding-top: 10px; }
+@media (max-width: 680px) {
+  .br-apps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .br-app__tag { margin: 10px 12px 0; font-size: .58rem; padding: 4px 7px; }
+  .br-apps .br-hub__t { padding: 8px 12px 4px; font-size: .9rem; hyphens: manual; }
+  .br-apps .br-hub__p { padding: 0 12px; }
+}
+@media (prefers-reduced-motion: reduce) { .br-app__ph img { transition: none; } .br-apps > li > a:hover .br-app__ph img { transform: none; } }
