@@ -108,6 +108,56 @@
     requestAnimationFrame(step);
   }
 
+  // Zählwerk: Jede Ziffer ist eine Spalte 0–9, die zur neuen Ziffer rollt (Idee aus moxen.cl, eigener Code).
+  // Der Farbverlauf läuft über den ganzen Betrag, deshalb bekommt jedes Zeichen seinen Ausschnitt des Verlaufs.
+  function roll(el, s) {
+    if (!el) return;
+    el.setAttribute("aria-label", s);
+    if (reduce || !el.getBoundingClientRect) { text(el, s); return; }
+    var shape = s.replace(/\d/g, "0");
+    if (el.getAttribute("data-roll") !== shape) {
+      el.textContent = "";
+      el.classList.add("tk-roll");
+      for (var i = 0; i < s.length; i++) {
+        var ch = s.charAt(i), c = document.createElement("i");
+        c.setAttribute("aria-hidden", "true");
+        if (/\d/.test(ch)) {
+          c.className = "tk-roll__d";
+          var col = document.createElement("i");
+          col.className = "tk-roll__col";
+          for (var k = 0; k < 10; k++) { var g = document.createElement("i"); g.textContent = k; col.appendChild(g); }
+          c.appendChild(col);
+        } else { c.className = "tk-roll__s"; c.textContent = ch === " " ? "\u00a0" : ch; }
+        el.appendChild(c);
+      }
+      el.setAttribute("data-roll", shape);
+      paintRoll(el);
+      void el.offsetWidth;
+    }
+    var cols = el.querySelectorAll(".tk-roll__col"), n = 0;
+    for (var j = 0; j < s.length; j++) {
+      var d = s.charAt(j);
+      if (!/\d/.test(d)) continue;
+      cols[n].style.transitionDelay = (n * 40) + "ms";
+      cols[n].style.transform = "translateY(-" + (+d * 10) + "%)";
+      n++;
+    }
+  }
+
+  function paintRoll(el) {
+    if (!el || !el.classList.contains("tk-roll")) return;
+    var box = el.getBoundingClientRect(), w = box.width;
+    Array.prototype.forEach.call(el.children, function (c) {
+      var off = c.getBoundingClientRect().left - box.left;
+      var glyphs = c.classList.contains("tk-roll__d") ? c.querySelectorAll(".tk-roll__col > i") : [c];
+      Array.prototype.forEach.call(glyphs, function (g) {
+        g.style.backgroundSize = w + "px 100%"; g.style.backgroundPosition = (-off) + "px 0";
+      });
+    });
+  }
+  window.addEventListener("resize", function () { paintRoll(amountEl); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { paintRoll(amountEl); });
+
   function render() {
     var r = calc();
     text(pagesOut, r.n + (r.n === 1 ? " Seite" : " Seiten"));
@@ -117,7 +167,7 @@
       refWrap.classList.toggle("is-on", !!(ref && ref.checked && r.refOk));
     }
     if (MODE === "genau") animateTo(r.sum);
-    else if (MODE === "spanne") text(amountEl, fmt(r.lo) + " bis " + fmt(r.hi));
+    else if (MODE === "spanne") roll(amountEl, fmt(r.lo) + " bis " + fmt(r.hi));
     text(pkgEl, r.paketName + " · " + r.n + (r.n === 1 ? " Seite" : " Seiten"));
     if (listEl) {
       listEl.innerHTML = "";
