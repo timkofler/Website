@@ -613,7 +613,7 @@
 </svg>
 
 <script src="assets/app.js?v=9" defer></script>
-<script src="assets/portal.js?v=4" defer></script>
+<script src="assets/portal.js?v=5" defer></script>
 <script type="module" src="assets/bunker3d.js?v=10"></script>
 </body>
 </html>
