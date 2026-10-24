@@ -35,7 +35,7 @@
 /* Vereinsfarbe (setzt app.js aus der gewählten Farbe): In der App ersetzt sie das Orange von tim-kofler.at. */
 .play{--acc:var(--acc-d);--acc-on:var(--acc-on-d);--pop:var(--acc);--popt:var(--acc);--popl:color-mix(in srgb,var(--acc) 15%,transparent);--on-pop:var(--acc-on)}
 /* Mitglieder-App am Handy: dunkel wie die Seite, hell mit dem Schalter oder am hellen Gerät */
-.phone__scr{--p-bg:#0b1020;--p-card:#151d33;--p-soft:#10172a;--p-ink:#eef2fb;--p-mu:#9aa6bf;--p-mu2:#76829c;--p-tx2:#b4bfd4;--p-tx3:#cdd5e4;--p-line:#2a3552;--p-line2:#222c45;--p-ok:#2fd39a;
+.phone__scr{--p-bg:color-mix(in srgb,var(--vc) 9%,#06080a);--p-card:color-mix(in srgb,var(--vc) 14%,#0d1012);--p-soft:color-mix(in srgb,var(--vc) 11%,#0a0d0f);--p-ink:#eef2fb;--p-mu:#9aa6bf;--p-mu2:#76829c;--p-tx2:#b4bfd4;--p-tx3:#cdd5e4;--p-line:color-mix(in srgb,var(--vc) 24%,#262b2f);--p-line2:color-mix(in srgb,var(--vc) 18%,#1d2226);--p-ok:#2fd39a;
   --p-vcl:color-mix(in srgb,var(--vc2) 24%,var(--p-card));--p-vct:color-mix(in srgb,var(--vc2) 62%,#fff)}
 @media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .play{--acc:var(--acc-l);--acc-on:var(--acc-on-l)}
   :root:not([data-theme="dark"]) .phone__scr{--p-bg:#f5f7fa;--p-card:#fff;--p-soft:#f1f4f8;--p-ink:#0f172a;--p-mu:#64748b;--p-mu2:#8391a7;--p-tx2:#475569;--p-tx3:#334155;--p-line:#dbe2ec;--p-line2:#e2e8f0;--p-ok:#0b6b48;--p-vcl:var(--vcl);--p-vct:var(--vc-tx)}}
@@ -752,12 +752,39 @@ svg{flex:none}
 .site__ft b{color:#64748b}
 
 /* Glas-Optik: ruhiger Schimmer in der Vereinsfarbe hinter Milchglas-Karten mit Lichtkante (Vorstand und Handy-App) */
-.desk__in{--bg2:rgba(13,20,40,.5);--g-b:rgba(255,255,255,.12);--g-hl:rgba(255,255,255,.1);--g-sh:rgba(255,255,255,.07);
-  background:radial-gradient(120% 55% at 50% -12%,color-mix(in srgb,var(--vc) 30%,transparent),transparent 70%),
-    linear-gradient(165deg,color-mix(in srgb,var(--vc) 10%,var(--card)) 0%,var(--card) 50%,color-mix(in srgb,var(--vc2) 12%,var(--card)) 100%)}
-.app{--p-card:rgba(21,29,51,.5);--g-b:rgba(255,255,255,.12);--g-hl:rgba(255,255,255,.1);--g-sh:rgba(255,255,255,.07)}
-.phone__scr{background:radial-gradient(140% 40% at 50% -6%,color-mix(in srgb,var(--vc) 36%,transparent),transparent 72%),
-    linear-gradient(170deg,var(--p-bg) 30%,color-mix(in srgb,var(--vc2) 14%,var(--p-bg)) 100%)}
+/* Dunkel wie Luma Drive: Grund in der Vereinsfarbe getönt (nicht mehr Blau), Aurora-Lichter dahinter, rauchiges Glas davor */
+.desk{--d-base:color-mix(in srgb,var(--vc) 9%,#06080a);--card:var(--d-base);--card2:color-mix(in srgb,var(--vc) 14%,#0c0f12);--bg:color-mix(in srgb,var(--vc) 6%,#040507);
+  --line:color-mix(in srgb,var(--vc) 22%,rgba(255,255,255,.09));--line2:color-mix(in srgb,var(--vc) 30%,rgba(255,255,255,.15))}
+.desk__in{--bg2:color-mix(in srgb,var(--d-base) 35%,transparent);--g-b:rgba(255,255,255,.14);--g-hl:rgba(255,255,255,.18);--g-sh:rgba(255,255,255,.13);
+  background:radial-gradient(120% 80% at 70% -10%,color-mix(in srgb,var(--vc) 26%,var(--d-base)) 0%,var(--d-base) 60%)}
+.app{--p-card:color-mix(in srgb,color-mix(in srgb,var(--vc) 14%,#0d1012) 45%,transparent);--g-b:rgba(255,255,255,.14);--g-hl:rgba(255,255,255,.18);--g-sh:rgba(255,255,255,.13)}
+.phone__scr{background:radial-gradient(130% 55% at 70% -8%,color-mix(in srgb,var(--vc) 30%,var(--p-bg)) 0%,var(--p-bg) 62%)}
+.aurora{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;border-radius:inherit}
+.aurora i{position:absolute;border-radius:50%;filter:blur(46px);opacity:.55;animation:drift 26s ease-in-out infinite alternate}
+.aurora i:nth-child(1){width:46%;aspect-ratio:1;left:-10%;top:8%;background:radial-gradient(closest-side,color-mix(in srgb,var(--vc) 60%,transparent),transparent)}
+.aurora i:nth-child(2){width:40%;aspect-ratio:1;right:-8%;top:38%;background:radial-gradient(closest-side,color-mix(in srgb,var(--vc2) 50%,transparent),transparent);animation-duration:32s;animation-delay:-8s}
+.aurora i:nth-child(3){width:36%;aspect-ratio:1;left:35%;top:70%;background:radial-gradient(closest-side,color-mix(in srgb,var(--vc) 38%,#fff 8%),transparent);animation-duration:38s}
+.phone__scr .aurora i{filter:blur(34px)}
+.phone__scr .aurora i:nth-child(1){width:90%;top:2%}
+.phone__scr .aurora i:nth-child(2){width:80%;top:42%}
+.phone__scr .aurora i:nth-child(3){width:70%;top:76%}
+@keyframes drift{to{transform:translate(12%,-14%) scale(1.15)}}
+@media (prefers-reduced-motion:reduce){.aurora i{animation:none}}
+.phone__st{position:relative;z-index:1}
+.kpi{position:relative;overflow:hidden}
+.kpi::after{content:"";position:absolute;left:-20%;right:-20%;bottom:-60%;height:90%;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--vc) 55%,transparent),transparent);opacity:.4;pointer-events:none}
+.kpi>*{position:relative;z-index:1}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]) .desk{--card:#fff;--card2:#eef2fa;--bg:#f4f6fb;--line:#dfe5f0;--line2:#cbd4e4}
+  :root:not([data-theme="dark"]) .desk__in{background:radial-gradient(120% 55% at 50% -12%,color-mix(in srgb,var(--vc) 30%,transparent),transparent 70%),linear-gradient(165deg,color-mix(in srgb,var(--vc) 10%,#fff) 0%,#fff 50%,color-mix(in srgb,var(--vc2) 12%,#fff) 100%)}
+  :root:not([data-theme="dark"]) .phone__scr{background:radial-gradient(140% 40% at 50% -6%,color-mix(in srgb,var(--vc) 36%,transparent),transparent 72%),linear-gradient(170deg,var(--p-bg) 30%,color-mix(in srgb,var(--vc2) 14%,var(--p-bg)) 100%)}
+  :root:not([data-theme="dark"]) .aurora{display:none}
+  :root:not([data-theme="dark"]) .kpi::after{opacity:.18}}
+:root[data-theme="light"] .desk{--card:#fff;--card2:#eef2fa;--bg:#f4f6fb;--line:#dfe5f0;--line2:#cbd4e4}
+:root[data-theme="light"] .desk__in{background:radial-gradient(120% 55% at 50% -12%,color-mix(in srgb,var(--vc) 30%,transparent),transparent 70%),linear-gradient(165deg,color-mix(in srgb,var(--vc) 10%,#fff) 0%,#fff 50%,color-mix(in srgb,var(--vc2) 12%,#fff) 100%)}
+:root[data-theme="light"] .phone__scr{background:radial-gradient(140% 40% at 50% -6%,color-mix(in srgb,var(--vc) 36%,transparent),transparent 72%),linear-gradient(170deg,var(--p-bg) 30%,color-mix(in srgb,var(--vc2) 14%,var(--p-bg)) 100%)}
+:root[data-theme="light"] .aurora{display:none}
+:root[data-theme="light"] .kpi::after{opacity:.18}
 @media (prefers-color-scheme: light){
   :root:not([data-theme="dark"]) .desk__in{--bg2:rgba(255,255,255,.55);--g-b:rgba(255,255,255,.85);--g-hl:#fff;--g-sh:rgba(255,255,255,.55)}
   :root:not([data-theme="dark"]) .app{--p-card:rgba(255,255,255,.58);--g-b:rgba(255,255,255,.9);--g-hl:#fff;--g-sh:rgba(255,255,255,.55)}}
@@ -767,7 +794,7 @@ svg{flex:none}
 .side,.desk__in :is(.kpi,.box,.tbl,.srch,.dev,.report,.calc__card,.sh,.pin,.docs,.mcard,.pk,.eig,.sws button,.jub li,.sent li),
 .app :is(.ev,.due,.pin,.docs,.mcard,.jub li,.fld,.chips button,.ev__btn button),.tabs{
   -webkit-backdrop-filter:blur(22px) saturate(1.6);backdrop-filter:blur(22px) saturate(1.6)}
-.desk__in :is(.kpi,.box,.tbl,.srch,.dev,.report,.calc__card,.sh,.pin,.docs,.mcard){border-color:var(--g-b);box-shadow:inset 0 1px 0 var(--g-hl),0 16px 36px -22px rgba(4,8,20,.55)}
+.desk__in :is(.kpi,.box,.tbl,.srch,.dev,.report,.calc__card,.sh,.pin,.docs,.mcard){border-color:var(--g-b);box-shadow:inset 0 1px 0 var(--g-hl),0 24px 50px -28px rgba(0,0,0,.85)}
 .app :is(.ev,.due){box-shadow:inset 0 0 0 1px var(--g-b),inset 0 1px 0 var(--g-hl),0 10px 24px -16px rgba(4,8,20,.45)}
 .tabs{border-top-color:var(--g-b);box-shadow:inset 0 1px 0 var(--g-hl)}
 .tbl th{background:color-mix(in srgb,var(--card2) 92%,transparent)}
@@ -776,7 +803,7 @@ svg{flex:none}
 .app{position:relative}
 .app__body{padding-bottom:92px}
 .tabs{position:absolute;left:10px;right:10px;bottom:12px;z-index:5;padding:9px 4px 7px;border:1px solid var(--g-b);border-radius:24px;
-  background:var(--g-bar,rgba(18,25,45,.9));box-shadow:inset 0 1px 0 var(--g-hl),0 14px 30px -14px rgba(4,8,20,.6)}
+  background:var(--g-bar,color-mix(in srgb,color-mix(in srgb,var(--vc) 12%,#0b0e10) 90%,transparent));box-shadow:inset 0 1px 0 var(--g-hl),0 14px 30px -14px rgba(4,8,20,.6)}
 @media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .tabs{--g-bar:rgba(255,255,255,.9)}}
 :root[data-theme="light"] .tabs{--g-bar:rgba(255,255,255,.9)}
 .tabs__blob{top:-6px;left:0;width:42px;height:42px;border-radius:50%;
@@ -790,7 +817,7 @@ svg{flex:none}
 @media (prefers-reduced-motion:reduce){.tabs button svg{transition:none}}
 .app::after{content:"";position:absolute;left:0;right:0;bottom:0;height:64px;z-index:4;pointer-events:none;background:linear-gradient(to bottom,transparent,var(--p-bg) 75%)}
 .tabs button[aria-selected="true"] i{opacity:0}
-.desk__in :is(.kpi,.box,.dev,.report,.calc__card,.sh,.pin,.docs,.mcard),.app :is(.ev,.due){background-image:linear-gradient(135deg,var(--g-sh),transparent 45%)}
+.desk__in :is(.kpi,.box,.dev,.report,.calc__card,.sh,.pin,.docs,.mcard),.app :is(.ev,.due){background-image:linear-gradient(155deg,var(--g-sh) 0%,rgba(255,255,255,.04) 40%,transparent 100%)}
 /* Glänzende Lichtkante quer über den Vorstand */
 .desk__in{position:relative}
 .desk__in::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
@@ -855,3 +882,44 @@ svg{flex:none}
 .lgn__ok b{font:800 17px/1.2 var(--hd);color:var(--ink)}
 .lgn__ok small{color:var(--mu);font-size:13px}
 @keyframes okpop{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}
+.spark[data-spark="mem"]{--sc:var(--vc2)}
+/* Handy: App-Inhalt kompakter (Tim: "am Handy alles so riesig") */
+@media (max-width:720px){.app,.phone__st{zoom:.86}.desk__in{zoom:.84}}
+/* Ideen nach Tims moxen-Videos (eigener Code): Erinnerungs-Karte statt nacktem System-Dialog */
+.perm{margin-bottom:10px;border-radius:16px;padding:12px;background:linear-gradient(155deg,var(--g-sh,rgba(255,255,255,.08)),transparent 60%),var(--p-card);border:1px solid color-mix(in srgb,var(--vc) 35%,var(--p-line));transition:opacity .3s,transform .3s}
+.perm.is-out{opacity:0;transform:translateY(-6px) scale(.97)}
+.perm__q,.perm__ok{display:grid;grid-template-columns:36px minmax(0,1fr);gap:4px 10px;align-items:start}
+.perm__ic{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:color-mix(in srgb,var(--vc) 22%,transparent);color:var(--vc2)}
+.perm__ic svg{width:19px;height:19px}
+.perm__ic:not(.ok) svg{animation:klingel 2.6s ease-in-out 1s infinite;transform-origin:50% 15%}
+.perm__ic.ok{background:color-mix(in srgb,var(--p-ok) 22%,transparent);color:var(--p-ok);animation:pop .5s cubic-bezier(.2,1.6,.4,1)}
+.perm b{display:block;font-size:14px;color:var(--p-ink)}
+.perm small{display:block;font-size:12px;line-height:1.35;color:var(--p-mu)}
+.perm__btns{grid-column:1/-1;display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:8px}
+.perm__btns button{min-height:38px;border-radius:11px;font:700 13.5px var(--bd,inherit);cursor:pointer}
+.perm__ja{border:0;background:var(--vc);color:var(--vc-on)}
+.perm__nein{border:1px solid var(--p-line);background:transparent;color:var(--p-tx2);padding:0 14px}
+@keyframes klingel{0%,70%,100%{transform:rotate(0)}74%{transform:rotate(14deg)}80%{transform:rotate(-12deg)}86%{transform:rotate(8deg)}92%{transform:rotate(-4deg)}}
+/* Stempel „Überwiesen“ auf dem Zahlschein */
+.due{position:relative;overflow:hidden}
+.stamp{position:absolute;left:50%;top:44%;z-index:3;padding:6px 14px;border:3px solid #d8452f;border-radius:9px;color:#d8452f;font:900 21px/1 var(--hd);letter-spacing:.08em;text-transform:uppercase;
+  box-shadow:inset 0 0 0 2px rgba(216,69,47,.35);background:color-mix(in srgb,var(--p-bg) 88%,transparent);opacity:0;transform:translate(-50%,-50%) rotate(-14deg) scale(2.4);pointer-events:none;}
+.due.is-stamped .stamp{animation:stempel .45s cubic-bezier(.3,1.4,.5,1) forwards}
+.due.is-stamped{animation:ruck .45s ease-out .28s}
+.due.is-stamped .qr,.due.is-stamped .due__dl{transition:opacity .3s .3s;opacity:.55}
+@keyframes stempel{0%{opacity:0;transform:translate(-50%,-50%) rotate(-14deg) scale(2.4)}60%{opacity:1;transform:translate(-50%,-50%) rotate(-14deg) scale(.94)}100%{opacity:.92;transform:translate(-50%,-50%) rotate(-14deg) scale(1)}}
+@keyframes ruck{0%,100%{transform:none}30%{transform:translateY(2px) scale(.992)}}
+/* Kuvert: Zahlschein wird gefaltet und fliegt weg */
+.box{position:relative}
+.env{position:absolute;z-index:5;width:78px;height:52px;pointer-events:none;animation:envflug 1.8s cubic-bezier(.5,0,.3,1) forwards}
+.env i{position:absolute;display:block}
+.env__kuv{inset:0;border-radius:5px;background:linear-gradient(160deg,#fff,#e9edf3);box-shadow:0 10px 22px -8px rgba(0,0,0,.6)}
+.env__kuv::after{content:"";position:absolute;inset:0;border-radius:5px;background:linear-gradient(32deg,transparent 49%,rgba(15,23,42,.12) 50%,transparent 51%),linear-gradient(-32deg,transparent 49%,rgba(15,23,42,.12) 50%,transparent 51%)}
+.env__brief{left:8px;right:8px;top:-34px;height:44px;border-radius:3px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);padding:7px 7px 0;z-index:3;animation:envbrief .55s ease-in .1s forwards}
+.env__brief b{display:block;height:3px;margin-bottom:4px;border-radius:2px;background:var(--vc)}
+.env__brief b:nth-child(2){width:70%;background:#cbd4e4}.env__brief b:nth-child(3){width:45%;background:#cbd4e4}
+.env__lasche{left:0;right:0;top:0;height:31px;background:linear-gradient(180deg,#d9e0ea,#bcc6d4);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:50% 0;transform:rotateX(180deg);animation:envzu .3s ease-in .62s forwards;z-index:2}
+@keyframes envbrief{80%{opacity:1}to{transform:translateY(34px) scaleY(.6);opacity:0}}
+@keyframes envzu{to{transform:rotateX(0)}}
+@keyframes envflug{0%{opacity:0;transform:translateY(12px) scale(.8)}6%{opacity:1;transform:none}55%{opacity:1;transform:none}100%{opacity:0;transform:translate(170px,-130px) rotate(-18deg) scale(.5)}}
+@media (prefers-reduced-motion:reduce){.perm__ic svg{animation:none!important}}
