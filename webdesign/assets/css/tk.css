@@ -1274,13 +1274,8 @@ html:not(.anf-js) .anf__panel--rr { padding-bottom: 0; }
 .btn.tk-btn-cx:hover { background: #e8ff86; border-color: #e8ff86; color: #0b0b0b; }
 
 /* Häufige Fragen (Startseite, alle Breiten): fein gezeichnetes Plus (ein Strich orange, einer weiß), offen oranges X;
-   ab Frage 7 eingeklappt hinter "Alle Fragen anzeigen". Am PC steht die Box daneben zugeklappt bündig (oben und unten eine Linie). */
+   ab Frage 7 eingeklappt hinter "Alle Fragen anzeigen". Die Box daneben bleibt kompakt und oben bündig. */
 .mf-home #fragen .faq__item summary::after { content: ""; right: 22px; width: 13px; height: 13px; background: linear-gradient(var(--hot), var(--hot)) center / 100% 1.5px no-repeat, linear-gradient(#fff, #fff) center / 1.5px 100% no-repeat; transition: transform .25s ease; }
 .mf-home #fragen .faq__item[open] summary::after { content: ""; background: linear-gradient(var(--hot), var(--hot)) center / 100% 1.5px no-repeat, linear-gradient(var(--hot), var(--hot)) center / 1.5px 100% no-repeat; transform: translateY(-50%) rotate(45deg); }
 html:not(:has(#mf-nojs)) .mf-home #fragen .mf-more { display: flex; margin-top: 0; }
 html:not(:has(#mf-nojs)) .mf-home #fragen [data-mf="faq"]:not(.mf-open) { display: none; }
-@media (min-width: 681px) {
-  html:not(:has(#mf-nojs)) .mf-home #fragen .faq-wrap:not(:has(.mf-open)) { align-items: stretch; }
-  html:not(:has(#mf-nojs)) .mf-home #fragen .faq-wrap:not(:has(.mf-open)) .faq-wrap__ask { position: static; display: flex; }
-  html:not(:has(#mf-nojs)) .mf-home #fragen .faq-wrap:not(:has(.mf-open)) .tk-ask--faq { flex: 1; display: flex; flex-direction: column; justify-content: center; }
-}
