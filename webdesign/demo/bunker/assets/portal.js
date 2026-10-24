@@ -189,16 +189,23 @@
   }
   form.addEventListener("input", preview);
   form.addEventListener("change", preview);
+  var loading = 0, sendBtn = $("button[type=submit]", form);
+  function photoBusy(on) { loading = on ? loading + 1 : Math.max(0, loading - 1); sendBtn.disabled = !!loading; sendBtn.textContent = loading ? "Foto wird geladen …" : "Veröffentlichen"; }
+  function photoErr(msg) { var err = $("[data-pt-err]"); err.textContent = msg; err.hidden = false; }
   function setPhoto(file) {
-    if (!file || !/^image\//.test(file.type)) return;
+    if (!file) return;
+    if (!/^image\//.test(file.type) && !/\.(jpe?g|png|webp|gif|avif|bmp)$/i.test(file.name || "")) { photoErr("Das ist kein Foto. Bitte ein JPG oder PNG wählen."); return; }
+    $("[data-pt-err]").hidden = true; photoBusy(true);
     var rd = new FileReader();
+    rd.onerror = function () { photoBusy(false); photoErr("Das Foto konnte nicht gelesen werden. Bitte nochmal versuchen."); };
     rd.onload = function () {
       var img = new Image();
       img.onload = function () {
         var w = Math.min(1200, img.width), h = Math.round(img.height * w / img.width), c = document.createElement("canvas");
         c.width = w; c.height = h; c.getContext("2d").drawImage(img, 0, 0, w, h);
-        photo = c.toDataURL("image/jpeg", 0.8); preview();
+        photo = c.toDataURL("image/jpeg", 0.8); photoBusy(false); preview();
       };
+      img.onerror = function () { photoBusy(false); photoErr("Dieses Bildformat kann der Browser nicht öffnen (z. B. HEIC vom iPhone). Bitte als JPG oder PNG speichern."); };
       img.src = rd.result;
     };
     rd.readAsDataURL(file);
@@ -219,6 +226,7 @@
     e.preventDefault();
     var f = form.elements, err = $("[data-pt-err]");
     var miss = !f.title.value.trim() ? "Bitte einen Titel eingeben." : !f.d.value ? "Bitte ein Datum wählen." : "";
+    if (loading) return;
     if (miss) { err.textContent = miss; err.hidden = false; (f.title.value.trim() ? f.d : f.title).focus(); return; }
     err.hidden = true;
     var list = load(KEY_EV, []);
