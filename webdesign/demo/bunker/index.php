@@ -11,7 +11,8 @@
 <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/bigshoulders.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/style.css?v=17ee6a2e">
-<script src="assets/early.js"></script>
+<link rel="stylesheet" href="assets/v2.css?v=1">
+<script src="assets/early.js?v=2"></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -39,6 +40,7 @@
     <a href="#bunker">Der Bunker</a>
     <a href="#mitmachen">Mitmachen</a>
     <a href="#anfahrt">Anfahrt</a>
+    <a class="nav__portal v2only" href="#portal">Vereinsportal</a>
   </nav>
   <a class="nav__cta" href="#termine"><span class="dot"></span><span data-next-short>Nächstes Event</span></a>
   <button class="nav__burger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="drawer"><span></span><span></span></button>
@@ -50,6 +52,7 @@
   <a href="#bunker">Der Bunker</a>
   <a href="#mitmachen">Mitmachen</a>
   <a href="#anfahrt">Anfahrt</a>
+  <a class="nav__portal v2only" href="#portal">Vereinsportal</a>
   <div class="drawer__social">
     <a href="https://www.instagram.com/bunker.kollektiv" target="_blank" rel="noopener">Instagram</a>
     <a href="https://www.facebook.com/bunker.kollektiv.purgstall" target="_blank" rel="noopener">Facebook</a>
@@ -248,6 +251,167 @@
     </div>
   </section>
 
+  <!-- Vereinsportal (nur Version 2) -->
+  <section class="portal v2only" id="portal" aria-labelledby="portal-title">
+    <div class="wrap">
+      <div class="sechead reveal">
+        <p class="kicker">Vereinsportal</p>
+        <h2 id="portal-title">Der Verein läuft im Bunker. Und hier.</h2>
+        <p>Termine, Helfer, Mitglieder, Kassa und Anfragen an einem Ort, direkt auf der eigenen Webseite. Ohne Abo, ohne fünf verschiedene Apps. Probier's aus, die Demo speichert nur in deinem Browser.</p>
+      </div>
+
+      <div class="pt reveal" data-pt>
+        <div class="pt__bar">
+          <span class="pt__brand"><svg class="pt__logo" viewBox="-30 -30 1060 1060" aria-hidden="true"><use href="#logo"/></svg><span>Vereinsportal</span></span>
+          <span class="pt__demo">Demo</span>
+          <span class="pt__who" data-pt-who hidden><i aria-hidden="true">LA</i><span>Lena A. · Vorstand</span></span>
+          <button class="pt__out" type="button" data-pt-out hidden>Abmelden</button>
+        </div>
+
+        <div class="pt__body">
+          <nav class="pt__tabs" role="tablist" aria-label="Bereiche im Vereinsportal" data-pt-tabs>
+            <span class="pt__blob" aria-hidden="true"></span>
+            <button role="tab" aria-selected="true" aria-controls="pp-home" id="pt-home" data-pt-tab="home"><svg aria-hidden="true"><use href="#pi-home"/></svg><span>Übersicht</span></button>
+            <button role="tab" aria-selected="false" aria-controls="pp-termine" id="pt-termine" data-pt-tab="termine" tabindex="-1"><svg aria-hidden="true"><use href="#pi-cal"/></svg><span>Termine</span></button>
+            <button role="tab" aria-selected="false" aria-controls="pp-helfer" id="pt-helfer" data-pt-tab="helfer" tabindex="-1"><svg aria-hidden="true"><use href="#pi-hand"/></svg><span>Helfer</span><b data-pt-cnt="helfer"></b></button>
+            <button role="tab" aria-selected="false" aria-controls="pp-mitglieder" id="pt-mitglieder" data-pt-tab="mitglieder" tabindex="-1"><svg aria-hidden="true"><use href="#pi-users"/></svg><span>Mitglieder</span></button>
+            <button role="tab" aria-selected="false" aria-controls="pp-kassa" id="pt-kassa" data-pt-tab="kassa" tabindex="-1"><svg aria-hidden="true"><use href="#pi-cash"/></svg><span>Kassa</span></button>
+            <button role="tab" aria-selected="false" aria-controls="pp-anfragen" id="pt-anfragen" data-pt-tab="anfragen" tabindex="-1"><svg aria-hidden="true"><use href="#pi-inbox"/></svg><span>Anfragen</span><b data-pt-cnt="anfragen"></b></button>
+          </nav>
+
+          <div class="pt__main">
+            <!-- Übersicht -->
+            <section class="pp" id="pp-home" role="tabpanel" aria-labelledby="pt-home">
+              <div class="pp__hd"><h3>Servus, Lena.</h3><p data-pt-hello>Das steht diese Woche an.</p></div>
+              <div class="kp">
+                <button type="button" class="kp__t kp__t--next" data-go="termine"><small>Nächstes Event</small><b data-pt-next>Halloween Special</b><span data-pt-next-d></span></button>
+                <button type="button" class="kp__t" data-go="helfer"><small>Helfer offen</small><b data-pt-free>0</b><span data-pt-free-s>Schichten fürs nächste Event</span></button>
+                <button type="button" class="kp__t" data-go="mitglieder"><small>Mitglieder</small><b data-pt-mem>0</b><span data-pt-mem-s></span></button>
+                <button type="button" class="kp__t" data-go="kassa"><small>Kassastand</small><b data-pt-cash>0 €</b><span data-pt-cash-s>laut Kassabuch</span></button>
+              </div>
+              <div class="pp__cols">
+                <div class="gl">
+                  <h4>Zuletzt passiert</h4>
+                  <ul class="feed" data-pt-feed></ul>
+                </div>
+                <div class="gl">
+                  <h4>Schnell erledigt</h4>
+                  <div class="quick">
+                    <button type="button" data-go="termine"><svg aria-hidden="true"><use href="#pi-plus"/></svg>Termin eintragen</button>
+                    <button type="button" data-go="helfer"><svg aria-hidden="true"><use href="#pi-hand"/></svg>Helfer einteilen</button>
+                    <button type="button" data-go="kassa"><svg aria-hidden="true"><use href="#pi-cash"/></svg>Kassa-Eintrag</button>
+                    <button type="button" data-go="mitglieder" data-filter="offen"><svg aria-hidden="true"><use href="#pi-mail"/></svg>Beitrag erinnern</button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Termine -->
+            <section class="pp" id="pp-termine" role="tabpanel" aria-labelledby="pt-termine" hidden>
+              <div class="pp__hd"><h3>Neuer Termin in einer Minute.</h3><p>Foto rein, Titel und Datum dazu. Der Termin steht sofort auf der Webseite, mit Countdown und Kalender-Knopf.</p></div>
+              <div class="pt__grid">
+                <form class="gl pf" data-pt-form novalidate>
+                  <label class="pf__drop" data-pt-drop>
+                    <input type="file" accept="image/*" data-pt-file>
+                    <span class="pf__empty"><svg aria-hidden="true"><use href="#pi-cam"/></svg><b>Foto auswählen</b><small>oder hierher ziehen</small></span>
+                    <img alt="" hidden data-pt-img>
+                  </label>
+                  <label class="pf__f"><span>Titel</span><input name="title" maxlength="60" required placeholder="z. B. Bunker Rock Fest"></label>
+                  <div class="pf__row">
+                    <label class="pf__f"><span>Datum</span><input type="date" name="d" required></label>
+                    <label class="pf__f"><span>Beginn</span><input type="time" name="t" value="19:00"></label>
+                  </div>
+                  <label class="pf__f"><span>Bands oder Untertitel <i>(optional)</i></span><input name="sub" maxlength="90" placeholder="z. B. mit Planet Error"></label>
+                  <fieldset class="pf__chips"><legend>Reihe</legend><div data-pt-chips></div></fieldset>
+                  <p class="pf__err" role="alert" data-pt-err hidden></p>
+                  <div class="pf__btns">
+                    <button class="btn btn--neon" type="submit">Veröffentlichen</button>
+                    <button class="btn btn--ghost" type="button" data-pt-sample>Beispiel ausfüllen</button>
+                  </div>
+                </form>
+                <div class="pv2">
+                  <p class="pv2__lbl">So sieht's auf der Webseite aus</p>
+                  <article class="pv2__card" data-pt-pv>
+                    <div class="pv2__media"><img alt="" hidden data-pt-pv-img><span>Dein Foto</span></div>
+                    <div class="pv2__body"><small>Als Nächstes im Bunker</small><b data-pt-pv-t>Dein Event</b><span data-pt-pv-d>Datum wählen</span></div>
+                  </article>
+                  <h4>Eingetragen</h4>
+                  <ul class="mine" data-pt-mine></ul>
+                  <p class="pt__empty" data-pt-mine-empty>Noch nichts eingetragen. Der erste Termin erscheint sofort oben bei den Terminen.</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- Helfer -->
+            <section class="pp" id="pp-helfer" role="tabpanel" aria-labelledby="pt-helfer" hidden>
+              <div class="pp__hd"><h3>Wer hilft beim <span data-pt-ev>nächsten Event</span>?</h3><p>Antippen und eintragen. Wer eingeteilt ist, bekommt eine Erinnerung am Vortag.</p></div>
+              <div class="shifts" data-pt-shifts></div>
+            </section>
+
+            <!-- Mitglieder -->
+            <section class="pp" id="pp-mitglieder" role="tabpanel" aria-labelledby="pt-mitglieder" hidden>
+              <div class="pp__hd"><h3>Mitglieder</h3><p>Jahresbeitrag 25 €. Offene Beiträge mit einem Tipp erinnern.</p></div>
+              <div class="mtools">
+                <label class="msearch"><svg aria-hidden="true"><use href="#pi-search"/></svg><input type="search" placeholder="Name oder Aufgabe suchen" aria-label="Mitglieder suchen" data-pt-q></label>
+                <div class="mfilter" role="group" aria-label="Filter" data-pt-mf>
+                  <button type="button" aria-pressed="true" data-f="alle">Alle</button>
+                  <button type="button" aria-pressed="false" data-f="offen">Beitrag offen</button>
+                </div>
+              </div>
+              <ul class="mem" data-pt-mem-list></ul>
+            </section>
+
+            <!-- Kassa -->
+            <section class="pp" id="pp-kassa" role="tabpanel" aria-labelledby="pt-kassa" hidden>
+              <div class="pp__hd"><h3>Kassabuch</h3><p>Ein- und Ausgaben im Blick, für die Rechnungsprüfer als Tabelle zum Herunterladen.</p></div>
+              <div class="cash">
+                <div class="cash__sum">
+                  <div><small>Einnahmen</small><b data-pt-in>0 €</b></div>
+                  <div><small>Ausgaben</small><b data-pt-ausg>0 €</b></div>
+                  <div class="is-total"><small>Kassastand</small><b data-pt-total>0 €</b></div>
+                </div>
+                <form class="cash__add gl" data-pt-cash-form>
+                  <label class="pf__f"><span>Wofür</span><input name="txt" maxlength="50" placeholder="z. B. Getränke-Einkauf" required></label>
+                  <label class="pf__f pf__f--sm"><span>Betrag €</span><input name="amt" inputmode="decimal" placeholder="0,00" required></label>
+                  <div class="seg" role="group" aria-label="Art"><label><input type="radio" name="dir" value="in" checked><span>Einnahme</span></label><label><input type="radio" name="dir" value="out"><span>Ausgabe</span></label></div>
+                  <button class="btn btn--neon" type="submit">Eintragen</button>
+                </form>
+                <ul class="book" data-pt-book></ul>
+                <button class="btn btn--ghost cash__csv" type="button" data-pt-csv><svg aria-hidden="true"><use href="#pi-down"/></svg>Als Tabelle herunterladen</button>
+              </div>
+            </section>
+
+            <!-- Anfragen -->
+            <section class="pp" id="pp-anfragen" role="tabpanel" aria-labelledby="pt-anfragen" hidden>
+              <div class="pp__hd"><h3>Anfragen</h3><p>Alles aus den Formularen unter „Mitmachen“: Mietanfragen, Bands und neue Mitglieder. Jede Anfrage kommt zusätzlich per E-Mail.</p></div>
+              <ul class="anf2" data-pt-anf></ul>
+            </section>
+          </div>
+        </div>
+
+        <!-- Anmeldung -->
+        <div class="pl" data-pt-login>
+          <div class="pl__card">
+            <div class="pl__hd"><svg class="pt__logo" viewBox="-30 -30 1060 1060" aria-hidden="true"><use href="#logo"/></svg><span><b>bunker.kollektiv</b><small>Vereinsportal · Anmeldung</small></span></div>
+            <form class="pl__step" data-pl-1>
+              <label class="pl__f"><svg aria-hidden="true"><use href="#pi-mail"/></svg><input type="email" value="lena@bunkerkollektiv.at" aria-label="E-Mail-Adresse" autocomplete="off" spellcheck="false"></label>
+              <label class="pl__f"><svg aria-hidden="true"><use href="#pi-lock"/></svg><input type="password" value="bunker-demo" aria-label="Passwort" autocomplete="off"></label>
+              <button class="btn btn--neon pl__btn" type="submit">Anmelden</button>
+            </form>
+            <div class="pl__step" data-pl-2 hidden>
+              <p class="pl__t"><svg aria-hidden="true"><use href="#pi-shield"/></svg><span>Code aus der Authenticator-App</span></p>
+              <p class="pl__s">Sechs Ziffern, die Prüfung startet von selbst. In der Demo passt jeder Code außer 000000.</p>
+              <div class="otp" role="group" aria-label="Sechsstelliger Code" data-otp><span class="otp__c" style="--i:0"><input inputmode="numeric" maxlength="1" aria-label="Ziffer 1"><i class="otp__r"></i></span><span class="otp__c" style="--i:1"><input inputmode="numeric" maxlength="1" aria-label="Ziffer 2"><i class="otp__r"></i></span><span class="otp__c" style="--i:2"><input inputmode="numeric" maxlength="1" aria-label="Ziffer 3"><i class="otp__r"></i></span><span class="otp__c" style="--i:3"><input inputmode="numeric" maxlength="1" aria-label="Ziffer 4"><i class="otp__r"></i></span><span class="otp__c" style="--i:4"><input inputmode="numeric" maxlength="1" aria-label="Ziffer 5"><i class="otp__r"></i></span><span class="otp__c" style="--i:5"><input inputmode="numeric" maxlength="1" aria-label="Ziffer 6"><i class="otp__r"></i></span><span class="otp__m" aria-hidden="true"><svg class="otp__ok" viewBox="0 0 24 24"><path d="m5.5 12.5 4.2 4.2L18.5 7.8"/></svg><svg class="otp__no" viewBox="0 0 24 24"><path d="M7 7l10 10M17 7 7 17"/></svg></span></div>
+              <p class="otp__st" role="status" aria-live="polite"></p>
+              <button type="button" class="pl__link" data-otp-fill>Code für die Demo einfügen</button>
+            </div>
+            <button type="button" class="pl__link pl__skip" data-pl-skip>Ohne Anmeldung ansehen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Partner / Werbeplatz -->
   <section class="partners" aria-labelledby="partner-title">
     <div class="wrap">
@@ -313,6 +477,13 @@
 </footer>
 
 <a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener"><span class="tk"><img src="assets/img/tk-logo.svg" alt="" width="28" height="14"></span><span class="draft__txt">Entwurf von Tim Kofler</span></a>
+
+<div class="vsw" role="group" aria-label="Version der Seite wählen" data-vsw>
+  <span class="vsw__k" aria-hidden="true"></span>
+  <button type="button" data-ver="1" aria-pressed="true">V1</button>
+  <button type="button" data-ver="2" aria-pressed="false">V2</button>
+</div>
+<div class="ptoast" role="status" aria-live="polite" data-ptoast hidden></div>
 
 <!-- Anfrage-Formulare (Beispiel, wird nicht verschickt) -->
 <dialog class="modal" id="form-impressum" aria-labelledby="fi-t">
@@ -424,9 +595,25 @@
   <symbol id="logo" viewBox="-30 -30 1060 1060" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
     <g stroke-width="36"><path d="M164 0H0V1000H1000V0H334"/><path d="M164 0V908A85 85 0 0 0 334 908V0"/><path d="M70 0C125 5 164 40 164 90"/><path d="M164 420C150 475 90 506 0 506C90 506 150 540 164 595"/><path d="M164 905C164 960 110 1000 40 1000"/><path d="M334 0L500 1000"/><path d="M500 0V1000"/><path d="M664 0L500 500L664 1000"/><path d="M664 0V1000"/><path d="M664 500H880"/><path d="M880 500C950 500 1000 460 1000 380"/><path d="M900 0C960 0 1000 30 1000 85"/><path d="M830 0V1000"/><path d="M830 500L1000 1000"/></g>
   </symbol>
+  <symbol id="pi-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10.5 12 4l8.5 6.5V20h-5.5v-5.5h-6V20H3.5z"/></symbol>
+  <symbol id="pi-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+  <symbol id="pi-hand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 12.5V6.2a1.6 1.6 0 0 1 3.2 0V11m0-6.2a1.6 1.6 0 0 1 3.2 0V11m0-4.6a1.6 1.6 0 0 1 3.2 0V14c0 4-2.6 7-6.4 7-2.6 0-4.2-1.3-5.6-3.4L3.9 14a1.6 1.6 0 0 1 2.6-1.8L8 14"/></symbol>
+  <symbol id="pi-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8.5" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.6 6.5-5.6s5.9 2 6.5 5.6"/><path d="M15.5 5.2a3.4 3.4 0 0 1 0 6.6M18 14.8c2 .7 3.2 2.5 3.5 5.2"/></symbol>
+  <symbol id="pi-cash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="12.5" rx="3"/><circle cx="12" cy="12.2" r="2.8"/><path d="M6 9.5v5.5M18 9.5v5.5"/></symbol>
+  <symbol id="pi-inbox" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 13.5 6 5h12l2.5 8.5V19a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 19z"/><path d="M3.5 13.5h5l1 2.5h5l1-2.5h5"/></symbol>
+  <symbol id="pi-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="pi-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="m4 7 8 6 8-6"/></symbol>
+  <symbol id="pi-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></symbol>
+  <symbol id="pi-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v5.5c0 4.6 3.1 8 7.5 9.5 4.4-1.5 7.5-4.9 7.5-9.5V6z"/><path d="m8.8 12 2.3 2.3 4.3-4.6"/></symbol>
+  <symbol id="pi-cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7.5h3l2-3h6l2 3h3V19H4z"/><circle cx="12" cy="13" r="3.6"/></symbol>
+  <symbol id="pi-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></symbol>
+  <symbol id="pi-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m-4.5-4.5L12 15l4.5-4.5M5 19.5h14"/></symbol>
+  <symbol id="pi-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5.5 12.5 4.2 4.2L18.5 7.8"/></symbol>
+  <symbol id="pi-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 7l10 10M17 7 7 17"/></symbol>
 </svg>
 
 <script src="assets/app.js?v=7" defer></script>
+<script src="assets/portal.js?v=1" defer></script>
 <script type="module" src="assets/bunker3d.js?v=10"></script>
 </body>
 </html>
