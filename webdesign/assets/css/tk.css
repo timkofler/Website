@@ -876,19 +876,53 @@ html.tk-3d-on.tk-3d-view .header { -webkit-backdrop-filter: none; backdrop-filte
 .wko-ecg:focus-visible { outline: 2px solid var(--hot); outline-offset: 3px; }
 .tk-wko { margin: 22px 0 0; }
 
-/* ---------- Anfrage [10]: Formular links, Ablauf + Direktkontakt rechts ---------- */
-/* Zwei Spalten: links Formular + Rückruf, rechts Ablauf + Direktkontakt. Am Handy lösen sich die Spalten auf (display: contents). */
-.anf { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 18px 36px; align-items: start; }
-.anf__col { display: grid; gap: 18px; align-content: start; min-width: 0; }
-.anf__steps { border: 1px solid var(--line-2); background: var(--bg-2); border-radius: 22px; padding: 28px 28px 26px; }
+/* ---------- Anfrage [10]: eine Glas-Karte, links Formular/Rückruf als Reiter, rechts Ablauf + Direktkontakt ---------- */
+.anf { position: relative; display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); border-radius: 26px; overflow: hidden; isolation: isolate;
+  background: linear-gradient(160deg, rgba(44,34,28,.62), rgba(14,12,12,.78) 55%, rgba(20,15,13,.8)); border: 1px solid rgba(255,255,255,.1);
+  -webkit-backdrop-filter: blur(18px) saturate(150%); backdrop-filter: blur(18px) saturate(150%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 40px 90px rgba(0,0,0,.5), 0 0 90px rgba(255,90,31,.1); }
+.anf::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(46% 38% at 8% 0%, rgba(255,90,31,.16), transparent 70%), radial-gradient(40% 46% at 100% 100%, rgba(255,178,63,.1), transparent 70%), linear-gradient(115deg, rgba(255,255,255,.05), transparent 30%); }
+.anf__main { min-width: 0; padding: 30px 34px 34px; }
+.anf__side { min-width: 0; display: flex; flex-direction: column; gap: 22px; padding: 30px 30px 26px; border-left: 1px solid rgba(255,255,255,.08); background: rgba(0,0,0,.18); }
+/* Die Formulare sitzen direkt in der Glas-Karte, ohne eigenen Rahmen */
+.anf .form { border: 0; background: none; border-radius: 0; padding: 0; }
+.anf .form input[type=text], .anf .form input[type=email], .anf .form input[type=tel], .anf .form select, .anf .form textarea { background-color: rgba(0,0,0,.32); border-color: rgba(255,255,255,.12); }
+.anf .form input:focus, .anf .form select:focus, .anf .form textarea:focus { border-color: var(--hot); }
+.anf .form__more { background: rgba(0,0,0,.22); border-color: rgba(255,255,255,.1); }
+.anf .form__more input[type=text], .anf .form__more select { background-color: rgba(0,0,0,.32); }
+.anf .form__chips-row button:not([aria-pressed=true]) { background: rgba(0,0,0,.22); }
+/* Reiter Anfrage schreiben / Rückruf (ohne JS stehen beide Formulare untereinander) */
+.anf__tabs { display: flex; gap: 4px; width: fit-content; max-width: 100%; margin: 0 0 26px; padding: 4px; border-radius: 999px; background: rgba(0,0,0,.3); border: 1px solid rgba(255,255,255,.08); }
+.anf__tabs[hidden] { display: none; }
+.anf__tabs button { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border: 0; border-radius: 999px; background: none; color: var(--muted); font: 600 .92rem var(--body); cursor: pointer; white-space: nowrap; transition: color .2s, background .2s; }
+.anf__tabs button svg { width: 16px; height: 16px; flex: none; }
+.anf__tabs button:hover { color: var(--text); }
+.anf__tabs button[aria-selected=true] { background: var(--hot-grad); color: #0b0b0b; box-shadow: 0 6px 20px rgba(255,90,31,.28); }
+.anf__tabs button:focus-visible { outline: 2px solid var(--hot); outline-offset: 2px; }
+.anf__panel[hidden] { display: none; }
+.anf__panel--rr { margin-top: 0; }
+html:not(.anf-js) .anf__panel--rr { margin-top: 30px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,.08); }
+.anf__panel.is-in { animation: anf-in .35s ease both; }
+@keyframes anf-in { from { opacity: 0; transform: translateY(6px); } }
+.anf__ptitle { margin: 0 0 6px; font-family: var(--display); font-weight: 600; font-size: 1.15rem; line-height: 1.25; color: var(--text); }
+.anf__pintro { margin: 0 0 22px; font-size: .95rem; line-height: 1.5; color: var(--muted); }
+.anf__rr { max-width: 560px; }
+/* Rechte Spalte: Ablauf oben, Direktkontakt unten, damit die Spalte bis zum Kartenende reicht */
 .anf__steps h3, .nl__card h3 { font-size: 1.25rem; font-weight: 600; margin: 0 0 22px; }
-.anf-steps { list-style: none; counter-reset: s; margin: 0; padding: 0; display: grid; gap: 20px; }
-.anf-steps li { counter-increment: s; position: relative; padding-left: 52px; min-height: 36px; }
-.anf-steps li::before { content: counter(s, decimal-leading-zero); position: absolute; left: 0; top: 0; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--hot-grad); color: #0b0b0b; font: 600 .8rem var(--mono); }
-.anf-steps li:not(:last-child)::after { content: ""; position: absolute; left: 17px; top: 42px; bottom: -16px; width: 2px; border-radius: 2px; background: linear-gradient(var(--hot), rgba(255,90,31,.12)); }
-.anf-steps b { display: block; font-family: var(--display); font-weight: 600; font-size: 1.02rem; margin: 6px 0 3px; }
-.anf-steps span { display: block; color: var(--muted); font-size: .94rem; line-height: 1.5; }
-.anf__legal { margin: 4px 0 0; padding: 0 6px; font-size: .82rem; line-height: 1.5; color: var(--muted); }
+.anf-steps { list-style: none; counter-reset: s; margin: 0; padding: 0; display: grid; gap: 18px; }
+.anf-steps li { counter-increment: s; position: relative; padding-left: 50px; min-height: 34px; }
+.anf-steps li::before { content: counter(s, decimal-leading-zero); position: absolute; left: 0; top: 0; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--hot-grad); color: #0b0b0b; font: 600 .78rem var(--mono); }
+.anf-steps li:not(:last-child)::after { content: ""; position: absolute; left: 16px; top: 40px; bottom: -14px; width: 2px; border-radius: 2px; background: linear-gradient(var(--hot), rgba(255,90,31,.12)); }
+.anf-steps b { display: block; font-family: var(--display); font-weight: 600; font-size: 1rem; margin: 5px 0 3px; }
+.anf-steps span { display: block; color: var(--muted); font-size: .92rem; line-height: 1.5; }
+.anf__direkt { margin-top: auto; padding: 22px 22px 20px; border-radius: 18px; border: 1px solid rgba(255,90,31,.45); background: linear-gradient(155deg, rgba(255,90,31,.17), rgba(255,90,31,.03) 62%), rgba(0,0,0,.2); box-shadow: 0 0 40px rgba(255,90,31,.08); }
+.anf__direkt .anf__pintro { margin-bottom: 16px; font-size: .92rem; }
+.anf__direkt .tk-ask__wa { width: 100%; }
+.anf__direkt .tk-ask__list { margin-top: 16px; padding-top: 14px; }
+.anf__direkt .tk-ask__list li a { display: inline-flex; align-items: center; gap: 12px; color: var(--text); text-decoration: none; font-size: .95rem; }
+.anf__direkt .tk-ask__list li a:hover { color: var(--hot-2); }
+.anf__legal { margin: 0; font-size: .8rem; line-height: 1.5; color: var(--muted); }
 
 /* Orange Kontakt-Box (Anfrage + Häufige Fragen) */
 .tk-ask { border: 1px solid rgba(255,90,31,.5); border-radius: 22px; padding: 26px 28px; background: linear-gradient(155deg, rgba(255,90,31,.17), rgba(255,90,31,.03) 62%), var(--bg-2); box-shadow: 0 0 44px rgba(255,90,31,.09); }
@@ -898,7 +932,6 @@ html.tk-3d-on.tk-3d-view .header { -webkit-backdrop-filter: none; backdrop-filte
 .tk-ask .tk-ask__t { margin: 0 0 6px; font-family: var(--display); font-weight: 600; font-size: 1.15rem; line-height: 1.25; color: var(--text); }
 .tk-ask .tk-ask__p { margin: 0 0 18px; font-size: .95rem; line-height: 1.5; color: var(--muted); }
 .tk-ask__wa { display: inline-flex; align-items: center; justify-content: center; gap: 10px; }
-.anf__direkt .tk-ask__wa { width: 100%; }
 .tk-ask__wa svg { width: 20px; height: 20px; }
 .tk-ask__wa:hover svg { transform: none; }
 .tk-ask__row { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -924,15 +957,20 @@ html.tk-3d-on.tk-3d-view .header { -webkit-backdrop-filter: none; backdrop-filte
 
 @media (max-width: 900px) {
   .anf { grid-template-columns: minmax(0, 1fr); }
-  .anf__col { display: contents; }
-  .anf__steps { order: 1; } .anf__form { order: 2; } .anf__direkt { order: 3; } .anf__rr { order: 4; } .anf__legal { order: 5; }
+  .anf__side { border-left: 0; border-top: 1px solid rgba(255,255,255,.08); }
+  .anf__direkt { order: -1; margin-top: 0; }
   .nl { grid-template-columns: minmax(0, 1fr); }
   .faq-wrap { grid-template-columns: minmax(0, 1fr); }
   .faq-wrap__ask { position: static; }
 }
 @media (max-width: 680px) {
-  .anf__steps, .tk-ask, .nl__card { padding: 22px 18px; border-radius: 18px; }
-  .anf-steps li { padding-left: 48px; }
+  .tk-ask, .nl__card { padding: 22px 18px; border-radius: 18px; }
+  .anf { border-radius: 20px; }
+  .anf__main { padding: 18px 16px 24px; }
+  .anf__side { padding: 24px 16px 20px; }
+  .anf__direkt { padding: 20px 16px 18px; }
+  .anf__tabs { display: grid; grid-template-columns: 1fr 1fr; width: 100%; margin-bottom: 22px; }
+  .anf__tabs button { justify-content: center; padding: 10px 8px; }
 }
 .tk-ask--faq .tk-ask__wa { flex: 1 1 100%; }
 .tk-ask--faq .tk-ask__row .btn--line { flex: 1 1 0; justify-content: center; }
@@ -955,27 +993,6 @@ html.tk-3d-on.tk-3d-view .header { -webkit-backdrop-filter: none; backdrop-filte
 .form__more summary:focus-visible { outline: 2px solid var(--hot); outline-offset: 2px; border-radius: 14px; }
 .form__more-in { display: grid; gap: 18px; padding: 4px 16px 18px; }
 .form__more input[type=text], .form__more select { background-color: var(--bg-2); }
-/* Anfrage: Rückruf in der orangen Box */
-.tk-rr { display: grid; gap: 12px; }
-.tk-rr__row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-/* PC: Name + Telefon, darunter Einwilligung, dann Wunschzeit und Knopf nebeneinander */
-@media (min-width: 901px) {
-  .tk-rr { grid-template-columns: 1fr 1fr; align-items: end; }
-  .tk-rr__row, .tk-rr .form__check, .tk-rr .form__status { grid-column: 1 / -1; }
-}
-.tk-rr__f { display: grid; gap: 5px; font-size: .85rem; }
-.tk-rr__f > span { color: var(--muted); }
-.tk-rr input[type=text], .tk-rr input[type=tel], .tk-rr select { width: 100%; font: inherit; font-size: 16px; color: var(--text); background: var(--surface); border: 1px solid rgba(255,90,31,.3); border-radius: 12px; padding: 10px 12px; transition: border-color .2s, box-shadow .2s; }
-.tk-rr select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--hot) 50%), linear-gradient(135deg, var(--hot) 50%, transparent 50%); background-position: calc(100% - 20px) 52%, calc(100% - 15px) 52%; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 40px; }
-.tk-rr input:focus, .tk-rr select:focus { outline: none; border-color: var(--hot); box-shadow: 0 0 0 3px rgba(255,90,31,.2); }
-.tk-rr .form__check { font-size: .85rem; grid-template-columns: 20px 1fr; gap: 10px; }
-.tk-rr .form__check input { width: 18px; height: 18px; accent-color: var(--hot); }
-.tk-rr .form__check a { color: var(--text); }
-.tk-rr .btn { width: 100%; justify-content: center; border-color: rgba(255,90,31,.55); }
-.tk-rr .btn:hover { border-color: var(--hot); }
-.tk-rr .btn:disabled { opacity: .6; cursor: wait; }
-.tk-rr .form__status.is-ok { background: rgba(255,90,31,.12); border-color: rgba(255,90,31,.45); color: var(--text); }
-@media (max-width: 380px) { .tk-rr__row { grid-template-columns: 1fr; } }
 
 /* Senden-Knopf, der sich füllt (forms.js) */
 .btn.is-sending:disabled, .btn.is-sent:disabled { position: relative; overflow: hidden; isolation: isolate; cursor: default; opacity: 1; }
