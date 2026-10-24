@@ -675,8 +675,15 @@
       var key = b.getAttribute("data-mf-open"), on = b.getAttribute("aria-expanded") !== "true";
       var top = b.getBoundingClientRect().top;
       set(key, on);
-      // Beim Zuklappen bleibt der Knopf an derselben Stelle im Bild, statt dass die Seite springt
-      if (!on) { var d = b.getBoundingClientRect().top - top; if (d) window.scrollBy(0, d); }
+      // Der Knopf bleibt an derselben Stelle im Bild, statt dass die Seite springt. Geht der Inhalt oberhalb
+      // des Knopfs auf, rollt die Seite sanft zu seinem Anfang, damit man sieht, was aufgeklappt wurde.
+      var d = b.getBoundingClientRect().top - top;
+      if (d) window.scrollBy({ top: d, behavior: "instant" });
+      var first = on && document.querySelector('[data-mf="' + key + '"]');
+      if (first && (first.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING)) {
+        var hd = document.querySelector(".header"), off = (hd ? hd.getBoundingClientRect().bottom : 0) + 16;
+        window.scrollBy({ top: first.getBoundingClientRect().top - off, behavior: "smooth" });
+      }
     });
   });
   function fromHash() {
