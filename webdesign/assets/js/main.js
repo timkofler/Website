@@ -177,6 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (document.prerendering) document.addEventListener("prerenderingchange", send, { once: true });
   else send();
   // Klicks auf Kontakt-Links nur als Summe pro Art zählen (WhatsApp, Telegram, Telefon, E-Mail), ohne Seite oder Kennung.
+  // Der Knopf „Jemanden empfehlen“ ist keine Anfrage und zählt nicht, ebenso Mail-Links an andere Adressen.
   document.addEventListener("click", function (e) {
     var a = e.target.closest && e.target.closest("a[href]");
     if (!a) return;
@@ -184,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (/^https:\/\/wa\.me\//.test(h)) k = "whatsapp";
     else if (/^https:\/\/t\.me\//.test(h)) k = "telegram";
     else if (/^tel:/.test(h)) k = "telefon";
-    else if (/^mailto:/.test(h)) k = "email";
+    else if (/^mailto:office@tim-kofler\.at/i.test(h) && !/subject=Empfehlung/i.test(h)) k = "email";
     if (k) navigator.sendBeacon("/api/zaehler.php", new URLSearchParams({ k: k }));
   });
 })();
