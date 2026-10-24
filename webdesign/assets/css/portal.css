@@ -334,7 +334,7 @@
 .kp-features b { color: var(--text); font-size: 1rem; }
 .kp-features__ico { flex: none; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; font: 700 .85rem var(--mono); background: var(--hot); color: #0b0b0b; }
 .kp-secure { display: flex; gap: 10px; align-items: flex-start; margin: 24px 0 0; padding: 14px 0 0; border-top: 1px solid var(--line); font-size: .84rem; color: var(--muted); }
-.kp-secure svg { flex: none; width: 18px; height: 18px; margin-top: 1px; fill: none; stroke: #4cc38a; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.kp-secure svg { flex: none; width: 18px; height: 18px; margin-top: 1px; fill: none; stroke: #ff8a5c; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .kp-pw { position: relative; display: block; }
 .kp-pw input { padding-right: 92px !important; }
 .kp-pw__btn { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); padding: 6px 10px; border: 0; border-radius: 8px; background: var(--surface-2); color: var(--muted); font: 600 .78rem var(--body, inherit); cursor: pointer; }
@@ -509,7 +509,10 @@ body.kp main::before { content: ""; position: fixed; inset: 0; z-index: -1; poin
   -webkit-mask: linear-gradient(180deg, #000 30%, rgba(0,0,0,.35)); mask: linear-gradient(180deg, #000 30%, rgba(0,0,0,.35)); }
 body.kp:has(.kp-auth) main::before { opacity: 1; background: radial-gradient(42% 38% at 50% 46%, rgba(255,90,31,.2), transparent 70%), url("/assets/img/kp-facetten.svg") center / cover no-repeat;
   -webkit-mask: linear-gradient(180deg, transparent, #000 12%, #000 80%, transparent); mask: linear-gradient(180deg, transparent, #000 12%, #000 80%, transparent); }
-body.kp:has(.kp-auth) .kp-main { min-height: calc(100svh - 150px); display: grid; align-items: center; padding: 56px 0 72px; }
+/* Seite als Spalte: Kopf, Mitte füllt den Rest, Fuß. So steht die Karte auf jeder Höhe mittig zwischen Kopf und Fuß */
+body.kp:has(.kp-auth) { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; }
+body.kp:has(.kp-auth) main { flex: 1 0 auto; display: flex; flex-direction: column; }
+body.kp:has(.kp-auth) .kp-main { flex: 1 0 auto; display: grid; align-items: center; padding: 56px 0; }
 .kp-auth { position: relative; width: 100%; max-width: 460px; margin: 0 auto; padding: 40px 36px 32px; text-align: center; border-radius: 28px;
   border: 1px solid rgba(255,255,255,.1);
   background: linear-gradient(160deg, rgba(255,255,255,.08), rgba(255,255,255,.015) 45%, rgba(255,255,255,.035)), rgba(16,16,18,.58);
@@ -540,8 +543,10 @@ body.kp:has(.kp-auth) .kp-main { min-height: calc(100svh - 150px); display: grid
 .kp-login:has(.kp-auth) { max-width: 980px; margin: 0 auto; grid-template-columns: minmax(0, 460px) minmax(0, 1fr); gap: 40px; }
 .kp-login .kp-auth { margin: 0; max-width: none; }
 .kp-login:has(.kp-auth) .kp-login__info { background: radial-gradient(120% 120% at 100% 0%, rgba(255,90,31,.16), transparent 60%), rgba(16,16,18,.55); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border-color: rgba(255,255,255,.1); box-shadow: inset 0 1px 0 rgba(255,255,255,.1); }
-@media (max-width: 900px) { .kp-login:has(.kp-auth) { grid-template-columns: 1fr; max-width: 460px; } }
-@media (max-width: 520px) { .kp-auth { padding: 30px 20px 24px; border-radius: 24px; } body.kp:has(.kp-auth) .kp-main { padding: 28px 0 48px; align-items: start; } }
+@media (max-width: 900px) { .kp-login:has(.kp-auth) { grid-template-columns: 1fr; max-width: 460px; }
+  /* Handy/Tablet: die Karte steht im ersten Bildschirm mittig, der Infokasten folgt beim Scrollen */
+  .kp-login:has(.kp-auth) { grid-template-rows: minmax(calc(100svh - 76px - 48px), auto) auto; } }
+@media (max-width: 520px) { .kp-auth { padding: 30px 20px 24px; border-radius: 24px; } body.kp:has(.kp-auth) .kp-main { padding: 24px 0; } }
 @media (prefers-reduced-motion: reduce) { .kp-auth { animation: none; } }
 .kp-auth .lead b, .kp-auth .form__alt a { white-space: nowrap; }
 
@@ -560,3 +565,10 @@ body.kp:not(:has(.kp-auth)) .kp-main .kp-tile.is-active { border-color: var(--ho
 @keyframes kp-rise { from { opacity: 0; transform: translateY(12px); } }
 @media (prefers-reduced-motion: reduce) { .kp-main > .container > * { animation: none; } }
 @media (prefers-reduced-transparency: reduce) { body.kp .kp-main :is(.kp-card, .kp-tile, .kp-row, .kp-projekt, .form, .kp-auth) { background-color: #121214; -webkit-backdrop-filter: none; backdrop-filter: none; } }
+
+/* Kopfzeile: am PC steht neben dem Logo, wo man gerade ist */
+.kp-brand { display: flex; align-items: center; gap: 18px; min-width: 0; }
+.kp-where { display: inline-flex; align-items: center; gap: 10px; padding-left: 18px; border-left: 1px solid var(--line-2); font-family: var(--mono); font-size: .8rem; letter-spacing: .03em; color: var(--muted); white-space: nowrap; }
+.kp-where i { font-style: normal; color: var(--hot); opacity: .8; }
+.kp-where span:last-child { color: var(--text); max-width: 30ch; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 760px) { .kp-where { display: none; } }

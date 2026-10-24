@@ -881,6 +881,15 @@ function kp_notify_message(string $u, array $acc, array $msg): void
 function kp_page(string $title, string $body, string $nav = ''): void
 {
     $t = cx_h($title);
+    // Kleine Ortsangabe neben dem Logo (nur am PC sichtbar): Bereich und aktuelle Seite
+    $ort = ['Kundenportal'];
+    if (str_starts_with((string) parse_url((string) ($_SERVER['REQUEST_URI'] ?? ''), PHP_URL_PATH), '/kunden/admin')) {
+        $ort[] = 'Admin';
+    }
+    if (!in_array($title, $ort, true)) {
+        $ort[] = $title;
+    }
+    $where = implode('<i aria-hidden="true">/</i>', array_map(fn($o) => '<span>' . cx_h($o) . '</span>', $ort));
     header('Content-Type: text/html; charset=utf-8');
     echo <<<HTML
 <!DOCTYPE html>
@@ -894,12 +903,15 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/css/style.css?v=5d1d811a">
   <link rel="stylesheet" href="/assets/css/tk.css?v=c727575a">
-  <link rel="stylesheet" href="/assets/css/portal.css?v=6be197ae">
+  <link rel="stylesheet" href="/assets/css/portal.css?v=c8d4e1a2">
 </head>
 <body class="kp">
 <header class="header">
   <div class="container header__inner">
-    <a href="/" class="tk-logo" aria-label="Tim Kofler Webdesign – Startseite"><img src="/assets/img/tk-logo-2.svg" alt="Tim Kofler Webdesign" width="71" height="36"></a>
+    <div class="kp-brand">
+      <a href="/" class="tk-logo" aria-label="Tim Kofler Webdesign – Startseite"><img src="/assets/img/tk-logo-2.svg" alt="Tim Kofler Webdesign" width="71" height="36"></a>
+      <span class="kp-where" title="Hier bist du gerade">{$where}</span>
+    </div>
     <div class="kp-nav">{$nav}</div>
   </div>
 </header>
