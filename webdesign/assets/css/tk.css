@@ -1169,3 +1169,7 @@ html:not(.anf-js) .anf__panel--rr { padding-bottom: 0; }
 /* Fußnoten unter ganzen Abschnitten mittig (Tim: "generell mittig"), mit kurzem orangen Strich statt Seitenlinie */
 .section .container > .note-legal { text-align: center; max-width: 760px; margin-left: auto; margin-right: auto; padding-left: 0; border-left: 0; }
 .section .container > .note-legal::before { content: ""; display: block; width: 36px; height: 2px; margin: 0 auto 12px; border-radius: 2px; background: var(--hot-grad); }
+/* Footer-Hinweis und Copyright-Zeile ebenfalls mittig */
+.footer__risk { text-align: center; }
+.footer__risk p { max-width: 820px; margin-left: auto; margin-right: auto; }
+.footer__bottom { justify-content: center; text-align: center; }

@@ -1063,7 +1063,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <meta name="theme-color" content="#0b0b0b">
   <link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/css/style.css?v=5d1d811a">
-  <link rel="stylesheet" href="/assets/css/tk.css?v=36567a35">
+  <link rel="stylesheet" href="/assets/css/tk.css?v=4dd609cc">
   <link rel="stylesheet" href="/assets/css/portal.css?v=8a2f6d31">
 </head>
 <body class="kp">
