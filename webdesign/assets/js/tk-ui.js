@@ -569,6 +569,15 @@
   }, { rootMargin: "0px 0px -15% 0px" }).observe(sign);
 })();
 
+// Im Anfrage-Bereich sind alle Kontaktwege schon da: schwebende Knöpfe ausblenden, damit sie keine Felder verdecken (Klasse tk-in-anf)
+(function () {
+  var anf = document.querySelector("[data-anf]");
+  if (!anf || !("IntersectionObserver" in window)) return;
+  new IntersectionObserver(function (e) {
+    document.documentElement.classList.toggle("tk-in-anf", e[0].isIntersecting);
+  }, { rootMargin: "0px 0px -25% 0px" }).observe(anf);
+})();
+
 // Anfrage [10]: Reiter "Anfrage schreiben" / "Rückruf". Ohne JS stehen beide Formulare untereinander.
 (function () {
   var box = document.querySelector("[data-anf]");
