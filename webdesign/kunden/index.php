@@ -354,7 +354,7 @@ if ($inviteUser !== '' && isset($_GET['willkommen'])) {
     <label class="form__field"><span>Benutzername</span><input type="text" name="benutzer" value="{$hu}" readonly autocomplete="username"></label>
     <label class="form__field"><span>Neues Passwort <em>(mind. 10 Zeichen)</em></span><span class="kp-pw"><input type="password" name="neu" required minlength="10" maxlength="200" autocomplete="new-password" data-kp-reveal autofocus></span></label>
     <label class="form__field"><span>Passwort wiederholen</span><input type="password" name="neu2" required minlength="10" maxlength="200" autocomplete="new-password"></label>
-    <p class="kp-hint">Tipp: ein kurzer Satz ist leicht zu merken und trotzdem sicher, z. B. „Unser Brot ist das beste 2026“.</p>
+    <p class="kp-hint">Tipp: Ein kurzer Satz ist sicher und leicht zu merken, z. B. „Kaffee am Morgen um sieben“. Bitte nirgends sonst verwenden.</p>
     <button class="btn" type="submit">Passwort speichern</button>
   </form>
 </div>
