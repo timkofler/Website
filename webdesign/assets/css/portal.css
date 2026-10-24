@@ -145,7 +145,8 @@
 .kp-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 0 0 24px; }
 .kp-tiles--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .kp-tile { display: flex; align-items: center; gap: 14px; padding: 16px 18px; border: 1px solid var(--line-2); border-radius: 18px; background: var(--bg-2); color: var(--text); text-decoration: none !important; transition: border-color .2s, background .2s, transform .2s; }
-.kp-tile:hover { border-color: var(--muted); transform: translateY(-1px); }
+/* Nur mit Maus: am Handy bleibt :hover nach dem Tippen hängen, dann säße die angetippte Kachel 1 px höher */
+@media (hover: hover) { .kp-tile:hover { border-color: var(--muted); transform: translateY(-1px); } }
 .kp-tile:focus-visible { outline: 2px solid var(--hot); outline-offset: 3px; }
 .kp-tile.is-active { border-color: var(--hot); background: linear-gradient(135deg, rgba(255,90,31,.16), rgba(255,90,31,.04)); box-shadow: 0 8px 28px -14px rgba(255,90,31,.55); }
 .kp-tile__ico { flex: none; width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; background: var(--surface-2); color: var(--muted); transition: background .2s, color .2s; }
@@ -560,7 +561,7 @@ body.kp:not(:has(.kp-auth)) .kp-main :is(.kp-card, .kp-tile, .kp-row, .kp-projek
 body.kp:not(:has(.kp-auth)) .kp-main .kp-projekt { border-color: rgba(255,90,31,.32); box-shadow: inset 0 1px 0 rgba(255,160,110,.16), 0 30px 70px -40px rgba(255,90,31,.45); }
 body.kp:not(:has(.kp-auth)) .kp-main .kp-tile.is-active { border-color: var(--hot); box-shadow: inset 0 1px 0 rgba(255,170,120,.22), 0 12px 34px -16px rgba(255,90,31,.7); }
 .kp-main .kp-row { transition: border-color .25s, transform .25s, box-shadow .25s; }
-.kp-main .kp-row:hover { border-color: rgba(255,90,31,.38); transform: translateY(-1px); }
+@media (hover: hover) { .kp-main .kp-row:hover { border-color: rgba(255,90,31,.38); transform: translateY(-1px); } }
 .kp-main > .container > * { animation: kp-rise .6s cubic-bezier(.2,.8,.2,1) both; }
 .kp-main > .container > *:nth-child(2) { animation-delay: .05s; } .kp-main > .container > *:nth-child(3) { animation-delay: .1s; }
 .kp-main > .container > *:nth-child(4) { animation-delay: .15s; } .kp-main > .container > *:nth-child(n+5) { animation-delay: .2s; }

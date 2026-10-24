@@ -92,6 +92,9 @@
       if (!t) return;
       e.preventDefault();
       show(t.getAttribute('data-kp-tab'));
+      // Immer gleich ausrichten: kurze Bereiche würden sonst die Scrollposition kappen, lange sie behalten,
+      // und Überschrift und Kacheln stünden nach jedem Wechsel ein Stück anders.
+      if (window.scrollY) window.scrollTo({ top: 0, behavior: 'instant' });
       if (history.replaceState) history.replaceState(null, '', '#' + t.getAttribute('data-kp-tab'));
     });
     window.addEventListener('hashchange', function () {
