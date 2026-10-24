@@ -210,15 +210,22 @@
     $("[data-m-dot]").className = me.st === "bad" ? "" : "off";
     $("[data-m-thx]").hidden = me.st === "bad";
     $("[data-m-due]").hidden = me.st !== "bad";
-    var cv = $("[data-m-qr]");
-    if (cv && window.qrcode) {
-      var q = qrcode(0, "M");
-      q.addData(["BCD", "002", "1", "SCT", "", (S.brand ? S.brand.name : P.name).slice(0, 70), "AT000000000000000000", "EUR" + amt.toFixed(2), "", "", ref.replace(" · ", " ")].join("\n"));
-      q.make();
-      var n = q.getModuleCount(), px = Math.floor(164 / (n + 4)), off = Math.floor((164 - px * n) / 2), cx = cv.getContext("2d");
-      cx.fillStyle = "#fff"; cx.fillRect(0, 0, 164, 164); cx.fillStyle = "#0f172a";
-      for (var y = 0; y < n; y++) for (var x = 0; x < n; x++) if (q.isDark(y, x)) cx.fillRect(off + x * px, off + y * px, px, px);
-    }
+    qrTxt = ["BCD", "002", "1", "SCT", "", (S.brand ? S.brand.name : P.name).slice(0, 70), "AT000000000000000000", "EUR" + amt.toFixed(2), "", "", ref.replace(" · ", " ")].join("\n");
+    drawQR();
+  }
+  // QR-Zahlschein im Stil von tim-kofler.at (tk-qr.js): runde Punkte, oranger Kern, Vereinslogo in der Mitte
+  var qrTxt = "", qrImg = null;
+  function drawQR() {
+    var cv = $("[data-m-qr]"), B = S.brand;
+    if (!cv || !B || !qrTxt || !window.qrcode || !window.tkQR) return;
+    var logo;
+    if (B && B.type === "bild" && B.img) {
+      if (!qrImg || qrImg.getAttribute("src") !== B.img) { qrImg = new Image(); qrImg.onload = drawQR; qrImg.src = B.img; }
+      logo = { img: qrImg };
+    } else logo = { text: B.short || ini(B.name), bg: B.color, fg: lum(B.color) > 0.36 ? "#111827" : "#fff" };
+    var cx = cv.getContext("2d");
+    cx.clearRect(0, 0, cv.width, cv.height);
+    tkQR.draw(cx, qrTxt, 0, 0, cv.width, { ecl: "Q", logo: logo });
   }
   $("[data-m-paid]").addEventListener("click", function () {
     var due = $("[data-m-due]"), btn = this;
@@ -949,6 +956,7 @@
     st.setProperty("--acc-d", hsl(h, Math.max(s, 52), clamp(l, 58, 68)));
     st.setProperty("--acc-l", hsl(h, s, clamp(l, 26, 36)));
     S.brand.color = hex;
+    drawQR();
   }
   var SYMS = ["i-note", "i-ball", "i-mask", "i-heart", "i-star", "i-leaf", "i-peak", "i-cup"];
   // Dieselbe Farbskala wie beim Gratis-Entwurf auf tim-kofler.at
@@ -976,6 +984,7 @@
         el.innerHTML = '<svg aria-hidden="true"><use href="#' + B.sym + '"/></svg>';
       } else el.textContent = B.short || ini(B.name);
     });
+    drawQR();
   }
   var slug = function (n) { return n.toLowerCase().replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue").replace(/ß/g, "ss").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 32) || "verein"; };
   function paintName() {
@@ -1181,5 +1190,5 @@
   });
   // qrcode.js wird ebenfalls mit defer geladen und ist hier schon da; zur Sicherheit erst nach "load" zeichnen.
   load("sport");
-  if (!window.qrcode) window.addEventListener("load", renderDue);
+  if (!window.qrcode || !window.tkQR) window.addEventListener("load", renderDue);
 })();
