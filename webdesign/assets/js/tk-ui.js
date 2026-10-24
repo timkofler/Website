@@ -609,3 +609,46 @@
   select(tabs[0]);
   box.querySelectorAll(".anf__panel").forEach(function (p) { p.classList.remove("is-in"); });
 })();
+
+/* Startseite am Handy: aufklappbare Karten (data-mf-open). Anker-Links auf eingeklappte Inhalte klappen sie automatisch auf. */
+(function () {
+  var openers = document.querySelectorAll("[data-mf-open]");
+  if (!openers.length) return;
+  function open(key) {
+    var sec = document.querySelector('[data-mf-sec="' + key + '"]');
+    if (sec) sec.classList.add("mf-open");
+    document.querySelectorAll('[data-mf="' + key + '"]').forEach(function (el) { el.classList.add("mf-open"); });
+    document.querySelectorAll('[data-mf-open="' + key + '"]').forEach(function (b) {
+      b.setAttribute("aria-expanded", "true");
+      (b.parentNode.classList.contains("mf-slot") ? b.parentNode : b).classList.add("mf-done");
+    });
+  }
+  openers.forEach(function (b) {
+    b.addEventListener("click", function () {
+      var key = b.getAttribute("data-mf-open");
+      var first = document.querySelector('[data-mf="' + key + '"]');
+      open(key);
+      var sec = document.querySelector('[data-mf-sec="' + key + '"]');
+      if (first && !sec) { var f = first.querySelector("summary, a, button"); if (f) f.focus({ preventScroll: true }); }
+    });
+  });
+  function fromHash() {
+    var id = decodeURIComponent(location.hash.slice(1));
+    var el = id && document.getElementById(id);
+    if (!el) return;
+    var hidden = el.closest("[data-mf]:not(.mf-open), .mf-sec:not(.mf-open)");
+    if (!hidden) return;
+    open(hidden.getAttribute("data-mf") || hidden.getAttribute("data-mf-sec"));
+    requestAnimationFrame(function () { el.scrollIntoView({ behavior: "auto", block: "start" }); });
+  }
+  fromHash();
+  if (document.readyState !== "complete") window.addEventListener("load", function () {
+    var el = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (el && el.closest("[data-mf], .mf-sec")) el.scrollIntoView({ behavior: "auto", block: "start" });
+  });
+  window.addEventListener("hashchange", fromHash);
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest('a[href*="#"]');
+    if (a && a.pathname === location.pathname && a.hash === location.hash) fromHash();
+  });
+})();
