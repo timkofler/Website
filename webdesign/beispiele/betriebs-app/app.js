@@ -181,6 +181,8 @@
     return o;
   };
   if (!S || !S.d || !S.d.beauty) S = fresh();
+  // Direktlink auf eine Branche, z. B. /beispiele/betriebs-app/#gastro (von der Startseiten-Vorschau)
+  var hb = location.hash.slice(1); if (BR[hb]) S.br = hb;
   var save = function () { store.set(KEY, S); };
   var app = $("[data-app]"), demo = $(".demo");
   if (!app) return;
