@@ -218,8 +218,17 @@ main > .section > .container { position: relative; z-index: 1; }
   .btn--line { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(255,255,255,.06); }
   .band .btn--line { background: rgba(255,255,255,.3); }
 }
+/* Kacheln als einzelne, runde Glaskarten mit Abstand (statt einer eckigen Platte mit Haarlinien) */
+.figures, .rules, .modules, .xgrid { gap: 14px; background: none; border: 0; border-radius: 0; box-shadow: none; overflow: visible; }
+.figure, .rule, .module, .xcell { position: relative; border: 1px solid var(--g-line-2); border-radius: 20px;
+  background: var(--g-sheen), rgba(16,16,16,.62); box-shadow: var(--g-hi), 0 24px 60px -34px rgba(0,0,0,.7); transition: background .25s, border-color .25s, transform .25s; }
+.xcell { border-radius: 24px; }
+.xcell:nth-child(1), .xcell:nth-child(2), .xcell:nth-child(odd), .figure:first-child { border: 1px solid var(--g-line-2); }
+.figure:hover, .rule:hover, .module:hover, .xcell:hover { background: var(--g-sheen), rgba(26,26,26,.66); border-color: rgba(255,255,255,.2); }
+@media (max-width: 900px) { .figure:nth-child(-n+2) { border-bottom-color: var(--g-line-2); } }
+@media (max-width: 680px) { .figures, .rules, .modules, .xgrid { gap: 10px; } .figure, .rule, .module { border-radius: 18px; } .xcell { border-radius: 20px; border-bottom-color: var(--g-line-2); } }
 @media (prefers-reduced-motion: reduce) { body::before { animation: none; } .nav__ind { transition: opacity .2s; } }
 @media (prefers-reduced-transparency: reduce) {
   .header { background: rgba(11,11,11,.97); }
-  .step, .post, .faq__item, .glance, .form, .callout, .beta__lists > div { background: var(--bg-2); }
+  .step, .post, .faq__item, .glance, .form, .callout, .beta__lists > div, .figure, .rule, .module, .xcell { background: var(--bg-2); }
 }
