@@ -225,14 +225,17 @@
     list.push({ id: Date.now(), title: f.title.value.trim(), d: f.d.value, t: f.t.value, sub: f.sub.value.trim(), text: "", s: f.s.value, img: photo });
     if (!save(KEY_EV, list)) { err.textContent = "Das Foto ist für die Demo zu groß. Bitte ein kleineres nehmen."; err.hidden = false; return; }
     addFeed("LA", "#4fe6e1", "Lena A. hat „" + f.title.value.trim() + "“ veröffentlicht"); persist();
-    form.reset(); photo = ""; preview(); renderMine();
+    form.reset(); photo = ""; preview(); renderMine(); refreshPage();
     toast('<svg aria-hidden="true"><use href="#pi-check"/></svg><span><b>Ist online!</b> Der Termin steht jetzt auf der Webseite.</span><button type="button" data-pt-view>Ansehen</button>');
   });
   toastEl.addEventListener("click", function (e) {
     if (!e.target.closest("[data-pt-view]")) return;
-    try { sessionStorage.setItem("bunkerJump", "termine"); } catch (x) {}
-    location.reload();
+    toastEl.hidden = true;
+    var t = document.getElementById("termine");
+    window.scrollTo({ top: t.getBoundingClientRect().top + scrollY - 70, behavior: reduce ? "auto" : "smooth" });
   });
+  // Terminliste, Countdown und "Nächstes Event" auf der Seite sofort nachziehen
+  function refreshPage() { if (window.bunkerEvents) window.bunkerEvents.refresh(); renderHome(); }
   function renderMine() {
     var list = load(KEY_EV, []).sort(function (a, b) { return (a.d + a.t).localeCompare(b.d + b.t); });
     $("[data-pt-mine]").innerHTML = list.map(function (ev) {
@@ -245,7 +248,7 @@
   $("[data-pt-mine]").addEventListener("click", function (e) {
     var b = e.target.closest("[data-del]"); if (!b) return;
     save(KEY_EV, load(KEY_EV, []).filter(function (ev) { return String(ev.id) !== b.getAttribute("data-del"); }));
-    renderMine();
+    renderMine(); refreshPage();
   });
 
   // ---------- Helfer ----------

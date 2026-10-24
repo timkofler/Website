@@ -11,7 +11,7 @@
 <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/bigshoulders.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/style.css?v=17ee6a2e">
-<link rel="stylesheet" href="assets/v2.css?v=3">
+<link rel="stylesheet" href="assets/v2.css?v=4">
 <script src="assets/early.js?v=2"></script>
 <script type="application/ld+json">
 {
@@ -612,8 +612,8 @@
   <symbol id="pi-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 7l10 10M17 7 7 17"/></symbol>
 </svg>
 
-<script src="assets/app.js?v=8" defer></script>
-<script src="assets/portal.js?v=3" defer></script>
+<script src="assets/app.js?v=9" defer></script>
+<script src="assets/portal.js?v=4" defer></script>
 <script type="module" src="assets/bunker3d.js?v=10"></script>
 </body>
 </html>

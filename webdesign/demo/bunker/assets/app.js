@@ -55,11 +55,15 @@
     { d: "2026-12-19", t: "19:00", title: "Mario Kart Turnier", sub: "Mario Madness, Controller bereit", s: "kart" }
   ];
 
-  // Demo: Termine aus der Vereins-Verwaltung (nur in diesem Browser gespeichert)
+  // Demo: Termine aus der Vereins-Verwaltung bzw. dem Vereinsportal (nur in diesem Browser gespeichert)
   function store(key) { try { return JSON.parse(localStorage.getItem(key) || "[]") || []; } catch (e) { return []; } }
-  store("bunkerDemoEvents").forEach(function (ev) {
-    if (ev && /^\d{4}-\d{2}-\d{2}$/.test(ev.d) && ev.title) EVENTS.push({ d: ev.d, t: ev.t || "", title: String(ev.title), sub: ev.sub || "", text: ev.text || "", s: ev.s || "misc", img: /^data:image\//.test(ev.img || "") ? ev.img : "", demo: true });
-  });
+  var BASE = EVENTS.slice();
+  function loadEvents() {
+    EVENTS = BASE.slice();
+    store("bunkerDemoEvents").forEach(function (ev) {
+      if (ev && /^\d{4}-\d{2}-\d{2}$/.test(ev.d) && ev.title) EVENTS.push({ d: ev.d, t: ev.t || "", title: String(ev.title), sub: ev.sub || "", text: ev.text || "", s: ev.s || "misc", img: /^data:image\//.test(ev.img || "") ? ev.img : "", demo: true });
+    });
+  }
 
   var WD = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
   var WDL = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
@@ -69,11 +73,7 @@
   function hhmm(t) { if (!t) return ""; var h = t.split(":"); return (+h[0]) + (h[1] !== "00" ? ":" + h[1] : "") + " Uhr"; }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
 
-  var now = new Date();
-  EVENTS.forEach(function (ev) { ev.start = pd(ev.d, ev.t); ev.end = pd(ev.e || ev.d, "23:59"); });
-  var upcoming = EVENTS.filter(function (ev) { return ev.end >= now; }).sort(function (a, b) { return a.start - b.start; });
-  var past = EVENTS.filter(function (ev) { return ev.end < now; }).sort(function (a, b) { return b.start - a.start; });
-  var next = upcoming[0];
+  var upcoming = [], past = [], next = null, rendered = false;
 
   // ---- Nächstes Event -------------------------------------------------
   function longDate(ev) {
@@ -83,6 +83,14 @@
   }
   function shortDate(ev) { var s = ev.start; return WD[s.getDay()] + ", " + s.getDate() + ". " + MO[s.getMonth()] + (ev.t ? " · " + hhmm(ev.t) : ""); }
 
+  // Termine (neu) zeichnen: beim Laden und sobald im Vereinsportal etwas eingetragen wird
+  function renderEvents() {
+  loadEvents();
+  var now = new Date();
+  EVENTS.forEach(function (ev) { ev.start = pd(ev.d, ev.t); ev.end = pd(ev.e || ev.d, "23:59"); });
+  upcoming = EVENTS.filter(function (ev) { return ev.end >= now; }).sort(function (a, b) { return a.start - b.start; });
+  past = EVENTS.filter(function (ev) { return ev.end < now; }).sort(function (a, b) { return b.start - a.start; });
+  next = upcoming[0];
   if (next) {
     document.querySelectorAll("[data-next-title]").forEach(function (el) { el.textContent = next.title; });
     document.querySelectorAll("[data-next-date]").forEach(function (el) { el.textContent = el.closest(".hero") ? shortDate(next) : longDate(next); });
@@ -90,9 +98,13 @@
     var nt = document.querySelector("[data-next-text]");
     if (nt) nt.textContent = next.text || next.sub || (SERIES[next.s] ? SERIES[next.s].text : "");
     var nimg = document.querySelector(".next__media img");
-    if (nimg && next.img) { nimg.src = next.img; nimg.alt = next.title; }
+    if (nimg) { if (!nimg.hasAttribute("data-src0")) nimg.setAttribute("data-src0", nimg.getAttribute("src") + "|" + nimg.alt); var o = nimg.getAttribute("data-src0").split("|"); nimg.src = next.img || o[0]; nimg.alt = next.img ? next.title : o[1]; }
     var card = document.querySelector("[data-accent]");
     if (card) card.style.setProperty("--c", colorOf(next.s));
+  }
+
+  renderLists();
+  rendered = true;
   }
 
   // Countdown
@@ -103,14 +115,14 @@
     cd.d.textContent = two(Math.floor(s / 86400)); cd.h.textContent = two(Math.floor(s / 3600) % 24);
     cd.m.textContent = two(Math.floor(s / 60) % 60); cd.s.textContent = two(s % 60);
   }
-  tick(); setInterval(tick, 1000);
 
   // ---- Kommende Termine + Archiv -------------------------------------
+  function renderLists() {
   var ul = document.querySelector("[data-upcoming]");
   if (ul) {
     ul.innerHTML = upcoming.slice(1).map(function (ev, i) {
       var s = ev.start;
-      return '<li class="ev reveal' + (ev.img ? " ev--img" : "") + '" style="--c:' + colorOf(ev.s) + '">' +
+      return '<li class="ev reveal' + (rendered ? " is-in" : "") + (ev.img ? " ev--img" : "") + '" style="--c:' + colorOf(ev.s) + '">' +
         (ev.img ? '<img class="ev__img" src="' + esc(ev.img) + '" alt="" loading="lazy">' : "") +
         '<div class="ev__date">' + two(s.getDate()) + "." + two(s.getMonth() + 1) + "<small>" + WDL[s.getDay()] + "</small></div>" +
         '<div><h3 class="ev__title">' + esc(ev.title) + (ev.demo ? ' <span class="ev__new">neu eingetragen</span>' : "") + "</h3>" +
@@ -132,6 +144,11 @@
   }
   var cp = document.querySelector("[data-count-past]");
   if (cp) { cp.setAttribute("data-count", past.length); cp.textContent = past.length; }
+  }
+  renderEvents();
+  tick(); setInterval(tick, 1000);
+  window.bunkerEvents = { refresh: function () { renderEvents(); tick(); } };
+  window.addEventListener("storage", function (e) { if (e.key === "bunkerDemoEvents") window.bunkerEvents.refresh(); });
 
   // ---- Reihen-Kacheln -------------------------------------------------
   var grid = document.querySelector("[data-series]");
