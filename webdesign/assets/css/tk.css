@@ -527,6 +527,13 @@ h1 .lime, h2 .lime, h3 .lime { background: var(--hot-grad); -webkit-background-c
 .tk-calc__amount { margin: 0; font-family: var(--display); font-weight: 700; font-size: clamp(2.2rem, 4vw, 3rem); line-height: 1.05; letter-spacing: -.02em; color: var(--text); font-variant-numeric: tabular-nums; }
 .tk-calc__amount small { font-family: var(--body); font-size: 1rem; font-weight: 500; color: var(--muted); margin-right: 2px; }
 .tk-calc__amount span { background: var(--hot-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+/* Zählwerk im Betrag: Spalten 0–9, die zur neuen Ziffer rollen */
+.tk-calc__amount span.tk-roll { display: inline-flex; vertical-align: bottom; background: none; color: var(--hot); }
+.tk-roll i { font-style: normal; }
+.tk-roll__d { display: inline-block; height: 1.1em; overflow: hidden; }
+.tk-roll__col { display: flex; flex-direction: column; transition: transform .9s cubic-bezier(.2,.9,.1,1); }
+.tk-roll__col > i, .tk-roll__s { display: block; height: 1.1em; line-height: 1.1em; background-image: var(--hot-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.tk-roll__s { display: inline-block; }
 .tk-calc__pkg { margin: 0; font-size: .92rem; color: var(--muted); }
 .tk-calc__list { list-style: none; margin: 8px 0 0; padding: 12px 0 0; border-top: 1px dashed var(--line-2); display: grid; gap: 7px; font-size: .9rem; }
 .tk-calc__list li { display: flex; justify-content: space-between; gap: 14px; }
@@ -975,3 +982,25 @@ html.tk-3d-on.tk-3d-view .header { -webkit-backdrop-filter: none; backdrop-filte
   .nav-toggle, .nav-toggle path, .nav-toggle__t, .nav__drop, .header__inner, .header .tk-logo img { transition: none !important; }
   .mnav.is-open, .mnav__go::before, .mnav__go svg { animation: none; }
 }
+
+/* Wort für Wort: Text hellt sich beim Scrollen auf (tk-extra.js), wichtige Wörter in Orange */
+.tk-worte .tk-w-k { font-weight: inherit; }
+.tk-worte.is-worte .tk-w { opacity: .32; transition: opacity .4s ease, color .4s ease; }
+.tk-worte.is-worte .tk-w.is-on { opacity: 1; color: var(--text); }
+.tk-worte.is-worte .tk-w--k.is-on { color: var(--hot-2); }
+
+/* Antipp-Kärtchen im Anfrageformular */
+.form__chips { display: grid; gap: 9px; }
+.form__chips-k { font-size: .95rem; font-weight: 600; color: var(--text); }
+.form__chips-k em { color: var(--muted); font-style: normal; font-weight: 400; }
+.form__chips-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.form__chips button { min-height: 38px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line-2); background: transparent; color: var(--text); font: 500 .9rem/1 var(--body); cursor: pointer; transition: border-color .2s, background .2s, color .2s; }
+.form__chips button:hover { border-color: rgba(255,90,31,.6); }
+.form__chips button[aria-pressed="true"] { border-color: var(--hot); background: var(--hot-dim); color: var(--hot-2); }
+.form__chips button[aria-pressed="true"]::before { content: "✓ "; }
+.form__chips button:focus-visible { outline: 2px solid var(--hot); outline-offset: 2px; }
+
+/* Ein Satz ganz unten, vor dem großen Schriftzug */
+.tk-endnote { margin: 56px 0 0; text-align: center; font-size: 1.05rem; color: var(--muted); }
+.tk-endnote a { color: var(--hot-2); text-decoration: underline; text-underline-offset: 4px; }
+.tk-endnote + .tk-sign { margin-top: 28px; }

@@ -39,6 +39,70 @@
     io.observe(apps);
   }
 
+  // Text hellt sich beim Scrollen Wort für Wort auf ([data-tk-worte], wichtige Wörter in <b class="tk-w-k">).
+  // Ohne JavaScript oder mit reduzierter Bewegung steht der Text ganz normal da.
+  var worte = document.querySelectorAll("[data-tk-worte]");
+  if (worte.length && !reduce) {
+    var groups = [];
+    worte.forEach(function (box) {
+      var list = [], walker = document.createTreeWalker(box, NodeFilter.SHOW_TEXT), nodes = [], n;
+      while ((n = walker.nextNode())) nodes.push(n);
+      nodes.forEach(function (t) {
+        var parts = t.nodeValue.split(/(\s+)/), frag = document.createDocumentFragment();
+        var key = t.parentNode.closest && t.parentNode.closest(".tk-w-k");
+        parts.forEach(function (w) {
+          if (!w) return;
+          if (/^\s+$/.test(w)) { frag.appendChild(document.createTextNode(w)); return; }
+          var sp = document.createElement("span");
+          sp.className = "tk-w" + (key ? " tk-w--k" : "");
+          sp.textContent = w;
+          frag.appendChild(sp); list.push(sp);
+        });
+        t.parentNode.replaceChild(frag, t);
+      });
+      box.classList.add("is-worte");
+      groups.push({ box: box, words: list, lit: -1 });
+    });
+    var wTick = false;
+    function lightWords() {
+      wTick = false;
+      var vh = window.innerHeight;
+      groups.forEach(function (g) {
+        var r = g.box.getBoundingClientRect();
+        var p = Math.max(0, Math.min(1, (vh * 0.85 - r.top) / (r.height + vh * 0.35)));
+        var lit = Math.round(p * g.words.length);
+        if (lit === g.lit) return;
+        g.words.forEach(function (w, i) { w.classList.toggle("is-on", i < lit); });
+        g.lit = lit;
+      });
+    }
+    window.addEventListener("scroll", function () { if (!wTick) { wTick = true; requestAnimationFrame(lightWords); } }, { passive: true });
+    window.addEventListener("resize", lightWords);
+    lightWords();
+  }
+
+  // Antipp-Kärtchen im Formular ([data-tk-chips]): Auswahl landet als eigene Zeile am Ende des Nachrichtenfelds.
+  document.querySelectorAll("[data-tk-chips]").forEach(function (box) {
+    var form = box.closest("form"), ta = form && form.querySelector('textarea[name="' + (box.getAttribute("data-target") || "nachricht") + '"]');
+    if (!ta) return;
+    var prefix = box.getAttribute("data-prefix") || "Ich interessiere mich für: ";
+    var btns = box.querySelectorAll("button");
+    box.hidden = false;
+    function sync() {
+      var picked = [];
+      btns.forEach(function (b) { if (b.getAttribute("aria-pressed") === "true") picked.push(b.textContent.trim()); });
+      var lines = ta.value.split("\n").filter(function (l) { return l.indexOf(prefix) !== 0; });
+      while (lines.length && !lines[lines.length - 1].trim()) lines.pop();
+      if (picked.length) lines.push(prefix + picked.join(", "));
+      ta.value = lines.join("\n");
+    }
+    btns.forEach(function (b) {
+      b.addEventListener("click", function () { b.setAttribute("aria-pressed", String(b.getAttribute("aria-pressed") !== "true")); sync(); });
+    });
+    // Wird das Formular zurückgesetzt, gehen auch die Kärtchen zurück
+    form.addEventListener("reset", function () { btns.forEach(function (b) { b.setAttribute("aria-pressed", "false"); }); });
+  });
+
   // Schwebender Hinweis auf die Beispielseiten (nicht auf den Beispielseiten selbst)
   if (/^\/beispiele\//.test(location.pathname)) return;
   try { if (sessionStorage.getItem("tk-float-zu") === "1") return; } catch (e) {}
