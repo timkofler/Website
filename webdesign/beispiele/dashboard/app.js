@@ -270,8 +270,12 @@
     // Diagramm: 5 Vormonate fix, aktueller Monat aus den Rechnungen
     var vals = [9400, 11800, 8700, 12600, 10900, paid], labs = [];
     for (var i = 5; i >= 0; i--) labs.push(MON[(now.getMonth() - i + 12) % 12]);
-    var W = Math.max(280, $("#chart").clientWidth || 600), H = $("#chart").clientHeight || 200, mx = 14000, bw = Math.min(60, (W - 40) / 6 * .62), gap = (W - 40 - bw * 6) / 5, svg = "";
-    [0, 5000, 10000].forEach(function (g) { var y = H - 24 - (g / mx) * (H - 44); svg += '<line class="gl" x1="40" x2="' + W + '" y1="' + y + '" y2="' + y + '"/><text class="lb" x="0" y="' + (y + 4) + '">' + (g / 1000) + 'k</text>'; });
+    // Skala richtet sich nach dem größten Monat (sonst schießt ein starker Monat aus der Karte): Schritte 5k, 10k, 20k …
+    var mx = Math.max(14000, Math.max.apply(null, vals) * 1.12), step = 5000, grid = [];
+    while (mx > step * 3) step *= 2;
+    for (var g = 0; g <= mx; g += step) grid.push(g);
+    var W = Math.max(280, $("#chart").clientWidth || 600), H = $("#chart").clientHeight || 200, bw = Math.min(60, (W - 40) / 6 * .62), gap = (W - 40 - bw * 6) / 5, svg = "";
+    grid.forEach(function (g) { var y = H - 24 - (g / mx) * (H - 44); svg += '<line class="gl" x1="40" x2="' + W + '" y1="' + y + '" y2="' + y + '"/><text class="lb" x="0" y="' + (y + 4) + '">' + (g / 1000) + 'k</text>'; });
     vals.forEach(function (v, i) {
       var x = 40 + i * (bw + gap), bh = Math.max(2, (v / mx) * (H - 44)), y = H - 24 - bh;
       svg += '<rect class="b' + (i === 5 ? " cur" : "") + '" x="' + x + '" y="' + y + '" width="' + bw + '" height="' + bh + '" rx="7"><title>' + labs[i] + ": " + eur(v) + '</title></rect>';
