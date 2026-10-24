@@ -1230,8 +1230,6 @@ html:not(.anf-js) .anf__panel--rr { padding-bottom: 0; }
   .mf-home .tk-calc__toggle { min-height: 40px; padding: 0 18px; font-size: .86rem; gap: 6px; }
   .mf-home .tk-calc__toggle svg { width: 15px; height: 15px; }
   .mf-home #fragen .faq__item summary { padding: 15px 44px 15px 18px; font-family: var(--body); font-weight: 600; font-size: .9rem; }
-  .mf-home #fragen .faq__item summary::after { content: ""; right: 18px; width: 13px; height: 13px; background: linear-gradient(var(--hot), var(--hot)) center / 100% 1.5px no-repeat, linear-gradient(#fff, #fff) center / 1.5px 100% no-repeat; transition: transform .25s ease; }
-  .mf-home #fragen .faq__item[open] summary::after { content: ""; background: linear-gradient(var(--hot), var(--hot)) center / 100% 1.5px no-repeat, linear-gradient(var(--hot), var(--hot)) center / 1.5px 100% no-repeat; transform: translateY(-50%) rotate(45deg); }
   .mf-home #referenz .tk-ref__shot, .mf-home #ueber .tk-worte, .mf-home #anfrage .anf__steps, .mf-home #fragen .faq-wrap__ask { display: none; }
   .mf-home .footer__grid > div:nth-child(2), .mf-home .footer__grid > div:nth-child(3) { display: none; }
   html:not(:has(#mf-nojs)) .mf-home .mf-card, html:not(:has(#mf-nojs)) .mf-home .mf-more { display: flex; }
@@ -1270,3 +1268,32 @@ html:not(.anf-js) .anf__panel--rr { padding-bottom: 0; }
 .tk-chat__wabar { border-color: rgba(255,90,31,.35); background: rgba(255,255,255,.045); }
 .tk-chat__wabar:hover { border-color: rgba(255,90,31,.75); background: rgba(255,90,31,.08); }
 .tk-chat__wabar em { color: var(--hot, #ff5a1f); }
+
+/* Referenz-Knopf im CryptoX-Lime (Farbe von crypto-x.at) */
+.btn.tk-btn-cx { background: #dcf763; border-color: #dcf763; color: #0b0b0b; box-shadow: 0 10px 30px -12px rgba(220,247,99,.55); }
+.btn.tk-btn-cx:hover { background: #e8ff86; border-color: #e8ff86; color: #0b0b0b; }
+
+/* Häufige Fragen (Startseite, alle Breiten): fein gezeichnetes Plus (ein Strich orange, einer weiß), offen oranges X;
+   ab Frage 7 eingeklappt hinter "Alle Fragen anzeigen". Die Box daneben bleibt kompakt und oben bündig. */
+.mf-home #fragen .faq__item summary::after { content: ""; right: 22px; width: 13px; height: 13px; background: linear-gradient(var(--hot), var(--hot)) center / 100% 1.5px no-repeat, linear-gradient(#fff, #fff) center / 1.5px 100% no-repeat; transition: transform .25s ease; }
+.mf-home #fragen .faq__item[open] summary::after { content: ""; background: linear-gradient(var(--hot), var(--hot)) center / 100% 1.5px no-repeat, linear-gradient(var(--hot), var(--hot)) center / 1.5px 100% no-repeat; transform: translateY(-50%) rotate(45deg); }
+html:not(:has(#mf-nojs)) .mf-home #fragen .mf-more { display: flex; margin-top: 0; }
+html:not(:has(#mf-nojs)) .mf-home #fragen [data-mf="faq"]:not(.mf-open) { display: none; }
+
+/* Footer (Tim 2026-10-24, Vorschlag A / Variante 1): drei Spalten mit je 5 Links, Hinweis klein unter den Kanälen,
+   untere Zeile: © + „Keine Cookies“/„Kein Tracking“ als Pillen mit orangem Punkt links, Impressum/Datenschutz rechts */
+.footer__grid { margin-bottom: 40px; }
+@media (min-width: 901px) { .footer__grid { grid-template-columns: 1.5fr 1fr 1fr 1fr; } }
+.footer__hint { margin: 22px 0 0; max-width: 330px; font-size: .74rem; line-height: 1.6; color: #7c7c7c; }
+.footer__hint strong { color: var(--muted); }
+.footer__hint a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.footer .footer__bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px 24px; text-align: left; margin-top: 0; padding-top: 24px; border-top: 1px solid var(--line); }
+.footer__copy { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 14px; }
+.footer__pill { display: inline-flex; align-items: center; gap: 7px; padding: 5px 11px; border: 1px solid var(--line); border-radius: 99px; color: var(--muted); }
+.footer__pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--hot); box-shadow: 0 0 8px rgba(255,90,31,.7); }
+.footer__legal { display: flex; gap: 22px; }
+.footer__legal a { color: var(--muted); }
+@media (max-width: 680px) {
+  .footer .footer__bottom { flex-direction: column; align-items: flex-start; }
+  .footer__copy > span:first-child { flex-basis: 100%; }
+}

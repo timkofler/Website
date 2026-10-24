@@ -244,6 +244,7 @@ function build(THREE, RoomEnvironment) {
   var inView = true, visible = true, raf = 0, last = 0, t0 = 0, sp0 = 0, prog = 0, frames = 0, slow = 0, checked = false, first = true;
   // Am Handy fährt die Plakette fast mit dem Inhalt mit und blendet erst aus, wenn sie hinter dem Laufband steckt.
   var ride = small ? .25 : .58, span = small ? 1.1 : .75;
+  var ringEl = stageEl.querySelector(".tk-ring");
   function frame(now) {
     raf = 0; if (!visible) return;
     var gap = last ? now - last : 16, dt = Math.min(.05, gap / 1000); last = now;
@@ -278,6 +279,9 @@ function build(THREE, RoomEnvironment) {
     rig.position.y = Math.sin(t * .9) * .05 - p * .4;
     var sc = (.82 + a * .18) * (1 - p * .22);
     rig.scale.setScalar(sc);
+    // Buchstaben-Ring (DOM, tk-extra.js) fährt mit der Plakette mit, schrumpft mit und blendet gemeinsam aus,
+    // damit er beim Scrollen nicht allein stehen bleibt
+    if (ringEl) { ringEl.style.translate = "0 " + (sy * ride).toFixed(1) + "px"; ringEl.style.scale = (1 - p * .22).toFixed(3); ringEl.style.opacity = fade.toFixed(3); }
     letters.forEach(function (L, i) { L.t.position.x = -(1 - a2) * .35; L.k.position.x = (1 - a2) * .35; });
     kMat.emissiveIntensity = .3 + Math.sin(t * 2.2) * .08 + p * .35;
 
@@ -316,7 +320,7 @@ function build(THREE, RoomEnvironment) {
     function fade() {
       if (done) return; done = true;
       cv.style.transition = "opacity .5s"; cv.style.opacity = "0";
-      setTimeout(function () { cv.remove(); R.dispose(); root.classList.remove("tk-3d", "tk-3d-on"); }, 600);
+      setTimeout(function () { cv.remove(); R.dispose(); root.classList.remove("tk-3d", "tk-3d-on"); if (ringEl) ringEl.style.translate = ringEl.style.scale = ringEl.style.opacity = ""; }, 600);
     }
     root.classList.add("tk-3d-still");
     if (im && im.decode) { im.loading = "eager"; im.decode().then(fade, fade); setTimeout(fade, 1500); } else fade();
