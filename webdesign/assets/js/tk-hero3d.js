@@ -269,9 +269,9 @@ function build(THREE, RoomEnvironment) {
     var a = ease(t / 1.6), a2 = ease((t - .5) / 1.2);
     mx = damp(mx, nx, 3, dt); my = damp(my, ny, 3, dt);
     if (!drag) { extra += vel * dt; vel = damp(vel, 0, 2.2, dt); extra = damp(extra, Math.round(extra / (Math.PI * 2)) * Math.PI * 2, vel * vel < .2 ? 1.6 : 0, dt); }
-    // Beim Scrollen eine weiche Dreivierteldrehung statt einer ganzen schnellen Runde; weich ein- und ausgeblendet
-    var idle = Math.sin(t * .55) * .2, tilt = p * p * (3 - 2 * p);
-    spin.rotation.y = (1 - a) * -2.4 + idle + tilt * Math.PI * .75 + extra;
+    // Beim Scrollen eine weiche halbe Drehung statt einer ganzen schnellen Runde; startet sofort und läuft sanft aus
+    var idle = Math.sin(t * .55) * .2, tilt = p * (2 - p);
+    spin.rotation.y = (1 - a) * -2.4 + idle + tilt * Math.PI * 1.1 + extra;
     spin.rotation.x = Math.sin(t * .4) * .06 + tilt * .3;
     rig.rotation.x = my * .22; rig.rotation.y = mx * .3;
     rig.position.y = Math.sin(t * .9) * .05 - p * .4;
