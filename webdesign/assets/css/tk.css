@@ -734,8 +734,31 @@ p.tk-abo__deal b { color: #ffb27a; display: block; }
 
 /* Footer: glühende Linie oben, Links in Signalfarbe, großer Schriftzug unten */
 .footer { position: relative; }
-.footer::before { content: ""; position: absolute; left: 50%; top: -1px; width: min(720px, 80%); height: 1px; transform: translateX(-50%); pointer-events: none;
-  background: linear-gradient(90deg, transparent, #ff5a1f 30%, #ffb23f 50%, #ff5a1f 70%, transparent); box-shadow: 0 0 18px rgba(255,90,31,.55); }
+.footer::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 1px; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255,90,31,.22) 15%, rgba(255,90,31,.22) 85%, transparent); }
+/* Lichtpunkt läuft langsam auf der Linie hin und her (wie das Lauflicht bei KITT) */
+.footer::after { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 2px; pointer-events: none;
+  background: linear-gradient(90deg, transparent, #ff5a1f 30%, #ffb23f 50%, #ff5a1f 70%, transparent) 0 0 / 28% 100% no-repeat;
+  filter: drop-shadow(0 0 6px rgba(255,90,31,.9)) drop-shadow(0 0 14px rgba(255,90,31,.5));
+  animation: tk-kitt 3.6s cubic-bezier(.45,0,.55,1) infinite alternate; }
+@keyframes tk-kitt { from { background-position: 4% 0; } to { background-position: 96% 0; } }
+@media (prefers-reduced-motion: reduce) { .footer::after { animation: none; background-position: 50% 0; } }
+/* Kanäle im Footer: Icons in den echten Farben der Anbieter, ein Lichtschimmer zieht nacheinander darüber */
+.footer__social a { --brand: var(--muted); --ring: var(--brand); position: relative; overflow: hidden; isolation: isolate; color: var(--brand); border-color: transparent;
+  background: linear-gradient(#111, #111) padding-box, var(--ring) border-box; box-shadow: 0 0 18px -8px var(--brand); transition: transform .2s, box-shadow .2s, filter .2s; }
+.footer__social a[aria-label="Instagram"] { --brand: #e1306c; --ring: linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5); }
+.footer__social a[aria-label="YouTube"] { --brand: #ff0000; }
+.footer__social a[aria-label="Pinterest"] { --brand: #e60023; }
+.footer__social a[aria-label="GitHub"] { --brand: #f0f6fc; --ring: rgba(240,246,252,.55); }
+.footer__social a[aria-label^="Google"] { --brand: #4285f4; --ring: conic-gradient(from -45deg, #ea4335 0 25%, #4285f4 0 50%, #34a853 0 75%, #fbbc05 0); }
+.footer__social a::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(115deg, transparent 38%, rgba(255,255,255,.55) 50%, transparent 62%) 160% 0 / 250% 100% no-repeat;
+  animation: tk-social-shine 7s ease-in-out infinite; }
+.footer__social li:nth-child(2) a::after { animation-delay: .35s; } .footer__social li:nth-child(3) a::after { animation-delay: .7s; }
+.footer__social li:nth-child(4) a::after { animation-delay: 1.05s; } .footer__social li:nth-child(5) a::after { animation-delay: 1.4s; }
+.footer__social a:hover { color: var(--brand); border-color: transparent; box-shadow: 0 0 22px -4px var(--brand); filter: brightness(1.15); }
+@keyframes tk-social-shine { 0% { background-position: 160% 0; } 18%, 100% { background-position: -60% 0; } }
+@media (prefers-reduced-motion: reduce) { .footer__social a::after { animation: none; opacity: 0; } }
 .footer a:hover { color: var(--hot-2); }
 .footer h3::before { content: ""; display: inline-block; width: 6px; height: 6px; margin: 0 9px 1px 0; border-radius: 50%; background: var(--hot); box-shadow: 0 0 10px rgba(255,90,31,.7); vertical-align: middle; }
 @keyframes tk-shine { 0% { background-position: 100% 0; } 100% { background-position: -150% 0; } }
