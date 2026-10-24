@@ -668,6 +668,28 @@ button.fl{display:flex;flex-direction:column;justify-content:flex-start}
 /* Umschalter der zwei Dashboard-Entwürfe: am PC rechts unten, am Handy über der Menüleiste */
 @media (min-width:961px){.tkv{left:auto;right:max(14px,env(safe-area-inset-right))}}
 @media (max-width:960px){.tkv{bottom:calc(74px + env(safe-area-inset-bottom))}}
+/* Bezahlt-Stempel: Beim Klick auf "Bezahlt" landet ein Stempel auf der Rechnung (Idee aus moxen.cl, eigener Code) */
+.stampbox{position:fixed;inset:0;z-index:300;display:grid;place-items:center;padding:20px;background:rgba(18,22,37,.38);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);animation:sbIn .25s ease both;cursor:pointer}
+.stampbox.is-out{animation:sbOut .35s ease both}
+.stampbox__p{position:relative;width:min(380px,100%);background:#fff;color:var(--ink);border-radius:6px;padding:24px 24px 20px;box-shadow:0 40px 80px -30px rgba(18,22,37,.6);font-size:13px;animation:sbPaper .45s cubic-bezier(.2,1.2,.4,1) both}
+.stampbox__p.is-thud{animation:sbThud .3s ease-out}
+.stampbox__h{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px}
+.stampbox__h b{display:block;font:700 20px/1.1 var(--hd)}
+.stampbox__h small{color:var(--mu);font-size:11.5px}
+.stampbox__st{font:700 10.5px/1 var(--bd);letter-spacing:.08em;text-transform:uppercase;padding:6px 9px;border-radius:99px;border:1px solid var(--line);color:var(--mu);white-space:nowrap;transition:all .3s}
+.stampbox__st.is-ok{border-color:var(--ok);color:var(--ok);background:var(--okl)}
+.stampbox__row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px solid var(--line)}
+.stampbox__row span{color:var(--mu)}
+.stampbox__tot{display:flex;justify-content:space-between;align-items:baseline;margin-top:10px;padding-top:10px;border-top:2px solid var(--ink);font-weight:700}
+.stampbox__tot b{font:700 22px var(--hd);font-variant-numeric:tabular-nums}
+.stampbox__s{position:absolute;left:46%;top:60%;font:800 30px/1 var(--hd);letter-spacing:.08em;color:#12a36b;border:3.5px solid currentColor;border-radius:10px;padding:8px 16px;opacity:0;transform:translate(-50%,-50%) rotate(-12deg);mix-blend-mode:multiply;pointer-events:none;
+  -webkit-mask:repeating-radial-gradient(circle at 30% 40%,#000 0 2px,rgba(0,0,0,.8) 2px 3px);mask:repeating-radial-gradient(circle at 30% 40%,#000 0 2px,rgba(0,0,0,.8) 2px 3px)}
+.stampbox__s.is-on{animation:sbStamp .5s cubic-bezier(.3,1.6,.5,1) forwards}
+@keyframes sbIn{from{opacity:0}to{opacity:1}}
+@keyframes sbOut{to{opacity:0}}
+@keyframes sbPaper{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes sbThud{40%{transform:translateY(3px) scale(.995)}}
+@keyframes sbStamp{0%{opacity:0;transform:translate(-50%,-50%) rotate(-22deg) scale(2.3)}60%{opacity:.95;transform:translate(-50%,-50%) rotate(-11deg) scale(.94)}100%{opacity:.9;transform:translate(-50%,-50%) rotate(-12deg) scale(1)}}
 </style></head><body>
 <div class="tk-demo-bar"><a href="/beispiele/#dashboard"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
 <span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musterdaten</span>
@@ -958,4 +980,4 @@ button.fl{display:flex;flex-direction:column;justify-content:flex-start}
 <div class="lbox" id="lbox" hidden><button class="x" type="button" data-lbox-close aria-label="Schließen"><svg><use href="#i-x"/></svg></button><img alt=""><p></p></div>
 <input type="file" id="pic-in" accept="image/*" capture="environment" hidden>
 <div class="toast" id="toast" role="status"></div>
-<script src="/beispiele/_shared/demo.js?v=29766291" defer></script><script src="/beispiele/dashboard/umschalter.js?v=1" defer></script><script src="/beispiele/dashboard/app.js?v=20261019v" defer></script><script type="module" src="/beispiele/dashboard/haus3d.js?v=2"></script></body></html>
+<script src="/beispiele/_shared/demo.js?v=29766291" defer></script><script src="/beispiele/dashboard/umschalter.js?v=1" defer></script><script src="/beispiele/dashboard/app.js?v=20261024" defer></script><script type="module" src="/beispiele/dashboard/haus3d.js?v=2"></script></body></html>

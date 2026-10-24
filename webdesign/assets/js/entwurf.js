@@ -30,6 +30,25 @@
     return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
   }
   // Weiß wirkt auf satten Farben schöner; nur wenn es zu blass wäre (unter 3:1, große Schrift), dann dunkle Schrift.
+  // Stilwechsel: Teile der Skizze gleiten von der alten an die neue Stelle (Idee aus moxen.cl, eigener Code)
+  function flip(change) {
+    var els = prev.querySelectorAll(".ew-prev__logo, .ew-prev__name, .ew-prev__links, .ew-prev__hero small, .ew-prev__hero strong, .ew-prev__hero p, .ew-prev__cta, .ew-prev__blocks span");
+    var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || !els[0] || !els[0].animate) { change(); return; }
+    var before = Array.prototype.map.call(els, function (e) { return e.getBoundingClientRect(); });
+    change();
+    Array.prototype.forEach.call(els, function (e, i) {
+      var a = before[i], b = e.getBoundingClientRect();
+      if (!a.width || !b.width) return;
+      var dx = a.left - b.left, dy = a.top - b.top, sx = a.width / b.width;
+      if (Math.abs(dx) < 1 && Math.abs(dy) < 1 && Math.abs(sx - 1) < .01) return;
+      var end = getComputedStyle(e).transform;
+      end = end === "none" ? "" : end;
+      e.animate([{ transform: "translate(" + dx + "px," + dy + "px) " + end }, { transform: end || "none" }],
+        { duration: 650, delay: Math.min(i, 8) * 25, easing: "cubic-bezier(.2,.9,.1,1)" });
+    });
+  }
+
   function onColor(hex) {
     return 1.05 / (lum(hex) + 0.05) >= 3 ? "#ffffff" : "#0b0b0b";
   }
@@ -134,8 +153,8 @@
     text("[data-ew-domain]", url && !urlBox.hidden ? url : (slug(firma) || "dein-betrieb") + ".at");
     text("[data-ew-kicker]", branche && ort ? branche + " in " + ort : branche || (ort ? "Aus " + ort : "Willkommen"));
 
-    var stil = $('input[name="stil"]:checked');
-    prev.setAttribute("data-stil", stil ? stil.value : "modern");
+    var stil = $('input[name="stil"]:checked'), stilNeu = stil ? stil.value : "modern";
+    if (prev.getAttribute("data-stil") !== stilNeu) flip(function () { prev.setAttribute("data-stil", stilNeu); });
 
     var keys = [];
     form.querySelectorAll('input[name="inhalt[]"]:checked').forEach(function (i) { keys.push(i.value); });

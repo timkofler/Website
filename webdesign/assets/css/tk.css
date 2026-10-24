@@ -1004,3 +1004,11 @@ html.tk-3d-on.tk-3d-view .header { -webkit-backdrop-filter: none; backdrop-filte
 .tk-endnote { margin: 56px 0 0; text-align: center; font-size: 1.05rem; color: var(--muted); }
 .tk-endnote a { color: var(--hot-2); text-decoration: underline; text-underline-offset: 4px; }
 .tk-endnote + .tk-sign { margin-top: 28px; }
+
+/* Buchstaben-Ring um das 3D-Logo: Buchstaben fliegen beim ersten Laden an ihren Platz, dann dreht der Ring langsam (tk-extra.js) */
+.tk-ring { position: absolute; inset: -14%; pointer-events: none; animation: tk-ring-spin 60s linear infinite; }
+.tk-ring i { position: absolute; left: 50%; top: 50%; width: 1em; margin-left: -.5em; text-align: center; font: 500 clamp(10px, .95vw, 13px)/1 var(--mono); letter-spacing: 0; text-transform: uppercase; color: var(--hot-2); opacity: .55; font-style: normal; transition: transform 1.4s cubic-bezier(.2,.8,.2,1), opacity 1s ease; }
+.tk-ring.is-wild i { opacity: 0; transition: none; }
+@keyframes tk-ring-spin { to { transform: rotate(360deg); } }
+@media (max-width: 1000px) { .tk-ring { inset: -3%; } .tk-ring i { font-size: 9.5px; } }
+@media (prefers-reduced-motion: reduce) { .tk-ring { animation: none; } .tk-ring i { transition: none; } }

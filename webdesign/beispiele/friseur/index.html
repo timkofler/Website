@@ -307,6 +307,35 @@ section{position:relative}
 .ft__privacy svg{flex:none;width:20px;height:20px;color:var(--ro);margin-top:2px}
 .ft__privacy b{color:var(--tx)}
 .ft__note{margin-top:12px;font-size:12px;color:var(--mu);opacity:.8}
+/* Kamera freundlich erfragen (haarfarbe.js) */
+.ft__ask{position:absolute;inset:auto 14px 14px;z-index:4;display:grid;gap:10px;padding:20px 20px 18px;border-radius:20px;background:rgba(28,21,20,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--line);box-shadow:0 30px 60px -20px rgba(0,0,0,.7);animation:ftAsk .4s cubic-bezier(.2,1.2,.4,1) both}
+@keyframes ftAsk{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.ft__ask [hidden]{display:none!important}
+.ft__ask-x{position:absolute;top:10px;right:10px;width:34px;height:34px;border:0;border-radius:50%;background:transparent;color:var(--mu);font-size:14px;cursor:pointer}
+.ft__ask-x:hover{color:var(--tx);background:rgba(255,255,255,.06)}
+.ft__ring{position:relative;width:48px;height:48px}
+.ft__ring svg{position:absolute;inset:0;transform:rotate(-90deg)}
+.ft__ring circle{fill:none;stroke-width:2.5}
+.ft__ring .bg{stroke:var(--line)}
+.ft__ring .fg{stroke:var(--ro);stroke-dasharray:132;stroke-dashoffset:132;transition:stroke-dashoffset 8s linear,stroke .3s}
+.ft__ask.is-wait .ft__ring .fg{stroke-dashoffset:0}
+.ft__ask.is-ok .ft__ring .fg{stroke:#7fd1a5;stroke-dashoffset:0;transition:stroke .3s}
+.ft__ask.is-no .ft__ring .fg{stroke:#e8a35a;stroke-dashoffset:0;transition:stroke .3s}
+.ft__ring span{position:absolute;inset:7px;border-radius:50%;display:grid;place-items:center;background:var(--card);color:var(--ro)}
+.ft__ring span svg{position:static;width:18px;height:18px;transform:none}
+.ft__ring em{position:absolute;right:-2px;bottom:-2px;width:18px;height:18px;border-radius:50%;display:none;place-items:center;font:700 11px/1 var(--bd);font-style:normal;color:var(--ink)}
+.ft__ask.is-ok .ft__ring em.ok{display:grid;background:#7fd1a5}
+.ft__ask.is-no .ft__ring em.no{display:grid;background:#e8a35a}
+.ft__ask-k{margin:2px 0 0;font:600 11px/1 var(--bd);letter-spacing:.16em;text-transform:uppercase;color:var(--ro)}
+.ft__ask h3{font-size:22px;line-height:1.15;color:var(--tx);padding-right:24px}
+.ft__ask ul{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:13.5px;color:var(--mu);line-height:1.45}
+.ft__ask li{position:relative;padding-left:20px}
+.ft__ask li::before{content:"";position:absolute;left:2px;top:.5em;width:8px;height:4px;border-left:2px solid var(--ro);border-bottom:2px solid var(--ro);transform:rotate(-45deg)}
+.ft__ask-p{font-size:13.5px;color:var(--mu);line-height:1.5}
+.ft__ask-b{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.ft__ask-b .btn{min-height:44px;padding:0 18px;font-size:14px}
+@media (max-width:560px){.ft__ask{inset:auto 10px 10px;padding:16px 16px 14px;gap:8px}.ft__ring{width:40px;height:40px}.ft__ring span{inset:6px}.ft__ask h3{font-size:19px}.ft__ask ul,.ft__ask-p{font-size:13px}.ft__ask-b .btn{min-height:42px;padding:0 15px;font-size:13.5px}}
+.ft__ask.is-wait #ft-ask-ok{pointer-events:none;opacity:.75}
 @media (max-width:900px){.ft__grid{grid-template-columns:1fr}.ft__stage{max-width:380px;width:100%;margin:0 auto}.ft__colors{grid-template-columns:repeat(5,minmax(0,1fr))}}
 </style></head><body>
 <div class="tk-demo-bar"><a href="/#beispiele"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
@@ -458,6 +487,15 @@ section{position:relative}
       <canvas id="ft-canvas" role="img" aria-label="Vorschau mit der gewählten Haarfarbe"></canvas>
       <video id="ft-video" playsinline muted></video>
       <p class="ft__status" id="ft-status" role="status" hidden></p>
+      <div class="ft__ask" id="ft-ask" role="dialog" aria-labelledby="ft-ask-t" hidden>
+        <button type="button" class="ft__ask-x" id="ft-ask-x" aria-label="Schließen">✕</button>
+        <div class="ft__ring" aria-hidden="true"><svg viewBox="0 0 48 48"><circle class="bg" cx="24" cy="24" r="21"/><circle class="fg" cx="24" cy="24" r="21"/></svg><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span><em class="ok">✓</em><em class="no">!</em></div>
+        <p class="ft__ask-k"><span data-s="ask">Kurz gefragt</span><span data-s="wait">Bitte im Browser erlauben</span><span data-s="ok">Kamera läuft</span><span data-s="no">Kamera blockiert</span></p>
+        <h3 id="ft-ask-t"><span data-s="ask wait ok">Dürfen wir kurz Ihre Kamera benutzen?</span><span data-s="no">Kein Problem, dann mit Foto.</span></h3>
+        <ul data-s="ask wait ok"><li>Nur, um Ihre Haare zu erkennen und einzufärben.</li><li>Das Bild bleibt auf Ihrem Gerät, nichts wird hochgeladen.</li><li>Die Kamera geht aus, sobald Sie weiterscrollen.</li></ul>
+        <p class="ft__ask-p" data-s="no">Die Kamera ist für diese Seite gesperrt. Sie können sie in den Browser-Einstellungen beim Schloss neben der Adresse freigeben oder einfach ein Foto wählen.</p>
+        <div class="ft__ask-b"><button type="button" class="btn" id="ft-ask-ok"><span data-s="ask ok">Ja, Kamera starten</span><span data-s="wait">Warte auf Ihre Antwort …</span><span data-s="no">Nochmal versuchen</span></button><button type="button" class="btn ghost" id="ft-ask-foto">Lieber ein Foto</button></div>
+      </div>
       <button type="button" class="ft__before" id="ft-before">Gedrückt halten: Vorher</button>
     </div>
     <div class="ft__panel">
@@ -652,4 +690,4 @@ section{position:relative}
     <p class="foot__demo">Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb · <a href="/bildnachweis/#friseur">Bildnachweis</a></p>
   </div>
 </footer>
-<script src="/beispiele/_shared/demo.js?v=29766291" defer></script><script src="/beispiele/friseur/gemeinsam/umschalter.js?v=3" defer></script><script src="/beispiele/friseur/app.js?v=dbe67592" defer></script><script type="module" src="/beispiele/friseur/haarfarbe.js?v=1"></script></body></html>
+<script src="/beispiele/_shared/demo.js?v=29766291" defer></script><script src="/beispiele/friseur/gemeinsam/umschalter.js?v=3" defer></script><script src="/beispiele/friseur/app.js?v=dbe67592" defer></script><script type="module" src="/beispiele/friseur/haarfarbe.js?v=2"></script></body></html>

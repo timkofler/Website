@@ -92,8 +92,8 @@ def head(title, desc, url, og_title, og_desc, ld, extra_css=""):
   <link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/style.css?v=5d1d811a">
-  <link rel="stylesheet" href="/assets/css/tk.css?v=57169d2e">
-  <link rel="stylesheet" href="/assets/css/entwurf.css?v=59f3a358">
+  <link rel="stylesheet" href="/assets/css/tk.css?v=79db9b00">
+  <link rel="stylesheet" href="/assets/css/entwurf.css?v=6fe37e4b">
   <link rel="stylesheet" href="/assets/css/gruender.css?v=4cfe3d90">
   <link rel="stylesheet" href="/assets/css/branchen.css?v={CSS_V}">
 <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>
