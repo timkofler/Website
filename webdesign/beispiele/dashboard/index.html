@@ -134,6 +134,28 @@ button{cursor:pointer}
 .chart rect.b.cur{fill:var(--pop)}
 .chart rect.b:hover{fill:var(--popd)}
 
+/* Auslastung im Feine-Linien-Look: Haarlinie, gestrichelte Ziellinie, hohle Punkte wo das Ziel überschritten wird */
+.fein__h{display:flex;justify-content:space-between;align-items:flex-start;gap:12px 24px;flex-wrap:wrap}
+.fein__n{margin:10px 0 0;font:200 clamp(40px,4.6vw,56px)/1 var(--hd);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.fein__n i{font-style:normal;color:var(--mu2)}
+.fein__n small{font-size:13px;color:var(--mu2);letter-spacing:0;margin-left:3px}
+.fein__leg{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--mu)}
+.fein__leg i{display:inline-block;vertical-align:middle;margin-right:7px;width:18px}
+.fein__l-z{border-top:1px dashed var(--mu)}
+.fein__l-o{width:9px !important;height:9px;border-radius:50%;border:1.3px solid var(--ink)}
+.fein__l-u{border-top:1.6px solid var(--warn)}
+.fein__c{margin-top:8px;height:190px;position:relative}
+.fein__c svg{width:100%;height:100%;display:block;overflow:visible}
+.fein__c .gl{stroke:var(--line);stroke-width:1;stroke-dasharray:3 6}
+.fein__c .lb{fill:var(--mu2);font:400 11px var(--bd)}
+.fein__c .zl{stroke:var(--ink);stroke-opacity:.7;stroke-width:1.2;stroke-dasharray:9 7}
+.fein__c .ln{fill:none;stroke:var(--ink);stroke-opacity:.85;stroke-width:1;stroke-linejoin:round}
+.fein__c .lo{fill:none;stroke:var(--warn);stroke-width:1.7;stroke-linejoin:round}
+.fein__c .bd{fill:var(--ink);fill-opacity:.05}
+.fein__c .pt{fill:var(--solid);stroke:var(--ink);stroke-width:1.2}
+.fein__c .pu{fill:var(--warn)}
+@media (max-width:640px){.fein__c{height:160px}}
+
 .list{list-style:none;margin:12px 0 0;padding:0;display:grid}
 .list li{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line);min-width:0}
 .list li:first-child{border-top:0}
@@ -929,6 +951,11 @@ body{background:radial-gradient(90% 60% at 85% -10%,color-mix(in srgb,var(--pop)
         <div class="card kpi"><small><i><svg><use href="#i-clock"/></svg></i>Stunden diese Woche</small><strong class="num" id="k-hrs">0 h</strong><div class="bar"><span id="k-hrs-b"></span></div><em id="k-hrs-s"></em></div>
         <div class="card kpi"><small><i><svg><use href="#i-jobs"/></svg></i>Aufträge in Arbeit</small><strong class="num" id="k-jobs">0</strong><em id="k-jobs-s"></em></div>
       </div>
+      <div class="card fein" style="margin-top:14px">
+        <div class="fein__h"><div><h3>Auslastung <small>Monteure, letzte 30 Arbeitstage</small></h3><p class="fein__n"><span id="ausl-n">0</span><i id="ausl-d">,0</i><small>%</small></p></div>
+          <div class="fein__leg"><span><i class="fein__l-z"></i>Ziel 85 %</span><span><i class="fein__l-o"></i>über Ziel</span><span><i class="fein__l-u"></i>unter 60 %</span></div></div>
+        <div class="fein__c" id="ausl"></div>
+      </div>
       <div class="grid g2" style="margin-top:14px">
         <div class="card"><h3>Umsatz <small>bezahlte Rechnungen, letzte 6 Monate</small></h3><div class="chart" id="chart"></div></div>
         <div class="card"><h3 id="next-h">Heute im Einsatz <small id="next-d"></small></h3><ul class="list" id="next-l"></ul></div>
@@ -1141,4 +1168,4 @@ body{background:radial-gradient(90% 60% at 85% -10%,color-mix(in srgb,var(--pop)
 <div class="lbox" id="lbox" hidden><button class="x" type="button" data-lbox-close aria-label="Schließen"><svg><use href="#i-x"/></svg></button><img alt=""><p></p></div>
 <input type="file" id="pic-in" accept="image/*" capture="environment" hidden>
 <div class="toast" id="toast" role="status"></div>
-<script src="/beispiele/_shared/demo.js?v=29766291" defer></script><script src="/beispiele/dashboard/umschalter.js?v=1" defer></script><script src="/beispiele/dashboard/app.js?v=20261024g" defer></script><script type="module" src="/beispiele/dashboard/haus3d.js?v=2"></script></body></html>
+<script src="/beispiele/_shared/demo.js?v=29766291" defer></script><script src="/beispiele/dashboard/umschalter.js?v=1" defer></script><script src="/beispiele/dashboard/app.js?v=20261024i" defer></script><script type="module" src="/beispiele/dashboard/haus3d.js?v=2"></script></body></html>

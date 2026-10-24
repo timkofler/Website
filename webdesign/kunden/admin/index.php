@@ -914,12 +914,78 @@ foreach (ew_all() as $d) {
 }
 arsort($bzAnf);
 $bzAnfSum = array_sum($bzAnf);
-$bzTop = max(1, ...array_column($bz['tage'], 'besuche'));
-$bzBars = '';
+// Tageskurve im Feine-Linien-Look: Haarlinie, gestrichelter Schnitt, Abschnitte über dem Schnitt orange,
+// hohle Punkte an Tagen mit Besuchen über einen Werbelink (utm_campaign), die stärksten bekommen ein Schild.
+$bzWerte = array_column($bz['tage'], 'besuche');
+$bzN = count($bzWerte);
+$bzMax = max(4, ...$bzWerte);
+$bzMax = (int) (ceil($bzMax * 1.15 / 4) * 4);
+$bzAvg = $bzN ? array_sum($bzWerte) / $bzN : 0;
+$bzX = static fn(int $i): float => $bzN > 1 ? round($i / ($bzN - 1) * 100, 3) : 50;
+$bzY = static fn(float $v): float => round(100 - $v / $bzMax * 100, 3);
+$bzPts = [];
+foreach ($bzWerte as $i => $v) {
+    $bzPts[] = $bzX($i) . ',' . $bzY($v);
+}
+$bzHot = '';
+for ($i = 1; $i < $bzN; $i++) {
+    if ($bzWerte[$i] > $bzAvg && $bzWerte[$i - 1] > $bzAvg) {
+        $bzHot .= 'M' . $bzPts[$i - 1] . 'L' . $bzPts[$i];
+    }
+}
+$bzGrid = '';
+foreach ([1, 2, 3, 4] as $q) {
+    $bzGrid .= '<line x1="0" x2="100" y1="' . (100 - $q * 25) . '" y2="' . (100 - $q * 25) . '"/>';
+}
+$bzSkala = '';
+foreach ([1, 2, 3, 4] as $q) {
+    $bzSkala .= '<span style="top:' . (100 - $q * 25) . '%">' . (int) ($bzMax * $q / 4) . '</span>';
+}
+$bzMarken = '';
+$bzK = array_filter(array_map(static fn(array $t): int => $t['kampagne_n'], array_values($bz['tage'])));
+arsort($bzK);
+// Schilder für die stärksten Werbelink-Tage, aber nie zu nah beieinander (sonst überlappen sie);
+// am Handy nur zwei, die weit genug auseinander liegen.
+$bzSchild = [];
+$bzTopSchild = [];
+foreach (array_keys($bzK) as $j) {
+    $ok = count($bzSchild) < 5;
+    foreach ($bzSchild as $a) {
+        $ok = $ok && abs($bzX($j) - $bzX($a)) >= 9;
+    }
+    if ($ok) {
+        $bzSchild[] = $j;
+        if (count($bzTopSchild) < 2 && (!$bzTopSchild || abs($bzX($j) - $bzX($bzTopSchild[0])) >= 28)) {
+            $bzTopSchild[] = $j;
+        }
+    }
+}
+$i = 0;
 foreach ($bz['tage'] as $day => $t) {
     $lbl = date('d.m.', strtotime($day) ?: 0);
-    $bzBars .= '<span class="kp-bz__day" title="' . $lbl . ': ' . $t['besuche'] . ' Besuche, ' . $t['aufrufe'] . ' Aufrufe"><i style="height:' . ($t['besuche'] ? max(4, (int) round($t['besuche'] / $bzTop * 100)) : 0) . '%"></i></span>';
+    $tip = $lbl . ': ' . $t['besuche'] . ' Besuche, ' . $t['aufrufe'] . ' Aufrufe';
+    if ($t['kampagne_n'] > 0) {
+        $c = $bzKamp($t['kampagne']);
+        $tip .= ' · ' . $t['kampagne_n'] . ' über ' . $c;
+        $name = trim((string) (explode(' / ', $t['kampagne'], 2)[1] ?? $t['kampagne']));
+        $schild = in_array($i, $bzSchild, true) ? '<em>' . cx_h(mb_strimwidth($name, 0, 18, '…')) . '</em>' : '';
+        $bzMarken .= '<span class="kp-bz__mark' . (in_array($i, $bzTopSchild, true) ? ' kp-bz__mark--top' : '') . '" style="left:' . $bzX($i) . '%;top:' . $bzY($t['besuche']) . '%" title="' . cx_h($tip) . '">' . $schild . '</span>';
+    }
+    $bzMarken .= '<span class="kp-bz__hit" style="left:' . $bzX($i) . '%" title="' . cx_h($tip) . '"></span>';
+    $i++;
 }
+$bzLast = $bzN ? end($bzPts) : '0,100';
+$bzAvgY = $bzY($bzAvg);
+$bzAvgTxt = number_format($bzAvg, 1, ',', '');
+$bzLine = '<div class="kp-bz__plot"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">'
+    . '<g class="kp-bz__grid-l">' . $bzGrid . '</g>'
+    . '<polygon class="kp-bz__fill" points="0,100 ' . implode(' ', $bzPts) . ' 100,100"/>'
+    . '<line class="kp-bz__avg" x1="0" x2="100" y1="' . $bzAvgY . '" y2="' . $bzAvgY . '"/>'
+    . '<polyline class="kp-bz__line" points="' . implode(' ', $bzPts) . '"/>'
+    . ($bzHot !== '' ? '<path class="kp-bz__hot" d="' . $bzHot . '"/>' : '')
+    . '</svg><span class="kp-bz__avgl" style="top:' . $bzAvgY . '%">Ø ' . $bzAvgTxt . ' pro Tag</span>'
+    . '<span class="kp-bz__now" style="left:' . explode(',', $bzLast)[0] . '%;top:' . explode(',', $bzLast)[1] . '%"></span>'
+    . $bzMarken . '<div class="kp-bz__skala">' . $bzSkala . '</div></div>';
 $bzFirst = date('d.m.', strtotime((string) array_key_first($bz['tage'])) ?: 0);
 $bzZeiten = '';
 foreach ([7 => '7 Tage', 30 => '30 Tage', 90 => '90 Tage'] as $z => $t) {
@@ -957,7 +1023,7 @@ $bzPanel = <<<HTML
   <div class="kp-card"><small>Heute</small><b>{$bzHeute['besuche']}</b><span>{$bzHeute['aufrufe']} Aufrufe</span></div>
   <div class="kp-card"><small>Kontaktaufnahmen</small><b>{$bzKontaktSum}</b><span>{$bzQuote}</span></div>
 </div>
-<div class="kp-card kp-bz__chart"><div class="kp-bz__days" role="img" aria-label="Besuche pro Tag, letzte {$zeit} Tage">{$bzBars}</div><div class="kp-bz__axis"><span>{$bzFirst}</span><span>heute</span></div></div>
+<div class="kp-card kp-bz__chart"><div class="kp-bz__fein" role="img" aria-label="Besuche pro Tag, letzte {$zeit} Tage, Schnitt {$bzAvgTxt} pro Tag">{$bzLine}</div><div class="kp-bz__axis"><span>{$bzFirst}</span><span>heute</span></div><div class="kp-bz__legende"><span><i class="kp-bz__l-avg"></i>Schnitt</span><span><i class="kp-bz__l-hot"></i>über Schnitt</span><span><i class="kp-bz__l-mark"></i>Besuche über einen Werbelink</span></div></div>
 <div class="kp-bz__grid">
   <div class="kp-card"><h3>Woher die Besucher kommen</h3>{$bzQuellen}</div>
   <div class="kp-card"><h3>Kampagnen <em>(utm_campaign)</em></h3>{$bzKampagnen}</div>
