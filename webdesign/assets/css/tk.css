@@ -1278,10 +1278,10 @@ html:not(.anf-js) .anf__panel--rr { padding-bottom: 0; }
 .btn.tk-btn-cx { background: #dcf763; border-color: #dcf763; color: #0b0b0b; box-shadow: 0 10px 30px -12px rgba(220,247,99,.55); }
 .btn.tk-btn-cx:hover { background: #e8ff86; border-color: #e8ff86; color: #0b0b0b; }
 
-/* Häufige Fragen (Startseite, alle Breiten): fein gezeichnetes Plus (ein Strich orange, einer weiß), offen oranges X;
+/* Häufige Fragen (alle Seiten, alle Breiten): fein gezeichnetes Plus (ein Strich orange, einer weiß), offen oranges X;
    ab Frage 7 eingeklappt hinter "Alle Fragen anzeigen". Die Box daneben bleibt kompakt und oben bündig. */
-.mf-home #fragen .faq__item summary::after { content: ""; right: 22px; width: 13px; height: 13px; background: linear-gradient(var(--hot), var(--hot)) center / 100% 1.5px no-repeat, linear-gradient(#fff, #fff) center / 1.5px 100% no-repeat; transition: transform .25s ease; }
-.mf-home #fragen .faq__item[open] summary::after { content: ""; background: linear-gradient(var(--hot), var(--hot)) center / 100% 1.5px no-repeat, linear-gradient(var(--hot), var(--hot)) center / 1.5px 100% no-repeat; transform: translateY(-50%) rotate(45deg); }
+.faq__item summary::after { content: ""; right: 22px; width: 13px; height: 13px; background: linear-gradient(var(--hot), var(--hot)) center / 100% 1.5px no-repeat, linear-gradient(#fff, #fff) center / 1.5px 100% no-repeat; transition: transform .25s ease; }
+.faq__item[open] summary::after { content: ""; background: linear-gradient(var(--hot), var(--hot)) center / 100% 1.5px no-repeat, linear-gradient(var(--hot), var(--hot)) center / 1.5px 100% no-repeat; transform: translateY(-50%) rotate(45deg); }
 html:not(:has(#mf-nojs)) .mf-home #fragen .mf-more { display: flex; margin-top: 0; }
 html:not(:has(#mf-nojs)) .mf-home #fragen [data-mf="faq"]:not(.mf-open) { display: none; }
 
@@ -1308,6 +1308,10 @@ html:not(:has(#mf-nojs)) .mf-home #fragen [data-mf="faq"]:not(.mf-open) { displa
 
 /* Häufige Fragen: Stichwörter in den Antworten hervorgehoben */
 .faq__item p strong { color: var(--text); font-weight: 600; }
+/* Fragen im Glas-Stil: feiner Lichtrand, beim Darüberfahren und offen ein orangener Schimmer */
+.faq__item { background: linear-gradient(155deg, rgba(255,255,255,.045), rgba(255,255,255,.01) 45%, transparent), var(--bg-2); box-shadow: inset 0 1px 0 rgba(255,255,255,.06); transition: border-color .25s ease, background-color .25s ease, box-shadow .25s ease; }
+.faq__item:hover { border-color: rgba(255,90,31,.32); }
+.faq__item[open] { border-color: rgba(255,90,31,.42); background: linear-gradient(155deg, rgba(255,90,31,.08), rgba(255,90,31,.015) 50%, transparent), var(--bg-2); box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 18px 40px -26px rgba(255,90,31,.45); }
 
 /* Footer am Handy: © Tim Kofler, Impressum und Datenschutz in einer Zeile, die Pillen darunter */
 @media (max-width: 680px) {
