@@ -385,14 +385,36 @@
 .kp-bz__kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .kp-bz__kpis .kp-card { display: grid; gap: 2px; padding: 16px 18px; margin: 0; }
 .kp-bz__kpis small { color: var(--muted); font-size: .8rem; }
-.kp-bz__kpis b { font-size: 1.9rem; line-height: 1.15; font-variant-numeric: tabular-nums; }
+.kp-bz__kpis b { font-size: 2.3rem; line-height: 1.1; font-weight: 200; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
 .kp-bz__kpis .kp-card:first-child b { color: var(--hot); }
 .kp-bz__kpis span { color: var(--muted); font-size: .78rem; }
 .kp-card.kp-bz__chart { margin-top: 12px; padding: 18px 18px 12px; }
-.kp-bz__days { display: flex; align-items: flex-end; gap: 3px; height: 120px; }
-.kp-bz__day { flex: 1 1 0; min-width: 0; height: 100%; display: flex; align-items: flex-end; border-radius: 4px 4px 0 0; background: rgba(255,255,255,.035); }
-.kp-bz__day i { display: block; width: 100%; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, var(--hot), rgba(255,90,31,.55)); }
-.kp-bz__day:last-child i { box-shadow: 0 0 14px rgba(255,90,31,.55); }
+/* Tageskurve im Feine-Linien-Look: Haarlinie, gestrichelter Schnitt, hohle Punkte für Werbelinks */
+.kp-bz__fein { padding: 26px 44px 0 0; }
+.kp-bz__plot { position: relative; height: 170px; }
+.kp-bz__plot svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.kp-bz__plot svg * { vector-effect: non-scaling-stroke; fill: none; }
+.kp-bz__grid-l line { stroke: rgba(255,255,255,.06); stroke-width: 1; }
+.kp-main .kp-bz__plot .kp-bz__fill { fill: rgba(255,255,255,.025); }
+.kp-bz__avg { stroke: rgba(255,255,255,.55); stroke-width: 1; stroke-dasharray: 7 6; }
+.kp-bz__line { stroke: rgba(244,244,240,.85); stroke-width: 1.2; stroke-linejoin: round; }
+.kp-bz__hot { stroke: var(--hot); stroke-width: 1.6; stroke-linejoin: round; }
+.kp-bz__avgl { position: absolute; left: 0; transform: translateY(-130%); font: 400 .72rem/1 var(--mono); color: var(--muted); pointer-events: none; }
+.kp-bz__skala span { position: absolute; right: -44px; width: 36px; transform: translateY(-50%); font: 400 .7rem/1 var(--mono); color: #6d6d6d; }
+.kp-bz__now, .kp-bz__mark { position: absolute; width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; border-radius: 50%; pointer-events: none; z-index: 2; }
+.kp-bz__now { background: var(--hot); box-shadow: 0 0 0 4px rgba(255,90,31,.18), 0 0 12px rgba(255,90,31,.6); }
+.kp-bz__mark { background: var(--surface, #151515); border: 1.3px solid var(--text); }
+.kp-bz__mark em { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); padding-bottom: 12px; font: 500 .68rem/1 var(--mono); font-style: normal; color: var(--text); white-space: nowrap; }
+.kp-bz__mark em::after { content: ""; position: absolute; left: 50%; bottom: 0; height: 9px; border-left: 1px solid rgba(255,255,255,.35); }
+.kp-bz__hit { position: absolute; top: 0; bottom: 0; width: 12px; margin-left: -6px; z-index: 1; }
+.kp-bz__hit:hover { background: linear-gradient(90deg, transparent 5.5px, rgba(255,255,255,.18) 5.5px, rgba(255,255,255,.18) 6.5px, transparent 6.5px); }
+.kp-bz__fein + .kp-bz__axis { margin-right: 44px; }
+.kp-bz__legende { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 10px; font-size: .74rem; color: var(--muted); }
+.kp-bz__legende i { display: inline-block; vertical-align: middle; margin-right: 7px; }
+.kp-bz__l-avg { width: 18px; border-top: 1px dashed rgba(255,255,255,.6); }
+.kp-bz__l-hot { width: 18px; border-top: 1.6px solid var(--hot); }
+.kp-bz__l-mark { width: 9px; height: 9px; border-radius: 50%; border: 1.3px solid var(--text); }
+@media (max-width: 560px) { .kp-bz__mark:not(.kp-bz__mark--top) em, .kp-bz__avgl { display: none; } .kp-bz__fein { padding-right: 34px; } .kp-bz__skala span { right: -34px; width: 30px; } .kp-bz__fein + .kp-bz__axis { margin-right: 34px; } .kp-bz__plot { height: 150px; } }
 .kp-bz__axis { display: flex; justify-content: space-between; margin-top: 8px; font-size: .74rem; color: var(--muted); font-family: var(--mono); }
 .kp-bz__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 12px; }
 .kp-bz__grid .kp-card { margin: 0; }
@@ -412,8 +434,7 @@
 @media (max-width: 680px) {
   .kp-bz__kpis { gap: 8px; }
   .kp-bz__kpis .kp-card { padding: 14px; }
-  .kp-bz__kpis b { font-size: 1.5rem; }
-  .kp-bz__days { height: 90px; gap: 2px; }
+  .kp-bz__kpis b { font-size: 1.9rem; }
   .kp-bz__list li { grid-template-columns: minmax(0, 1fr) 30% 2.6em; }
 }
 

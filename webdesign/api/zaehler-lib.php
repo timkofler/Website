@@ -161,7 +161,11 @@ function zl_range(int $days): array
             $months[$m] = is_file($f) ? (array) json_decode((string) file_get_contents($f), true) : [];
         }
         $d = is_array($months[$m][$day] ?? null) ? $months[$m][$day] : [];
-        $out['tage'][$day] = ['aufrufe' => (int) ($d['aufrufe'] ?? 0), 'besuche' => (int) ($d['besuche'] ?? 0)];
+        // Stärkste Kampagne des Tages (utm_campaign), für die Markierungen in der Tageskurve
+        $kTag = (array) ($d['kampagnen'] ?? []);
+        arsort($kTag);
+        $out['tage'][$day] = ['aufrufe' => (int) ($d['aufrufe'] ?? 0), 'besuche' => (int) ($d['besuche'] ?? 0),
+            'kampagne' => (string) (array_key_first($kTag) ?? ''), 'kampagne_n' => (int) (reset($kTag) ?: 0)];
         $out['aufrufe'] += (int) ($d['aufrufe'] ?? 0);
         $out['besuche'] += (int) ($d['besuche'] ?? 0);
         // Bis einschließlich 24.10.2026 zählte auch der Knopf „Jemanden empfehlen“ als E-Mail (das war nur Tim selbst).
