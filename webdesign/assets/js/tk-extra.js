@@ -14,7 +14,10 @@
     var p = h > 0 ? Math.min(1, window.scrollY / h) : 0;
     // Abschneiden statt Stauchen: so bleibt die Linie samt Leuchten immer gleich dünn (scaleX machte den Schein am Anfang zu einem hohen Fleck)
     bar.style.clipPath = "inset(0 " + ((1 - p) * 100).toFixed(2) + "% -14px 0)";
+    // Beim Footer-Logo blenden Linie und Kopfzeile aus, damit nicht zwei Logos übereinander stehen
+    if (footLogo) document.documentElement.classList.toggle("tk-at-foot", footLogo.getBoundingClientRect().top < window.innerHeight * .75);
   }
+  var footLogo = document.querySelector(".tk-logo--foot");
   window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(progress); } }, { passive: true });
   progress();
 

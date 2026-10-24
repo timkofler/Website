@@ -1236,8 +1236,13 @@ html:not(.anf-js) .anf__panel--rr { padding-bottom: 0; }
   html:not(:has(#mf-nojs)) .mf-home .mf-slot { display: block; margin-top: 16px; }
   html:not(:has(#mf-nojs)) .mf-home [data-mf]:not(.mf-open),
   html:not(:has(#mf-nojs)) .mf-home .mf-sec:not(.mf-open) > .container > :not(.mf-card) { display: none; }
-  html:not(:has(#mf-nojs)) .mf-home .mf-sec.mf-open .mf-card { margin-bottom: 28px; }
-  html:not(:has(#mf-nojs)) .mf-home .mf-sec:not(.mf-open) { margin-top: -36px; padding: 0 0 56px; border-top: 0; }
+  html:not(:has(#mf-nojs)) .mf-home .mf-sec.mf-open .mf-card { margin-bottom: 28px; border-color: var(--hot); box-shadow: 0 0 26px -8px rgba(255,90,31,.55); }
+  /* Karte bleibt beim Aufklappen an ihrer Stelle (kein Abstand und keine Linie darüber), der Inhalt gleitet direkt darunter herein */
+  html:not(:has(#mf-nojs)) .mf-home .mf-sec { margin-top: -36px; border-top: 0; }
+  html:not(:has(#mf-nojs)) .mf-home .mf-sec:not(.mf-open) { padding: 0 0 56px; }
+  html:not(:has(#mf-nojs)) .mf-home .mf-sec.mf-open { padding-top: 0; }
+  html:not(:has(#mf-nojs)) .mf-home .mf-sec.mf-open > .container > :not(.mf-card),
+  html:not(:has(#mf-nojs)) .mf-home [data-mf].mf-open { animation: mf-in .4s cubic-bezier(.2,.7,.2,1) both; }
 }
 
 /* Laufschrift als oranger Glasstreifen */
@@ -1297,3 +1302,25 @@ html:not(:has(#mf-nojs)) .mf-home #fragen [data-mf="faq"]:not(.mf-open) { displa
   .footer .footer__bottom { flex-direction: column; align-items: flex-start; }
   .footer__copy > span:first-child { flex-basis: 100%; }
 }
+
+@keyframes mf-in { from { opacity: 0; transform: translateY(-10px); } }
+@media (prefers-reduced-motion: reduce) { .mf-home .mf-open { animation: none !important; } }
+
+/* Häufige Fragen: Stichwörter in den Antworten hervorgehoben */
+.faq__item p strong { color: var(--text); font-weight: 600; }
+
+/* Footer am Handy: © Tim Kofler, Impressum und Datenschutz in einer Zeile, die Pillen darunter */
+@media (max-width: 680px) {
+  .footer .footer__bottom { flex-direction: row; align-items: center; justify-content: flex-start; gap: 12px 18px; }
+  .footer .footer__copy { display: contents; }
+  .footer__copy > span:first-child { flex-basis: auto; order: 1; }
+  .footer__legal { order: 2; gap: 18px; }
+  .footer .footer__bottom::after { content: ""; order: 3; flex-basis: 100%; height: 0; }
+  .footer__pill { order: 4; }
+}
+
+/* Lesefortschritt und Kopfzeile verschwinden, sobald man beim Footer-Logo ist (sonst zwei Logos übereinander) */
+.tk-progress { transition: opacity .3s ease; }
+.header { transition: background .35s, border-color .35s, opacity .3s ease, transform .35s ease; }
+html.tk-at-foot:not(.tk-menu-open) .tk-progress { opacity: 0; }
+html.tk-at-foot:not(.tk-menu-open) .header { opacity: 0; transform: translateY(-100%); pointer-events: none; }
