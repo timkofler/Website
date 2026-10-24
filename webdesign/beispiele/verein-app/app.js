@@ -221,9 +221,29 @@
     }
   }
   $("[data-m-paid]").addEventListener("click", function () {
+    var due = $("[data-m-due]"), btn = this;
+    if (due.classList.contains("is-stamped")) return;
+    // Erst der Stempel auf dem Zahlschein, dann das Danke
+    due.classList.add("is-stamped"); btn.disabled = true;
+    setTimeout(function () {
+      due.classList.remove("is-stamped"); btn.disabled = false;
+      paidDone();
+    }, reduce ? 300 : 1250);
+  });
+  function paidDone() {
     S.me.st = "wait"; renderDue(); renderMembers(); renderOpen();
     feed("pop", "i-euro", S.me.name + " meldet: Beitrag überwiesen");
     toast("Der Kassier sieht die Meldung", "Bestätigen in der Mitgliederliste");
+  }
+
+  // ---------- Handy: Erinnerungen erst mit eigener Karte erfragen ----------
+  $("[data-perm-ja]").addEventListener("click", function () {
+    $("[data-perm-q]").hidden = true; $("[data-perm-ok]").hidden = false;
+    toast("Erinnerungen an", "einen Tag vor jedem Termin");
+  });
+  $("[data-perm-nein]").addEventListener("click", function () {
+    var p = $("[data-perm]"); p.classList.add("is-out");
+    setTimeout(function () { p.hidden = true; }, reduce ? 0 : 320);
   });
 
   // ---------- Handy: Beitreten ----------
@@ -415,6 +435,7 @@
     var l = S.mem.filter(function (m) { return m.st === "bad"; }), n = l.length;
     l.forEach(function (m) { m.rem = (m.rem || 0) + 1; });
     S.rem++;
+    flyEnvelope(this);
     if (S.rem === 1) {
       feed("", "i-mail", "Zahlschein mit QR-Code an " + n + " Mitglieder geschickt");
       toast(n + " E-Mails mit Zahlschein", "jeder mit eigenem Betrag und QR-Code");
@@ -424,6 +445,17 @@
     }
     renderOpen();
   });
+
+  function flyEnvelope(btn) {
+    if (reduce) return;
+    var box = btn.closest(".box"), r = btn.getBoundingClientRect(), b = box.getBoundingClientRect(), z = box.offsetWidth ? b.width / box.offsetWidth : 1;
+    var e = document.createElement("span");
+    e.className = "env"; e.setAttribute("aria-hidden", "true");
+    e.innerHTML = '<i class="env__brief"><b></b><b></b><b></b></i><i class="env__kuv"></i><i class="env__lasche"></i>';
+    e.style.left = ((r.left - b.left + r.width / 2) / z - 39) + "px"; e.style.top = ((r.top - b.top) / z - 66) + "px";
+    box.appendChild(e);
+    setTimeout(function () { e.remove(); }, 1900);
+  }
 
   // Termine im Vorstand
   function renderDeskEvents() {
