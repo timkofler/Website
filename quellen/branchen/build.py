@@ -139,6 +139,22 @@ def wa_link(text):
     return "https://wa.me/4367761773118?text=" + quote("Hallo Tim, " + text, safe="")
 
 
+APPS = [
+    ("/beispiele/betriebs-app/", "betriebs-app.webp", "Für Betriebe", "Betriebs-App",
+     "Termine, Gutscheine, Stempelkarte und Angebote statt sieben Abos.",
+     "Betriebs-App: eine eigene App statt vieler Software-Abos für Termine, Gutscheine und Rechnungen"),
+    ("/beispiele/verein-app/", "vereins-app.webp?v=2", "Für Vereine", "Vereins-App",
+     "Mitglieder, Beiträge mit QR-Zahlschein, Termine mit Zusagen und Kassabuch.",
+     "Vereins-App: Mitglieder-App am Handy und Übersicht für den Vorstand mit Mitgliedern, Beiträgen und Kassastand"),
+    ("/beispiele/dashboard/", "haustechnik.webp", "Für Handwerker", "Büro-Dashboard",
+     "Aufträge, Plantafel, Stunden und Rechnungen in einem Fenster.",
+     "Dashboard eines Handwerksbetriebs: Umsatz, offene Rechnungen, Stunden und Einsätze"),
+    ("/beispiele/dashboard/v2/", "autovermietung.webp", "Für Vermieter", "Auto&shy;vermietung",
+     "Flotte, Abholungen und Umsatz, mit Online-Reservierung.",
+     "Dashboard der Autovermietung Luma Drive: Auslastung, Abholungen und Umsatz"),
+]
+
+
 def also_karte(href, ic, tag, titel, text):
     return (f'<a class="br-also__card" href="{href}"><span class="br-also__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" '
             f'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">{ICONS[ic]}</svg></span>'
@@ -386,7 +402,7 @@ def seite(b, alle):
 def uebersicht(alle):
     url = BASIS + "/webseite/"
     desc = ("Webseiten für Gasthaus, Friseur, Handwerk, Pension, Café, Bäckerei, Werkstatt und Praxis: "
-            "was deine Seite können sollte, mit Beispielen und Preisen.")
+            "was deine Seite können sollte, mit Beispielen und Preisen. Dazu eigene Web-Apps ohne Abo.")
     ld = {
         "@context": "https://schema.org",
         "@graph": [
@@ -413,6 +429,14 @@ def uebersicht(alle):
         also_karte("/gruender/", "rakete", "590&nbsp;€ fix", "Gerade gegründet?",
                    "Start-Paket mit Webseite, Google&#8209;Eintrag und Impressum"),
     ])
+    apps = []
+    for href, img, tag, titel, text, alt in APPS:
+        apps.append(
+            f'<li><a href="{href}"><span class="br-app__ph"><img src="/assets/img/apps/{img}" alt="{escape(alt)}" '
+            f'width="720" height="450" loading="lazy"></span><span class="br-app__tag">{tag}</span>'
+            f'<span class="br-hub__t">{titel}</span><span class="br-hub__p">{text}</span>'
+            f'<span class="br-demo__go">Ausprobieren {PFEIL}</span></a></li>')
+    apps_html = "\n      ".join(apps)
     html = head("Webseite für deine Branche | Tim Kofler – Webdesign", desc, url,
                 "Webseite für deine Branche", desc, ld)
     html += f"""
@@ -444,14 +468,29 @@ def uebersicht(alle):
     </div>
   </div>
 </section>
+
+<section class="section section--line" id="apps">
+  <div class="container">
+    <div class="head">
+      <div>
+        <span class="label"><b>[02]</b> Web-Apps</span>
+        <h2>Mehr als eine Webseite: <span class="lime">deine eigene App</span>.</h2>
+      </div>
+      <p>Termine, Gutscheine, Mitglieder oder Reservierungen an einem Ort, ohne Monats-Abo. Als Erweiterung zu deiner Webseite zum Sonderpreis. Alle vier Beispiele kannst du live ausprobieren.</p>
+    </div>
+    <ul class="br-demos br-hub br-apps">
+      {apps_html}
+    </ul>
+  </div>
+</section>
 """
     b = {"firma_ph": "z. B. Tischlerei Maier", "nachricht_ph": "z. B. was du anbietest und was die Seite können soll",
          "wa": "ich interessiere mich für eine Webseite.", "paket": "start",
          "faq": [["Machst du auch Seiten für andere Branchen?", "Ja. Die Branchen hier sind Beispiele, an denen man gut sieht, was geht. Ich baue Seiten für jeden kleinen Betrieb und jede Selbstständige, vom Steuerberater bis zur Hundeschule."],
                  ["Was kostet eine Webseite?", "Start ab 590 €, Business ab 1.190 €, einmal zahlen, kein Abo. Für Neugründungen gibt es das <a href=\"/gruender/\">Start-Paket</a> zum Fixpreis. Den Richtpreis mit Extras rechnet der <a href=\"/#rechner\">Angebots-Rechner</a> aus."],
                  ["Muss ich dafür zu dir kommen?", "Nein. Wir besprechen alles per Telefon oder Videocall, Fotos und Texte lädst du im Kundenportal hoch. Das klappt in ganz Österreich."]]}
-    html += formular(b, 2)
-    html += fragen(b, 3)
+    html += formular(b, 3)
+    html += fragen(b, 4)
     html += FUSS
     return html
 

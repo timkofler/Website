@@ -551,7 +551,7 @@ HTML;
     </form>
   </li>
 </ol>
-<script src="/beispiele/_shared/vendor/qrcode-generator-2.0.4/qrcode.js"></script>
+<script src="/beispiele/_shared/vendor/qrcode-generator-2.0.4/qrcode.js"></script><script src="/assets/js/tk-qr.js?v=1"></script>
 HTML;
     }
     kp_page('Sicherheit', <<<HTML

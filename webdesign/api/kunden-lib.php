@@ -916,7 +916,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
     <span><a href="/impressum/">Impressum</a> · <a href="/datenschutz/#kundenportal">Datenschutz</a></span>
   </div>
 </footer>
-<script src="/assets/js/portal.js?v=af54e22f"></script>
+<script src="/assets/js/portal.js?v=9ac4cfab"></script>
 </body>
 </html>
 HTML;
