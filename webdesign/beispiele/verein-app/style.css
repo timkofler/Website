@@ -929,3 +929,4 @@ svg{flex:none}
 .sh__hd b{text-wrap:balance;line-height:1.3}
 .sh{container-type:inline-size}
 @container (max-width:290px){.hc.ask .hc__x span{display:none}.hc.ask .hc__x{width:28px;min-width:28px;padding:0}}
+.hc__x svg{width:14px;height:14px;flex:none;stroke-width:2.6}
