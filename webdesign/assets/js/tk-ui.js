@@ -670,20 +670,21 @@
     });
   }
   function open(key) { set(key, true); }
-  // Am Handy wandern Teile, die im Quelltext vor ihrer Karte stehen (Web-Apps: Funktionsliste), hinter die Karte,
-  // damit alles unter der Karte aufgeht und nichts oberhalb die Seite verschiebt. Am PC wieder an den alten Platz.
+  // Teile, die im Quelltext vor ihrem Knopf stehen (Web-Apps: Funktionsliste, Fragen 7 bis 13), wandern hinter den Knopf,
+  // damit alles unter dem Knopf aufgeht und nichts darüber die Seite verschiebt. Karten (.mf-slot) gibt es nur am Handy,
+  // ihre Teile kommen am PC wieder an den alten Platz; Knöpfe wie „Alle Fragen anzeigen“ gelten überall.
   var mq = window.matchMedia("(max-width: 680px)"), moved = [];
-  document.querySelectorAll(".mf-slot > [data-mf-open]").forEach(function (b) {
-    var slot = b.parentNode, after = slot;
+  openers.forEach(function (b) {
+    var anchor = b.closest(".mf-slot") || b, after = anchor;
     document.querySelectorAll('[data-mf="' + b.getAttribute("data-mf-open") + '"]').forEach(function (el) {
-      if (!(el.compareDocumentPosition(slot) & Node.DOCUMENT_POSITION_FOLLOWING)) return;
+      if (!(el.compareDocumentPosition(anchor) & Node.DOCUMENT_POSITION_FOLLOWING)) return;
       var mark = document.createComment("mf"); el.parentNode.insertBefore(mark, el);
-      moved.push({ el: el, mark: mark, after: after }); after = el;
+      moved.push({ el: el, mark: mark, after: after, mobile: anchor !== b }); after = el;
     });
   });
   function place() {
     moved.forEach(function (m) {
-      var ref = mq.matches ? m.after : m.mark;
+      var ref = !m.mobile || mq.matches ? m.after : m.mark;
       ref.parentNode.insertBefore(m.el, ref.nextSibling);
     });
   }
