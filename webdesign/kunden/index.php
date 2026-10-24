@@ -302,7 +302,7 @@ if ($codeStep) {
     <form class="form form--small" method="post" action="/kunden/">
       {$csrf}
       <input type="hidden" name="aktion" value="code">
-      <p class="kp-hint">Gib einen deiner Notfall-Codes ein. Jeder funktioniert nur ein einziges Mal. Handy und Codes verloren? Ruf mich an unter <a href="tel:+4367761773118">+43 677 61773118</a>, dann schalte ich die Zwei-Faktor-Anmeldung für dich aus.</p>
+      <p class="kp-hint">Gib einen deiner Notfall-Codes ein. Jeder funktioniert nur ein einziges Mal. Handy und Codes verloren? Schreib mir auf <a href="https://wa.me/4367761773118" target="_blank" rel="noopener noreferrer">WhatsApp</a> oder an <a href="mailto:office@tim-kofler.at">office@tim-kofler.at</a>, dann schalte ich die Zwei-Faktor-Anmeldung für dich aus.</p>
       <label class="form__field"><span>Notfall-Code</span><input class="kp-otp" type="text" name="code" required autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="12" placeholder="abcd-efgh"></label>
       <button class="btn btn--line" type="submit">Mit Notfall-Code anmelden</button>
     </form>
@@ -329,8 +329,14 @@ if ($acc === null) {
       <label class="form__field"><span>Benutzername</span><input type="text" name="benutzer" required maxlength="40" autocomplete="username" autocapitalize="none" spellcheck="false"></label>
       <label class="form__field"><span>Passwort</span><span class="kp-pw"><input type="password" name="passwort" required maxlength="200" autocomplete="current-password" data-kp-reveal></span></label>
       <button class="btn" type="submit">Anmelden</button>
-      <p class="form__alt">Passwort vergessen? Schreib mir an <a href="mailto:office@tim-kofler.at">office@tim-kofler.at</a> oder ruf mich an unter <a href="tel:+4367761773118">+43 677 61773118</a>.</p>
     </form>
+    <div class="kp-help">
+      <span>Passwort vergessen? Schreib mir kurz:</span>
+      <div class="kp-help__links">
+        <a href="mailto:office@tim-kofler.at?subject=Kundenportal%3A%20Passwort%20vergessen"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M4 7l8 6 8-6"/></svg>E-Mail</a>
+        <a href="https://wa.me/4367761773118?text=Hallo%20Tim%2C%20ich%20habe%20mein%20Passwort%20f%C3%BCrs%20Kundenportal%20vergessen." target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.4z"/><path d="M9 8.6c0 3.3 3 6.4 6.4 6.4l1.2-1.4-2-1-.9.8a5 5 0 0 1-2.6-2.6l.8-.9-1-2z"/></svg>WhatsApp</a>
+      </div>
+    </div>
   </div>
   <aside class="kp-login__info" aria-label="Was dich im Kundenportal erwartet">
     <h2>Alles zu deiner Webseite an einem Ort</h2>
@@ -446,7 +452,7 @@ if ($tfState) {
     $tfChip = '<span class="kp-chip-st kp-chip-st--aktiv">ein</span>';
     $tfBody = <<<HTML
 <p class="kp-on"><span class="kp-on__dot" aria-hidden="true"></span><span><b>Eingeschaltet</b> seit {$tfSeit} · noch {$tfLeftTxt} übrig{$tfWarn}</span></p>
-<p class="kp-hint">Bei jeder Anmeldung fragt das Portal zusätzlich nach dem Code aus deiner App. Handy verloren und keine Notfall-Codes mehr? Ruf mich an, dann schalte ich es für dich aus.</p>
+<p class="kp-hint">Bei jeder Anmeldung fragt das Portal zusätzlich nach dem Code aus deiner App. Handy verloren und keine Notfall-Codes mehr? Schreib mir auf WhatsApp oder per E-Mail, dann schalte ich es für dich aus.</p>
 <div class="kp-grid kp-grid--even kp-tf-actions">
   <form class="form form--small" method="post" action="/kunden/#zweifaktor">
     {$csrf}
