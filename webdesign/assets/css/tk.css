@@ -1198,9 +1198,10 @@ html:not(.anf-js) .anf__panel--rr { padding-bottom: 0; }
 .tk-chat__note { color: #8f8a85; }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .tk-chat, .tk-chat-btn { background: #15110f; }
+}
 
 /* Startseite am Handy entschlackt: Nebenthemen als aufklappbare Karten (mf = mobile fold). Am PC und ohne JS unverändert. */
-.mf-card, .mf-more, .mf-slot { display: none; }
+.mf-card, .mf-more, .mf-slot, .rule__short { display: none; }
 .mf-card { width: 100%; align-items: center; gap: 14px; padding: 16px; border: 1px solid rgba(255,90,31,.35); border-radius: 16px; background: linear-gradient(135deg, rgba(255,90,31,.10), rgba(255,255,255,.02)); color: var(--text); font: inherit; text-align: left; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .mf-card:active { border-color: var(--hot); }
 .mf-card__ic { flex: 0 0 42px; height: 42px; border-radius: 12px; background: var(--hot-dim); color: var(--hot); display: grid; place-items: center; }
@@ -1217,8 +1218,12 @@ html:not(.anf-js) .anf__panel--rr { padding-bottom: 0; }
   .mf-home #leistungen .rules { grid-template-columns: 1fr 1fr; gap: 8px; background: none; border: 0; border-radius: 0; overflow: visible; }
   .mf-home #leistungen .rule { padding: 14px 14px 16px; border: 1px solid var(--line); border-radius: 14px; }
   .mf-home #leistungen .rule__k { margin-bottom: 8px; }
-  .mf-home #leistungen .rule h3 { margin: 0; font-size: .95rem; line-height: 1.3; }
-  .mf-home #leistungen .rule p { display: none; }
+  .mf-home #leistungen .rule h3 { margin: 0; font-size: .8rem; line-height: 1.3; }
+  .mf-home #leistungen .rule p:not(.rule__short) { display: none; }
+  .mf-home #leistungen .rule .rule__short { display: block; margin-top: 6px; font-size: .76rem; line-height: 1.4; }
+  .mf-home .tk-calc__toggle { min-height: 40px; padding: 0 18px; font-size: .86rem; gap: 6px; }
+  .mf-home .tk-calc__toggle svg { width: 15px; height: 15px; }
+  .mf-home #fragen .faq__item summary { padding: 15px 44px 15px 18px; font-family: var(--body); font-weight: 600; font-size: .9rem; }
   .mf-home #referenz .tk-ref__shot, .mf-home #ueber .tk-worte, .mf-home #anfrage .anf__steps, .mf-home #fragen .faq-wrap__ask { display: none; }
   .mf-home .footer__grid > div:nth-child(2), .mf-home .footer__grid > div:nth-child(3) { display: none; }
   html:not(:has(#mf-nojs)) .mf-home .mf-card, html:not(:has(#mf-nojs)) .mf-home .mf-more { display: flex; }
