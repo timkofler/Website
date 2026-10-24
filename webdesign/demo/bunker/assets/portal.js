@@ -254,9 +254,15 @@
     $("[data-pt-ev]").textContent = nextEvent().title;
     $("[data-pt-shifts]").innerHTML = S.help.map(function (h) {
       var full = h.who.length >= h.need, pct = Math.min(100, h.who.length / h.need * 100);
-      var opts = S.mem.filter(function (m) { return h.who.indexOf(m.nr) < 0; }).map(function (m) {
-        var o = shiftOf(m.nr); return '<option value="' + m.nr + '">' + esc(m.name) + (o ? " (schon bei " + esc(o.t) + ")" : " · " + esc(m.role)) + "</option>";
-      }).join("");
+      var cand = S.mem.filter(function (m) { return h.who.indexOf(m.nr) < 0; });
+      function opt(m) {
+        var o = shiftOf(m.nr);
+        return '<li role="option" tabindex="-1" aria-selected="false" data-nr="' + m.nr + '"' + (o ? ' class="is-busy"' : "") + ">" + av(m.nr) +
+          "<span><b>" + esc(m.name) + "</b><small>" + (o ? "schon bei " + esc(o.t) : esc(m.role)) + "</small></span></li>";
+      }
+      var free = cand.filter(function (m) { return !shiftOf(m.nr); }), busy = cand.filter(function (m) { return shiftOf(m.nr); });
+      var opts = (free.length ? '<li class="dd__grp" role="presentation">Noch frei</li>' + free.map(opt).join("") : "") +
+        (busy.length ? '<li class="dd__grp" role="presentation">Schon eingeteilt</li>' + busy.map(opt).join("") : "");
       return '<article class="sh' + (full ? " is-full" : "") + '" data-sh="' + h.id + '">' +
         '<div class="sh__hd"><div><b>' + esc(h.t) + "</b><small>" + esc(h.w) + '</small></div><span class="sh__n">' + (full ? "voll" : h.who.length + " von " + h.need) + "</span></div>" +
         '<div class="sh__bar"><i style="width:' + pct + '%"></i></div>' +
@@ -264,19 +270,57 @@
           var m = mem(nr); if (!m) return "";
           return '<span class="hc">' + av(nr) + esc(short(m.name)) + '<button type="button" data-un="' + nr + '" aria-label="' + esc(m.name) + ' austragen"><svg aria-hidden="true"><use href="#pi-x"/></svg></button></span>';
         }).join("") + "</div>" +
-        (full ? "" : '<label class="sh__add"><span class="otp__st">Jemand für ' + esc(h.t) + ' eintragen</span><select data-add><option value="">Jemand eintragen</option>' + opts + "</select></label>") +
+        (full ? "" : '<div class="dd" data-dd><button type="button" class="dd__btn" aria-haspopup="listbox" aria-expanded="false" aria-controls="dd-' + h.id + '" aria-label="Jemand für ' + esc(h.t) + ' eintragen"><span>Jemand eintragen</span><svg aria-hidden="true"><use href="#pi-plus"/></svg></button>' +
+          '<ul class="dd__list" id="dd-' + h.id + '" role="listbox" aria-label="Mitglied für ' + esc(h.t) + ' wählen" hidden>' + opts + "</ul></div>") +
         "</article>";
     }).join("");
     badges();
   }
-  $("[data-pt-shifts]").addEventListener("change", function (e) {
-    var s = e.target.closest("[data-add]"); if (!s || !s.value) return;
-    var h = S.help.filter(function (x) { return x.id === s.closest("[data-sh]").getAttribute("data-sh"); })[0], nr = +s.value, m = mem(nr);
+  // Eigene Auswahlliste im Glas-Stil statt der grauen Systemliste
+  var ddOpen = null;
+  function ddClose(focusBtn) {
+    if (!ddOpen) return;
+    var d = ddOpen; ddOpen = null;
+    d.classList.remove("is-open"); d.closest(".sh").classList.remove("is-dd");
+    $(".dd__btn", d).setAttribute("aria-expanded", "false"); $(".dd__list", d).hidden = true;
+    if (focusBtn) $(".dd__btn", d).focus({ preventScroll: true });
+  }
+  function ddShow(d) {
+    ddClose(false); ddOpen = d;
+    var list = $(".dd__list", d);
+    d.classList.add("is-open"); d.closest(".sh").classList.add("is-dd");
+    $(".dd__btn", d).setAttribute("aria-expanded", "true"); list.hidden = false;
+    var first = $('[role="option"]', list); if (first) first.focus({ preventScroll: true });
+    // Liste ganz sichtbar machen, falls sie unten aus dem Bild ragt
+    var lb = list.getBoundingClientRect().bottom, room = window.innerHeight - 80;
+    if (lb > room) window.scrollBy({ top: lb - room, behavior: reduce ? "auto" : "smooth" });
+  }
+  function ddPick(li) {
+    var h = S.help.filter(function (x) { return x.id === li.closest("[data-sh]").getAttribute("data-sh"); })[0], nr = +li.getAttribute("data-nr"), m = mem(nr);
+    ddOpen = null;
     h.who.push(nr); addFeed(ini(m.name), colOf(nr), short(m.name) + " ist bei „" + h.t + "“ eingeteilt"); persist(); renderHelp();
     toast('<svg aria-hidden="true"><use href="#pi-hand"/></svg><span>' + esc(short(m.name)) + " bekommt am Vortag eine Erinnerung.</span>");
-    var sel = $('[data-sh="' + h.id + '"] select'); if (sel) sel.focus({ preventScroll: true });
+    var btn = $('[data-sh="' + h.id + '"] .dd__btn'); if (btn) btn.focus({ preventScroll: true });
+  }
+  $("[data-pt-shifts]").addEventListener("keydown", function (e) {
+    var d = e.target.closest("[data-dd]"); if (!d) return;
+    if (e.target.classList.contains("dd__btn") && (e.key === "ArrowDown" || e.key === "ArrowUp")) { e.preventDefault(); ddShow(d); return; }
+    if (!ddOpen) return;
+    var items = $$('[role="option"]', d), i = items.indexOf(document.activeElement);
+    if (e.key === "Escape") { e.preventDefault(); ddClose(true); }
+    else if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); var n = items[Math.max(0, Math.min(items.length - 1, i + (e.key === "ArrowDown" ? 1 : -1)))]; if (n) n.focus({ preventScroll: false }); }
+    else if ((e.key === "Enter" || e.key === " ") && i > -1) { e.preventDefault(); ddPick(items[i]); }
+    else if (e.key === "Tab") ddClose(false);
   });
+  $("[data-pt-shifts]").addEventListener("focusin", function (e) {
+    var li = e.target.closest('[role="option"]'); if (!li) return;
+    $$('[role="option"]', li.parentNode).forEach(function (x) { x.setAttribute("aria-selected", String(x === li)); });
+  });
+  document.addEventListener("click", function (e) { if (ddOpen && !ddOpen.contains(e.target)) ddClose(false); });
   $("[data-pt-shifts]").addEventListener("click", function (e) {
+    var bt = e.target.closest(".dd__btn");
+    if (bt) { var d = bt.closest("[data-dd]"); if (ddOpen === d) ddClose(false); else ddShow(d); return; }
+    var li = e.target.closest('[role="option"]'); if (li) { ddPick(li); return; }
     var b = e.target.closest("[data-un]"); if (!b) return;
     var h = S.help.filter(function (x) { return x.id === b.closest("[data-sh]").getAttribute("data-sh"); })[0];
     h.who = h.who.filter(function (n) { return n !== +b.getAttribute("data-un"); }); persist(); renderHelp();
