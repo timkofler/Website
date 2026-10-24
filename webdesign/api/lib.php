@@ -146,30 +146,39 @@ function cx_guard(): void
     }
 }
 
-// Höchstens 6 Absendungen pro Stunde je Anschluss. Gespeichert wird nur ein Hash der IP-Adresse.
+// Höchstens 6 Absendungen pro Stunde je Anschluss und 30 pro Stunde insgesamt (falls jemand ständig die IP wechselt).
+// Gespeichert wird nur ein Hash der IP-Adresse.
 function cx_rate_ok(): bool
+{
+    return cx_rate_hit('ip:' . ($_SERVER['REMOTE_ADDR'] ?? ''), 6, 3600)
+        && cx_rate_hit('alle', 30, 3600);
+}
+
+// Zählt einen Versuch für $key und sagt, ob noch höchstens $limit in den letzten $window Sekunden liegen.
+// Der Schlüssel wird nur als Hash gespeichert (IP-Adresse, E-Mail-Adresse, Telefonnummer).
+function cx_rate_hit(string $key, int $limit, int $window): bool
 {
     $dir = CX_DATA . '/rate';
     if (!is_dir($dir) && !@mkdir($dir, 0700, true)) {
         return true;
     }
     $salt = (string) (cx_config()['secret'] ?? 'cx');
-    $file = $dir . '/' . hash('sha256', $salt . ($_SERVER['REMOTE_ADDR'] ?? '')) . '.json';
+    $file = $dir . '/' . hash('sha256', $salt . $key) . '.json';
     $now = time();
-    $ok = cx_locked($dir . '/.lock', static function () use ($file, $now) {
+    $ok = cx_locked($dir . '/.lock', static function () use ($file, $now, $limit, $window) {
         $hits = is_file($file) ? (json_decode((string) file_get_contents($file), true) ?: []) : [];
-        $hits = array_values(array_filter($hits, static fn($t) => is_int($t) && $t > $now - 3600));
-        if (count($hits) >= 6) {
+        $hits = array_values(array_filter($hits, static fn($t) => is_int($t) && $t > $now - $window));
+        if (count($hits) >= $limit) {
             return false;
         }
         $hits[] = $now;
         @file_put_contents($file, json_encode($hits), LOCK_EX);
         return true;
     });
-    // Alte Dateien gelegentlich aufräumen.
+    // Alte Dateien gelegentlich aufräumen (längstes Fenster: ein Tag).
     if (random_int(1, 50) === 1) {
         foreach (glob($dir . '/*.json') ?: [] as $f) {
-            if (@filemtime($f) < $now - 7200) {
+            if (@filemtime($f) < $now - 90000) {
                 @unlink($f);
             }
         }

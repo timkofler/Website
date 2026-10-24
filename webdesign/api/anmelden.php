@@ -30,6 +30,10 @@ if ($form === 'rueckruf' && array_key_exists('list_webdesign', $c)) {
 if ($email === '') {
     cx_respond(false, 'Bitte gib eine gültige E-Mail-Adresse ein.');
 }
+// Dieselbe Adresse höchstens 3-mal am Tag: sonst ließe sich jemandem das Postfach mit Bestätigungsmails fluten.
+if (!cx_rate_hit('mail:' . strtolower($email), 3, 86400)) {
+    cx_respond(false, 'Mit dieser E-Mail-Adresse ist heute schon genug angekommen. Ich melde mich bei dir, oder schreib mir auf WhatsApp.');
+}
 
 // Nur Formulare annehmen, deren Liste in der config.php dieses Webspace steht
 // (tim-kofler.at kennt Webseiten-Anfrage, Gratis-Entwurf und Newsletter, crypto-x.at Beta und Newsletter).
@@ -197,6 +201,10 @@ function cx_rueckruf(array $c, string $name, string $fallback): void
     if (cx_field('datenschutz', 5) !== 'ja') {
         cx_respond(false, 'Bitte bestätige, dass ich dich unter dieser Nummer zurückrufen darf.');
     }
+    // Dieselbe Nummer höchstens 2-mal am Tag.
+    if (!cx_rate_hit('tel:' . preg_replace('/\D/', '', $tel), 2, 86400)) {
+        cx_respond(false, 'Dein Rückruf-Wunsch ist schon angekommen, ich melde mich bei dir.');
+    }
     $f = ['Name' => $name, 'Telefon' => $tel, 'Erreichbar' => $wann, 'Gefunden über' => cx_field('quelle', 120)];
     $rows = '';
     foreach ($f as $k => $v) {
@@ -208,7 +216,7 @@ function cx_rueckruf(array $c, string $name, string $fallback): void
         cx_mail_layout('Bitte zurückrufen', '<table role="presentation" cellpadding="0" cellspacing="0" style="font-size:15px">' . $rows . '</table>'
             . '<p style="margin:18px 0 0;font-size:14px;color:#a1a1a1">Die Person hat keine E-Mail-Adresse angegeben, nur die Telefonnummer.</p>'));
     if (!$ok) {
-        cx_respond(false, 'Dein Rückruf-Wunsch konnte gerade nicht übermittelt werden. Ruf mich gerne direkt an: +43 677 61773118.');
+        cx_respond(false, 'Dein Rückruf-Wunsch konnte gerade nicht übermittelt werden. Schreib mir gerne auf WhatsApp oder an office@tim-kofler.at.');
     }
     cx_zaehle_anfrage('rueckruf');
     cx_respond(true, 'Danke, ' . $name . '! Ich rufe dich so bald wie möglich zurück, meistens noch am selben oder am nächsten Werktag.');

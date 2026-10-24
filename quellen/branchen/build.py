@@ -21,7 +21,6 @@ PAKETE = {
 PFEIL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
 HAKEN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
 WA_IC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.4z"/><path d="M9 8.6c0 3.3 3 6.4 6.4 6.4l1.2-1.4-2-1-.9.8a5 5 0 0 1-2.6-2.6l.8-.9-1-2z"/></svg>'
-TEL_IC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>'
 MAIL_IC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>'
 TG_IC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 3.5L2.8 10.8c-.8.3-.8 1.4 0 1.7l4.7 1.6 1.8 5.6c.2.7 1.1.9 1.6.4l2.6-2.5 4.8 3.5c.6.4 1.4.1 1.6-.6L22.9 4.9c.2-.9-.6-1.7-1.4-1.4z"/><path d="M7.5 14.1l10-7.2-7.6 8.3"/></svg>'
 
@@ -104,7 +103,7 @@ def head(title, desc, url, og_title, og_desc, ld, extra_css=""):
   <div class="container header__inner">
     <a href="/" class="tk-logo" aria-label="Tim Kofler Webdesign – Startseite"><img src="/assets/img/tk-logo-2.svg" alt="Tim Kofler Webdesign" width="71" height="36"></a>
     <div class="ew-head">
-      <a class="ew-head__tel" href="tel:+4367761773118" aria-label="Anrufen: +43 677 61773118">{TEL_IC}<span>+43 677 61773118</span></a>
+      <a class="ew-head__tel" href="https://wa.me/4367761773118?text=Hallo%20Tim%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Webseite." rel="noopener" aria-label="Auf WhatsApp schreiben">{WA_IC}<span>WhatsApp</span></a>
       <a href="#anfrage" class="btn btn--sm">Anfragen</a>
     </div>
   </div>
@@ -204,7 +203,7 @@ def formular(b, num):
         <label class="form__check"><input type="checkbox" name="datenschutz" value="ja" required><span>Ich habe die <a href="/datenschutz/">Datenschutzerklärung</a> gelesen. Meine Angaben werden zur Bearbeitung der Anfrage gespeichert und bei Brevo verarbeitet.</span></label>
         <button class="btn" type="submit">Unverbindlich anfragen {PFEIL}</button>
         <p class="form__status" role="status" aria-live="polite" hidden></p>
-        <p class="form__alt">Lieber direkt? <a href="mailto:office@tim-kofler.at">office@tim-kofler.at</a>, <a href="tel:+4367761773118">+43 677 61773118</a> oder per <a href="{wa}" rel="noopener">WhatsApp</a></p>
+        <p class="form__alt">Lieber direkt? <a href="{wa}" rel="noopener">WhatsApp</a>, <a href="https://t.me/TimKofler" rel="noopener">Telegram</a> oder <a href="mailto:office@tim-kofler.at">office@tim-kofler.at</a></p>
       </form>
     </div>
     <aside class="form-aside">
@@ -254,9 +253,6 @@ def fragen(b, num):
           <a class="btn btn--line btn--sm" href="mailto:office@tim-kofler.at">{MAIL_IC}E-Mail</a>
           <a class="btn btn--line btn--sm" href="https://t.me/TimKofler" rel="noopener">{TG_IC}Telegram</a>
         </div>
-        <ul class="tk-ask__list">
-          <li><a href="tel:+4367761773118">{TEL_IC}+43 677 61773118</a></li>
-        </ul>
         <a class="tk-ask__more" href="/ablauf/">So läuft ein Projekt ab {PFEIL}</a>
       </div>
     </aside>
