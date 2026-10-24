@@ -285,6 +285,51 @@
     }
   });
 
+  // ---------------- Rechner-Karte auf der Startseite ----------------
+  // Zeigt der Reihe nach die Rechner mehrerer Branchen; Bild, Adresszeile, Titel, Text und Link wechseln gemeinsam.
+  Array.prototype.forEach.call(document.querySelectorAll("[data-tkr]"), function (card) {
+    var imgs = Array.prototype.slice.call(card.querySelectorAll(".tk-try__shot img"));
+    var segs = Array.prototype.slice.call(card.querySelectorAll(".tk-tryr__seg i"));
+    var bar = card.querySelector(".tk-ex__bar > span"), tt = card.querySelector(".tk-try__body > b"), tp = card.querySelector(".tk-try__p");
+    var DUR = 4500, cur = 0, timer = 0, swapT = 0, vis = false, hold = false;
+    if (reduce || imgs.length < 2) return;
+    card.style.setProperty("--tkr-dur", DUR / 1000 + "s");
+    function restart(el) { el.classList.remove("is-on"); void el.offsetWidth; el.classList.add("is-on"); }
+    function show(n) {
+      var d = imgs[n].dataset, txt = [bar, tt, tp];
+      imgs[cur].classList.remove("is-on"); imgs[n].classList.add("is-on");
+      cur = n;
+      card.href = d.href;
+      card.setAttribute("aria-label", d.t + " ausprobieren");
+      clearTimeout(swapT);
+      txt.forEach(function (el) { el.classList.add("is-swap"); });
+      swapT = setTimeout(function () {
+        bar.textContent = d.url; tt.textContent = d.t; tp.textContent = d.p;
+        txt.forEach(function (el) { el.classList.remove("is-swap"); });
+      }, 300);
+      segs.forEach(function (s, i) { s.classList.toggle("is-on", i === n); });
+      if (segs[n]) restart(segs[n]);
+      var nx = imgs[(n + 1) % imgs.length]; if (nx.loading === "lazy") nx.loading = "eager";
+      plan();
+    }
+    function plan() {
+      clearTimeout(timer);
+      card.classList.toggle("is-hold", hold || !vis);
+      if (vis && !hold) timer = setTimeout(function () { show((cur + 1) % imgs.length); }, DUR);
+    }
+    card.addEventListener("mouseenter", function () { hold = true; plan(); });
+    card.addEventListener("mouseleave", function () { hold = false; plan(); if (segs[cur]) restart(segs[cur]); });
+    card.addEventListener("focus", function () { hold = true; plan(); });
+    card.addEventListener("blur", function () { hold = false; plan(); });
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (es) {
+        vis = es[0].isIntersecting;
+        if (vis && segs[cur]) restart(segs[cur]);
+        plan();
+      }, { threshold: 0.5 }).observe(card);
+    }
+  });
+
   // ---------------- Antwort-Assistent ----------------
   var WA = "https://wa.me/4367761773118?text=Hallo%20Tim%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Webseite.";
   var LINKS = {
