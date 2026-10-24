@@ -517,7 +517,7 @@
   function renderDeskEvents() {
     $("[data-d-evs]").innerHTML = S.ev.map(function (e) {
       var all = Math.max(1, e.yes + e.no);
-      return '<div class="dev' + (e.fresh ? " is-new" : "") + '"><span class="dev__d"><b>' + ("0" + e.d.getDate()).slice(-2) + "</b>" + MON[e.d.getMonth()] + '</span><span class="dev__t"><b>' + esc(e.t) + "</b><small>" + WT[e.d.getDay()] + " · " + esc(e.h) + " Uhr · " + esc(e.o) + '</small><span class="dev__bar"><i style="width:' + (e.yes / all * 100) + '%"></i><i style="width:' + (e.no / all * 100) + '%"></i></span></span><span class="dev__n"><b>' + e.yes + "</b>" + e.no + " Absagen</span></div>";
+      return '<div class="dev' + (e.fresh ? " is-new" : "") + '" data-evi="' + S.ev.indexOf(e) + '"><span class="dev__d"><b>' + ("0" + e.d.getDate()).slice(-2) + "</b>" + MON[e.d.getMonth()] + '</span><span class="dev__t"><b>' + esc(e.t) + "</b><small>" + WT[e.d.getDay()] + " · " + esc(e.h) + " Uhr · " + esc(e.o) + '</small><span class="dev__bar"><i style="width:' + (e.yes / all * 100) + '%"></i><i style="width:' + (e.no / all * 100) + '%"></i></span></span><span class="dev__n"><b>' + e.yes + "</b>" + e.no + " Absagen</span></div>";
     }).join("");
   }
   var evD = $("[data-ev-d]");
@@ -686,8 +686,8 @@
     days.forEach(function (d, i) {
       var isT = d - today === 0;
       if (isT) ti = i;
-      var evs = S.ev.filter(function (e) { return e.d - d === 0; }).map(function (e) { return '<span class="wev' + (e === S.help.ev ? " fest" : "") + '"><b>' + esc(e.t) + "</b><span>" + esc(e.h) + "</span></span>"; });
-      if (isT) evs.unshift('<span class="wev att"><b>' + esc(S.P.probe[0]) + "</b><span>" + esc(S.P.probe[1]) + "</span></span>");
+      var evs = S.ev.filter(function (e) { return e.d - d === 0; }).map(function (e) { var f = e === S.help.ev; return '<button type="button" class="wev' + (f ? " fest" : "") + '" data-wgo="' + (f ? "helfer" : "termine") + '" data-evi="' + S.ev.indexOf(e) + '" title="' + (f ? "Zur Helfer-Einteilung" : "Zum Termin") + '"><b>' + esc(e.t) + "</b><span>" + esc(e.h) + "</span></button>"; });
+      if (isT) evs.unshift('<button type="button" class="wev att" data-wgo="anwesenheit" title="Zur Anwesenheit"><b>' + esc(S.P.probe[0]) + "</b><span>" + esc(S.P.probe[1]) + "</span></button>");
       h += '<div class="wd' + (isT ? " is-today" : d < today ? " is-past" : "") + '"><small>' + (isT ? "Heute" : WT[d.getDay()]) + "<b>" + d.getDate() + ".</b>" + "</small>" + evs.join("") + "</div>";
     });
     if (ti > -1) {
@@ -699,6 +699,16 @@
     if (renderWeek.dir && !reduce) { g.classList.remove("w-l", "w-r"); void g.offsetWidth; g.classList.add(renderWeek.dir > 0 ? "w-r" : "w-l"); }
     renderWeek.dir = 0;
   }
+  // Termin in der Wochenleiste antippen: gleich dorthin, wo man ihn bearbeitet
+  $("[data-week]").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-wgo]"); if (!b) return;
+    var go = b.getAttribute("data-wgo"), tab = $('[data-d-tabs] [data-dt="' + go + '"]');
+    if (tab) tab.click();
+    var tgt = go === "termine" ? $('[data-d-evs] [data-evi="' + b.getAttribute("data-evi") + '"]') : $('[data-dp="' + go + '"]');
+    if (!tgt) return;
+    tgt.scrollIntoView({ block: "nearest", behavior: reduce ? "auto" : "smooth" });
+    if (go === "termine") { tgt.classList.remove("is-hl"); void tgt.offsetWidth; tgt.classList.add("is-hl"); }
+  });
   function kw(d) {
     var t = new Date(d); t.setDate(t.getDate() + 3 - (t.getDay() + 6) % 7);
     var j = new Date(t.getFullYear(), 0, 4);

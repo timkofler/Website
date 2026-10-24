@@ -973,3 +973,15 @@ svg{flex:none}
 @keyframes wkr{from{opacity:0;transform:translateX(18px)}}
 @keyframes wkl{from{opacity:0;transform:translateX(-18px)}}
 @media (max-width:720px){.week__hd{flex-wrap:wrap}}
+/* Jetzt-Linie beginnt unter dem Datum und läuft hinter den Terminen (Tim: überdeckte „Heute“) */
+.week__grid .now{top:30px;z-index:1}
+.week__grid .now span{z-index:4}
+/* Termine in der Wochenleiste sind Knöpfe: Klick führt zum Termin, zur Anwesenheit oder zur Helfer-Einteilung */
+button.wev{width:100%;text-align:left;font-family:inherit;color:inherit;border-top:0;border-right:0;border-bottom:0;cursor:pointer;transition:transform .15s,filter .15s}
+button.wev:hover{filter:brightness(1.18);transform:translateY(-1px)}
+button.wev:focus-visible{outline:2px solid var(--vc2);outline-offset:1px}
+.dev.is-hl{animation:devhl 1.6s ease-out}
+@keyframes devhl{0%,30%{box-shadow:0 0 0 2px var(--vc2),0 0 22px -4px var(--vc2)}100%{box-shadow:0 0 0 0 transparent}}
+.week__grid .wev{background:color-mix(in srgb,var(--blue) 16%,var(--card))}
+.week__grid .wev.att{background:color-mix(in srgb,var(--ok) 16%,var(--card))}
+.week__grid .wev.fest{background:color-mix(in srgb,var(--pop) 16%,var(--card))}
