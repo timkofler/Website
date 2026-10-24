@@ -528,7 +528,7 @@ svg{flex:none}
 .hc.is-me i{background:var(--popl);color:var(--pop)}
 .hc.ghost{opacity:.35}
 .hc.drag{position:fixed;z-index:1000;pointer-events:none;cursor:grabbing;box-shadow:0 18px 30px -12px rgba(0,0,0,.6),0 0 0 2px var(--pop);transform:rotate(-4deg) scale(1.06)}
-.shifts{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px}
+.shifts{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:8px}
 .sh{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:11px;transition:border-color .2s,background .2s,transform .2s}
 .sh__hd{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
 .sh__hd b{font-size:14px}
@@ -923,3 +923,9 @@ svg{flex:none}
 @keyframes envzu{to{transform:rotateX(0)}}
 @keyframes envflug{0%{opacity:0;transform:translateY(12px) scale(.8)}6%{opacity:1;transform:none}55%{opacity:1;transform:none}100%{opacity:0;transform:translate(170px,-130px) rotate(-18deg) scale(.5)}}
 @media (prefers-reduced-motion:reduce){.perm__ic svg{animation:none!important}}
+/* Helferliste: Name kürzt sich statt vom „Entfernen?“-Knopf überdeckt zu werden; Schicht-Titel ruhiger */
+.hc__n{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.sh__list .hc__x{flex:none}
+.sh__hd b{text-wrap:balance;line-height:1.3}
+.sh{container-type:inline-size}
+@container (max-width:290px){.hc.ask .hc__x span{display:none}.hc.ask .hc__x{width:28px;min-width:28px;padding:0}}

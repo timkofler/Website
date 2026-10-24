@@ -682,7 +682,7 @@
   // ---------- Helfer-Einteilung ----------
   var shBox = $("[data-h-shifts]"), poolBox = $("[data-h-pool]");
   function hChip(m, inShift) {
-    if (inShift) return '<span class="hc" data-in="' + m.nr + '"><i>' + ini(m.name) + "</i>" + esc(m.name) + '<button type="button" class="hc__x" data-rm="' + m.nr + '" aria-label="' + esc(m.name) + ' aus der Schicht nehmen"><span>Entfernen?</span>×</button></span>';
+    if (inShift) return '<span class="hc" data-in="' + m.nr + '"><i>' + ini(m.name) + '</i><span class="hc__n">' + esc(m.name) + '</span><button type="button" class="hc__x" data-rm="' + m.nr + '" aria-label="' + esc(m.name) + ' aus der Schicht nehmen"><span>Entfernen?</span>×</button></span>';
     return '<span class="hc' + (m === S.me ? " is-me" : "") + (S.help.sel === m.nr ? " sel" : "") + '" data-hc="' + m.nr + '" role="button" tabindex="0"><i>' + ini(m.name) + "</i>" + esc(m.name) + "</span>";
   }
   function helpFree() { return S.help.shifts.reduce(function (s, sh) { return s + sh.need - sh.who.length; }, 0); }
