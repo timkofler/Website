@@ -142,6 +142,51 @@
   var toastT;
   function toast(t) { var el = $("#toast"); el.textContent = t; el.classList.add("is-on"); clearTimeout(toastT); toastT = setTimeout(function () { el.classList.remove("is-on"); }, 2600); }
 
+  // ---- Flüssige Markierung im Menü: am PC ein Glasbalken, am Handy eine Leuchtkugel hinter dem Symbol ----
+  var ind = $(".side__ind"), indAt = null, calm = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function moveInd(anim) {
+    var b = $('.nav-b[aria-current="page"]');
+    if (!ind || !b || !b.offsetWidth) return;
+    var ball = innerWidth <= 960, side = ind.parentNode, sr = side.getBoundingClientRect(), br = b.getBoundingClientRect(), r, d = 40;
+    var bx = br.left - sr.left - side.clientLeft, by = br.top - sr.top - side.clientTop;
+    if (ball) { var ir = b.querySelector("svg").getBoundingClientRect(), it = parseFloat(getComputedStyle(b.querySelector("svg")).transform.split(",")[5]) || 0; r = { x: bx + br.width / 2 - d / 2, y: ir.top - it - sr.top - side.clientTop + ir.height / 2 - d / 2 - 13, w: d, h: d }; }
+    else r = { x: bx, y: by, w: br.width, h: br.height };
+    ind.style.width = r.w + "px"; ind.style.height = r.h + "px";
+    var to = "translate(" + r.x + "px," + r.y + "px)";
+    if (anim && indAt && !calm && ind.animate && indAt.ball === ball) {
+      var dx = r.x - indAt.x, dy = r.y - indAt.y, k = ball ? Math.min(1.6, Math.abs(dx) / d * .5) : Math.min(.5, Math.abs(dy) / r.h * .12);
+      var mid = "translate(" + (indAt.x + dx * .5) + "px," + (indAt.y + dy * .5) + "px)";
+      ind.animate(ball ? [
+        { transform: "translate(" + indAt.x + "px," + indAt.y + "px)" },
+        { transform: mid + " scale(" + (1 + k) + ",.72)", offset: .5 },
+        { transform: "translate(" + (r.x - dx * .04) + "px," + r.y + "px) scale(.88,1.1)", offset: .82 },
+        { transform: to }
+      ] : [
+        { transform: "translate(" + indAt.x + "px," + indAt.y + "px)" },
+        { transform: mid + " scale(.96," + (1 + k) + ")", offset: .5 },
+        { transform: "translate(" + r.x + "px," + (r.y - dy * .04) + "px) scale(1.02,.94)", offset: .82 },
+        { transform: to }
+      ], { duration: 520, easing: "cubic-bezier(.45,.05,.25,1)" });
+    }
+    ind.style.transform = to; ind.classList.add("on");
+    indAt = { x: r.x, y: r.y, ball: ball };
+  }
+  if (!ind) $(".side").classList.add("no-ind");
+  addEventListener("resize", function () { moveInd(false); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { moveInd(false); });
+
+  // ---- Hell/Dunkel-Schalter: folgt dem Gerät, bis man ihn selbst umstellt ----
+  var root = document.documentElement, sw = $("[data-theme-sw]");
+  function isLight() { var t = root.getAttribute("data-theme"); return t ? t === "light" : !(window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches); }
+  function syncSw() { if (!sw) return; var l = isLight(); sw.setAttribute("aria-checked", l); sw.setAttribute("aria-label", l ? "Dunkle Ansicht" : "Helle Ansicht"); }
+  syncSw();
+  if (sw) sw.addEventListener("click", function () {
+    var t = isLight() ? "dark" : "light";
+    root.setAttribute("data-theme", t); syncSw();
+    try { localStorage.setItem("tk-dash-theme", t); } catch (e) {}
+  });
+  if (window.matchMedia) { var mq = matchMedia("(prefers-color-scheme: dark)"); if (mq.addEventListener) mq.addEventListener("change", syncSw); }
+
   // ---- Navigation ----
   var cur = "home";
   function go(v, scroll) {
@@ -150,6 +195,7 @@
     cur = v;
     $$(".view").forEach(function (s) { s.classList.toggle("is-on", s.id === "v-" + v); });
     $$(".nav-b").forEach(function (b) { if (b.getAttribute("data-go") === v) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); });
+    moveInd(true);
     try { history.replaceState(null, "", "#" + v); } catch (e) {}
     render();
     if (scroll) { var a = $("#app").getBoundingClientRect().top; if (a < 0 || a > innerHeight * .4) scrollTo({ top: scrollY + a - 50, behavior: "smooth" }); }
@@ -192,7 +238,7 @@
       svg += '<text class="bv" x="' + (x + bw / 2) + '" y="' + (y - 7) + '" text-anchor="middle">' + (v / 1000).toLocaleString("de-AT", { maximumFractionDigits: 1 }) + 'k</text>';
       svg += '<text class="lb" x="' + (x + bw / 2) + '" y="' + (H - 4) + '" text-anchor="middle">' + labs[i] + '</text>';
     });
-    $("#chart").innerHTML = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Umsatz der letzten sechs Monate">' + svg + "</svg>";
+    $("#chart").innerHTML = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Umsatz der letzten sechs Monate"><defs><linearGradient id="barg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--pop2)"/><stop offset="1" stop-color="var(--pop)"/></linearGradient></defs>' + svg + "</svg>";
 
     var nd = plan[0];
     $("#next-h").firstChild.textContent = (nd === today ? "Heute im Einsatz " : "Nächster Arbeitstag ");
@@ -608,7 +654,7 @@
     var np = S.pics.filter(function (x) { return x.job === j.id; }).length, nm = S.msg.filter(function (x) { return x.job === j.id; }).length;
     var tabs = [["info", "Überblick", ""], ["pics", "Fotos", np], ["chat", "Chat", nm]];
     var body = MP.tab === "pics" ? picsHTML(j.id, me) : MP.tab === "chat" ? chatHTML(j.id, me) : infoHTML(j);
-    host.innerHTML = '<div class="mp-h">' + (phone ? '<div class="grab"></div>' : "") + '<div class="row1"><svg style="width:15px;height:15px"><use href="#i-folder"/></svg><span class="mp-lab">Projektmappe · </span>' + j.id + " · " + esc(j.ort) + ' <span class="pill" style="background:color-mix(in srgb,' + col.c + ' 14%,#fff);color:' + col.c + '">' + col.name + '</span><button class="x" type="button" data-close-mappe aria-label="Mappe schließen"><svg><use href="#i-x"/></svg></button></div><h3>' + esc(j.kunde) + "</h3><p>" + esc(j.titel) + '</p><div class="mp-tabs" role="tablist">' + tabs.map(function (t) { return '<button type="button" role="tab" data-mtab="' + t[0] + '" aria-selected="' + (MP.tab === t[0]) + '">' + t[1] + (t[2] !== "" ? "<span>" + t[2] + "</span>" : "") + "</button>"; }).join("") + '</div></div><div class="mp-b">' + body + "</div>" +
+    host.innerHTML = '<div class="mp-h">' + (phone ? '<div class="grab"></div>' : "") + '<div class="row1"><svg style="width:15px;height:15px"><use href="#i-folder"/></svg><span class="mp-lab">Projektmappe · </span>' + j.id + " · " + esc(j.ort) + ' <span class="pill" style="background:color-mix(in srgb,' + col.c + ' 16%,transparent);color:' + col.c + '">' + col.name + '</span><button class="x" type="button" data-close-mappe aria-label="Mappe schließen"><svg><use href="#i-x"/></svg></button></div><h3>' + esc(j.kunde) + "</h3><p>" + esc(j.titel) + '</p><div class="mp-tabs" role="tablist">' + tabs.map(function (t) { return '<button type="button" role="tab" data-mtab="' + t[0] + '" aria-selected="' + (MP.tab === t[0]) + '">' + t[1] + (t[2] !== "" ? "<span>" + t[2] + "</span>" : "") + "</button>"; }).join("") + '</div></div><div class="mp-b">' + body + "</div>" +
       (MP.tab === "chat" ? '<form class="chat-f" data-chat="' + j.id + '"><input name="t" maxlength="200" autocomplete="off" placeholder="Nachricht an ' + (phone ? "das Büro" : "die Baustelle") + '" aria-label="Nachricht"><button type="submit" aria-label="Senden"><svg><use href="#i-send"/></svg></button></form>' : "");
     if (phone) host.classList.add("is-on");
     else { host.hidden = false; $("#scrim").hidden = false; document.documentElement.style.overflow = "hidden"; }
@@ -906,7 +952,7 @@
     var ts = S.tasks.filter(function (t) { return TF === "offen" ? !t.done : t.done; }).sort(function (a, b) { return TF === "offen" ? (a.due < b.due ? -1 : 1) : (a.done < b.done ? 1 : -1); });
     $("#todo-l").innerHTML = ts.length ? ts.map(function (t) {
       var p = person(t.who), late = !t.done && t.due < today;
-      return '<li class="todo' + (t.done ? " is-done" : "") + (t.fresh ? " is-new" : "") + '"><button class="chk" type="button" data-task="' + t.id + '" aria-pressed="' + !!t.done + '" aria-label="' + (t.done ? "Wieder öffnen" : "Erledigt") + '"><svg viewBox="0 0 24 24"><path d="m5 12 5 5 9-10" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="grow"><span class="t">' + esc(t.txt) + (t.k ? ' <span style="font-weight:500;color:var(--mu)">· ' + esc(t.k) + "</span>" : "") + '</span><span class="s">' + (t.done ? "erledigt " + dayLabel(t.done) : '<b style="color:' + (late ? "var(--bad)" : t.due === today ? "#9a6700" : "inherit") + '">fällig ' + dueLabel(t.due) + "</b>") + (t.auto ? " · automatisch angelegt" : "") + '</span></span><span class="ava" style="--c:' + p.c + '" title="' + p.name + '">' + p.short + "</span></li>";
+      return '<li class="todo' + (t.done ? " is-done" : "") + (t.fresh ? " is-new" : "") + '"><button class="chk" type="button" data-task="' + t.id + '" aria-pressed="' + !!t.done + '" aria-label="' + (t.done ? "Wieder öffnen" : "Erledigt") + '"><svg viewBox="0 0 24 24"><path d="m5 12 5 5 9-10" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="grow"><span class="t">' + esc(t.txt) + (t.k ? ' <span style="font-weight:500;color:var(--mu)">· ' + esc(t.k) + "</span>" : "") + '</span><span class="s">' + (t.done ? "erledigt " + dayLabel(t.done) : '<b style="color:' + (late ? "var(--bad)" : t.due === today ? "var(--warnt)" : "inherit") + '">fällig ' + dueLabel(t.due) + "</b>") + (t.auto ? " · automatisch angelegt" : "") + '</span></span><span class="ava" style="--c:' + p.c + '" title="' + p.name + '">' + p.short + "</span></li>";
     }).join("") : '<li class="empty">' + (TF === "offen" ? "Alles erledigt. 👍" : "Noch nichts erledigt.") + "</li>";
     S.tasks.forEach(function (t) { delete t.fresh; });
     opts($("#ft2-k"), [["", "ohne Kunde"]].concat(S.kunden.map(function (k) { return [k.name, k.name]; })));
@@ -1147,4 +1193,5 @@
   load();
   var h0 = (location.hash || "").slice(1);
   if (["home", "sales", "zeit", "jobs", "inv", "lager", "cal", "mont"].indexOf(h0) >= 0) go(h0); else render();
+  moveInd(false);
 })();
