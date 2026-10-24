@@ -185,6 +185,13 @@
       if (!window.fetch || !window.FormData || !cells.animate) { form.submit(); return; }
       el.blur(); el.readOnly = true;
       wrap.classList.add('is-chk');
+      // Alte Fehlermeldung weich zuklappen, die Antwort des Servers bringt bei Bedarf eine neue.
+      var fl = form.querySelector('.form__status');
+      if (fl && fl.animate && !reduce) {
+        fl.style.overflow = 'hidden';
+        fl.animate([{ height: fl.offsetHeight + 'px', opacity: 1 }, { height: '0px', opacity: 0, paddingTop: 0, paddingBottom: 0, marginTop: 0, marginBottom: 0, borderWidth: 0 }],
+          { duration: 450, easing: 'cubic-bezier(.4,0,.2,1)' }).onfinish = function () { fl.remove(); };
+      } else if (fl) fl.remove();
       var body = new FormData(form), started = Date.now(), res = null, html = '';
       var req = fetch(form.action, { method: 'POST', body: body, credentials: 'same-origin', headers: { Accept: 'text/html' } })
         .then(function (r) { res = r; return r.text(); }).then(function (t) { html = t; });
@@ -195,8 +202,6 @@
         var ok = res.ok && html.indexOf('name="aktion" value="code"') === -1 && html.indexOf('name="aktion" value="anmelden"') === -1;
         setTimeout(function () {
           wrap.classList.add(ok ? 'is-done' : 'is-bad');
-          var fl = form.querySelector('.form__status');
-          if (ok && fl) { fl.style.transition = 'opacity .4s'; fl.style.opacity = '0'; }
           if (btn) btn.textContent = ok ? 'Angemeldet' : 'Code falsch';
           swapTitle(ok ? 'Angemeldet' : 'Code falsch');
           later(ok ? 1300 : 1500, function () {

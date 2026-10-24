@@ -387,7 +387,8 @@ if ($hash === '') {
     $out = $new === '' ? '' : '<div class="kp-secret"><p><b>Dein Hash:</b></p><code data-kp-copy>' . cx_h($new) . '</code>'
         . '<p>Trage ihn in <code>api/_data/config.php</code> auf dem Webspace ein:<br><code>\'admin_password_hash\' =&gt; \'…\',</code><br>Danach diese Seite neu laden und mit deinem Passwort anmelden.</p></div>';
     kp_page('Einrichten', <<<HTML
-<div class="kp-narrow">
+<div class="kp-narrow kp-auth">
+  <span class="kp-auth__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8M16 7l3 3M14 9l2 2"/></svg></span>
   <span class="label"><b>●</b> Kundenportal · Admin</span>
   <h1>Einrichten</h1>
   <p class="lead">Es ist noch kein Admin-Passwort hinterlegt. Wähle hier ein Passwort, dann bekommst du einen Hash (eine verschlüsselte Prüfsumme) für die <code>config.php</code>. Das Passwort selbst wird nirgends gespeichert.</p>
@@ -408,7 +409,8 @@ HTML);
 if ($codeStep) {
     $action = KP_ADMIN . ($k !== '' ? '?k=' . $k : '');
     kp_page('Bestätigen', <<<HTML
-<div class="kp-narrow">
+<div class="kp-narrow kp-auth">
+  <span class="kp-auth__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5.5c0 4.3-2.9 8.1-7 9.5-4.1-1.4-7-5.2-7-9.5V6z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg></span>
   <span class="label"><b>●</b> Kundenportal · Admin</span>
   <h1>Code bestätigen</h1>
   <p class="lead">Öffne Google Authenticator auf deinem Handy und gib den 6-stelligen Code für <b>tim-kofler.at</b> ein.</p>
@@ -438,9 +440,11 @@ HTML);
 if (!$isAdmin) {
     $action = KP_ADMIN . ($k !== '' ? '?k=' . $k : '');
     kp_page('Admin', <<<HTML
-<div class="kp-narrow">
+<div class="kp-narrow kp-auth">
+  <span class="kp-auth__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
   <span class="label"><b>●</b> Kundenportal · Admin</span>
   <h1>Anmelden</h1>
+  <p class="lead">Nur für Tim: Kunden anlegen, Nachrichten und Uploads ansehen.</p>
   <form class="form" method="post" action="{$action}">
     {$csrf}
     <input type="hidden" name="aktion" value="anmelden">
@@ -723,9 +727,9 @@ if ($k !== '' && isset($all[$k])) {
 {$flash}
 {$project}
 <nav class="kp-tiles kp-tiles--3" data-kp-tabs data-default="nachrichten" aria-label="Bereiche">
-  <a class="kp-tile" href="#nachrichten" data-kp-tab="nachrichten"><span class="kp-tile__txt"><b>Nachrichten {$badge}</b><small>{$msgSub}</small></span></a>
-  <a class="kp-tile" href="#uploads" data-kp-tab="uploads"><span class="kp-tile__txt"><b>Uploads {$upBadge}</b><small>{$upSub}</small></span></a>
-  <a class="kp-tile" href="#zugang" data-kp-tab="zugang"><span class="kp-tile__txt"><b>Zugang</b><small>Daten, Passwort · {$status}</small></span></a>
+  <a class="kp-tile" href="#nachrichten" data-kp-tab="nachrichten"><span class="kp-tile__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.2 3.6c-.5.4-1.3.1-1.3-.6V16A2.5 2.5 0 0 1 4 13.5z"/></svg></span><span class="kp-tile__txt"><b>Nachrichten {$badge}</b><small>{$msgSub}</small></span></a>
+  <a class="kp-tile" href="#uploads" data-kp-tab="uploads"><span class="kp-tile__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4m0 0L7.5 8.5M12 4l4.5 4.5M4.5 15v2.5A2.5 2.5 0 0 0 7 20h10a2.5 2.5 0 0 0 2.5-2.5V15"/></svg></span><span class="kp-tile__txt"><b>Uploads {$upBadge}</b><small>{$upSub}</small></span></a>
+  <a class="kp-tile" href="#zugang" data-kp-tab="zugang"><span class="kp-tile__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8M16 7l3 3M14 9l2 2"/></svg></span><span class="kp-tile__txt"><b>Zugang</b><small>Daten, Passwort · {$status}</small></span></a>
 </nav>
 <section class="kp-panel" data-kp-panel="nachrichten">
   <div class="kp-card kp-chat kp-chat--admin">
@@ -943,9 +947,9 @@ kp_page('Kunden', <<<HTML
 {$flash}
 {$tfHint}
 <nav class="kp-tiles kp-tiles--3" data-kp-tabs data-default="kunden" aria-label="Bereiche">
-  <a class="kp-tile" href="#kunden" data-kp-tab="kunden"><span class="kp-tile__txt"><b>Kunden {$kBadge}</b><small>{$kSub}</small></span></a>
-  <a class="kp-tile" href="#entwuerfe" data-kp-tab="entwuerfe"><span class="kp-tile__txt"><b>Entwürfe {$ewBadge}</b><small>{$ewSub}</small></span></a>
-  <a class="kp-tile" href="#besucher" data-kp-tab="besucher"><span class="kp-tile__txt"><b>Besucher</b><small>{$bzSub}</small></span></a>
+  <a class="kp-tile" href="#kunden" data-kp-tab="kunden"><span class="kp-tile__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8.5" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><path d="M15.5 5.2a3.5 3.5 0 0 1 0 6.6M18 14.8c1.9.7 3.1 2.4 3.5 5.2"/></svg></span><span class="kp-tile__txt"><b>Kunden {$kBadge}</b><small>{$kSub}</small></span></a>
+  <a class="kp-tile" href="#entwuerfe" data-kp-tab="entwuerfe"><span class="kp-tile__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></span><span class="kp-tile__txt"><b>Entwürfe {$ewBadge}</b><small>{$ewSub}</small></span></a>
+  <a class="kp-tile" href="#besucher" data-kp-tab="besucher"><span class="kp-tile__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><span class="kp-tile__txt"><b>Besucher</b><small>{$bzSub}</small></span></a>
 </nav>
 
 <section class="kp-panel" data-kp-panel="kunden">
