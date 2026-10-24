@@ -33,11 +33,21 @@
     { n: "Kundenkartei", s: "Kunden", p: 20, c: "#e64980", i: "i-users" },
     { n: "Website", p: 25, c: "#1098ad", i: "i-web" }
   ];
+  // Kleine echte Inhalte je Abo-Fenster statt Platzhalter-Balken
+  var WIN = {
+    Terminbuchung: '<div class="w-slots"><span class="x">09:00</span><span class="on">10:30</span><span>14:00</span></div><span class="w-sub">Mo, 26. Okt. · 3 Termine frei</span>',
+    Gutscheine: '<div class="w-gift"><span><small>Gutschein</small><b>50 €</b></span><i></i></div>',
+    Stempelkarte: '<div class="w-stamps"><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span></div><span class="w-sub">Noch 2 Stempel bis gratis</span>',
+    Angebote: '<div class="w-row"><span>Angebot 041</span><b>1.180 €</b></div><div class="w-row"><span>Unterschrift</span><em class="w-chip">offen</em></div>',
+    Rechnungen: '<div class="w-row"><span>Nr. 1042</span><b>89 €</b><em class="w-chip">offen</em></div><div class="w-row"><span>Nr. 1041</span><b>120 €</b><em class="w-chip ok">bezahlt</em></div>',
+    Kundenkartei: '<div class="w-av"><i>SK</i><div>Sabine K.<span>zuletzt: Färben</span></div></div><div class="w-av"><i class="b">TR</i><div>Thomas R.<span>zuletzt: Schnitt</span></div></div>',
+    Website: '<div class="w-site"><b>Dein Betrieb</b><span><u></u><u></u></span></div>'
+  };
   var EXTRA = [{ n: "Stunden", c: "#5b6cff", i: "i-clock" }, { n: "Lager", c: "#6aa121", i: "i-box" }];
   var TOTAL = APPS.reduce(function (s, a) { return s + a.p; }, 0);
   // Startpunkte (Mitte des Fensters, Anteil der Bühne) und Drehung, für breite und schmale Bildschirme.
-  var POS_W = [[.15, .2, -8], [.3, .7, 6], [.11, .62, -4], [.85, .18, 7], [.71, .72, -6], [.89, .55, 5], [.31, .3, 4]];
-  var POS_N = [[.24, .08, -6], [.76, .16, 5], [.25, .33, 4], [.76, .42, -5], [.24, .6, -3], [.76, .69, 6], [.5, .86, -2]];
+  var POS_W = [[.14, .19, -8], [.3, .72, 6], [.11, .62, -4], [.85, .18, 7], [.71, .72, -6], [.89, .55, 5], [.34, .33, 4]];
+  var POS_N = [[.24, .06, -5], [.76, .15, 5], [.25, .355, 3], [.76, .43, -5], [.24, .625, -3], [.76, .7, 5], [.5, .88, -2]];
 
   var bar = $(".tk-demo-bar");
   var setBar = function () { if (bar) document.documentElement.style.setProperty("--bar", bar.offsetHeight + "px"); };
@@ -54,7 +64,7 @@
       var w = document.createElement("div");
       w.className = "win";
       w.style.setProperty("--c", a.c);
-      w.innerHTML = '<div class="win__bar"><i>' + ico(a.i) + "</i>" + a.n + '</div><div class="win__body"><u></u><u></u><u></u><u></u></div><span class="win__tag"><s>' + a.p + " €</s> / Monat</span>";
+      w.innerHTML = '<div class="win__bar"><i>' + ico(a.i) + "</i><b>" + a.n + "</b><small>Abo</small></div><div class=\"win__body\">" + (WIN[a.n] || "") + '</div><span class="win__tag"><s>' + a.p + " €</s><em>/ Monat</em></span>";
       stage.appendChild(w); wins.push(w);
     });
     var sumA = $("[data-hero-sum]"), sumB = $("[data-hero-sum2]"), sumL = $("[data-hero-sumlbl]");
