@@ -134,6 +134,8 @@ function zl_count(string $page, bool $entry, string $source, string $campaign): 
 
 // Kontaktaufnahmen: Klicks auf WhatsApp, Telegram, Telefon, E-Mail und abgeschickte Formulare (nur Summen pro Tag).
 const ZL_KONTAKTE = ['whatsapp', 'telegram', 'telefon', 'email', 'formular', 'rueckruf'];
+// Ab diesem Tag zählen E-Mail-Klicks wieder (vorher waren es nur Klicks auf „Jemanden empfehlen“).
+const ZL_EMAIL_AB = '2026-10-25';
 
 function zl_kontakt(string $art): void
 {
@@ -162,6 +164,10 @@ function zl_range(int $days): array
         $out['tage'][$day] = ['aufrufe' => (int) ($d['aufrufe'] ?? 0), 'besuche' => (int) ($d['besuche'] ?? 0)];
         $out['aufrufe'] += (int) ($d['aufrufe'] ?? 0);
         $out['besuche'] += (int) ($d['besuche'] ?? 0);
+        // Bis einschließlich 24.10.2026 zählte auch der Knopf „Jemanden empfehlen“ als E-Mail (das war nur Tim selbst).
+        if ($day < ZL_EMAIL_AB) {
+            unset($d['kontakte']['email']);
+        }
         foreach (['seiten', 'einstieg', 'quellen', 'kampagnen', 'kontakte'] as $k) {
             foreach ((array) ($d[$k] ?? []) as $key => $n) {
                 $out[$k][$key] = ($out[$k][$key] ?? 0) + (int) $n;
