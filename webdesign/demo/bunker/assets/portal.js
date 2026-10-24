@@ -290,10 +290,18 @@
     var list = $(".dd__list", d);
     d.classList.add("is-open"); d.closest(".sh").classList.add("is-dd");
     $(".dd__btn", d).setAttribute("aria-expanded", "true"); list.hidden = false;
+    // Das Portal-Fenster schneidet ab: unten zu wenig Platz → Liste klappt nach oben auf
+    var box = $("[data-pt]").getBoundingClientRect(), r = $(".dd__btn", d).getBoundingClientRect();
+    list.style.maxHeight = "";
+    var want = Math.min(288, list.scrollHeight), below = box.bottom - r.bottom - 22, above = r.top - box.top - 22;
+    var up = below < want && above > below;
+    d.classList.toggle("up", up);
+    list.style.maxHeight = Math.max(140, Math.min(288, up ? above : below)) + "px";
     var first = $('[role="option"]', list); if (first) first.focus({ preventScroll: true });
-    // Liste ganz sichtbar machen, falls sie unten aus dem Bild ragt
-    var lb = list.getBoundingClientRect().bottom, room = window.innerHeight - 80;
-    if (lb > room) window.scrollBy({ top: lb - room, behavior: reduce ? "auto" : "smooth" });
+    // Liste ganz sichtbar machen, falls sie aus dem Bild ragt
+    var lr = list.getBoundingClientRect(), room = window.innerHeight - 80;
+    if (lr.bottom > room) window.scrollBy({ top: lr.bottom - room, behavior: reduce ? "auto" : "smooth" });
+    else if (lr.top < 80) window.scrollBy({ top: lr.top - 80, behavior: reduce ? "auto" : "smooth" });
   }
   function ddPick(li) {
     var h = S.help.filter(function (x) { return x.id === li.closest("[data-sh]").getAttribute("data-sh"); })[0], nr = +li.getAttribute("data-nr"), m = mem(nr);
