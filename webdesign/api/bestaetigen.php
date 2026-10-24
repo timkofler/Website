@@ -45,7 +45,7 @@ if (!empty($geschenk['url']) && !empty($geschenk['titel'])) {
     $inner = '<p style="margin:0 0 14px">' . ($n !== '' ? 'Hallo ' . cx_h($n) . ',' : 'Hallo,') . '</p>'
         . '<p style="margin:0 0 14px">danke für deine Anmeldung! Wie versprochen hier der Link zu deiner ' . cx_h((string) $geschenk['titel']) . '. Heb dir diese E-Mail ruhig auf, dann findest du sie jederzeit wieder.</p>'
         . cx_button(cx_brand()['site'] . (string) $geschenk['url'], 'Zur ' . (string) $geschenk['titel'])
-        . '<p style="margin:0 0 4px">Viele Grüße<br>Tim</p>';
+        . cx_mail_gruss();
     cx_mail($email, $n, 'Deine ' . (string) $geschenk['titel'], cx_mail_layout('Danke für deine Anmeldung', $inner));
 }
 header('Location: ' . ($sicherheit ? '/sicherheit/bestaetigt/' : '/newsletter/bestaetigt/'), true, 303);

@@ -249,7 +249,7 @@ function kp_new_password(): string
 // Der Kunde bekommt nie ein Passwort per Mail, sondern einen einmaligen Link, mit dem er sein eigenes festlegt.
 // Gespeichert wird nur eine Prüfsumme des Links; ein neuer Link macht den alten ungültig, nach dem Festlegen ist er verbraucht.
 
-const KP_INVITE_TTL = 7 * 86400;   // Link gilt 7 Tage
+const KP_INVITE_TTL = 14 * 86400;  // Link gilt 14 Tage
 const KP_INVITE_GAP = 60;          // höchstens eine Mail pro Minute und Kunde ...
 const KP_INVITE_DAY = 5;           // ... und höchstens 5 pro Tag
 
@@ -325,7 +325,7 @@ function kp_invite_state(string $u): array
     return ['zuletzt' => $sent ? max($sent) : 0, 'offen' => !empty($d['hash']) && (int) ($d['bis'] ?? 0) >= time(), 'bis' => (int) ($d['bis'] ?? 0)];
 }
 
-// Willkommensmail im Auftritt von tim-kofler.at (dunkel, TK-Logo, Orange). Der Link steht nur in der Mail, nie im Log.
+// Willkommensmail (Rahmen cx_mail_layout). Der Link steht nur in der Mail, nie im Log.
 function kp_send_welcome(string $u, array $acc): array
 {
     $email = (string) ($acc['email'] ?? '');
@@ -353,57 +353,23 @@ function kp_send_welcome(string $u, array $acc): array
         . 'Adresse: <a href="' . cx_h($portal) . '" style="color:#ff7a45;text-decoration:none">' . cx_h(preg_replace('#^https?://#', '', rtrim($portal, '/'))) . '</a><br>'
         . 'Benutzername: <b style="color:#f4f4f0;font-family:Consolas,Menlo,monospace">' . cx_h($u) . '</b></td></tr></table>'
         . '<p style="' . $p . '">Ein Passwort schicke ich dir aus Sicherheitsgründen nicht per Mail. Du legst dein eigenes mit diesem Knopf fest:</p>'
-        . kp_mail_button($link, 'Passwort festlegen')
+        . cx_button($link, 'Passwort festlegen')
         . '<p style="margin:0 0 22px;font-size:13px;line-height:1.6;color:#a1a1a1">Der Knopf funktioniert einmal und bis ' . $bis . '. Danach meldest du dich unter ' . cx_h(preg_replace('#^https?://#', '', rtrim($portal, '/'))) . ' mit Benutzername und deinem Passwort an. Ändern kannst du es dort jederzeit unter „Passwort“.</p>'
         . '<p style="margin:0 0 10px;font-weight:bold;color:#f4f4f0">Was du im Portal machen kannst</p>'
         . '<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:0 0 8px">'
-        . $step('1', '<b style="color:#f4f4f0">Fotos, Logo und Texte hochladen</b>, direkt vom Handy oder PC.')
+        . $step('1', '<b style="color:#f4f4f0">Fotos, Videos, Logo, Texte und Dokumente hochladen</b>, direkt vom Handy oder PC: Bilder, Videos (MP4, MOV), PDF, Word, Excel, PowerPoint oder ZIP.')
         . $step('2', '<b style="color:#f4f4f0">Nachrichten schreiben</b>: Wünsche, Fragen oder „Gefällt mir“ zum Entwurf.')
         . $step('3', '<b style="color:#f4f4f0">Projektstand sehen</b>: welcher Schritt gerade dran ist und den Link zur Vorschau.')
         . '</table>'
         . '<p style="' . $p . '">Wenn du Hilfe brauchst, antworte einfach auf diese Mail oder schreib mir auf <a href="https://wa.me/4367761773118" style="color:#ff7a45">WhatsApp</a>.</p>'
-        . '<p style="margin:0">Liebe Grüße<br><b style="color:#f4f4f0">Tim Kofler</b></p>'
+        . cx_mail_gruss()
         . '<p style="margin:22px 0 0;font-size:12px;line-height:1.6;color:#8a8a8a">Du hast diese Mail nicht erwartet? Dann ignoriere sie einfach, ohne Klick auf den Knopf passiert nichts.</p>';
     $c = cx_config();
     $notify = (string) ($c['notify_email'] ?? 'office@tim-kofler.at');
-    if (!cx_mail($email, $name, 'Dein Zugang zum Kundenportal von Tim Kofler', kp_mail_layout('Willkommen im Kundenportal', $inner), $notify)) {
+    if (!cx_mail($email, $name, 'Dein Zugang zum Kundenportal von Tim Kofler', cx_mail_layout('Willkommen im Kundenportal', $inner, 'Kundenportal'), $notify)) {
         return [false, 'Die Mail konnte nicht verschickt werden. Bitte später noch einmal mit „Willkommensmail erneut senden“ versuchen.'];
     }
     return [true, 'Willkommensmail an ' . $email . ' verschickt. Der Link zum Passwort-Festlegen gilt bis ' . $bis . '.'];
-}
-
-function kp_mail_button(string $href, string $label): string
-{
-    return '<table role="presentation" cellpadding="0" cellspacing="0" style="margin:4px 0 14px"><tr><td style="border-radius:999px;background:#ff5a1f">'
-        . '<a href="' . cx_h($href) . '" style="display:inline-block;padding:14px 26px;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;color:#0b0b0b;text-decoration:none;border-radius:999px">' . cx_h($label) . '</a></td></tr></table>';
-}
-
-// Mail-Rahmen für das Kundenportal: wie tim-kofler.at dunkel, mit TK-Logo und oranger Linie.
-function kp_mail_layout(string $title, string $inner): string
-{
-    $t = cx_h($title);
-    $site = cx_h(rtrim(cx_brand()['site'], '/'));
-    return <<<HTML
-<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark light"><title>{$t}</title></head>
-<body style="margin:0;padding:0;background:#0b0b0b">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0b0b0b;padding:28px 12px">
-<tr><td align="center">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#151515;border:1px solid #262626;border-top:3px solid #ff5a1f;border-radius:16px">
-<tr><td style="padding:26px 32px 4px;font-family:Arial,Helvetica,sans-serif">
-<table role="presentation" cellpadding="0" cellspacing="0"><tr>
-<td style="padding-right:12px"><img src="{$site}/assets/img/tk-badge-2-256.png" width="44" height="44" alt="TK" style="display:block;border:0;border-radius:22px"></td>
-<td style="font-size:15px;line-height:1.3;color:#f4f4f0;font-weight:bold">Tim Kofler<br><span style="font-weight:normal;font-size:12px;color:#a1a1a1;letter-spacing:.06em;text-transform:uppercase">Webdesign · Kundenportal</span></td>
-</tr></table></td></tr>
-<tr><td style="padding:8px 32px 28px;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.6;color:#e6e6e2">
-<h1 style="margin:18px 0 16px;font-size:23px;line-height:1.3;color:#f4f4f0">{$t}</h1>
-{$inner}
-</td></tr>
-<tr><td style="padding:18px 32px 26px;border-top:1px solid #262626;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#8a8a8a">
-Tim Kofler – Webdesign · Lehen 2, 3281 Oberndorf an der Melk, Österreich<br>
-<a href="{$site}/" style="color:#8a8a8a">tim-kofler.at</a> · <a href="{$site}/impressum/" style="color:#8a8a8a">Impressum</a> · <a href="{$site}/datenschutz/#kundenportal" style="color:#8a8a8a">Datenschutz</a>
-</td></tr>
-</table></td></tr></table></body></html>
-HTML;
 }
 
 // ---------------- Schutz vor Passwort-Raten ----------------
@@ -664,19 +630,19 @@ function kp_notify(string $u, array $acc, array $batch): void
     foreach ($batch['dateien'] as $d) {
         $list .= '<li>' . cx_h((string) $d['original']) . ' <span style="color:#8a8a8a">(' . kp_bytes((int) $d['bytes']) . ')</span></li>';
     }
-    $inner = '<table role="presentation" cellpadding="0" cellspacing="0" style="font-size:15px">' . $rows . '</table>'
+    $inner = cx_mail_table($rows)
         . '<ul style="margin:16px 0 0;padding-left:20px;font-size:14px;color:#e6e6e2">' . $list . '</ul>'
         . cx_button(kp_portal_url('/kunden/admin/?k=' . rawurlencode($u)), 'Im Kundenportal ansehen');
     $notify = (string) ($c['notify_email'] ?? 'office@tim-kofler.at');
     $email = (string) ($acc['email'] ?? '');
-    if (!cx_mail($notify, 'Tim', 'Neue Dateien von ' . $who . ': ' . $batch['webseite'], cx_mail_layout('Neue Dateien im Kundenportal', $inner), $email)) {
+    if (!cx_mail($notify, 'Tim', 'Neue Dateien von ' . $who . ': ' . $batch['webseite'], cx_mail_layout('Neue Dateien im Kundenportal', $inner, 'Kundenportal'), $email)) {
         cx_log('Kundenportal: Benachrichtigung zu ' . $u . '/' . $batch['id'] . ' nicht verschickt');
     }
     if ($email !== '') {
         $hi = '<p style="margin:0 0 14px">Hallo ' . cx_h((string) ($acc['name'] ?? '')) . ',</p>'
             . '<p style="margin:0 0 14px">danke, deine ' . $n . ($n === 1 ? ' Datei für ' : ' Dateien für ') . cx_h((string) $batch['webseite']) . ' ' . ($n === 1 ? 'ist' : 'sind') . ' bei mir angekommen. Ich sehe sie mir an und melde mich, sobald es weitergeht.</p>'
-            . '<p style="margin:0 0 4px">Viele Grüße<br>Tim</p>';
-        cx_mail($email, (string) ($acc['name'] ?? ''), 'Deine Dateien sind angekommen', cx_mail_layout('Dateien angekommen', $hi), $notify);
+            . cx_mail_gruss();
+        cx_mail($email, (string) ($acc['name'] ?? ''), 'Deine Dateien sind angekommen', cx_mail_layout('Dateien angekommen', $hi, 'Kundenportal'), $notify);
     }
 }
 
@@ -1026,14 +992,14 @@ function kp_notify_message(string $u, array $acc, array $msg): void
         $who = trim((string) ($acc['firma'] ?? '')) !== '' ? $acc['firma'] . ' (' . ($acc['name'] ?? $u) . ')' : (string) ($acc['name'] ?? $u);
         $inner = '<p style="margin:0 0 14px">' . cx_h($who) . ' hat dir im Kundenportal geschrieben:</p>' . $text
             . cx_button(kp_portal_url('/kunden/admin/?k=' . rawurlencode($u) . '#nachrichten'), 'Antworten');
-        if (!cx_mail($notify, 'Tim', $art . ' von ' . $who, cx_mail_layout('Neue Nachricht im Kundenportal', $inner), $email)) {
+        if (!cx_mail($notify, 'Tim', $art . ' von ' . $who, cx_mail_layout('Neue Nachricht im Kundenportal', $inner, 'Kundenportal'), $email)) {
             cx_log('Kundenportal: Nachricht von ' . $u . ' nicht per E-Mail gemeldet');
         }
     } elseif ($email !== '') {
         $inner = '<p style="margin:0 0 14px">Hallo ' . cx_h((string) ($acc['name'] ?? '')) . ',</p><p style="margin:0 0 14px">ich habe dir im Kundenportal geschrieben:</p>' . $text
             . cx_button(kp_portal_url('/kunden/#nachrichten'), 'Im Kundenportal antworten')
             . '<p style="margin:18px 0 0;font-size:13px;color:#a1a1a1">Bitte antworte im Kundenportal, dann bleibt alles zu deiner Webseite an einem Ort.</p>';
-        cx_mail($email, (string) ($acc['name'] ?? ''), 'Neue Nachricht von Tim zu deiner Webseite', cx_mail_layout('Neue Nachricht von Tim', $inner), $notify);
+        cx_mail($email, (string) ($acc['name'] ?? ''), 'Neue Nachricht von Tim zu deiner Webseite', cx_mail_layout('Neue Nachricht von Tim', $inner, 'Kundenportal'), $notify);
     }
 }
 

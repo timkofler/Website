@@ -203,7 +203,7 @@ function ew_handle(array $c, string $fallback): void
     $notify = (string) ($c['notify_email'] ?? 'office@tim-kofler.at');
     $admin = cx_brand()['site'] . '/kunden/admin/?entwurf=' . $id;
     $toTim = cx_mail($notify, 'Tim', 'Gratis-Entwurf angefragt: ' . $d['firma'] . ($d['ort'] !== '' ? ' (' . $d['ort'] . ')' : ''),
-        cx_mail_layout('Neue Anfrage für einen Gratis-Entwurf', '<table role="presentation" cellpadding="0" cellspacing="0" style="font-size:15px">' . ew_rows($d) . '</table>'
+        cx_mail_layout('Neue Anfrage für einen Gratis-Entwurf', cx_mail_table(ew_rows($d))
             . ($stored ? cx_button($admin, 'Im Admin öffnen') : '<p style="margin:18px 0 0;font-size:14px;color:#ffb3b3">Achtung: Die Anfrage konnte nicht auf dem Webspace gespeichert werden (Schreibrechte api/_data prüfen).</p>')
             . '<p style="margin:18px 0 0;font-size:14px;color:#a1a1a1">Mit „Antworten“ schreibst du direkt an die Person.</p>'),
         $d['email']);
@@ -221,7 +221,7 @@ function ew_handle(array $c, string $fallback): void
         . $was
         . '<p style="margin:0 0 14px">In der Regel bekommst du ihn innerhalb einer Woche per E-Mail, als Bild für Handy und PC. Hast du ein Logo oder schöne Fotos? Dann antworte einfach auf diese E-Mail und häng sie an.</p>'
         . '<p style="margin:0 0 14px">Der Entwurf ist kostenlos und unverbindlich. Ob du danach etwas machen lassen willst, entscheidest du ganz in Ruhe.</p>'
-        . '<p style="margin:0 0 4px">Viele Grüße<br>Tim</p>';
+        . cx_mail_gruss();
     cx_mail($d['email'], $d['name'], 'Dein kostenloser Webseiten-Entwurf', cx_mail_layout('Danke, ich lege los', $inner), $notify);
 
     // Newsletter nur nach eigener Bestätigung (Double-Opt-in), getrennt von der Anfrage.

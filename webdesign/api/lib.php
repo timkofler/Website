@@ -273,34 +273,58 @@ function cx_mail(string $to, string $toName, string $subject, string $html, stri
     return cx_ok(cx_brevo('POST', '/smtp/email', $body));
 }
 
-// Einheitliches Mail-Layout im CryptoX-Design (Tabellen, Inline-Styles für alle Mailprogramme).
-function cx_mail_layout(string $title, string $inner): string
+// Einheitliches Mail-Layout im Auftritt von tim-kofler.at: dunkel, TK-Logo, orange Linie und Knöpfe.
+// Tabellen, Inline-Styles und bgcolor, damit es in allen Mailprogrammen (auch Outlook und im Hell-/Dunkelmodus) gleich aussieht.
+// $bereich steht klein unter dem Namen, z. B. „Kundenportal“.
+function cx_mail_layout(string $title, string $inner, string $bereich = ''): string
 {
     $t = cx_h($title);
-    $b = cx_brand();
+    $site = cx_h(rtrim(cx_brand()['site'], '/'));
+    $sub = 'Webdesign' . ($bereich !== '' ? ' · ' . cx_h($bereich) : '');
+    // Links ohne eigene Farbe in Orange statt im Blau des Mailprogramms.
+    $inner = (string) preg_replace('/<a (?![^>]*\bstyle=)/', '<a style="color:#ff7a45" ', $inner);
     return <<<HTML
-<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{$t}</title></head>
-<body style="margin:0;padding:0;background:#0b0b0b">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0b0b0b;padding:32px 12px">
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark"><meta name="supported-color-schemes" content="dark"><title>{$t}</title></head>
+<body style="margin:0;padding:0;background:#0b0b0b" bgcolor="#0b0b0b">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#0b0b0b" style="background:#0b0b0b;padding:28px 12px">
 <tr><td align="center">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#151515;border:1px solid #262626;border-radius:16px">
-<tr><td style="padding:28px 32px 8px;font-family:Arial,Helvetica,sans-serif;font-size:22px;font-weight:bold;color:#f4f4f0">{$b['wordmark']}</td></tr>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#151515" style="max-width:560px;background:#151515;border:1px solid #262626;border-top:3px solid #ff5a1f;border-radius:16px">
+<tr><td style="padding:26px 32px 4px;font-family:Arial,Helvetica,sans-serif">
+<table role="presentation" cellpadding="0" cellspacing="0"><tr>
+<td style="padding-right:12px"><img src="{$site}/assets/img/tk-badge-2-256.png" width="44" height="44" alt="TK" style="display:block;border:0;border-radius:22px"></td>
+<td style="font-size:15px;line-height:1.3;color:#f4f4f0;font-weight:bold">Tim Kofler<br><span style="font-weight:normal;font-size:12px;color:#a1a1a1;letter-spacing:.06em;text-transform:uppercase">{$sub}</span></td>
+</tr></table></td></tr>
 <tr><td style="padding:8px 32px 28px;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.6;color:#e6e6e2">
-<h1 style="margin:12px 0 16px;font-size:22px;line-height:1.3;color:#f4f4f0">{$t}</h1>
+<h1 style="margin:18px 0 16px;font-size:23px;line-height:1.3;color:#f4f4f0">{$t}</h1>
 {$inner}
 </td></tr>
 <tr><td style="padding:18px 32px 26px;border-top:1px solid #262626;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#8a8a8a">
-{$b['footer']} · Lehen 2, 3281 Oberndorf an der Melk, Österreich<br>
-<a href="{$b['site']}/impressum/" style="color:#8a8a8a">Impressum</a> · <a href="{$b['site']}/datenschutz/" style="color:#8a8a8a">Datenschutz</a>
+Tim Kofler – Webdesign · Lehen 2, 3281 Oberndorf an der Melk, Österreich<br>
+<a href="{$site}/" style="color:#8a8a8a">tim-kofler.at</a> · <a href="{$site}/impressum/" style="color:#8a8a8a">Impressum</a> · <a href="{$site}/datenschutz/" style="color:#8a8a8a">Datenschutz</a>
 </td></tr>
 </table></td></tr></table></body></html>
 HTML;
 }
 
+// Oranger Knopf als Tabelle (rund und klickbar auch in Outlook).
 function cx_button(string $href, string $label): string
 {
-    $accent = cx_h(cx_brand()['accent']);
-    return '<p style="margin:26px 0"><a href="' . cx_h($href) . '" style="display:inline-block;background:' . $accent . ';color:#0b0b0b;font-weight:bold;text-decoration:none;padding:13px 22px;border-radius:999px">' . cx_h($label) . '</a></p>';
+    return '<table role="presentation" cellpadding="0" cellspacing="0" style="margin:22px 0 14px"><tr><td bgcolor="#ff5a1f" style="border-radius:999px;background:#ff5a1f">'
+        . '<a href="' . cx_h($href) . '" style="display:inline-block;padding:14px 26px;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;color:#0b0b0b;text-decoration:none;border-radius:999px">' . cx_h($label) . '</a></td></tr></table>';
+}
+
+// Angaben als Tabelle im abgesetzten Kasten (z. B. die Daten einer Anfrage in der Mail an Tim).
+function cx_mail_table(string $rows): string
+{
+    return '<table role="presentation" cellpadding="0" cellspacing="0" width="100%" bgcolor="#1d1d1d" style="margin:4px 0 6px;background:#1d1d1d;border:1px solid #2c2c2c;border-radius:12px">'
+        . '<tr><td style="padding:12px 18px"><table role="presentation" cellpadding="0" cellspacing="0" style="font-size:15px">' . $rows . '</table></td></tr></table>';
+}
+
+// Einheitlicher Gruß am Ende jeder Mail an Kundinnen und Kunden.
+function cx_mail_gruss(): string
+{
+    return '<p style="margin:18px 0 0">Liebe Grüße<br><b style="color:#f4f4f0">Tim Kofler</b></p>';
 }
 
 // Signierter Bestätigungslink für das Double-Opt-in (7 Tage gültig).
