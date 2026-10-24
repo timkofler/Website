@@ -475,7 +475,7 @@ HTML;
     $tfUri = cx_h(tf_uri($tfSecret, 'Kundenportal ' . $user));
     $tfPretty = cx_h(tf_pretty($tfSecret));
     $tfChip = '<span class="kp-chip-st">freiwillig</span>';
-    $tfScript = '<script src="/beispiele/_shared/vendor/qrcode-generator-2.0.4/qrcode.js"></script>';
+    $tfScript = '<script src="/beispiele/_shared/vendor/qrcode-generator-2.0.4/qrcode.js"></script><script src="/assets/js/tk-qr.js?v=1"></script>';
     $tfBody = <<<HTML
 <p class="kp-hint">Freiwilliger Extraschutz: Zur Anmeldung brauchst du dann zusätzlich einen Code, den nur dein Handy anzeigt. Dauert etwa zwei Minuten. Ohne geht es genauso, dein Zugang ist auch so gut geschützt.</p>
 <ol class="kp-steps">

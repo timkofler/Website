@@ -270,7 +270,7 @@ button{cursor:pointer}
 .stamp.ready{background:#fde68a;color:#92400e;border:0;box-shadow:0 0 0 4px rgba(253,230,138,.35);animation:stampin .55s cubic-bezier(.2,1.5,.4,1)}
 .stamp.ready svg{width:56%;height:56%}
 .loy__qr{display:flex;align-items:center;gap:12px;margin-top:14px;background:#fff;border-radius:14px;padding:10px 12px;color:#111827;font-size:12px}
-.loy__qr canvas{width:64px;height:64px;flex:none;image-rendering:pixelated}
+.loy__qr canvas{width:72px;height:72px;flex:none}
 .loy__qr b{display:block;font:700 14px/1.2 var(--hd)}
 .reward{margin-top:12px;border-radius:14px;padding:12px 14px;background:#fef3c7;color:#78350f;font-size:13.5px;font-weight:600;display:flex;gap:10px;align-items:center;animation:pop .5s cubic-bezier(.2,1.6,.4,1)}
 .reward svg{width:22px;height:22px;flex:none}
@@ -796,7 +796,7 @@ button{cursor:pointer}
                     <div class="stamps" data-l-stamps></div>
                   </div>
                   <div class="reward" data-l-reward hidden><svg><use href="#i-gift"/></svg><span data-l-rtext>Voll! Dein nächster Haarschnitt ist gratis.</span></div>
-                  <div class="loy__qr"><canvas width="29" height="29" data-l-qr></canvas><span><b>Beim Bezahlen herzeigen</b>Der Betrieb scannt den Code, der Stempel kommt sofort.</span></div>
+                  <div class="loy__qr"><canvas width="216" height="216" data-l-qr></canvas><span><b>Beim Bezahlen herzeigen</b>Der Betrieb scannt den Code, der Stempel kommt sofort.</span></div>
                   <button class="abtn" type="button" data-l-go><svg><use href="#i-stamp"/></svg><span data-l-btn>Code an der Kasse scannen</span></button>
                   <p class="note">Statt Papierkärtchen, die in der Geldtasche verschwinden</p>
                 </div>
@@ -955,5 +955,6 @@ button{cursor:pointer}
 
 <script src="/beispiele/_shared/demo.js?v=29766291" defer></script>
 <script src="/beispiele/_shared/vendor/qrcode-generator-2.0.4/qrcode.js" defer></script>
-<script src="/beispiele/betriebs-app/app.js?v=8" defer></script>
+<script src="/assets/js/tk-qr.js?v=1" defer></script>
+<script src="/beispiele/betriebs-app/app.js?v=9" defer></script>
 </body></html>

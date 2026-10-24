@@ -33,22 +33,12 @@
     { n: "Kundenkartei", s: "Kunden", p: 20, c: "#e64980", i: "i-users" },
     { n: "Website", p: 25, c: "#1098ad", i: "i-web" }
   ];
-  // Echter QR-Code als SVG: runde Punkte, Ecken als abgerundete Quadrate
-  var qrSvg = function (text) {
-    if (typeof qrcode !== "function") return "";
-    var q = qrcode(0, "L"); q.addData(text); q.make();
-    var n = q.getModuleCount(), d = "", r, c;
-    var finder = function (r, c) { return (r < 7 && c < 7) || (r < 7 && c >= n - 7) || (r >= n - 7 && c < 7); };
-    for (r = 0; r < n; r++) for (c = 0; c < n; c++) if (q.isDark(r, c) && !finder(r, c)) d += "M" + (c + .5) + " " + (r + .08) + "a.42 .42 0 1 0 .001 0z";
-    var eye = function (x, y) {
-      return '<rect x="' + (x + .5) + '" y="' + (y + .5) + '" width="6" height="6" rx="1.8" fill="none" stroke="#141a2e" stroke-width="1"/><rect x="' + (x + 2) + '" y="' + (y + 2) + '" width="3" height="3" rx=".9" fill="#ff5a1f"/>';
-    };
-    return '<svg viewBox="0 0 ' + n + " " + n + '" aria-hidden="true"><path fill="#141a2e" d="' + d + '"/>' + eye(0, 0) + eye(n - 7, 0) + eye(0, n - 7) + "</svg>";
-  };
+  // QR-Code im Stil von tim-kofler.at (assets/js/tk-qr.js), mit dem Logo des Betriebs in der Mitte
+  var qrSvg = function (text, b) { return window.tkQR ? tkQR.svg(text, { logo: { text: b.logo, bg: b.a }, quiet: 0 }) : ""; };
   // Kleine echte Inhalte je Abo-Fenster statt Platzhalter-Balken
   var WIN = {
     Terminbuchung: '<div class="w-slots"><span class="x">09:00</span><span class="on">10:30</span><span>14:00</span></div><span class="w-sub">Mo, 26. Okt. · 3 Termine frei</span>',
-    Gutscheine: '<div class="w-gift"><span><small>Gutschein</small><b>50 €</b></span><span class="w-qr">' + qrSvg("GL-50") + '</span></div>',
+    Gutscheine: '<div class="w-gift"><span><small>Gutschein</small><b>50 €</b></span><span class="w-qr">' + qrSvg("GL-50", { logo: "G", a: "#d63a74" }) + '</span></div>',
     Stempelkarte: '<div class="w-stamps"><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span></div><span class="w-sub">Noch 2 Stempel bis gratis</span>',
     Angebote: '<div class="w-row"><span>Angebot 041</span><b>1.180 €</b></div><div class="w-row"><span>Unterschrift</span><em class="w-chip">offen</em></div>',
     Rechnungen: '<div class="w-row"><span>Nr. 1042</span><b>89 €</b><em class="w-chip">offen</em></div><div class="w-row"><span>Nr. 1041</span><b>120 €</b><em class="w-chip ok">bezahlt</em></div>',
@@ -392,13 +382,6 @@
   });
   $("[data-t-again]").addEventListener("click", function () { T = { svc: null, day: null, slot: null }; tName.value = ""; $("[data-t-form]").hidden = false; $("[data-t-done]").hidden = true; renderTermin(); });
 
-  // QR-Code auf eine Zeichenfläche
-  var qr = function (text) { var q = qrcode(0, "M"); q.addData(text); q.make(); return q; };
-  var drawQR = function (ctx, q, x, y, size, color) {
-    var n = q.getModuleCount(), m = size / n;
-    ctx.fillStyle = color || "#111827";
-    for (var r = 0; r < n; r++) for (var c = 0; c < n; c++) if (q.isDark(r, c)) ctx.fillRect(Math.round(x + c * m), Math.round(y + r * m), Math.ceil(m), Math.ceil(m));
-  };
   var rrect = function (ctx, x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); };
 
   // Gutschein
@@ -443,8 +426,7 @@
     x.fillText(line, 70, 530);
     x.font = "500 28px " + bd; x.globalAlpha = .8; x.fillText("Nr. " + code, 70, 610); x.fillText("Beispiel von tim-kofler.at", 70, 652); x.globalAlpha = 1;
     // QR-Code rechts
-    rrect(x, 860, 190, 280, 280, 28); x.fillStyle = "#fff"; x.fill();
-    drawQR(x, qr("Gutschein " + code + " | " + amt + " EUR | " + b.name + " (Beispiel von tim-kofler.at)"), 885, 215, 230, "#0d1426");
+    tkQR.draw(x, "Gutschein " + code + " | " + amt + " EUR | " + b.name, 860, 190, 280, { logo: { text: b.logo, bg: b.a }, ink: "#0d1426", quiet: 1.6 });
     x.font = "600 26px " + bd; x.fillStyle = "#fff"; x.textAlign = "center"; x.fillText("Beim Einlösen", 1000, 530); x.fillText("scannen", 1000, 566); x.textAlign = "left";
     return c.toDataURL("image/png");
   };
@@ -474,9 +456,9 @@
     $("[data-l-stamps]").innerHTML = html;
     $("[data-l-reward]").hidden = !full; $("[data-l-rtext]").textContent = L.reward;
     $("[data-l-btn]").textContent = full ? "Gratis einlösen" : "Code an der Kasse scannen";
-    var cv = $("[data-l-qr]"), q = qr("Stammkunde K-1042 | " + b.name + " (Beispiel von tim-kofler.at)"), n = q.getModuleCount() + 4;
-    cv.width = n; cv.height = n; var x = cv.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, n, n);
-    for (var r = 0; r < n - 4; r++) for (var c = 0; c < n - 4; c++) if (q.isDark(r, c)) { x.fillStyle = "#111827"; x.fillRect(c + 2, r + 2, 1, 1); }
+    var cv = $("[data-l-qr]"), x = cv.getContext("2d");
+    x.clearRect(0, 0, cv.width, cv.height);
+    tkQR.draw(x, "Stammkunde K-1042 | " + b.name, 0, 0, cv.width, { logo: { text: b.logo, bg: b.a }, ink: "#111827", quiet: .6 });
   };
   lGo.addEventListener("click", function () {
     var b = B(), d = D();

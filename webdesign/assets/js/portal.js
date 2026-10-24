@@ -110,11 +110,15 @@
 
   // QR-Code für die Zwei-Faktor-Einrichtung, direkt im Browser erzeugt (der Schlüssel geht an keinen fremden Dienst).
   var qr = document.querySelector('[data-kp-qr]');
+  // Im Stil von tim-kofler.at mit TK-Logo in der Mitte (assets/js/tk-qr.js), sonst schlichter Code.
   if (qr && window.qrcode) {
-    var q = window.qrcode(0, 'M');
-    q.addData(qr.getAttribute('data-kp-qr'));
-    q.make();
-    qr.innerHTML = q.createSvgTag({ cellSize: 6, margin: 0, scalable: true });
+    if (window.tkQR) qr.innerHTML = window.tkQR.svg(qr.getAttribute('data-kp-qr'), { quiet: 0, ecl: 'Q' });
+    else {
+      var q = window.qrcode(0, 'M');
+      q.addData(qr.getAttribute('data-kp-qr'));
+      q.make();
+      qr.innerHTML = q.createSvgTag({ cellSize: 6, margin: 0, scalable: true });
+    }
   }
 
   // Codefelder: sechs Kästchen über dem echten Eingabefeld (Einfügen und Autofill vom Handy gehen weiter).
