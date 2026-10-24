@@ -597,3 +597,6 @@ body.kp:not(:has(.kp-auth)) .kp-main .kp-tile.is-active { border-color: var(--ho
 /* Willkommensmail im Admin: Stand und Knopf */
 .kp-invite { margin: 4px 0 0; }
 .kp-invite .kp-hint { margin: 0 0 10px; }
+/* Fuß mittig: auf den Anmeldeseiten (Karte steht mittig) und am Handy auf allen Portalseiten */
+body:has(.kp-auth) .kp-foot .footer__bottom { flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+@media (max-width: 760px) { .kp-foot .footer__bottom { flex-direction: column; align-items: center; text-align: center; gap: 8px; } }
