@@ -398,7 +398,7 @@ def seite(b, alle):
 def uebersicht(alle):
     url = BASIS + "/webseite/"
     desc = ("Webseiten für Gasthaus, Friseur, Handwerk, Pension, Café, Bäckerei, Werkstatt und Praxis: "
-            "was deine Seite können sollte, mit Beispielen und Preisen. Dazu eigene Web-Apps ohne Abo.")
+            "was deine Seite können sollte, mit Beispielen und Preisen.")
     ld = {
         "@context": "https://schema.org",
         "@graph": [
