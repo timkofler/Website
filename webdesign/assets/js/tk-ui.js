@@ -828,8 +828,9 @@
     bar.style.setProperty("--tk-bx-top", Math.max(0, hb) + 8 + "px");
     var show = ways.getBoundingClientRect().bottom < hb && list.getBoundingClientRect().bottom > innerHeight * .5;
     bar.classList.toggle("is-on", show);
-    var line = hb + 120, cur = -1;
-    targets.forEach(function (t, i) { if (t && t.getBoundingClientRect().top <= line) cur = i; });
+    // Aktiv ist der Abschnitt, der zuletzt über die Linie gerollt ist (nach Lage auf der Seite, nicht nach Knopf-Reihenfolge)
+    var line = hb + (innerHeight - hb) * .35, cur = -1, best = -Infinity;
+    targets.forEach(function (t, i) { var top = t ? t.getBoundingClientRect().top : Infinity; if (top <= line && top > best) { best = top; cur = i; } });
     if (cur !== on) {
       on = cur;
       barLinks.forEach(function (a, i) { a.classList.toggle("is-on", i === cur); });
