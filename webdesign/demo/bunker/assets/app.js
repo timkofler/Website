@@ -162,27 +162,36 @@
 
   // ---- Kalender-Datei (.ics) -----------------------------------------
   function icsStamp(d) { return d.getFullYear() + two(d.getMonth() + 1) + two(d.getDate()) + "T" + two(d.getHours()) + two(d.getMinutes()) + "00"; }
-  function downloadIcs(ev) {
-    var allDay = !ev.t, lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//bunker.kollektiv//Termine//DE", "BEGIN:VEVENT",
-      "UID:" + ev.d + "-" + ev.title.replace(/\W+/g, "") + "@bunkerkollektiv.at", "DTSTAMP:" + icsStamp(new Date()) ];
-    if (allDay) {
+  function icsTxt(t) { return String(t).replace(/[\\;,]/g, "\\$&").replace(/\r?\n/g, "\\n"); }
+  function vevent(ev) {
+    var lines = ["BEGIN:VEVENT", "UID:" + ev.d + "-" + ev.title.replace(/\W+/g, "") + "@bunkerkollektiv.at", "DTSTAMP:" + icsStamp(new Date())];
+    if (!ev.t) {
       var e = pd(ev.e || ev.d); e.setDate(e.getDate() + 1);
       lines.push("DTSTART;VALUE=DATE:" + ev.d.replace(/-/g, ""), "DTEND;VALUE=DATE:" + icsStamp(e).slice(0, 8));
     } else {
       var end = new Date(ev.start.getTime() + 5 * 3600e3);
       lines.push("DTSTART;TZID=Europe/Vienna:" + icsStamp(ev.start), "DTEND;TZID=Europe/Vienna:" + icsStamp(end));
     }
-    lines.push("SUMMARY:" + ev.title + " · bunker.kollektiv", "LOCATION:bunker.kollektiv\\, Schulgasse 3\\, 3251 Purgstall an der Erlauf",
-      "DESCRIPTION:" + (ev.sub || "") + "\\nhttps://www.bunkerkollektiv.at", "END:VEVENT", "END:VCALENDAR");
+    lines.push("SUMMARY:" + icsTxt(ev.title + " · bunker.kollektiv"), "LOCATION:bunker.kollektiv\\, Schulgasse 3\\, 3251 Purgstall an der Erlauf",
+      "DESCRIPTION:" + icsTxt(ev.sub || "") + "\\nhttps://www.bunkerkollektiv.at", "END:VEVENT");
+    return lines;
+  }
+  // Ein Termin oder alle kommenden in einer Datei (Handy fragt dann, in welchen Kalender)
+  function downloadIcs(list, name) {
+    var lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//bunker.kollektiv//Termine//DE", "X-WR-CALNAME:bunker.kollektiv"];
+    list.forEach(function (ev) { lines = lines.concat(vevent(ev)); });
+    lines.push("END:VCALENDAR");
     var blob = new Blob([lines.join("\r\n")], { type: "text/calendar;charset=utf-8" });
     var a = document.createElement("a");
-    a.href = URL.createObjectURL(blob); a.download = "bunker-" + ev.d + ".ics";
+    a.href = URL.createObjectURL(blob); a.download = name;
     document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
   }
   document.addEventListener("click", function (e) {
     var b = e.target.closest("[data-ics]"); if (!b) return;
-    var v = b.getAttribute("data-ics"), ev = v === "next" ? next : EVENTS[+v];
-    if (ev) downloadIcs(ev);
+    var v = b.getAttribute("data-ics");
+    if (v === "all") { if (upcoming.length) downloadIcs(upcoming, "bunker-alle-termine.ics"); return; }
+    var ev = v === "next" ? next : EVENTS[+v];
+    if (ev) downloadIcs([ev], "bunker-" + ev.d + ".ics");
   });
 
   // ---- Galerie mit der Maus ziehen (am Handy wischt man ohnehin) ----

@@ -60,7 +60,8 @@
       groups: ["Flöte", "Klarinette", "Saxophon", "Trompete", "Flügelhorn", "Tenorhorn", "Posaune", "Tuba", "Schlagwerk"],
       arts: [{ k: "aktiv", l: "Aktiv", b: 40 }, { k: "jugend", l: "Jugend", b: 15 }, { k: "unter", l: "Unterstützend", b: 25 }],
       board: [["Obfrau", "Maria Leitner"], ["Kapellmeister", "Stefan Pichler"], ["Kassier", "Josef Brandstetter"], ["Schriftführerin", "Eva Hofer"]],
-      events: [["Gesamtprobe", "Musikheim", "19:30", 2, 38, 4], ["Registerprobe Blech", "Musikheim", "18:30", 6, 14, 2], ["Herbstkonzert", "Festsaal", "19:00", 16, 41, 3], ["Cäcilienmesse", "Pfarrkirche", "09:30", 30, 29, 6]],
+      events: [["Gesamtprobe", "Musikheim", "19:30", 2, 38, 4], ["Registerprobe Klarinette", "Musikheim", "18:30", 6, 9, 1, "Klarinette"], ["Herbstkonzert", "Festsaal", "19:00", 16, 41, 3], ["Cäcilienmesse", "Pfarrkirche", "09:30", 30, 29, 6], ["Registerprobe Tuba", "Musikheim", "18:30", 9, 5, 1, "Tuba"]],
+      myGrp: "Klarinette", xf: "Trachtgröße",
       probe: ["Registerprobe Holz", "18:30", "Probenbesuch", "Proben"],
       fest: { ev: 2, shifts: [["Aufbau", "15–18 Uhr", 4], ["Kassa", "18–21 Uhr", 2], ["Schank", "18–20:30 Uhr", 3], ["Schank", "20:30–23 Uhr", 3], ["Abbau", "23–24 Uhr", 4]] },
       start: 5230, color: "#2f8f4e", logoT: "symbol", sym: "i-note", shape: "wappen", claim: "Blasmusik für Jung und Alt, Proben jeden Freitag.", hero: "Musik verbindet.",
@@ -74,7 +75,8 @@
       groups: ["Fußball", "Tennis", "Turnen", "Laufen", "Stocksport"],
       arts: [{ k: "aktiv", l: "Erwachsene", b: 60 }, { k: "jugend", l: "Jugend", b: 25 }, { k: "unter", l: "Unterstützend", b: 30 }],
       board: [["Obmann", "Thomas Ecker"], ["Sportliche Leitung", "Sabine Wurm"], ["Kassier", "Markus Lehner"], ["Schriftführer", "Peter Riegler"]],
-      events: [["Training Kampfmannschaft", "Sportplatz", "18:00", 1, 19, 3], ["Heimspiel gegen SC Talheim", "Sportplatz", "15:00", 3, 22, 1], ["Saisonabschluss", "Kantine", "19:00", 22, 64, 8], ["Generalversammlung", "Gasthaus Post", "19:30", 35, 41, 5]],
+      events: [["Training Kampfmannschaft", "Sportplatz", "18:00", 1, 19, 3, "Fußball"], ["Heimspiel gegen SC Talheim", "Sportplatz", "15:00", 3, 22, 1], ["Saisonabschluss", "Kantine", "19:00", 22, 64, 8], ["Generalversammlung", "Gasthaus Post", "19:30", 35, 41, 5], ["Tennis-Clubmeisterschaft", "Tennisplatz", "09:00", 13, 18, 2, "Tennis"]],
+      myGrp: "Fußball", xf: "Trikotnummer",
       probe: ["Training Nachwuchs", "17:00", "Trainingsbesuch", "Trainings"],
       fest: { ev: 2, shifts: [["Aufbau", "14–17 Uhr", 4], ["Grill", "17–20 Uhr", 2], ["Schank", "17–20 Uhr", 3], ["Schank", "20–23 Uhr", 3], ["Abbau", "23–24 Uhr", 4]] },
       start: 7810, color: "#2459d6", logoT: "kuerzel", sym: "i-ball", shape: "rund", claim: "Fußball, Tennis und Turnen für die ganze Gemeinde.", hero: "Gemeinsam am Ball.",
@@ -88,7 +90,8 @@
       groups: ["Theater", "Lesungen", "Kino", "Ausstellungen", "Technik"],
       arts: [{ k: "aktiv", l: "Mitglied", b: 30 }, { k: "jugend", l: "Ermäßigt", b: 15 }, { k: "unter", l: "Förderer", b: 60 }],
       board: [["Obfrau", "Claudia Fuchsberger"], ["Stellvertreter", "Andreas Wieser"], ["Kassierin", "Renate Kogler"], ["Schriftführer", "Martin Bauer"]],
-      events: [["Probe Theatergruppe", "Mühlenstadl", "19:00", 3, 12, 1], ["Lesung: Mostviertler Geschichten", "Bibliothek", "19:30", 9, 18, 2], ["Filmabend im Hof", "Mühlenstadl", "20:00", 17, 26, 4], ["Vorstandssitzung", "Mühlenstadl", "18:30", 24, 7, 0]],
+      events: [["Probe Theatergruppe", "Mühlenstadl", "19:00", 3, 12, 1, "Theater"], ["Lesung: Mostviertler Geschichten", "Bibliothek", "19:30", 9, 18, 2], ["Filmabend im Hof", "Mühlenstadl", "20:00", 17, 26, 4], ["Vorstandssitzung", "Mühlenstadl", "18:30", 24, 7, 0], ["Aufbau Ausstellung", "Mühlenstadl", "17:00", 13, 6, 0, "Ausstellungen"]],
+      myGrp: "Theater", xf: "Fahrdienst",
       probe: ["Leseprobe", "19:00", "Probenbesuch", "Proben"],
       fest: { ev: 2, shifts: [["Aufbau und Leinwand", "17–19:30 Uhr", 3], ["Kassa", "19–20:30 Uhr", 2], ["Buffet", "19–21 Uhr", 2], ["Technik", "19:30–22:30 Uhr", 1], ["Abbau", "22:30–24 Uhr", 3]] },
       start: 3120, color: "#7d1f3a", logoT: "symbol", sym: "i-mask", shape: "eckig", claim: "Theater, Lesungen und Kino in der alten Mühle.", hero: "Kultur im Ort.",
@@ -102,6 +105,13 @@
   var LAST = ["Huber", "Gruber", "Wagner", "Mayr", "Brunner", "Wimmer", "Hofer", "Leitner", "Pichler", "Steiner", "Moser", "Fuchs", "Eder", "Schwarz", "Berger", "Haas", "Winkler", "Lechner", "Aigner", "Schmid", "Reiter", "Kern", "Weiß", "Höller", "Ecker", "Hager", "Strasser", "Zauner", "Kogler", "Fischer", "Haider", "Riegler", "Lindner", "Schober", "Teufl", "Ofner"];
 
   var S; // aktueller Zustand
+  // Eigenes Feld je Verein (Trachtgröße, Trikotnummer, Fahrdienst), für die Musterdaten aus der Nummer abgeleitet
+  function xval(m, P) {
+    P = P || S.P;
+    if (P.xf === "Trachtgröße") return ["36", "38", "40", "42", "44", "M", "L"][m.nr % 7];
+    if (P.xf === "Trikotnummer") return String(m.nr % 30 + 1);
+    return m.nr % 3 ? "nein" : "ja, mit Auto";
+  }
   function rnd(seed) { return function () { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }; }
 
   function build(k) {
@@ -116,7 +126,8 @@
     }
     // Vorstand und das angemeldete Mitglied
     P.board.forEach(function (b, j) { var m = mem[j * 7 + 3]; m.name = b[1]; m.role = b[0]; m.art = 0; m.st = "ok"; m.seit = YEAR - 9 - j * 4; });
-    var me = mem[41]; me.name = "Anna Huber"; me.st = "bad"; me.art = 0; me.role = ""; me.seit = YEAR - 6;
+    var me = mem[41]; me.name = "Anna Huber"; me.st = "bad"; me.art = 0; me.role = ""; me.seit = YEAR - 6; me.grp = P.myGrp;
+    me.adr = { str: "Lindenweg 4", ort: "3250 Wieselburg", tel: "+43 660 000 0042", mail: "anna.huber@example.at", x: xval(me, P) };
     var paid = mem.filter(function (m) { return m.st === "ok"; }).reduce(function (s, m) { return s + P.arts[m.art].b; }, 0);
     // Kassabuch: Sammelbuchung der schon bezahlten Beiträge plus Musterbuchungen übers Jahr verteilt
     var cash = [], span = Math.max(30, Math.round((today - new Date(YEAR, 0, 10)) / 864e5));
@@ -130,7 +141,7 @@
     cash.sort(function (a, b) { return b.d - a.d; });
     S = {
       k: k, P: P, mem: mem, me: me, cash: cash, filter: "alle", q: "", io: "out", newMem: {},
-      ev: P.events.map(function (e, j) { return { id: "e" + j, t: e[0], o: e[1], h: e[2], d: addDays(e[3]), yes: e[4], no: e[5], mine: "", cm: [] }; }),
+      ev: P.events.map(function (e, j) { return { id: "e" + j, t: e[0], o: e[1], h: e[2], d: addDays(e[3]), yes: e[4], no: e[5], mine: "", cm: [], g: e[6] || "" }; }),
       feed: [], rem: 0,
       msgs: P.msgs.map(function (m, j) { return { id: "m" + j, t: m[0], x: m[1], from: m[2], d: addDays(-m[3]), to: "alle", toMe: true, n: 0, read: 0, mail: true, unread: j === 0, cm: [] }; })
     };
@@ -156,6 +167,7 @@
     var pi = 0;
     S.help.shifts.forEach(function (sh, j) { var n = [2, 1, 1, 1, 2][j] || 0; for (var q = 0; q < n && q < sh.need; q++) sh.who.push(pool[pi++]); });
     S.help.pool = pool.slice(pi, pi + 9);
+    S.ev.sort(function (a, b) { return a.d - b.d; });
     var who = function (j) { return mem[(j * 13 + 5) % mem.length].name; };
     S.feed = [
       { c: "ok", ic: "i-check", t: who(1) + " hat für „" + S.ev[0].t + "“ zugesagt", s: "vor 12 Minuten" },
@@ -199,9 +211,10 @@
   function flash(sel) { var el = $(sel); if (!el) return; el.classList.add("flash"); setTimeout(function () { el.classList.remove("flash"); }, 1200); }
 
   // ---------- Handy: Termine ----------
+  function myEv() { return S.ev.filter(function (e) { return !e.g || e.g === S.me.grp; }); }
   function renderPhoneEvents() {
-    $("[data-m-evs]").innerHTML = S.ev.map(function (e) {
-      return '<div class="ev" data-ev="' + e.id + '"><div class="ev__top"><span class="ev__d"><b>' + ("0" + e.d.getDate()).slice(-2) + "</b>" + MON[e.d.getMonth()] + '</span><span class="ev__t"><b>' + esc(e.t) + (e.fresh ? '<span class="ev__new">Neu</span>' : "") + "</b><small>" + WT[e.d.getDay()] + " · " + esc(e.h) + " Uhr · " + esc(e.o) + "</small></span></div>" +
+    $("[data-m-evs]").innerHTML = myEv().map(function (e) {
+      return '<div class="ev" data-ev="' + e.id + '"><div class="ev__top"><span class="ev__d"><b>' + ("0" + e.d.getDate()).slice(-2) + "</b>" + MON[e.d.getMonth()] + '</span><span class="ev__t"><b>' + esc(e.t) + (e.fresh ? '<span class="ev__new">Neu</span>' : "") + "</b>" + (e.g ? '<span class="ev__g">' + esc(e.g) + "</span>" : "") + "<small>" + WT[e.d.getDay()] + " · " + esc(e.h) + " Uhr · " + esc(e.o) + "</small></span></div>" +
         '<div class="ev__btn"><button type="button" class="yes" data-ans="yes" aria-pressed="' + (e.mine === "yes") + '"><svg><use href="#i-check"/></svg>Ich komme</button><button type="button" class="no" data-ans="no" aria-pressed="' + (e.mine === "no") + '"><svg><use href="#i-x"/></svg>Leider nicht</button></div>' +
         '<div class="ev__ft"><p class="ev__cnt">' + e.yes + " Zusagen · " + e.no + " Absagen</p>" + cmtTg(e, "e:" + e.id) + "</div>" + cmtBox(e, "e:" + e.id) + "</div>";
     }).join("");
@@ -255,7 +268,7 @@
   $("[data-m-ics]").addEventListener("click", function () {
     var name = S.brand ? S.brand.name : S.P.name, stamp = new Date().toISOString().replace(/[-:]/g, "").slice(0, 15) + "Z";
     var L = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Tim Kofler Webdesign//Vereins-App Beispiel//DE", "CALSCALE:GREGORIAN", "METHOD:PUBLISH", "X-WR-CALNAME:" + icsEsc(name), "X-WR-TIMEZONE:Europe/Vienna"];
-    S.ev.forEach(function (e) {
+    myEv().forEach(function (e) {
       L.push("BEGIN:VEVENT", "UID:" + e.id + "-" + S.k + "@tim-kofler.at", "DTSTAMP:" + stamp, "DTSTART:" + icsT(e.d, e.h), "DTEND:" + icsT(e.d, e.h, 2),
         "SUMMARY:" + icsEsc(e.t), "LOCATION:" + icsEsc(e.o), "DESCRIPTION:" + icsEsc("Musterdaten aus der Beispiel-App von tim-kofler.at"), "END:VEVENT");
     });
@@ -379,6 +392,44 @@
     if (b.getAttribute("data-tab") === "neues") setTimeout(function () { S.msgs.forEach(function (m) { m.unread = false; }); renderPins(); }, 1600);
   });
 
+  // Meine Daten: Mitglied ändert Adresse, Kontakt und das eigene Feld selbst
+  var meForm = $("[data-me-form]"), meSave = $("[data-me-save]"), meFrom = "termine";
+  function openProf() {
+    var a = S.me.adr, cur = $("[data-m-tabs] [aria-selected=true]");
+    meFrom = cur ? cur.getAttribute("data-tab") : "termine";
+    $$("[data-me-f]").forEach(function (f) { f.value = a[f.getAttribute("data-me-f")]; });
+    $("[data-me-xl]").textContent = S.P.xf;
+    fillReset(meSave, "Speichern");
+    $$(".v").forEach(function (v) { v.classList.toggle("on", v.getAttribute("data-v") === "profil"); });
+    $(".app__body").scrollTop = 0;
+  }
+  function closeProf() {
+    var v = $('.v[data-v="profil"]'); if (!v || !v.classList.contains("on")) return;
+    $$(".v").forEach(function (x) { x.classList.toggle("on", x.getAttribute("data-v") === meFrom); });
+    $(".app__body").scrollTop = 0;
+  }
+  $("[data-me-open]").addEventListener("click", openProf);
+  $("[data-me-back]").addEventListener("click", closeProf);
+  meForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (meSave.classList.contains("is-busy") || meSave.classList.contains("is-done")) return;
+    var a = S.me.adr, chg = [];
+    $$("[data-me-f]").forEach(function (f) {
+      var k = f.getAttribute("data-me-f"), v = f.value.trim();
+      if (v && v !== a[k]) { a[k] = v; chg.push(k); }
+    });
+    if (!chg.length) { toast("Nichts geändert", "deine Daten sind aktuell"); return; }
+    var lbl = { str: "Adresse", ort: "Adresse", tel: "Telefon", mail: "E-Mail", x: S.P.xf }, txt = [];
+    chg.forEach(function (k) { if (txt.indexOf(lbl[k]) < 0) txt.push(lbl[k]); });
+    fillSend(meSave, "Gespeichert", function () {
+      S.me.chg = true;
+      feed("", "i-users", S.me.name + " hat " + txt.join(", ") + " selbst geändert");
+      toast("Beim Vorstand angekommen", txt.join(", ") + " in der Kartei aktualisiert");
+      if (!mcard.hidden && +mcard.getAttribute("data-nr") === S.me.nr) openCard(S.me.nr);
+      closeProf();
+    });
+  });
+
   // ---------- Vorstand ----------
   $("[data-d-tabs]").addEventListener("click", function (e) {
     var b = e.target.closest("[data-dt]"); if (!b) return;
@@ -387,7 +438,7 @@
     $$(".dp").forEach(function (p) { p.classList.toggle("on", p.getAttribute("data-dp") === t); });
     if (t === "mitglieder") $("[data-d-newbadge]").hidden = true;
     if (t === "helfer") $("[data-d-helpbadge]").hidden = true;
-    mcard.hidden = true; bview.hidden = true;
+    mcard.hidden = true; bview.hidden = true; bankv.hidden = true;
   });
 
   // Vorstand im Vollbild: so sieht die App wirklich am PC aus (Esc oder Knopf beendet es)
@@ -581,8 +632,7 @@
       m.st = "bad";
       S.cash = S.cash.filter(function (c) { return c.m !== m.nr; });
     } else {
-      m.st = "ok";
-      S.cash.unshift({ d: new Date(today), t: "Beitrag " + YEAR + " " + m.name, c: "Mitgliedsbeiträge", a: amt, m: m.nr, fresh: true });
+      payMem(m);
       feed("ok", "i-check", "Beitrag von " + m.name + " abgehakt (" + amt + " €), im Kassabuch gebucht");
       toast("Beitrag abgehakt", m.name + " · " + amt + " € im Kassabuch");
     }
@@ -590,6 +640,54 @@
     if (m === S.me) renderDue();
     if (!mcard.hidden && +mcard.getAttribute("data-nr") === m.nr) openCard(m.nr);
   });
+  function payMem(m, src) {
+    m.st = "ok";
+    S.cash.unshift({ d: new Date(today), t: "Beitrag " + YEAR + " " + m.name + (src ? " (" + src + ")" : ""), c: "Mitgliedsbeiträge", a: S.P.arts[m.art].b, m: m.nr, fresh: true });
+  }
+  function mnr(m) { return "M-" + ("000" + m.nr).slice(-4); }
+
+  // Kontoauszug einlesen: Zahlungen mit Mitgliedsnummer im Verwendungszweck werden automatisch abgehakt
+  var bankv = $("[data-bankv]"), bankLeft = null;
+  function bankRow(ok, who, why, amt, extra) {
+    return '<li class="' + (ok ? "ok" : "q") + '"><i><svg><use href="#' + (ok ? "i-check" : "i-search") + '"/></svg></i><span><b>' + esc(who) + "</b><small>" + esc(why) + "</small>" + (extra || "") + "</span><em>+ " + eur(amt, true) + "</em></li>";
+  }
+  function openBank() {
+    var open = S.mem.filter(function (m) { return m.st === "bad" && m !== S.me; });
+    if (!open.length) { toast("Alles bezahlt", "keine offenen Beiträge zum Abgleichen"); return; }
+    var hit = open.slice(0, 5), rest = open.slice(5), sum = 0, rows = "";
+    hit.forEach(function (m) {
+      var a = S.P.arts[m.art].b; sum += a; payMem(m, "Kontoauszug");
+      rows += bankRow(true, m.name, "„Mitgliedsbeitrag " + YEAR + " " + mnr(m) + "“ · abgehakt", a);
+    });
+    bankLeft = rest.length ? rest[0] : null;
+    if (bankLeft) {
+      var fam = "Fam. " + bankLeft.name.split(" ").slice(-1)[0], a2 = S.P.arts[bankLeft.art].b;
+      rows += bankRow(false, fam, "„Beitrag " + YEAR + "“ · ohne Mitgliedsnummer", a2,
+        '<button class="dbtn sm" type="button" data-bank-as>Zu ' + esc(bankLeft.name) + " zuordnen</button>");
+    }
+    rows += '<li class="x"><i><svg><use href="#i-x"/></svg></i><span><b>Raiffeisen Bankomat</b><small>Abhebung · kein Mitgliedsbeitrag, bleibt im Auszug</small></span><em>− 200,00 €</em></li>';
+    bankv.innerHTML = '<div class="mcard__hd"><i><svg><use href="#i-sheet"/></svg></i><span><b>Kontoauszug</b><small>' + hit.length + " von " + (hit.length + (bankLeft ? 1 : 0)) + " Beiträgen erkannt · " + eur(sum, true) + '</small></span><button type="button" class="mcard__x" data-bank-x aria-label="Kontoauszug schließen"><svg><use href="#i-x"/></svg></button></div>' +
+      '<ul class="bank__l">' + rows + "</ul>" +
+      '<p class="bank__n">Im echten Verein lädst du die CSV- oder CAMT-Datei aus George, ELBA oder deinem Online-Banking hoch. Die App erkennt die Mitgliedsnummer im Verwendungszweck, der Rest bleibt zum Zuordnen.</p>' +
+      '<div class="mcard__ft"><button class="dbtn sm ghost" type="button" data-bank-x>Fertig</button></div>';
+    mcard.hidden = true; bview.hidden = true; bankv.hidden = false;
+    bankv.querySelector(".mcard__x").focus({ preventScroll: true });
+    feed("ok", "i-sheet", "Kontoauszug eingelesen: " + hit.length + " Beiträge automatisch abgehakt (" + eur(sum, true) + ")");
+    toast(hit.length + " Beiträge abgehakt", "aus dem Kontoauszug, im Kassabuch gebucht");
+    renderMembers(); renderKpis(); renderOpen(); renderCash(); flash("[data-k-cash]");
+  }
+  $("[data-bank]").addEventListener("click", openBank);
+  bankv.addEventListener("click", function (e) {
+    if (e.target.closest("[data-bank-x]")) { bankv.hidden = true; return; }
+    var b = e.target.closest("[data-bank-as]"); if (!b || !bankLeft) return;
+    var m = bankLeft; bankLeft = null; payMem(m, "Kontoauszug");
+    var li = b.closest("li"); li.className = "ok"; li.querySelector("i").innerHTML = '<svg><use href="#i-check"/></svg>';
+    li.querySelector("small").textContent = "zugeordnet zu " + m.name + " · abgehakt"; b.remove();
+    feed("ok", "i-check", "Zahlung „Fam. " + m.name.split(" ").slice(-1)[0] + "“ " + m.name + " zugeordnet und abgehakt");
+    toast("Zugeordnet", m.name + " · " + S.P.arts[m.art].b + " € im Kassabuch");
+    renderMembers(); renderKpis(); renderOpen(); renderCash(); flash("[data-k-cash]");
+  });
+
   $("[data-remind]").addEventListener("click", function () {
     var l = S.mem.filter(function (m) { return m.st === "bad"; }), n = l.length;
     l.forEach(function (m) { m.rem = (m.rem || 0) + 1; });
@@ -620,7 +718,7 @@
   function renderDeskEvents() {
     $("[data-d-evs]").innerHTML = S.ev.map(function (e) {
       var all = Math.max(1, e.yes + e.no);
-      return '<div class="dev' + (e.fresh ? " is-new" : "") + '" data-evi="' + S.ev.indexOf(e) + '"><span class="dev__d"><b>' + ("0" + e.d.getDate()).slice(-2) + "</b>" + MON[e.d.getMonth()] + '</span><span class="dev__t"><b>' + esc(e.t) + "</b><small>" + WT[e.d.getDay()] + " · " + esc(e.h) + " Uhr · " + esc(e.o) + '</small><span class="dev__bar"><i style="width:' + (e.yes / all * 100) + '%"></i><i style="width:' + (e.no / all * 100) + '%"></i></span></span><span class="dev__n"><b>' + e.yes + "</b>" + e.no + " Absagen" + (e.cm.length ? '<span class="dev__c"><svg><use href="#i-chat"/></svg>' + e.cm.length + "</span>" : "") + "</span></div>";
+      return '<div class="dev' + (e.fresh ? " is-new" : "") + '" data-evi="' + S.ev.indexOf(e) + '"><span class="dev__d"><b>' + ("0" + e.d.getDate()).slice(-2) + "</b>" + MON[e.d.getMonth()] + '</span><span class="dev__t"><b>' + esc(e.t) + (e.g ? '<em class="dev__g">nur ' + esc(e.g) + "</em>" : "") + "</b><small>" + WT[e.d.getDay()] + " · " + esc(e.h) + " Uhr · " + esc(e.o) + '</small><span class="dev__bar"><i style="width:' + (e.yes / all * 100) + '%"></i><i style="width:' + (e.no / all * 100) + '%"></i></span></span><span class="dev__n"><b>' + e.yes + "</b>" + e.no + " Absagen" + (e.cm.length ? '<span class="dev__c"><svg><use href="#i-chat"/></svg>' + e.cm.length + "</span>" : "") + "</span></div>";
     }).join("");
   }
   var evD = $("[data-ev-d]");
@@ -628,12 +726,14 @@
     e.preventDefault();
     var t = $("[data-ev-t]").value.trim().slice(0, 40), d = evD.value ? new Date(evD.value + "T00:00:00") : null, h = $("[data-ev-h]").value || "19:30";
     if (!t || !d || isNaN(d)) return;
-    var ev = { id: "n" + Date.now(), t: t, o: "Vereinsheim", h: h, d: d, yes: 0, no: 0, mine: "", fresh: true, cm: [] };
+    var g = $("[data-ev-g]").value;
+    var ev = { id: "n" + Date.now(), t: t, o: "Vereinsheim", h: h, d: d, yes: 0, no: 0, mine: "", fresh: true, cm: [], g: g };
     S.ev.push(ev); S.ev.sort(function (a, b) { return a.d - b.d; });
     $("[data-ev-t]").value = "";
     renderDeskEvents(); renderPhoneEvents(); renderKpis(); renderWeek();
     feed("", "i-cal", "Termin „" + t + "“ am " + dshort(d) + " angelegt");
-    toast("Termin ist in der App", "alle Mitglieder können zu- oder absagen");
+    if (g) toast("Termin ist in der App", "nur bei " + S.P.glbl + " " + g + (g === S.me.grp ? ", also auch bei " + S.me.name.split(" ")[0] : ", " + S.me.name.split(" ")[0] + " sieht ihn nicht"));
+    else toast("Termin ist in der App", "alle Mitglieder können zu- oder absagen");
   });
 
   // Kassabuch
@@ -1348,7 +1448,8 @@
       (m.st !== "ok" ? "<dt>Erinnerungen</dt><dd>" + (m.rem ? m.rem + " geschickt" : "noch keine") + "</dd>" : "") +
       (inAtt ? "<dt>" + esc(S.P.probe[2]) + "</dt><dd>" + (A.seen[m.nr] + (A.saved && A.here[m.nr] ? 1 : 0)) + " von " + (A.held + (A.saved ? 1 : 0)) + " " + esc(S.P.probe[3]) + "</dd>" : "") +
       "<dt>Helferdienst</dt><dd>" + (sh ? esc(S.help.ev.t) + ": " + esc(sh.t) + ", " + esc(sh.h) : "nicht eingeteilt") + "</dd>" +
-      "<dt>Kontakt</dt><dd>Adresse, Telefon, E-Mail · nur für den Vorstand sichtbar</dd></dl>" +
+      "<dt>" + esc(S.P.xf) + "</dt><dd>" + esc(m === S.me ? m.adr.x : xval(m)) + "</dd>" +
+      "<dt>Kontakt</dt><dd>" + (m === S.me ? esc(m.adr.str) + "<br>" + esc(m.adr.ort) + "<br>" + esc(m.adr.tel) + "<br>" + esc(m.adr.mail) + (m.chg ? '<em class="chg">heute selbst geändert</em>' : "") : "Adresse, Telefon, E-Mail · nur für den Vorstand sichtbar") + "</dd></dl>" +
       '<div class="mcard__ft">' + (m.st === "bad" ? '<button class="dbtn sm" type="button" data-mc-rem><svg><use href="#i-mail"/></svg>Zahlschein schicken</button>' : "") + '<button class="dbtn sm ghost" type="button" data-mc-x>Schließen</button></div>';
     mcard.hidden = false; mcard.setAttribute("data-nr", nr);
     var x = mcard.querySelector(".mcard__x"); if (x) x.focus({ preventScroll: true });
@@ -1363,7 +1464,7 @@
       renderOpen(); openCard(m.nr);
     }
   });
-  document.addEventListener("keydown", function (e) { if (e.key === "Escape") { closeCard(); bview.hidden = true; } });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") { closeCard(); bview.hidden = true; bankv.hidden = true; } });
 
   // ---------- Vereinsart wechseln ----------
   function load(k) {
@@ -1371,7 +1472,7 @@
     $("[data-lgn-mail]").value = (k === "musik" ? "obfrau@" : "obmann@") + VK[k].url.split("/")[0];
     build(k);
     document.body.setAttribute("data-vk", k);
-    mcard.hidden = true; bview.hidden = true; setBel("");
+    mcard.hidden = true; bview.hidden = true; bankv.hidden = true; setBel("");
     $("[data-m-year]").textContent = YEAR;
     $("[data-me-first]").textContent = S.me.name.split(" ")[0];
     $("[data-d-newbadge]").hidden = true;
@@ -1379,6 +1480,8 @@
     jn.value = ""; jok.checked = false;
     $("[data-j-form]").hidden = false; $("[data-j-done]").hidden = true;
     evD.min = iso(today); evD.value = iso(addDays(12));
+    $("[data-ev-g]").innerHTML = '<option value="">Alle Mitglieder</option>' + S.P.groups.map(function (g) { return '<option value="' + esc(g) + '">' + esc(S.P.glbl + " " + g) + "</option>"; }).join("");
+    $("[data-me-ini]").textContent = ini(S.me.name); closeProf();
     initBrand();
     renderPhoneEvents(); renderJoin(); renderPins(); renderNForm(); renderSent(); renderJub();
     $("[data-d-helpbadge]").hidden = true;
