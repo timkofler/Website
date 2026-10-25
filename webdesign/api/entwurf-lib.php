@@ -8,7 +8,7 @@ require_once __DIR__ . '/lib.php';
 
 const EW_DIR = CX_DATA . '/entwuerfe';
 const EW_TAGE = 365; // Anfragen ohne Auftrag werden nach 12 Monaten gelöscht (siehe Datenschutz Punkt 5)
-const EW_STATUS = ['neu' => 'Neu', 'arbeit' => 'In Arbeit', 'geschickt' => 'Entwurf geschickt', 'erledigt' => 'Erledigt'];
+const EW_STATUS = ['neu' => 'Neu', 'arbeit' => 'In Arbeit', 'geschickt' => 'Entwurf geschickt', 'kunde' => 'Kunde geworden', 'abgesagt' => 'Abgesagt', 'erledigt' => 'Erledigt'];
 
 // Auswahl im Formular. Nur diese Werte werden angenommen, alles andere fällt weg.
 const EW_FARBEN = [

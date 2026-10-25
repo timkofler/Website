@@ -1,12 +1,13 @@
 <?php
 // Tim Kofler – Kundenportal, Admin-Bereich: Kunden anlegen, Zugänge verwalten, Uploads ansehen und herunterladen,
-// dazu die Anfragen für einen Gratis-Entwurf von /entwurf/ und der anonyme Besucherzähler. Anmeldung mit Passwort und, wenn eingerichtet,
+// dazu alle Anfragen (Formular, Rückruf, Gratis-Entwurf, Verein) mit Status, Werbekosten pro Quelle und der anonyme Besucherzähler. Anmeldung mit Passwort und, wenn eingerichtet,
 // einem zweiten Faktor (Code aus der Authenticator-App oder Notfall-Code).
 
 declare(strict_types=1);
 
 require __DIR__ . '/../../api/kunden-lib.php';
 require __DIR__ . '/../../api/entwurf-lib.php';
+require __DIR__ . '/../../api/anfrage-lib.php';
 require __DIR__ . '/../../api/admin-2fa-lib.php';
 require __DIR__ . '/../../api/zaehler-lib.php';
 require __DIR__ . '/../../api/chat-lib.php';
@@ -15,6 +16,10 @@ kp_headers();
 kp_session();
 
 const KP_ADMIN = '/kunden/admin/';
+// Auftrag eines Kunden (nur für Tim, der Kunde sieht davon nichts). Rechnungen selbst liegen im Büro-Dashboard.
+const AD_PAKETE = ['' => '– noch offen –', 'referenz' => 'Referenzkunde (290 €)', 'start' => 'Start (590 €)', 'business' => 'Business (1.190 €)',
+    'verein' => 'Vereinsseite (gratis)', 'app' => 'Web-App (nach Aufwand)', 'shop' => 'Shop (nach Aufwand)', 'sonstiges' => 'Sonstiges'];
+const AD_RECHNUNG = ['keine' => 'Noch keine Rechnung', 'offen' => 'Rechnung offen', 'bezahlt' => 'Bezahlt'];
 
 $hash = (string) (cx_config()['admin_password_hash'] ?? '');
 // Die Anmeldung gilt nur für den Admin-Hash, mit dem sie gemacht wurde (neues Passwort in der config.php meldet alle ab).
@@ -23,6 +28,8 @@ $k = (string) ($_GET['k'] ?? '');
 $k = kp_valid_user($k) ? $k : '';
 $ew = (string) ($_GET['entwurf'] ?? '');
 $ew = ew_valid_id($ew) ? $ew : '';
+$af = (string) ($_GET['anfrage'] ?? '');
+$af = ew_valid_id($af) ? $af : '';
 $sicherheit = $isAdmin && isset($_GET['sicherheit']);
 // Passwort war richtig, der Code aus der App fehlt noch (zweiter Schritt der Anmeldung).
 $pwOk = (int) ($_SESSION['admin_pw'] ?? 0);
@@ -221,13 +228,13 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     if ($action === 'ew_status' || $action === 'ew_loeschen') {
         $d = ew_read($ew);
         if (!$d) {
-            kp_redirect(KP_ADMIN . '#entwuerfe');
+            kp_redirect(KP_ADMIN . '#anfragen');
         }
         if ($action === 'ew_loeschen') {
             if (cx_field('sicher', 5) === 'ja') {
                 ew_delete($ew);
                 kp_flash(true, 'Anfrage von „' . $d['firma'] . '“ gelöscht.');
-                kp_redirect(KP_ADMIN . '#entwuerfe');
+                kp_redirect(KP_ADMIN . '#anfragen');
             }
             kp_flash(false, 'Zum Löschen bitte das Häkchen setzen.');
         } else {
@@ -241,6 +248,56 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
             }
         }
         kp_redirect(KP_ADMIN . '?entwurf=' . $ew);
+    }
+
+    // Anfrage (Formular, Rückruf, Verein, Gründer): Status setzen oder löschen
+    if ($action === 'af_status' || $action === 'af_loeschen') {
+        $d = af_read($af);
+        if (!$d) {
+            kp_redirect(KP_ADMIN . '#anfragen');
+        }
+        if ($action === 'af_loeschen') {
+            if (cx_field('sicher', 5) === 'ja') {
+                af_delete($af);
+                kp_flash(true, 'Anfrage von „' . ($d['firma'] ?: $d['name']) . '“ gelöscht.');
+                kp_redirect(KP_ADMIN . '#anfragen');
+            }
+            kp_flash(false, 'Zum Löschen bitte das Häkchen setzen.');
+        } else {
+            $st = cx_field('status', 20);
+            if (isset(AF_STATUS[$st])) {
+                $d['status'] = $st;
+                $d['geaendert'] = date('c');
+                $d['notiz'] = kp_text('notiz', 2000);
+                af_write($af, $d);
+                kp_flash(true, 'Gespeichert.');
+            }
+        }
+        kp_redirect(KP_ADMIN . '?anfrage=' . $af);
+    }
+
+    // Werbekosten pro Quelle (Summe bisher, von Hand eingetragen). Leeres Feld entfernt die Quelle.
+    if ($action === 'kosten') {
+        $neu = [];
+        $fehler = false;
+        $werte = is_array($_POST['kosten'] ?? null) ? $_POST['kosten'] : [];
+        $q = af_quelle(cx_field('neu_quelle', 40));
+        if (cx_field('neu_quelle', 40) !== '') {
+            $werte[$q] = (string) ($_POST['neu_betrag'] ?? '');
+        }
+        foreach ($werte as $quelle => $betrag) {
+            $quelle = af_quelle((string) $quelle);
+            $cent = af_cent(mb_substr((string) $betrag, 0, 20));
+            if ($cent === -1) {
+                $fehler = true;
+            } elseif ($cent !== null && $quelle !== 'direkt' && count($neu) < 40) {
+                $neu[$quelle] = $cent;
+            }
+        }
+        $ok = af_kosten_save($neu);
+        kp_flash($ok && !$fehler, !$ok ? 'Konnte nicht gespeichert werden (Schreibrechte im Ordner api/_data prüfen).'
+            : ($fehler ? 'Gespeichert, aber ein Betrag war keine Zahl und wurde weggelassen (z. B. 16,74).' : 'Werbekosten gespeichert.'));
+        kp_redirect(KP_ADMIN . '#anfragen');
     }
 
     $all = kp_accounts();
@@ -302,6 +359,26 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         }
         kp_save_accounts($all);
         kp_flash(true, 'Gespeichert.');
+        kp_redirect($back . '#zugang');
+    }
+
+    if ($action === 'auftrag') {
+        $paket = cx_field('paket', 20);
+        $re = cx_field('rechnung', 20);
+        $cent = af_cent(cx_field('betrag', 20));
+        $nr = cx_field('rechnung_nr', 20);
+        if ($cent === -1) {
+            kp_flash(false, 'Der Betrag ist keine Zahl (z. B. 590 oder 1.190,00).');
+        } elseif ($nr !== '' && !preg_match('/^\d{4}-\d{3}$/', $nr)) {
+            kp_flash(false, 'Rechnungsnummer bitte als JJJJ-NNN, z. B. 2026-001.');
+        } else {
+            $all[$k]['paket'] = isset(AD_PAKETE[$paket]) ? $paket : '';
+            $all[$k]['betrag'] = $cent;
+            $all[$k]['rechnung'] = isset(AD_RECHNUNG[$re]) ? $re : 'keine';
+            $all[$k]['rechnung_nr'] = $nr;
+            kp_save_accounts($all);
+            kp_flash(true, 'Auftrag gespeichert.');
+        }
         kp_redirect($back . '#zugang');
     }
 
@@ -615,7 +692,7 @@ if ($ew !== '' && ($d = ew_read($ew))) {
     $mailto = 'mailto:' . cx_h($d['email']) . '?subject=' . $subject . '&amp;body=' . $body;
     $form = KP_ADMIN . '?entwurf=' . $ew;
     kp_page('Entwurf: ' . $d['firma'], <<<HTML
-<div class="crumbs"><a href="/kunden/admin/#entwuerfe">Gratis-Entwürfe</a> / {$v('firma')}</div>
+<div class="crumbs"><a href="/kunden/admin/#anfragen">Anfragen</a> / {$v('firma')}</div>
 <h1>{$v('firma')}</h1>
 {$flash}
 <div class="kp-table kp-ew"><table><tbody>{$rows}</tbody></table></div>
@@ -639,6 +716,79 @@ if ($ew !== '' && ($d = ew_read($ew))) {
   </form>
 </div>
 HTML, $logout);
+}
+
+// ---------------- Anfrage im Detail (Formular, Rückruf, Verein, Gründer) ----------------
+if ($af !== '' && ($d = af_read($af))) {
+    $titel = (string) (($d['firma'] ?? '') !== '' ? $d['firma'] : $d['name']);
+    $rows = '<tr><th>Eingang</th><td>' . cx_h(date('d.m.Y, H:i', strtotime((string) $d['zeit']) ?: 0)) . ' Uhr · ' . cx_h(AF_ARTEN[$d['art']] ?? 'Anfrage') . '</td></tr>';
+    foreach ((array) ($d['felder'] ?? []) as $key => $val) {
+        $val = (string) $val;
+        if ($val === '') {
+            continue;
+        }
+        $html = nl2br(cx_h($val));
+        if ($key === 'E-Mail') {
+            $html = '<a href="mailto:' . cx_h($val) . '">' . cx_h($val) . '</a>';
+        } elseif ($key === 'Telefon') {
+            $html = '<a href="tel:' . cx_h(preg_replace('/[^0-9+]/', '', $val) ?? '') . '">' . cx_h($val) . '</a>';
+        }
+        // Lange Texte (Nachricht, Rechner) eingeklappt, die ersten Worte bleiben sichtbar.
+        if (mb_strlen($val) > 160) {
+            $html = '<details class="kp-lang"><summary>' . cx_h(mb_strimwidth($val, 0, 120, ' …')) . '</summary><p>' . $html . '</p></details>';
+        }
+        $rows .= '<tr><th>' . cx_h((string) $key) . '</th><td>' . $html . '</td></tr>';
+    }
+    $opts = '';
+    foreach (AF_STATUS as $key => $label) {
+        $opts .= '<option value="' . $key . '"' . (($d['status'] ?? 'neu') === $key ? ' selected' : '') . '>' . cx_h($label) . '</option>';
+    }
+    $email = (string) ($d['felder']['E-Mail'] ?? '');
+    $tel = preg_replace('/[^0-9+]/', '', (string) ($d['felder']['Telefon'] ?? '')) ?? '';
+    $wa = $tel !== '' ? 'https://wa.me/' . ltrim(str_starts_with($tel, '0') && !str_starts_with($tel, '00') ? '43' . substr($tel, 1) : $tel, '+0') : '';
+    $knoepfe = ($email !== '' ? '<a class="btn" href="mailto:' . cx_h($email) . '?subject=' . rawurlencode('Deine Anfrage bei Tim Kofler') . '">E-Mail schreiben</a>' : '')
+        . ($wa !== '' ? '<a class="btn btn--line" href="' . cx_h($wa) . '" target="_blank" rel="noopener">WhatsApp</a>' : '');
+    $form = KP_ADMIN . '?anfrage=' . $af;
+    $hT = cx_h($titel);
+    $notiz = cx_h((string) ($d['notiz'] ?? ''));
+    kp_page('Anfrage: ' . $titel, <<<HTML
+<div class="crumbs"><a href="/kunden/admin/#anfragen">Anfragen</a> / {$hT}</div>
+<h1>{$hT}</h1>
+{$flash}
+<div class="kp-table kp-ew"><table><tbody>{$rows}</tbody></table></div>
+<div class="kp-actions">{$knoepfe}</div>
+<div class="kp-grid kp-grid--even">
+  <form class="form form--small" method="post" action="{$form}">
+    {$csrf}
+    <input type="hidden" name="aktion" value="af_status">
+    <h2>Status</h2>
+    <label class="form__field"><span>Stand</span><select name="status">{$opts}</select></label>
+    <label class="form__field"><span>Notiz <em>(nur für dich)</em></span><textarea name="notiz" rows="3" maxlength="2000">{$notiz}</textarea></label>
+    <button class="btn btn--line" type="submit">Speichern</button>
+  </form>
+  <form class="form form--small kp-danger" method="post" action="{$form}">
+    {$csrf}
+    <input type="hidden" name="aktion" value="af_loeschen">
+    <h2>Löschen</h2>
+    <p class="muted">Ohne Auftrag wird die Anfrage 12 Monate nach der letzten Änderung automatisch gelöscht.</p>
+    <label class="kp-confirm"><input type="checkbox" name="sicher" value="ja" required> Ja, Anfrage endgültig löschen</label>
+    <button class="btn btn--line" type="submit">Anfrage löschen</button>
+  </form>
+</div>
+HTML, $logout);
+}
+
+// Paket und Rechnungsstand als kleine Schilder (Kundenliste und Kopf der Kundenkartei).
+function ad_auftrag_pills(array $a): string
+{
+    $out = ($a['paket'] ?? '') !== '' && isset(AD_PAKETE[$a['paket']]) ? '<span class="kp-pill kp-pill--paket">' . cx_h(explode(' (', AD_PAKETE[$a['paket']])[0]) . '</span>' : '';
+    $re = (string) ($a['rechnung'] ?? 'keine');
+    if ($re === 'offen') {
+        $out .= '<span class="kp-pill kp-pill--hot">Rechnung offen' . (isset($a['betrag']) && $a['betrag'] !== null ? ' · ' . cx_h(af_euro((int) $a['betrag'])) : '') . '</span>';
+    } elseif ($re === 'bezahlt') {
+        $out .= '<span class="kp-pill kp-pill--paket">bezahlt</span>';
+    }
+    return $out;
 }
 
 // Zwei Anfangsbuchstaben für den runden Kreis vor dem Namen.
@@ -742,6 +892,18 @@ if ($k !== '' && isset($all[$k])) {
         . '<button class="btn" type="submit">Speichern</button></form></details>';
     $project = kp_project_card($a, false, $phEdit);
 
+    // Auftrag: Paket, Betrag, Rechnungsstand (nur für Tim). Die Rechnung selbst entsteht im Büro-Dashboard.
+    $pkOpts = '';
+    foreach (AD_PAKETE as $key => $label) {
+        $pkOpts .= '<option value="' . $key . '"' . (($a['paket'] ?? '') === $key ? ' selected' : '') . '>' . cx_h($label) . '</option>';
+    }
+    $reOpts = '';
+    foreach (AD_RECHNUNG as $key => $label) {
+        $reOpts .= '<option value="' . $key . '"' . (($a['rechnung'] ?? 'keine') === $key ? ' selected' : '') . '>' . cx_h($label) . '</option>';
+    }
+    $betrag = isset($a['betrag']) && $a['betrag'] !== null ? number_format((int) $a['betrag'] / 100, 2, ',', '.') : '';
+    $auftragFacts = ad_auftrag_pills($a);
+
     kp_page($a['name'] ?? $k, <<<HTML
 <div class="crumbs"><a href="/kunden/admin/">Kunden</a> / {$hk}</div>
 <div class="kp-head">
@@ -749,7 +911,7 @@ if ($k !== '' && isset($all[$k])) {
   <div>
     <h1>{$h('name')}</h1>
     <p class="kp-head__sub">{$sub}</p>
-    <p class="kp-head__facts">{$statusChip}<span>Benutzer <code>{$hk}</code></span><span>Letzte Anmeldung {$last}</span></p>
+    <p class="kp-head__facts">{$statusChip}{$auftragFacts}<span>Benutzer <code>{$hk}</code></span><span>Letzte Anmeldung {$last}</span></p>
   </div>
 </div>
 {$zugang}
@@ -797,6 +959,20 @@ if ($k !== '' && isset($all[$k])) {
         <button class="btn btn--line" type="submit">Endgültig löschen</button></form>
     </div>
   </div>
+  <form class="form form--small kp-auftrag" method="post" action="{$form}">
+    {$csrf}
+    <input type="hidden" name="aktion" value="auftrag">
+    <h2>Auftrag <em>(nur für dich)</em></h2>
+    <div class="form__row">
+      <label class="form__field"><span>Paket</span><select name="paket">{$pkOpts}</select></label>
+      <label class="form__field"><span>Betrag in €</span><input type="text" name="betrag" maxlength="20" inputmode="decimal" value="{$betrag}" placeholder="590,00"></label>
+    </div>
+    <div class="form__row">
+      <label class="form__field"><span>Rechnung</span><select name="rechnung">{$reOpts}</select></label>
+      <label class="form__field"><span>Rechnungsnummer <em>(aus dem Büro-Dashboard)</em></span><input type="text" name="rechnung_nr" maxlength="20" value="{$h('rechnung_nr')}" placeholder="2026-001" pattern="\d{4}-\d{3}"></label>
+    </div>
+    <button class="btn btn--line" type="submit">Speichern</button>
+  </form>
 </section>
 HTML, $logout);
 }
@@ -820,7 +996,7 @@ foreach ($all as $u => $a) {
     $sumNeu += $neu;
     $sumUp += $neuUp;
     $sumOffen += $offen;
-    $list[] = ['u' => $u, 'a' => $a, 'uploads' => count($b), 'neu' => $neu, 'neuUp' => $neuUp, 'offen' => $offen, 'akt' => $akt];
+    $list[] = ['u' => $u, 'a' => $a, 'uploads' => count($b), 'neu' => $neu, 'neuUp' => $neuUp, 'offen' => $offen, 'akt' => $akt, 'lastM' => $lastM];
 }
 usort($list, static fn($x, $y) => [$y['neu'] + $y['neuUp'], $y['offen'], $y['akt']] <=> [$x['neu'] + $x['neuUp'], $x['offen'], $x['akt']]);
 $rows = '';
@@ -832,44 +1008,134 @@ foreach ($list as $r) {
         . ($r['neuUp'] > 0 ? '<span class="kp-badge">' . ($r['neuUp'] === 1 ? '1 neuer Upload' : $r['neuUp'] . ' neue Uploads') . '</span>' : '')
         . ($r['offen'] > 0 ? '<span class="kp-pill kp-pill--hot">' . $r['offen'] . ($r['offen'] === 1 ? ' Wunsch offen' : ' Wünsche offen') . '</span>' : '')
         . (kp_is_verein($a) ? '<span class="kp-pill kp-pill--verein">Verein</span>' : '')
+        . ad_auftrag_pills($a)
         . '<span class="kp-pill kp-pill--phase' . (kp_phase($a) === 'online' ? ' kp-pill--ok' : '') . '">' . cx_h(KP_PHASEN[kp_phase($a)][0]) . '</span>'
         . '<span class="kp-pill">' . ($r['uploads'] === 1 ? '1 Upload' : $r['uploads'] . ' Uploads') . '</span>'
         . (!$aktiv ? '<span class="kp-pill kp-pill--aus">gesperrt</span>' : '');
     $when = $r['akt'] ? date('d.m.Y', $r['akt']) : '–';
+    $lm = $r['lastM'];
+    $lastTxt = $lm ? '<small class="kp-row__last">' . (($lm['von'] ?? '') === 'tim' ? 'Du' : cx_h((string) ($a['name'] ?? $r['u']))) . ', ' . date('d.m.', strtotime((string) $lm['zeit']) ?: 0) . ': „' . cx_h(mb_strimwidth((string) ($lm['text'] ?? ''), 0, 90, ' …')) . '“</small>' : '';
     $rows .= '<li><a class="kp-row' . ($r['neu'] + $r['neuUp'] > 0 ? ' is-new' : '') . '" href="/kunden/admin/?k=' . rawurlencode($r['u']) . '">'
         . '<span class="kp-ava" aria-hidden="true">' . $initials((string) ($a['name'] ?? $r['u'])) . '</span>'
-        . '<span class="kp-row__main"><b>' . cx_h((string) ($a['name'] ?? $r['u'])) . '</b><small>' . ($sub !== '' ? $sub . ' · ' : '') . '<code>' . cx_h($r['u']) . '</code></small></span>'
+        . '<span class="kp-row__main"><b>' . cx_h((string) ($a['name'] ?? $r['u'])) . '</b><small>' . ($sub !== '' ? $sub . ' · ' : '') . '<code>' . cx_h($r['u']) . '</code></small>' . $lastTxt . '</span>'
         . '<span class="kp-row__tags">' . $tags . '</span>'
         . '<span class="kp-row__when">' . $when . '</span>'
         . '<span class="kp-row__go" aria-hidden="true">›</span></a></li>';
 }
 
 $table = $rows === '' ? '<p class="muted kp-leer">Noch keine Kunden angelegt.</p>' : '<ul class="kp-rows">' . $rows . '</ul>';
+// Kurzer Überblick über alle Kunden: in Arbeit, online, offene Rechnungen (Stand, den du in der Kundenkartei unter „Auftrag“ pflegst).
+$kOnline = count(array_filter($list, static fn($r) => kp_phase($r['a']) === 'online'));
+$kOffen = array_filter($list, static fn($r) => ($r['a']['rechnung'] ?? '') === 'offen');
+$kOffenSum = array_sum(array_map(static fn($r) => (int) ($r['a']['betrag'] ?? 0), $kOffen));
+$kAuftrag = array_sum(array_map(static fn($r) => (int) ($r['a']['betrag'] ?? 0), $list));
+$kKpis = !$list ? '' : '<div class="kp-bz__kpis kp-kpis">'
+    . '<div class="kp-card"><small>In Arbeit</small><b>' . (count($list) - $kOnline) . '</b><span>von ' . count($list) . ' Kunden</span></div>'
+    . '<div class="kp-card"><small>Online</small><b>' . $kOnline . '</b><span>fertig</span></div>'
+    . '<div class="kp-card' . ($kOffen ? ' kp-card--hot' : '') . '"><small>Rechnung offen</small><b>' . count($kOffen) . '</b><span>' . af_euro($kOffenSum) . '</span></div>'
+    . '<div class="kp-card"><small>Auftragswert</small><b>' . cx_h(number_format($kAuftrag / 100, 0, ',', '.')) . ' €</b><span>alle Kunden</span></div></div>';
 
+// Alle Anfragen an einem Ort: Formular, Rückruf, Verein, Gründer und Gratis-Entwurf, mit Filter nach Status.
+$afAlle = af_all();
+$afFilter = ['alle' => 'Alle', 'neu' => 'Neu', 'offen' => 'In Arbeit', 'kunde' => 'Kunde', 'abgesagt' => 'Abgesagt'];
+$afSt = (string) ($_GET['st'] ?? 'alle');
+$afSt = isset($afFilter[$afSt]) ? $afSt : 'alle';
+$afGruppe = static fn(string $st): string => $st === 'neu' ? 'neu' : ($st === 'kunde' ? 'kunde' : (in_array($st, ['abgesagt', 'erledigt'], true) ? 'abgesagt' : 'offen'));
+$afZahl = array_fill_keys(array_keys($afFilter), 0);
 $ewRows = '';
 $ewNeu = 0;
-foreach (ew_all() as $id => $d) {
+foreach ($afAlle as $d) {
     $st = (string) ($d['status'] ?? 'neu');
+    $gr = $afGruppe($st);
+    $afZahl['alle']++;
+    $afZahl[$gr]++;
     $ewNeu += $st === 'neu' ? 1 : 0;
-    $web = ($d['webseite'] ?? '') !== '' ? (string) $d['webseite'] : (($d['hat_webseite'] ?? '') === 'nein' ? 'noch keine Webseite' : '');
-    $sub = implode(' · ', array_filter([cx_h((string) ($d['ort'] ?? '')), cx_h((string) ($d['branche'] ?? '')), cx_h($web)]));
-    $tags = '<span class="kp-pill' . ($st === 'neu' ? ' kp-pill--hot' : '') . '">' . cx_h(EW_STATUS[$st] ?? $st) . '</span>'
-        . (($d['farbe'] ?? '') !== '' ? '<span class="kp-pill">' . ew_swatch((string) ($d['farbe_hex'] ?? '')) . cx_h((string) $d['farbe']) . '</span>' : '')
-        . (!empty($d['newsletter']) ? '<span class="kp-pill">Newsletter</span>' : '');
-    $ewRows .= '<li><a class="kp-row' . ($st === 'neu' ? ' is-new' : '') . '" href="/kunden/admin/?entwurf=' . $id . '">'
-        . '<span class="kp-ava kp-ava--ew" aria-hidden="true">' . $initials((string) $d['firma']) . '</span>'
-        . '<span class="kp-row__main"><b>' . cx_h((string) $d['firma']) . '</b><small>' . $sub . '</small></span>'
+    if ($afSt !== 'alle' && $afSt !== $gr) {
+        continue;
+    }
+    $art = (string) ($d['art'] ?? 'anfrage');
+    $fe = (array) ($d['felder'] ?? []);
+    $titel = (string) (($d['firma'] ?? '') !== '' ? $d['firma'] : ($d['name'] ?? ''));
+    $info = $art === 'entwurf' ? [(string) ($d['ort'] ?? ''), (string) ($d['branche'] ?? '')]
+        : [$titel !== ($d['name'] ?? '') ? (string) ($d['name'] ?? '') : '', (string) ($fe['Paket'] ?? ''), $art === 'rueckruf' ? (string) ($fe['Telefon'] ?? '') . (($fe['Erreichbar'] ?? '') !== '' ? ' · ' . $fe['Erreichbar'] : '') : ''];
+    $info[] = 'über ' . af_quelle_name(af_quelle((string) ($d['quelle'] ?? '')));
+    $sub = implode(' · ', array_map('cx_h', array_filter($info)));
+    $label = $art === 'entwurf' ? (EW_STATUS[$st] ?? $st) : (AF_STATUS[$st] ?? $st);
+    $tags = '<span class="kp-pill kp-pill--art kp-pill--' . cx_h($art) . '">' . cx_h(AF_ARTEN[$art] ?? 'Anfrage') . '</span>'
+        . '<span class="kp-pill' . ($st === 'neu' ? ' kp-pill--hot' : ($st === 'kunde' ? ' kp-pill--paket' : '')) . '">' . cx_h($label) . '</span>';
+    $ewRows .= '<li><a class="kp-row' . ($st === 'neu' ? ' is-new' : '') . '" href="/kunden/admin/' . cx_h($d['link']) . '">'
+        . '<span class="kp-ava kp-ava--ew" aria-hidden="true">' . $initials($titel) . '</span>'
+        . '<span class="kp-row__main"><b>' . cx_h($titel) . '</b><small>' . $sub . '</small></span>'
         . '<span class="kp-row__tags">' . $tags . '</span>'
         . '<span class="kp-row__when">' . cx_h(date('d.m.Y', strtotime((string) $d['zeit']) ?: 0)) . '</span>'
         . '<span class="kp-row__go" aria-hidden="true">›</span></a></li>';
 }
-$ewTable = $ewRows === '' ? '<p class="muted kp-leer">Noch keine Anfragen über <a href="/entwurf/">tim-kofler.at/entwurf/</a>.</p>' : '<ul class="kp-rows">' . $ewRows . '</ul>';
+$afPills = '';
+foreach ($afFilter as $key => $t) {
+    $afPills .= '<a class="kp-pill' . ($key === $afSt ? ' kp-pill--hot' : '') . '" href="/kunden/admin/' . ($key === 'alle' ? '' : '?st=' . $key) . '#anfragen"' . ($key === $afSt ? ' aria-current="true"' : '') . '>' . $t . ' <b>' . $afZahl[$key] . '</b></a>';
+}
+$ewTable = $ewRows === '' ? '<p class="muted kp-leer">' . ($afZahl['alle'] === 0 ? 'Noch keine Anfragen. Hier landen das Anfrageformular, Rückruf-Wünsche, Vereins- und Gründer-Anfragen und die Gratis-Entwürfe von <a href="/entwurf/">/entwurf/</a>.' : 'Keine Anfragen mit diesem Status.') . '</p>' : '<ul class="kp-rows">' . $ewRows . '</ul>';
+
+// Kosten pro Anfrage: Anfragen und Kunden je Quelle, geteilt durch die Werbekosten, die du einträgst.
+$afKosten = af_kosten();
+$afQ = [];
+foreach ($afAlle as $d) {
+    $q = af_quelle((string) ($d['quelle'] ?? ''));
+    $afQ[$q] ??= ['n' => 0, 'kunde' => 0];
+    $afQ[$q]['n']++;
+    $afQ[$q]['kunde'] += ($d['status'] ?? '') === 'kunde' ? 1 : 0;
+}
+foreach (array_keys($afKosten) as $q) {
+    $afQ[$q] ??= ['n' => 0, 'kunde' => 0];
+}
+uksort($afQ, static fn($x, $y) => [isset($afKosten[$y]), $afQ[$y]['n']] <=> [isset($afKosten[$x]), $afQ[$x]['n']] ?: strcmp($x, $y));
+$kRows = '';
+$kSumme = 0;
+$kSummeN = 0;
+foreach ($afQ as $q => $z) {
+    $cent = $afKosten[$q] ?? null;
+    $kSumme += (int) $cent;
+    $kSummeN += $cent !== null ? $z['n'] : 0;
+    $pro = $cent === null ? '–' : ($z['n'] > 0 ? af_euro((int) round($cent / $z['n'])) : '–');
+    $proK = $cent === null || $z['kunde'] === 0 ? '–' : af_euro((int) round($cent / $z['kunde']));
+    $kRows .= '<tr><td>' . cx_h(af_quelle_name($q)) . '</td><td>' . $z['n'] . '</td><td>' . $z['kunde'] . '</td><td>' . ($cent === null ? '–' : af_euro($cent)) . '</td><td>' . ($cent !== null && $z['n'] > 0 ? '<b>' . $pro . '</b>' : $pro) . '</td><td>' . $proK . '</td></tr>';
+}
+$kGesamt = $kSumme > 0 ? '<p class="kp-hint">Werbung gesamt ' . af_euro($kSumme) . ' für ' . $kSummeN . ($kSummeN === 1 ? ' Anfrage' : ' Anfragen') . ($kSummeN > 0 ? ', im Schnitt <b>' . af_euro((int) round($kSumme / $kSummeN)) . '</b> pro Anfrage' : '') . '.</p>' : '';
+$kInputs = '';
+foreach (array_unique(array_merge(array_keys($afKosten), AF_QUELLEN_VORSCHLAG, array_keys($afQ))) as $q) {
+    if ($q === 'direkt') {
+        continue;
+    }
+    $val = isset($afKosten[$q]) ? number_format($afKosten[$q] / 100, 2, ',', '.') : '';
+    $kInputs .= '<label class="form__field"><span>' . cx_h(af_quelle_name($q)) . '</span><input type="text" name="kosten[' . cx_h($q) . ']" value="' . $val . '" inputmode="decimal" maxlength="20" placeholder="0,00"></label>';
+}
+$kTabelle = $afQ ? '<div class="kp-table kp-kosten"><table><thead><tr><th>Quelle</th><th>Anfragen</th><th>Kunden</th><th>Kosten</th><th>€/Anfrage</th><th>€/Kunde</th></tr></thead><tbody>' . $kRows . '</tbody></table></div>' : '<p class="kp-hint">Noch keine Anfragen mit Quelle.</p>';
+$kostenCard = <<<HTML
+<div class="kp-card kp-kosten-card" id="kosten">
+  <h3>Kosten pro Anfrage</h3>
+  {$kTabelle}
+  {$kGesamt}
+  <details class="kp-info"><summary>Werbekosten eintragen</summary>
+    <form class="form form--small" method="post" action="/kunden/admin/">
+      {$csrf}
+      <input type="hidden" name="aktion" value="kosten">
+      <p class="kp-hint">Trag ein, was die Quelle bisher insgesamt gekostet hat (z. B. Google Ads laut Abrechnung, willhaben-Rechnung, Druck der Flyer). Leeres Feld = keine Kosten. Gezählt werden die Anfragen der letzten 12 Monate. Die Quelle kommt aus dem Link (utm_source, Google-Anzeige über gclid) oder der Seite, von der jemand kam.</p>
+      <div class="kp-kosten-felder">{$kInputs}</div>
+      <div class="form__row">
+        <label class="form__field"><span>Weitere Quelle <em>(wie utm_source)</em></span><input type="text" name="neu_quelle" maxlength="40" placeholder="z. B. gemeindezeitung" autocapitalize="none" spellcheck="false"></label>
+        <label class="form__field"><span>Kosten in €</span><input type="text" name="neu_betrag" maxlength="20" inputmode="decimal" placeholder="0,00"></label>
+      </div>
+      <button class="btn btn--line" type="submit">Speichern</button>
+    </form>
+  </details>
+</div>
+HTML;
 $tfHint = tf_active() ? '' : '<a class="kp-neu" href="/kunden/admin/?sicherheit"><b>●</b> Zwei-Faktor-Anmeldung ist noch nicht eingerichtet. Jetzt mit Google Authenticator absichern →</a>';
 $ewBadge = $ewNeu > 0 ? '<span class="kp-badge">' . $ewNeu . '</span>' : '';
 $kBadge = $sumNeu + $sumUp > 0 ? '<span class="kp-badge">' . ($sumNeu + $sumUp) . '</span>' : '';
 $nK = count($list);
 $kSub = ($nK === 1 ? '1 Kunde' : $nK . ' Kunden') . ($sumNeu > 0 ? ' · <b>' . $sumNeu . ($sumNeu === 1 ? ' neue Nachricht' : ' neue Nachrichten') . '</b>' : '') . ($sumUp > 0 ? ' · <b>' . $sumUp . ($sumUp === 1 ? ' neuer Upload' : ' neue Uploads') . '</b>' : '') . ($sumOffen > 0 ? ' · ' . $sumOffen . ($sumOffen === 1 ? ' Wunsch offen' : ' Wünsche offen') : '');
-$ewSub = $ewNeu > 0 ? '<b>' . ($ewNeu === 1 ? '1 neue Anfrage' : $ewNeu . ' neue Anfragen') . '</b>' : 'Gratis-Entwürfe von /entwurf/';
+$ewSub = $ewNeu > 0 ? '<b>' . ($ewNeu === 1 ? '1 neue Anfrage' : $ewNeu . ' neue Anfragen') . '</b>' : 'Formular, Rückruf, Entwürfe';
 $neuOpen = $nK === 0 ? ' open' : '';
 $artNeu = kp_art_options('betrieb');
 
@@ -903,16 +1169,20 @@ $bzKamp = static function (string $k) use ($bzLabel): string {
     [$q, $c] = array_pad(explode(' / ', $k, 2), 2, '');
     return $bzLabel($q) . ' · ' . $c;
 };
-// Gratis-Entwurf-Anfragen im Zeitraum, nach ihrem Feld „Gefunden über“.
+// Gratis-Entwurf-Anfragen im Zeitraum (für die Kontaktaufnahmen) und alle Anfragen nach Quelle.
 $bzAnf = [];
+$bzAnfQ = [];
 $bzVon = (new DateTimeImmutable('today'))->modify('-' . ($zeit - 1) . ' days')->getTimestamp();
-foreach (ew_all() as $d) {
+foreach ($afAlle as $d) {
     if ((strtotime((string) ($d['zeit'] ?? '')) ?: 0) >= $bzVon) {
-        $q = trim(preg_replace('/\s*\(gclid.*$/', '', (string) ($d['quelle'] ?? '')) ?? '');
-        $q = $q === '' ? 'direkt' : $q;
-        $bzAnf[$q] = ($bzAnf[$q] ?? 0) + 1;
+        $q = af_quelle_name(af_quelle((string) ($d['quelle'] ?? '')));
+        $bzAnfQ[$q] = ($bzAnfQ[$q] ?? 0) + 1;
+        if ($d['art'] === 'entwurf') {
+            $bzAnf[$q] = ($bzAnf[$q] ?? 0) + 1;
+        }
     }
 }
+arsort($bzAnfQ);
 arsort($bzAnf);
 $bzAnfSum = array_sum($bzAnf);
 // Tageskurve im Feine-Linien-Look: Haarlinie, gestrichelter Schnitt, Abschnitte über dem Schnitt orange,
@@ -1002,7 +1272,7 @@ $bzQuellen = $bzList($bz['quellen'], $bzLabel, 'Noch keine Besuche im Zeitraum.'
 $bzKampagnen = $bzList($bz['kampagnen'], $bzKamp, 'Noch keine Besuche über Links mit utm_campaign.');
 $bzEinstieg = $bzList($bz['einstieg'], $bzSeite, 'Noch keine Besuche im Zeitraum.');
 $bzSeiten = $bzList($bz['seiten'], $bzSeite, 'Noch keine Aufrufe im Zeitraum.');
-$bzAnfragen = $bzList($bzAnf, static fn(string $q): string => $q, 'Keine Gratis-Entwurf-Anfragen im Zeitraum.');
+$bzAnfragen = $bzList($bzAnfQ, static fn(string $q): string => $q, 'Keine Anfragen im Zeitraum.');
 // Kontaktaufnahmen: Klicks auf WhatsApp/Telegram/Telefon/E-Mail, abgeschickte Anfragen und Rückruf-Wünsche, dazu die Entwürfe.
 $bzKontakt = $bz['kontakte'];
 if ($bzAnfSum > 0) {
@@ -1053,7 +1323,7 @@ $bzPanel = <<<HTML
   <div class="kp-card"><h3>Erste Seite beim Besuch</h3>{$bzEinstieg}</div>
   <div class="kp-card"><h3>Meistgesehene Seiten</h3>{$bzSeiten}</div>
   <div class="kp-card"><h3>Kontaktaufnahmen</h3>{$bzKontakte}</div>
-  <div class="kp-card"><h3>Gratis-Entwurf-Anfragen nach Quelle</h3>{$bzAnfragen}</div>
+  <div class="kp-card"><h3>Anfragen nach Quelle <a class="kp-h-link" href="/kunden/admin/#anfragen">Kosten →</a></h3>{$bzAnfragen}</div>
   {$chCard}
   <div class="kp-card kp-bz__info"><h3>So wird gezählt</h3><details class="kp-info"><summary>Erklärung anzeigen</summary><p class="kp-hint">{$bzSeit}Gespeichert werden nur Tagessummen pro Seite und Quelle, ohne Cookies, ohne IP-Adresse und ohne Kennung. Neu laden, Zurück-Taste, Suchmaschinen-Bots und Vorschau-Dienste zählen nicht. Ein „Besuch“ ist ein Aufruf von außen (über einen Link, eine Suche oder einen QR-Code), Weiterklicken auf der Seite zählt nur als Seitenaufruf. Bei Kontaktaufnahmen zählt ein Klick auf WhatsApp, Telegram, Telefon oder E-Mail, auch wenn danach keine Nachricht kommt. „Direkt“ heißt: Adresse getippt, Lesezeichen oder aus einer App ohne Link-Kennung.</p></details>{$bzGeraet}</div>
 </div>
@@ -1067,11 +1337,12 @@ kp_page('Übersicht', <<<HTML
 {$tfHint}
 <nav class="kp-tiles kp-tiles--3" data-kp-tabs data-default="kunden" aria-label="Bereiche">
   <a class="kp-tile" href="#kunden" data-kp-tab="kunden"><span class="kp-tile__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8.5" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><path d="M15.5 5.2a3.5 3.5 0 0 1 0 6.6M18 14.8c1.9.7 3.1 2.4 3.5 5.2"/></svg></span><span class="kp-tile__txt"><b>Kunden {$kBadge}</b><small>{$kSub}</small></span></a>
-  <a class="kp-tile" href="#entwuerfe" data-kp-tab="entwuerfe"><span class="kp-tile__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></span><span class="kp-tile__txt"><b>Entwürfe {$ewBadge}</b><small>{$ewSub}</small></span></a>
+  <a class="kp-tile" href="#anfragen" data-kp-tab="anfragen"><span class="kp-tile__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></span><span class="kp-tile__txt"><b>Anfragen {$ewBadge}</b><small>{$ewSub}</small></span></a>
   <a class="kp-tile" href="#besucher" data-kp-tab="besucher"><span class="kp-tile__ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span><span class="kp-tile__txt"><b>Besucher</b><small>{$bzSub}</small></span></a>
 </nav>
 
 <section class="kp-panel" data-kp-panel="kunden">
+  {$kKpis}
   {$table}
   <details class="kp-card kp-konto" id="neu"{$neuOpen}>
     <summary><h2>+ Neuen Kunden anlegen</h2></summary>
@@ -1096,8 +1367,10 @@ kp_page('Übersicht', <<<HTML
   </details>
 </section>
 
-<section class="kp-panel" data-kp-panel="entwuerfe">
+<section class="kp-panel" data-kp-panel="anfragen">
+  <nav class="kp-filter" aria-label="Status">{$afPills}</nav>
   {$ewTable}
+  {$kostenCard}
 </section>
 
 <section class="kp-panel" data-kp-panel="besucher">
