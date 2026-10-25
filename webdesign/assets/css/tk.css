@@ -1078,6 +1078,9 @@ html:not(.anf-js) .anf__panel--rr { padding-bottom: 0; }
 .header__free { display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(255,90,31,.55); background: rgba(255,90,31,.08); color: var(--text); font-weight: 700; font-size: .9rem; text-decoration: none; white-space: nowrap; transition: background .2s, border-color .2s; }
 .header__free:hover { color: var(--text); background: rgba(255,90,31,.18); border-color: var(--hot); }
 .header__free i { display: inline-flex; align-items: center; height: 1.9em; padding: .14em .71em 0 .85em; box-sizing: border-box; line-height: 1; font-style: normal; font-family: var(--mono); font-size: .58rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; background: var(--hot); color: #0b0b0b; border-radius: 999px; }
+/* „gratis“-Kennzeichen bei „Vereine“ im Hauptmenü */
+.nav > a.nav__verein { display: inline-flex; align-items: center; gap: 7px; }
+.nav__verein i { display: inline-flex; align-items: center; height: 1.75em; padding: .12em .62em 0 .74em; box-sizing: border-box; line-height: 1; font-style: normal; font-family: var(--mono); font-size: .56rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--hot-2); background: var(--hot-dim); border: 1px solid rgba(255,90,31,.45); border-radius: 999px; }
 @media (min-width: 1101px) {
   .header { transition: background .35s, border-color .35s; }
   .header__inner { transition: height .35s cubic-bezier(.2,.7,.2,1), max-width .35s cubic-bezier(.2,.7,.2,1), margin .35s cubic-bezier(.2,.7,.2,1), padding .35s, background .35s, border-color .35s, box-shadow .35s; border: 1px solid transparent; border-radius: 999px; }
