@@ -91,7 +91,7 @@ def head(title, desc, url, og_title, og_desc, ld, extra_css=""):
   <link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/style.css?v=5d1d811a">
-  <link rel="stylesheet" href="/assets/css/tk.css?v=a9adff50">
+  <link rel="stylesheet" href="/assets/css/tk.css?v=8072ce6e">
   <link rel="stylesheet" href="/assets/css/entwurf.css?v=6fe37e4b">
   <link rel="stylesheet" href="/assets/css/gruender.css?v=02222399">
   <link rel="stylesheet" href="/assets/css/branchen.css?v={CSS_V}">
@@ -421,7 +421,7 @@ def uebersicht(alle):
             f'<span class="br-hub__p">{escape(b["karte"])}</span><span class="br-demo__go">Mehr dazu {PFEIL}</span></a></li>')
     karten_html = "\n      ".join(karten)
     also_karten = "\n      ".join([
-        also_karte("/verein/", "team", "Gratis", "Verein?", "Kostenlose Webseite für Vereine im Mostviertel"),
+        also_karte("/verein/", "team", "Gratis", "Verein?", "Kostenlose Webseite für Vereine in ganz Österreich"),
         also_karte("/gruender/", "rakete", "590&nbsp;€ fix", "Gerade gegründet?",
                    "Start-Paket mit Webseite, Google&#8209;Eintrag und Impressum"),
     ])
