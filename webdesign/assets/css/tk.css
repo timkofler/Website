@@ -1337,27 +1337,3 @@ html.tk-at-foot:not(.tk-menu-open) .header { opacity: 0; transform: translateY(-
 .form__check input:hover, .tk-calc__opt input:hover { border-color: rgba(255,90,31,.7); }
 .form__check input:checked, .tk-calc__opt input:checked { border-color: #ff5a1f; background-color: rgba(255,90,31,.14); box-shadow: 0 0 12px -2px rgba(255,90,31,.55); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff5a1f' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E"); }
 .form__check input:focus-visible, .tk-calc__opt input:focus-visible { outline: 2px solid #ff5a1f; outline-offset: 2px; }
-
-/* Bauplan-Linien bei „Leistungen“: Webseite und Handy als Strichzeichnung mit Maßlinien.
-   Ruhezustand = fertig gezeichnet. tk-extra.js setzt .is-armed (leer) und beim Hinscrollen .is-on (zeichnet sich auf). */
-.tk-plan { margin: 0 0 40px; }
-.tk-plan__svg { display: block; width: 100%; height: auto; }
-.tk-plan__mo { display: none; max-width: 320px; margin: 0 auto; }
-.tk-plan path, .tk-plan circle { stroke: rgba(244,244,240,.72); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
-.tk-plan .s { stroke: rgba(244,244,240,.9); stroke-width: 1.4; }
-.tk-plan .f { stroke: rgba(244,244,240,.32); }
-.tk-plan .h { stroke: var(--hot); stroke-width: 1.2; }
-.tk-plan text { font-family: var(--mono); letter-spacing: .08em; }
-.tk-plan .m { fill: var(--hot); font-size: 11px; }
-.tk-plan .n { fill: #6d6d6d; font-size: 11px; }
-.tk-plan.is-armed path, .tk-plan.is-armed circle { stroke-dasharray: 1; stroke-dashoffset: 1; }
-.tk-plan.is-armed text { opacity: 0; }
-.tk-plan.is-on path, .tk-plan.is-on circle { transition: stroke-dashoffset 1.1s cubic-bezier(.6,0,.2,1) calc(var(--i) * .16s); stroke-dashoffset: 0; }
-.tk-plan.is-on text { transition: opacity .5s ease 1.4s; opacity: 1; }
-@media (max-width: 760px) {
-  .tk-plan { margin-bottom: 28px; }
-  .tk-plan__pc { display: none; }
-  .tk-plan__mo { display: block; }
-  .tk-plan .m { font-size: 12px; }
-}
-@media (prefers-reduced-motion: reduce) { .tk-plan.is-armed path, .tk-plan.is-armed circle { stroke-dashoffset: 0; } .tk-plan.is-armed text { opacity: 1; } }

@@ -250,19 +250,3 @@
     }, 2200);
   }
 })();
-
-// Bauplan-Linien bei „Leistungen“: erst leer, beim Hinscrollen zeichnen sich Webseite, Handy und Maßlinien auf (einmal).
-(function () {
-  var plan = document.querySelector("[data-tk-plan]");
-  if (!plan || !("IntersectionObserver" in window) || (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)) return;
-  plan.classList.add("is-armed");
-  var io = new IntersectionObserver(function (es) {
-    if (!es[0].isIntersecting) return;
-    io.disconnect();
-    plan.getBoundingClientRect();
-    requestAnimationFrame(function () { plan.classList.add("is-on"); });
-    // danach Strichmuster weg, sonst bleibt an den Ecken geschlossener Formen eine kleine Lücke
-    setTimeout(function () { plan.classList.remove("is-armed", "is-on"); }, 3200);
-  }, { threshold: 0.35 });
-  io.observe(plan);
-})();
