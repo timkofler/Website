@@ -1,5 +1,6 @@
 // Tim Kofler – Karussell mit den Beispiel-Designs und Antwort-Assistent.
-// Ohne Bibliotheken, ohne Cookies, ohne Datenübertragung.
+// Ohne Bibliotheken und ohne Cookies. Nur eingetippte Fragen gehen an /api/chat.php (KI-Antwort über den eigenen Server),
+// die Themen-Knöpfe antworten direkt im Browser.
 (function () {
   function boot() {
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -367,7 +368,7 @@
     shop: { q: "Bestellen & Buchen?", a: "Ja, das geht: zum Beispiel ein Online-Shop mit Warenkorb, Kasse, Gutscheinen, Versandarten und Kundenkonto wie beim Hofladen Birnkammer, Online-Bestellung mit Abholung oder Lieferung wie bei der Pizzeria Proibito, Zimmer-Anfragen mit Belegungskalender wie bei der Pension Zirbenhof oder Terminbuchung in der eigenen App. Was genau du brauchst, besprechen wir, der Preis richtet sich nach dem Aufwand.", links: [["Beispiel-Onlineshop", "/beispiele/shop/"], "beispiele", "anfrage"] },
     sprache: { q: "Zweite Sprache?", a: "Ja, zum Beispiel Englisch für Gäste oder Kunden aus dem Ausland. Die Übersetzung lieferst du, oder wir besprechen sie. Im Angebots-Rechner kannst du die zweite Sprache dazunehmen.", links: ["rechner", "anfrage"] },
     google: { q: "Werde ich bei Google gefunden?", a: "Jede Seite bekommt saubere Grundlagen: schnelle Ladezeit, gute Titel und Beschreibungen, Sitemap, strukturierte Daten und die Anmeldung bei Google. Im Paket Business und im Gründer-Paket richte ich auch dein Google-Unternehmensprofil ein. Einen bestimmten Platz kann niemand seriös versprechen, aber die Basis stimmt.", links: ["pakete", "checkliste"] },
-    tracking: { q: "Datenschutz & Tracking?", a: "Deine Seite bekommt keine Analyse- oder Werbedienste, wenn du das nicht ausdrücklich willst. Schriften und Bilder liegen auf deinem eigenen Webspace, ohne Umweg über fremde Server. Auch dieser Assistent speichert und sendet nichts.", links: ["datenschutz"] },
+    tracking: { q: "Datenschutz & Tracking?", a: "Deine Seite bekommt keine Analyse- oder Werbedienste, wenn du das nicht ausdrücklich willst. Schriften und Bilder liegen auf deinem eigenen Webspace, ohne Umweg über fremde Server. Bei diesem Assistenten kommen die Themen-Antworten direkt aus der Seite; eingetippte Fragen beantwortet eine KI über meinen Server, gespeichert werden die Inhalte nicht.", links: ["datenschutz"] },
     baukasten: { q: "Warum kein Baukasten?", a: "Eine programmierte Seite lädt nur, was sie braucht. Sie ist schneller, sicherer, braucht keine Plugin-Updates und das Design gibt es so nur einmal. Meine eigene Seite crypto-x.at bekommt von Google Lighthouse 100 von 100 Punkten am Computer.", links: ["beispiele", "referenz"] },
     region: { q: "Nur in Niederösterreich?", a: "Ich arbeite für Kunden in ganz Österreich, nicht nur in Niederösterreich. Mein Büro ist in Oberndorf an der Melk. Besprochen wird per WhatsApp oder Telegram, Fotos und Texte lädst du im Kundenportal hoch. Ein Termin vor Ort ist nicht nötig.", links: ["anfrage", "whatsapp"] },
     ueber: { q: "Wer ist Tim?", a: "Ich bin Tim Kofler, Softwareentwickler aus Oberndorf an der Melk in Niederösterreich, und Perfektionist: Jede Seite programmiere ich selbst und prüfe sie am Handy, bevor sie online geht. Mein eigenes Projekt ist das CryptoX Dashboard auf crypto-x.at.", links: ["ueber", "referenz"] },
@@ -453,12 +454,12 @@
   box.setAttribute("role", "dialog");
   box.setAttribute("aria-label", "Antwort-Assistent");
   box.innerHTML =
-    '<div class="tk-chat__head"><img src="/assets/img/tk-badge-2.svg" alt=""><div><b>Fragen zur Webseite?</b><small>Antworten auf die häufigsten Fragen</small></div>' +
+    '<div class="tk-chat__head"><img src="/assets/img/tk-badge-2.svg" alt=""><div><b>Fragen zur Webseite?</b><small>Thema wählen oder Frage eintippen</small></div>' +
     '<button type="button" class="tk-chat__x" aria-label="Schließen">✕</button></div>' +
     '<div class="tk-chat__log" aria-live="polite"></div>' +
     '<div class="tk-chat__cw"><button type="button" class="tk-chat__arr tk-chat__arr--l" aria-label="Vorherige Themen" tabindex="-1">‹</button><div class="tk-chat__chips"></div><button type="button" class="tk-chat__arr tk-chat__arr--r" aria-label="Weitere Themen" tabindex="-1">›</button></div>' +
     '<a class="tk-chat__wabar" href="https://wa.me/4367761773118?text=Hallo%20Tim%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Webseite." target="_blank" rel="noopener"><img src="/assets/img/wa-badge.svg?v=c266c6f8" alt=""><span><b>Lieber direkt mit Tim schreiben?</b> Per WhatsApp</span><em aria-hidden="true">→</em></a>' +
-    '<form class="tk-chat__form"><label class="sr-only" for="tk-chat-in">Deine Frage</label><input id="tk-chat-in" type="text" maxlength="200" autocomplete="off" placeholder="Frage eintippen …"><button type="submit" aria-label="Senden">→</button></form>' +
+    '<form class="tk-chat__form"><label class="sr-only" for="tk-chat-in">Deine Frage</label><input id="tk-chat-in" type="text" maxlength="400" autocomplete="off" placeholder="Frage eintippen …"><button type="submit" aria-label="Senden">→</button></form>' +
     '<p class="tk-chat__note">Automatische Antworten, keine KI. Es wird nichts gespeichert oder gesendet.</p>';
   document.body.appendChild(btn);
   document.body.appendChild(box);
@@ -468,10 +469,21 @@
   var input = box.querySelector("input");
   var started = false;
 
-  function bubble(text, who, links) {
+  var hist = [];   // Verlauf für die KI: {r: "u"|"a", t: Text}, nur im Speicher dieser Seite
+  function remember(q, a) {
+    hist.push({ r: "u", t: q }, { r: "a", t: a });
+    if (hist.length > 12) hist = hist.slice(-12);
+  }
+  function bubble(text, who, links, ki) {
     var m = document.createElement("div");
-    m.className = "tk-msg tk-msg--" + who;
-    m.textContent = text;   // Eingaben nur als Text, nie als HTML
+    m.className = "tk-msg tk-msg--" + who + (ki ? " tk-msg--ki" : "");
+    m.textContent = text;   // Eingaben und KI-Antworten nur als Text, nie als HTML
+    if (ki) {
+      var tag = document.createElement("small");
+      tag.className = "tk-msg__tag";
+      tag.textContent = "KI-Antwort";
+      m.appendChild(tag);
+    }
     if (links && links.length) {
       var row = document.createElement("div");
       row.className = "tk-msg__links";
@@ -480,7 +492,7 @@
         var a = document.createElement("a");
         a.href = l[1];
         a.textContent = l[0];
-        if (/^https?:/.test(l[1])) { a.target = "_blank"; a.rel = k === "allinkl" ? "sponsored noopener" : "noopener"; }
+        if (/^https?:/.test(l[1])) { a.target = "_blank"; a.rel = /all-inkl\.com/.test(l[1]) ? "sponsored noopener" : "noopener"; }
         if (l[1].charAt(0) === "/") a.addEventListener("click", function () { close(); });
         row.appendChild(a);
       });
@@ -501,6 +513,7 @@
     var item = ANSWERS[key];
     bubble(asked || item.q, "me");
     botSay(item.a, item.links);
+    remember(asked || item.q, item.a);
   }
   function renderChips() {
     chips.textContent = "";
@@ -561,7 +574,8 @@
     if (!started) {
       started = true;
       renderChips();
-      botSay("Hallo! Ich beantworte die häufigsten Fragen zu Webseiten von Tim Kofler. Wähle ein Thema oder tipp deine Frage ein.");
+      botSay("Hallo! Wähle ein Thema oder stell deine Frage zu Webseite, Preisen und Ablauf.");
+      checkKi();
     }
     setTimeout(function () { input.focus(); }, 60);
   }
@@ -573,11 +587,29 @@
   btn.addEventListener("click", open);
   box.querySelector(".tk-chat__x").addEventListener("click", close);
   document.addEventListener("keydown", function (e) { if (e.key === "Escape" && box.classList.contains("is-open")) close(); });
-  box.querySelector("form").addEventListener("submit", function (e) {
-    e.preventDefault();
-    var text = input.value.trim();
-    if (!text) return;
-    input.value = "";
+  // Ist die KI am Server eingerichtet? Sonst antworten auch eingetippte Fragen mit den festen Antworten.
+  var ki = null, kiCheck = null, busy = false;
+  var note = box.querySelector(".tk-chat__note");
+  function setNote() {
+    note.textContent = "";
+    if (!ki) { note.textContent = "Automatische Antworten, keine KI. Es wird nichts gespeichert oder gesendet."; return; }
+    note.appendChild(document.createTextNode("Eingetippte Fragen beantwortet eine KI (Claude) mit den Infos dieser Seite. Bitte keine persönlichen Daten eingeben. "));
+    var a = document.createElement("a");
+    a.href = "/datenschutz/#ki";
+    a.textContent = "Datenschutz";
+    note.appendChild(a);
+  }
+  function checkKi() {
+    if (!kiCheck) {
+      kiCheck = fetch("/api/chat.php", { headers: { Accept: "application/json" }, cache: "no-store" })
+        .then(function (r) { return r.ok ? r.json() : {}; })
+        .then(function (d) { ki = !!(d && d.ki); }, function () { ki = false; })
+        .then(setNote);
+    }
+    return kiCheck;
+  }
+  // Feste Antwort per Schlagwort (ohne KI oder wenn sie gerade nicht antwortet)
+  function fixed(text) {
     var low = simpel(text), best = null, top = 0;
     for (var i = 0; i < KEYWORDS.length; i++) {
       var n = (low.match(KEYWORDS[i][1]) || []).length;
@@ -589,16 +621,55 @@
     if (best) {
       var links = ANSWERS[best].links;
       if (br) links = [brLink].concat(links.filter(function (k) { return k !== "beispiele"; })).slice(0, 4);
-      bubble(text, "me");
       botSay(ANSWERS[best].a, links);
+      remember(text, ANSWERS[best].a);
       return;
     }
-    bubble(text, "me");
     if (br) {
       botSay("Passend zu deiner Branche gibt es ein fertiges Beispiel zum Durchklicken: " + br[2] + ". Es ist ein erfundener Betrieb, deine Seite bekommt natürlich ein eigenes Design. Wie sie aussehen könnte, zeigt dir der Gratis-Entwurf.", [brLink, "gratis", "beispiele"]);
       return;
     }
     botSay("Das beantwortet Tim dir am besten persönlich. Schreib ihm kurz, am schnellsten per WhatsApp oder Telegram oder über das Formular.", ["whatsapp", "telegram", "anfrage", "mail"]);
+  }
+  function askKi(text) {
+    busy = true;
+    box.classList.add("is-busy");
+    var t = document.createElement("div");
+    t.className = "tk-typing";
+    t.innerHTML = "<span></span><span></span><span></span>";
+    log.appendChild(t);
+    log.scrollTop = log.scrollHeight;
+    var ctl = window.AbortController ? new AbortController() : null;
+    var timer = setTimeout(function () { if (ctl) ctl.abort(); }, 45000);
+    fetch("/api/chat.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ frage: text, verlauf: hist.slice(-8) }),
+      signal: ctl ? ctl.signal : undefined
+    }).then(function (r) { return r.json(); }).then(function (d) {
+      t.remove();
+      if (d && d.ok && d.text) {
+        bubble(d.text, "bot", d.links || [], true);
+        remember(text, d.text);
+      } else if (d && d.grund === "limit") {
+        bubble(d.text, "bot", ["whatsapp", "telegram", "anfrage"]);
+      } else {
+        if (d && d.grund === "aus") { ki = false; setNote(); }
+        fixed(text);
+      }
+    }).catch(function () { t.remove(); fixed(text); }).then(function () {
+      clearTimeout(timer);
+      busy = false;
+      box.classList.remove("is-busy");
+    });
+  }
+  box.querySelector("form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var text = input.value.trim();
+    if (!text || busy) return;
+    input.value = "";
+    bubble(text, "me");
+    checkKi().then(function () { if (ki) askKi(text); else fixed(text); });
   });
   }
   // Erst nach dem Laden der Seite einrichten, damit der Seitenaufbau nicht gebremst wird

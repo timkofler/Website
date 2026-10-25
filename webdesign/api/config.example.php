@@ -46,4 +46,17 @@ return [
     'upload_max_mb'    => 200,
     // Speicherplatz je Kunde in GB
     'kunde_max_gb'     => 10,
+
+    // ---------------- KI-Antworten im Chat ("Fragen?"-Knopf) ----------------
+    // API-Schlüssel von Anthropic: platform.claude.com → Settings → API Keys → "Create Key" (Name z. B. "tim-kofler.at Chat").
+    // Nur hier eintragen, nie im Repo oder in einer Mail. Leer = der Chat antwortet wie bisher nur mit festen Antworten.
+    'anthropic_api_key' => '',
+    // Modell. Claude Haiku 5.5 ist schnell und günstig (rund 0,1 Cent pro Frage).
+    // 'chat_model'      => 'claude-haiku-5-5',
+    // Grenzen: Fragen pro Besucher je Stunde und je Tag, und für alle Besucher zusammen pro Tag.
+    // 'chat_pro_stunde' => 15,
+    // 'chat_pro_tag'    => 40,
+    // 'chat_tageslimit' => 400,
+    // KI vorübergehend ausschalten, ohne den Schlüssel zu löschen:
+    // 'chat_aus'        => true,
 ];
