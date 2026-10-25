@@ -20,6 +20,7 @@ on:
     paths:
       - "webdesign/**"
       - ".github/workflows/deploy-tim-kofler.yml"
+      - ".github/scripts/beispiele-zaehler.py"
   workflow_dispatch:
 
 concurrency:
@@ -47,6 +48,13 @@ jobs:
       - name: Code holen
         if: steps.check.outputs.ready == 'true'
         uses: actions/checkout@v4
+
+      - name: Zahl der Beispiele automatisch angleichen
+        if: steps.check.outputs.ready == 'true'
+        # Zählt /beispiele/ und schreibt die richtige Zahl in Hinweis, Chat, Meta, llms.txt usw. (samt ?v=),
+        # damit online nie eine veraltete Zahl steht, auch wenn sie beim neuen Beispiel vergessen wurde.
+        continue-on-error: true
+        run: python3 .github/scripts/beispiele-zaehler.py --schreiben
 
       - name: lftp installieren
         if: steps.check.outputs.ready == 'true'

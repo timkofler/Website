@@ -207,8 +207,9 @@
   // Schwebender Hinweis auf die Beispielseiten (nicht auf den Beispielseiten selbst)
   if (/^\/beispiele\//.test(location.pathname)) return;
   try { if (sessionStorage.getItem("tk-float-zu") === "1") return; } catch (e) {}
-  // Zahl der Branchen-Beispiele: muss zu Startseite, /beispiele/ und llms.txt passen (prüft .github/scripts/beispiele-zaehler.py)
-  var ANZAHL = 19;
+  // Alle Beispiele der Übersicht (Webseiten + Web-Apps). Nicht von Hand pflegen: .github/scripts/beispiele-zaehler.py
+  // zählt die Links in /beispiele/ und setzt die Zahl beim Deploy automatisch.
+  var ANZAHL = 23;
   // Runde Ausschnitte aus den Videos/Fotos der Beispielseiten (Lizenzen siehe /bildnachweis/)
   var pics = ["dachdecker", "gasthaus", "pension", "friseur", "werkstatt", "baeckerei", "cafe", "fleischerei", "tischlerei", "maler", "massage", "bodenleger"];
   var a = document.createElement("a");
@@ -216,7 +217,7 @@
   a.href = "/beispiele/";
   a.innerHTML = '<span class="tk-float__pics">' + pics.map(function (p, i) {
     return '<img src="/assets/img/float/' + p + '.webp" alt="" width="46" height="46" loading="lazy"' + (i === 0 ? ' class="is-on"' : "") + ">";
-  }).join("") + '</span><span class="tk-float__txt"><b><i class="tk-float__l">' + ANZAHL + ' Beispielseiten</i><i class="tk-float__s">Beispiele</i> ansehen</b><span>Handwerk, Gasthaus, Pension und mehr</span></span>'
+  }).join("") + '</span><span class="tk-float__txt"><b><i class="tk-float__l">' + ANZAHL + ' Beispiele</i><i class="tk-float__s">Beispiele</i> ansehen</b><span>Webseiten und Web-Apps live testen</span></span>'
     + '<button class="tk-float__x" type="button" aria-label="Hinweis schließen">✕</button>';
   document.body.appendChild(a);
   a.querySelector(".tk-float__x").addEventListener("click", function (e) {
