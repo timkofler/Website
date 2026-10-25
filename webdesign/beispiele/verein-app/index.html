@@ -1,7 +1,7 @@
 <!doctype html><html lang="de-AT"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Vereinsverwaltung ohne Abo: Beispiel einer Vereins-App | Tim Kofler</title>
 <link rel="canonical" href="https://tim-kofler.at/beispiele/verein-app/">
-<meta name="description" content="Mitglieder, Beiträge mit QR-Zahlschein, Termine, Nachrichten und Kassabuch in einer Vereins-App in euren Farben. Einmal gebaut, ohne Abo. Mit Musterdaten.">
+<meta name="description" content="Mitglieder, Beiträge mit QR-Zahlschein, Termine, Umfragen und Kassabuch mit Belegen in einer Vereins-App in euren Farben. Einmal gebaut, ohne Abo.">
 <meta property="og:title" content="Vereinsverwaltung ohne Abo – Beispiel einer Vereins-App">
 <meta property="og:description" content="Mitglieder, Beiträge, Termine und Kassabuch in einer eigenen App für euren Verein. Einmal gebaut, ohne monatliches Abo.">
 <meta property="og:type" content="website">
@@ -19,8 +19,8 @@
 <link rel="apple-touch-icon" href="/assets/img/tk-badge-2-256.png">
 <link rel="preload" href="/beispiele/_shared/fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/beispiele/_shared/demo.css">
-<link rel="stylesheet" href="/beispiele/verein-app/style.css?v=27">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://tim-kofler.at/"},{"@type":"ListItem","position":2,"name":"Beispiele","item":"https://tim-kofler.at/beispiele/"},{"@type":"ListItem","position":3,"name":"Vereins-App","item":"https://tim-kofler.at/beispiele/verein-app/"}]},{"@type":"WebPage","@id":"https://tim-kofler.at/beispiele/verein-app/#seite","url":"https://tim-kofler.at/beispiele/verein-app/","name":"Vereinsverwaltung ohne Abo: Beispiel einer Vereins-App","description":"Mitglieder, Beiträge mit QR-Zahlschein, Termine mit Zusagen und Kassabuch in einer eigenen Vereins-App. Einmal gebaut, ohne monatliches Abo.","inLanguage":"de-AT","isPartOf":{"@id":"https://tim-kofler.at/#website"},"author":{"@id":"https://tim-kofler.at/#tim"}}]}</script>
+<link rel="stylesheet" href="/beispiele/verein-app/style.css?v=28">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://tim-kofler.at/"},{"@type":"ListItem","position":2,"name":"Beispiele","item":"https://tim-kofler.at/beispiele/"},{"@type":"ListItem","position":3,"name":"Vereins-App","item":"https://tim-kofler.at/beispiele/verein-app/"}]},{"@type":"WebPage","@id":"https://tim-kofler.at/beispiele/verein-app/#seite","url":"https://tim-kofler.at/beispiele/verein-app/","name":"Vereinsverwaltung ohne Abo: Beispiel einer Vereins-App","description":"Mitglieder, Beiträge mit QR-Zahlschein, Termine mit Zusagen, Umfragen und Kassabuch mit Belegen per Foto in einer eigenen Vereins-App. Einmal gebaut, ohne monatliches Abo.","inLanguage":"de-AT","isPartOf":{"@id":"https://tim-kofler.at/#website"},"author":{"@id":"https://tim-kofler.at/#tim"}}]}</script>
 </head>
 <body>
 <div class="tk-demo-bar"><a href="/"><img src="/beispiele/_shared/tk-logo-2.svg" alt="" width="34" height="17"><span>tim-kofler.at</span></a>
@@ -48,6 +48,9 @@
   <symbol id="i-note" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5.5l11-2.5v12.5"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="15.5" r="2.5"/></symbol>
   <symbol id="i-ball" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m12 7.5 4.3 3.1-1.6 5h-5.4l-1.6-5zM12 3v4.5M20.6 9.3l-4.3 1.3M17.3 19.3l-2.6-3.7M6.7 19.3l2.6-3.7M3.4 9.3l4.3 1.3"/></symbol>
   <symbol id="i-mask" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5c3 1.3 6 1.3 9 0 3 1.3 6 1.3 9 0v6c0 5-4 9-9 9s-9-4-9-9z"/><path d="M7.5 10.5h2M14.5 10.5h2M9 15c1.8 1.4 4.2 1.4 6 0"/></symbol>
+  <symbol id="i-poll" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16M7 16.5V11M12 16.5V5M17 16.5v-8"/></symbol>
+  <symbol id="i-cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5A2 2 0 0 1 5.5 6.5h2l1.6-2.5h5.8l1.6 2.5h2a2 2 0 0 1 2 2V18a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/></symbol>
   <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 0 1-11.8 7L4 20l1.1-3.9A8 8 0 1 1 20 12z"/></symbol>
   <symbol id="i-sheet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 9h16M4 15h16M10 3v18"/></symbol>
   <symbol id="i-qr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="6" height="6" rx="1"/><rect x="14.5" y="3.5" width="6" height="6" rx="1"/><rect x="3.5" y="14.5" width="6" height="6" rx="1"/><path d="M14.5 14.5h2.5v2.5M20.5 14.5v.01M17 20.5h3.5V18M14.5 20.5v.01"/></symbol>
@@ -144,6 +147,7 @@
                   </div>
                   <div class="ask" data-m-help></div>
                   <div class="evs" data-m-evs></div>
+                  <button class="abtn ghost ics" type="button" data-m-ics><svg><use href="#i-cal"/></svg>Termine in meinen Kalender</button>
                   <p class="note">Musterdaten · nichts wird gesendet</p>
                 </div>
                 <!-- Beitrag -->
@@ -260,17 +264,24 @@
                     <label><span>Uhrzeit</span><input type="time" data-ev-h value="19:30" required></label>
                     <button class="dbtn" type="submit"><svg><use href="#i-plus"/></svg>Anlegen</button>
                   </div>
-                  <p class="hint2">Erscheint sofort in der App der Mitglieder, mit Zu- und Absage.</p>
+                  <p class="hint2">Erscheint sofort in der App der Mitglieder, mit Zu- und Absage, Kommentaren und im Handy-Kalender aller, die den Kalender-Link haben.</p>
                 </form>
               </div>
               <!-- Nachrichten -->
               <div class="dp" data-dp="nachrichten" role="tabpanel" aria-label="Nachrichten">
                 <div class="msgs">
                   <form class="box mform" data-n-form>
-                    <h4>Neue Nachricht</h4>
+                    <div class="mform__hd"><h4 data-n-h>Neue Nachricht</h4><div class="seg" role="group" aria-label="Art" data-n-kind><button type="button" data-k="msg" aria-pressed="true"><svg><use href="#i-mail"/></svg>Nachricht</button><button type="button" data-k="poll" aria-pressed="false"><svg><use href="#i-poll"/></svg>Umfrage</button></div></div>
                     <label><span>An</span><select data-n-to></select></label>
-                    <label><span>Betreff</span><input data-n-t maxlength="60" placeholder="z. B. Einladung zur Generalversammlung" required></label>
-                    <label><span>Nachricht</span><textarea data-n-x maxlength="400" placeholder="Kurz und freundlich, erscheint in der App auf der Pinnwand." required></textarea></label>
+                    <label><span data-n-tl>Betreff</span><input data-n-t maxlength="60" placeholder="z. B. Einladung zur Generalversammlung" required></label>
+                    <label data-n-xl><span>Nachricht</span><textarea data-n-x maxlength="400" placeholder="Kurz und freundlich, erscheint in der App auf der Pinnwand." required></textarea></label>
+                    <div class="pollf" data-n-poll hidden>
+                      <span>Antworten</span>
+                      <input data-n-o maxlength="40" placeholder="Antwort 1" aria-label="Antwort 1">
+                      <input data-n-o maxlength="40" placeholder="Antwort 2" aria-label="Antwort 2">
+                      <input data-n-o maxlength="40" placeholder="Antwort 3 (wenn nötig)" aria-label="Antwort 3">
+                      <label class="chk2"><input type="checkbox" data-n-anon checked><span>Anonym abstimmen, der Vorstand sieht nur die Zahlen</span></label>
+                    </div>
                     <label class="chk2"><input type="checkbox" data-n-mail checked><span>Zusätzlich per E-Mail, von der Vereinsadresse</span></label>
                     <p class="mform__n" data-n-cnt></p>
                     <button class="dbtn fill" type="submit" data-n-go><span class="fill__t">Nachricht senden</span></button>
@@ -308,8 +319,10 @@
                     <label class="addc__t"><span>Buchung</span><input data-c-t maxlength="40" placeholder="z. B. Getränke für das Sommerfest" required></label>
                     <label class="addc__a"><span>Betrag €</span><input data-c-a inputmode="decimal" placeholder="0,00" required></label>
                     <div class="addc__io" role="group" aria-label="Art der Buchung"><button type="button" data-io="in" aria-pressed="false">Einnahme</button><button type="button" data-io="out" aria-pressed="true">Ausgabe</button></div>
+                    <label class="dbtn ghost addc__b" data-c-bl><input type="file" accept="image/*" data-c-file><svg><use href="#i-cam"/></svg><span data-c-bt>Beleg</span></label>
                     <button class="dbtn" type="submit"><svg><use href="#i-plus"/></svg>Buchen</button>
                   </form>
+                  <input type="file" accept="image/*" data-c-later hidden>
                   <div class="tbl tbl--c" tabindex="0" aria-label="Buchungen"><table><thead><tr><th>Datum</th><th>Buchung</th><th>Bereich</th><th class="r">Betrag</th></tr></thead><tbody data-c-rows></tbody></table></div>
                   <div class="row2"><button class="dbtn sm" type="button" data-csv-c><svg><use href="#i-dl"/></svg>Kassabuch als CSV</button><button class="dbtn sm ghost" type="button" data-report><svg><use href="#i-shield"/></svg>Bericht für die Rechnungsprüfer</button></div>
                   <div class="report" data-report-box hidden></div>
@@ -360,6 +373,7 @@
               </div>
             </div>
             <div class="mcard" data-mcard hidden role="dialog" aria-modal="false" aria-label="Karteikarte"></div>
+            <div class="mcard bview" data-bview hidden role="dialog" aria-modal="false" aria-label="Beleg"></div>
             <div class="lgn" data-login>
               <div class="lgn__card">
                 <div class="lgn__hd"><span class="lg" data-v-logo>MV</span><span><b data-v-name>Musikverein Lindenau</b><small>Vorstand anmelden</small></span></div>
@@ -407,6 +421,21 @@
       <article class="f" data-reveal style="--d:.15s"><i><svg><use href="#i-file"/></svg></i><h3>Pinnwand und Dokumente</h3><p>Neuigkeiten, Statuten, Protokolle und Probenpläne an einem Ort. Niemand muss mehr fragen, wo die aktuelle Version liegt.</p></article>
       <article class="f" data-reveal><i><svg><use href="#i-star"/></svg></i><h3>Jubiläen und Ehrungen</h3><p>Wer heuer 10, 25 oder 40 Jahre dabei ist, zeigt die App von selbst. Die Ehrungsliste für die Generalversammlung ist mit einem Klick fertig.</p></article>
       <article class="f" data-reveal style="--d:.05s"><i><svg><use href="#i-key"/></svg></i><h3>Karteikarte pro Mitglied</h3><p>Mitgliedschaft, Beitrag, Erinnerungen, Anwesenheit und Helferdienste eines Mitglieds auf einen Blick, ohne in fünf Listen zu suchen.</p></article>
+      <article class="f" data-reveal style="--d:.1s"><i><svg><use href="#i-poll"/></svg></i><h3>Umfragen</h3><p>Ausflugsziel, Termin für die Weihnachtsfeier oder neue Dressen: Mitglieder stimmen mit einem Tipp ab, auf Wunsch anonym. Das Ergebnis steht sofort da.</p></article>
+      <article class="f" data-reveal style="--d:.15s"><i><svg><use href="#i-cal"/></svg></i><h3>Termine im Handy-Kalender</h3><p>Einmal den Kalender-Link antippen, dann stehen alle Vereinstermine im eigenen Kalender, und neue kommen von selbst dazu.</p></article>
+      <article class="f" data-reveal><i><svg><use href="#i-cam"/></svg></i><h3>Belege per Foto</h3><p>Rechnung abfotografieren und gleich mit der Buchung speichern. Die Rechnungsprüfer sehen jeden Beleg und welche noch fehlen.</p></article>
+      <article class="f" data-reveal style="--d:.05s"><i><svg><use href="#i-chat"/></svg></i><h3>Kommentare statt Gruppenchat</h3><p>„Ich bring den Grill mit“ steht direkt beim Fest und nicht irgendwo in der WhatsApp-Gruppe zwischen hundert anderen Nachrichten.</p></article>
+    </div>
+    <div class="flist" data-reveal>
+      <h3 class="flist__t">Alle Funktionen auf einen Blick</h3>
+      <div class="flist__g">
+        <div><h4><svg><use href="#i-users"/></svg>Mitglieder</h4><ul><li><svg><use href="#i-check"/></svg>Mitgliederliste mit Suche und Filtern</li><li><svg><use href="#i-check"/></svg>Register, Sektionen oder Gruppen</li><li><svg><use href="#i-check"/></svg>Karteikarte pro Mitglied</li><li><svg><use href="#i-check"/></svg>Beitritt online mit Formular</li><li><svg><use href="#i-check"/></svg>Jubiläen und Ehrungsliste</li><li><svg><use href="#i-check"/></svg>Liste als Excel-Datei</li></ul></div>
+        <div><h4><svg><use href="#i-euro"/></svg>Beiträge und Kassa</h4><ul><li><svg><use href="#i-check"/></svg>QR-Zahlschein für jedes Mitglied</li><li><svg><use href="#i-check"/></svg>Offene Beiträge auf einen Blick</li><li><svg><use href="#i-check"/></svg>Zahlschein und Erinnerung per E-Mail</li><li><svg><use href="#i-check"/></svg>Kassabuch nach Bereichen</li><li><svg><use href="#i-check"/></svg>Belege per Foto</li><li><svg><use href="#i-check"/></svg>Bericht für die Rechnungsprüfer</li></ul></div>
+        <div><h4><svg><use href="#i-cal"/></svg>Termine und Vereinsleben</h4><ul><li><svg><use href="#i-check"/></svg>Termine mit Zu- und Absage</li><li><svg><use href="#i-check"/></svg>Wochenübersicht für den Vorstand</li><li><svg><use href="#i-check"/></svg>Termine im Handy-Kalender</li><li><svg><use href="#i-check"/></svg>Erinnerung einen Tag vorher</li><li><svg><use href="#i-check"/></svg>Anwesenheit mit Jahresstatistik</li><li><svg><use href="#i-check"/></svg>Helfer-Einteilung fürs Fest</li></ul></div>
+        <div><h4><svg><use href="#i-chat"/></svg>Kommunikation</h4><ul><li><svg><use href="#i-check"/></svg>Nachrichten an alle oder an Gruppen</li><li><svg><use href="#i-check"/></svg>Pinnwand und Dokumente</li><li><svg><use href="#i-check"/></svg>Umfragen, auf Wunsch anonym</li><li><svg><use href="#i-check"/></svg>Kommentare bei Terminen und Nachrichten</li><li><svg><use href="#i-check"/></svg>Sehen, wie viele gelesen haben</li><li><svg><use href="#i-check"/></svg>Zusätzlich per E-Mail</li></ul></div>
+        <div><h4><svg><use href="#i-shield"/></svg>Sicherheit und Aussehen</h4><ul><li><svg><use href="#i-check"/></svg>Anmeldung mit Code aus der Authenticator-App</li><li><svg><use href="#i-check"/></svg>Jeder sieht nur, was er braucht</li><li><svg><use href="#i-check"/></svg>Daten auf eurem Webspace in der EU</li><li><svg><use href="#i-check"/></svg>Vereinsfarbe, Logo und Name</li><li><svg><use href="#i-check"/></svg>Hell- und Dunkelansicht</li><li><svg><use href="#i-check"/></svg>Ohne Werbung und ohne Tracking</li></ul></div>
+      </div>
+      <p class="flist__n">Bewusst nicht dabei: eigener Chat (die WhatsApp-Gruppe bleibt sowieso), Bankverbindung in Echtzeit und Inventar. Braucht euer Verein etwas davon oder etwas ganz anderes, kommt es dazu.</p>
     </div>
   </div>
 </section>
@@ -416,13 +445,14 @@
   <div class="wrap calc__in">
     <div class="sec__head" data-reveal>
       <span class="kick"><i></i>Was ein Abo kostet</span>
-      <h2>Jeden Monat zahlen <span class="grad">oder einmal?</span></h2>
-      <p>Vereinssoftware im Abo kostet je nach Anbieter und Mitgliederzahl meist zwischen 10 und 50 € im Monat. Über die Jahre kommt da einiges zusammen, Geld, das der Verein lieber für Noten, Trikots oder das nächste Fest ausgibt.</p>
+      <h2>Jedes Jahr zahlen <span class="grad">oder einmal?</span></h2>
+      <p>Bekannte Vereinsprogramme kosten im Abo je nach Paket etwa 150, 240 oder 600 € im Jahr, Jahr für Jahr. Rabatte gelten oft nur am Anfang. Über die Jahre kommt da einiges zusammen, Geld, das der Verein lieber für Noten, Trikots oder das nächste Fest ausgibt.</p>
     </div>
     <div class="calc__card" data-reveal>
-      <label class="calc__f"><span>Abo pro Monat <b class="num" data-calc-mo>25 €</b></span><input type="range" min="10" max="50" step="1" value="25" data-calc-m></label>
+      <div class="seg calc__pre" role="group" aria-label="Typische Abo-Pakete" data-calc-pre><button type="button" data-p="149" aria-pressed="false">Klein · 149 €</button><button type="button" data-p="239" aria-pressed="true">Mittel · 239 €</button><button type="button" data-p="599" aria-pressed="false">Groß · 599 €</button></div>
+      <label class="calc__f"><span>Abo pro Jahr <b class="num" data-calc-mo>239 €</b></span><input type="range" min="100" max="600" step="1" value="239" data-calc-m></label>
       <label class="calc__f"><span>Zeitraum <b class="num" data-calc-yo>5 Jahre</b></span><input type="range" min="1" max="10" step="1" value="5" data-calc-y></label>
-      <div class="calc__res"><small>So viel zahlt ihr im Abo</small><b class="num" data-calc-sum>1.500 €</b></div>
+      <div class="calc__res"><small>So viel zahlt ihr im Abo</small><b class="num" data-calc-sum>1.195 €</b></div>
       <p class="calc__note"><svg><use href="#i-check"/></svg><span>Eigene Vereins-App: <b>einmal bezahlt</b>, Fixpreis nach einem kurzen Gespräch. Laufend nur euer Webspace, meist 5 bis 10 € im Monat, und darauf läuft auch gleich eure Vereinsseite.</span></p>
     </div>
   </div>
@@ -480,5 +510,5 @@
 <script src="/beispiele/_shared/demo.js?v=29766291" defer></script>
 <script src="/beispiele/_shared/vendor/qrcode-generator-2.0.4/qrcode.js" defer></script>
 <script src="/assets/js/tk-qr.js?v=1" defer></script>
-<script src="/beispiele/verein-app/app.js?v=18" defer></script>
+<script src="/beispiele/verein-app/app.js?v=19" defer></script>
 </body></html>
