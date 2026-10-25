@@ -38,6 +38,8 @@
     pay_h: "Pay with", pay_inv: "Invoice", pay_cash: "Cash on pick-up",
     a_kick: "For the business", a_h: "How the farm runs its shop", a_sub: "Change prices and stock here: the shop above updates instantly. Orders from the checkout appear in the list straight away.",
     a_orders: "Orders", a_csv: "CSV for accounting", a_stock: "Products & stock", a_edit: "tap to edit", a_ifc: "Connected:",
+    h_kick: "The farm in 3D", h_h: "Everything at a glance, as if from above", h_sub: "Each building stands for one part of the shop. Tap one to see stock, revenue and what needs doing.",
+    h_2d: "Overview", h_hint: "Drag to turn · tap a building", h_demo: "Send a test order",
     i1: "Post shipping labels", i2: "Till in the farm shop", i3: "Accounting (CSV, BMD)", i4: "Newsletter", i5: "Google Shopping", i6: "Stock synced with the till",
     f_addr: "Eder family · Hofweg 7 · 3251 Musterdorf · Mostviertel", f_demo: "Fictional farm shop, all data are examples. No orders are accepted and no payments are made.",
     f_ship: "Shipping & payment", f_agb: "Terms", f_wr: "Withdrawal", f_imp: "Imprint", f_tk: "Shop by Tim Kofler – Webdesign",
@@ -86,6 +88,12 @@
       stock: "Stück", stockOut: "ausverkauft", stockLow: "knapp", stockDig: "digital, unbegrenzt", price: "Preis", st: { neu: "Neu", pack: "Verpacken", go: "Unterwegs", done: "Erledigt" }, stTip: "Status weiterschalten",
       csvOk: "CSV-Datei mit allen Bestellungen geladen.", saved: "Gespeichert, der Shop zeigt den neuen Wert.", loggedIn: "Angemeldet als Anna Muster.", loggedOut: "Abgemeldet.",
       t_addr: "Im echten Shop änderst du hier deine Adresse.", vidToast: "Im echten Shop startet hier der Video-Kurs.", pdfOk: "PDF wurde erstellt.",
+      hof: { laden: "Hofladen", keller: "Mostkeller", presse: "Saftpresse", brennerei: "Brennerei", bienen: "Bienenstand", garten: "Streuobstwiese", versand: "Versand" },
+      hofS: { laden: "Bestellungen und Umsatz", keller: "Most und Frizzante", presse: "Säfte und Sirup", brennerei: "Edelbrände", bienen: "Honig und Aufstriche", garten: "Kletzen, Chips, Essig", versand: "Packen und Ausliefern" },
+      hToday: "heute", hOpen: "offen", hPcs: "Stk", hStock: "Auf Lager", hSold: "Verkauft", hRev: "Umsatz", hWeek: "Umsatz Woche", hOrders: "Bestellungen heute",
+      hPack: "Zu verpacken", hGo: "Unterwegs", hLast: "Letzte Bestellungen", hRefill: function (n) { return "+" + n + " nachfüllen"; }, hRefilled: function (p) { return p + " nachgefüllt."; },
+      hToStock: "Im Lager bearbeiten", hNext: { neu: "Packen", pack: "In den Wagen", go: "Ist zugestellt" }, hNone: "Alles verpackt, nichts offen.", hWarnOut: "ausverkauft", hWarnLow: "fast leer",
+      hNew: function (n, w) { return "Neue Bestellung " + n + " über " + w; }, hLastT: function (n, w, t) { return "Zuletzt: " + n + " · " + w + " · " + t; }, hNames: ["Lena Huber", "Familie Gruber", "Café Mostblick", "Josef Wagner", "Sabine Leitner", "Gasthof Zur Linde"],
       legal: {
         agb: ["AGB (Muster)", "<p><b>Beispieltext.</b> Im echten Shop stehen hier die Allgemeinen Geschäftsbedingungen des Hofs: Vertragspartner, Preise inkl. MwSt., Lieferung, Zahlung, Eigentumsvorbehalt, Gewährleistung und Streitbeilegung.</p><p>Den Text stimmt der Betrieb mit seiner Rechtsberatung oder der Wirtschaftskammer ab. Wir bauen ihn sauber ein und verlinken ihn an allen Stellen, an denen das Gesetz es verlangt.</p>"],
         wr: ["Widerrufsbelehrung (Muster)", "<p><b>Beispieltext.</b> Verbraucher können Bestellungen innerhalb von 14 Tagen ohne Angabe von Gründen widerrufen. Ausgenommen sind schnell verderbliche Waren und versiegelte Getränke nach dem Öffnen.</p><p>Bei Downloads erlischt das Widerrufsrecht, wenn der Kunde zustimmt, dass der Download sofort beginnt. Deshalb fragt die Kasse das extra ab.</p>"],
@@ -119,6 +127,12 @@
       stock: "pcs", stockOut: "sold out", stockLow: "low", stockDig: "digital, unlimited", price: "Price", st: { neu: "New", pack: "Pack", go: "On the way", done: "Done" }, stTip: "Next status",
       csvOk: "CSV file with all orders downloaded.", saved: "Saved, the shop shows the new value.", loggedIn: "Signed in as Anna Muster.", loggedOut: "Signed out.",
       t_addr: "In a real shop you change your address here.", vidToast: "In a real shop the video course starts here.", pdfOk: "PDF created.",
+      hof: { laden: "Farm shop", keller: "Perry cellar", presse: "Juice press", brennerei: "Distillery", bienen: "Beehives", garten: "Orchard", versand: "Shipping" },
+      hofS: { laden: "Orders and revenue", keller: "Perry and sparkling", presse: "Juices and syrup", brennerei: "Fruit brandies", bienen: "Honey and spreads", garten: "Dried pears, chips, vinegar", versand: "Packing and delivery" },
+      hToday: "today", hOpen: "open", hPcs: "pcs", hStock: "In stock", hSold: "Sold", hRev: "Revenue", hWeek: "Revenue this week", hOrders: "Orders today",
+      hPack: "To pack", hGo: "On the way", hLast: "Latest orders", hRefill: function (n) { return "Restock +" + n; }, hRefilled: function (p) { return p + " restocked."; },
+      hToStock: "Edit in stock list", hNext: { neu: "Pack", pack: "Into the van", go: "Mark delivered" }, hNone: "All packed, nothing open.", hWarnOut: "sold out", hWarnLow: "almost empty",
+      hNew: function (n, w) { return "New order " + n + " for " + w; }, hLastT: function (n, w, t) { return "Latest: " + n + " · " + w + " · " + t; },
       legal: {
         agb: ["Terms (sample)", "<p><b>Sample text.</b> A real shop shows the farm’s terms and conditions here: contracting party, prices incl. VAT, delivery, payment, retention of title, warranty and dispute resolution.</p>"],
         wr: ["Cancellation policy (sample)", "<p><b>Sample text.</b> Consumers can cancel orders within 14 days without giving reasons. Perishable goods and opened sealed drinks are excluded.</p><p>For downloads the right of withdrawal ends once the customer agrees that the download starts immediately, which is why the checkout asks separately.</p>"],
@@ -782,7 +796,7 @@
     if (a.konto.checked) logged = true;
     var mail = a.mail.value.trim();
     cart = []; code = ""; save();
-    dCo.close(); renderAll();
+    dCo.close(); renderAll(); hofOrder(o);
     $("#okNr").textContent = nr;
     var s = t.phys ? (ui.ship === "hof" ? X("okHof")(ui.slot) : X("okShip")) : "";
     $("#okTxt").textContent = X("okTxt")(mail, s);
@@ -977,6 +991,7 @@
         '<label><span>€</span><input type="number" min="0.5" step="0.1" value="' + v.p.toFixed(2) + '" data-price="' + p.id + '" aria-label="' + X("price") + " " + esc(L(p.n)) + '"></label>' +
         (dig ? '<span class="muted" style="font-size:12px;text-align:center">∞</span>' : '<label class="is-stk"><span>Stk</span><input type="number" min="0" max="999" step="1" value="' + p.stock + '" data-stock="' + p.id + '" aria-label="' + X("stock") + " " + esc(L(p.n)) + '"></label>') + "</div>";
     }).join("");
+    renderHof();
   }
   $("#ordList").addEventListener("click", function (e) {
     var b = e.target.closest("[data-st]"); if (!b) return;
@@ -998,6 +1013,126 @@
     var a = document.createElement("a"); a.href = url; a.download = "birnkammer-bestellungen.csv"; document.body.appendChild(a); a.click(); a.remove();
     setTimeout(function () { URL.revokeObjectURL(url); }, 4000); toast(X("csvOk"));
   });
+
+  /* ---------- Der Hof in 3D ---------- */
+  // Jedes Gebäude im 3D-Hof (hof3d.js) steht für eine Kategorie oder eine Aufgabe. Diese Datei rechnet die Zahlen
+  // und zeichnet Infokarte, Stecknadeln und die 2D-Übersicht; hof3d.js zeichnet nur die Szene. Verbunden über Ereignisse:
+  // "bk:hof" (Shop → Szene: Auswahl, Zustand, neue Bestellung) und "bk:pick" (Szene → Shop: Gebäude angetippt).
+  var HOF = [
+    { id: "laden", ic: "i-hof" }, { id: "keller", ic: "i-fass", cats: ["most"] }, { id: "presse", ic: "i-presse", cats: ["saft"] },
+    { id: "brennerei", ic: "i-flamme", cats: ["brand"] }, { id: "bienen", ic: "i-biene", cats: ["suess"] }, { id: "garten", ic: "i-baum", cats: ["fein"] },
+    { id: "versand", ic: "i-lkw" }
+  ];
+  var hofSel = "laden", hofView = "3d";
+  function hofEmit(d) { window.BKhof = window.BKhof || {}; if (d.type === "state") window.BKhof.state = d; if (d.type === "sel") window.BKhof.sel = d.id; document.dispatchEvent(new CustomEvent("bk:hof", { detail: d })); }
+  function itemPrice(it) { var p = byId[it[0]]; if (!p) return 0; var v = variant(p, it[1]); return (v ? v.p : p.v[0].p) * it[2]; }
+  function hofData(st) {
+    var d = { warn: "" };
+    if (st.cats) {
+      var ps = P.filter(function (p) { return st.cats.indexOf(p.cat) >= 0; }), ids = ps.map(function (p) { return p.id; });
+      d.ps = ps; d.stock = ps.reduce(function (a, p) { return a + Math.max(0, p.stock); }, 0); d.sold = 0; d.rev = 0;
+      orders.forEach(function (o) { o.items.forEach(function (it) { if (ids.indexOf(it[0]) >= 0) { d.sold += it[2]; d.rev += itemPrice(it); } }); });
+      d.warn = ps.some(function (p) { return p.stock === 0; }) ? "bad" : ps.some(function (p) { return p.stock > 0 && p.stock <= 5; }) ? "warn" : "";
+      d.pin = d.stock + " " + X("hPcs");
+    } else if (st.id === "laden") {
+      var td = new Date().toDateString();
+      d.today = orders.filter(function (o) { return new Date(o.t).toDateString() === td; }).length + 9;
+      d.week = 1284.6 + orders.filter(function (o) { return o.fresh; }).reduce(function (a, o) { return a + o.total; }, 0);
+      d.pin = d.today + " " + X("hToday");
+    } else {
+      d.pack = orders.filter(function (o) { return o.st === "neu" || o.st === "pack"; }); d.go = orders.filter(function (o) { return o.st === "go"; });
+      d.warn = d.pack.length ? "warn" : ""; d.pin = d.pack.length + " " + X("hOpen");
+    }
+    return d;
+  }
+  function hofStat(lbl, val) { return '<div class="hs"><p>' + lbl + "</p><b>" + val + "</b></div>"; }
+  function hofOrdRow(o, btn) {
+    var stl = X("st");
+    return '<li><span class="ord__nr">' + esc(o.nr.slice(-4)) + '</span><span class="hof__on">' + esc(o.name) + "</span><b>" + fmt(o.total) + "</b>" +
+      (btn ? '<button type="button" class="st st--' + esc(o.st) + '" data-hofst="' + esc(o.nr) + '">' + esc(X("hNext")[o.st]) + "</button>" : '<span class="st st--' + esc(o.st) + '">' + esc(stl[o.st]) + "</span>") + "</li>";
+  }
+  function renderHof() {
+    var box = $("#hofInfo"); if (!box) return;
+    var all = HOF.map(function (st) { return { st: st, d: hofData(st) }; }), warn = {};
+    all.forEach(function (x) { warn[x.st.id] = x.d.warn; });
+    var name = X("hof"), sub = X("hofS");
+    $("#hofPins").innerHTML = all.map(function (x) {
+      var id = x.st.id;
+      return '<button type="button" class="pin' + (id === hofSel ? " is-on" : "") + (x.d.warn ? " is-" + x.d.warn : "") + '" data-hof="' + id + '" aria-pressed="' + (id === hofSel) + '"><svg aria-hidden="true"><use href="#' + x.st.ic + '"/></svg><span class="pin__t"><span class="pin__n">' + esc(name[id]) + "</span><small>" + esc(x.d.pin) + "</small></span></button>";
+    }).join("");
+    $("#hofTiles").innerHTML = all.map(function (x) {
+      var id = x.st.id;
+      return '<button type="button" class="tile' + (id === hofSel ? " is-on" : "") + (x.d.warn ? " is-" + x.d.warn : "") + '" data-hof="' + id + '" aria-pressed="' + (id === hofSel) + '"><svg aria-hidden="true"><use href="#' + x.st.ic + '"/></svg><span class="tile__n">' + esc(name[id]) + "</span><b>" + esc(x.d.pin) + "</b></button>";
+    }).join("");
+    var cur = all.filter(function (x) { return x.st.id === hofSel; })[0], st = cur.st, d = cur.d, h = "";
+    h += '<div class="hof__ih"><span class="hof__ic"><svg aria-hidden="true"><use href="#' + st.ic + '"/></svg></span><div><h4>' + esc(name[st.id]) + '</h4><p class="muted">' + esc(sub[st.id]) + "</p></div></div>";
+    if (st.cats) {
+      h += '<div class="hof__stats">' + hofStat(X("hStock"), d.stock + " " + X("hPcs")) + hofStat(X("hSold"), d.sold) + hofStat(X("hRev"), fmt(d.rev)) + "</div>";
+      h += '<ul class="hof__ps">' + d.ps.map(function (p) {
+        var w = Math.min(100, Math.round(p.stock / 60 * 100)), cls = p.stock === 0 ? "is-bad" : p.stock <= 5 ? "is-warn" : "";
+        var tag = p.stock === 0 ? X("hWarnOut") : p.stock <= 5 ? X("hWarnLow") : p.stock + " " + X("hPcs");
+        return '<li class="' + cls + '"><span class="hof__pn">' + esc(L(p.n)) + '</span><span class="hof__pv">' + esc(tag) + '</span><i class="hof__lv"><i style="width:' + Math.max(w, p.stock ? 4 : 0) + '%"></i></i>' +
+          (p.stock <= 5 ? '<button type="button" class="lnk hof__fill" data-refill="' + p.id + '">' + esc(X("hRefill")(24)) + "</button>" : "") + "</li>";
+      }).join("") + "</ul>";
+      h += '<button type="button" class="lnk" id="hofToStock"><svg aria-hidden="true"><use href="#i-stift"/></svg><span>' + esc(X("hToStock")) + "</span></button>";
+    } else if (st.id === "laden") {
+      h += '<div class="hof__stats hof__stats--2">' + hofStat(X("hOrders"), d.today) + hofStat(X("hWeek"), fmt(d.week)) + "</div>";
+      h += '<p class="hof__lh">' + esc(X("hLast")) + '</p><ul class="hof__ol">' + orders.slice(0, 4).map(function (o) { return hofOrdRow(o, false); }).join("") + "</ul>";
+    } else {
+      h += '<div class="hof__stats hof__stats--2">' + hofStat(X("hPack"), d.pack.length) + hofStat(X("hGo"), d.go.length) + "</div>";
+      var todo = d.pack.concat(d.go).slice(0, 5);
+      h += todo.length ? '<ul class="hof__ol">' + todo.map(function (o) { return hofOrdRow(o, true); }).join("") + "</ul>" : '<p class="muted">' + esc(X("hNone")) + "</p>";
+    }
+    box.innerHTML = h;
+    var last = orders[0];
+    $("#hofLast").textContent = last ? X("hLastT")(last.name, fmt(last.total), new Date(last.t).toLocaleTimeString(lang === "en" ? "en-GB" : "de-AT", { hour: "2-digit", minute: "2-digit" })) : "";
+    var dd = all.filter(function (x) { return x.st.id === "versand"; })[0].d;
+    hofEmit({ type: "state", warn: warn, pack: dd.pack.length, go: dd.go.length, sel: hofSel });
+  }
+  function hofPick(id, fromScene) {
+    if (!HOF.some(function (s) { return s.id === id; })) return;
+    hofSel = id; renderHof(); if (!fromScene) hofEmit({ type: "sel", id: id });
+  }
+  function hofOrder(o) {
+    var cats = {}; o.items.forEach(function (it) { var p = byId[it[0]]; if (p) HOF.forEach(function (s) { if (s.cats && s.cats.indexOf(p.cat) >= 0) cats[s.id] = 1; }); });
+    hofEmit({ type: "order", nr: o.nr, total: fmt(o.total), from: Object.keys(cats) });
+  }
+  function hofSetView(v) {
+    hofView = v; $("#hof").classList.toggle("is-2d", v === "2d"); $("#hof").classList.toggle("is-3d", v === "3d");
+    $$("[data-view]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.view === v)); });
+    hofEmit({ type: "view", view: v });
+  }
+  if ($("#hof")) {
+    $("#hof").addEventListener("click", function (e) {
+      var b = e.target.closest("[data-hof]"); if (b) { hofPick(b.dataset.hof); return; }
+      var v = e.target.closest("[data-view]"); if (v) { hofSetView(v.dataset.view); return; }
+      var r = e.target.closest("[data-refill]");
+      if (r) { var p = byId[r.dataset.refill]; p.stock += 24; renderGrid(); renderAdmin(); renderCart(); toast(X("hRefilled")(L(p.n))); return; }
+      var s = e.target.closest("[data-hofst]");
+      if (s) { var o = orders.filter(function (x) { return x.nr === s.dataset.hofst; })[0], seqS = ["neu", "pack", "go", "done"]; o.st = seqS[seqS.indexOf(o.st) + 1] || "done"; save(); renderAdmin(); return; }
+      if (e.target.closest("#hofToStock")) {
+        var st = HOF.filter(function (x) { return x.id === hofSel; })[0], first = P.filter(function (p) { return st.cats.indexOf(p.cat) >= 0 && p.stock >= 0; })[0];
+        var inp = first && $('[data-stock="' + first.id + '"]');
+        if (inp) { inp.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" }); setTimeout(function () { inp.focus({ preventScroll: true }); inp.select(); }, reduce ? 0 : 450); }
+      }
+    });
+    document.addEventListener("bk:pick", function (e) { hofPick(e.detail.id, true); });
+    // Testbestellung: wie eine echte aus der Kasse, nur mit zufälligen Produkten, die gerade lagernd sind
+    $("#hofDemo").addEventListener("click", function () {
+      var pool = P.filter(function (p) { return p.stock > 0 && !p.gift && !p.digital; }); if (!pool.length) return;
+      var n = 1 + Math.floor(Math.random() * 2), items = [], total = 0, used = {};
+      for (var i = 0; i < n; i++) {
+        var p = pool[Math.floor(Math.random() * pool.length)]; if (used[p.id]) continue; used[p.id] = 1;
+        var q = Math.min(p.stock, 1 + Math.floor(Math.random() * 3)); items.push([p.id, p.v[0].id, q]); total += p.v[0].p * q; p.stock -= q;
+      }
+      total = r2(total < 59 ? total + 6.9 : total);
+      var names = S.de.hNames, o = { nr: "BK-2026-" + (++seq), name: names[Math.floor(Math.random() * names.length)], t: new Date().toISOString(), items: items, total: total, st: "neu", ship: "post", mine: false, fresh: true, isNew: true };
+      orders.unshift(o); save(); renderGrid(); renderAdmin(); hofOrder(o); toast(X("hNew")(o.nr, fmt(o.total)));
+    });
+    // Ohne WebGL oder bei "weniger Bewegung" gleich die Übersicht zeigen
+    var gl = false; try { var c = document.createElement("canvas"); gl = !!(window.WebGLRenderingContext && (c.getContext("webgl2") || c.getContext("webgl"))); } catch (e) {}
+    if (!gl || reduce) { hofSetView("2d"); $("#hof").classList.add("no3d"); } else hofSetView("3d");
+  }
 
   /* ---------- Rechtliches, Dialoge, Thema ---------- */
   document.addEventListener("click", function (e) {
