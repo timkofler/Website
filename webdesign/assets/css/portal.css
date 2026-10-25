@@ -642,3 +642,33 @@ body:has(.kp-auth) .kp-foot .footer__bottom { flex-direction: column; align-item
 .kp-info > summary:hover { color: var(--text); }
 .kp-info > .kp-hint { margin-top: 8px; }
 .kp-bz__info .kp-info { margin: 2px 0 16px; }
+
+/* ---------- Anfragen an einem Ort, Kosten pro Anfrage, Kunden-Übersicht ---------- */
+.kp-kpis { margin: 0 0 14px; }
+.kp-card--hot b { color: var(--hot); }
+.kp-filter { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
+.kp-filter .kp-pill { text-decoration: none; padding: 5px 12px; font-size: .82rem; }
+.kp-filter .kp-pill b { margin-left: 4px; font-weight: 700; color: var(--text); }
+.kp-pill--paket { border-color: rgba(143,180,255,.5); color: #8fb4ff; }
+.kp-pill--art { color: var(--text); }
+.kp-pill--rueckruf { border-color: rgba(255,90,31,.35); }
+.kp-row__main small.kp-row__last { font-style: italic; opacity: .85; }
+.kp-panel .kp-kosten-card { margin-top: 18px; }
+.kp-kosten-card h3 { margin: 0 0 6px; }
+.kp-panel .kp-kosten { margin: 0 0 8px; }
+.kp-kosten td:not(:first-child), .kp-kosten th:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
+.kp-kosten td b { color: var(--hot); }
+.kp-kosten-felder { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.kp-kosten-card .form { margin-top: 12px; }
+.kp-h-link { float: right; font-size: .8rem; font-weight: 500; color: var(--hot); }
+.kp-auftrag { margin-top: 14px; }
+.kp-auftrag h2 em { font-style: normal; font-size: .8rem; color: var(--muted); font-weight: 500; }
+.kp-lang > summary { cursor: pointer; color: var(--text); }
+.kp-lang > summary::marker { color: var(--hot); }
+.kp-lang p { margin: 8px 0 0; white-space: normal; }
+@media (max-width: 600px) {
+  .kp-kosten :is(th, td):is(:nth-child(3), :nth-child(6)) { display: none; }
+  .kp-kosten :is(th, td) { padding: 9px 6px; font-size: .84rem; }
+  .kp-kosten th, .kp-kosten td:first-child { white-space: normal; hyphens: auto; }
+  .kp-filter .kp-pill { padding: 4px 10px; }
+}

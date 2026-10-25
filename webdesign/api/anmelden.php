@@ -153,6 +153,11 @@ function cx_webseite(array $c, string $email, string $name, string $fallback): v
         cx_respond(false, 'Bitte bestätige, dass du die Datenschutzerklärung gelesen hast.');
     }
 
+    // Im Admin unter „Anfragen“ (gesperrter Bereich auf dem Webspace), damit nichts nur im Postfach liegt.
+    require_once __DIR__ . '/anfrage-lib.php';
+    $art = str_starts_with($f['Paket'], 'Vereinsseite') || isset($f['Art des Vereins']) ? 'verein' : (isset($f['Gegründet']) ? 'gruender' : 'anfrage');
+    $stored = af_save($art, $name, $f['Unternehmen / Branche'], $f['Gefunden über'], $f);
+
     $saved = cx_contact($email, $name, [(int) ($c['list_webdesign'] ?? 0)], [
         'WEB_PAKET' => $f['Paket'], 'WEB_QUELLE' => $f['Gefunden über'],
     ]);
@@ -169,7 +174,7 @@ function cx_webseite(array $c, string $email, string $name, string $fallback): v
             . '<p style="margin:18px 0 0;font-size:14px;color:#a1a1a1">Mit „Antworten“ schreibst du direkt an die Person.</p>'),
         $email);
 
-    if (!$saved && !$toTim) {
+    if (!$saved && !$toTim && !$stored) {
         cx_respond(false, 'Deine Anfrage konnte gerade nicht übermittelt werden. ' . $fallback);
     }
 
@@ -187,7 +192,7 @@ function cx_webseite(array $c, string $email, string $name, string $fallback): v
 
 
 // ---------------- Rückruf-Wunsch ----------------
-// Kein Kontakt bei Brevo und keine Bestätigungsmail (es gibt keine E-Mail-Adresse), nur eine Nachricht an Tim.
+// Kein Kontakt bei Brevo und keine Bestätigungsmail (es gibt keine E-Mail-Adresse), nur eine Nachricht an Tim und der Eintrag im Admin.
 function cx_rueckruf(array $c, string $name, string $fallback): void
 {
     $tel = trim(preg_replace('/[^0-9+\/ ()-]/', '', cx_field('telefon', 40)) ?? '');
@@ -212,10 +217,12 @@ function cx_rueckruf(array $c, string $name, string $fallback): void
             . '</td><td style="padding:6px 0;color:#f4f4f0">' . cx_h($v !== '' ? $v : '–') . '</td></tr>';
     }
     $notify = (string) ($c['notify_email'] ?? 'tk@crypto-x.at');
+    require_once __DIR__ . '/anfrage-lib.php';
+    $stored = af_save('rueckruf', $name, '', $f['Gefunden über'], $f);
     $ok = cx_mail($notify, 'Tim', 'Rückruf-Wunsch: ' . $name . ' (' . $tel . ')',
         cx_mail_layout('Bitte zurückrufen', cx_mail_table($rows)
             . '<p style="margin:18px 0 0;font-size:14px;color:#a1a1a1">Die Person hat keine E-Mail-Adresse angegeben, nur die Telefonnummer.</p>'));
-    if (!$ok) {
+    if (!$ok && !$stored) {
         cx_respond(false, 'Dein Rückruf-Wunsch konnte gerade nicht übermittelt werden. Schreib mir gerne auf WhatsApp oder an office@tim-kofler.at.');
     }
     cx_zaehle_anfrage('rueckruf');
