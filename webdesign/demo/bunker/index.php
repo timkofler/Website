@@ -10,8 +10,8 @@
 <meta name="theme-color" content="#0a0a0c">
 <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/bigshoulders.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=17ee6a2e">
-<link rel="stylesheet" href="assets/v2.css?v=4">
+<link rel="stylesheet" href="assets/style.css?v=20261025">
+<link rel="stylesheet" href="assets/v2.css?v=5">
 <script src="assets/early.js?v=2"></script>
 <script type="application/ld+json">
 {
@@ -129,6 +129,7 @@
           <a class="admin-hint" href="verwaltung/"><span>Für den Verein</span>So einfach trägst du einen Termin ein →</a>
         </div>
         <ol class="events" data-upcoming></ol>
+        <button class="btn btn--ghost upcoming__all reveal" type="button" data-ics="all">Alle Termine in meinen Kalender</button>
         <details class="archive reveal">
           <summary><span>Archiv: alles, was schon war</span><b data-archive-count></b></summary>
           <div class="archive__years" data-archive></div>
@@ -257,7 +258,7 @@
       <div class="sechead reveal">
         <p class="kicker">Vereinsportal</p>
         <h2 id="portal-title">Der Verein läuft im Bunker. Und hier.</h2>
-        <p>Termine, Helfer, Mitglieder, Kassa und Anfragen an einem Ort, direkt auf der eigenen Webseite. Ohne Abo, ohne fünf verschiedene Apps. Probier's aus, die Demo speichert nur in deinem Browser.</p>
+        <p>Termine, Helfer, Umfragen, Mitglieder, Kassa mit Belegen und Anfragen an einem Ort, direkt auf der eigenen Webseite. Ohne Abo, ohne fünf verschiedene Apps. Probier's aus, die Demo speichert nur in deinem Browser.</p>
       </div>
 
       <div class="pt reveal" data-pt>
@@ -274,6 +275,7 @@
             <button role="tab" aria-selected="true" aria-controls="pp-home" id="pt-home" data-pt-tab="home"><svg aria-hidden="true"><use href="#pi-home"/></svg><span>Übersicht</span></button>
             <button role="tab" aria-selected="false" aria-controls="pp-termine" id="pt-termine" data-pt-tab="termine" tabindex="-1"><svg aria-hidden="true"><use href="#pi-cal"/></svg><span>Termine</span></button>
             <button role="tab" aria-selected="false" aria-controls="pp-helfer" id="pt-helfer" data-pt-tab="helfer" tabindex="-1"><svg aria-hidden="true"><use href="#pi-hand"/></svg><span>Helfer</span><b data-pt-cnt="helfer"></b></button>
+            <button role="tab" aria-selected="false" aria-controls="pp-umfragen" id="pt-umfragen" data-pt-tab="umfragen" tabindex="-1"><svg aria-hidden="true"><use href="#pi-poll"/></svg><span>Umfragen</span><b data-pt-cnt="umfragen"></b></button>
             <button role="tab" aria-selected="false" aria-controls="pp-mitglieder" id="pt-mitglieder" data-pt-tab="mitglieder" tabindex="-1"><svg aria-hidden="true"><use href="#pi-users"/></svg><span>Mitglieder</span></button>
             <button role="tab" aria-selected="false" aria-controls="pp-kassa" id="pt-kassa" data-pt-tab="kassa" tabindex="-1"><svg aria-hidden="true"><use href="#pi-cash"/></svg><span>Kassa</span></button>
             <button role="tab" aria-selected="false" aria-controls="pp-anfragen" id="pt-anfragen" data-pt-tab="anfragen" tabindex="-1"><svg aria-hidden="true"><use href="#pi-inbox"/></svg><span>Anfragen</span><b data-pt-cnt="anfragen"></b></button>
@@ -338,6 +340,7 @@
                   <h4>Eingetragen</h4>
                   <ul class="mine" data-pt-mine></ul>
                   <p class="pt__empty" data-pt-mine-empty>Noch nichts eingetragen. Der erste Termin erscheint sofort oben bei den Terminen.</p>
+                  <div class="calx gl"><svg aria-hidden="true"><use href="#pi-cal"/></svg><p><b>Alle Termine im Handy-Kalender</b><span>Mit einem Tipp sind alle kommenden Events im Kalender, auch die neu eingetragenen.</span></p><button class="mbtn" type="button" data-ics="all">Kalender-Datei laden</button></div>
                 </div>
               </div>
             </section>
@@ -346,6 +349,29 @@
             <section class="pp" id="pp-helfer" role="tabpanel" aria-labelledby="pt-helfer" hidden>
               <div class="pp__hd"><h3>Wer hilft beim <span data-pt-ev>nächsten Event</span>?</h3><p>Antippen und eintragen. Wer eingeteilt ist, bekommt eine Erinnerung am Vortag.</p></div>
               <div class="shifts" data-pt-shifts></div>
+              <div class="gl thr">
+                <h4>Rückfragen zum Event</h4>
+                <p class="thr__s">Bleibt hier beim Event, statt in der WhatsApp-Gruppe unterzugehen.</p>
+                <div data-pt-hq></div>
+              </div>
+            </section>
+
+            <!-- Umfragen -->
+            <section class="pp" id="pp-umfragen" role="tabpanel" aria-labelledby="pt-umfragen" hidden>
+              <div class="pp__hd"><h3>Umfragen</h3><p>Abstimmen statt 80 Nachrichten in der Gruppe. Auf Wunsch anonym, das Ergebnis sehen alle sofort.</p></div>
+              <div class="pt__grid">
+                <div class="polls" data-pt-polls></div>
+                <form class="gl pf pnew" data-pt-poll-form novalidate>
+                  <h4>Neue Umfrage</h4>
+                  <label class="pf__f"><span>Frage</span><input name="q" maxlength="90" placeholder="z. B. Wann machen wir den Frühjahrsputz?"></label>
+                  <label class="pf__f"><span>Antwort 1</span><input name="o1" maxlength="40" placeholder="z. B. Samstag, 14. März"></label>
+                  <label class="pf__f"><span>Antwort 2</span><input name="o2" maxlength="40" placeholder="z. B. Sonntag, 15. März"></label>
+                  <label class="pf__f"><span>Antwort 3 <i>(optional)</i></span><input name="o3" maxlength="40"></label>
+                  <label class="tgl"><input type="checkbox" name="anon"><span class="tgl__s" aria-hidden="true"></span><span>Anonym abstimmen</span></label>
+                  <p class="pf__err" role="alert" data-pt-poll-err hidden></p>
+                  <button class="btn btn--neon" type="submit">Umfrage starten</button>
+                </form>
+              </div>
             </section>
 
             <!-- Mitglieder -->
@@ -374,8 +400,10 @@
                   <label class="pf__f"><span>Wofür</span><input name="txt" maxlength="50" placeholder="z. B. Getränke-Einkauf" required></label>
                   <label class="pf__f pf__f--sm"><span>Betrag €</span><input name="amt" inputmode="decimal" placeholder="0,00" required></label>
                   <div class="seg" role="group" aria-label="Art"><label><input type="radio" name="dir" value="in" checked><span>Einnahme</span></label><label><input type="radio" name="dir" value="out"><span>Ausgabe</span></label></div>
+                  <label class="cam" data-pt-cam><input type="file" accept="image/*" capture="environment" data-pt-belf><svg aria-hidden="true"><use href="#pi-cam"/></svg><span data-pt-belt>Beleg</span></label>
                   <button class="btn btn--neon" type="submit">Eintragen</button>
                 </form>
+                <p class="belsum" data-pt-belsum></p>
                 <ul class="book" data-pt-book></ul>
                 <button class="btn btn--ghost cash__csv" type="button" data-pt-csv><svg aria-hidden="true"><use href="#pi-down"/></svg>Als Tabelle herunterladen</button>
               </div>
@@ -388,6 +416,9 @@
             </section>
           </div>
         </div>
+
+        <!-- Beleg ansehen -->
+        <div class="bv" data-pt-bv hidden role="dialog" aria-modal="true" aria-label="Beleg"></div>
 
         <!-- Anmeldung -->
         <div class="pl" data-pt-login>
@@ -409,6 +440,7 @@
           </div>
         </div>
       </div>
+      <p class="pt__more reveal"><a href="https://tim-kofler.at/beispiele/verein-app/?utm_source=bunker-demo&amp;utm_campaign=verein-app#funktionen" target="_blank" rel="noopener">Was die App noch alles kann <span aria-hidden="true">→</span></a></p>
     </div>
   </section>
 
@@ -609,11 +641,15 @@
   <symbol id="pi-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></symbol>
   <symbol id="pi-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m-4.5-4.5L12 15l4.5-4.5M5 19.5h14"/></symbol>
   <symbol id="pi-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5.5 12.5 4.2 4.2L18.5 7.8"/></symbol>
+  <symbol id="pi-poll" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16M7 16.5V11M12 16.5V5M17 16.5v-8"/></symbol>
+  <symbol id="pi-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 0 1-11.8 7L4 20l1.1-3.9A8 8 0 1 1 20 12z"/></symbol>
+  <symbol id="pi-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/></symbol>
+  <symbol id="pi-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6.5A1.5 1.5 0 0 0 5 4.5v15A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5V8z"/><path d="M14 3v5h5M8.5 13h7M8.5 16.5h5"/></symbol>
   <symbol id="pi-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 7l10 10M17 7 7 17"/></symbol>
 </svg>
 
-<script src="assets/app.js?v=9" defer></script>
-<script src="assets/portal.js?v=5" defer></script>
+<script src="assets/app.js?v=10" defer></script>
+<script src="assets/portal.js?v=6" defer></script>
 <script type="module" src="assets/bunker3d.js?v=10"></script>
 </body>
 </html>

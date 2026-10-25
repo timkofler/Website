@@ -52,10 +52,10 @@
     cash: [
       { d: "2026-10-01", t: "Übertrag September", a: 2410, u: 1 },
       { d: "2026-10-03", t: "Mitgliedsbeiträge (9 × 25 €)", a: 225 },
-      { d: "2026-10-09", t: "Getränke-Einkauf Großhandel", a: -312.4 },
+      { d: "2026-10-09", t: "Getränke-Einkauf Großhandel", a: -312.4, b: "m" },
       { d: "2026-10-17", t: "Spenden Collective Art", a: 186.5 },
-      { d: "2026-10-18", t: "Material offene Ateliers", a: -64.8 },
-      { d: "2026-10-20", t: "Strom Bunker, 3. Quartal", a: -186.2 },
+      { d: "2026-10-18", t: "Material offene Ateliers", a: -64.8, b: "m" },
+      { d: "2026-10-20", t: "Strom Bunker, 3. Quartal", a: -186.2, b: "m" },
       { d: "2026-10-22", t: "Halloween-Deko", a: -78.9 }
     ],
     feed: [
@@ -63,10 +63,21 @@
       { i: "JB", c: "#ff3d9a", t: "Jakob B. hat das Kassabuch ergänzt: Halloween-Deko", w: "22. Okt." },
       { i: "M", c: "#4fe6e1", t: "Neue Mietanfrage: 30er-Feier im November", w: "18. Okt." },
       { i: "SK", c: "#ff8a2b", t: "Sophie K. hat 24 Fotos vom Collective Art hochgeladen", w: "18. Okt." }
-    ]
+    ],
+    polls: [
+      { id: "p1", q: "Motto fürs Halloween Special 2027?", by: 2, anon: false, mine: -1, o: [["Zombie-Apokalypse", 5], ["Horror-Zirkus", 3], ["80er-Slasher", 4]],
+        cm: [{ nr: 5, x: "Horror-Zirkus wär für die Fotos ein Traum 📸", w: "gestern" }, { nr: 8, x: "Zombies passen einfach am besten in einen Bunker.", w: "vor 3 Std." }] },
+      { id: "p2", q: "Neue Lautsprecher: kaufen oder weiter mieten?", by: 1, anon: true, mine: -1, o: [["Kaufen, ca. 1.800 €", 6], ["Weiter mieten", 2], ["Erst Angebote einholen", 3]], cm: [] }
+    ],
+    hq: [{ nr: 4, x: "Wer hat den Schlüssel für den Lichtkasten?", w: "vor 5 Std." }, { nr: 2, x: "Ich, bin ab 17 Uhr da.", w: "vor 4 Std." }],
+    belV: 1
   };
   var S = load(KEY, null);
   if (!S || !S.mem || !S.help || !S.cash || !S.feed) S = JSON.parse(JSON.stringify(SEED));
+  // Ältere Demo-Stände bekommen Umfragen, Rückfragen und Musterbelege dazu
+  if (!S.polls) S.polls = JSON.parse(JSON.stringify(SEED.polls));
+  if (!S.hq) S.hq = JSON.parse(JSON.stringify(SEED.hq));
+  if (!S.belV) { S.cash.forEach(function (c) { SEED.cash.forEach(function (x) { if (x.b && x.t === c.t && x.d === c.d && !c.b) c.b = x.b; }); }); S.belV = 1; }
   function persist() { save(KEY, S); }
   function ini(name) { var p = name.trim().split(/\s+/); return ((p[0] || "?")[0] + (p.length > 1 ? p[p.length - 1][0] : "")).toUpperCase(); }
   function short(name) { var p = name.trim().split(/\s+/); return p[0] + (p.length > 1 ? " " + p[p.length - 1][0] + "." : ""); }
@@ -147,6 +158,7 @@
     var f = helpFree(), a = ownAnf().length;
     $('[data-pt-cnt="helfer"]').textContent = f || "";
     $('[data-pt-cnt="anfragen"]').textContent = a || "";
+    $('[data-pt-cnt="umfragen"]').textContent = S.polls.filter(function (p) { return p.mine < 0; }).length || "";
   }
   function renderHome() {
     var ev = nextEvent(), f = helpFree(), paid = S.mem.filter(function (m) { return m.paid; }).length, cs = cashSums();
@@ -345,6 +357,76 @@
     h.who = h.who.filter(function (n) { return n !== +b.getAttribute("data-un"); }); persist(); renderHelp();
   });
 
+  // ---------- Kommentare (bei Umfragen und beim Event) ----------
+  var ME = 1, cmOpen = {};
+  function cmList(list) {
+    return '<ul class="cm__l">' + list.map(function (c) {
+      var m = mem(c.nr);
+      return "<li" + (c.n ? ' class="flash"' : "") + ">" + av(c.nr) + "<div><b>" + esc(m ? short(m.name) : "?") + "</b><p>" + esc(c.x) + "</p><small>" + esc(c.ts ? ago(c.ts) : c.w) + "</small></div></li>";
+    }).join("") + "</ul>";
+  }
+  function cmForm(key) {
+    return '<form class="cm__f" data-cm="' + key + '"><input maxlength="200" placeholder="Schreib etwas …" aria-label="Kommentar schreiben"><button type="submit" aria-label="Kommentar senden"><svg aria-hidden="true"><use href="#pi-send"/></svg></button></form>';
+  }
+  function cmOf(key) { if (key === "hq") return S.hq; var p = pollOf(key.slice(2)); return p ? p.cm : null; }
+  function renderHq() { $("[data-pt-hq]").innerHTML = cmList(S.hq) + cmForm("hq"); S.hq.forEach(function (c) { delete c.n; }); }
+  document.addEventListener("submit", function (e) {
+    var f = e.target.closest("[data-cm]"); if (!f || !$("[data-pt]").contains(f)) return;
+    e.preventDefault();
+    var key = f.getAttribute("data-cm"), inp = $("input", f), x = inp.value.trim(), list = cmOf(key);
+    if (!x || !list) { inp.focus(); return; }
+    list.push({ nr: ME, x: x, ts: Date.now(), n: 1 });
+    addFeed("LA", "#4fe6e1", "Lena A. hat kommentiert: „" + (x.length > 40 ? x.slice(0, 40) + " …" : x) + "“"); persist();
+    if (key === "hq") renderHq(); else renderPolls();
+    var nf = $('[data-cm="' + key + '"] input'); if (nf) nf.focus({ preventScroll: true });
+  });
+
+  // ---------- Umfragen ----------
+  function pollOf(id) { for (var i = 0; i < S.polls.length; i++) if (S.polls[i].id === id) return S.polls[i]; return null; }
+  function pollCard(p) {
+    var tot = p.o.reduce(function (s, o) { return s + o[1]; }, 0), by = mem(p.by), voted = p.mine > -1, max = 0;
+    p.o.forEach(function (o) { max = Math.max(max, o[1]); });
+    var body = voted ? '<ul class="po__r">' + p.o.map(function (o, i) {
+      var pct = tot ? Math.round(o[1] / tot * 100) : 0;
+      return '<li class="' + (i === p.mine ? "is-mine" : "") + (o[1] === max ? " is-top" : "") + '"><span class="po__bar" style="width:' + pct + '%"></span><span class="po__t">' + (i === p.mine ? '<svg aria-hidden="true"><use href="#pi-check"/></svg>' : "") + esc(o[0]) + "</span><b>" + pct + " %</b></li>";
+    }).join("") + "</ul>" : '<div class="po__o">' + p.o.map(function (o, i) { return '<button type="button" data-vote="' + p.id + ":" + i + '">' + esc(o[0]) + "</button>"; }).join("") + "</div>";
+    var n = p.cm.length, open = cmOpen[p.id];
+    return '<article class="po gl' + (p.n ? " flash" : "") + '" data-poll="' + p.id + '"><header>' + av(p.by) + "<div><b>" + esc(p.q) + "</b><small>von " + esc(by ? short(by.name) : "?") + (p.anon ? " · anonym" : "") + " · " + tot + (tot === 1 ? " Stimme" : " Stimmen") + "</small></div></header>" + body +
+      '<div class="po__ft">' + (voted ? '<button type="button" class="po__re" data-revote="' + p.id + '">Stimme ändern</button>' : '<span class="po__hint">Antippen zum Abstimmen</span>') +
+      '<button type="button" class="po__cm" data-cmt="' + p.id + '" aria-expanded="' + !!open + '"><svg aria-hidden="true"><use href="#pi-chat"/></svg>' + (n ? n + (n === 1 ? " Kommentar" : " Kommentare") : "Kommentieren") + "</button></div>" +
+      (open ? '<div class="cm">' + cmList(p.cm) + cmForm("p:" + p.id) + "</div>" : "") + "</article>";
+  }
+  function renderPolls() {
+    $("[data-pt-polls]").innerHTML = S.polls.map(pollCard).join("");
+    S.polls.forEach(function (p) { delete p.n; p.cm.forEach(function (c) { delete c.n; }); });
+    badges();
+  }
+  $("[data-pt-polls]").addEventListener("click", function (e) {
+    var v = e.target.closest("[data-vote]"), r = e.target.closest("[data-revote]"), c = e.target.closest("[data-cmt]");
+    if (v) {
+      var a = v.getAttribute("data-vote").split(":"), p = pollOf(a[0]); p.mine = +a[1]; p.o[p.mine][1]++;
+      addFeed("LA", "#4fe6e1", "Lena A. hat bei „" + p.q + "“ abgestimmt"); persist(); renderPolls();
+      toast('<svg aria-hidden="true"><use href="#pi-poll"/></svg><span>Stimme gezählt' + (p.anon ? ", anonym. Niemand sieht, wofür du gestimmt hast." : ".") + "</span>");
+    } else if (r) {
+      var q = pollOf(r.getAttribute("data-revote")); q.o[q.mine][1]--; q.mine = -1; persist(); renderPolls();
+    } else if (c) {
+      var id = c.getAttribute("data-cmt"); cmOpen[id] = !cmOpen[id]; renderPolls();
+      if (cmOpen[id]) { var i = $('[data-cm="p:' + id + '"] input'); if (i) i.focus({ preventScroll: true }); }
+    }
+  });
+  $("[data-pt-poll-form]").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var f = e.target.elements, err = $("[data-pt-poll-err]"), q = f.q.value.trim();
+    var o = [f.o1.value, f.o2.value, f.o3.value].map(function (x) { return x.trim(); }).filter(Boolean);
+    var miss = !q ? "Bitte eine Frage eingeben." : o.length < 2 ? "Bitte mindestens zwei Antworten eingeben." : "";
+    if (miss) { err.textContent = miss; err.hidden = false; (q ? (f.o1.value.trim() ? f.o2 : f.o1) : f.q).focus(); return; }
+    err.hidden = true;
+    S.polls.unshift({ id: "n" + Date.now(), q: q, by: ME, anon: f.anon.checked, mine: -1, o: o.map(function (x) { return [x, 0]; }), cm: [], n: 1 });
+    addFeed("LA", "#4fe6e1", "Lena A. hat eine Umfrage gestartet: „" + q + "“"); persist();
+    e.target.reset(); renderPolls();
+    toast('<svg aria-hidden="true"><use href="#pi-poll"/></svg><span><b>Umfrage läuft.</b> Alle ' + S.mem.length + " Mitglieder bekommen eine Nachricht.</span>");
+  });
+
   // ---------- Mitglieder ----------
   var filter = "alle", q = $("[data-pt-q]");
   function setFilter(f) { filter = f; $$("[data-f]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-f") === f)); }); renderMem(); }
@@ -380,23 +462,93 @@
     $("[data-pt-in]").textContent = euro0(cs.inn); $("[data-pt-ausg]").textContent = euro0(cs.out); $("[data-pt-total]").textContent = euro(cs.tot);
     var list = S.cash.map(function (c, i) { return { c: c, i: i }; }).sort(function (a, b) { return b.c.d.localeCompare(a.c.d) || b.i - a.i; });
     $("[data-pt-book]").innerHTML = list.map(function (x) {
-      var c = x.c; return '<li class="' + (c.a >= 0 ? "in" : "out") + (c.n ? " flash" : "") + '"><time datetime="' + c.d + '">' + dShort(c.d) + "</time><span>" + esc(c.t) + "</span><b>" + (c.a >= 0 ? "+" : "") + euro(c.a) + "</b></li>";
+      var c = x.c, bel = c.a >= 0 ? "<span></span>" : c.b ? '<button type="button" class="bel" data-bel="' + x.i + '" aria-label="Beleg zu ' + esc(c.t) + ' ansehen"><svg aria-hidden="true"><use href="#pi-file"/></svg><span>Beleg</span></button>' :
+        '<button type="button" class="bel bel--miss" data-bel-add="' + x.i + '" aria-label="Beleg zu ' + esc(c.t) + ' fotografieren"><svg aria-hidden="true"><use href="#pi-cam"/></svg><span>fehlt</span></button>';
+      return '<li class="' + (c.a >= 0 ? "in" : "out") + (c.n ? " flash" : "") + '"><time datetime="' + c.d + '">' + dShort(c.d) + "</time><span>" + esc(c.t) + "</span>" + bel + "<b>" + (c.a >= 0 ? "+" : "") + euro(c.a) + "</b></li>";
     }).join("");
     S.cash.forEach(function (c) { delete c.n; });
+    var outs = S.cash.filter(function (c) { return c.a < 0; }), miss = outs.filter(function (c) { return !c.b; }).length;
+    var bs = $("[data-pt-belsum]");
+    bs.className = "belsum" + (miss ? " is-miss" : "");
+    bs.innerHTML = '<svg aria-hidden="true"><use href="#' + (miss ? "pi-cam" : "pi-check") + '"/></svg><span>' + (miss ? "<b>" + miss + (miss === 1 ? " Beleg fehlt" : " Belege fehlen") + "</b> · " : "<b>Alle Belege da</b> · ") + (outs.length - miss) + " von " + outs.length + " Ausgaben mit Foto, die Rechnungsprüfer sehen jeden einzeln</span>";
   }
+  // Belege per Foto: verkleinert, damit die Demo in den Browser-Speicher passt
+  var belPend = "", belFor = -1, belF = $("[data-pt-belf]"), cam = $("[data-pt-cam]");
+  function setPend(src) {
+    belPend = src; cam.classList.toggle("has", !!src);
+    $("[data-pt-belt]").textContent = src ? "Beleg dabei" : "Beleg";
+    var i = $("img", cam); if (i) i.remove();
+    if (src) { var im = new Image(); im.src = src; im.alt = ""; cam.insertBefore(im, cam.firstChild.nextSibling); }
+  }
+  function readBel(file, done) {
+    if (!file || !/^image\//.test(file.type)) { toast('<svg aria-hidden="true"><use href="#pi-x"/></svg><span>Bitte ein Foto wählen (JPG oder PNG).</span>'); return; }
+    var rd = new FileReader();
+    rd.onload = function () {
+      var img = new Image();
+      img.onload = function () {
+        var w = Math.min(900, img.width), h = Math.round(img.height * w / img.width), c = document.createElement("canvas");
+        c.width = w; c.height = h; c.getContext("2d").drawImage(img, 0, 0, w, h); done(c.toDataURL("image/jpeg", 0.7));
+      };
+      img.onerror = function () { toast('<svg aria-hidden="true"><use href="#pi-x"/></svg><span>Dieses Bildformat kann der Browser nicht öffnen (z. B. HEIC). Bitte als JPG speichern.</span>'); };
+      img.src = rd.result;
+    };
+    rd.readAsDataURL(file);
+  }
+  belF.addEventListener("change", function () {
+    var file = belF.files[0], k = belFor; belFor = -1; belF.value = "";
+    readBel(file, function (src) {
+      if (k < 0) { setPend(src); return; }
+      var c = S.cash[k]; c.b = src; c.n = 1;
+      if (!save(KEY, S)) { delete c.b; toast('<svg aria-hidden="true"><use href="#pi-x"/></svg><span>Das Foto ist für die Demo zu groß.</span>'); return; }
+      addFeed("LA", "#4fe6e1", "Lena A. hat den Beleg zu „" + c.t + "“ nachgereicht"); persist(); renderCash();
+      toast('<svg aria-hidden="true"><use href="#pi-check"/></svg><span>Beleg ist beim Eintrag, für die Rechnungsprüfer.</span>');
+    });
+  });
+  // Musterbeleg als Kassabon gezeichnet
+  function bon(c) {
+    var shop = /Getränke/.test(c.t) ? ["GETRÄNKE GROSSHANDEL", "Erlaufstraße 12 · 3251 Purgstall"] : /Strom/.test(c.t) ? ["STROMRECHNUNG", "Musterversorger · 3. Quartal"] : ["BASTEL & BÜRO", "Hauptplatz 4 · 3251 Purgstall"];
+    var a = Math.abs(c.a), net = a / 1.2;
+    return '<div class="bon"><b>' + shop[0] + "</b><small>" + shop[1] + "</small><hr><p><span>" + esc(c.t) + "</span><span>" + euro(a) + "</span></p><hr>" +
+      "<p><span>Netto</span><span>" + euro(net) + "</span></p><p><span>USt 20 %</span><span>" + euro(a - net) + '</span></p><p class="bon__s"><span>SUMME</span><span>' + euro(a) + "</span></p><hr><small>" + dShort(c.d) + c.d.slice(0, 4) + " · " + (/Strom/.test(c.t) ? "per Lastschrift bezahlt" : "Danke für Ihren Einkauf") + "</small></div>";
+  }
+  var bv = $("[data-pt-bv]"), bvFrom = null;
+  function openBel(k) {
+    var c = S.cash[k]; bvFrom = document.activeElement;
+    bv.innerHTML = '<div class="bv__c"><header><span><b>' + esc(c.t) + "</b><small>" + dShort(c.d) + c.d.slice(0, 4) + " · " + euro(c.a) + '</small></span><button type="button" class="xbtn" data-bv-x aria-label="Beleg schließen"><svg aria-hidden="true"><use href="#pi-x"/></svg></button></header>' +
+      '<div class="bv__in">' + (c.b === "m" ? bon(c) : '<img src="' + esc(c.b) + '" alt="Foto des Belegs">') + "</div>" +
+      '<p class="bv__n">' + (c.b === "m" ? "Musterbeleg. Im echten Verein steht hier das Foto, das beim Eintragen gemacht wurde." : "Dein Foto, gespeichert nur in diesem Browser.") + "</p></div>";
+    bv.hidden = false; $(".xbtn", bv).focus({ preventScroll: true });
+    // Das Portal ist lang: Beleg dort öffnen, wo gerade hingeschaut wird
+    var box = $("[data-pt]").getBoundingClientRect(), card = $(".bv__c", bv);
+    var top = Math.max(16, Math.min(box.height - card.offsetHeight - 16, Math.max(80, (window.innerHeight - card.offsetHeight) / 2) - box.top));
+    card.style.marginTop = top + "px";
+    var r = card.getBoundingClientRect();
+    if (r.top < 70 || r.bottom > window.innerHeight) card.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+  }
+  function closeBel() { if (bv.hidden) return; bv.hidden = true; if (bvFrom) bvFrom.focus({ preventScroll: true }); }
+  bv.addEventListener("click", function (e) { if (e.target === bv || e.target.closest("[data-bv-x]")) closeBel(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeBel(); });
+  $("[data-pt-book]").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-bel]"); if (b) { openBel(+b.getAttribute("data-bel")); return; }
+    var a = e.target.closest("[data-bel-add]"); if (a) { belFor = +a.getAttribute("data-bel-add"); belF.click(); }
+  });
   $("[data-pt-cash-form]").addEventListener("submit", function (e) {
     e.preventDefault();
     var f = e.target.elements, a = parseFloat(String(f.amt.value).replace(/\./g, "").replace(",", "."));
     if (!f.txt.value.trim()) { f.txt.focus(); return; }
     if (!(a > 0)) { f.amt.focus(); f.amt.select(); return; }
     if (f.dir.value === "out") a = -a;
-    S.cash.push({ d: today(), t: f.txt.value.trim(), a: Math.round(a * 100) / 100, n: 1 });
-    addFeed("LA", "#4fe6e1", "Lena A. hat das Kassabuch ergänzt: " + f.txt.value.trim()); persist();
-    e.target.reset(); renderCash();
+    var row = { d: today(), t: f.txt.value.trim(), a: Math.round(a * 100) / 100, n: 1 };
+    if (belPend && a < 0) row.b = belPend;
+    S.cash.push(row);
+    if (row.b && !save(KEY, S)) { delete row.b; toast('<svg aria-hidden="true"><use href="#pi-x"/></svg><span>Das Foto ist für die Demo zu groß, eingetragen ohne Beleg.</span>'); }
+    addFeed("LA", "#4fe6e1", "Lena A. hat das Kassabuch ergänzt: " + f.txt.value.trim() + (row.b ? " (mit Beleg)" : "")); persist();
+    if (belPend && a >= 0) toast('<svg aria-hidden="true"><use href="#pi-file"/></svg><span>Belege gehören zu Ausgaben, bei Einnahmen wird keiner gespeichert.</span>');
+    e.target.reset(); setPend(""); renderCash();
   });
   $("[data-pt-csv]").addEventListener("click", function () {
-    var rows = [["Datum", "Text", "Betrag"]].concat(S.cash.slice().sort(function (a, b) { return a.d.localeCompare(b.d); }).map(function (c) {
-      return [c.d.split("-").reverse().join("."), c.t, c.a.toFixed(2).replace(".", ",")];
+    var rows = [["Datum", "Text", "Betrag", "Beleg"]].concat(S.cash.slice().sort(function (a, b) { return a.d.localeCompare(b.d); }).map(function (c) {
+      return [c.d.split("-").reverse().join("."), c.t, c.a.toFixed(2).replace(".", ","), c.a >= 0 ? "" : c.b ? "ja" : "fehlt"];
     }));
     var txt = "﻿" + rows.map(function (r) { return r.map(function (v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(";"); }).join("\r\n");
     var a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([txt], { type: "text/csv;charset=utf-8" })); a.download = "kassabuch-bunker-kollektiv.csv";
@@ -434,7 +586,8 @@
   function render(name) {
     if (name === "home") renderHome();
     else if (name === "termine") { renderMine(); preview(); }
-    else if (name === "helfer") renderHelp();
+    else if (name === "helfer") { renderHelp(); renderHq(); }
+    else if (name === "umfragen") renderPolls();
     else if (name === "mitglieder") renderMem();
     else if (name === "kassa") renderCash();
     else if (name === "anfragen") renderAnf();

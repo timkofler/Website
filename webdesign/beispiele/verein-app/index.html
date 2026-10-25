@@ -19,7 +19,7 @@
 <link rel="apple-touch-icon" href="/assets/img/tk-badge-2-256.png">
 <link rel="preload" href="/beispiele/_shared/fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/beispiele/_shared/demo.css">
-<link rel="stylesheet" href="/beispiele/verein-app/style.css?v=28">
+<link rel="stylesheet" href="/beispiele/verein-app/style.css?v=29">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://tim-kofler.at/"},{"@type":"ListItem","position":2,"name":"Beispiele","item":"https://tim-kofler.at/beispiele/"},{"@type":"ListItem","position":3,"name":"Vereins-App","item":"https://tim-kofler.at/beispiele/verein-app/"}]},{"@type":"WebPage","@id":"https://tim-kofler.at/beispiele/verein-app/#seite","url":"https://tim-kofler.at/beispiele/verein-app/","name":"Vereinsverwaltung ohne Abo: Beispiel einer Vereins-App","description":"Mitglieder, Beiträge mit QR-Zahlschein, Termine mit Zusagen, Umfragen und Kassabuch mit Belegen per Foto in einer eigenen Vereins-App. Einmal gebaut, ohne monatliches Abo.","inLanguage":"de-AT","isPartOf":{"@id":"https://tim-kofler.at/#website"},"author":{"@id":"https://tim-kofler.at/#tim"}}]}</script>
 </head>
 <body>
@@ -135,7 +135,7 @@
             <div class="phone__isl"></div>
             <div class="phone__st"><span>9:41</span><span><svg viewBox="0 0 24 16"><use href="#i-wifi"/></svg><svg class="bat" viewBox="0 0 28 14"><use href="#i-bat"/></svg></span></div>
             <div class="app">
-              <div class="app__hd"><span class="app__lg lg" data-v-logo>MV</span><span><b data-v-name>Musikverein Lindenau</b><small>Hallo <span data-me-first>Anna</span> 👋</small></span></div>
+              <div class="app__hd"><span class="app__lg lg" data-v-logo>MV</span><span><b data-v-name>Musikverein Lindenau</b><small>Hallo <span data-me-first>Anna</span> 👋</small></span><button type="button" class="app__me" data-me-open aria-label="Meine Daten"><span data-me-ini>AH</span></button></div>
               <div class="app__body">
                 <!-- Termine -->
                 <div class="v on" data-v="termine" role="tabpanel" aria-label="Termine">
@@ -170,6 +170,19 @@
                   <h3 class="h3s">Dokumente</h3>
                   <div class="docs" data-m-docs></div>
                   <p class="note">Musterdaten · nichts wird gesendet</p>
+                </div>
+                <!-- Meine Daten: Mitglied ändert Adresse und Kontakt selbst -->
+                <div class="v" data-v="profil" role="tabpanel" aria-label="Meine Daten">
+                  <div class="prof__hd"><button type="button" class="prof__back" data-me-back aria-label="Zurück"><svg><use href="#i-arrow"/></svg></button><h3>Meine Daten</h3></div>
+                  <form data-me-form>
+                    <span class="lbl">Straße und Hausnummer</span><input class="fld" data-me-f="str" maxlength="50" autocomplete="off">
+                    <span class="lbl">PLZ und Ort</span><input class="fld" data-me-f="ort" maxlength="40" autocomplete="off">
+                    <span class="lbl">Telefon</span><input class="fld" data-me-f="tel" maxlength="30" inputmode="tel" autocomplete="off">
+                    <span class="lbl">E-Mail</span><input class="fld" data-me-f="mail" maxlength="60" inputmode="email" autocomplete="off" spellcheck="false">
+                    <span class="lbl" data-me-xl>Instrument</span><input class="fld" data-me-f="x" maxlength="30" autocomplete="off">
+                    <button class="abtn fill" type="submit" data-me-save><span class="fill__t">Speichern</span></button>
+                  </form>
+                  <p class="note">Der Vorstand sieht die Änderung sofort. Musterdaten · nichts wird gesendet</p>
                 </div>
                 <!-- Beitreten -->
                 <div class="v" data-v="beitreten" role="tabpanel" aria-label="Mitglied werden">
@@ -234,7 +247,7 @@
                 <div class="week box"><div class="week__hd"><h4 data-week-t>Diese Woche</h4><span class="week__nav"><span data-week-range></span><button type="button" class="week__heute" data-week-heute hidden>Heute</button><button type="button" class="week__btn" data-week-go="-1" aria-label="Vorige Woche"><svg><use href="#i-arrow"/></svg></button><button type="button" class="week__btn nx" data-week-go="1" aria-label="Nächste Woche"><svg><use href="#i-arrow"/></svg></button></span></div><div class="week__grid" data-week></div></div>
                 <div class="dgrid">
                   <div class="box"><h4>Was gerade passiert</h4><ul class="feed" data-feed></ul></div>
-                  <div class="box"><h4>Beiträge offen</h4><ul class="open" data-open></ul><button class="dbtn" type="button" data-remind><svg><use href="#i-mail"/></svg><span data-remind-t>Allen Offenen einen Zahlschein schicken</span></button></div>
+                  <div class="box"><h4>Beiträge offen</h4><ul class="open" data-open></ul><button class="dbtn" type="button" data-remind><svg><use href="#i-mail"/></svg><span data-remind-t>Allen Offenen einen Zahlschein schicken</span></button><button class="dbtn ghost bankb" type="button" data-bank><svg><use href="#i-dl"/></svg>Kontoauszug einlesen</button></div>
                   <div class="box wide"><h4 data-jub-t>Jubiläen und Ehrungen</h4><ul class="jub" data-jub></ul><div class="row2"><button class="dbtn sm" type="button" data-jub-csv><svg><use href="#i-dl"/></svg>Ehrungsliste für die Generalversammlung</button><button class="dbtn sm ghost" type="button" data-jub-send><svg><use href="#i-heart"/></svg>Glückwunsch in der App schicken</button></div></div>
                 </div>
               </div>
@@ -260,11 +273,12 @@
                   <h4>Neuer Termin</h4>
                   <div class="addev__row">
                     <label><span>Was</span><input data-ev-t maxlength="40" placeholder="z. B. Vorstandssitzung" required></label>
+                    <label class="addev__for"><span>Für</span><select data-ev-g></select></label>
                     <label><span>Wann</span><input type="date" data-ev-d required></label>
                     <label><span>Uhrzeit</span><input type="time" data-ev-h value="19:30" required></label>
                     <button class="dbtn" type="submit"><svg><use href="#i-plus"/></svg>Anlegen</button>
                   </div>
-                  <p class="hint2">Erscheint sofort in der App der Mitglieder, mit Zu- und Absage, Kommentaren und im Handy-Kalender aller, die den Kalender-Link haben.</p>
+                  <p class="hint2">Erscheint sofort in der App, bei einer Gruppe nur bei deren Mitgliedern. Mit Zu- und Absage, Kommentaren und im Handy-Kalender aller, die den Kalender-Link haben.</p>
                 </form>
               </div>
               <!-- Nachrichten -->
@@ -374,6 +388,7 @@
             </div>
             <div class="mcard" data-mcard hidden role="dialog" aria-modal="false" aria-label="Karteikarte"></div>
             <div class="mcard bview" data-bview hidden role="dialog" aria-modal="false" aria-label="Beleg"></div>
+            <div class="mcard bank" data-bankv hidden role="dialog" aria-modal="false" aria-label="Kontoauszug"></div>
             <div class="lgn" data-login>
               <div class="lgn__card">
                 <div class="lgn__hd"><span class="lg" data-v-logo>MV</span><span><b data-v-name>Musikverein Lindenau</b><small>Vorstand anmelden</small></span></div>
@@ -429,13 +444,13 @@
     <div class="flist" data-reveal>
       <h3 class="flist__t">Alle Funktionen auf einen Blick</h3>
       <div class="flist__g">
-        <div><h4><svg><use href="#i-users"/></svg>Mitglieder</h4><ul><li><svg><use href="#i-check"/></svg>Mitgliederliste mit Suche und Filtern</li><li><svg><use href="#i-check"/></svg>Register, Sektionen oder Gruppen</li><li><svg><use href="#i-check"/></svg>Karteikarte pro Mitglied</li><li><svg><use href="#i-check"/></svg>Beitritt online mit Formular</li><li><svg><use href="#i-check"/></svg>Jubiläen und Ehrungsliste</li><li><svg><use href="#i-check"/></svg>Liste als Excel-Datei</li></ul></div>
-        <div><h4><svg><use href="#i-euro"/></svg>Beiträge und Kassa</h4><ul><li><svg><use href="#i-check"/></svg>QR-Zahlschein für jedes Mitglied</li><li><svg><use href="#i-check"/></svg>Offene Beiträge auf einen Blick</li><li><svg><use href="#i-check"/></svg>Zahlschein und Erinnerung per E-Mail</li><li><svg><use href="#i-check"/></svg>Kassabuch nach Bereichen</li><li><svg><use href="#i-check"/></svg>Belege per Foto</li><li><svg><use href="#i-check"/></svg>Bericht für die Rechnungsprüfer</li></ul></div>
-        <div><h4><svg><use href="#i-cal"/></svg>Termine und Vereinsleben</h4><ul><li><svg><use href="#i-check"/></svg>Termine mit Zu- und Absage</li><li><svg><use href="#i-check"/></svg>Wochenübersicht für den Vorstand</li><li><svg><use href="#i-check"/></svg>Termine im Handy-Kalender</li><li><svg><use href="#i-check"/></svg>Erinnerung einen Tag vorher</li><li><svg><use href="#i-check"/></svg>Anwesenheit mit Jahresstatistik</li><li><svg><use href="#i-check"/></svg>Helfer-Einteilung fürs Fest</li></ul></div>
+        <div><h4><svg><use href="#i-users"/></svg>Mitglieder</h4><ul><li><svg><use href="#i-check"/></svg>Mitgliederliste mit Suche und Filtern</li><li><svg><use href="#i-check"/></svg>Register, Sektionen oder Gruppen</li><li><svg><use href="#i-check"/></svg>Karteikarte pro Mitglied</li><li><svg><use href="#i-check"/></svg>Mitglieder ändern ihre Adresse selbst</li><li><svg><use href="#i-check"/></svg>Eigene Felder, z. B. Instrument oder Trikotnummer</li><li><svg><use href="#i-check"/></svg>Beitritt online mit Formular</li><li><svg><use href="#i-check"/></svg>Jubiläen und Ehrungsliste</li><li><svg><use href="#i-check"/></svg>Liste als Excel-Datei</li></ul></div>
+        <div><h4><svg><use href="#i-euro"/></svg>Beiträge und Kassa</h4><ul><li><svg><use href="#i-check"/></svg>QR-Zahlschein für jedes Mitglied</li><li><svg><use href="#i-check"/></svg>Offene Beiträge auf einen Blick</li><li><svg><use href="#i-check"/></svg>Kontoauszug einlesen, Beiträge werden automatisch abgehakt</li><li><svg><use href="#i-check"/></svg>Zahlschein und Erinnerung per E-Mail</li><li><svg><use href="#i-check"/></svg>Kassabuch nach Bereichen</li><li><svg><use href="#i-check"/></svg>Belege per Foto</li><li><svg><use href="#i-check"/></svg>Bericht für die Rechnungsprüfer</li></ul></div>
+        <div><h4><svg><use href="#i-cal"/></svg>Termine und Vereinsleben</h4><ul><li><svg><use href="#i-check"/></svg>Termine mit Zu- und Absage</li><li><svg><use href="#i-check"/></svg>Termine nur für die eigene Gruppe</li><li><svg><use href="#i-check"/></svg>Wochenübersicht für den Vorstand</li><li><svg><use href="#i-check"/></svg>Termine im Handy-Kalender</li><li><svg><use href="#i-check"/></svg>Erinnerung einen Tag vorher</li><li><svg><use href="#i-check"/></svg>Anwesenheit mit Jahresstatistik</li><li><svg><use href="#i-check"/></svg>Helfer-Einteilung fürs Fest</li></ul></div>
         <div><h4><svg><use href="#i-chat"/></svg>Kommunikation</h4><ul><li><svg><use href="#i-check"/></svg>Nachrichten an alle oder an Gruppen</li><li><svg><use href="#i-check"/></svg>Pinnwand und Dokumente</li><li><svg><use href="#i-check"/></svg>Umfragen, auf Wunsch anonym</li><li><svg><use href="#i-check"/></svg>Kommentare bei Terminen und Nachrichten</li><li><svg><use href="#i-check"/></svg>Sehen, wie viele gelesen haben</li><li><svg><use href="#i-check"/></svg>Zusätzlich per E-Mail</li></ul></div>
         <div><h4><svg><use href="#i-shield"/></svg>Sicherheit und Aussehen</h4><ul><li><svg><use href="#i-check"/></svg>Anmeldung mit Code aus der Authenticator-App</li><li><svg><use href="#i-check"/></svg>Jeder sieht nur, was er braucht</li><li><svg><use href="#i-check"/></svg>Daten auf eurem Webspace in der EU</li><li><svg><use href="#i-check"/></svg>Vereinsfarbe, Logo und Name</li><li><svg><use href="#i-check"/></svg>Hell- und Dunkelansicht</li><li><svg><use href="#i-check"/></svg>Ohne Werbung und ohne Tracking</li></ul></div>
       </div>
-      <p class="flist__n">Bewusst nicht dabei: eigener Chat (die WhatsApp-Gruppe bleibt sowieso), Bankverbindung in Echtzeit und Inventar. Braucht euer Verein etwas davon oder etwas ganz anderes, kommt es dazu.</p>
+      <p class="flist__n">Bewusst nicht dabei: eigener Chat (die WhatsApp-Gruppe bleibt sowieso), eine Live-Verbindung zum Bankkonto (der Kontoauszug wird eingelesen) und Inventar. Braucht euer Verein etwas davon oder etwas ganz anderes, kommt es dazu.</p>
     </div>
   </div>
 </section>
@@ -510,5 +525,5 @@
 <script src="/beispiele/_shared/demo.js?v=29766291" defer></script>
 <script src="/beispiele/_shared/vendor/qrcode-generator-2.0.4/qrcode.js" defer></script>
 <script src="/assets/js/tk-qr.js?v=1" defer></script>
-<script src="/beispiele/verein-app/app.js?v=19" defer></script>
+<script src="/beispiele/verein-app/app.js?v=20" defer></script>
 </body></html>

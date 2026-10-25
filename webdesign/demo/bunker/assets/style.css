@@ -414,3 +414,4 @@ html.modal-open{overflow:hidden}
 @media (prefers-reduced-motion:reduce){.spark{display:none}}
 .spark path{stroke-dasharray:90 14052;animation:spark 24s linear infinite}
 @keyframes spark{from{stroke-dashoffset:0}to{stroke-dashoffset:-14142}}
+.upcoming__all{margin-top:22px}

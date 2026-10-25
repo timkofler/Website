@@ -1107,3 +1107,38 @@ html.va-full,html.va-full body{overflow:hidden}
 .calc__pre{flex-wrap:nowrap}
 .calc__pre button{flex:1 1 0;justify-content:center;padding:7px 6px;white-space:nowrap}
 @media (max-width:400px){.calc__pre button{font-size:12px;padding:7px 4px}}
+
+/* Meine Daten (Mitglied ändert Adresse selbst) */
+.app__me{margin-left:auto;flex:none;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--p-line);background:var(--p-card);color:var(--p-ink);font:800 12.5px/1 var(--hd);display:grid;place-items:center;transition:border-color .2s,transform .2s}
+.app__me:hover{border-color:var(--vc2)}
+.app__me:active{transform:scale(.94)}
+.prof__hd{display:flex;align-items:center;gap:10px;margin:2px 0 4px}
+.prof__hd h3{margin:0}
+.prof__back{width:34px;height:34px;flex:none;border-radius:10px;border:1.5px solid var(--p-line);background:var(--p-card);color:var(--p-ink);display:grid;place-items:center}
+.prof__back svg{width:16px;height:16px;transform:scaleX(-1)}
+[data-me-form] .abtn{margin-top:16px}
+/* Termine nur für eine Gruppe */
+.ev__g{display:inline-flex;margin:3px 0 2px;font-size:10.5px;font-weight:700;color:var(--p-vct);background:var(--p-vcl);border-radius:999px;padding:2px 8px}
+.dev__g{display:inline-block;margin-left:8px;font-style:normal;font-size:11px;font-weight:700;color:var(--popt);background:color-mix(in srgb,var(--pop) 14%,transparent);border-radius:999px;padding:2px 8px;vertical-align:1px}
+.addev__row{grid-template-columns:repeat(3,minmax(0,1fr))}
+.addev__row label:first-child{grid-column:1/3}
+.addev select{width:100%;border:1px solid var(--line2);background:var(--card);border-radius:10px;padding:9px 10px;font-size:14px;min-height:42px;color:var(--ink);color-scheme:inherit}
+@media (max-width:640px){.addev__row{grid-template-columns:1fr 1fr}.addev__row label:first-child,.addev__row .addev__for{grid-column:1/-1}}
+/* Kontoauszug einlesen */
+.box .bankb{margin-top:8px}
+.mcard dd .chg{display:inline-block;margin-top:4px;font-style:normal;font-size:11px;font-weight:700;color:var(--popt);background:color-mix(in srgb,var(--pop) 14%,transparent);border-radius:999px;padding:2px 8px}
+.bank{width:min(400px,calc(100% - 24px))}
+.bank .mcard__hd>i svg{width:22px;height:22px}
+.bank__l{list-style:none;margin:0;padding:8px 16px}
+.bank__l li{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:start;padding:10px 0;border-bottom:1px solid var(--line)}
+.bank__l li:last-child{border-bottom:0}
+.bank__l i{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--card2);color:var(--mu)}
+.bank__l i svg{width:14px;height:14px}
+.bank__l li.ok i{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}
+.bank__l li.q i{background:color-mix(in srgb,var(--pop) 18%,transparent);color:var(--popt)}
+.bank__l b{display:block;font-size:13.5px}
+.bank__l small{display:block;font-size:12px;color:var(--mu)}
+.bank__l em{font-style:normal;font-weight:700;font-size:13px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.bank__l li.x em{color:var(--mu)}
+.bank__l .dbtn{margin-top:8px}
+.bank__n{margin:0 16px 4px;padding:10px 12px;border-radius:10px;background:var(--bg2);font-size:12px;line-height:1.45;color:var(--mu)}
