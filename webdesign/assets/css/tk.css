@@ -518,12 +518,12 @@ html.js .tk-apps:not(.is-visible) .tk-feat li { opacity: 0; transform: translate
 @media (prefers-reduced-motion: reduce) {
   .tk-chat-btn__ic > :first-child, .tk-chat-btn__t > :first-child, .tk-chat-btn .tk-chat-btn__wa { animation: none; }
 }
-.tk-chat__wabar { flex: none; display: flex; align-items: center; gap: 10px; margin: 0 12px 10px; padding: 10px 12px; border: 1px solid rgba(37,211,102,.35); border-radius: 14px;
-  background: rgba(37,211,102,.08); color: var(--text); text-decoration: none; font-size: .86rem; line-height: 1.35; transition: border-color .2s, background .2s; }
+.tk-chat__wabar { flex: none; align-self: flex-start; display: inline-flex; align-items: center; gap: 7px; margin: 0 12px 8px; padding: 4px 10px 4px 5px; border: 1px solid rgba(37,211,102,.3); border-radius: 999px;
+  background: rgba(37,211,102,.06); color: #cfcac6; text-decoration: none; font-size: .76rem; line-height: 1.2; transition: border-color .2s, background .2s; }
 .tk-chat__wabar:hover { border-color: #25D366; background: rgba(37,211,102,.14); }
-.tk-chat__wabar img { width: 30px; height: 30px; flex: none; }
-.tk-chat__wabar b { display: block; }
-.tk-chat__wabar em { margin-left: auto; font-style: normal; color: #25D366; font-size: 1.1rem; }
+.tk-chat__wabar img { width: 18px; height: 18px; flex: none; }
+.tk-chat__wabar b { color: #25D366; font-weight: 600; }
+.tk-chat__wabar em { font-style: normal; color: #25D366; font-size: .85rem; }
 
 /* ---------- Angebots-Rechner (#rechner) ---------- */
 .tk-calc { position: relative; margin-top: 22px; padding: clamp(20px, 3vw, 30px) clamp(20px, 3.4vw, 34px); border: 1px solid var(--line-2); border-radius: 22px; background: linear-gradient(160deg, rgba(255,90,31,.07), rgba(255,255,255,.02) 45%, var(--bg-2)); scroll-margin-top: 90px; overflow: hidden; }
@@ -1432,3 +1432,16 @@ html.tk-menu-open .tk-bx-bar { display: none; }
   .tk-bx-bar a { padding: 8px 11px; }
 }
 @media (prefers-reduced-motion: reduce) { .tk-bx-bar { transition: none; } }
+
+/* Assistent: sobald ein Gespräch läuft, größeres Fenster mit fester Höhe, damit die Antworten Platz haben.
+   Am Handy füllt es den sichtbaren Bereich über der Tastatur (--tk-vvh/--tk-vvt aus visualViewport). */
+.tk-chat { transition: opacity .25s ease, transform .25s ease, height .3s ease, width .3s ease; }
+.tk-chat.is-talk { width: 440px; height: min(760px, calc(100vh - 40px)); max-height: none; }
+@media (max-width: 680px) {
+  .tk-chat.is-talk, .tk-chat.is-kb { width: auto; top: calc(var(--tk-vvt, 0px) + 8px); bottom: auto; height: calc(var(--tk-vvh, 100dvh) - 16px); max-height: none; }
+  .tk-chat.is-talk .tk-chat__head, .tk-chat.is-kb .tk-chat__head { padding: 10px 14px; }
+  .tk-chat.is-talk .tk-chat__head img, .tk-chat.is-kb .tk-chat__head img { width: 30px; height: 30px; }
+  .tk-chat.is-talk .tk-chat__head small, .tk-chat.is-kb .tk-chat__head small { display: none; }
+  .tk-chat.is-kb .tk-chat__note, .tk-chat.is-kb .tk-chat__wabar { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .tk-chat { transition: none; } }

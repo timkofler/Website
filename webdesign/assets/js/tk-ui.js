@@ -458,7 +458,7 @@
     '<button type="button" class="tk-chat__x" aria-label="Schließen">✕</button></div>' +
     '<div class="tk-chat__log" aria-live="polite"></div>' +
     '<div class="tk-chat__cw"><button type="button" class="tk-chat__arr tk-chat__arr--l" aria-label="Vorherige Themen" tabindex="-1">‹</button><div class="tk-chat__chips"></div><button type="button" class="tk-chat__arr tk-chat__arr--r" aria-label="Weitere Themen" tabindex="-1">›</button></div>' +
-    '<a class="tk-chat__wabar" href="https://wa.me/4367761773118?text=Hallo%20Tim%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Webseite." target="_blank" rel="noopener"><img src="/assets/img/wa-badge.svg?v=c266c6f8" alt=""><span><b>Lieber direkt mit Tim schreiben?</b> Per WhatsApp</span><em aria-hidden="true">→</em></a>' +
+    '<a class="tk-chat__wabar" href="https://wa.me/4367761773118?text=Hallo%20Tim%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Webseite." target="_blank" rel="noopener"><img src="/assets/img/wa-badge.svg?v=c266c6f8" alt=""><span>Lieber direkt mit Tim? <b>WhatsApp</b></span><em aria-hidden="true">→</em></a>' +
     '<form class="tk-chat__form"><label class="sr-only" for="tk-chat-in">Deine Frage</label><input id="tk-chat-in" type="text" maxlength="400" autocomplete="off" placeholder="Frage eintippen …"><button type="submit" aria-label="Senden">→</button></form>' +
     '<p class="tk-chat__note">Automatische Antworten, keine KI. Es wird nichts gespeichert oder gesendet.</p>';
   document.body.appendChild(btn);
@@ -499,6 +499,7 @@
       m.appendChild(row);
     }
     log.appendChild(m);
+    if (who === "bot" && log.querySelector(".tk-msg--me")) box.classList.add("is-talk");   // erste Antwort da: Fenster größer
     log.scrollTop = log.scrollHeight;
   }
   function botSay(text, links) {
@@ -579,6 +580,18 @@
     }
     setTimeout(function () { input.focus(); }, 60);
   }
+  // Handy: Fenster an den sichtbaren Bereich über der Tastatur anpassen, neueste Antwort bleibt im Blick
+  var vv = window.visualViewport;
+  function fit() {
+    if (!vv || !box.classList.contains("is-open")) return;
+    box.classList.toggle("is-kb", vv.height < window.innerHeight * 0.8);   // Tastatur offen
+    box.style.setProperty("--tk-vvh", vv.height + "px");
+    box.style.setProperty("--tk-vvt", vv.offsetTop + "px");
+    log.scrollTop = log.scrollHeight;
+  }
+  if (vv) { vv.addEventListener("resize", fit); vv.addEventListener("scroll", fit); }
+  input.addEventListener("focus", function () { setTimeout(fit, 250); });
+  input.addEventListener("blur", function () { setTimeout(fit, 250); });
   function close() {
     box.classList.remove("is-open");
     btn.setAttribute("aria-expanded", "false");
