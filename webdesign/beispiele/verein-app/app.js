@@ -38,15 +38,19 @@
   }
 
   // ---------- Abo-Rechner ----------
-  var cm = $("[data-calc-m]"), cy = $("[data-calc-y]");
+  // Preise pro Jahr wie bei bekannten Vereinsprogrammen (kleines, mittleres, großes Paket)
+  var cm = $("[data-calc-m]"), cy = $("[data-calc-y]"), cpre = $("[data-calc-pre]");
   if (cm && cy) {
     var calc = function () {
       var m = +cm.value, y = +cy.value;
-      $("[data-calc-mo]").textContent = m + " €";
+      $("[data-calc-mo]").textContent = eur(m);
       $("[data-calc-yo]").textContent = y + (y === 1 ? " Jahr" : " Jahre");
-      $("[data-calc-sum]").textContent = eur(m * 12 * y);
+      $("[data-calc-sum]").textContent = eur(m * y);
+      $$("[data-p]", cpre).forEach(function (b) { b.setAttribute("aria-pressed", +b.getAttribute("data-p") === m); });
     };
-    cm.addEventListener("input", calc); cy.addEventListener("input", calc); calc();
+    cm.addEventListener("input", calc); cy.addEventListener("input", calc);
+    cpre.addEventListener("click", function (e) { var b = e.target.closest("[data-p]"); if (!b) return; cm.value = b.getAttribute("data-p"); calc(); });
+    calc();
   }
 
   // ---------- Musterdaten ----------
@@ -60,6 +64,7 @@
       probe: ["Registerprobe Holz", "18:30", "Probenbesuch", "Proben"],
       fest: { ev: 2, shifts: [["Aufbau", "15–18 Uhr", 4], ["Kassa", "18–21 Uhr", 2], ["Schank", "18–20:30 Uhr", 3], ["Schank", "20:30–23 Uhr", 3], ["Abbau", "23–24 Uhr", 4]] },
       start: 5230, color: "#2f8f4e", logoT: "symbol", sym: "i-note", shape: "wappen", claim: "Blasmusik für Jung und Alt, Proben jeden Freitag.", hero: "Musik verbindet.",
+      poll: ["Wohin geht der Vereinsausflug im Frühjahr?", [["Wachau mit dem Schiff", 34], ["Ötscher-Tropfsteinhöhle", 21], ["Heuriger in Retz", 17]]],
       msgs: [["Tracht fürs Herbstkonzert", "Bitte bis Freitag die Tracht kontrollieren. Wer eine neue Bluse braucht, meldet sich bei Eva.", "Schriftführerin", 2], ["Neue Noten sind da", "Die Mappe für die Cäcilienmesse liegt im Musikheim. Bitte zur nächsten Probe mitnehmen.", "Kapellmeister", 6]],
       docs: [["Probenplan Herbst", "PDF · 1 Seite"], ["Statuten", "PDF · 6 Seiten"], ["Protokoll Generalversammlung", "PDF · 4 Seiten"], ["Datenschutzinfo", "PDF · 2 Seiten"]],
       cash: [["Förderung Gemeinde", "Förderungen", 1500], ["Frühschoppen", "Feste", 4380], ["Getränke Frühschoppen", "Feste", -1645.4], ["Noten Frühlingskonzert", "Noten & Instrumente", -386], ["Reparatur Tuba", "Noten & Instrumente", -540], ["Spende Raiffeisen-Fest", "Spenden", 300], ["Trachtenblusen (4 Stück)", "Tracht", -712], ["Versicherung Instrumente", "Verwaltung", -268.5], ["Konzertkarten Frühlingskonzert", "Feste", 2140], ["Webspace und Domain", "Verwaltung", -96]]
@@ -73,6 +78,7 @@
       probe: ["Training Nachwuchs", "17:00", "Trainingsbesuch", "Trainings"],
       fest: { ev: 2, shifts: [["Aufbau", "14–17 Uhr", 4], ["Grill", "17–20 Uhr", 2], ["Schank", "17–20 Uhr", 3], ["Schank", "20–23 Uhr", 3], ["Abbau", "23–24 Uhr", 4]] },
       start: 7810, color: "#2459d6", logoT: "kuerzel", sym: "i-ball", shape: "rund", claim: "Fußball, Tennis und Turnen für die ganze Gemeinde.", hero: "Gemeinsam am Ball.",
+      poll: ["Was gibt es beim Saisonabschluss?", [["Grillen wie immer", 52], ["Spanferkel", 38], ["Pizza vom Wirt", 19]]],
       msgs: [["Training Mittwoch in der Halle", "Wegen der Rasenpflege findet das Training am Mittwoch in der Turnhalle statt. Hallenschuhe mitnehmen!", "Sportliche Leitung", 1], ["Buffet Saisonabschluss", "Wer etwas fürs Buffet mitbringt, trägt sich bitte bis Monatsende in der App ein.", "Obmann", 5]],
       docs: [["Trainingsplan Herbst", "PDF · 1 Seite"], ["Statuten", "PDF · 8 Seiten"], ["Protokoll Generalversammlung", "PDF · 5 Seiten"], ["Datenschutzinfo", "PDF · 2 Seiten"]],
       cash: [["Förderung Sportland", "Förderungen", 2400], ["Kantine September", "Kantine", 3125.6], ["Einkauf Kantine", "Kantine", -1380.2], ["Dressen Nachwuchs", "Dressen & Bälle", -1190], ["Bälle und Hütchen", "Dressen & Bälle", -312], ["Sponsor Bandenwerbung", "Sponsoren", 1800], ["Rasenpflege", "Sportplatz", -860], ["Schiedsrichtergebühren", "Spielbetrieb", -540], ["Eintritt Heimspiele", "Spielbetrieb", 1460], ["Webspace und Domain", "Verwaltung", -96]]
@@ -86,6 +92,7 @@
       probe: ["Leseprobe", "19:00", "Probenbesuch", "Proben"],
       fest: { ev: 2, shifts: [["Aufbau und Leinwand", "17–19:30 Uhr", 3], ["Kassa", "19–20:30 Uhr", 2], ["Buffet", "19–21 Uhr", 2], ["Technik", "19:30–22:30 Uhr", 1], ["Abbau", "22:30–24 Uhr", 3]] },
       start: 3120, color: "#7d1f3a", logoT: "symbol", sym: "i-mask", shape: "eckig", claim: "Theater, Lesungen und Kino in der alten Mühle.", hero: "Kultur im Ort.",
+      poll: ["Welcher Film läuft beim nächsten Filmabend?", [["Indien", 14], ["Die Siebtelbauern", 19], ["Hinterholz 8", 11]]],
       msgs: [["Requisiten gesucht", "Für das Wintertheater suchen wir einen alten Koffer und zwei Laternen. Wer hat etwas daheim?", "Obfrau", 3], ["Programmheft ist fertig", "Das Programm fürs Halbjahr liegt im Mühlenstadl auf und ist unten bei den Dokumenten.", "Schriftführer", 8]],
       docs: [["Programm Herbst und Winter", "PDF · 4 Seiten"], ["Statuten", "PDF · 5 Seiten"], ["Protokoll Generalversammlung", "PDF · 3 Seiten"], ["Datenschutzinfo", "PDF · 2 Seiten"]],
       cash: [["Förderung Land (Kultur)", "Förderungen", 1200], ["Eintritt Sommertheater", "Veranstaltungen", 3860], ["Bühnenbild und Kostüme", "Veranstaltungen", -1240], ["Filmrechte Filmabend", "Veranstaltungen", -180], ["Spenden Lesung", "Spenden", 245], ["Tontechnik Miete", "Technik", -420], ["Plakate und Flyer", "Werbung", -315.8], ["Versicherung", "Verwaltung", -189], ["Buffet Sommertheater", "Veranstaltungen", 960], ["Webspace und Domain", "Verwaltung", -96]]
@@ -113,15 +120,28 @@
     var paid = mem.filter(function (m) { return m.st === "ok"; }).reduce(function (s, m) { return s + P.arts[m.art].b; }, 0);
     // Kassabuch: Sammelbuchung der schon bezahlten Beiträge plus Musterbuchungen übers Jahr verteilt
     var cash = [], span = Math.max(30, Math.round((today - new Date(YEAR, 0, 10)) / 864e5));
-    P.cash.forEach(function (c, j) { cash.push({ d: addDays(-span + Math.round(span * (j + 0.5) / (P.cash.length + 1))), t: c[0], c: c[1], a: c[2] }); });
+    // Ausgaben haben einen Musterbeleg, bei der dritten fehlt er (damit man sieht, wie das auffällt)
+    var nOut = 0;
+    P.cash.forEach(function (c, j) {
+      var b = c[2] < 0 ? (nOut++ === 2 ? "" : "muster") : "";
+      cash.push({ d: addDays(-span + Math.round(span * (j + 0.5) / (P.cash.length + 1))), t: c[0], c: c[1], a: c[2], beleg: b, nr: j + 1 });
+    });
     cash.push({ d: addDays(-Math.min(span - 5, 200)), t: "Mitgliedsbeiträge " + YEAR + " (Sammelbuchung)", c: "Mitgliedsbeiträge", a: paid });
     cash.sort(function (a, b) { return b.d - a.d; });
     S = {
       k: k, P: P, mem: mem, me: me, cash: cash, filter: "alle", q: "", io: "out", newMem: {},
-      ev: P.events.map(function (e, j) { return { id: "e" + j, t: e[0], o: e[1], h: e[2], d: addDays(e[3]), yes: e[4], no: e[5], mine: "" }; }),
+      ev: P.events.map(function (e, j) { return { id: "e" + j, t: e[0], o: e[1], h: e[2], d: addDays(e[3]), yes: e[4], no: e[5], mine: "", cm: [] }; }),
       feed: [], rem: 0,
-      msgs: P.msgs.map(function (m, j) { return { id: "m" + j, t: m[0], x: m[1], from: m[2], d: addDays(-m[3]), to: "alle", toMe: true, n: 0, read: 0, mail: true, unread: j === 0 }; })
+      msgs: P.msgs.map(function (m, j) { return { id: "m" + j, t: m[0], x: m[1], from: m[2], d: addDays(-m[3]), to: "alle", toMe: true, n: 0, read: 0, mail: true, unread: j === 0, cm: [] }; })
     };
+    // Umfrage vom Vorstand, ganz oben auf der Pinnwand
+    S.msgs.unshift({ id: "p0", t: P.poll[0], x: "", from: P.board[0][0], d: addDays(-1), to: "alle", toMe: true, n: 0, read: 0, mail: false, unread: true, cm: [],
+      poll: { o: P.poll[1].map(function (o) { return { t: o[0], n: o[1] }; }), mine: -1, anon: true } });
+    // Kommentare: Rückfragen bleiben beim Termin, statt in der WhatsApp-Gruppe unterzugehen
+    var nm = function (j) { return mem[(j * 17 + 9) % mem.length].name; };
+    S.ev[0].cm.push({ w: nm(1), x: "Komme 10 Minuten später, fangt ruhig schon an.", s: "vor 3 Std." });
+    S.ev[P.fest.ev].cm.push({ w: nm(2), x: "Ich kann zwei Kuchen mitbringen 🍰", s: "gestern" }, { w: P.board[0][1], r: P.board[0][0], x: "Super, danke! Kaffee organisieren wir.", s: "gestern" });
+    S.msgs[1].cm.push({ w: nm(3), x: "Danke für die Info!", s: "vor 5 Std." });
     S.msgs.forEach(function (m) { m.n = mem.length; m.read = Math.round(mem.length * (0.62 + r() * 0.25)); });
     // Anwesenheit: 24 aktive Mitglieder, Probenbesuch bisher im Jahr (seit Jänner etwa jede Woche eine Probe)
     var act = mem.filter(function (m) { return m.art !== 2 && !m.role && m !== me; }).slice(0, 23).concat([me]);
@@ -183,9 +203,66 @@
     $("[data-m-evs]").innerHTML = S.ev.map(function (e) {
       return '<div class="ev" data-ev="' + e.id + '"><div class="ev__top"><span class="ev__d"><b>' + ("0" + e.d.getDate()).slice(-2) + "</b>" + MON[e.d.getMonth()] + '</span><span class="ev__t"><b>' + esc(e.t) + (e.fresh ? '<span class="ev__new">Neu</span>' : "") + "</b><small>" + WT[e.d.getDay()] + " · " + esc(e.h) + " Uhr · " + esc(e.o) + "</small></span></div>" +
         '<div class="ev__btn"><button type="button" class="yes" data-ans="yes" aria-pressed="' + (e.mine === "yes") + '"><svg><use href="#i-check"/></svg>Ich komme</button><button type="button" class="no" data-ans="no" aria-pressed="' + (e.mine === "no") + '"><svg><use href="#i-x"/></svg>Leider nicht</button></div>' +
-        '<p class="ev__cnt">' + e.yes + " Zusagen · " + e.no + " Absagen</p></div>";
+        '<div class="ev__ft"><p class="ev__cnt">' + e.yes + " Zusagen · " + e.no + " Absagen</p>" + cmtTg(e, "e:" + e.id) + "</div>" + cmtBox(e, "e:" + e.id) + "</div>";
     }).join("");
   }
+
+  // ---------- Kommentare unter Terminen und Neuigkeiten ----------
+  function cmtTg(o, key) {
+    var n = o.cm.length;
+    return '<button type="button" class="cmt__tg" data-cmt-tg="' + key + '" aria-expanded="' + !!o.open + '"><svg><use href="#i-chat"/></svg>' + (n ? n + (n === 1 ? " Kommentar" : " Kommentare") : "Kommentieren") + "</button>";
+  }
+  function cmtBox(o, key) {
+    if (!o.open) return "";
+    return '<div class="cmt"><ul>' + o.cm.map(function (c) {
+      var h = "<li" + (c.fresh ? ' class="is-new"' : "") + "><i>" + ini(c.w) + "</i><span><b>" + esc(c.w) + (c.r ? "<em>" + esc(c.r) + "</em>" : "") + "</b>" + esc(c.x) + "<small>" + esc(c.s) + "</small></span></li>";
+      c.fresh = false; return h;
+    }).join("") + '</ul><form class="cmt__f" data-cmt-f="' + key + '"><input maxlength="140" placeholder="Schreib etwas …" aria-label="Kommentar schreiben" autocomplete="off" enterkeyhint="send"><button type="submit" aria-label="Kommentar senden"><svg><use href="#i-send"/></svg></button></form></div>';
+  }
+  function cmtItem(key) {
+    var l = key[0] === "e" ? S.ev : S.msgs, id = key.slice(2);
+    return l.filter(function (x) { return x.id === id; })[0];
+  }
+  function cmtRender(key, focus) {
+    if (key[0] === "e") { renderPhoneEvents(); renderDeskEvents(); } else { renderPins(); renderSent(); }
+    var f = focus && $('[data-cmt-f="' + key + '"] input');
+    if (f) f.focus({ preventScroll: true });
+  }
+  var appBody = $(".app__body");
+  appBody.addEventListener("click", function (ev) {
+    var b = ev.target.closest("[data-cmt-tg]"); if (!b) return;
+    var key = b.getAttribute("data-cmt-tg"), o = cmtItem(key); if (!o) return;
+    o.open = !o.open; cmtRender(key, o.open);
+  });
+  appBody.addEventListener("submit", function (ev) {
+    var f = ev.target.closest("[data-cmt-f]"); if (!f) return;
+    ev.preventDefault();
+    var key = f.getAttribute("data-cmt-f"), o = cmtItem(key), inp = f.querySelector("input"), x = inp.value.replace(/\s+/g, " ").trim().slice(0, 140);
+    if (!o || !x) return;
+    o.cm.push({ w: S.me.name, x: x, s: "gerade eben", fresh: true });
+    cmtRender(key, true);
+    feed("", "i-chat", S.me.name + " zu „" + o.t + "“: " + (x.length > 48 ? x.slice(0, 46) + " …" : x));
+    toast("Kommentar ist da", "alle sehen ihn direkt " + (key[0] === "e" ? "beim Termin" : "bei der Nachricht"));
+  });
+
+  // ---------- Kalender: alle Termine als Datei (im echten Verein ein Abo-Link) ----------
+  var two = function (n) { return ("0" + n).slice(-2); };
+  function icsEsc(t) { return String(t).replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n"); }
+  function icsT(d, h, plus) {
+    var p = h.split(":"), x = new Date(d); x.setHours(+p[0] + (plus || 0), +p[1] || 0, 0, 0);
+    return x.getFullYear() + two(x.getMonth() + 1) + two(x.getDate()) + "T" + two(x.getHours()) + two(x.getMinutes()) + "00";
+  }
+  $("[data-m-ics]").addEventListener("click", function () {
+    var name = S.brand ? S.brand.name : S.P.name, stamp = new Date().toISOString().replace(/[-:]/g, "").slice(0, 15) + "Z";
+    var L = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Tim Kofler Webdesign//Vereins-App Beispiel//DE", "CALSCALE:GREGORIAN", "METHOD:PUBLISH", "X-WR-CALNAME:" + icsEsc(name), "X-WR-TIMEZONE:Europe/Vienna"];
+    S.ev.forEach(function (e) {
+      L.push("BEGIN:VEVENT", "UID:" + e.id + "-" + S.k + "@tim-kofler.at", "DTSTAMP:" + stamp, "DTSTART:" + icsT(e.d, e.h), "DTEND:" + icsT(e.d, e.h, 2),
+        "SUMMARY:" + icsEsc(e.t), "LOCATION:" + icsEsc(e.o), "DESCRIPTION:" + icsEsc("Musterdaten aus der Beispiel-App von tim-kofler.at"), "END:VEVENT");
+    });
+    L.push("END:VCALENDAR");
+    dl("termine-" + slug(name) + ".ics", L.join("\r\n") + "\r\n", "text/calendar;charset=utf-8");
+    toast("Kalender-Datei geladen", "im echten Verein ein Abo-Link: neue Termine kommen von selbst");
+  });
   $("[data-m-evs]").addEventListener("click", function (ev) {
     var b = ev.target.closest("[data-ans]"); if (!b) return;
     var e = S.ev.filter(function (x) { return x.id === b.closest("[data-ev]").getAttribute("data-ev"); })[0];
@@ -310,7 +387,7 @@
     $$(".dp").forEach(function (p) { p.classList.toggle("on", p.getAttribute("data-dp") === t); });
     if (t === "mitglieder") $("[data-d-newbadge]").hidden = true;
     if (t === "helfer") $("[data-d-helpbadge]").hidden = true;
-    mcard.hidden = true;
+    mcard.hidden = true; bview.hidden = true;
   });
 
   // Vorstand im Vollbild: so sieht die App wirklich am PC aus (Esc oder Knopf beendet es)
@@ -543,7 +620,7 @@
   function renderDeskEvents() {
     $("[data-d-evs]").innerHTML = S.ev.map(function (e) {
       var all = Math.max(1, e.yes + e.no);
-      return '<div class="dev' + (e.fresh ? " is-new" : "") + '" data-evi="' + S.ev.indexOf(e) + '"><span class="dev__d"><b>' + ("0" + e.d.getDate()).slice(-2) + "</b>" + MON[e.d.getMonth()] + '</span><span class="dev__t"><b>' + esc(e.t) + "</b><small>" + WT[e.d.getDay()] + " · " + esc(e.h) + " Uhr · " + esc(e.o) + '</small><span class="dev__bar"><i style="width:' + (e.yes / all * 100) + '%"></i><i style="width:' + (e.no / all * 100) + '%"></i></span></span><span class="dev__n"><b>' + e.yes + "</b>" + e.no + " Absagen</span></div>";
+      return '<div class="dev' + (e.fresh ? " is-new" : "") + '" data-evi="' + S.ev.indexOf(e) + '"><span class="dev__d"><b>' + ("0" + e.d.getDate()).slice(-2) + "</b>" + MON[e.d.getMonth()] + '</span><span class="dev__t"><b>' + esc(e.t) + "</b><small>" + WT[e.d.getDay()] + " · " + esc(e.h) + " Uhr · " + esc(e.o) + '</small><span class="dev__bar"><i style="width:' + (e.yes / all * 100) + '%"></i><i style="width:' + (e.no / all * 100) + '%"></i></span></span><span class="dev__n"><b>' + e.yes + "</b>" + e.no + " Absagen" + (e.cm.length ? '<span class="dev__c"><svg><use href="#i-chat"/></svg>' + e.cm.length + "</span>" : "") + "</span></div>";
     }).join("");
   }
   var evD = $("[data-ev-d]");
@@ -551,7 +628,7 @@
     e.preventDefault();
     var t = $("[data-ev-t]").value.trim().slice(0, 40), d = evD.value ? new Date(evD.value + "T00:00:00") : null, h = $("[data-ev-h]").value || "19:30";
     if (!t || !d || isNaN(d)) return;
-    var ev = { id: "n" + Date.now(), t: t, o: "Vereinsheim", h: h, d: d, yes: 0, no: 0, mine: "", fresh: true };
+    var ev = { id: "n" + Date.now(), t: t, o: "Vereinsheim", h: h, d: d, yes: 0, no: 0, mine: "", fresh: true, cm: [] };
     S.ev.push(ev); S.ev.sort(function (a, b) { return a.d - b.d; });
     $("[data-ev-t]").value = "";
     renderDeskEvents(); renderPhoneEvents(); renderKpis(); renderWeek();
@@ -572,8 +649,10 @@
       var v = cats[k];
       return '<div class="cat"><span>' + esc(k) + '</span><span class="b"><i class="' + (v >= 0 ? "in" : "out") + '" style="width:' + (Math.abs(v) / max * 100) + '%"></i></span><span>' + (v >= 0 ? "+" : "−") + eur(Math.abs(Math.round(v))) + "</span></div>";
     }).join("");
-    $("[data-c-rows]").innerHTML = S.cash.map(function (c) {
-      var h = "<tr" + (c.fresh ? ' class="is-new"' : "") + "><td>" + dshort(c.d) + "</td><td>" + esc(c.t) + "</td><td>" + esc(c.c) + '</td><td class="r ' + (c.a >= 0 ? "in" : "out") + '">' + (c.a >= 0 ? "+ " : "− ") + eur(Math.abs(c.a), true) + "</td></tr>";
+    $("[data-c-rows]").innerHTML = S.cash.map(function (c, i) {
+      var bel = c.beleg ? '<button type="button" class="bel" data-bel="' + i + '" title="Beleg ansehen" aria-label="Beleg zu ' + esc(c.t) + ' ansehen"><svg><use href="#i-file"/></svg></button>'
+        : c.a < 0 && !c.m ? '<button type="button" class="bel no" data-bel-add="' + i + '" title="Foto vom Beleg nachreichen">Beleg fehlt</button>' : "";
+      var h = "<tr" + (c.fresh ? ' class="is-new"' : "") + "><td>" + dshort(c.d) + '</td><td><span class="bt"><span>' + esc(c.t) + "</span>" + bel + "</span></td><td>" + esc(c.c) + '</td><td class="r ' + (c.a >= 0 ? "in" : "out") + '">' + (c.a >= 0 ? "+ " : "− ") + eur(Math.abs(c.a), true) + "</td></tr>";
       return h;
     }).join("");
     var rb = $("[data-report-box]"); if (!rb.hidden) renderReport();
@@ -588,10 +667,71 @@
     if (!t || !(a > 0) || a > 100000) { toast("Bitte Text und Betrag eingeben", "z. B. 86,50"); return; }
     a = Math.round(a * 100) / 100;
     S.cash.forEach(function (c) { c.fresh = false; });
-    S.cash.unshift({ d: new Date(today), t: t, c: S.io === "in" ? "Sonstige Einnahmen" : "Sonstige Ausgaben", a: S.io === "in" ? a : -a, fresh: true });
+    S.cash.unshift({ d: new Date(today), t: t, c: S.io === "in" ? "Sonstige Einnahmen" : "Sonstige Ausgaben", a: S.io === "in" ? a : -a, fresh: true, beleg: cBel });
     $("[data-c-t]").value = ""; $("[data-c-a]").value = "";
+    feed(S.io === "in" ? "ok" : "bad", "i-book", "Gebucht: " + t + " (" + (S.io === "in" ? "+" : "−") + eur(a, true) + ")" + (cBel ? " mit Beleg" : ""));
+    setBel("");
     renderCash(); renderKpis();
-    feed(S.io === "in" ? "ok" : "bad", "i-book", "Gebucht: " + t + " (" + (S.io === "in" ? "+" : "−") + eur(a, true) + ")");
+  });
+
+  // ---------- Belege per Foto ----------
+  // Fotos bleiben nur im Browser; verkleinert, damit auch große Handyfotos flott gehen
+  var cBel = "", belFor = null, bview = $("[data-bview]");
+  function readPhoto(f, done) {
+    if (!f) return;
+    if (!/^image\//.test(f.type)) { toast("Bitte ein Foto wählen", "JPG, PNG oder HEIC vom Handy"); return; }
+    if (f.size > 25 * 1024 * 1024) { toast("Das Foto ist zu groß", "bitte höchstens 25 MB"); return; }
+    var url = URL.createObjectURL(f), im = new Image();
+    im.onload = function () {
+      var k = Math.min(1, 1400 / Math.max(im.naturalWidth, im.naturalHeight)), cv = document.createElement("canvas");
+      cv.width = Math.round(im.naturalWidth * k); cv.height = Math.round(im.naturalHeight * k);
+      cv.getContext("2d").drawImage(im, 0, 0, cv.width, cv.height);
+      URL.revokeObjectURL(url);
+      done(cv.toDataURL("image/jpeg", 0.85));
+    };
+    im.onerror = function () { URL.revokeObjectURL(url); toast("Das Foto lässt sich nicht öffnen", "bitte ein anderes probieren"); };
+    im.src = url;
+  }
+  function setBel(src) {
+    cBel = src;
+    var l = $("[data-c-bl]"), old = l.querySelector("img");
+    if (old) old.remove();
+    l.classList.toggle("has", !!src);
+    $("[data-c-bt]").textContent = src ? "Beleg ✓" : "Beleg";
+    if (src) { var im = document.createElement("img"); im.src = src; im.alt = ""; l.insertBefore(im, l.querySelector("svg")); }
+  }
+  $("[data-c-file]").addEventListener("change", function () {
+    var f = this.files && this.files[0]; this.value = "";
+    readPhoto(f, function (src) { setBel(src); toast("Beleg ist dabei", "wird mit der nächsten Buchung gespeichert"); });
+  });
+  $("[data-c-later]").addEventListener("change", function () {
+    var f = this.files && this.files[0], c = belFor; this.value = "";
+    if (!c) return;
+    readPhoto(f, function (src) {
+      c.beleg = src; c.fresh = true; renderCash();
+      feed("ok", "i-file", "Beleg nachgereicht: " + c.t);
+      toast("Beleg gespeichert", c.t + " · die Rechnungsprüfer sehen ihn");
+    });
+  });
+  function bon(c) {
+    var n = YEAR + "-" + ("00" + (c.nr || 1) * 7).slice(-3), b = eur(-c.a, true);
+    return '<div class="bon"><b>Musterfirma GmbH</b><small>Musterstraße 1</small><small>Rechnung ' + n + " · " + dshort(c.d) + c.d.getFullYear() + "</small><hr>" +
+      '<div class="bon__r"><span>' + esc(c.t) + "</span><span>" + b + '</span></div><hr><div class="bon__r sum"><span>Summe</span><span>' + b + "</span></div><small>Betrag dankend erhalten</small><em>Musterbeleg</em></div>";
+  }
+  function openBel(c) {
+    mcard.hidden = true;
+    bview.innerHTML = '<div class="mcard__hd"><i><svg><use href="#i-file"/></svg></i><span><b>' + esc(c.t) + "</b><small>" + dshort(c.d) + c.d.getFullYear() + " · " + esc(c.c) + " · " + (c.a < 0 ? "− " : "+ ") + eur(Math.abs(c.a), true) + '</small></span><button type="button" class="mcard__x" data-bv-x aria-label="Beleg schließen"><svg><use href="#i-x"/></svg></button></div>' +
+      '<div class="bview__in">' + (c.beleg === "muster" ? bon(c) : '<img src="' + esc(c.beleg) + '" alt="Foto des Belegs">') + "</div>" +
+      '<div class="mcard__ft"><button class="dbtn sm ghost" type="button" data-bv-x>Schließen</button></div>';
+    bview.hidden = false;
+    bview.querySelector(".mcard__x").focus({ preventScroll: true });
+  }
+  bview.addEventListener("click", function (e) { if (e.target.closest("[data-bv-x]")) bview.hidden = true; });
+  $("[data-c-rows]").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-bel]");
+    if (b) { openBel(S.cash[+b.getAttribute("data-bel")]); return; }
+    var a = e.target.closest("[data-bel-add]");
+    if (a) { belFor = S.cash[+a.getAttribute("data-bel-add")]; $("[data-c-later]").click(); }
   });
   function renderReport() {
     var s = cashSums(), inC = {}, outC = {};
@@ -602,7 +742,12 @@
       "<table><tr><td>Anfangsbestand 1. Jänner</td><td>" + eur(S.P.start, true) + '</td></tr><tr class="sum"><td>Einnahmen</td><td>' + eur(s.inn, true) + "</td></tr>" + rows(inC) +
       '<tr class="sum"><td>Ausgaben</td><td>' + eur(s.out, true) + "</td></tr>" + rows(outC) +
       '<tr class="sum"><td>Kassastand heute</td><td>' + eur(s.sum, true) + "</td></tr></table>" +
-      '<div class="sig"><span>' + esc(b[2][0]) + ": " + esc(b[2][1]) + "</span><span>Rechnungsprüfer 1 und 2</span></div>";
+      belNote() + '<div class="sig"><span>' + esc(b[2][0]) + ": " + esc(b[2][1]) + "</span><span>Rechnungsprüfer 1 und 2</span></div>";
+  }
+  function belNote() {
+    var outs = S.cash.filter(function (c) { return c.a < 0 && !c.m; }), miss = outs.filter(function (c) { return !c.beleg; });
+    return '<p class="rep__bel' + (miss.length ? " miss" : "") + '">Belege: ' + (outs.length - miss.length) + " von " + outs.length + " Ausgaben haben einen Beleg" +
+      (miss.length ? ". Es fehlt: " + miss.map(function (c) { return esc(c.t); }).join(", ") + "." : ", alles vollständig.") + "</p>";
   }
   $("[data-report]").addEventListener("click", function () {
     var rb = $("[data-report-box]"); rb.hidden = !rb.hidden;
@@ -613,8 +758,11 @@
   // bekommen ein Hochkomma, damit Excel eingetippte Texte nicht als Formel ausführt)
   function csv(name, rows) {
     var txt = "﻿" + rows.map(function (r) { return r.map(function (v) { v = String(v); if (/^[=+\-@]/.test(v)) v = "'" + v; return /[;"\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }).join(";"); }).join("\r\n");
+    dl(name, txt, "text/csv;charset=utf-8");
+  }
+  function dl(name, txt, type) {
     var a = document.createElement("a");
-    a.href = URL.createObjectURL(new Blob([txt], { type: "text/csv;charset=utf-8" }));
+    a.href = URL.createObjectURL(new Blob([txt], { type: type }));
     a.download = name; document.body.appendChild(a); a.click();
     setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
   }
@@ -625,8 +773,8 @@
     toast("Liste heruntergeladen", "öffnet sich direkt in Excel");
   });
   $("[data-csv-c]").addEventListener("click", function () {
-    csv("kassabuch-muster.csv", [["Datum", "Buchung", "Bereich", "Betrag"]].concat(S.cash.map(function (c) {
-      return [dshort(c.d) + c.d.getFullYear(), c.t, c.c, c.a.toFixed(2).replace(".", ",")];
+    csv("kassabuch-muster.csv", [["Datum", "Buchung", "Bereich", "Betrag", "Beleg"]].concat(S.cash.map(function (c) {
+      return [dshort(c.d) + c.d.getFullYear(), c.t, c.c, c.a.toFixed(2).replace(".", ","), c.beleg ? "ja" : c.a < 0 ? "fehlt" : ""];
     })));
     toast("Kassabuch heruntergeladen", "für Rechnungsprüfer oder Steuerberater");
   });
@@ -1075,47 +1223,94 @@
   }
   function renderNCount() { var l = who(nTo.value); $("[data-n-cnt]").innerHTML = "Geht an <b>" + l.length + "</b> " + (l.length === 1 ? "Mitglied" : "Mitglieder") + (l.indexOf(S.me) > -1 ? ", auch an " + esc(S.me.name) + " am Handy" : ""); }
   nTo.addEventListener("change", renderNCount);
+  function votes(m) { return m.poll.o.reduce(function (s, o) { return s + o.n; }, 0); }
   function renderSent() {
     $("[data-n-sent]").innerHTML = S.msgs.map(function (m) {
-      var lbl = targets().filter(function (x) { return x[0] === m.to; })[0];
-      return '<li' + (m.fresh ? ' class="is-new"' : "") + "><b>" + esc(m.t) + "</b><p>" + esc(m.x) + "</p><small><span>" + dshort(m.d) + " · " + esc(m.from) + "</span><span>An: " + esc(lbl ? lbl[1] : m.to) + " (" + m.n + ")</span>" + (m.mail ? "<span>+ E-Mail</span>" : "") + '</small><span class="rd"><i style="--r:' + Math.round(m.read / Math.max(1, m.n) * 100) + '%"></i>' + m.read + " gelesen</span></li>";
+      var lbl = targets().filter(function (x) { return x[0] === m.to; })[0], tot = m.poll ? votes(m) : 0;
+      var body = m.poll ? '<ul class="pres">' + m.poll.o.map(function (o) {
+        var p = Math.round(o.n / Math.max(1, tot) * 100);
+        return '<li><span>' + esc(o.t) + '</span><span class="b"><i style="width:' + p + '%"></i></span><span>' + p + " %</span></li>";
+      }).join("") + "</ul>" : "<p>" + esc(m.x) + "</p>";
+      var bar = m.poll ? '<span class="rd"><i style="--r:' + Math.round(tot / Math.max(1, m.n) * 100) + '%"></i>' + tot + " haben abgestimmt" + (m.poll.anon ? " · anonym" : "") + "</span>"
+        : '<span class="rd"><i style="--r:' + Math.round(m.read / Math.max(1, m.n) * 100) + '%"></i>' + m.read + " gelesen</span>";
+      return '<li' + (m.fresh ? ' class="is-new"' : "") + "><b>" + (m.poll ? '<em class="tag"><svg><use href="#i-poll"/></svg>Umfrage</em>' : "") + esc(m.t) + "</b>" + body + "<small><span>" + dshort(m.d) + " · " + esc(m.from) + "</span><span>An: " + esc(lbl ? lbl[1] : m.to) + " (" + m.n + ")</span>" + (m.mail ? "<span>+ E-Mail</span>" : "") + (m.cm.length ? "<span>" + m.cm.length + (m.cm.length === 1 ? " Kommentar" : " Kommentare") + "</span>" : "") + "</small>" + bar + "</li>";
     }).join("");
+  }
+  // Umfrage am Handy: erst antippen, dann sieht man das Ergebnis; Antwort lässt sich ändern
+  function pollHtml(m) {
+    var P = m.poll, tot = votes(m), on = P.mine > -1;
+    return '<div class="poll' + (on ? " is-voted" : "") + '" role="group" aria-label="' + esc(m.t) + '">' + P.o.map(function (o, i) {
+      var p = Math.round(o.n / Math.max(1, tot) * 100);
+      return '<button type="button" data-vote="' + i + '" aria-pressed="' + (P.mine === i) + '" style="--w:' + (on ? p : 0) + '%"><span>' + (P.mine === i ? '<svg aria-hidden="true"><use href="#i-check"/></svg>' : "") + esc(o.t) + "</span>" + (on ? "<em>" + p + " %</em>" : "") + "</button>";
+    }).join("") + '<p class="poll__n">' + (on ? tot + " Stimmen" : "Antippen zum Abstimmen") + (P.anon ? " · anonym" : "") + "</p></div>";
   }
   function renderPins() {
     var mine = S.msgs.filter(function (m) { return m.toMe; }), un = mine.some(function (m) { return m.unread; });
     $("[data-m-pins]").innerHTML = mine.map(function (m) {
-      return '<div class="pin' + (m.unread ? " unread" : "") + (m.fresh ? " is-new" : "") + '"><small><span>' + esc(m.from) + " · " + dshort(m.d) + "</span>" + (m.unread ? "<em>Neu</em>" : "") + "</small><b>" + esc(m.t) + "</b><p>" + esc(m.x) + "</p></div>";
+      return '<div class="pin' + (m.poll ? " is-poll" : "") + (m.unread ? " unread" : "") + (m.fresh ? " is-new" : "") + '" data-pid="' + m.id + '"><small><span>' + (m.poll ? '<svg aria-hidden="true"><use href="#i-poll"/></svg>Umfrage · ' : "") + esc(m.from) + " · " + dshort(m.d) + "</span>" + (m.unread ? "<em>Neu</em>" : "") + "</small><b>" + esc(m.t) + "</b>" +
+        (m.poll ? pollHtml(m) : "<p>" + esc(m.x) + '</p><div class="pin__ft">' + cmtTg(m, "m:" + m.id) + "</div>" + cmtBox(m, "m:" + m.id)) + "</div>";
     }).join("") || '<p class="note">Gerade nichts Neues.</p>';
     $("[data-m-docs]").innerHTML = S.P.docs.map(function (d, i) {
       return '<button type="button" data-doc="' + i + '"><i><svg><use href="#i-file"/></svg></i><span>' + esc(d[0]) + "<small>" + esc(d[1]) + '</small></span><svg><use href="#i-dl"/></svg></button>';
     }).join("");
     $("[data-m-ndot]").className = un ? "" : "off";
   }
+  $("[data-m-pins]").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-vote]"); if (!b) return;
+    var id = b.closest("[data-pid]").getAttribute("data-pid"), m = S.msgs.filter(function (x) { return x.id === id; })[0], i = +b.getAttribute("data-vote"), P = m.poll;
+    if (P.mine === i) return;
+    var first = P.mine < 0;
+    if (!first) P.o[P.mine].n--;
+    P.mine = i; P.o[i].n++; m.unread = false;
+    renderPins(); renderSent();
+    feed("pop", "i-poll", (P.anon ? "Neue Stimme" : S.me.name + " stimmt") + " bei „" + m.t + "“" + (P.anon ? " (anonym)" : ": " + P.o[i].t));
+    if (first) toast("Stimme abgegeben", "der Vorstand sieht das Ergebnis sofort");
+  });
   $("[data-m-docs]").addEventListener("click", function (e) {
     var b = e.target.closest("[data-doc]"); if (!b) return;
     toast("Muster-Dokument", S.P.docs[+b.getAttribute("data-doc")][0] + " · im echten Verein öffnet sich die PDF");
   });
+  var nKind = "msg", nX = $("[data-n-x]"), nOpts = $$("[data-n-o]");
+  function setKind(k) {
+    nKind = k; var poll = k === "poll";
+    $$("[data-k]", $("[data-n-kind]")).forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-k") === k); });
+    $("[data-n-h]").textContent = poll ? "Neue Umfrage" : "Neue Nachricht";
+    $("[data-n-tl]").textContent = poll ? "Frage" : "Betreff";
+    $("[data-n-t]").placeholder = poll ? "z. B. Welcher Termin passt für die Weihnachtsfeier?" : "z. B. Einladung zur Generalversammlung";
+    $("[data-n-xl]").hidden = poll; nX.required = !poll;
+    $("[data-n-poll]").hidden = !poll;
+    fillReset($("[data-n-go]"), poll ? "Umfrage starten" : "Nachricht senden");
+  }
+  $("[data-n-kind]").addEventListener("click", function (e) { var b = e.target.closest("[data-k]"); if (b) setKind(b.getAttribute("data-k")); });
   $("[data-n-form]").addEventListener("submit", function (e) {
     e.preventDefault();
     var go = $("[data-n-go]"); if (go.classList.contains("is-busy") || go.classList.contains("is-done")) return;
-    var t = $("[data-n-t]").value.trim().slice(0, 60), x = $("[data-n-x]").value.trim().slice(0, 400);
-    if (!t || !x) return;
-    var to = nTo.value, l = who(to), me = l.indexOf(S.me) > -1, mail = $("[data-n-mail]").checked;
-    fillSend(go, "Gesendet", function () {
+    var poll = nKind === "poll", t = $("[data-n-t]").value.trim().slice(0, 60), x = poll ? "" : nX.value.trim().slice(0, 400);
+    var opts = nOpts.map(function (i) { return i.value.replace(/\s+/g, " ").trim().slice(0, 40); }).filter(Boolean);
+    if (!t || (!poll && !x)) return;
+    if (poll && opts.length < 2) { toast("Mindestens zwei Antworten", "zum Beispiel zwei Termine"); (nOpts[opts.length] || nOpts[0]).focus(); return; }
+    var to = nTo.value, l = who(to), me = l.indexOf(S.me) > -1, mail = $("[data-n-mail]").checked, anon = $("[data-n-anon]").checked;
+    fillSend(go, poll ? "Gestartet" : "Gesendet", function () {
       S.msgs.forEach(function (m) { m.fresh = false; });
-      var m = { id: "n" + Date.now(), t: t, x: x, from: S.P.board[3][0], d: new Date(today), to: to, toMe: me, n: l.length, read: 0, mail: mail, unread: me, fresh: true };
+      var m = { id: "n" + Date.now(), t: t, x: x, from: S.P.board[3][0], d: new Date(today), to: to, toMe: me, n: l.length, read: 0, mail: mail, unread: me, fresh: true, cm: [] };
+      if (poll) m.poll = { o: opts.map(function (o) { return { t: o, n: 0 }; }), mine: -1, anon: anon };
       S.msgs.unshift(m);
-      $("[data-n-t]").value = ""; $("[data-n-x]").value = "";
-      fillReset(go, "Nachricht senden");
+      $("[data-n-t]").value = ""; nX.value = ""; nOpts.forEach(function (i) { i.value = ""; });
+      fillReset(go, poll ? "Umfrage starten" : "Nachricht senden");
       renderSent(); renderPins();
-      feed("", "i-mail", "Nachricht „" + t + "“ an " + l.length + " Mitglieder");
-      toast("Nachricht ist in der App", me ? "schau aufs Handy, Reiter „Neues“" : l.length + " Mitglieder bekommen sie");
-      // Die ersten lesen gleich
-      setTimeout(function () { m.read = Math.max(1, Math.round(l.length * 0.18)); renderSent(); }, 1800);
-      setTimeout(function () { m.read = Math.max(1, Math.round(l.length * 0.41)); renderSent(); }, 5200);
+      feed("", poll ? "i-poll" : "i-mail", (poll ? "Umfrage „" : "Nachricht „") + t + "“ an " + l.length + " Mitglieder");
+      toast(poll ? "Umfrage ist in der App" : "Nachricht ist in der App", me ? "schau aufs Handy, Reiter „Neues“" : l.length + " Mitglieder bekommen sie");
+      // Die ersten lesen und stimmen gleich ab
+      var step = function (k) {
+        m.read = Math.max(1, Math.round(l.length * k));
+        if (m.poll) m.poll.o.forEach(function (o, i) { o.n += Math.max(i ? 0 : 1, Math.round(l.length * k * 0.5 * [0.5, 0.32, 0.18][i])); });
+        renderSent(); if (m.poll && m.poll.mine > -1 && !$("[data-m-pins]").contains(document.activeElement)) renderPins();
+      };
+      setTimeout(function () { step(0.18); }, 1800);
+      setTimeout(function () { step(0.23); }, 5200);
     });
   });
-  function renderNForm() { nTo.innerHTML = targets().map(function (o) { return '<option value="' + esc(o[0]) + '">' + esc(o[1]) + "</option>"; }).join(""); renderNCount(); }
+  function renderNForm() { setKind(nKind); nTo.innerHTML = targets().map(function (o) { return '<option value="' + esc(o[0]) + '">' + esc(o[1]) + "</option>"; }).join(""); renderNCount(); }
 
   // ---------- Jubiläen und Ehrungen ----------
   var JUB = [10, 25, 40, 50, 60];
@@ -1168,7 +1363,7 @@
       renderOpen(); openCard(m.nr);
     }
   });
-  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeCard(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") { closeCard(); bview.hidden = true; } });
 
   // ---------- Vereinsart wechseln ----------
   function load(k) {
@@ -1176,7 +1371,7 @@
     $("[data-lgn-mail]").value = (k === "musik" ? "obfrau@" : "obmann@") + VK[k].url.split("/")[0];
     build(k);
     document.body.setAttribute("data-vk", k);
-    mcard.hidden = true;
+    mcard.hidden = true; bview.hidden = true; setBel("");
     $("[data-m-year]").textContent = YEAR;
     $("[data-me-first]").textContent = S.me.name.split(" ")[0];
     $("[data-d-newbadge]").hidden = true;
