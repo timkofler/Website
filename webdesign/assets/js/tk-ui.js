@@ -791,3 +791,55 @@
     if (a && a.pathname === location.pathname && a.hash === location.hash) fromHash();
   });
 })();
+
+// Beispiele-Übersicht: Sprung-Karten im Kopf und Sprungleiste beim Scrollen.
+// Zählt die Entwürfe pro Eintrag selbst, damit keine Zahl von Hand veraltet.
+(function () {
+  var ways = document.querySelector(".tk-bx__ways"), bar = document.querySelector(".tk-bx-bar");
+  if (!ways || !bar) return;
+  var links = Array.prototype.slice.call(document.querySelectorAll(".tk-bx__chips a, .tk-bx-bar a"));
+  links.forEach(function (a) {
+    var el = document.getElementById(a.hash.slice(1)), em = a.querySelector("em");
+    if (!el || !em) return;
+    var ex = el.classList.contains("tk-bx-part") ? el.nextElementSibling : el.closest(".tk-ex");
+    var n = ex && (el === ex || el.classList.contains("tk-bx-part")) ? ex.querySelectorAll(".tk-vpick__a").length : 0;
+    if (n > 1) em.textContent = n;
+  });
+  // App-Knöpfe zeigen die gewählte App gleich in der Vorschau
+  links.forEach(function (a) {
+    var el = document.getElementById(a.hash.slice(1));
+    if (!el || !el.classList.contains("tk-vpick__a")) return;
+    a.addEventListener("click", function (e) {
+      e.preventDefault();
+      var ex = el.closest(".tk-ex");
+      ex.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+      el.dispatchEvent(new Event("mouseenter")); el.dispatchEvent(new Event("mouseleave"));
+      if (history.replaceState) history.replaceState(null, "", a.hash);
+    });
+  });
+  bar.hidden = false;
+  var inner = bar.querySelector(".tk-bx-bar__in"), header = document.querySelector(".header__inner") || document.querySelector(".header");
+  var barLinks = Array.prototype.slice.call(bar.querySelectorAll("a"));
+  var targets = barLinks.map(function (a) { return document.getElementById(a.hash.slice(1)); });
+  var list = document.querySelector(".tk-bx-list"), on = -1, tick = false;
+  function update() {
+    tick = false;
+    var hb = header.getBoundingClientRect().bottom;
+    bar.style.setProperty("--tk-bx-top", Math.max(0, hb) + 8 + "px");
+    var show = ways.getBoundingClientRect().bottom < hb && list.getBoundingClientRect().bottom > innerHeight * .5;
+    bar.classList.toggle("is-on", show);
+    var line = hb + 120, cur = -1;
+    targets.forEach(function (t, i) { if (t && t.getBoundingClientRect().top <= line) cur = i; });
+    if (cur !== on) {
+      on = cur;
+      barLinks.forEach(function (a, i) { a.classList.toggle("is-on", i === cur); });
+      var a = barLinks[cur];
+      if (a) inner.scrollTo({ left: a.offsetLeft - (inner.clientWidth - a.offsetWidth) / 2, behavior: "smooth" });
+    }
+  }
+  function req() { if (!tick) { tick = true; requestAnimationFrame(update); } }
+  addEventListener("scroll", req, { passive: true });
+  addEventListener("resize", req);
+  document.querySelector(".header").addEventListener("transitionend", req);
+  update();
+})();
