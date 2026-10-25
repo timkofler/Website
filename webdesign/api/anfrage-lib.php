@@ -9,6 +9,13 @@ require_once __DIR__ . '/entwurf-lib.php';
 
 const AF_DIR = CX_DATA . '/anfragen';
 const AF_KOSTEN = CX_DATA . '/werbekosten.json';
+// Laufende Kosten pro Monat, die keine Werbequelle sind (z. B. Claude-Abo). Der KI-Chat kommt automatisch dazu.
+const AF_BETRIEB = CX_DATA . '/laufende-kosten.json';
+// Erste Werte, solange im Admin noch nichts gespeichert wurde (Stand Oktober 2026, in Cent).
+const AF_KOSTEN_START = ['brief' => 5700, 'flyer' => 7582, 'google-anzeige' => 1674, 'willhaben' => 2399];
+const AF_BETRIEB_START = ['Claude-Abo' => null];
+// Ungefährer Kurs für die KI-Chat-Kosten, die in US-Dollar gerechnet werden.
+const AF_USD_EUR = 0.92;
 // Ein Status für alle Arten von Anfragen (auch die Gratis-Entwürfe, deren „erledigt“ von früher bleibt lesbar).
 const AF_STATUS = ['neu' => 'Neu', 'arbeit' => 'In Arbeit', 'geschickt' => 'Entwurf/Angebot geschickt', 'kunde' => 'Kunde geworden', 'abgesagt' => 'Abgesagt'];
 const AF_ARTEN = ['anfrage' => 'Anfrage', 'gruender' => 'Gründer', 'verein' => 'Verein', 'rueckruf' => 'Rückruf', 'entwurf' => 'Gratis-Entwurf'];
@@ -102,14 +109,27 @@ function af_quelle(string $q): string
 
 function af_quelle_name(string $q): string
 {
-    $fest = ['google-anzeige' => 'Google-Anzeige', 'direkt' => 'Direkt / ohne Kennung', 'willhaben' => 'willhaben', 'brief' => 'Brief'];
+    $fest = ['google-anzeige' => 'Google-Anzeige', 'direkt' => 'Direkt / ohne Kennung', 'willhaben' => 'willhaben', 'brief' => 'Briefe (Porto)', 'flyer' => 'Flyer + Visitenkarten'];
     return $fest[$q] ?? (strpos($q, '.') !== false ? $q : ucfirst($q));
 }
 
 function af_kosten(): array
 {
-    $d = is_file(AF_KOSTEN) ? json_decode((string) file_get_contents(AF_KOSTEN), true) : [];
+    $d = is_file(AF_KOSTEN) ? json_decode((string) file_get_contents(AF_KOSTEN), true) : AF_KOSTEN_START;
     return is_array($d) ? $d : [];
+}
+
+// Laufende Kosten: Name => Cent pro Monat (null = noch nicht eingetragen).
+function af_betrieb(): array
+{
+    $d = is_file(AF_BETRIEB) ? json_decode((string) file_get_contents(AF_BETRIEB), true) : AF_BETRIEB_START;
+    return is_array($d) ? $d : [];
+}
+
+function af_betrieb_save(array $b): bool
+{
+    $json = json_encode($b, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+    return @file_put_contents(AF_BETRIEB, $json, LOCK_EX) !== false;
 }
 
 function af_kosten_save(array $k): bool

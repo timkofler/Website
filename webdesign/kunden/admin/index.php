@@ -294,9 +294,25 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
                 $neu[$quelle] = $cent;
             }
         }
-        $ok = af_kosten_save($neu);
+        // Laufende Kosten (nicht Werbung): Name => Betrag pro Monat, leeres Feld entfernt die Zeile.
+        $lauf = [];
+        $lw = is_array($_POST['laufend'] ?? null) ? $_POST['laufend'] : [];
+        $ln = trim(str_replace(['<', '>', '"'], '', cx_field('neu_laufend', 40)));
+        if ($ln !== '') {
+            $lw[$ln] = (string) ($_POST['neu_laufend_betrag'] ?? '');
+        }
+        foreach ($lw as $name => $betrag) {
+            $name = mb_substr(trim(str_replace(['<', '>', '"'], '', (string) $name)), 0, 40);
+            $cent = af_cent(mb_substr((string) $betrag, 0, 20));
+            if ($cent === -1) {
+                $fehler = true;
+            } elseif ($cent !== null && $name !== '' && count($lauf) < 20) {
+                $lauf[$name] = $cent;
+            }
+        }
+        $ok = af_kosten_save($neu) && af_betrieb_save($lauf);
         kp_flash($ok && !$fehler, !$ok ? 'Konnte nicht gespeichert werden (Schreibrechte im Ordner api/_data prüfen).'
-            : ($fehler ? 'Gespeichert, aber ein Betrag war keine Zahl und wurde weggelassen (z. B. 16,74).' : 'Werbekosten gespeichert.'));
+            : ($fehler ? 'Gespeichert, aber ein Betrag war keine Zahl und wurde weggelassen (z. B. 16,74).' : 'Kosten gespeichert.'));
         kp_redirect(KP_ADMIN . '#anfragen');
     }
 
@@ -1109,21 +1125,48 @@ foreach (array_unique(array_merge(array_keys($afKosten), AF_QUELLEN_VORSCHLAG, a
     $val = isset($afKosten[$q]) ? number_format($afKosten[$q] / 100, 2, ',', '.') : '';
     $kInputs .= '<label class="form__field"><span>' . cx_h(af_quelle_name($q)) . '</span><input type="text" name="kosten[' . cx_h($q) . ']" value="' . $val . '" inputmode="decimal" maxlength="20" placeholder="0,00"></label>';
 }
+// Laufende Kosten im letzten Monat (Claude-Abo usw. plus KI-Chat), geteilt durch die Anfragen der letzten 30 Tage.
+$lauf = af_betrieb();
+$ch30 = ch_range(30);
+$chEuro = (int) round($ch30['usd'] * AF_USD_EUR * 100);
+$lRows = '';
+$lSumme = $chEuro;
+foreach ($lauf as $name => $cent) {
+    $lSumme += (int) $cent;
+    $lRows .= '<tr><td>' . cx_h((string) $name) . '</td><td>' . ($cent === null ? 'noch eintragen' : af_euro((int) $cent)) . '</td></tr>';
+}
+$lRows .= '<tr><td>KI-Chat auf der Seite <em>(automatisch, letzte 30 Tage)</em></td><td>ca. ' . af_euro($chEuro) . '</td></tr>';
+$an30 = count(array_filter($afAlle, static fn($d) => (strtotime((string) ($d['zeit'] ?? '')) ?: 0) >= time() - 30 * 86400));
+$lPro = $an30 > 0 ? 'Bei ' . $an30 . ($an30 === 1 ? ' Anfrage' : ' Anfragen') . ' in den letzten 30 Tagen sind das <b>' . af_euro((int) round($lSumme / $an30)) . '</b> pro Anfrage, zusätzlich zur Werbung.' : 'In den letzten 30 Tagen kam noch keine Anfrage.';
+$lInputs = '';
+foreach ($lauf as $name => $cent) {
+    $lInputs .= '<label class="form__field"><span>' . cx_h((string) $name) . ' <em>(€ pro Monat)</em></span><input type="text" name="laufend[' . cx_h((string) $name) . ']" value="' . ($cent === null ? '' : number_format((int) $cent / 100, 2, ',', '.')) . '" inputmode="decimal" maxlength="20" placeholder="0,00"></label>';
+}
+$lTabelle = '<h4 class="kp-chat-h">Laufende Kosten <em>(keine Werbung, pro Monat)</em></h4><div class="kp-table kp-kosten"><table><tbody>' . $lRows
+    . '<tr><th>Summe pro Monat</th><th>' . af_euro($lSumme) . '</th></tr></tbody></table></div><p class="kp-hint">' . $lPro . '</p>';
 $kTabelle = $afQ ? '<div class="kp-table kp-kosten"><table><thead><tr><th>Quelle</th><th>Anfragen</th><th>Kunden</th><th>Kosten</th><th>€/Anfrage</th><th>€/Kunde</th></tr></thead><tbody>' . $kRows . '</tbody></table></div>' : '<p class="kp-hint">Noch keine Anfragen mit Quelle.</p>';
 $kostenCard = <<<HTML
 <div class="kp-card kp-kosten-card" id="kosten">
   <h3>Kosten pro Anfrage</h3>
   {$kTabelle}
   {$kGesamt}
-  <details class="kp-info"><summary>Werbekosten eintragen</summary>
+  {$lTabelle}
+  <details class="kp-info"><summary>Kosten eintragen</summary>
     <form class="form form--small" method="post" action="/kunden/admin/">
       {$csrf}
       <input type="hidden" name="aktion" value="kosten">
+      <h4 class="kp-chat-h">Werbung <em>(Summe bisher je Quelle)</em></h4>
       <p class="kp-hint">Trag ein, was die Quelle bisher insgesamt gekostet hat (z. B. Google Ads laut Abrechnung, willhaben-Rechnung, Druck der Flyer). Leeres Feld = keine Kosten. Gezählt werden die Anfragen der letzten 12 Monate. Die Quelle kommt aus dem Link (utm_source, Google-Anzeige über gclid) oder der Seite, von der jemand kam.</p>
       <div class="kp-kosten-felder">{$kInputs}</div>
       <div class="form__row">
         <label class="form__field"><span>Weitere Quelle <em>(wie utm_source)</em></span><input type="text" name="neu_quelle" maxlength="40" placeholder="z. B. gemeindezeitung" autocapitalize="none" spellcheck="false"></label>
         <label class="form__field"><span>Kosten in €</span><input type="text" name="neu_betrag" maxlength="20" inputmode="decimal" placeholder="0,00"></label>
+      </div>
+      <h4 class="kp-chat-h">Laufende Kosten <em>(€ pro Monat, z. B. Claude-Abo)</em></h4>
+      <div class="kp-kosten-felder">{$lInputs}</div>
+      <div class="form__row">
+        <label class="form__field"><span>Weitere laufende Kosten</span><input type="text" name="neu_laufend" maxlength="40" placeholder="z. B. Webspace"></label>
+        <label class="form__field"><span>€ pro Monat</span><input type="text" name="neu_laufend_betrag" maxlength="20" inputmode="decimal" placeholder="0,00"></label>
       </div>
       <button class="btn btn--line" type="submit">Speichern</button>
     </form>
