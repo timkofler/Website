@@ -23,7 +23,7 @@
   <link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/style.css?v=5d1d811a">
-  <link rel="stylesheet" href="/assets/css/tk.css?v=dd1ddb1e">
+  <link rel="stylesheet" href="/assets/css/tk.css?v=28587bcc">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Start", "item": "https://tim-kofler.at/"}, {"@type": "ListItem", "position": 2, "name": "Beispielseiten", "item": "https://tim-kofler.at/beispiele/"}]}, {"@type": "CollectionPage", "@id": "https://tim-kofler.at/beispiele/#seite", "url": "https://tim-kofler.at/beispiele/", "name": "Beispielseiten für Friseur, Café, Werkstatt & mehr", "inLanguage": "de-AT", "isPartOf": {"@id": "https://tim-kofler.at/#website"}, "about": {"@id": "https://tim-kofler.at/#unternehmen"}}]}</script>
 </head>
 <body>
@@ -34,35 +34,62 @@
     <nav class="nav" aria-label="Hauptnavigation">
       <a href="/#leistungen">Leistungen</a>
       <a href="/#beispiele">Beispiele</a>
-      <a href="/webseite/">Branchen</a>
-      <a href="/entwurf/" class="nav__free">Gratis-Entwurf <span>Neu</span></a>
       <a href="/#pakete">Pakete</a>
-      <a href="/#email">Landingpages</a>
       <a href="/ablauf/">Ablauf</a>
-      <a href="/#ueber">Über mich</a>
-      <a href="/#anfrage" class="btn nav__cta">Anfragen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <div class="nav__more">
+        <button type="button" class="nav__more-btn" aria-expanded="false" aria-controls="nav-mehr">Mehr <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="nav__drop" id="nav-mehr">
+          <a href="/webseite/">Branchen</a>
+          <a href="/#email">Landingpages</a>
+          <a href="/#extras">Web-Apps</a>
+          <a href="/#ueber">Über mich</a>
+        </div>
+      </div>
     </nav>
-    <div style="display:flex;gap:10px;align-items:center">
+    <div class="header__end">
+      <a href="/entwurf/" class="header__free">Gratis-Entwurf <i>Neu</i></a>
       <a href="/#anfrage" class="btn btn--sm header__cta">Anfragen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <button class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path class="nt-1" d="M4 7h16"/><path class="nt-2" d="M4 12h16"/><path class="nt-3" d="M4 17h16"/></svg></button>
+      <button type="button" class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mnav"><span class="nav-toggle__t" aria-hidden="true">Schließen</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path class="nt-1" d="M5 9h14"/><path class="nt-3" d="M9 15h10"/></svg></button>
     </div>
+  </div>
+  <div class="mnav" id="mnav">
+    <a href="/entwurf/" class="mnav__free"><span><b>Gratis-Entwurf <i>Neu</i></b><small>Erst sehen, dann entscheiden</small></span><em class="mnav__go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></em></a>
+    <p class="mnav__k">Angebot</p>
+    <div class="mnav__grid"><a href="/#leistungen">Leistungen</a><a href="/#pakete">Pakete</a><a href="/#email">Landingpages</a><a href="/#extras">Web-Apps</a></div>
+    <p class="mnav__k">Entdecken</p>
+    <div class="mnav__grid"><a href="/#beispiele">Beispiele</a><a href="/webseite/">Branchen</a><a href="/ablauf/">Ablauf</a><a href="/#ueber">Über mich</a></div>
+    <div class="mnav__row"><a class="mnav__wa" href="https://wa.me/4367761773118?text=Hallo%20Tim%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Webseite." rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.4z"/><path d="M9 8.6c0 3.3 3 6.4 6.4 6.4l1.2-1.4-2-1-.9.8a5 5 0 0 1-2.6-2.6l.8-.9-1-2z"/></svg>WhatsApp</a><a href="/#anfrage" class="btn">Anfragen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
   </div>
 </header>
 
 <main>
 
-<section class="page-head">
+<section class="page-head tk-bx-head">
   <div class="grid-bg" aria-hidden="true"></div>
-  <div class="container" style="position:relative">
+  <div class="container tk-bx" style="position:relative">
     <div class="crumbs"><a href="/">Start</a> / <a href="/#beispiele">Beispiele</a> / Im Detail</div>
-    <h1>Beispielseiten</h1>
-    <p class="lead">Neunzehn komplette Beispielseiten für fünfzehn Branchen, mit echten Videos, eigenen Animationen und Funktionen wie Online-Buchung und einem kompletten Online-Shop. Dazu vier Web-Apps statt Abos zum Ausprobieren: Betriebs-App, Vereins-App und zwei Dashboards. Alle laufen live im Browser, am Handy wie am Computer.</p>
+    <div class="tk-bx__intro">
+      <h1>Beispielseiten</h1>
+      <p class="lead">Neunzehn komplette Beispielseiten für fünfzehn Branchen und vier Web-Apps zum Ausprobieren. Alles läuft live, am Handy wie am PC.</p>
+      <p class="tk-bx__legal">Alle Betriebe sind erfunden, Bilder und Videos lizenzfrei. Für echte Kunden gestalte ich jede Seite neu, passend zu Betrieb, Region und Budget.</p>
+    </div>
+    <nav class="tk-bx__ways" aria-label="Zu den Beispielen springen">
+      <div class="tk-bx__card">
+        <p class="tk-bx__top"><b data-zahl="webseiten">19</b><span>Webseiten</span><small><span data-zahl="branchen">15</span> Branchen</small></p>
+        <div class="tk-bx__chips"><a href="#friseur">Friseur<em></em></a><a href="#cafe">Café &amp; Rösterei<em></em></a><a href="#gasthaus">Gasthaus &amp; Pizzeria<em></em></a><a href="#dachdecker">Dach, Holz, Farbe &amp; Boden<em></em></a><a href="#werkstatt">Autowerkstatt<em></em></a><a href="#pension">Pension<em></em></a><a href="#cider">Getränke &amp; Shop<em></em></a><a href="#baeckerei">Bäckerei<em></em></a><a href="#fleischerei">Fleischerei<em></em></a><a href="#massage">Massage<em></em></a></div>
+      </div>
+      <div class="tk-bx__card tk-bx__card--app">
+        <p class="tk-bx__top"><b data-zahl="apps">4</b><span>Web-Apps statt Abos</span><small>zum Ausprobieren</small></p>
+        <div class="tk-bx__chips"><a href="#betriebs-app">Betriebs-App<em></em></a><a href="#verein-app">Vereins-App<em></em></a><a href="#dashboard">Büro-Dashboard<em></em></a><a href="#luma">Autovermietung<em></em></a></div>
+      </div>
+    </nav>
   </div>
 </section>
+<nav class="tk-bx-bar" aria-label="Schnell springen" hidden><div class="tk-bx-bar__in"><a href="#friseur">Friseur<em></em></a><a href="#cafe">Café &amp; Rösterei<em></em></a><a href="#gasthaus">Gasthaus &amp; Pizzeria<em></em></a><a href="#dachdecker">Dach, Holz, Farbe &amp; Boden<em></em></a><a href="#werkstatt">Autowerkstatt<em></em></a><a href="#pension">Pension<em></em></a><a href="#cider">Getränke &amp; Shop<em></em></a><a href="#baeckerei">Bäckerei<em></em></a><a href="#fleischerei">Fleischerei<em></em></a><a href="#massage">Massage<em></em></a><span class="tk-bx-bar__sep" aria-hidden="true"></span><a href="#apps" class="tk-bx-bar__app">Web-Apps<em></em></a></div></nav>
 
-<section class="section tk-exs" style="padding-top:48px">
+<section class="section tk-exs tk-bx-list">
   <div class="container">
-    <p class="note-legal">Alle Betriebe sind erfunden, Namen und Adressen sind Musterangaben. Videos und Fotos sind lizenzfreies Bildmaterial. Für echte Kunden gestalte ich jede Seite neu, passend zu Betrieb, Region und Budget.</p>
+  <h2 class="tk-bx-part" id="webseiten"><span>Webseiten</span><small>nach Branche, mit eigenen Animationen</small></h2>
   <article class="tk-ex tk-exg" id="friseur" data-tkg>
     <a class="tk-ex__media" href="/beispiele/friseur/" aria-label="Haarwerk Studio live ansehen">
       <span class="tk-ex__bar" aria-hidden="true"><i></i><i></i><i></i><span>tim-kofler.at/beispiele/friseur</span></span>
@@ -73,7 +100,7 @@
     </a>
     <div class="tk-ex__text">
       <span class="label"><b>Friseur</b> Drei Beispiel-Entwürfe</span>
-      <h2>Haarwerk, Mähne &amp; Seide</h2>
+      <h3>Haarwerk, Mähne &amp; Seide</h3>
       <p class="tk-ex__anim"><strong>Eigene Animationen:</strong> Eine gezeichnete Schere schneidet Strähne für Strähne zum Bob, Haarfarben wechseln im Kreis über das ganze Bild und 3D-Haar folgt der Maus.</p>
       <ul class="ticks"><li>Online-Buchung mit Leistung, Stylist und freien Zeiten</li><li>Vorher-nachher-Regler</li><li>Sechs Haarfarben und Looks zum Durchschalten</li></ul>
       <div class="tk-vpick">
@@ -82,7 +109,7 @@
         <a class="tk-vpick__a" id="maehne" href="/beispiele/friseur/v2/" data-url="tim-kofler.at/beispiele/friseur/v2" data-name="Mähne"><b>2</b><span>Mähne<small>Knallig, Haarfarben durchschalten</small></span></a>
         <a class="tk-vpick__a" id="seide" href="/beispiele/friseur/v3/" data-url="tim-kofler.at/beispiele/friseur/v3" data-name="Seide"><b>3</b><span>Seide<small>Dezent, 3D-Haar zum Wischen</small></span></a>
       </div>
-      <p class="muted" style="margin:16px 0 24px;font-size:.95rem">Was eine Seite für Friseure können sollte, mit Preisen: <a href="/webseite/friseur/">Webseiten für Friseure</a></p>
+      <p class="muted tk-bx-more"><a href="/webseite/friseur/">Webseiten für Friseure</a>: Funktionen und Preise</p>
       <div class="btn-row">
         <a href="/beispiele/friseur/" class="btn">Live ansehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <a href="/#anfrage" class="btn btn--line" data-paket="Noch unsicher">So eine Seite anfragen</a>
@@ -98,7 +125,7 @@
     </a>
     <div class="tk-ex__text">
       <span class="label"><b>Café &amp; Rösterei</b> Zwei Beispiel-Entwürfe</span>
-      <h2>Café Mühlbach &amp; röstzeit</h2>
+      <h3>Café Mühlbach &amp; röstzeit</h3>
       <p class="tk-ex__anim"><strong>Eigene Animationen:</strong> Kaffee fließt in die Tasse, die Crema bildet sich und der Dampf steigt auf. Bei röstzeit drehen sich Becher und Bohnen in 3D und eine Uhr läuft durch den Tag im Kaffeehaus.</p>
       <ul class="ticks"><li>Speisekarte mit Reitern</li><li>„Jetzt geöffnet“ nach der aktuellen Uhrzeit</li><li>Tischreservierung oder online vorbestellen und abholen</li></ul>
       <div class="tk-vpick">
@@ -106,7 +133,7 @@
         <a class="tk-vpick__a" href="/beispiele/cafe/" data-url="tim-kofler.at/beispiele/cafe" data-name="Café Mühlbach"><b>1</b><span>Café Mühlbach<small>Gemütliches Café, Speisekarte und Tischreservierung</small></span></a>
         <a class="tk-vpick__a" id="kaffeebar" href="/beispiele/kaffeebar/" data-url="tim-kofler.at/beispiele/kaffeebar" data-name="röstzeit"><b>2</b><span>röstzeit<small>Kaffeehaus mit Rösterei, 3D-Becher und Vorbestellung mit Warenkorb</small></span></a>
       </div>
-      <p class="muted" style="margin:16px 0 24px;font-size:.95rem">Was eine Seite für Cafés und Konditoreien können sollte, mit Preisen: <a href="/webseite/cafe/">Webseiten für Cafés</a></p>
+      <p class="muted tk-bx-more"><a href="/webseite/cafe/">Webseiten für Cafés</a>: Funktionen und Preise</p>
       <div class="btn-row">
         <a href="/beispiele/cafe/" class="btn">Live ansehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <a href="/#anfrage" class="btn btn--line" data-paket="Noch unsicher">So eine Seite anfragen</a>
@@ -120,10 +147,10 @@
     </a>
     <div class="tk-ex__text">
       <span class="label"><b>Autowerkstatt</b> Beispiel-Entwurf</span>
-      <h2>KFZ Steiner</h2>
+      <h3>KFZ Steiner</h3>
       <p class="tk-ex__anim"><strong>Eigene Animation:</strong> Das Auto wird angehoben, die Radmuttern drehen sich heraus und der Winterreifen rollt hinein.</p>
       <ul class="ticks"><li>Online-Termin mit Kennzeichen</li><li>Leistungen mit Preisen</li><li>Zähler, die beim Scrollen hochlaufen</li><li>Für Handy und Computer gebaut</li></ul>
-      <p class="muted" style="margin:16px 0 24px;font-size:.95rem">Was eine Seite für Kfz-Werkstätten können sollte, mit Preisen: <a href="/webseite/werkstatt/">Webseiten für Kfz-Werkstätten</a></p>
+      <p class="muted tk-bx-more"><a href="/webseite/werkstatt/">Webseiten für Kfz-Werkstätten</a>: Funktionen und Preise</p>
       <div class="btn-row">
         <a href="/beispiele/werkstatt/" class="btn">Live ansehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <a href="/#anfrage" class="btn btn--line" data-paket="Noch unsicher">So eine Seite anfragen</a>
@@ -141,7 +168,7 @@
     </a>
     <div class="tk-ex__text">
       <span class="label"><b>Handwerk</b> Vier Beispiel-Entwürfe</span>
-      <h2>Dach, Holz, Farbe &amp; Boden</h2>
+      <h3>Dach, Holz, Farbe &amp; Boden</h3>
       <p class="tk-ex__anim"><strong>Eigene Animationen:</strong> Beim Scrollen entsteht ein Dach Schicht für Schicht, die Bretter eines Möbelstücks fliegen zusammen, eine Farbrolle streicht die Wand neu und ein Fischgrätboden wird verlegt.</p>
       <ul class="ticks"><li>Dachrechner, Flächen- und Preisrechner mit Richtpreis</li><li>Bodenplaner: Muster und Holz im 3D-Raum wählen</li><li>Wunschfarbe im Wohnzimmer ausprobieren</li></ul>
       <div class="tk-vpick">
@@ -151,7 +178,7 @@
         <a class="tk-vpick__a" id="maler" href="/beispiele/maler/" data-url="tim-kofler.at/beispiele/maler" data-name="Malerei Lindner"><b>3</b><span>Malerei Lindner<small>Malerbetrieb, Farbe testen und Flächenrechner</small></span></a>
         <a class="tk-vpick__a" id="bodenleger" href="/beispiele/bodenleger/" data-url="tim-kofler.at/beispiele/bodenleger" data-name="Grund &amp; Holz"><b>4</b><span>Grund &amp; Holz<small>Bodenleger, Boden im 3D-Raum wählen, Fischgrät wird verlegt</small></span></a>
       </div>
-      <p class="muted" style="margin:16px 0 24px;font-size:.95rem">Was eine Seite für Handwerksbetriebe können sollte, mit Preisen: <a href="/webseite/handwerk/">Webseiten für Handwerksbetriebe</a></p>
+      <p class="muted tk-bx-more"><a href="/webseite/handwerk/">Webseiten für Handwerksbetriebe</a>: Funktionen und Preise</p>
       <div class="btn-row">
         <a href="/beispiele/dachdecker/" class="btn">Live ansehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <a href="/#anfrage" class="btn btn--line" data-paket="Noch unsicher">So eine Seite anfragen</a>
@@ -168,7 +195,7 @@
     </a>
     <div class="tk-ex__text">
       <span class="label"><b>Gasthaus &amp; Restaurant</b> Drei Beispiel-Entwürfe</span>
-      <h2>Glut, Proibito &amp; Hollerhof</h2>
+      <h3>Glut, Proibito &amp; Hollerhof</h3>
       <p class="tk-ex__anim"><strong>Eigene Animationen:</strong> Gerichte zum Durchwischen wie in einer Koch-App, eine Pizzeria im Stil der 1920er und ein Teller, der Schritt für Schritt angerichtet wird.</p>
       <ul class="ticks"><li>Online-Bestellung mit Lieferzonen und Live-Verfolgung</li><li>Wochenmenü, der heutige Tag ist markiert</li><li>Speisekarte, Gastgarten und Tischreservierung</li></ul>
       <div class="tk-vpick">
@@ -177,7 +204,7 @@
         <a class="tk-vpick__a" id="pizzeria" href="/beispiele/pizzeria/" data-url="tim-kofler.at/beispiele/pizzeria" data-name="Proibito Pizzeria"><b>2</b><span>Proibito Pizzeria<small>Edel im 1920er-Stil, Online-Bestellung mit Lieferung</small></span></a>
         <a class="tk-vpick__a" id="hollerhof" href="/beispiele/gasthaus/" data-url="tim-kofler.at/beispiele/gasthaus" data-name="Landgasthof Hollerhof"><b>3</b><span>Landgasthof Hollerhof<small>Klassisch, Teller-Animation</small></span></a>
       </div>
-      <p class="muted" style="margin:16px 0 24px;font-size:.95rem">Was eine Seite für Gasthäuser und Restaurants können sollte, mit Preisen: <a href="/webseite/gasthaus/">Webseiten für Gasthäuser</a></p>
+      <p class="muted tk-bx-more"><a href="/webseite/gasthaus/">Webseiten für Gasthäuser</a>: Funktionen und Preise</p>
       <div class="btn-row">
         <a href="/beispiele/gasthaus/v2/" class="btn">Live ansehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <a href="/#anfrage" class="btn btn--line" data-paket="Noch unsicher">So eine Seite anfragen</a>
@@ -191,10 +218,10 @@
     </a>
     <div class="tk-ex__text">
       <span class="label"><b>Pension &amp; Gasthof</b> Beispiel-Entwurf</span>
-      <h2>Zirbenhof</h2>
+      <h3>Zirbenhof</h3>
       <p class="tk-ex__anim"><strong>Eigene Animation:</strong> Beim Scrollen vergeht ein ganzer Tag im Haus: Sonnenaufgang zum Frühstück, Wanderer auf dem Weg zur Alm, die Sauna am Nachmittag und am Abend Licht in der Gaststube und Sterne über dem Berg.</p>
       <ul class="ticks"><li>Belegungskalender pro Zimmer mit freien und belegten Tagen</li><li>Preis rechnet sich sofort: Gäste, Halbpension, Hund, Ortstaxe, 7 Nächte zum Preis von 6</li><li>Buchungsanfrage direkt beim Haus, ohne Buchungsportal</li><li>Zimmer mit Details, Ausflüge für Sommer und Winter</li></ul>
-      <p class="muted" style="margin:16px 0 24px;font-size:.95rem">Was eine Seite für Pensionen und Gästehäuser können sollte, mit Preisen: <a href="/webseite/pension/">Webseiten für Pensionen</a></p>
+      <p class="muted tk-bx-more"><a href="/webseite/pension/">Webseiten für Pensionen</a>: Funktionen und Preise</p>
       <div class="btn-row">
         <a href="/beispiele/pension/" class="btn">Live ansehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <a href="/#anfrage" class="btn btn--line" data-paket="Noch unsicher">So eine Seite anfragen</a>
@@ -210,7 +237,7 @@
     </a>
     <div class="tk-ex__text">
       <span class="label"><b>Online verkaufen</b> Zwei Beispiel-Entwürfe</span>
-      <h2>Birnstoff &amp; Birnkammer</h2>
+      <h3>Birnstoff &amp; Birnkammer</h3>
       <p class="tk-ex__anim"><strong>Eigene Animationen:</strong> Eine 3D-Dose fährt die ganze Seite mit und wechselt beim Wischen die Sorte. Im Hofladen fliegen selbst gezeichnete Produkte in den Korb, und ein Balken zeigt, wie viel bis zum Gratisversand fehlt.</p>
       <ul class="ticks"><li>Produkte mit Sorten, Lagerstand und Suche direkt in den Korb legen</li><li>Kasse mit Abholung oder Versand, Zahlung und Gutscheincodes (nur Demo)</li><li>Geschenkgutschein, Abo, Downloads und Kundenkonto</li><li>Shop-Verwaltung für den Betrieb, Deutsch und Englisch</li></ul>
       <div class="tk-vpick">
@@ -218,7 +245,7 @@
         <a class="tk-vpick__a" href="/beispiele/cider/" data-url="tim-kofler.at/beispiele/cider" data-name="Birnstoff"><b>1</b><span>Birnstoff<small>Getränkemarke mit 3D-Dose, Sortenwechsel und Bestellung</small></span></a>
         <a class="tk-vpick__a" id="shop" href="/beispiele/shop/" data-url="tim-kofler.at/beispiele/shop" data-name="Hofladen Birnkammer"><b>2</b><span>Hofladen Birnkammer<small>Kompletter Online-Shop mit Warenkorb, Kasse und Kundenkonto</small></span></a>
       </div>
-      <p class="muted" style="margin:16px 0 24px;font-size:.95rem">Shops bauen wir für Hofläden, Direktvermarkter, Manufakturen und alle, die online verkaufen möchten, auch mit WooCommerce. Der Preis richtet sich nach dem Aufwand.</p>
+      <p class="muted tk-bx-more">Shops bauen wir für Hofläden, Direktvermarkter, Manufakturen und alle, die online verkaufen möchten, auch mit WooCommerce. Der Preis richtet sich nach dem Aufwand.</p>
       <div class="btn-row">
         <a href="/beispiele/cider/" class="btn">Live ansehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <a href="/#anfrage" class="btn btn--line" data-paket="Noch unsicher">So einen Shop anfragen</a>
@@ -232,10 +259,10 @@
     </a>
     <div class="tk-ex__text">
       <span class="label"><b>Bäckerei</b> Beispiel-Entwurf</span>
-      <h2>Bäckerei Kornfeld</h2>
+      <h3>Bäckerei Kornfeld</h3>
       <p class="tk-ex__anim"><strong>Eigene Animation:</strong> Oben geht ein Brot im Ofen auf und die Restzeit läuft mit, beim Scrollen wird aus einer Teigkugel eine goldbraune Semmel.</p>
       <ul class="ticks"><li>„Frisch aus dem Ofen“-Anzeige</li><li>Sortiment mit Fotos und Preisen</li><li>Vorbestellung mit Abholdatum</li><li>Für Handy und Computer gebaut</li></ul>
-      <p class="muted" style="margin:16px 0 24px;font-size:.95rem">Was eine Seite für Bäckereien können sollte, mit Preisen: <a href="/webseite/baeckerei/">Webseiten für Bäckereien</a></p>
+      <p class="muted tk-bx-more"><a href="/webseite/baeckerei/">Webseiten für Bäckereien</a>: Funktionen und Preise</p>
       <div class="btn-row">
         <a href="/beispiele/baeckerei/" class="btn">Live ansehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <a href="/#anfrage" class="btn btn--line" data-paket="Noch unsicher">So eine Seite anfragen</a>
@@ -249,10 +276,10 @@
     </a>
     <div class="tk-ex__text">
       <span class="label"><b>Fleischerei</b> Beispiel-Entwurf</span>
-      <h2>Fleischerei Haselberger</h2>
+      <h3>Fleischerei Haselberger</h3>
       <p class="tk-ex__anim"><strong>Eigene Animation:</strong> Ein hausgeselchter Bauchspeck wird beim Scrollen Scheibe für Scheibe aufgeschnitten, die Waage zählt Gramm und Preis mit.</p>
       <ul class="ticks"><li>Wochenangebote auf der Kreidetafel, heute ist markiert</li><li>Partyservice-Rechner mit Preis und Platten</li><li>Leberkässemmel zum Zusammenstellen</li><li>Für Handy und Computer gebaut</li></ul>
-      <p class="muted" style="margin:16px 0 24px;font-size:.95rem">Was eine Seite für Fleischereien können sollte, mit Preisen: <a href="/webseite/baeckerei/">Webseiten für Fleischereien</a></p>
+      <p class="muted tk-bx-more"><a href="/webseite/baeckerei/">Webseiten für Fleischereien</a>: Funktionen und Preise</p>
       <div class="btn-row">
         <a href="/beispiele/fleischerei/" class="btn">Live ansehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <a href="/#anfrage" class="btn btn--line" data-paket="Noch unsicher">So eine Seite anfragen</a>
@@ -266,16 +293,17 @@
     </a>
     <div class="tk-ex__text">
       <span class="label"><b>Heilmasseurin</b> Beispiel-Entwurf</span>
-      <h2>Praxis Sonnfeld</h2>
+      <h3>Praxis Sonnfeld</h3>
       <p class="tk-ex__anim"><strong>Eigene Animation:</strong> Auf der Körperkarte lösen sich Verspannungen nacheinander, dazu eine ruhige Massage-Szene mit Atem-Übung zum Mitmachen.</p>
       <ul class="ticks"><li>Körperkarte: Bereich antippen, passende Behandlung sehen</li><li>Behandlungen mit Dauer und Preis</li><li>Terminbuchung</li><li>Für Handy und Computer gebaut</li></ul>
-      <p class="muted" style="margin:16px 0 24px;font-size:.95rem">Was eine Seite für Massage- und Gesundheitspraxen können sollte, mit Preisen: <a href="/webseite/massage/">Webseiten für Massage-</a></p>
+      <p class="muted tk-bx-more"><a href="/webseite/massage/">Webseiten für Massage-</a>: Funktionen und Preise</p>
       <div class="btn-row">
         <a href="/beispiele/massage/" class="btn">Live ansehen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <a href="/#anfrage" class="btn btn--line" data-paket="Noch unsicher">So eine Seite anfragen</a>
       </div>
     </div>
   </article>
+  <h2 class="tk-bx-part tk-bx-part--app" id="apps"><span>Web-Apps statt Abos</span><small>einmal bezahlt, gehört euch</small></h2>
   <article class="tk-ex tk-exg" id="web-apps" data-tkg>
     <a class="tk-ex__media" href="/beispiele/betriebs-app/" aria-label="Betriebs-App live ansehen">
       <span class="tk-ex__bar" aria-hidden="true"><i></i><i></i><i></i><span>tim-kofler.at/app</span></span>
@@ -287,7 +315,7 @@
     </a>
     <div class="tk-ex__text">
       <span class="label"><b>Zusatzleistung</b> Web-Apps statt Abos</span>
-      <h2>Einmal bezahlt statt jeden Monat</h2>
+      <h3>Einmal bezahlt statt jeden Monat</h3>
       <p class="tk-ex__anim"><strong>Zum Ausprobieren:</strong> Vier Apps für Aufgaben, für die sonst jeden Monat ein Software-Abo fällig wird. Mit eurem Namen, die Daten bleiben bei euch, alles läuft im Browser am Handy und am PC.</p>
       <ul class="ticks"><li>Termine, Gutscheine und Stempelkarte für Betriebe</li><li>Mitglieder, Beiträge mit QR-Zahlschein und Kassabuch für Vereine</li><li>Plantafel, Stunden und Rechnungen fürs Büro</li><li>Reservierung und Übergabe mit Unterschrift</li></ul>
       <div class="tk-vpick">
@@ -370,7 +398,7 @@
 </footer>
 
 <script src="/assets/js/main.js?v=3640c201"></script>
-<script src="/assets/js/tk-ui.js?v=101c154f"></script>
+<script src="/assets/js/tk-ui.js?v=ae12dbac"></script>
 <script src="/assets/js/tk-extra.js?v=752d300d"></script>
 </body>
 </html>

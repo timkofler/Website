@@ -58,6 +58,10 @@ MUSTER = [
     ("apps", rf"\b{ZAHL} Web-Apps\b"),
     ("branchen", rf"(?:Beispielseiten|Animationen) für {ZAHL} Branchen\b"),
     ("gesamt", r"var ANZAHL = (?P<zahl>\d+);"),
+    # Sprung-Karten im Kopf der Beispiele-Übersicht
+    ("webseiten", r'data-zahl="webseiten">(?P<zahl>\d+)<'),
+    ("apps", r'data-zahl="apps">(?P<zahl>\d+)<'),
+    ("branchen", r'data-zahl="branchen">(?P<zahl>\d+)<'),
 ]
 
 
