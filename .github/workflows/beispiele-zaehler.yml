@@ -1,5 +1,6 @@
-# Prüft bei jeder Änderung an tim-kofler.at, ob die Zahl der Beispielseiten überall stimmt
-# (Startseite, /beispiele/, llms.txt, schwebender Hinweis, Chat). Veröffentlicht nichts.
+# Prüft bei jeder Änderung an tim-kofler.at, ob die Zahl der Beispiele überall stimmt
+# (alle Seiten, Meta-Beschreibungen, llms.txt, schwebender Hinweis, Chat) und ob ?v= zu tk-extra.js/tk-ui.js passt.
+# Beheben: python3 .github/scripts/beispiele-zaehler.py --schreiben. Der Deploy macht das ohnehin automatisch.
 
 name: Beispiel-Zähler prüfen
 
