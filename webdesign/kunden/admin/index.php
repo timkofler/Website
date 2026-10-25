@@ -9,6 +9,7 @@ require __DIR__ . '/../../api/kunden-lib.php';
 require __DIR__ . '/../../api/entwurf-lib.php';
 require __DIR__ . '/../../api/admin-2fa-lib.php';
 require __DIR__ . '/../../api/zaehler-lib.php';
+require __DIR__ . '/../../api/chat-lib.php';
 
 kp_headers();
 kp_session();
@@ -1015,6 +1016,16 @@ $bzKontaktName = static fn(string $k): string => [
 ][$k] ?? ucfirst($k);
 $bzKontakte = $bzList($bzKontakt, $bzKontaktName, 'Noch keine Kontaktaufnahmen im Zeitraum. Gezählt werden Klicks auf WhatsApp, Telegram, Telefon und E-Mail sowie abgeschickte Formulare.');
 $bzQuote = $bz['besuche'] > 0 && $bzKontaktSum > 0 ? number_format($bzKontaktSum / $bz['besuche'] * 100, 1, ',', '') . ' % der Besuche' : 'im Zeitraum';
+// KI-Chat: Fragen und geschätzte Kosten im Zeitraum (Inhalte werden nicht gespeichert).
+$ch = ch_range($zeit);
+$chKosten = number_format($ch['usd'], 2, ',', '.');
+$chFehler = $ch['fehler'] > 0 ? ' · ' . $ch['fehler'] . ' × keine Antwort (feste Antwort gezeigt)' : '';
+$chStatus = ch_ready()
+    ? '<p class="kp-hint">Eingetippte Fragen beantwortet Claude (' . cx_h(ch_cfg()['model']) . '). Grenze: ' . ch_cfg()['pro_stunde'] . ' Fragen pro Stunde und ' . ch_cfg()['pro_tag'] . ' pro Tag je Besucher, ' . ch_cfg()['tageslimit'] . ' pro Tag insgesamt. Gespeichert werden nur diese Summen, keine Fragen oder Antworten.</p>'
+    : '<p class="kp-hint">KI ist aus: In api/_data/config.php fehlt <code>anthropic_api_key</code> (oder <code>chat_aus</code> ist gesetzt). Der Chat antwortet dann nur mit den festen Antworten.</p>';
+$chCard = <<<HTML
+<div class="kp-card"><h3>KI-Chat</h3><p><b>{$ch['fragen']}</b> Fragen in {$zeit} Tagen, heute {$ch['heute']} · Kosten ca. {$chKosten} US-Dollar{$chFehler}</p>{$chStatus}</div>
+HTML;
 $bzPanel = <<<HTML
 <div class="kp-bz__head"><h2>Besucher</h2><nav class="kp-bz__zeit" aria-label="Zeitraum">{$bzZeiten}</nav></div>
 <div class="kp-bz__kpis">
@@ -1031,6 +1042,7 @@ $bzPanel = <<<HTML
   <div class="kp-card"><h3>Meistgesehene Seiten</h3>{$bzSeiten}</div>
   <div class="kp-card"><h3>Kontaktaufnahmen</h3>{$bzKontakte}</div>
   <div class="kp-card"><h3>Gratis-Entwurf-Anfragen nach Quelle</h3>{$bzAnfragen}</div>
+  {$chCard}
   <div class="kp-card kp-bz__info"><h3>So wird gezählt</h3><p class="kp-hint">{$bzSeit}Gespeichert werden nur Tagessummen pro Seite und Quelle, ohne Cookies, ohne IP-Adresse und ohne Kennung. Neu laden, Zurück-Taste, Suchmaschinen-Bots und Vorschau-Dienste zählen nicht. Ein „Besuch“ ist ein Aufruf von außen (über einen Link, eine Suche oder einen QR-Code), Weiterklicken auf der Seite zählt nur als Seitenaufruf. Bei Kontaktaufnahmen zählt ein Klick auf WhatsApp, Telegram, Telefon oder E-Mail, auch wenn danach keine Nachricht kommt. „Direkt“ heißt: Adresse getippt, Lesezeichen oder aus einer App ohne Link-Kennung.</p>{$bzGeraet}</div>
 </div>
 HTML;

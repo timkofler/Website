@@ -1197,6 +1197,11 @@ html:not(.anf-js) .anf__panel--rr { padding-bottom: 0; }
 .tk-chat__form input { background: rgba(0,0,0,.28); border-color: rgba(255,255,255,.12); }
 .tk-chat__form input:focus { border-color: rgba(255,90,31,.6); }
 .tk-chat__note { color: #8f8a85; }
+/* KI-Antworten: kleiner Hinweis unter dem Text, orange Linie links; während der Antwort ist Senden gesperrt */
+.tk-msg--ki { border-left: 2px solid rgba(255,90,31,.55); }
+.tk-msg__tag { display: block; margin-top: 8px; color: #8f8a85; font-size: .7rem; letter-spacing: .04em; text-transform: uppercase; }
+.tk-chat__note a { color: inherit; text-underline-offset: 2px; }
+.tk-chat.is-busy .tk-chat__form button { opacity: .45; cursor: progress; }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .tk-chat, .tk-chat-btn { background: #15110f; }
 }

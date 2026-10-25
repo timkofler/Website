@@ -1,6 +1,6 @@
-# Nur die Endpunkte (anmelden.php, bestaetigen.php) sind von außen erreichbar, Bibliotheken nie.
+# Nur die Endpunkte (anmelden.php, bestaetigen.php, chat.php …) sind von außen erreichbar, Bibliotheken und die KI-Anweisung nie.
 Options -Indexes
-<FilesMatch "^(lib\.php|[a-z0-9-]+-lib\.php|config\.example\.php)$">
+<FilesMatch "^(lib\.php|[a-z0-9-]+-lib\.php|config\.example\.php|chat-anweisung\.md)$">
   Require all denied
 </FilesMatch>
 <IfModule mod_headers.c>
