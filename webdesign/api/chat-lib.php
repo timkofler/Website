@@ -3,7 +3,8 @@
 // Wird nur per include geladen, direkter Aufruf ist per .htaccess gesperrt.
 //
 // Der API-Schlüssel steht nur in api/_data/config.php auf dem Server (nie im Repo, nie im Browser).
-// Gespeichert werden keine Chat-Inhalte: nur Tagessummen (Fragen, Tokens) und für das Limit pro Besucher
+// Gespeichert werden Tagessummen (Fragen, Tokens), die eingetippten Fragen ohne Antworten und ohne IP
+// (E-Mail-Adressen, Telefonnummern und Links entfernt, 30 Tage) und für das Limit pro Besucher
 // die Zeitpunkte der Fragen unter einem Hash der IP-Adresse (höchstens 24 Stunden).
 
 declare(strict_types=1);
@@ -21,8 +22,8 @@ function ch_cfg(): array
     return [
         'key' => trim((string) ($c['anthropic_api_key'] ?? '')),
         'model' => (string) ($c['chat_model'] ?? 'claude-haiku-5-5'),
-        'pro_stunde' => (int) ($c['chat_pro_stunde'] ?? 15),
-        'pro_tag' => (int) ($c['chat_pro_tag'] ?? 40),
+        'pro_stunde' => (int) ($c['chat_pro_stunde'] ?? 30),
+        'pro_tag' => (int) ($c['chat_pro_tag'] ?? 100),
         'tageslimit' => (int) ($c['chat_tageslimit'] ?? 400),
         'aus' => !empty($c['chat_aus']),
     ];
@@ -136,7 +137,7 @@ function ch_system(): string
         . "- Kontakt: Anfrageformular auf der Startseite, WhatsApp, Telegram @TimKofler, E-Mail office@tim-kofler.at. Keine Telefontermine und keine Besuche vor Ort.\n"
         . "- Alle Preise sind Endpreise, Tim ist Kleinunternehmer ohne Umsatzsteuer. Domain und Webspace sind nicht im Preis enthalten.\n"
         . "- Kurzlinks: tim-kofler.at/gratis (Gratis-Entwurf), tim-kofler.at/app (Beispiel-App), tim-kofler.at/checkliste (Checkliste).\n"
-        . "- Dieser Chat: Die Themen-Knöpfe zeigen feste Antworten. Eingetippte Fragen beantwortet eine KI (Claude von Anthropic) mit dem Wissen dieser Seite. Gespeichert werden keine Chat-Inhalte.";
+        . "- Dieser Chat: Die Themen-Knöpfe zeigen feste Antworten. Eingetippte Fragen beantwortet eine KI (Claude von Anthropic) mit dem Wissen dieser Seite. Die Fragen werden ohne IP-Adresse 30 Tage gespeichert, damit Tim sieht, was Besucher wissen wollen; Antworten werden nicht gespeichert. Der Chat leitet nichts an Tim weiter.";
     $links = [];
     foreach (ch_links() as $k => [$t]) {
         $links[] = $k . ' = ' . $t;
@@ -235,6 +236,43 @@ function ch_statistik(array $usage, bool $fehler = false): void
         $d[$day] = $t;
         @file_put_contents($file, json_encode($d), LOCK_EX);
     });
+}
+
+// Eingetippte Frage für den Admin merken: ohne IP und ohne Antwort, persönliche Angaben entfernt, 30 Tage.
+const CH_FRAGEN_TAGE = 30;
+
+function ch_anonym(string $s): string
+{
+    $s = preg_replace('/[^\s@]+@[^\s@]+\.[^\s@]+/u', '[E-Mail entfernt]', $s) ?? '';
+    $s = preg_replace('~(https?://|www\.)\S+~iu', '[Link entfernt]', $s) ?? $s;
+    $s = preg_replace('/\+?\d[\d \/().-]{5,}\d/u', '[Nummer entfernt]', $s) ?? $s;
+    return $s;
+}
+
+function ch_frage_merken(string $frage, bool $beantwortet): void
+{
+    if (!ch_dir()) {
+        return;
+    }
+    $file = CH_DIR . '/fragen.json';
+    $now = time();
+    $eintrag = ['t' => $now, 'f' => ch_anonym($frage), 'ok' => $beantwortet];
+    cx_locked(CH_DIR . '/.lock', static function () use ($file, $now, $eintrag) {
+        $alle = is_file($file) ? (json_decode((string) file_get_contents($file), true) ?: []) : [];
+        $alle = array_values(array_filter($alle, static fn($e) => is_array($e) && (int) ($e['t'] ?? 0) > $now - CH_FRAGEN_TAGE * 86400));
+        $alle[] = $eintrag;
+        @file_put_contents($file, json_encode(array_slice($alle, -3000), JSON_UNESCAPED_UNICODE), LOCK_EX);
+    });
+}
+
+// Gemerkte Fragen der letzten $days Tage, neueste zuerst.
+function ch_fragen(int $days): array
+{
+    $file = CH_DIR . '/fragen.json';
+    $alle = is_file($file) ? (json_decode((string) file_get_contents($file), true) ?: []) : [];
+    $ab = time() - min($days, CH_FRAGEN_TAGE) * 86400;
+    $out = array_values(array_filter($alle, static fn($e) => is_array($e) && (int) ($e['t'] ?? 0) > $ab));
+    return array_reverse($out);
 }
 
 // Summen der letzten $days Tage für den Admin: Fragen, Tokens, geschätzte Kosten in US-Dollar.
