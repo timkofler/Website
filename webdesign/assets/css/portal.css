@@ -632,3 +632,13 @@ body:has(.kp-auth) .kp-foot .footer__bottom { flex-direction: column; align-item
 .kp-chat-fragen em { color: var(--muted); font-style: normal; font-size: .78rem; }
 .kp-chat-mehr { margin-top: 8px; }
 .kp-chat-mehr summary { cursor: pointer; color: var(--muted); font-size: .85rem; margin-bottom: 6px; }
+
+/* Eingeklappte Erklärungen im Admin (KI-Chat, So wird gezählt) */
+.kp-info { margin-top: 10px; }
+.kp-info > summary { cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: .85rem; }
+.kp-info > summary::-webkit-details-marker { display: none; }
+.kp-info > summary::before { content: ""; width: 6px; height: 6px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(-45deg); transition: transform .2s; }
+.kp-info[open] > summary::before { transform: rotate(45deg); }
+.kp-info > summary:hover { color: var(--text); }
+.kp-info > .kp-hint { margin-top: 8px; }
+.kp-bz__info .kp-info { margin: 2px 0 16px; }
