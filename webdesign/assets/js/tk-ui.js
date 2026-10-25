@@ -499,7 +499,7 @@
       m.appendChild(row);
     }
     log.appendChild(m);
-    if (who === "me") box.classList.add("is-talk");   // Gespräch läuft: Fenster größer
+    if (who === "bot" && log.querySelector(".tk-msg--me")) box.classList.add("is-talk");   // erste Antwort da: Fenster größer
     log.scrollTop = log.scrollHeight;
   }
   function botSay(text, links) {
