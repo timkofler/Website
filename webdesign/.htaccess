@@ -70,7 +70,8 @@ Options -Indexes
     ExpiresByType image/svg+xml "access plus 30 days"
     ExpiresByType image/jpeg "access plus 30 days"
     ExpiresByType image/png "access plus 30 days"
-    ExpiresByType image/x-icon "access plus 30 days"
+    ExpiresByType image/x-icon "access plus 7 days"
+    ExpiresByType application/manifest+json "access plus 1 day"
     ExpiresByType video/mp4 "access plus 30 days"
   </IfModule>
 </If>
@@ -82,6 +83,8 @@ AddDefaultCharset UTF-8
   AddType application/wasm .wasm
   AddType image/avif .avif
   AddType text/javascript .mjs
+  AddType image/x-icon .ico
+  AddType application/manifest+json .webmanifest
 </IfModule>
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/css application/javascript text/javascript image/svg+xml application/json text/plain application/wasm application/xml text/xml
