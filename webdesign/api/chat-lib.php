@@ -158,16 +158,29 @@ function ch_dir(): bool
     return is_dir(CH_DIR . '/ip') || @mkdir(CH_DIR . '/ip', 0700, true);
 }
 
+// Wer zählt als ein Besucher: die IPv4-Adresse, bei IPv6 das ganze /64-Netz (ein Anschluss hat
+// meist Milliarden Adressen daraus, sonst könnte jemand das Limit mit neuen Adressen umgehen).
+function ch_besucher_id(): string
+{
+    $ip = (string) ($_SERVER['REMOTE_ADDR'] ?? '');
+    $bin = @inet_pton($ip);
+    if (is_string($bin) && strlen($bin) === 16) {
+        return bin2hex(substr($bin, 0, 8)) . '::/64';
+    }
+    return $ip;
+}
+
 // Fragen pro Besucher (Stunde und Tag). Gespeichert wird nur ein Hash der IP-Adresse mit Zeitpunkten.
 // Gibt '' zurück, wenn die Frage erlaubt ist, sonst 'stunde' oder 'tag'.
+// Kann der Server nicht mitzählen, gibt es keine KI-Antwort (lieber feste Antworten als offene Kosten).
 function ch_limit_besucher(): string
 {
     if (!ch_dir()) {
-        return '';
+        return 'tag';
     }
     $c = ch_cfg();
     $salt = (string) (cx_config()['secret'] ?? 'tk-chat');
-    $file = CH_DIR . '/ip/' . hash('sha256', 'chat' . $salt . ($_SERVER['REMOTE_ADDR'] ?? '')) . '.json';
+    $file = CH_DIR . '/ip/' . hash('sha256', 'chat' . $salt . ch_besucher_id()) . '.json';
     $now = time();
     $res = cx_locked(CH_DIR . '/.lock-ip', static function () use ($file, $now, $c) {
         $hits = is_file($file) ? (json_decode((string) file_get_contents($file), true) ?: []) : [];
@@ -197,11 +210,19 @@ function ch_monat_datei(): string
     return CH_DIR . '/' . date('Y-m') . '.json';
 }
 
+// Ist das Tageslimit schon erreicht? Nur lesen; so legen Anfragen danach auch keine Besucher-Dateien mehr an.
+function ch_tag_voll(): bool
+{
+    $file = ch_monat_datei();
+    $d = is_file($file) ? (json_decode((string) @file_get_contents($file), true) ?: []) : [];
+    return (int) ($d[date('Y-m-d')]['fragen'] ?? 0) >= ch_cfg()['tageslimit'];
+}
+
 // Tageslimit für alle Besucher zusammen. Zählt die Frage gleich mit, damit parallele Anfragen es nicht überschreiten.
 function ch_limit_tag(): bool
 {
     if (!ch_dir()) {
-        return true;
+        return false;
     }
     $max = ch_cfg()['tageslimit'];
     $file = ch_monat_datei();
