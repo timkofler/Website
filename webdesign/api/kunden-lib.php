@@ -1027,7 +1027,11 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <title>{$t} | Tim Kofler – Kundenportal</title>
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#0b0b0b">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
   <link rel="icon" href="/assets/img/tk-badge-2.svg" type="image/svg+xml">
+  <link rel="icon" href="/assets/img/tk-badge-2-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
   <link rel="stylesheet" href="/assets/css/style.css?v=5d1d811a">
   <link rel="stylesheet" href="/assets/css/tk.css?v=28587bcc">
   <link rel="stylesheet" href="/assets/css/portal.css?v=fd718241">
