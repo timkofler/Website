@@ -325,6 +325,12 @@ html.js .tk-apps:not(.is-visible) .tk-feat li { opacity: 0; transform: translate
 .tk-apps__try-h a:hover { color: var(--hot); }
 .tk-tries { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
 .tk-tries > li { display: flex; min-width: 0; }
+/* Hinweis auf die Gratis-Vereinsseite unter den Beispiel-Apps */
+.tk-tries__verein { display: flex; align-items: center; gap: 10px; margin: 18px 0 0; color: var(--muted); font-size: .95rem; }
+.tk-tries__verein > svg { flex: none; width: 20px; height: 20px; color: var(--hot); }
+.tk-tries__verein a { display: inline-flex; align-items: center; gap: 6px; color: var(--text); font-weight: 700; text-decoration-color: rgba(255,90,31,.7); text-underline-offset: 4px; }
+.tk-tries__verein a svg { width: 16px; height: 16px; color: var(--hot); }
+.tk-tries__verein a:hover { color: var(--hot-2); }
 .tk-try { display: flex; flex-direction: column; width: 100%; border: 1px solid var(--line); border-radius: 18px; background: var(--bg-2); overflow: hidden; color: inherit; text-decoration: none; transition: border-color .3s, transform .3s, box-shadow .3s; }
 .tk-try:hover, .tk-try:focus-visible { border-color: rgba(255,90,31,.6); transform: translateY(-4px); box-shadow: 0 24px 60px rgba(0,0,0,.45), 0 0 40px rgba(255,90,31,.12); }
 .tk-try__shot { position: relative; display: block; padding-top: 30px; background: #101010; border-bottom: 1px solid #262626; }
@@ -1122,6 +1128,9 @@ html:not(.anf-js) .anf__panel--rr { padding-bottom: 0; }
   .mnav__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .mnav__grid a { padding: 13px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); color: var(--text); font-weight: 600; text-decoration: none; transition: border-color .2s, background .2s; }
   .mnav__grid a:hover, .mnav__grid a:active { color: var(--text); border-color: rgba(255,90,31,.5); background: var(--hot-dim); }
+  /* „Vereine gratis“ als breite Kachel unter den vier Angebots-Kacheln */
+  .mnav__grid .mnav__wide { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; }
+  .mnav__wide small { font-size: .78rem; font-weight: 700; color: var(--hot-2); padding: 2px 9px; border-radius: 999px; background: var(--hot-dim); border: 1px solid rgba(255,90,31,.35); }
   .mnav__row { display: grid; grid-template-columns: auto 1fr; gap: 10px; margin-top: 18px; }
   .mnav__wa { display: inline-flex; align-items: center; gap: 8px; min-height: 52px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line-2); color: var(--text); font-weight: 700; text-decoration: none; }
   .mnav__wa:hover { color: var(--text); border-color: #25d366; }
