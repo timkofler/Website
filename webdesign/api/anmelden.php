@@ -139,8 +139,8 @@ function cx_webseite(array $c, string $email, string $name, string $fallback): v
         'Gefunden über' => cx_field('quelle', 120),
     ];
     // Nur von der Gründer-Seite (/gruender/): Gründungszeitpunkt und Logo-Stand,
-    // nur von der Vereins-Seite (/verein/): Art des Vereins und Funktion
-    foreach (['Gegründet' => 'gegruendet', 'Logo vorhanden' => 'logo', 'Art des Vereins' => 'vereinsart', 'Funktion im Verein' => 'funktion'] as $k => $field) {
+    // nur von der Vereins-Seite (/verein/): Art des Vereins, Funktion und Interesse an der Vereins-App
+    foreach (['Gegründet' => 'gegruendet', 'Logo vorhanden' => 'logo', 'Art des Vereins' => 'vereinsart', 'Funktion im Verein' => 'funktion', 'Vereins-App als Upgrade' => 'upgrade'] as $k => $field) {
         $v = cx_field($field, 40);
         if ($v !== '') {
             $f[$k] = $v;
