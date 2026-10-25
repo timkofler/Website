@@ -1000,6 +1000,11 @@ button.wev:focus-visible{outline:2px solid var(--vc2);outline-offset:1px}
 /* Im Vollbild füllt die Mitgliederliste die ganze Höhe, statt in einer kleinen Box zu scrollen */
 .desk.is-full .dp[data-dp="mitglieder"].on{display:flex;flex-direction:column;height:100%;min-height:420px}
 .desk.is-full .dp[data-dp="mitglieder"] .tbl{flex:1;min-height:0;max-height:none}
+.desk.is-full .dp[data-dp="kassa"].on{display:flex;flex-direction:column;height:100%;min-height:560px}
+.desk.is-full .dp[data-dp="kassa"] .kasse{flex:1;min-height:0;display:flex;flex-direction:column}
+.desk.is-full .dp[data-dp="kassa"] .tbl--c{flex:1;min-height:240px;max-height:none}
+.desk.is-full .dp[data-dp="kassa"] .kasse>*{flex-shrink:0}
+.desk.is-full .dp[data-dp="kassa"] .kasse>.tbl--c{flex-shrink:1}
 .desk.is-full .side{overflow:auto}
 .desk.is-full .desk__bar>span{max-width:520px}
 html.va-full,html.va-full body{overflow:hidden}
