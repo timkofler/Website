@@ -54,8 +54,8 @@ return [
     // Modell. Claude Haiku 5.5 ist schnell und günstig (rund 0,1 Cent pro Frage).
     // 'chat_model'      => 'claude-haiku-5-5',
     // Grenzen: Fragen pro Besucher je Stunde und je Tag, und für alle Besucher zusammen pro Tag.
-    // 'chat_pro_stunde' => 15,
-    // 'chat_pro_tag'    => 40,
+    // 'chat_pro_stunde' => 30,
+    // 'chat_pro_tag'    => 100,
     // 'chat_tageslimit' => 400,
     // KI vorübergehend ausschalten, ohne den Schlüssel zu löschen:
     // 'chat_aus'        => true,

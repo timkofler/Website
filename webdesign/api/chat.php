@@ -3,7 +3,7 @@
 // GET  → {"ki": true|false}  (ist die KI eingerichtet?)
 // POST → JSON {"frage": "…", "verlauf": [{"r": "u"|"a", "t": "…"}, …]}
 //      ← {"ok": true, "text": "…", "links": [[Text, Adresse], …]} oder {"ok": false, "grund": "…"}
-// Bei "ok": false antwortet der Browser mit den festen Antworten. Inhalte werden nicht gespeichert.
+// Bei "ok": false antwortet der Browser mit den festen Antworten. Gemerkt wird nur die Frage (ohne IP und Antwort, 30 Tage).
 
 declare(strict_types=1);
 
@@ -50,6 +50,7 @@ if (!ch_limit_tag()) {
 
 $verlauf = is_array($in['verlauf'] ?? null) ? $in['verlauf'] : [];
 $r = ch_ask(ch_messages($verlauf, $frage));
+ch_frage_merken($frage, $r['ok']);
 if (!$r['ok']) {
     ch_json(['ok' => false, 'grund' => 'fehler']);
 }

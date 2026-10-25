@@ -622,3 +622,13 @@ body.kp:not(:has(.kp-auth)) .kp-main .kp-tile.is-active { border-color: var(--ho
 /* Fuß mittig: auf den Anmeldeseiten (Karte steht mittig) und am Handy auf allen Portalseiten */
 body:has(.kp-auth) .kp-foot .footer__bottom { flex-direction: column; align-items: center; text-align: center; gap: 8px; }
 @media (max-width: 760px) { .kp-foot .footer__bottom { flex-direction: column; align-items: center; text-align: center; gap: 8px; } }
+
+/* Admin › Besucher: Fragen aus dem KI-Chat */
+.kp-chat-h { margin: 16px 0 8px; font-size: .9rem; font-weight: 600; }
+.kp-chat-h em { color: var(--muted); font-style: normal; font-weight: 400; }
+.kp-chat-fragen { list-style: none; margin: 0 0 12px; padding: 0; display: grid; gap: 6px; }
+.kp-chat-fragen li { padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; font-size: .88rem; line-height: 1.45; overflow-wrap: anywhere; }
+.kp-chat-fragen time { color: var(--muted); font-size: .78rem; font-variant-numeric: tabular-nums; margin-right: 4px; }
+.kp-chat-fragen em { color: var(--muted); font-style: normal; font-size: .78rem; }
+.kp-chat-mehr { margin-top: 8px; }
+.kp-chat-mehr summary { cursor: pointer; color: var(--muted); font-size: .85rem; margin-bottom: 6px; }
