@@ -38,6 +38,9 @@ if ($frage === '') {
     ch_json(['ok' => false, 'grund' => 'leer'], 400);
 }
 
+if (ch_tag_voll()) {
+    ch_json(['ok' => false, 'grund' => 'tageslimit']);
+}
 $besucher = ch_limit_besucher();
 if ($besucher !== '') {
     ch_json(['ok' => false, 'grund' => 'limit', 'text' => $besucher === 'stunde'
