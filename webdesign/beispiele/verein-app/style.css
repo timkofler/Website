@@ -997,6 +997,9 @@ button.wev:focus-visible{outline:2px solid var(--vc2);outline-offset:1px}
 .desk.is-full>.desk__in{flex:1;min-height:0;grid-template-columns:230px minmax(0,1fr)}
 .desk.is-full>.desk__in.is-rail{grid-template-columns:72px minmax(0,1fr)}
 .desk.is-full .dv{overflow:auto;padding:26px 32px}
+/* Im Vollbild füllt die Mitgliederliste die ganze Höhe, statt in einer kleinen Box zu scrollen */
+.desk.is-full .dp[data-dp="mitglieder"].on{display:flex;flex-direction:column;height:100%;min-height:420px}
+.desk.is-full .dp[data-dp="mitglieder"] .tbl{flex:1;min-height:0;max-height:none}
 .desk.is-full .side{overflow:auto}
 .desk.is-full .desk__bar>span{max-width:520px}
 html.va-full,html.va-full body{overflow:hidden}
