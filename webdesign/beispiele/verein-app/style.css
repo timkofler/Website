@@ -1163,3 +1163,46 @@ html.va-full,html.va-full body{overflow:hidden}
 .qa__i summary i svg{width:15px;height:15px}
 .qa__i[open] summary i{transform:rotate(45deg);background:var(--pop);color:var(--on-pop)}
 .qa__i p{margin:0;padding:0 20px 20px;color:var(--mu);font-size:15.5px;line-height:1.6;max-width:720px}
+/* Mitglieder importieren */
+.imp{width:min(420px,calc(100% - 24px))}
+.imp__steps{list-style:none;display:flex;align-items:flex-end;gap:6px;margin:0;padding:12px 16px 0}
+.imp__steps li{flex:1;min-width:0;height:31px;box-sizing:border-box;margin:0;display:flex;align-items:center;gap:6px;font-size:12px;line-height:20px;font-weight:700;color:var(--mu2);padding-bottom:9px;border-bottom:2px solid var(--line)}
+.imp__steps i{width:20px;height:20px;flex:none;border-radius:50%;display:grid;place-items:center;font:800 11px/1 var(--hd);font-style:normal;background:var(--card2);color:var(--mu)}
+.imp__steps i svg{display:block;width:11px;height:11px}
+.imp__steps .is-on{color:var(--ink);border-color:var(--pop)}.imp__steps .is-on i{background:var(--pop);color:var(--on-pop)}
+.imp__steps .is-done{color:var(--mu);border-color:color-mix(in srgb,var(--pop) 45%,var(--line))}.imp__steps .is-done i{background:color-mix(in srgb,var(--pop) 18%,transparent);color:var(--popt)}
+.imp__b{padding:14px 16px 4px;display:flex;flex-direction:column;gap:12px}
+.imp__b .bank__n{margin:0}
+.imp__drop{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;padding:22px 14px;border:1.5px dashed var(--line2);border-radius:14px;background:var(--bg2);text-align:center;cursor:pointer;transition:border-color .2s,background .2s}
+.imp__drop:hover,.imp__drop.is-over,.imp__drop:focus-within{border-color:var(--pop);background:color-mix(in srgb,var(--pop) 8%,var(--bg2))}
+.imp__drop>svg{width:30px;height:30px;padding:7px;border-radius:50%;background:color-mix(in srgb,var(--pop) 16%,transparent);color:var(--popt);margin-bottom:4px}
+.imp__drop b{font-size:14px}
+.imp__drop small{font-size:12px;color:var(--mu)}.imp__drop u{color:var(--popt);text-underline-offset:2px}
+.imp__drop input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.imp__or{display:flex;align-items:center;gap:10px;font-size:11.5px;color:var(--mu2)}
+.imp__or::before,.imp__or::after{content:"";flex:1;height:1px;background:var(--line)}
+.imp__b>.dbtn{width:100%}
+.imp__lead{margin:0;font-size:13px;color:var(--mu)}
+.imp__map{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.imp__map li{display:grid;grid-template-columns:minmax(0,1fr) 14px minmax(0,1fr);gap:8px;align-items:center;padding:8px 10px;border-radius:11px;background:var(--bg2);border:1px solid var(--line)}
+.imp__map li.ok{border-color:color-mix(in srgb,var(--ok) 35%,var(--line))}
+.imp__map b{display:block;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.imp__map small{display:block;font-size:11.5px;color:var(--mu);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.imp__ar{width:14px;height:14px;color:var(--mu2)}
+.imp__map li.ok .imp__ar{color:var(--ok)}
+.imp__map select{width:100%;min-height:36px;padding:0 8px;border-radius:9px;border:1px solid var(--line2);background:var(--card);color:var(--ink);font:600 13px/1 var(--bd,inherit)}
+.imp__sum{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.imp__sum span{display:flex;flex-direction:column;gap:2px;padding:10px;border-radius:11px;background:var(--bg2);border:1px solid var(--line);font-size:11.5px;color:var(--mu)}
+.imp__sum b{font:800 22px/1 var(--hd);color:var(--ink)}
+.imp__sum .ok b{color:var(--ok)}.imp__sum .q b{color:var(--popt)}
+.imp__l{padding:0}
+.imp__l em{font-size:11.5px;color:var(--mu)}
+.imp__l li.ok em{color:var(--ok)}.imp__l li.q em{color:var(--popt)}
+.imp__l li.x{opacity:.75}.imp__l li.x b{text-decoration:line-through;text-decoration-color:var(--mu2)}
+.imp__more{margin:0;font-size:12px;color:var(--mu)}
+.imp .mcard__ft .dbtn svg{width:15px;height:15px}
+.imp__done{padding:26px 18px 6px;text-align:center}
+.imp__done i{width:56px;height:56px;margin:0 auto 12px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok);animation:mcin .45s cubic-bezier(.2,1,.3,1)}
+.imp__done i svg{width:26px;height:26px}
+.imp__done b{display:block;font:800 19px/1.2 var(--hd)}
+.imp__done p{margin:8px 0 0;font-size:13px;line-height:1.5;color:var(--mu)}

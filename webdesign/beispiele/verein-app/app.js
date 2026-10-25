@@ -438,7 +438,7 @@
     $$(".dp").forEach(function (p) { p.classList.toggle("on", p.getAttribute("data-dp") === t); });
     if (t === "mitglieder") $("[data-d-newbadge]").hidden = true;
     if (t === "helfer") $("[data-d-helpbadge]").hidden = true;
-    mcard.hidden = true; bview.hidden = true; bankv.hidden = true;
+    mcard.hidden = true; bview.hidden = true; bankv.hidden = true; impv.hidden = true;
   });
 
   // Vorstand im Vollbild: so sieht die App wirklich am PC aus (Esc oder Knopf beendet es)
@@ -670,7 +670,7 @@
       '<ul class="bank__l">' + rows + "</ul>" +
       '<p class="bank__n">Im echten Verein lädst du die CSV- oder CAMT-Datei aus George, ELBA oder deinem Online-Banking hoch. Die App erkennt die Mitgliedsnummer im Verwendungszweck, der Rest bleibt zum Zuordnen.</p>' +
       '<div class="mcard__ft"><button class="dbtn sm ghost" type="button" data-bank-x>Fertig</button></div>';
-    mcard.hidden = true; bview.hidden = true; bankv.hidden = false;
+    mcard.hidden = true; bview.hidden = true; impv.hidden = true; bankv.hidden = false;
     bankv.querySelector(".mcard__x").focus({ preventScroll: true });
     feed("ok", "i-sheet", "Kontoauszug eingelesen: " + hit.length + " Beiträge automatisch abgehakt (" + eur(sum, true) + ")");
     toast(hit.length + " Beiträge abgehakt", "aus dem Kontoauszug, im Kassabuch gebucht");
@@ -686,6 +686,226 @@
     feed("ok", "i-check", "Zahlung „Fam. " + m.name.split(" ").slice(-1)[0] + "“ " + m.name + " zugeordnet und abgehakt");
     toast("Zugeordnet", m.name + " · " + S.P.arts[m.art].b + " € im Kassabuch");
     renderMembers(); renderKpis(); renderOpen(); renderCash(); flash("[data-k-cash]");
+  });
+
+  // ---------- Mitglieder importieren: Excel oder CSV, Spalten erkennen, prüfen, übernehmen ----------
+  // Alles passiert im Browser, die Datei verlässt das Gerät nicht.
+  var impv = $("[data-impv]"), IMP = null;
+  var IF = [["vn", "Vorname"], ["nn", "Nachname"], ["name", "Name (ganz)"], ["grp", ""], ["seit", "Mitglied seit"], ["art", "Mitgliedschaft"], ["mail", "E-Mail"], ["tel", "Telefon"], ["st", "Beitrag bezahlt"], ["", "Nicht übernehmen"]];
+  var IRX = [["mail", /mail/], ["tel", /tel|handy|mobil|phone/], ["vn", /vorname|first/], ["nn", /nachname|familienname|zuname|last/], ["seit", /seit|eintritt|beitritt|datum|ab\b/],
+    ["st", /beitrag|bezahlt|zahlung|status/], ["art", /art\b|mitgliedsart|mitgliedschaft|kategorie|typ/], ["grp", /register|sektion|bereich|gruppe|instrument|abteilung|team/], ["name", /name|mitglied/]];
+  function ifl(k) { return k === "grp" ? S.P.glbl : IF.filter(function (f) { return f[0] === k; })[0][1]; }
+  function impHd(sub) {
+    return '<div class="mcard__hd"><i><svg><use href="#i-sheet"/></svg></i><span><b>Mitglieder importieren</b><small>' + esc(sub) + '</small></span><button type="button" class="mcard__x" data-imp-x aria-label="Import schließen"><svg><use href="#i-x"/></svg></button></div>';
+  }
+  function impSteps(n) {
+    return '<ol class="imp__steps">' + ["Datei", "Spalten", "Prüfen"].map(function (t, i) { return '<li class="' + (i < n ? "is-done" : i === n ? "is-on" : "") + '"><i>' + (i < n ? '<svg><use href="#i-check"/></svg>' : i + 1) + "</i>" + t + "</li>"; }).join("") + "</ol>";
+  }
+  function impShow(html) {
+    mcard.hidden = true; bview.hidden = true; bankv.hidden = true;
+    impv.innerHTML = html; impv.hidden = false; impv.scrollTop = 0;
+    impv.querySelector(".mcard__x").focus({ preventScroll: true });
+  }
+  function openImp() {
+    IMP = null;
+    impShow(impHd("Excel oder CSV · Schritt 1 von 3") + impSteps(0) +
+      '<div class="imp__b"><label class="imp__drop" data-imp-drop><svg><use href="#i-send"/></svg><b>Excel- oder CSV-Datei hierher ziehen</b><small>oder <u>am Gerät auswählen</u> · .xlsx, .csv</small><input type="file" accept=".xlsx,.csv,.txt,text/csv" data-imp-file></label>' +
+      '<div class="imp__or"><span>oder gleich ausprobieren</span></div>' +
+      '<button class="dbtn sm" type="button" data-imp-demo><svg><use href="#i-users"/></svg>Musterliste mit 12 Mitgliedern laden</button>' +
+      '<p class="bank__n">Die Spalten dürfen heißen, wie sie wollen, die App erkennt sie selbst. In dieser Vorführung bleibt eure Datei im Browser und wird nirgends hochgeladen.</p></div>' +
+      '<div class="mcard__ft"><button class="dbtn sm ghost" type="button" data-imp-tpl><svg><use href="#i-dl"/></svg>Musterliste als Datei</button></div>');
+  }
+  // Musterliste: neue Namen plus absichtlich ein Doppelter, fehlende E-Mails und ein unklares Datum
+  function impSample() {
+    var P = S.P, used = {}, rows = [], r = rnd(S.mem.length * 31 + 7);
+    S.mem.forEach(function (m) { used[m.name] = 1; });
+    var mk = function () { var n, f, l; do { f = FIRST[Math.floor(r() * FIRST.length)]; l = LAST[Math.floor(r() * LAST.length)]; n = f + " " + l; } while (used[n]); used[n] = 1; return [f, l]; };
+    for (var i = 0; i < 12; i++) {
+      var fl = mk(), a = i % 5 === 3 ? 1 : i % 7 === 5 ? 2 : 0, y = YEAR - 1 - Math.floor(r() * 25);
+      rows.push([fl[0], fl[1], P.groups[Math.floor(r() * P.groups.length)], "1." + (1 + Math.floor(r() * 12)) + "." + y, P.arts[a].l,
+        (fl[0] + "." + fl[1]).toLowerCase().replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue").replace(/ß/g, "ss") + "@example.at", "+43 660 " + (1000000 + Math.floor(r() * 8999999)), r() < 0.7 ? "ja" : "nein"]);
+    }
+    var d = S.mem[17].name.split(" ");
+    rows[4] = [d[0], d.slice(1).join(" "), S.mem[17].grp, "1.3." + S.mem[17].seit, P.arts[S.mem[17].art].l, "", "", "ja"];
+    rows[2][5] = ""; rows[9][5] = "";
+    rows[7][3] = "Frühjahr ?";
+    return [["Vorname", "Familienname", P.glbl, "Eintritt", "Mitgliedsart", "Mail", "Handy", "Beitrag " + YEAR + " bezahlt"]].concat(rows);
+  }
+  function impLoad(name, rows) {
+    rows = rows.filter(function (r) { return r.some(function (v) { return String(v).trim(); }); });
+    if (rows.length < 2) { toast("Keine Mitglieder gefunden", "die Datei braucht eine Kopfzeile und mindestens eine Zeile"); return; }
+    var head = rows[0].map(function (h) { return String(h).trim(); }), map = [], taken = {};
+    head.forEach(function (h, i) {
+      var l = h.toLowerCase(), k = "";
+      IRX.some(function (x) { if (!taken[x[0]] && x[1].test(l)) { k = x[0]; return true; } return false; });
+      if (k) taken[k] = 1;
+      map[i] = k;
+    });
+    IMP = { name: name, head: head, rows: rows.slice(1, 5001), map: map, auto: map.slice() };
+    impMap();
+  }
+  function impMap() {
+    var I = IMP, ex = I.rows[0];
+    impShow(impHd(I.rows.length + " Zeilen in „" + I.name + "“ · Schritt 2 von 3") + impSteps(1) +
+      '<div class="imp__b"><p class="imp__lead">So habe ich eure Spalten verstanden. Passt etwas nicht, einfach umstellen.</p><ul class="imp__map">' +
+      I.head.map(function (h, i) {
+        return '<li class="' + (I.map[i] ? "ok" : "") + '"><span><b>' + esc(h || "Spalte " + (i + 1)) + "</b><small>z. B. " + esc(String(ex[i] == null || ex[i] === "" ? "leer" : ex[i]).slice(0, 28)) + '</small></span><svg class="imp__ar"><use href="#i-arrow"/></svg><select data-imp-col="' + i + '" aria-label="Spalte ' + esc(h) + ' zuordnen">' +
+          IF.map(function (f) { return '<option value="' + f[0] + '"' + (I.map[i] === f[0] ? " selected" : "") + ">" + esc(ifl(f[0])) + "</option>"; }).join("") + "</select></li>";
+      }).join("") + "</ul><p class=\"bank__n\" data-imp-need hidden>Bitte eine Spalte als Name, Vorname oder Nachname zuordnen.</p></div>" +
+      '<div class="mcard__ft"><button class="dbtn sm ghost" type="button" data-imp-back="0">Andere Datei</button><button class="dbtn sm" type="button" data-imp-chk>Weiter zur Prüfung<svg><use href="#i-arrow"/></svg></button></div>');
+  }
+  function impYear(v) {
+    v = String(v == null ? "" : v).trim(); if (!v) return 0;
+    if (/^\d+(\.\d+)?$/.test(v) && +v > 20000 && +v < 80000) return new Date(Date.UTC(1899, 11, 30) + Math.round(+v) * 864e5).getUTCFullYear();
+    var m = v.match(/(19|20)\d\d/); if (m && +m[0] <= YEAR) return +m[0];
+    var s = v.match(/\b(\d\d)$/); if (s && /[./-]/.test(v)) { var y = 2000 + +s[1]; return y > YEAR ? y - 100 : y; }
+    return -1;
+  }
+  function impCheck() {
+    var I = IMP, col = {}, seen = {}, out = [];
+    I.map.forEach(function (k, i) { if (k && col[k] == null) col[k] = i; });
+    if (col.name == null && col.vn == null && col.nn == null) { $("[data-imp-need]", impv).hidden = false; return; }
+    S.mem.forEach(function (m) { seen[m.name.toLowerCase()] = m; });
+    var G = {}; S.P.groups.forEach(function (g) { G[g.toLowerCase()] = g; });
+    var gv = function (r, k) { return col[k] == null ? "" : String(r[col[k]] == null ? "" : r[col[k]]).trim(); };
+    I.rows.forEach(function (r) {
+      var name = (gv(r, "vn") + " " + gv(r, "nn")).trim() || gv(r, "name"), why = [], st = "ok";
+      name = name.replace(/\s+/g, " ").slice(0, 40);
+      if (!name) return;
+      var d = seen[name.toLowerCase()];
+      if (d) { out.push({ s: "x", name: name, why: d.nr ? "schon Mitglied (" + mnr(d) + "), wird nicht doppelt angelegt" : "kommt in der Datei zweimal vor" }); return; }
+      seen[name.toLowerCase()] = { name: name };
+      var gr = gv(r, "grp"), g = G[gr.toLowerCase()];
+      if (!g) { g = gr || "–"; if (gr) why.push(S.P.glbl + " „" + gr + "“ wird neu angelegt"); }
+      var y = impYear(gv(r, "seit"));
+      if (y < 0) { why.push("Eintritt „" + gv(r, "seit") + "“ unklar, bitte nachtragen"); y = YEAR; st = "q"; } else if (!y) y = YEAR;
+      var av = gv(r, "art").toLowerCase(), a = 0;
+      S.P.arts.forEach(function (x, j) { if (av && (av === x.l.toLowerCase() || av === x.k)) a = j; });
+      if (/jugend|kind|schüler|ermäßigt/.test(av)) a = 1; else if (/unterst|förder|passiv/.test(av)) a = 2;
+      var mail = gv(r, "mail");
+      if (col.mail != null && !mail) { why.push("ohne E-Mail, Zahlschein kommt per Post"); st = "q"; }
+      else if (mail && !/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(mail)) { why.push("E-Mail „" + mail + "“ sieht falsch aus"); st = "q"; }
+      var pv = gv(r, "st").toLowerCase();
+      out.push({ s: st, name: name, why: why.join(" · "), m: { name: name, grp: g, seit: y, art: a, role: "", st: /^(ja|j|x|1|bezahlt|ok|yes|✓)$/.test(pv) ? "ok" : "bad", mail: mail, tel: gv(r, "tel") } });
+    });
+    I.out = out;
+    var n = { ok: 0, q: 0, x: 0 }; out.forEach(function (o) { n[o.s]++; });
+    var take = n.ok + n.q, ord = { x: 0, q: 1, ok: 2 }, list = out.slice().sort(function (a, b) { return ord[a.s] - ord[b.s]; }), shown = list.slice(0, 60);
+    impShow(impHd(take + " von " + out.length + " werden übernommen · Schritt 3 von 3") + impSteps(2) +
+      '<div class="imp__b"><div class="imp__sum"><span class="ok"><b>' + n.ok + '</b>passen</span><span class="q"><b>' + n.q + '</b>mit Hinweis</span><span class="x"><b>' + n.x + "</b>doppelt</span></div>" +
+      '<ul class="bank__l imp__l">' + shown.map(function (o) {
+        var ic = o.s === "ok" ? "i-check" : o.s === "q" ? "i-search" : "i-x", m = o.m;
+        return '<li class="' + o.s + '"><i><svg><use href="#' + ic + '"/></svg></i><span><b>' + esc(o.name) + "</b><small>" + esc(o.why || (m.grp + " · seit " + m.seit + " · " + S.P.arts[m.art].l + " · Beitrag " + ST[m.st])) + "</small></span><em>" + (o.s === "x" ? "übersprungen" : o.s === "q" ? "prüfen" : "neu") + "</em></li>";
+      }).join("") + "</ul>" + (list.length > shown.length ? '<p class="imp__more">… und ' + (list.length - shown.length) + " weitere ohne Auffälligkeiten</p>" : "") + "</div>" +
+      '<div class="mcard__ft"><button class="dbtn sm ghost" type="button" data-imp-back="1">Spalten ändern</button><button class="dbtn sm" type="button" data-imp-go' + (take ? "" : " disabled") + "><svg><use href=\"#i-check\"/></svg>" + (take === 1 ? "1 Mitglied" : take + " Mitglieder") + " übernehmen</button></div>");
+  }
+  function impGo() {
+    var add = IMP.out.filter(function (o) { return o.m; }), q = 0;
+    add.forEach(function (o) { var m = o.m; m.nr = S.mem.length + 1; S.mem.push(m); S.newMem[m.nr] = 1; if (o.s === "q") q++; });
+    S.filter = "alle"; S.q = ""; $("[data-m-q]").value = "";
+    $$("[data-f]", $("[data-m-flt]")).forEach(function (x) { x.setAttribute("aria-pressed", x.getAttribute("data-f") === "alle"); });
+    renderMembers(); renderKpis(); renderOpen(); flash("[data-k-mem]");
+    feed("pop", "i-sheet", add.length + " Mitglieder aus „" + IMP.name + "“ importiert");
+    toast(add.length + " Mitglieder importiert", "ganz oben in der Liste");
+    impShow(impHd("Fertig") + '<div class="imp__done"><i><svg><use href="#i-check"/></svg></i><b>' + add.length + " Mitglieder übernommen</b><p>Sie stehen ganz oben in der Liste, mit " + esc(S.P.glbl) + ", Eintritt und Beitrag." + (q ? " " + q + (q === 1 ? " hat" : " haben") + " einen Hinweis, das könnt ihr in Ruhe nachtragen." : "") + " Wer eine E-Mail hat, kann gleich einen Zugang zur App bekommen.</p></div>" +
+      '<div class="mcard__ft"><button class="dbtn sm" type="button" data-imp-x>Liste ansehen</button></div>');
+    IMP = null;
+  }
+  // CSV: Trennzeichen ; , oder Tab, Anführungszeichen nach Excel-Art
+  function parseCsv(t) {
+    t = t.replace(/^﻿/, "");
+    var l1 = t.split(/\r?\n/)[0], dl = [";", "\t", ","].sort(function (a, b) { return l1.split(b).length - l1.split(a).length; })[0];
+    var rows = [], row = [], v = "", q = false;
+    for (var i = 0; i < t.length; i++) {
+      var c = t[i];
+      if (q) { if (c === '"') { if (t[i + 1] === '"') { v += '"'; i++; } else q = false; } else v += c; }
+      else if (c === '"') q = true;
+      else if (c === dl) { row.push(v); v = ""; }
+      else if (c === "\n" || c === "\r") { if (c === "\r" && t[i + 1] === "\n") i++; row.push(v); rows.push(row); row = []; v = ""; }
+      else v += c;
+    }
+    if (v || row.length) { row.push(v); rows.push(row); }
+    return rows;
+  }
+  // Excel (.xlsx) ohne Zusatzbibliothek: ZIP öffnen, erstes Tabellenblatt lesen
+  function unzip(buf) {
+    var dv = new DataView(buf), u8 = new Uint8Array(buf), e = buf.byteLength - 22, files = {};
+    while (e > 0 && dv.getUint32(e, true) !== 0x06054b50) e--;
+    if (e <= 0) return Promise.reject(new Error("zip"));
+    var p = dv.getUint32(e + 16, true), n = dv.getUint16(e + 10, true), td = new TextDecoder();
+    for (var i = 0; i < n; i++) {
+      var meth = dv.getUint16(p + 10, true), cs = dv.getUint32(p + 20, true), nl = dv.getUint16(p + 28, true), xl = dv.getUint16(p + 30, true), cl = dv.getUint16(p + 32, true), lo = dv.getUint32(p + 42, true);
+      var nm = td.decode(u8.subarray(p + 46, p + 46 + nl)), st = lo + 30 + dv.getUint16(lo + 26, true) + dv.getUint16(lo + 28, true);
+      files[nm] = { m: meth, d: u8.subarray(st, st + cs) };
+      p += 46 + nl + xl + cl;
+    }
+    return Promise.resolve(function (name) {
+      var f = files[name]; if (!f) return Promise.resolve("");
+      if (f.m === 0) return Promise.resolve(td.decode(f.d));
+      return new Response(new Blob([f.d]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).text();
+    });
+  }
+  function parseXlsx(buf) {
+    return unzip(buf).then(function (get) {
+      return Promise.all([get("xl/sharedStrings.xml"), get("xl/worksheets/sheet1.xml")]);
+    }).then(function (x) {
+      var dp = new DOMParser(), ss = [], rows = [];
+      if (x[0]) Array.prototype.forEach.call(dp.parseFromString(x[0], "application/xml").getElementsByTagName("si"), function (si) {
+        ss.push(Array.prototype.map.call(si.getElementsByTagName("t"), function (t) { return t.textContent; }).join(""));
+      });
+      var sh = dp.parseFromString(x[1], "application/xml");
+      Array.prototype.forEach.call(sh.getElementsByTagName("row"), function (rw) {
+        var row = [];
+        Array.prototype.forEach.call(rw.getElementsByTagName("c"), function (c) {
+          var ref = (c.getAttribute("r") || "").replace(/\d+/g, ""), ci = 0;
+          for (var j = 0; j < ref.length; j++) ci = ci * 26 + ref.charCodeAt(j) - 64;
+          ci = ref ? ci - 1 : row.length;
+          var t = c.getAttribute("t"), v = c.getElementsByTagName("v")[0], val = v ? v.textContent : "";
+          if (t === "s") val = ss[+val] || "";
+          else if (t === "inlineStr") val = Array.prototype.map.call(c.getElementsByTagName("t"), function (n) { return n.textContent; }).join("");
+          while (row.length < ci) row.push("");
+          row[ci] = val;
+        });
+        rows.push(row);
+      });
+      var w = rows.reduce(function (a, r) { return Math.max(a, r.length); }, 0);
+      return rows.map(function (r) { while (r.length < w) r.push(""); return r; });
+    });
+  }
+  function impFile(f) {
+    if (!f) return;
+    if (f.size > 8e6) { toast("Datei zu groß", "bitte höchstens 8 MB"); return; }
+    if (/\.xls$/i.test(f.name)) { toast("Altes Excel-Format", "bitte in Excel als .xlsx oder CSV speichern"); return; }
+    var x = /\.xlsx$/i.test(f.name);
+    if (x && !window.DecompressionStream) { toast("Excel hier nicht lesbar", "bitte als CSV speichern oder anderen Browser nehmen"); return; }
+    (x ? f.arrayBuffer().then(parseXlsx) : f.text().then(parseCsv)).then(function (rows) { impLoad(f.name, rows); }, function () {
+      toast("Datei nicht lesbar", "bitte als .xlsx oder CSV speichern");
+    });
+  }
+  $("[data-imp]").addEventListener("click", openImp);
+  impv.addEventListener("click", function (e) {
+    if (e.target.closest("[data-imp-x]")) { impv.hidden = true; $("[data-imp]").focus({ preventScroll: true }); return; }
+    if (e.target.closest("[data-imp-demo]")) { impLoad("Mitglieder_alt.xlsx", impSample()); return; }
+    if (e.target.closest("[data-imp-tpl]")) { csv("mitglieder-zum-importieren.csv", impSample()); toast("Musterliste heruntergeladen", "öffnen, ändern und wieder hochladen"); return; }
+    var b = e.target.closest("[data-imp-back]");
+    if (b) { if (b.getAttribute("data-imp-back") === "0") openImp(); else impMap(); return; }
+    if (e.target.closest("[data-imp-chk]")) { impCheck(); return; }
+    if (e.target.closest("[data-imp-go]")) impGo();
+  });
+  impv.addEventListener("change", function (e) {
+    if (e.target.matches("[data-imp-file]")) { impFile(e.target.files[0]); return; }
+    var s = e.target.closest("[data-imp-col]"); if (!s || !IMP) return;
+    var i = +s.getAttribute("data-imp-col"), k = s.value;
+    if (k) IMP.map.forEach(function (v, j) { if (v === k && j !== i) { IMP.map[j] = ""; var o = $('[data-imp-col="' + j + '"]', impv); o.value = ""; o.closest("li").className = ""; } });
+    IMP.map[i] = k; s.closest("li").className = k ? "ok" : "";
+    $("[data-imp-need]", impv).hidden = true;
+  });
+  ["dragover", "dragleave", "drop"].forEach(function (t) {
+    impv.addEventListener(t, function (e) {
+      var d = e.target.closest && e.target.closest("[data-imp-drop]"); if (!d) return;
+      e.preventDefault(); d.classList.toggle("is-over", t === "dragover");
+      if (t === "drop" && e.dataTransfer.files[0]) impFile(e.dataTransfer.files[0]);
+    });
   });
 
   $("[data-remind]").addEventListener("click", function () {
@@ -823,7 +1043,7 @@
     bview.innerHTML = '<div class="mcard__hd"><i><svg><use href="#i-file"/></svg></i><span><b>' + esc(c.t) + "</b><small>" + dshort(c.d) + c.d.getFullYear() + " · " + esc(c.c) + " · " + (c.a < 0 ? "− " : "+ ") + eur(Math.abs(c.a), true) + '</small></span><button type="button" class="mcard__x" data-bv-x aria-label="Beleg schließen"><svg><use href="#i-x"/></svg></button></div>' +
       '<div class="bview__in">' + (c.beleg === "muster" ? bon(c) : '<img src="' + esc(c.beleg) + '" alt="Foto des Belegs">') + "</div>" +
       '<div class="mcard__ft"><button class="dbtn sm ghost" type="button" data-bv-x>Schließen</button></div>';
-    bview.hidden = false;
+    bview.hidden = false; impv.hidden = true;
     bview.querySelector(".mcard__x").focus({ preventScroll: true });
   }
   bview.addEventListener("click", function (e) { if (e.target.closest("[data-bv-x]")) bview.hidden = true; });
@@ -1451,7 +1671,7 @@
       "<dt>" + esc(S.P.xf) + "</dt><dd>" + esc(m === S.me ? m.adr.x : xval(m)) + "</dd>" +
       "<dt>Kontakt</dt><dd>" + (m === S.me ? esc(m.adr.str) + "<br>" + esc(m.adr.ort) + "<br>" + esc(m.adr.tel) + "<br>" + esc(m.adr.mail) + (m.chg ? '<em class="chg">heute selbst geändert</em>' : "") : "Adresse, Telefon, E-Mail · nur für den Vorstand sichtbar") + "</dd></dl>" +
       '<div class="mcard__ft">' + (m.st === "bad" ? '<button class="dbtn sm" type="button" data-mc-rem><svg><use href="#i-mail"/></svg>Zahlschein schicken</button>' : "") + '<button class="dbtn sm ghost" type="button" data-mc-x>Schließen</button></div>';
-    mcard.hidden = false; mcard.setAttribute("data-nr", nr);
+    mcard.hidden = false; impv.hidden = true; mcard.setAttribute("data-nr", nr);
     var x = mcard.querySelector(".mcard__x"); if (x) x.focus({ preventScroll: true });
   }
   function closeCard() { if (mcard.hidden) return; var nr = mcard.getAttribute("data-nr"); mcard.hidden = true; var b = $('[data-card="' + nr + '"]'); if (b) b.focus({ preventScroll: true }); }
@@ -1464,7 +1684,7 @@
       renderOpen(); openCard(m.nr);
     }
   });
-  document.addEventListener("keydown", function (e) { if (e.key === "Escape") { closeCard(); bview.hidden = true; bankv.hidden = true; } });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") { closeCard(); bview.hidden = true; bankv.hidden = true; impv.hidden = true; } });
 
   // ---------- Vereinsart wechseln ----------
   function load(k) {
@@ -1472,7 +1692,7 @@
     $("[data-lgn-mail]").value = (k === "musik" ? "obfrau@" : "obmann@") + VK[k].url.split("/")[0];
     build(k);
     document.body.setAttribute("data-vk", k);
-    mcard.hidden = true; bview.hidden = true; bankv.hidden = true; setBel("");
+    mcard.hidden = true; bview.hidden = true; bankv.hidden = true; impv.hidden = true; setBel("");
     $("[data-m-year]").textContent = YEAR;
     $("[data-me-first]").textContent = S.me.name.split(" ")[0];
     $("[data-d-newbadge]").hidden = true;
