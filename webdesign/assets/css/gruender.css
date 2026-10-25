@@ -58,6 +58,25 @@
   .gr-price { max-width: none; }
 }
 @media (prefers-reduced-motion: reduce) { .gr-item { transition: none; } }
-/* Hinweis auf die Beispiel-Vereins-App unter dem Beispiel-Band auf /verein */
-.vr-app { margin: 28px 0 6px; animation: none; }
-.vr-app a { color: var(--hot); font-weight: 700; white-space: nowrap; }
+
+/* Upgrade Vereins-App auf /verein: links Text mit Funktionen, rechts ein Bild der Beispiel-App */
+.vr-up { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 56px; align-items: center; }
+.vr-up__txt h2 { margin: 14px 0 18px; }
+.vr-up__list { margin: 24px 0 0; }
+.vr-up__list b { color: var(--text); font-weight: 700; }
+.vr-up__list li { color: var(--muted); }
+.vr-up__chips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 26px 0 30px; padding: 0; }
+.vr-up__chips li { display: inline-flex; align-items: center; gap: 7px; padding: 6px 12px 6px 9px; border-radius: 999px; border: 1px solid rgba(255,90,31,.35); background: var(--hot-dim); font-size: .86rem; font-weight: 600; color: #ffd9c7; }
+.vr-up__chips svg { width: 15px; height: 15px; flex: none; color: var(--hot); }
+.vr-up__shot { position: relative; display: block; border-radius: 20px; overflow: hidden; border: 1px solid var(--line-2); box-shadow: 0 30px 80px -30px rgba(255,90,31,.35), 0 20px 60px -20px rgba(0,0,0,.7); transform: perspective(1400px) rotateY(-6deg); transition: transform .5s cubic-bezier(.2,.7,.2,1); }
+.vr-up__shot:hover { transform: perspective(1400px) rotateY(0deg); }
+.vr-up__shot img { display: block; width: 100%; height: auto; }
+.vr-up__shot::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 22%; background: linear-gradient(to bottom, rgba(11,11,11,0), rgba(11,11,11,.85)); pointer-events: none; }
+.vr-up__check { padding: 14px 16px; border: 1px dashed rgba(255,90,31,.45); border-radius: 14px; background: var(--hot-dim); }
+.vr-up__check b { color: var(--text); }
+@media (max-width: 1000px) {
+  .vr-up { grid-template-columns: 1fr; gap: 36px; }
+  .vr-up__shot { transform: none; }
+  .vr-up__shot:hover { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .vr-up__shot { transition: none; } }

@@ -82,4 +82,12 @@
     // Ohne automatisches Abspielen: Steuerung zeigen, damit man das Video selbst starten kann
     vids.forEach(function (v) { v.controls = true; });
   }
+
+  // Vereinsseite: „Mit anfragen“ beim Upgrade hakt die Vereins-App im Formular gleich an
+  document.querySelectorAll("[data-vr-upgrade]").forEach(function (a) {
+    a.addEventListener("click", function () {
+      var c = document.querySelector('#anfrage input[name="upgrade"]');
+      if (c) c.checked = true;
+    });
+  });
 })();
