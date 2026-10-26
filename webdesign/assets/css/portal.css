@@ -496,13 +496,20 @@
 /* Anmelden mit Code: Prüf-Linie, Kästchen kippen zusammen, ein Kästchen wird grün mit Häkchen bzw. rot mit Kreuz */
 @property --kp-a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
 .kp-code__cells i { position: relative; }
-.kp-code__cells i::before { content: ""; position: absolute; inset: -1px; border-radius: 13px; padding: 2px; pointer-events: none; opacity: 0;
-  background: conic-gradient(from 0deg, var(--hot, #ff5a1f) var(--kp-a), transparent 0);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
-.kp-code.is-chk .kp-code__cells i::before { opacity: 1; animation: kp-ring .55s cubic-bezier(.45,0,.25,1) forwards; }
-.kp-code.is-chk .kp-code__cells i:nth-child(2)::before { animation-delay: .04s; } .kp-code.is-chk .kp-code__cells i:nth-child(3)::before { animation-delay: .08s; }
-.kp-code.is-chk .kp-code__cells i:nth-child(4)::before { animation-delay: .12s; } .kp-code.is-chk .kp-code__cells i:nth-child(5)::before { animation-delay: .16s; }
-.kp-code.is-chk .kp-code__cells i:nth-child(6)::before { animation-delay: .2s; }
+/* Laufringe: ein Lichtbogen mit weichem Farbverlauf (dunkles Orange → #ff5a1f → helle Spitze) kreist um jedes Kästchen, ::after legt ein zartes Glühen darunter */
+.kp-code__cells i::before, .kp-code.is-chk .kp-code__cells i::after { content: ""; position: absolute; inset: -1px; border-radius: 13px; padding: 2px; pointer-events: none; opacity: 0;
+  background: conic-gradient(from var(--kp-a), transparent 0deg, rgba(194,65,12,0) 60deg, rgba(194,65,12,.55) 150deg, var(--hot, #ff5a1f) 250deg, #ff9a66 320deg, #ffe2cf 352deg, transparent 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  transition: opacity .3s ease; }
+.kp-code.is-chk .kp-code__cells i::after { width: auto; height: auto; inset: -5px; border-radius: 17px; padding: 6px; filter: blur(5px); animation: kp-ring .8s linear infinite; }
+.kp-code.is-chk .kp-code__cells i::before { opacity: 1; animation: kp-ring .8s linear infinite; }
+.kp-code.is-chk .kp-code__cells i::after { opacity: .6; }
+.kp-code.is-merge .kp-code__cells i::before, .kp-code.is-merge .kp-code__cells i::after { opacity: 0; transition-duration: .45s; }
+.kp-code.is-merge .kp-code__cells i { border-color: rgba(255,90,31,.7); }
+.kp-code.is-chk .kp-code__cells i { border-color: rgba(255,90,31,.28); }
+.kp-code.is-chk .kp-code__cells i:nth-child(2)::before, .kp-code.is-chk .kp-code__cells i:nth-child(2)::after { animation-delay: -.12s; } .kp-code.is-chk .kp-code__cells i:nth-child(3)::before, .kp-code.is-chk .kp-code__cells i:nth-child(3)::after { animation-delay: -.24s; }
+.kp-code.is-chk .kp-code__cells i:nth-child(4)::before, .kp-code.is-chk .kp-code__cells i:nth-child(4)::after { animation-delay: -.36s; } .kp-code.is-chk .kp-code__cells i:nth-child(5)::before, .kp-code.is-chk .kp-code__cells i:nth-child(5)::after { animation-delay: -.48s; }
+.kp-code.is-chk .kp-code__cells i:nth-child(6)::before, .kp-code.is-chk .kp-code__cells i:nth-child(6)::after { animation-delay: -.6s; }
 @keyframes kp-ring { to { --kp-a: 360deg; } }
 .kp-code.is-merge .kp-code__cells i { color: transparent; transition: color .2s; }
 .kp-code.is-one .kp-code__cells i { opacity: 0; transition: opacity .18s; }
@@ -519,7 +526,7 @@
 .kp-narrow h1 { transition: opacity .3s, filter .3s, transform .3s; }
 .kp-narrow h1.kp-swap { opacity: 0; filter: blur(8px); transform: translateY(-4px); }
 @media (max-width: 420px) { .kp-code__cells { gap: 6px; } .kp-code__cells i { height: 50px; font-size: 1.35rem; } }
-@media (prefers-reduced-motion: reduce) { .kp-code__cells i, .kp-code__cells i::before, .kp-code__m, .kp-code__m svg, .kp-code__ok, .kp-code__ok circle, .kp-code__ok path, .kp-narrow h1 { transition: none !important; animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { .kp-code__cells i, .kp-code__cells i::before, .kp-code__cells i::after, .kp-code__m, .kp-code__m svg, .kp-code__ok, .kp-code__ok circle, .kp-code__ok path, .kp-narrow h1 { transition: none !important; animation: none !important; } }
 .kp-review { margin-top: 12px; }
 .kp-phasen + .kp-review { margin-top: 22px; }
 
