@@ -507,9 +507,8 @@
 .kp-code.is-merge .kp-code__cells i::before, .kp-code.is-merge .kp-code__cells i::after { opacity: 0; transition-duration: .45s; }
 .kp-code.is-merge .kp-code__cells i { border-color: rgba(255,90,31,.7); }
 .kp-code.is-chk .kp-code__cells i { border-color: rgba(255,90,31,.28); }
-.kp-code.is-chk .kp-code__cells i:nth-child(2)::before, .kp-code.is-chk .kp-code__cells i:nth-child(2)::after { animation-delay: -.12s; } .kp-code.is-chk .kp-code__cells i:nth-child(3)::before, .kp-code.is-chk .kp-code__cells i:nth-child(3)::after { animation-delay: -.24s; }
-.kp-code.is-chk .kp-code__cells i:nth-child(4)::before, .kp-code.is-chk .kp-code__cells i:nth-child(4)::after { animation-delay: -.36s; } .kp-code.is-chk .kp-code__cells i:nth-child(5)::before, .kp-code.is-chk .kp-code__cells i:nth-child(5)::after { animation-delay: -.48s; }
-.kp-code.is-chk .kp-code__cells i:nth-child(6)::before, .kp-code.is-chk .kp-code__cells i:nth-child(6)::after { animation-delay: -.6s; }
+/* alle im Gleichtakt, die linken drei gespiegelt: sie laufen gegen den Uhrzeigersinn, die rechten drei im Uhrzeigersinn */
+.kp-code__cells i:nth-child(-n+3)::before, .kp-code__cells i:nth-child(-n+3)::after { transform: scaleX(-1); }
 @keyframes kp-ring { to { --kp-a: 360deg; } }
 .kp-code.is-merge .kp-code__cells i { color: transparent; transition: color .2s; }
 .kp-code.is-one .kp-code__cells i { opacity: 0; transition: opacity .18s; }
