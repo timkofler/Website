@@ -11,7 +11,7 @@
 <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/bigshoulders.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/style.css?v=20261025">
-<link rel="stylesheet" href="assets/v2.css?v=5">
+<link rel="stylesheet" href="assets/v2.css?v=6">
 <script src="assets/early.js?v=2"></script>
 <script type="application/ld+json">
 {
