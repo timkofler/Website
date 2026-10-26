@@ -137,6 +137,57 @@ const ZL_KONTAKTE = ['whatsapp', 'telegram', 'telefon', 'email', 'formular', 'ru
 // Ab diesem Tag zählen E-Mail-Klicks wieder (vorher waren es nur Klicks auf „Jemanden empfehlen“).
 const ZL_EMAIL_AB = '2026-10-25';
 
+// Tims eigene Test-Scans der neuen Brief-QR-Codes (26.10.2026, die Briefe gingen erst am 27.10. zur Post):
+// An diesen Tagen sind alle Besuche über „brief / referenz“ und die über „brief / gruender“, die auf einer
+// Beispielseite gelandet sind, Tests. Ältere Gründer-Briefe zeigten nur auf /gruender/, die bleiben.
+const ZL_TEST_TAGE = ['2026-10-26'];
+
+function zl_ohne_tests(string $day, array $d): array
+{
+    if (!in_array($day, ZL_TEST_TAGE, true)) {
+        return $d;
+    }
+    $k = (array) ($d['kampagnen'] ?? []);
+    $ein = (array) ($d['einstieg'] ?? []);
+    $bsp = 0;
+    foreach ($ein as $page => $n) {
+        if (str_starts_with((string) $page, '/beispiele/')) {
+            $bsp += (int) $n;
+        }
+    }
+    $ref = (int) ($k['brief / referenz'] ?? 0);
+    $gr = min((int) ($k['brief / gruender'] ?? 0), max(0, $bsp - $ref));
+    $n = $ref + $gr;
+    if ($n <= 0) {
+        return $d;
+    }
+    $minus = static function (array &$map, string $key, int $x): void {
+        if (isset($map[$key])) {
+            $map[$key] = (int) $map[$key] - $x;
+            if ($map[$key] <= 0) {
+                unset($map[$key]);
+            }
+        }
+    };
+    $minus($d['kampagnen'], 'brief / referenz', $ref);
+    $minus($d['kampagnen'], 'brief / gruender', $gr);
+    $minus($d['quellen'], 'brief', $n);
+    $d['besuche'] = max(0, (int) ($d['besuche'] ?? 0) - $n);
+    $d['aufrufe'] = max(0, (int) ($d['aufrufe'] ?? 0) - $n);
+    // Einstiegs- und Seitenzähler der Beispielseiten um die Test-Einstiege kürzen.
+    $rest = $n;
+    foreach ($ein as $page => $x) {
+        if ($rest <= 0 || !str_starts_with((string) $page, '/beispiele/')) {
+            continue;
+        }
+        $y = min((int) $x, $rest);
+        $minus($d['einstieg'], (string) $page, $y);
+        $minus($d['seiten'], (string) $page, $y);
+        $rest -= $y;
+    }
+    return $d;
+}
+
 function zl_kontakt(string $art): void
 {
     if (!in_array($art, ZL_KONTAKTE, true)) {
@@ -161,6 +212,7 @@ function zl_range(int $days): array
             $months[$m] = is_file($f) ? (array) json_decode((string) file_get_contents($f), true) : [];
         }
         $d = is_array($months[$m][$day] ?? null) ? $months[$m][$day] : [];
+        $d = zl_ohne_tests($day, $d);
         // Stärkste Kampagne des Tages (utm_campaign), für die Markierungen in der Tageskurve
         $kTag = (array) ($d['kampagnen'] ?? []);
         arsort($kTag);
