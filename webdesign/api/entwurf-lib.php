@@ -219,7 +219,7 @@ function ew_handle(array $c, string $fallback): void
         . '<p style="margin:0 0 14px">danke für deine Anfrage! Ich gestalte jetzt einen persönlichen Entwurf für <strong>' . cx_h($d['firma']) . '</strong>'
         . ($d['farbe_hex'] !== '' ? ' in deiner Wunschfarbe ' . ew_swatch($d['farbe_hex']) . cx_h($d['farbe']) : ', die Farben schlage ich dir vor') . '.</p>'
         . $was
-        . '<p style="margin:0 0 14px">In der Regel bekommst du ihn innerhalb einer Woche per E-Mail, als Bild für Handy und PC. Hast du ein Logo oder schöne Fotos? Dann antworte einfach auf diese E-Mail und häng sie an.</p>'
+        . '<p style="margin:0 0 14px">Du bekommst ihn innerhalb von 48 Stunden per E-Mail, als Bild für Handy und PC. Hast du ein Logo oder schöne Fotos? Dann antworte einfach auf diese E-Mail und häng sie an.</p>'
         . '<p style="margin:0 0 14px">Der Entwurf ist kostenlos und unverbindlich. Ob du danach etwas machen lassen willst, entscheidest du ganz in Ruhe.</p>'
         . cx_mail_gruss();
     cx_mail($d['email'], $d['name'], 'Dein kostenloser Webseiten-Entwurf', cx_mail_layout('Danke, ich lege los', $inner), $notify);
