@@ -875,12 +875,15 @@ svg{flex:none}
 .otp input{width:100%;height:50px;text-align:center;border:1px solid var(--line2);border-radius:12px;background:color-mix(in srgb,var(--card) 55%,transparent);color:var(--ink);font:800 21px/1 var(--hd);caret-color:var(--vc);outline:none;padding:0;transition:border-color .2s,box-shadow .2s,background .3s}
 .otp{position:relative}
 .otp__c{position:relative;display:block;z-index:calc(6 - var(--i))}
-/* Prüf-Linie läuft einmal um jedes Kästchen */
+/* Laufringe wie im Kundenportal: Lichtbogen mit weichem Verlauf und Glühen, alle im Gleichtakt, die linken drei gespiegelt (gegen den Uhrzeigersinn) */
 @property --oa{syntax:"<angle>";inherits:false;initial-value:0deg}
-.otp__r{position:absolute;inset:-1px;border-radius:13px;padding:2px;pointer-events:none;opacity:0;
-  background:conic-gradient(from 0deg,var(--vc) var(--oa),transparent 0);
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
-.otp.chk .otp__r{opacity:1;animation:oring .55s cubic-bezier(.45,0,.25,1) forwards;animation-delay:calc(var(--i) * 40ms)}
+.otp__r,.otp.chk .otp__c::before{position:absolute;inset:-1px;border-radius:13px;padding:2px;pointer-events:none;opacity:0;background:conic-gradient(from var(--oa),transparent 0deg,color-mix(in srgb,var(--vc) 45%,transparent) 60deg,color-mix(in srgb,var(--vc) 70%,transparent) 150deg,var(--vc) 250deg,color-mix(in srgb,var(--vc) 70%,var(--ink)) 320deg,color-mix(in srgb,var(--vc) 35%,var(--ink)) 352deg,transparent 360deg);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);transition:opacity .3s}
+.otp.chk .otp__c::before{content:"";inset:-5px;border-radius:17px;padding:6px;filter:blur(5px);z-index:-1;animation:oring .8s linear infinite}
+.otp.chk .otp__r{opacity:1;animation:oring .8s linear infinite}
+.otp.chk .otp__c::before{opacity:.6}
+.otp.merge .otp__r,.otp.merge .otp__c::before{opacity:0;transition-duration:.45s}
+.otp__c:nth-child(-n+3) .otp__r,.otp__c:nth-child(-n+3)::before{transform:scaleX(-1)}
 @keyframes oring{to{--oa:360deg}}
 .otp.chk input{transition:border-color .3s}
 .otp.merge input{color:transparent;caret-color:transparent;background:color-mix(in srgb,var(--card) 80%,transparent);transition:color .2s,background .4s}
@@ -908,7 +911,7 @@ svg{flex:none}
 .lgn__link{transition:opacity .3s,visibility .3s}
 .lgn__card.is-busy .lgn__link{opacity:0;visibility:hidden}
 .lgn__card.is-ok{border-color:color-mix(in srgb,var(--ok) 40%,var(--g-b));transition:border-color 1s}
-@media (prefers-reduced-motion:reduce){.otp.bad .otp__m{animation:none}.otp.chk .otp__r{animation:none;opacity:0}}
+@media (prefers-reduced-motion:reduce){.otp.bad .otp__m{animation:none}.otp.chk .otp__r,.otp.chk .otp__c::before{animation:none;opacity:0}}
 .lgn__link,.lgn__skip{justify-self:center;border:0;background:transparent;color:var(--mu);font-size:13px;text-decoration:underline;text-underline-offset:3px;padding:6px}
 .lgn__link:hover,.lgn__skip:hover{color:var(--ink)}
 .lgn__skip{display:block;margin:12px auto 0}
