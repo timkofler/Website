@@ -103,7 +103,6 @@ def head(title, desc, url, og_title, og_desc, ld, extra_css=""):
   <div class="container header__inner">
     <a href="/" class="tk-logo" aria-label="Tim Kofler Webdesign – Startseite"><img src="/assets/img/tk-logo-2.svg" alt="Tim Kofler Webdesign" width="71" height="36"></a>
     <div class="ew-head">
-      <a class="ew-head__tel" href="https://wa.me/4367761773118?text=Hallo%20Tim%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Webseite." rel="noopener" aria-label="Auf WhatsApp schreiben">{WA_IC}<span>WhatsApp</span></a>
       <a href="#anfrage" class="btn btn--sm">Anfragen</a>
     </div>
   </div>
@@ -128,6 +127,7 @@ FUSS = """
 <script src="/assets/js/main.js?v=b9d9c64d"></script>
 <script src="/assets/js/forms.js?v=e27fc2c5"></script>
 <script src="/assets/js/tk-fx.js?v=d255dc7d"></script>
+<script src="/assets/js/tk-ui.js?v=396f7c61"></script>
 </body>
 </html>
 """
@@ -176,7 +176,7 @@ def formular(b, num):
         f'<option{" selected" if k == b["paket"] else ""}>{escape(v[3])}</option>' for k, v in PAKETE.items())
     wa = wa_link(b["wa"])
     return f"""
-<section class="section section--line" id="anfrage">
+<section class="section section--line" id="anfrage" data-anf>
   <div class="container form-wrap">
     <div>
       <span class="label"><b>[{num:02d}]</b> Anfrage</span>
