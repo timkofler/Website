@@ -237,7 +237,10 @@ function cx_rueckruf(array $c, string $name, string $fallback): void
     if (!$ok && !$stored) {
         cx_respond(false, 'Dein Rückruf-Wunsch konnte gerade nicht übermittelt werden. Schreib mir gerne auf WhatsApp oder an office@tim-kofler.at.');
     }
-    cx_zaehle_anfrage('rueckruf');
+    // Tests nicht mitzählen: Tims Gerät (Cookie aus dem Admin) oder „Test“ als Name.
+    if (!isset($_COOKIE['tk_nicht_zaehlen']) && !preg_match('/^\s*test\b/i', $name)) {
+        cx_zaehle_anfrage('rueckruf');
+    }
     cx_respond(true, 'Danke, ' . $name . '! Ich rufe dich so bald wie möglich zurück, meistens noch am selben oder am nächsten Werktag.');
 }
 
