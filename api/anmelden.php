@@ -67,45 +67,41 @@ if (cx_field('datenschutz', 5) !== 'ja') {
     cx_respond(false, 'Bitte bestätige, dass du die Datenschutzerklärung gelesen hast.');
 }
 
-// 1. Kontakt in die Beta-Liste (Rechtsgrundlage: Anbahnung der Teilnahme, Art. 6 Abs. 1 lit. b DSGVO).
-$saved = cx_contact($email, $name, [(int) ($c['list_beta'] ?? 0)], [
-    'BETA_KONTEN' => $konten, 'BETA_PLATTFORM' => $plattform, 'BETA_ERFAHRUNG' => $erfahrung,
-]);
-
-// 2. Benachrichtigung an Tim mit allen Angaben. Antworten gehen direkt an die Bewerberin bzw. den Bewerber.
+// 1. Tim sofort über die Bewerbung informieren (interne Mail an eine feste Adresse, kein fremder
+//    Empfänger). Hinweis: Brevo-Eintrag und Dankes-Mail an die Person folgen erst NACH Bestätigung
+//    der E-Mail-Adresse (Double-Opt-in) – siehe Schritt 2 und bestaetigen.php.
 $rows = '';
 foreach ([
     'Vorname' => $name, 'E-Mail' => $email, 'Prop-Konten' => $konten, 'Plattform' => $plattform,
-    'Erfahrung' => $erfahrung, 'Newsletter' => $newsletter ? 'ja (Bestätigung ausstehend)' : 'nein', 'Nachricht' => $nachricht,
+    'Erfahrung' => $erfahrung, 'Newsletter' => $newsletter ? 'ja (nach Bestätigung)' : 'nein', 'Nachricht' => $nachricht,
 ] as $k => $v) {
     $rows .= '<tr><td style="padding:6px 12px 6px 0;color:#a1a1a1;vertical-align:top;white-space:nowrap">' . cx_h($k)
         . '</td><td style="padding:6px 0;color:#f4f4f0">' . nl2br(cx_h($v !== '' ? $v : '–')) . '</td></tr>';
 }
 $notify = (string) ($c['notify_email'] ?? 'tk@crypto-x.at');
-$toTim = cx_mail($notify, 'Tim', 'Neue Beta-Bewerbung: ' . $name,
+cx_mail($notify, 'Tim', 'Neue Beta-Bewerbung: ' . $name,
     cx_mail_layout('Neue Beta-Bewerbung', '<table role="presentation" cellpadding="0" cellspacing="0" style="font-size:15px">' . $rows . '</table>'
-        . '<p style="margin:18px 0 0;font-size:14px;color:#a1a1a1">' . ($saved ? 'Der Kontakt steht in der Beta-Liste in Brevo.' : 'Achtung: Der Kontakt konnte nicht in Brevo gespeichert werden.') . ' Mit „Antworten“ schreibst du direkt an die Person.</p>'),
+        . '<p style="margin:18px 0 0;font-size:14px;color:#a1a1a1">⚠ Die E-Mail-Adresse ist noch nicht bestätigt. Der Kontakt landet erst in der Beta-Liste in Brevo, wenn die Person den Bestätigungslink in ihrer E-Mail klickt. Mit „Antworten“ schreibst du direkt an die Person.</p>'),
     $email);
 
-if (!$saved && !$toTim) {
-    cx_respond(false, 'Deine Bewerbung konnte gerade nicht übermittelt werden. ' . $fallback);
+// 2. Double-Opt-in-Mail an die Bewerberin bzw. den Bewerber. Die Angaben reisen signiert im Link mit;
+//    erst nach dem Klick trägt bestaetigen.php den Kontakt in Brevo ein und schickt die Dankes-Mail.
+//    So wird niemand ohne Bestätigung der eigenen Adresse eingetragen oder angeschrieben.
+$extra = ['nl' => $newsletter ? 1 : 0];
+if ($konten !== '') {
+    $extra['kt'] = $konten;
+}
+if ($plattform !== '') {
+    $extra['pf'] = $plattform;
+}
+if ($erfahrung !== '') {
+    $extra['ef'] = $erfahrung;
+}
+if (!cx_send_optin($email, $name, 'beta', $extra)) {
+    cx_respond(false, 'Die Bestätigungsmail konnte gerade nicht verschickt werden. ' . $fallback);
 }
 
-// 3. Eingangsbestätigung an die Bewerberin bzw. den Bewerber.
-$inner = '<p style="margin:0 0 14px">Hallo ' . cx_h($name) . ',</p>'
-    . '<p style="margin:0 0 14px">danke für deine Bewerbung als Beta-Tester für das CryptoX Dashboard! Ich sehe mir deine Angaben an und melde mich in den nächsten Tagen persönlich bei dir, meistens per E-Mail.</p>'
-    . '<p style="margin:0 0 14px">Sobald dein Zugang eingerichtet ist, bekommst du von mir die Adresse, deine Anmeldedaten und eine kurze Anleitung für die ersten Schritte.</p>'
-    . '<p style="margin:0 0 14px">Bis dahin kannst du dir die <a href="https://crypto-x.at/cockpit/" style="color:#dcf763">Live-Demo</a> ansehen.</p>'
-    . '<p style="margin:0 0 4px">Viele Grüße<br>Tim</p>'
-    . '<p style="margin:18px 0 0;font-size:13px;color:#8a8a8a">Das CryptoX Dashboard ist ein Werkzeug zur Organisation und Kontrolle deiner eigenen Kontoregeln. Es gibt keine Handelssignale und keine Anlageberatung.</p>';
-cx_mail($email, $name, 'Deine Beta-Bewerbung für das CryptoX Dashboard', cx_mail_layout('Danke für deine Bewerbung', $inner), $notify);
-
-// 4. Newsletter nur nach eigener Bestätigung (Double-Opt-in).
-if ($newsletter) {
-    cx_send_optin($email, $name, 'beta');
-}
-
-cx_respond(true, 'Danke! Deine Bewerbung ist angekommen.', '/beta/danke/');
+cx_respond(true, 'Fast geschafft! Bitte bestätige deine Bewerbung über den Link in der E-Mail, die wir dir gerade geschickt haben.', '/beta/danke/');
 
 // ---------------- Webseiten-Anfrage ----------------
 function cx_webseite(array $c, string $email, string $name, string $fallback): void

@@ -363,19 +363,30 @@ function cx_log(string $msg): void
 
 // Newsletter: Bestätigungsmail mit signiertem Link verschicken.
 // Name und Inhalt des Newsletters kommen aus der config.php (newsletter_name, newsletter_inhalt), Standard ist CryptoX.
-function cx_send_optin(string $email, string $firstname, string $source): bool
+function cx_send_optin(string $email, string $firstname, string $source, array $extra = []): bool
 {
     $c = cx_config();
-    $nl = (string) ($c['newsletter_name'] ?? 'CryptoX Newsletter');
-    $was = (string) ($c['newsletter_inhalt'] ?? 'Darin geht es um neue Funktionen im CryptoX Dashboard, Software-Tipps und neue Artikel. Keine Anlageberatung, keine Signale.');
-    $token = cx_token(['e' => $email, 'n' => $firstname, 's' => $source, 't' => time()]);
+    // $extra kommt zusätzlich in den signierten Token (z. B. Beta-Angaben, Newsletter-Wunsch) und wird
+    // erst nach dem Klick in bestaetigen.php verarbeitet. Nichts wird vorher in Brevo eingetragen.
+    $token = cx_token(['e' => $email, 'n' => $firstname, 's' => $source, 't' => time()] + $extra);
     $link = cx_brand()['site'] . '/api/bestaetigen.php?t=' . rawurlencode($token);
     $hallo = $firstname !== '' ? 'Hallo ' . cx_h($firstname) . ',' : 'Hallo,';
+    if ($source === 'beta') {
+        $subject = 'Bitte bestätige deine Beta-Bewerbung';
+        $erklaerung = 'bitte bestätige mit einem Klick deine E-Mail-Adresse, damit ich deine Bewerbung als Beta-Tester für das CryptoX Dashboard bearbeiten kann.';
+        $label = 'Bewerbung bestätigen';
+    } else {
+        $nl = (string) ($c['newsletter_name'] ?? 'CryptoX Newsletter');
+        $was = (string) ($c['newsletter_inhalt'] ?? 'Darin geht es um neue Funktionen im CryptoX Dashboard, Software-Tipps und neue Artikel. Keine Anlageberatung, keine Signale.');
+        $subject = 'Bitte bestätige deine Anmeldung zum ' . $nl;
+        $erklaerung = 'bitte bestätige mit einem Klick, dass du den ' . cx_h($nl) . ' bekommen möchtest. ' . cx_h($was);
+        $label = 'Anmeldung bestätigen';
+    }
     $inner = '<p style="margin:0 0 14px">' . $hallo . '</p>'
-        . '<p style="margin:0 0 14px">bitte bestätige mit einem Klick, dass du den ' . cx_h($nl) . ' bekommen möchtest. ' . cx_h($was) . '</p>'
-        . cx_button($link, 'Anmeldung bestätigen')
-        . '<p style="margin:0 0 14px;font-size:14px;color:#a1a1a1">Der Link ist 7 Tage gültig. Wenn du dich nicht angemeldet hast, ignoriere diese E-Mail einfach. Ohne Bestätigung wirst du nicht eingetragen.</p>';
-    $ok = cx_mail($email, $firstname, 'Bitte bestätige deine Anmeldung zum ' . $nl, cx_mail_layout('Fast geschafft', $inner));
+        . '<p style="margin:0 0 14px">' . $erklaerung . '</p>'
+        . cx_button($link, $label)
+        . '<p style="margin:0 0 14px;font-size:14px;color:#a1a1a1">Der Link ist 7 Tage gültig. Wenn du das nicht warst, ignoriere diese E-Mail einfach. Ohne Bestätigung wird nichts eingetragen.</p>';
+    $ok = cx_mail($email, $firstname, $subject, cx_mail_layout('Fast geschafft', $inner));
     if ($ok) {
         cx_consent_log('optin_mail_' . $source, $email);
     }
