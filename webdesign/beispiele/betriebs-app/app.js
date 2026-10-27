@@ -533,14 +533,12 @@
   var root = document.documentElement, sw = $("[data-theme-sw]");
   var isLight = function () { var t = root.getAttribute("data-theme"); return t ? t === "light" : !!(window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches); };
   var syncSw = function () { var l = isLight(); sw.setAttribute("aria-checked", l); sw.setAttribute("aria-label", l ? "Dunkle Ansicht" : "Helle Ansicht"); };
-  // Ohne eigene Wahl folgt die App der Edition der Hauptseite (White = hell, Black = dunkel)
-  try { if (!localStorage.getItem("ba-theme")) { var ed = (location.search.match(/[?&]edition=(white|black)\b/) || [])[1] || localStorage.getItem("tk-edition"); if (ed === "white" || ed === "black") root.setAttribute("data-theme", ed === "white" ? "light" : "dark"); } } catch (e) {}
-  try { var th = localStorage.getItem("ba-theme"); if (th === "light" || th === "dark") root.setAttribute("data-theme", th); } catch (e) {}
+  try { var th = localStorage.getItem("ba-theme2"); if (th === "light" || th === "dark") root.setAttribute("data-theme", th); } catch (e) {}
   syncSw();
   sw.addEventListener("click", function () {
     var t = isLight() ? "dark" : "light";
     root.setAttribute("data-theme", t); syncSw();
-    try { localStorage.setItem("ba-theme", t); } catch (e) {}
+    try { localStorage.setItem("ba-theme2", t); } catch (e) {}
   });
   if (window.matchMedia) { var mq = matchMedia("(prefers-color-scheme: light)"); if (mq.addEventListener) mq.addEventListener("change", syncSw); }
   setInterval(function () { renderPlan(); }, 60000);

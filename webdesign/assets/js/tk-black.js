@@ -36,7 +36,7 @@
       var ed = root.classList.contains("tk-white") ? "black" : "white";
       root.classList.add("tk-ed-anim");
       apply(ed); label();
-      try { localStorage.setItem(KEY, ed); } catch (e) {}
+      try { localStorage.setItem(KEY, ed); ["va-theme2", "ba-theme2", "tk-dash-theme2"].forEach(function (k) { localStorage.removeItem(k); }); } catch (e) {}  // App-Beispiele folgen danach wieder der Edition
       setTimeout(function () { root.classList.remove("tk-ed-anim"); }, 450);
     });
     label();

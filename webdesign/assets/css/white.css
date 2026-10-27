@@ -147,7 +147,8 @@ html.tk-white .tk-car__item figcaption .tk-vers__tag { color: #4a443d; }
 html.tk-white .tk-vers__tag i { background: rgba(28,20,12,.22); }
 html.tk-white .tk-vers__tag i.is-on { background: #ff5a1f; }
 html.tk-white .tk-car__btn { background: #fff; border-color: rgba(28,20,12,.14); color: #16130f; }
-html.tk-white .tk-car__dot::after { background: rgba(28,20,12,.25); }
+html.tk-white .tk-car__dot::after { background: rgba(28,20,12,.18); }
+html.tk-white .tk-car__dot.is-on::after { background: var(--hot-grad, #ff5a1f); }
 html.tk-white main a:not(.btn):not([class]) { color: #16130f; }
 html.tk-white main a:not(.btn):not([class]):hover { color: var(--hot); }
 html.tk-white .muted a { color: #16130f; text-decoration-color: rgba(255,90,31,.6); }
