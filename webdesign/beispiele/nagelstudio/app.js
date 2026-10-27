@@ -118,37 +118,61 @@
     if (parent) parent.appendChild(e);
     return e;
   }
-  // Vier Finger von oben, leicht gefächert. Jeder Finger ist ein Rechteck mit runder Kuppe (R = halbe Breite);
-  // der Nagel sitzt auf dem Finger, Nagelhaut und seitliche Hautfalten liegen darüber, damit er eingebettet wirkt.
-  var FINGER = [{ x: 106, y: 150, w: 54, rot: -10 }, { x: 170, y: 112, w: 58, rot: -3.5 }, { x: 236, y: 118, w: 56, rot: 3 }, { x: 296, y: 166, w: 48, rot: 10 }];
+  // Eine schlanke Hand von oben: Handrücken, vier sich verjüngende Finger und der Daumen, alles in einer Hautfarbe,
+  // damit die Formen nahtlos ineinander übergehen. Jeder Nagel sitzt an der Fingerkuppe (R = halbe Breite der Kuppe).
+  var SKIN = "#eac4b2", SKIN_HI = "#f7ddd0", SKIN_LO = "#c99682";
+  var FINGER = [
+    { x: 151, y: 266, rot: -7, L: 152, wb: 23.5, wt: 17.5 },  // Zeigefinger
+    { x: 194, y: 256, rot: -1.5, L: 172, wb: 24, wt: 18.5 },  // Mittelfinger
+    { x: 236, y: 262, rot: 5, L: 158, wb: 23, wt: 17.5 },     // Ringfinger
+    { x: 274, y: 282, rot: 12, L: 122, wb: 19.5, wt: 14.5 },  // kleiner Finger
+    { x: 118, y: 336, rot: -34, L: 108, wb: 25, wt: 18.5, daumen: true }
+  ];
   var hand = $("#hand"), nails = [];
-  function fingerPath(R, h) { return "M" + (-R * 1.06) + "," + h + " L" + (-R) + "," + R + " A" + R + "," + R + " 0 0 1 " + R + "," + R + " L" + (R * 1.06) + "," + h + " Z"; }
+  // Finger mit Ursprung an der Wurzel, zeigt nach oben; leicht taillierte Seiten, runde Kuppe.
+  function fingerPath(f) {
+    var L = f.L, b = f.wb, t = f.wt;
+    return "M" + (-b) + ",20 L" + (-b) + ",0 C" + (-b * 0.98) + "," + (-L * 0.42) + " " + (-t * 1.04) + "," + (-L * 0.7) + " " + (-t) + "," + (-(L - t)) +
+      " A" + t + "," + t + " 0 0 1 " + t + "," + (-(L - t)) + " C" + (t * 1.04) + "," + (-L * 0.7) + " " + (b * 0.98) + "," + (-L * 0.42) + " " + b + ",0 L" + b + ",20 Z";
+  }
   (function build() {
     var defs = el("defs", {}, hand);
-    var sk = el("linearGradient", { id: "skin", x1: "0", x2: "1" }, defs);
-    el("stop", { offset: "0", "stop-color": "#cf9e8b" }, sk); el("stop", { offset: ".22", "stop-color": "#e9c4b3" }, sk); el("stop", { offset: ".5", "stop-color": "#f3d6c8" }, sk);
-    el("stop", { offset: ".8", "stop-color": "#e4bba9" }, sk); el("stop", { offset: "1", "stop-color": "#c79483" }, sk);
     var fade = el("linearGradient", { id: "fade", x1: "0", y1: "0", x2: "0", y2: "1" }, defs);
-    el("stop", { offset: ".6", "stop-color": "#fff" }, fade); el("stop", { offset: ".97", "stop-color": "#fff", "stop-opacity": "0" }, fade);
+    el("stop", { offset: ".62", "stop-color": "#fff" }, fade); el("stop", { offset: ".98", "stop-color": "#fff", "stop-opacity": "0" }, fade);
     var mask = el("mask", { id: "m-fade" }, defs); el("rect", { x: 0, y: 0, width: 400, height: 400, fill: "url(#fade)" }, mask);
     var chrome = el("linearGradient", { id: "chrome", x1: "0", y1: "0", x2: "1", y2: "1" }, defs);
     el("stop", { offset: "0", "stop-color": "#fff", "stop-opacity": ".85" }, chrome); el("stop", { offset: ".35", "stop-color": "#fff", "stop-opacity": "0" }, chrome);
     el("stop", { offset: ".6", "stop-color": "#fff", "stop-opacity": ".5" }, chrome); el("stop", { offset: "1", "stop-color": "#000", "stop-opacity": ".25" }, chrome);
     var cv = el("linearGradient", { id: "curve", x1: "0", x2: "1" }, defs);
     [["0", ".2"], [".28", "0"], [".72", "0"], ["1", ".2"]].forEach(function (st) { el("stop", { offset: st[0], "stop-color": "#000", "stop-opacity": st[1] }, cv); });
-    var sh = el("filter", { id: "soft", x: "-20%", y: "-20%", width: "140%", height: "140%" }, defs); el("feGaussianBlur", { stdDeviation: "1.4" }, sh);
+    // Rundung der Finger: Ränder dunkler, Mitte heller (als Überlage, damit die Grundfarbe überall gleich bleibt)
+    var rd = el("linearGradient", { id: "round", x1: "0", x2: "1" }, defs);
+    [["0", SKIN_LO, ".55"], [".2", SKIN_LO, "0"], [".5", SKIN_HI, ".55"], [".8", SKIN_LO, "0"], ["1", SKIN_LO, ".55"]].forEach(function (st) { el("stop", { offset: st[0], "stop-color": st[1], "stop-opacity": st[2] }, rd); });
+    var bl = el("filter", { id: "soft", x: "-30%", y: "-30%", width: "160%", height: "160%" }, defs); el("feGaussianBlur", { stdDeviation: "1.4" }, bl);
+    var bl2 = el("filter", { id: "soft6", x: "-30%", y: "-30%", width: "160%", height: "160%" }, defs); el("feGaussianBlur", { stdDeviation: "6" }, bl2);
     var g = el("g", { mask: "url(#m-fade)" }, hand);
-    FINGER.forEach(function (f) {
-      var fg = el("g", { transform: "translate(" + f.x + "," + f.y + ") rotate(" + f.rot + ")" }, g);
-      var R = f.w / 2, h = 380 - f.y, d = fingerPath(R, h);
-      el("path", { d: d, fill: "rgba(0,0,0,.35)", transform: "translate(3,5)", filter: "url(#soft)" }, fg);
-      el("path", { d: d, fill: "url(#skin)" }, fg);
-      // Fingerkuppe etwas heller, zwei Gelenkfalten
-      el("ellipse", { cx: 0, cy: R * 0.75, rx: R * 0.62, ry: R * 0.5, fill: "#f8e0d4", opacity: ".35" }, fg);
-      [4.3, 4.55].forEach(function (y, i) { el("path", { d: "M" + (-R * 0.45) + "," + (R * y) + " q" + (R * 0.45) + "," + (R * (i ? 0.16 : 0.2)) + " " + (R * 0.9) + ",0", stroke: "#b98572", "stroke-width": "1.2", fill: "none", "stroke-linecap": "round", opacity: ".5" }, fg); });
-      var ng = el("g", { class: "nail" }, fg);
-      nails.push({ g: ng, R: R, d: d });
+    var palm = "M134,262 C162,246 230,246 262,262 C278,270 292,282 293,302 C295,334 287,380 280,410 L146,410 C138,388 124,372 110,356 C100,344 102,326 112,308 C118,288 124,272 134,262 Z";
+    // weicher Schatten der ganzen Hand
+    var shadow = el("g", { filter: "url(#soft6)", opacity: ".55", transform: "translate(6,10)" }, g);
+    el("path", { d: palm, fill: "#000" }, shadow);
+    FINGER.forEach(function (f) { el("path", { d: fingerPath(f), fill: "#000", transform: "translate(" + f.x + "," + f.y + ") rotate(" + f.rot + ")" }, shadow); });
+    // Daumen zuerst (liegt unter dem Handrücken), dann Finger von außen nach innen, zuletzt der Handrücken
+    var order = [4, 3, 0, 2, 1];
+    order.forEach(function (i) {
+      var f = FINGER[i], fg = el("g", { transform: "translate(" + f.x + "," + f.y + ") rotate(" + f.rot + ")" }, g), d = fingerPath(f);
+      el("path", { d: d, fill: SKIN, stroke: SKIN_LO, "stroke-width": "1.2", "stroke-opacity": ".55" }, fg);
+      el("path", { d: d, fill: "url(#round)" }, fg);
+      // Gelenkfalten
+      [[0.36, 0.16], [0.4, 0.12], [0.66, 0.1]].forEach(function (k) {
+        var y = -f.L * k[0], w = f.wb * 0.42;
+        el("path", { d: "M" + (-w) + "," + y + " q" + w + "," + (f.wb * k[1]) + " " + (w * 2) + ",0", stroke: SKIN_LO, "stroke-width": "1", fill: "none", "stroke-linecap": "round", opacity: ".55" }, fg);
+      });
+      var ng = el("g", { class: "nail", transform: "translate(0," + (-f.L) + ")" }, fg);
+      f.g = ng;
     });
+    el("path", { d: palm, fill: SKIN }, g);
+    el("path", { d: palm, fill: "url(#round)", opacity: ".18" }, g);
+    FINGER.forEach(function (f) { nails.push({ g: f.g, R: f.wt, d: fingerPath(f), tf: "translate(0," + f.L + ")" }); });
   })();
 
   var cfg = $("#cfg"), formBox = $("#o-form"), farbBox = $("#o-farbe");
@@ -189,7 +213,9 @@
       [-1, 1].forEach(function (sx) {
         el("path", { d: "M" + (sx * R * 1.2) + "," + (E - R * 0.6) + " L" + (sx * r * 1.03) + "," + (E - R * 0.6) + " L" + (sx * r * 0.99) + "," + (E + R * 0.3) + " Q" + (sx * r * 0.9) + "," + (E + B * 0.55) + " " + (sx * r * 0.9) + "," + C + " L" + (sx * R * 1.2) + "," + C + " Z" }, cs);
       });
-      el("path", { d: n.d, fill: "url(#skin)", "clip-path": "url(#" + ids + ")" }, n.g);
+      var skin = el("g", { "clip-path": "url(#" + ids + ")" }, n.g);
+      el("path", { d: n.d, transform: n.tf, fill: SKIN }, skin);
+      el("path", { d: n.d, transform: n.tf, fill: "url(#round)" }, skin);
       el("path", { d: "M" + (-r * 1.02) + "," + (C - k * 0.75) + " Q0," + (C + k * 1.45) + " " + (r * 1.02) + "," + (C - k * 0.75), stroke: "#b47f6d", "stroke-width": "1.3", fill: "none", opacity: ".6", "stroke-linecap": "round" }, n.g);
       [-1, 1].forEach(function (sx) { el("path", { d: "M" + (sx * r * 0.985) + "," + (E + R * 0.5) + " Q" + (sx * r * 0.9) + "," + (E + B * 0.55) + " " + (sx * r * 0.9) + "," + (C - k), stroke: "#b47f6d", "stroke-width": "1", fill: "none", opacity: ".4" }, n.g); });
       el("path", { d: d, transform: tf, fill: "none", stroke: "rgba(0,0,0,.16)", "stroke-width": ".8" }, n.g);
