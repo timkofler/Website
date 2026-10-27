@@ -170,6 +170,17 @@ SEITEN = [
  ("Praxis Sonnfeld (Massage)", "/beispiele/massage/", [
   ("PV", "9335881", "", "olia danilevich", "Video Massage", "_shared/media/massage-hell.mp4"),
  ]),
+ ("Studio Mila (Nagelstudio)", "/beispiele/nagelstudio/", [
+  ("P", "35031996", "close-up-of-hand-with-elegant-nail-art-design-35031996", "Salim Da", "Mandelnägel zartrosa", "nagelstudio/bilder/hero-mandel.webp"),
+  ("P", "34373403", "elegant-manicured-hands-with-gold-jewelry-34373403", "Moo Lens", "Nude-Nägel mit Goldringen", "nagelstudio/bilder/nude-gold.webp"),
+  ("P", "12653044", "close-up-of-woman-hands-12653044", "Marianna Hambardzumyan", "French mit blauer Spitze", "nagelstudio/bilder/french-blau.webp"),
+  ("P", "16363470", "hands-with-professional-manicure-done-16363470", "Oswal Darks", "Rosé mit Glitzer", "nagelstudio/bilder/glitzer-rose.webp"),
+  ("P", "18730147", "close-up-of-woman-manicure-18730147", "honggyu kim", "Nail Art Schwarz-Weiß", "nagelstudio/bilder/nailart-schwarzweiss.webp"),
+  ("P", "17280274", "manicure-on-woman-hands-17280274", "Melih Can", "Nude glänzend", "nagelstudio/bilder/nude-glanz.webp"),
+  ("P", "7066258", "person-with-colorful-nails-7066258", "locrifa", "Bunte Punkte", "nagelstudio/bilder/punkte-bunt.webp"),
+  ("P", "22668324", "nail-art-22668324", "Kerim Eveyik", "Gel auftragen", "nagelstudio/bilder/gel-auftragen.webp"),
+  ("P", "29100882", "colorful-nail-polish-bottles-on-minimalist-background-29100882", "April Choitz", "Nagellacke", "nagelstudio/bilder/lacke.webp"),
+ ]),
  ("Villa Hollerbach (Halloween)", "/beispiele/halloween/", [
   ("PV", "14517238", "", "Beyza Kaplan", "Video Haus", "halloween/media/haus.mp4"),
   ("PV", "5435717", "", "cottonbro studio", "Video Flur", "halloween/media/flur-zombies.mp4"),
