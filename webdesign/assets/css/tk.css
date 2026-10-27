@@ -248,6 +248,8 @@ p a:not(.btn):hover, li a:not(.btn):hover, .form__check a:hover { text-decoratio
 @media (max-width: 820px) { .tk-host { grid-template-columns: 1fr; } }
 
 @media (max-width: 560px) { .tk-car__ctrl { gap: 12px; } .tk-car__btn { flex-shrink: 0; } .tk-car__dot { width: 24px; } .tk-car__dot::after { left: 5px; right: 5px; } .tk-car__dot.is-on { width: 32px; } }
+/* Handy: Beispiele werden gewischt, die Pfeile links und rechts braucht es dort nicht */
+@media (max-width: 760px) { .tk-car__btn { display: none; } .tk-car__ctrl { justify-content: center; } }
 @media (max-width: 380px) { .tk-car__dot { width: 20px; } .tk-car__dot::after { left: 3px; right: 3px; } }
 
 /* ================= Signalfarbe & neue Effekte (2026-10) ================= */
