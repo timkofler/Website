@@ -1336,3 +1336,22 @@ html.va-full,html.va-full body{overflow:hidden}
 /* Stichpunkte im Abo-Vergleich hervorheben (Tim 27.10.) */
 .calc .sec__head p b{color:#fff;font-weight:700}
 .calc .sec__head p b.o{color:#ff5a1f}
+/* Abo-Rechner: deutlich als Vergleich mit anderen Anbietern beschriftet (Tim 27.10.) */
+.calc__tag{display:block;line-height:1.6;margin:0 0 16px;padding:0 0 14px;border-bottom:1px solid var(--line);font-size:14.5px;color:var(--mu)}
+.calc__tag b{color:var(--ink);font-weight:700}
+.calc__tag span{display:inline-block;margin-right:10px;vertical-align:1px;font:700 10.5px/1 var(--bd);letter-spacing:.1em;text-transform:uppercase;color:#0b0b0c;background:#ff5a1f;border-radius:999px;padding:6px 10px}
+.calc__note > span > b:first-child{color:#ff7a45}
+/* Schluss: Vorzugspreis-Hinweis + 3 Schritte statt langem Absatz (Tim 27.10.) */
+.end .end__badge{display:inline-flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center;max-width:none;margin:22px auto 0;padding:8px 18px 8px 8px;border-radius:999px;border:1px solid rgba(255,90,31,.35);background:rgba(255,90,31,.07);color:var(--ink);font-size:15.5px}
+.end .end__badge span{font:700 10.5px/1 var(--bd);letter-spacing:.1em;text-transform:uppercase;color:#0b0b0c;background:#ff5a1f;border-radius:999px;padding:7px 11px}
+.end .end__badge b{color:#ff7a45}
+.end__steps{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;max-width:900px;margin:30px auto 0;padding:0;text-align:left}
+.end__steps li{position:relative;padding:20px 20px 20px 66px;border-radius:20px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01)),var(--card)}
+.end__steps i{position:absolute;left:18px;top:18px;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font:700 15px/1 var(--bd);font-style:normal;color:#0b0b0c;background:linear-gradient(145deg,#ff7a3d,#ff5a1f);box-shadow:0 0 0 5px rgba(255,90,31,.12)}
+.end__steps b{display:block;color:var(--ink);font-size:16px;margin-bottom:4px}
+.end__steps span{display:block;color:var(--mu);font-size:14.5px;line-height:1.45}
+.end .end__plus{font-size:15px;margin-top:20px}
+.end .row{margin-top:26px}
+@media (max-width:760px){.end__steps{grid-template-columns:1fr}}
+.end .end__badge em{font-style:normal}
+@media (max-width:560px){.end .end__badge{display:flex;flex-direction:column;gap:10px;border-radius:20px;padding:14px 16px}}

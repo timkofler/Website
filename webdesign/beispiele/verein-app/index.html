@@ -22,7 +22,7 @@
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preload" href="/beispiele/_shared/fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/beispiele/_shared/demo.css">
-<link rel="stylesheet" href="/beispiele/verein-app/style.css?v=40">
+<link rel="stylesheet" href="/beispiele/verein-app/style.css?v=42">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://tim-kofler.at/"},{"@type":"ListItem","position":2,"name":"Beispiele","item":"https://tim-kofler.at/beispiele/"},{"@type":"ListItem","position":3,"name":"Vereins-App","item":"https://tim-kofler.at/beispiele/verein-app/"}]},{"@type":"WebPage","@id":"https://tim-kofler.at/beispiele/verein-app/#seite","url":"https://tim-kofler.at/beispiele/verein-app/","name":"Vereins-App ohne Abo: Vereinsverwaltung für Österreich","description":"Mitglieder, Beiträge mit QR-Zahlschein, Termine mit Zusagen, Umfragen und Kassabuch mit Belegen per Foto und Kassabericht als PDF in einer eigenen Vereins-App. Einmal gebaut, ohne monatliches Abo.","inLanguage":"de-AT","isPartOf":{"@id":"https://tim-kofler.at/#website"},"author":{"@id":"https://tim-kofler.at/#tim"},"mainEntity":{"@id":"https://tim-kofler.at/beispiele/verein-app/#angebot"}},{"@type":"Service","@id":"https://tim-kofler.at/beispiele/verein-app/#angebot","name":"Vereins-App ohne Abo","serviceType":"Vereinsverwaltung","alternateName":["Vereinssoftware","Mitgliederverwaltung für Vereine"],"description":"Eigene Vereins-App in den Vereinsfarben: Mitgliederverwaltung, Beiträge mit QR-Zahlschein, Termine mit Zu- und Absagen, Umfragen, Helfer-Einteilung, Anwesenheit und Kassabuch mit Belegen. Einmal bezahlt, ohne Abo, die Daten liegen auf dem Webspace des Vereins.","url":"https://tim-kofler.at/beispiele/verein-app/","image":"https://tim-kofler.at/assets/img/og-verein.jpg","provider":{"@id":"https://tim-kofler.at/#unternehmen"},"areaServed":{"@type":"Country","name":"Österreich"},"audience":{"@type":"Audience","audienceType":"Vereine: Musikvereine, Sportvereine, Kulturvereine"}}]}</script>
 </head>
 <body>
@@ -461,16 +461,17 @@
 <section class="sec calc" id="rechner">
   <div class="wrap calc__in">
     <div class="sec__head" data-reveal>
-      <span class="kick"><i></i>Was ein Abo kostet</span>
-      <h2>Jedes Jahr zahlen <span class="grad">oder einmal?</span></h2>
-      <p>Bekannte Vereinsprogramme kosten im Abo je nach Paket etwa <b class="o">150, 240 oder 600&nbsp;€ im Jahr</b>, <b>Jahr für Jahr</b>. Rabatte gelten oft <b>nur am Anfang</b>. Über die Jahre kommt da einiges zusammen, Geld, das der Verein lieber für <b>Noten, Trikots oder das nächste Fest</b> ausgibt.</p>
+      <span class="kick"><i></i>Was ein Abo woanders kostet</span>
+      <h2>Andere Anbieter: jedes Jahr zahlen. <span class="grad">Bei mir: einmal.</span></h2>
+      <p><b>Diese Preise sind nicht von mir.</b> Bekannte Vereinsprogramme anderer Anbieter kosten im Abo je nach Paket etwa <b class="o">150, 240 oder 600&nbsp;€ im Jahr</b>, <b>Jahr für Jahr</b>. Rabatte gelten oft <b>nur am Anfang</b>. Über die Jahre kommt da einiges zusammen, Geld, das der Verein lieber für <b>Noten, Trikots oder das nächste Fest</b> ausgibt.</p>
     </div>
     <div class="calc__card" data-reveal>
+      <p class="calc__tag"><span>Vergleich</span>So viel kostet ein Abo bei <b>anderen Anbietern</b></p>
       <div class="seg calc__pre" role="group" aria-label="Typische Abo-Pakete" data-calc-pre><button type="button" data-p="149" aria-pressed="false">Klein · 149 €</button><button type="button" data-p="239" aria-pressed="true">Mittel · 239 €</button><button type="button" data-p="599" aria-pressed="false">Groß · 599 €</button></div>
-      <label class="calc__f"><span>Abo pro Jahr <b class="num" data-calc-mo>239 €</b></span><input type="range" min="100" max="600" step="1" value="239" data-calc-m></label>
+      <label class="calc__f"><span>Abo bei anderen Anbietern pro Jahr <b class="num" data-calc-mo>239 €</b></span><input type="range" min="100" max="600" step="1" value="239" data-calc-m></label>
       <label class="calc__f"><span>Zeitraum <b class="num" data-calc-yo>5 Jahre</b></span><input type="range" min="1" max="10" step="1" value="5" data-calc-y></label>
-      <div class="calc__res"><small>So viel zahlt ihr im Abo</small><b class="num" data-calc-sum>1.195 €</b></div>
-      <p class="calc__note"><svg><use href="#i-check"/></svg><span>Eigene Vereins-App: <b>einmal bezahlt</b>, Fixpreis nach eurer Anfrage. Laufend nur euer Webspace, meist 5 bis 10 € im Monat, und darauf läuft auch gleich eure Vereinsseite.</span></p>
+      <div class="calc__res"><small>So viel zahlt ihr bei anderen Anbietern im Abo</small><b class="num" data-calc-sum>1.195 €</b></div>
+      <p class="calc__note"><svg><use href="#i-check"/></svg><span><b>Bei mir</b>, eigene Vereins-App: <b>einmal bezahlt</b>, kein Abo, Fixpreis nach eurer Anfrage. Laufend nur euer Webspace, meist 5 bis 10 € im Monat, und darauf läuft auch gleich eure Vereinsseite.</span></p>
     </div>
   </div>
 </section>
@@ -533,7 +534,13 @@
   <div class="wrap">
     <span class="kick" data-reveal><i></i>Euer nächster Schritt</span>
     <h2 data-reveal>Weniger Zettel. <span class="grad">Mehr Vereinsleben.</span></h2>
-    <p data-reveal><b>Wir suchen den ersten Verein, der die App zu einem Vorzugspreis bekommt.</b> Schreibt mir kurz, wie viele Mitglieder ihr habt und was euch heute am meisten Arbeit macht. Ihr bekommt eine ehrliche Einschätzung und einen Fixpreis. Alles läuft online über mein Kundenportal, ohne Termin vor Ort. Eure Vereinsseite gestalte ich übrigens <a href="/verein/">kostenlos</a>.</p>
+    <p class="end__badge" data-reveal><span>Vorzugspreis</span><em>Wir suchen den <b>ersten Verein</b>, der die App günstiger bekommt.</em></p>
+    <ol class="end__steps" data-reveal>
+      <li><i>1</i><b>Kurz schreiben</b><span>Wie viele Mitglieder ihr habt und was euch heute am meisten Arbeit macht.</span></li>
+      <li><i>2</i><b>Ehrliche Einschätzung</b><span>Ihr bekommt einen Vorschlag und einen Fixpreis, einmal bezahlt.</span></li>
+      <li><i>3</i><b>Alles online</b><span>Über mein Kundenportal, ohne Termin vor Ort.</span></li>
+    </ol>
+    <p class="end__plus" data-reveal>Eure Vereinsseite gestalte ich übrigens <a href="/verein/">kostenlos</a>.</p>
     <div class="row" data-reveal><a class="btn" href="/?paket=app#anfrage">Vereins-App anfragen <svg><use href="#i-arrow"/></svg></a><a class="btn line" href="/verein/">Gratis-Vereinsseite ansehen</a></div>
     <div class="checks" data-reveal><span><svg><use href="#i-check"/></svg>Einmal bezahlt, kein Abo</span><span><svg><use href="#i-check"/></svg>Fixpreis nach kurzer Anfrage</span><span><svg><use href="#i-check"/></svg>Gehört dem Verein</span><span><svg><use href="#i-check"/></svg>Ohne Tracking</span></div>
   </div>
