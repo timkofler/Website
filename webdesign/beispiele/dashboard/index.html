@@ -873,6 +873,37 @@ body{background:radial-gradient(90% 60% at 85% -10%,color-mix(in srgb,var(--pop)
   .grid[style*="margin-top:14px"]{margin-top:10px !important}
   .btn{min-height:38px;font-size:13.5px}
 }
+/* Handy abgespeckt: 5 Punkte unten (Rest unter "Mehr"), Entwurf-Umschalter in der Kopfzeile statt schwebend, Vertrieb mit einem Knopf */
+.vsw,.nav-more,.more-m,.sim-l{display:none}
+@media (max-width:960px){
+  .tkv{display:none}
+  .vsw{display:inline-flex;gap:2px;margin-left:auto;padding:2px;border-radius:999px;border:1px solid var(--line);font:600 12px/1 var(--bd)}
+  .vsw a{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;color:var(--mu);text-decoration:none}
+  .vsw a[aria-current]{background:#ff5a1f;color:#fff}
+  .vsw + .sw{margin-left:0}
+  .nav-x{display:none}
+  .nav-more{display:flex}
+  .nav-more:hover{background:transparent}
+  .nav-b{font-size:11.5px}
+  .nav-b svg{width:22px;height:22px}
+  .more-m:not([hidden]){display:grid;grid-template-columns:1fr 1fr;gap:8px;position:absolute;left:0;right:0;bottom:calc(100% + 8px);padding:8px;border-radius:20px;border:1px solid var(--g-b);
+    background:color-mix(in srgb,var(--solid) 94%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:inset 0 1px 0 var(--g-hl),0 22px 44px -14px rgba(10,20,60,.6);animation:mmIn .22s ease both}
+  .nav-m{position:relative;display:flex;align-items:center;gap:10px;min-height:58px;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:var(--solid);color:var(--ink);font:600 14px/1.2 var(--bd);text-align:left}
+  .nav-m svg{width:20px;height:20px;flex:none;color:var(--mu)}
+  .nav-m small{display:block;margin-top:2px;color:var(--mu);font-size:11.5px;font-weight:400}
+  .nav-m[aria-current="page"]{border-color:var(--pop)}
+  .nav-m[aria-current="page"] svg{color:var(--pop)}
+  .nav-m .badge{position:absolute;top:6px;right:6px;background:var(--bad);color:#fff;font-size:10px;font-weight:700;border-radius:999px;padding:1px 6px;min-width:18px;text-align:center}
+  .nav-m .badge:empty{display:none}
+}
+@keyframes mmIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (max-width:640px){
+  #v-sales .top{flex-wrap:nowrap}
+  #v-sales .top p,#v-sales #ld-sim,#v-sales .flow{display:none}
+  #v-sales .top__r #ld-new{flex:none}
+  #v-sales .sl-tabs{margin-top:4px}
+  .sim-l{display:block;margin:14px auto 2px;padding:6px 10px;border:0;background:none;color:var(--mu);font:500 13px var(--bd);text-decoration:underline;text-underline-offset:3px}
+}
 </style></head><body>
 <div class="tk-demo-bar"><a href="/beispiele/#dashboard"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
 <span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musterdaten</span>
@@ -926,6 +957,7 @@ body{background:radial-gradient(90% 60% at 85% -10%,color-mix(in srgb,var(--pop)
 <div class="app" id="app">
   <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
   <div class="app__bar"><span class="app__dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="app__url"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>buero.haustechnik-kofler.at</span>
+    <nav class="vsw" aria-label="Entwurf wechseln"><a href="/beispiele/dashboard/" aria-current="page" title="Entwurf 1: Haustechnik Kofler">1</a><a href="/beispiele/dashboard/v2/" title="Entwurf 2: Luma Drive Autovermietung">2</a></nav>
     <button class="sw" type="button" role="switch" aria-checked="true" aria-label="Dunkle Ansicht" data-theme-sw><span class="sw__sky"><i></i><i></i><i></i><i></i></span><span class="sw__knob"><span class="sw__rays"></span></span></button></div>
   <nav class="side" aria-label="Dashboard-Bereiche">
     <span class="side__ind" aria-hidden="true"></span>
@@ -934,10 +966,17 @@ body{background:radial-gradient(90% 60% at 85% -10%,color-mix(in srgb,var(--pop)
     <button class="nav-b" data-go="sales"><svg><use href="#i-funnel"/></svg><span class="l">Vertrieb</span><span class="s">Vertrieb</span><span class="badge" id="b-sales"></span></button>
     <button class="nav-b" data-go="cal"><svg><use href="#i-cal"/></svg><span class="l">Plantafel</span><span class="s">Plan</span></button>
     <button class="nav-b" data-go="jobs"><svg><use href="#i-jobs"/></svg><span class="l">Aufträge</span><span class="s">Aufträge</span><span class="badge" id="b-jobs"></span></button>
-    <button class="nav-b" data-go="zeit"><svg><use href="#i-clock"/></svg><span class="l">Stunden</span><span class="s">Zeit</span><span class="badge" id="b-zeit"></span></button>
-    <button class="nav-b" data-go="inv"><svg><use href="#i-inv"/></svg><span class="l">Rechnungen</span><span class="s">Faktura</span><span class="badge" id="b-inv"></span></button>
-    <button class="nav-b" data-go="lager"><svg><use href="#i-box"/></svg><span class="l">Lager</span><span class="s">Lager</span><span class="badge" id="b-lager"></span></button>
-    <button class="nav-b" data-go="mont"><svg><use href="#i-phone"/></svg><span class="l">Monteur-App</span><span class="s">Handy</span></button>
+    <button class="nav-b nav-x" data-go="zeit"><svg><use href="#i-clock"/></svg><span class="l">Stunden</span><span class="s">Zeit</span><span class="badge" id="b-zeit"></span></button>
+    <button class="nav-b nav-x" data-go="inv"><svg><use href="#i-inv"/></svg><span class="l">Rechnungen</span><span class="s">Faktura</span><span class="badge" id="b-inv"></span></button>
+    <button class="nav-b nav-x" data-go="lager"><svg><use href="#i-box"/></svg><span class="l">Lager</span><span class="s">Lager</span><span class="badge" id="b-lager"></span></button>
+    <button class="nav-b nav-x" data-go="mont"><svg><use href="#i-phone"/></svg><span class="l">Monteur-App</span><span class="s">Handy</span></button>
+    <button class="nav-b nav-more" type="button" aria-expanded="false" aria-controls="more-m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg><span class="l">Mehr</span><span class="s">Mehr</span><span class="badge" id="b-more"></span></button>
+    <div class="more-m" id="more-m" hidden>
+      <button class="nav-m" type="button" data-go="zeit"><svg><use href="#i-clock"/></svg><span>Stunden<small>Ein- und ausstempeln</small></span><span class="badge" id="bm-zeit"></span></button>
+      <button class="nav-m" type="button" data-go="inv"><svg><use href="#i-inv"/></svg><span>Rechnungen<small>Offen und bezahlt</small></span><span class="badge" id="bm-inv"></span></button>
+      <button class="nav-m" type="button" data-go="lager"><svg><use href="#i-box"/></svg><span>Lager<small>Bestand, Bestellliste</small></span><span class="badge" id="bm-lager"></span></button>
+      <button class="nav-m" type="button" data-go="mont"><svg><use href="#i-phone"/></svg><span>Monteur-App<small>Ansicht am Handy</small></span></button>
+    </div>
     <div class="side__foot">
       <div class="me"><span class="ava" style="--c:#c026d3">AK</span><span><b>Anna Kofler</b>Büro</span></div>
       <button type="button" data-reset>Demo zurücksetzen</button>
@@ -973,7 +1012,7 @@ body{background:radial-gradient(90% 60% at 85% -10%,color-mix(in srgb,var(--pop)
     <!-- Vertrieb -->
     <section class="view" id="v-sales" aria-labelledby="h-sales">
       <div class="top"><div><h2 id="h-sales">Vertrieb</h2><p>Von der Anfrage über Angebot und Auftrag bis zur bezahlten Rechnung.</p></div>
-        <div class="top__r"><button class="btn ghost sm" type="button" id="ld-sim"><svg><use href="#i-bell"/></svg>Anfrage über die Webseite testen</button><button class="btn sm" type="button" id="ld-new"><svg><use href="#i-plus"/></svg>Neue Anfrage</button></div></div>
+        <div class="top__r"><button class="btn ghost sm" type="button" id="ld-sim" data-sim><svg><use href="#i-bell"/></svg>Anfrage über die Webseite testen</button><button class="btn sm" type="button" id="ld-new"><svg><use href="#i-plus"/></svg>Neue Anfrage</button></div></div>
       <div class="flow" id="flow"></div>
       <form class="card frm" id="f-lead" hidden style="margin-top:14px">
         <h3>Neue Anfrage <small>zum Beispiel nach einem Anruf</small></h3>
@@ -987,6 +1026,7 @@ body{background:radial-gradient(90% 60% at 85% -10%,color-mix(in srgb,var(--pop)
       <div id="sl-pipe">
         <div class="tabs pipe-m" role="group" aria-label="Spalte" id="pipe-m"></div>
         <div class="kanban pipe" id="pipe"></div>
+        <button class="sim-l" type="button" data-sim>Anfrage über die Webseite testen</button>
         <div class="grid g2" style="margin-top:14px">
           <div class="card"><h3>Angebote <small>antippen zum Öffnen</small></h3><div class="tbl-w"><table id="ang-t" class="rows"></table></div><button class="btn ghost sm more-b" type="button" id="ang-more" hidden></button></div>
           <div class="card"><h3>Auswertung <small>letzte 90 Tage</small></h3><div class="stat" id="stat"></div></div>
@@ -1172,4 +1212,4 @@ body{background:radial-gradient(90% 60% at 85% -10%,color-mix(in srgb,var(--pop)
 <div class="lbox" id="lbox" hidden><button class="x" type="button" data-lbox-close aria-label="Schließen"><svg><use href="#i-x"/></svg></button><img alt=""><p></p></div>
 <input type="file" id="pic-in" accept="image/*" capture="environment" hidden>
 <div class="toast" id="toast" role="status"></div>
-<script src="/beispiele/_shared/demo.js?v=29766291" defer></script><script src="/beispiele/dashboard/umschalter.js?v=1" defer></script><script src="/beispiele/dashboard/app.js?v=20261024j" defer></script><script type="module" src="/beispiele/dashboard/haus3d.js?v=2"></script></body></html>
+<script src="/beispiele/_shared/demo.js?v=29766291" defer></script><script src="/beispiele/dashboard/umschalter.js?v=1" defer></script><script src="/beispiele/dashboard/app.js?v=20261027a" defer></script><script type="module" src="/beispiele/dashboard/haus3d.js?v=2"></script></body></html>
