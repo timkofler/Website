@@ -53,7 +53,8 @@ ZAHL = r"(?P<zahl>\d+|" + "|".join(sorted(WOERTER, key=len, reverse=True)) + r")
 # (Name, Muster). Die Zahl steht immer in der Gruppe "zahl".
 MUSTER = [
     ("webseiten", rf"\b{ZAHL} (?:komplette |live begehbare )?(?:Beispielseiten|Beispiel-Webseiten)\b"),
-    ("webseiten", rf"\b{ZAHL} Beispiel-Entwürfe für typische Branchen"),
+    ("webseiten", rf"\b{ZAHL} (?:Beispiel-)?Entwürfe für (?:typische|\w+) Branchen"),
+    ("branchen", rf"Entwürfe für {ZAHL} Branchen\b"),
     ("apps", rf"\b{ZAHL} Web-Apps\b"),
     ("branchen", rf"(?:Beispielseiten|Animationen) für {ZAHL} Branchen\b"),
     ("gesamt", r"var ANZAHL = (?P<zahl>\d+);"),
