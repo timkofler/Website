@@ -409,6 +409,13 @@ function cx_send_optin(string $email, string $firstname, string $source, array $
         $erklaerung = 'danke für deine Anfrage! Deine Angaben liegen bereits bei mir und ich melde mich in jedem Fall bei dir. '
             . 'Bitte bestätige noch kurz mit einem Klick, dass die Anfrage von dir kommt – dann schicke ich dir eine Eingangsbestätigung.';
         $label = 'Anfrage bestätigen';
+    } elseif ($source === 'gratisentwurf') {
+        // Gratis-Entwurf: Angaben liegen schon bei Tim. Erst nach Bestätigung der E-Mail lege ich los
+        // und schicke den Entwurf an diese Adresse (Schutz davor, fremde Adressen anzuschreiben).
+        $subject = 'Bitte bestätige deine Entwurf-Anfrage';
+        $erklaerung = 'danke für deine Anfrage! Bitte bestätige noch kurz mit einem Klick deine E-Mail-Adresse – '
+            . 'dann lege ich mit deinem kostenlosen Entwurf los und schicke ihn dir innerhalb von 48 Stunden an diese Adresse.';
+        $label = 'Entwurf bestätigen';
     } else {
         $nl = (string) ($c['newsletter_name'] ?? 'CryptoX Newsletter');
         $was = (string) ($c['newsletter_inhalt'] ?? 'Darin geht es um neue Funktionen im CryptoX Dashboard, Software-Tipps und neue Artikel. Keine Anlageberatung, keine Signale.');

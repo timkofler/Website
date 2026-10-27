@@ -194,38 +194,50 @@ function ew_handle(array $c, string $fallback): void
     $id = date('Ymd-His') . '-' . bin2hex(random_bytes(3));
     $stored = ew_write($id, $d);
 
-    // Kontakt für die Bearbeitung der Anfrage (Art. 6 Abs. 1 lit. b DSGVO), nicht für Werbung.
-    $listId = (int) ($c['list_entwurf'] ?? $c['list_webdesign'] ?? 0);
-    $saved = cx_contact($d['email'], $d['name'], [$listId], [
-        'WEB_PAKET' => 'Gratis-Entwurf', 'WEB_QUELLE' => $d['quelle'],
-    ]);
-
+    // Tim bekommt die Anfrage SOFORT (gespeichert im Admin unter „Anfragen" + interne Mail an die feste
+    // Adresse), damit kein Lead verloren geht. Der Brevo-Eintrag und die Eingangsbestätigung an die Person
+    // folgen erst NACH Bestätigung der E-Mail-Adresse (Double-Opt-in) – siehe bestaetigen.php.
     $notify = (string) ($c['notify_email'] ?? 'office@tim-kofler.at');
     $admin = cx_brand()['site'] . '/kunden/admin/?entwurf=' . $id;
     $toTim = cx_mail($notify, 'Tim', 'Gratis-Entwurf angefragt: ' . $d['firma'] . ($d['ort'] !== '' ? ' (' . $d['ort'] . ')' : ''),
         cx_mail_layout('Neue Anfrage für einen Gratis-Entwurf', cx_mail_table(ew_rows($d))
             . ($stored ? cx_button($admin, 'Im Admin öffnen') : '<p style="margin:18px 0 0;font-size:14px;color:#ffb3b3">Achtung: Die Anfrage konnte nicht auf dem Webspace gespeichert werden (Schreibrechte api/_data prüfen).</p>')
-            . '<p style="margin:18px 0 0;font-size:14px;color:#a1a1a1">Mit „Antworten“ schreibst du direkt an die Person.</p>'),
+            . '<p style="margin:18px 0 0;font-size:14px;color:#a1a1a1">⚠ Die E-Mail-Adresse ist noch nicht bestätigt. Der Entwurf-Versand und der Brevo-Eintrag starten erst, wenn die Person den Bestätigungslink klickt. Du kannst dich aber jederzeit direkt melden – mit „Antworten“ schreibst du direkt an die Person.</p>'),
         $d['email']);
 
-    if (!$stored && !$saved && !$toTim) {
+    if (!$stored && !$toTim) {
         cx_respond(false, 'Deine Anfrage konnte gerade nicht übermittelt werden. ' . $fallback);
     }
 
-    // Eingangsbestätigung: nur Angaben aus der Auswahlliste, kein freier Text (Schutz vor Missbrauch als Spam-Schleuder).
-    $hallo = $d['name'] !== '' ? 'Hallo ' . cx_h($d['name']) . ',' : 'Hallo,';
-    $was = $d['inhalt'] ? '<p style="margin:0 0 14px">Auf deiner Wunschliste: ' . cx_h(implode(', ', $d['inhalt'])) . '.</p>' : '';
+    // Double-Opt-in-Mail an die Person. Die Entwurf-ID und der Newsletter-Wunsch reisen signiert im Link
+    // mit; erst nach dem Klick trägt bestaetigen.php den Kontakt ein und schickt die Eingangsbestätigung.
+    $extra = [
+        'id' => $id,
+        'fi' => $d['firma'],
+        'nl' => ($d['newsletter'] && array_key_exists('list_newsletter', $c)) ? 1 : 0,
+    ];
+    if (!cx_send_optin($d['email'], $d['name'], 'gratisentwurf', $extra)) {
+        cx_respond(false, 'Die Bestätigungsmail konnte gerade nicht verschickt werden. ' . $fallback);
+    }
+
+    cx_respond(true, 'Fast geschafft! Bitte bestätige noch kurz deine E-Mail über den Link, den ich dir gerade geschickt habe – deine Anfrage ist aber schon bei mir.', '/entwurf/danke/');
+}
+
+// Eingangsbestätigung „Danke, ich lege los" an die Person – erst nach bestätigter E-Mail (bestaetigen.php).
+// Nur Angaben aus der Auswahlliste, kein freier Text (Schutz vor Missbrauch als Spam-Schleuder).
+function ew_send_eingang(array $d, string $notify): bool
+{
+    $name = (string) ($d['name'] ?? '');
+    $hallo = $name !== '' ? 'Hallo ' . cx_h($name) . ',' : 'Hallo,';
+    $inhalt = (array) ($d['inhalt'] ?? []);
+    $was = $inhalt ? '<p style="margin:0 0 14px">Auf deiner Wunschliste: ' . cx_h(implode(', ', $inhalt)) . '.</p>' : '';
+    $hex = (string) ($d['farbe_hex'] ?? '');
     $inner = '<p style="margin:0 0 14px">' . $hallo . '</p>'
-        . '<p style="margin:0 0 14px">danke für deine Anfrage! Ich gestalte jetzt einen persönlichen Entwurf für <strong>' . cx_h($d['firma']) . '</strong>'
-        . ($d['farbe_hex'] !== '' ? ' in deiner Wunschfarbe ' . ew_swatch($d['farbe_hex']) . cx_h($d['farbe']) : ', die Farben schlage ich dir vor') . '.</p>'
+        . '<p style="margin:0 0 14px">danke, deine E-Mail-Adresse ist bestätigt! Ich gestalte jetzt einen persönlichen Entwurf für <strong>' . cx_h((string) ($d['firma'] ?? '')) . '</strong>'
+        . ($hex !== '' ? ' in deiner Wunschfarbe ' . ew_swatch($hex) . cx_h((string) ($d['farbe'] ?? '')) : ', die Farben schlage ich dir vor') . '.</p>'
         . $was
         . '<p style="margin:0 0 14px">Du bekommst ihn innerhalb von 48 Stunden per E-Mail, als Bild für Handy und PC. Hast du ein Logo oder schöne Fotos? Dann antworte einfach auf diese E-Mail und häng sie an.</p>'
         . '<p style="margin:0 0 14px">Der Entwurf ist kostenlos und unverbindlich. Ob du danach etwas machen lassen willst, entscheidest du ganz in Ruhe.</p>'
         . cx_mail_gruss();
-    cx_mail($d['email'], $d['name'], 'Dein kostenloser Webseiten-Entwurf', cx_mail_layout('Danke, ich lege los', $inner), $notify);
-
-    // Newsletter nur nach eigener Bestätigung (Double-Opt-in), getrennt von der Anfrage.
-    $nl = $d['newsletter'] && array_key_exists('list_newsletter', $c) && cx_send_optin($d['email'], $d['name'], 'entwurf');
-
-    cx_respond(true, 'Danke! Deine Anfrage ist angekommen.', '/entwurf/danke/' . ($nl ? '?nl=1' : ''));
+    return cx_mail((string) ($d['email'] ?? ''), $name, 'Dein kostenloser Webseiten-Entwurf', cx_mail_layout('Danke, ich lege los', $inner), $notify);
 }
