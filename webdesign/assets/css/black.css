@@ -304,3 +304,15 @@ html.tk-black p.tk-abo__deal b { color: var(--text); }
 
 /* Referenz: Kennzahlen unter dem Video */
 html.tk-black .tk-ref__stats { border-color: rgba(255,255,255,.08); background: var(--bk-glass), #0e0e0f; }
+
+/* Stufe 5: Logo zeichnet sich im Kopfbereich selbst (tk-draw.js) statt der 3D-Plakette */
+.tk-draw { display: none; }
+html.tk-black .tk-hero__stage .tk-draw { display: block; position: absolute; inset: 0; pointer-events: none; }
+html.tk-black .tk-draw svg { display: block; width: 100%; height: 100%; overflow: visible; }
+html.tk-black .tk-hero:has(.tk-hero__stage) .tk-hero__stage { width: min(440px, 82vw); aspect-ratio: 1002 / 598; cursor: default; margin-top: 4px; }
+html.tk-black .tk-hero > canvas, html.tk-black .tk-hero__stage .tk-hero__still, html.tk-black .tk-hero__stage .tk-ring { display: none !important; }
+@media (max-width: 680px) { html.tk-black .tk-hero:has(.tk-hero__stage) .tk-hero__stage { width: min(330px, 84vw); margin-top: 8px; } }
+html.tk-black .tk-draw__3d { position: absolute; inset: 0; transform-style: preserve-3d; visibility: hidden; perspective: none; }
+html.tk-black .tk-draw { perspective: 1100px; }
+html.tk-black .tk-draw__p { position: absolute; inset: 0; transform-style: preserve-3d; }
+html.tk-black .tk-draw__p svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }

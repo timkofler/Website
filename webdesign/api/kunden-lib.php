@@ -1039,8 +1039,8 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="stylesheet" href="/assets/css/style.css?v=5d1d811a">
-  <link rel="stylesheet" href="/assets/css/tk.css?v=d194bb1f">
-  <link rel="stylesheet" href="/assets/css/black.css?v=718fdc6b">
+  <link rel="stylesheet" href="/assets/css/tk.css?v=ef05b43a">
+  <link rel="stylesheet" href="/assets/css/black.css?v=23aedc1c">
   <script src="/assets/js/tk-black.js?v=02c0d65b"></script>
   <link rel="stylesheet" href="/assets/css/portal.css?v=lr261026b">
 </head>

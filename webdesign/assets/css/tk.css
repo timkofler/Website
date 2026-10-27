@@ -1466,3 +1466,6 @@ html.tk-menu-open .tk-bx-bar { display: none; }
   .tk-chat.is-kb .tk-chat__note, .tk-chat.is-kb .tk-chat__wabar { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .tk-chat { transition: none; } }
+
+/* Sehr schmale Handys (320 px): lange Wörter wie „Überraschungen“ trennen statt seitlich überstehen */
+@media (max-width: 360px) { .section h2 { -webkit-hyphens: auto; hyphens: auto; overflow-wrap: break-word; } }
