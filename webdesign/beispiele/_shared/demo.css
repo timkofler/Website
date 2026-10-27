@@ -24,3 +24,20 @@ input, select, textarea { box-sizing: border-box; max-width: 100%; min-width: 0;
 input[type="date"], input[type="time"], input[type="datetime-local"] { -webkit-appearance: none; appearance: none; display: block; width: 100%; min-width: 0; }
 input[type="date"]::-webkit-date-and-time-value { text-align: left; }
 form label, form .row2 > *, form [class*="row"] > * { min-width: 0; }
+
+/* Black/White-Schalter in der Leiste (nur App-Beispiele, kommt aus /assets/js/app-theme.js) */
+.tk-demo-bar .tk-ed { display: inline-flex; align-items: center; gap: 2px; padding: 2px; flex: 0 0 auto; margin-left: auto; border-radius: 999px; cursor: pointer;
+  border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.03); color: #9b9b9f; }
+.tk-demo-bar .tk-ed__o { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 28px; border-radius: 999px; transition: background .3s, color .3s; }
+.tk-demo-bar .tk-ed svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.tk-demo-bar .tk-ed__b svg { fill: currentColor; stroke: none; }
+.tk-demo-bar .tk-ed[aria-pressed="false"] .tk-ed__b, .tk-demo-bar .tk-ed[aria-pressed="true"] .tk-ed__w { background: #ff5a1f; color: #0b0b0c; }
+.tk-demo-bar .tk-ed:hover { border-color: rgba(255,90,31,.6); }
+.tk-demo-bar .tk-ed:focus-visible { outline: 2px solid #ff5a1f; outline-offset: 3px; }
+.tk-demo-bar .tk-ed + .tk-demo-bar__cta { margin-left: 0; }
+@media (max-width: 560px) {
+  .tk-demo-bar .tk-ed { width: 36px; height: 36px; padding: 0; justify-content: center; }
+  .tk-demo-bar .tk-ed[aria-pressed="false"] .tk-ed__b, .tk-demo-bar .tk-ed[aria-pressed="true"] .tk-ed__w { display: none; }
+  .tk-demo-bar .tk-ed .tk-ed__o { background: none; color: #ff7a45; width: auto; height: auto; }
+  .tk-demo-bar .tk-ed svg { width: 18px; height: 18px; }
+}
