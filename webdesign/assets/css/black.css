@@ -36,6 +36,7 @@ html.tk-black {
   --bg: #0b0b0c; --bg-2: #0e0e0f; --surface: #111112; --surface-2: #161617;
   --line: rgba(255,255,255,.07); --line-2: rgba(255,255,255,.11);
   --text: #f5f5f2; --muted: #9b9b9f;
+  --display: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
   --hot: #ff5a1f; --hot-2: #ff7a45; --hot-dim: rgba(255,90,31,.1);
   --hot-grad: linear-gradient(#ff5a1f, #ff5a1f);
   --gold: #d8b46a; --gold-grad: linear-gradient(135deg, #f3dfa8, #c9a052 55%, #8e6a2c);
@@ -151,3 +152,73 @@ html.tk-black .anf__side { background: rgba(255,255,255,.012); border-left-color
 html.tk-black .anf .form input[type=text], html.tk-black .anf .form input[type=email], html.tk-black .anf .form input[type=tel], html.tk-black .anf .form select, html.tk-black .anf .form textarea { background-color: rgba(255,255,255,.025); border-color: rgba(255,255,255,.1); }
 html.tk-black .anf .form input:focus, html.tk-black .anf .form select:focus, html.tk-black .anf .form textarea:focus { box-shadow: 0 0 0 3px rgba(255,90,31,.15); }
 @media (max-width: 359px) { .ew-head .tkb-switch--head { display: none; } }
+
+/* ================= Black Edition, Stufe 2: eigene Gestalt =================
+   Schlanke Überschriften, mittiger Kopfbereich mit Lichthorizont, Glas-Kacheln mit Abstand,
+   Lichtstrahlen als Abschnitts-Trenner, feines Raster im Hintergrund. */
+
+/* Feines Raster über der ganzen Seite, nach außen ausgeblendet */
+html.tk-black body::after { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-image: linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+  background-size: 72px 72px; -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 30%, transparent 85%); mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 30%, transparent 85%); }
+
+/* Überschriften: schlank und eng statt breit */
+html.tk-black h1, html.tk-black h2, html.tk-black h3 { font-family: var(--body); font-weight: 600; letter-spacing: -.045em; line-height: 1.02; }
+html.tk-black h1 { font-size: clamp(2.7rem, 6.2vw, 5.6rem); }
+html.tk-black h2 { font-size: clamp(2.2rem, 5vw, 4.2rem); }
+html.tk-black h3 { letter-spacing: -.025em; line-height: 1.2; }
+html.tk-black .lead { color: #a3a3a8; }
+
+/* Abschnitts-Trenner: Lichtstrahl statt Linie */
+html.tk-black .section--line { border-top-color: transparent; }
+html.tk-black .section--line::before { content: ""; position: absolute; left: 50%; top: 0; width: min(720px, 80vw); height: 1px; transform: translateX(-50%); pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255,90,31,.7) 50%, transparent); box-shadow: 0 0 18px rgba(255,90,31,.45); }
+
+/* ---------- Kopfbereich mittig mit Lichthorizont ---------- */
+html.tk-black .tk-hero:has(.tk-hero__stage) { padding: 140px 0 0; text-align: center; }
+html.tk-black .tk-hero:has(.tk-hero__stage) .container { display: flex; flex-direction: column; align-items: center; }
+html.tk-black .tk-hero:has(.tk-hero__stage) .label { justify-content: center; }
+html.tk-black .tk-hero:has(.tk-hero__stage) h1 { max-width: 15ch; margin-left: auto; margin-right: auto; }
+html.tk-black .tk-hero:has(.tk-hero__stage) .lead { margin-left: auto; margin-right: auto; max-width: 52ch; }
+html.tk-black .tk-hero:has(.tk-hero__stage) .btn-row { justify-content: center; }
+html.tk-black .tk-hero:has(.tk-hero__stage) .tk-free-chip { margin-left: auto; margin-right: auto; }
+html.tk-black .tk-hero:has(.tk-hero__stage) .tk-hero__stage { position: relative; right: auto; top: auto; transform: none; width: min(420px, 78vw); margin: 70px auto 0; }
+/* Lichtstrahl von oben */
+html.tk-black .tk-hero::before { left: 50%; right: auto; top: -60px; width: 900px; height: 700px; margin-left: -450px; border-radius: 0; filter: blur(6px); opacity: 1; animation: none;
+  background: conic-gradient(from 180deg at 50% 0%, transparent 160deg, rgba(255,120,60,.22) 174deg, rgba(255,210,170,.34) 180deg, rgba(255,120,60,.22) 186deg, transparent 200deg);
+  -webkit-mask-image: linear-gradient(#000 20%, transparent 90%); mask-image: linear-gradient(#000 20%, transparent 90%); }
+/* Orange Horizont-Kurve unter dem Logo */
+html.tk-black .tk-hero:has(.tk-hero__stage)::after { left: 50%; right: auto; bottom: -1180px; width: 2400px; height: 1500px; margin-left: -1200px; border-radius: 50%; z-index: 0;
+  background: radial-gradient(closest-side, #0b0b0c 97%, transparent 100%);
+  box-shadow: 0 -2px 0 rgba(255,140,90,.9), 0 -10px 40px rgba(255,90,31,.55), 0 -60px 160px rgba(255,90,31,.28); }
+@media (max-width: 680px) {
+  html.tk-black .tk-hero:has(.tk-hero__stage) { padding-top: 96px; }
+  html.tk-black .tk-hero:has(.tk-hero__stage) .tk-hero__stage { width: min(300px, 76vw); margin-top: 48px; }
+  html.tk-black .tk-hero:has(.tk-hero__stage)::after { bottom: -1300px; }
+  html.tk-black .tk-hero::before { width: 600px; margin-left: -300px; }
+}
+html.tk-black .tk-marquee { border-top-color: transparent; }
+
+/* ---------- Glas-Kacheln mit Abstand (Bento) ---------- */
+html.tk-black .rules { gap: 14px; background: none; border: 0; border-radius: 0; overflow: visible; }
+html.tk-black .rule { border: 1px solid rgba(255,255,255,.08); border-radius: 22px; background: var(--bk-beam), var(--bk-glass), #0e0e0f; box-shadow: var(--bk-edge); overflow: hidden; transition: border-color .35s, box-shadow .35s, transform .35s; }
+html.tk-black .rule:hover { border-color: rgba(255,90,31,.55); box-shadow: var(--bk-glow); background: var(--bk-beam-hot), radial-gradient(120% 80% at 50% 0%, rgba(255,90,31,.08), transparent 60%), #0e0e0f; transform: translateY(-3px); }
+html.tk-black .rule::after { display: none; }
+html.tk-black .rule__k { display: inline-flex; padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(255,90,31,.35); background: rgba(255,90,31,.06); }
+html.tk-black .step, html.tk-black .price { border-radius: 24px; }
+html.tk-black .step:hover, html.tk-black .price:hover { transform: translateY(-3px); }
+html.tk-black .price__amount { font-family: var(--body); font-weight: 600; letter-spacing: -.05em; font-size: clamp(2.6rem, 4vw, 3.4rem); }
+html.tk-black .tk-marquee span { font-weight: 600; letter-spacing: -.02em; }
+html.tk-black .footer__big { letter-spacing: -.06em; font-weight: 700; }
+
+/* Unterseiten-Kopf: Planetenrand mit oranger Lichtkante rechts */
+@media (min-width: 1101px) {
+  html.tk-black .tk-hero:not(:has(.tk-hero__stage))::before { left: auto; right: -760px; top: 50%; width: 1100px; height: 1100px; margin: -550px 0 0; border-radius: 50%; filter: none; opacity: 1; animation: none;
+    background: radial-gradient(circle at 60% 50%, #0b0b0c 62%, #111 100%); -webkit-mask-image: none; mask-image: none;
+    box-shadow: -2px 0 0 rgba(255,140,90,.85), -14px 0 50px rgba(255,90,31,.45), -80px 0 180px rgba(255,90,31,.2), inset 30px 0 80px rgba(255,90,31,.08); }
+}
+@media (max-width: 1100px) {
+  html.tk-black .tk-hero:not(:has(.tk-hero__stage))::before { left: auto; right: -420px; top: -220px; width: 560px; height: 560px; margin: 0; border-radius: 50%; filter: none; opacity: .9; animation: none;
+    background: #0b0b0c; -webkit-mask-image: none; mask-image: none;
+    box-shadow: -2px 2px 0 rgba(255,140,90,.8), -12px 12px 44px rgba(255,90,31,.4), -50px 50px 140px rgba(255,90,31,.16); }
+}
