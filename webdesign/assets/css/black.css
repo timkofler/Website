@@ -180,7 +180,7 @@ html.tk-black .tk-hero:has(.tk-hero__stage) .btn-row { justify-content: center; 
 html.tk-black .tk-hero:has(.tk-hero__stage) .tk-free-chip { margin-left: auto; margin-right: auto; }
 html.tk-black .tk-hero:has(.tk-hero__stage) .tk-hero__stage { position: relative; right: auto; top: auto; transform: none; width: min(380px, 78vw); margin: 44px auto 0; }
 /* Laufschrift eng um die Plakette, nicht weit draußen (Tim 27.10.) */
-html.tk-black .tk-hero:has(.tk-hero__stage) .tk-ring { inset: -1%; }
+html.tk-black .tk-hero:has(.tk-hero__stage) .tk-ring { inset: -8%; }
 /* Kopf: nur ein Knopf plus Gratis-Hinweis, damit es nicht zu viel auf einmal ist (Tim 27.10.). Preisrechner bleibt über Pakete erreichbar */
 html.tk-black .tk-hero:has(.tk-hero__stage) .tk-hero__calc { display: none; }
 /* Lichtstrahl von oben */
@@ -192,7 +192,7 @@ html.tk-black .tk-hero:has(.tk-hero__stage)::after { left: 50%; right: auto; bot
   background: radial-gradient(closest-side, #0b0b0c 97%, transparent 100%);
   box-shadow: 0 -2px 0 rgba(255,140,90,.9), 0 -10px 40px rgba(255,90,31,.55), 0 -60px 160px rgba(255,90,31,.28); }
 @media (max-width: 680px) {
-  html.tk-black .tk-hero:has(.tk-hero__stage) { padding-top: 96px; padding-bottom: 56px; }
+  html.tk-black .tk-hero:has(.tk-hero__stage) { padding-top: 40px; padding-bottom: 56px; }
   html.tk-black .tk-hero:has(.tk-hero__stage) .tk-hero__stage { width: min(300px, 76vw); margin-top: 48px; }
   html.tk-black .tk-hero:has(.tk-hero__stage)::after { bottom: -1300px; }
   html.tk-black .tk-hero::before { width: 600px; margin-left: -300px; }
@@ -320,3 +320,27 @@ html.tk-black p.tk-abo__deal b { color: var(--text); }
 /* Referenz: Kennzahlen unter dem Video */
 html.tk-black .tk-ref__stats { border-color: rgba(220,247,99,.2); background: radial-gradient(120% 140% at 0% 0%, rgba(220,247,99,.07), transparent 60%), var(--bk-glass), #0e0e0f; }
 
+
+/* ---------- Footer-Logo zeichnet sich selbst (beide Varianten, tk-black.js) ---------- */
+.tkd { display: inline-block; line-height: 0; }
+.tkd svg { display: block; height: 44px; width: auto; overflow: visible; }
+.tkd-g > * { fill: none; stroke: rgba(255,255,255,.35); stroke-width: 5; stroke-dasharray: 100; stroke-dashoffset: 100; }
+.tkd-o { stroke-width: 14; stroke-linejoin: round; fill-opacity: 0; stroke-dasharray: 100; stroke-dashoffset: 100; }
+.tkd-t { fill: #fff; stroke: #fff; }
+.tkd-k { fill: #ff5a1f; stroke: #ff7a3d; }
+.tkd-a { fill: #0b0b0c; stroke: #fff; stroke-width: 6; opacity: 0; transform-box: fill-box; transform-origin: center; }
+.tkd.is-drawn .tkd-g > * { animation: tkd-line 1s cubic-bezier(.2,.7,.2,1) forwards, tkd-out .6s 2.4s ease forwards; }
+.tkd.is-drawn .tkd-g > :nth-child(2) { animation-delay: .1s, 2.4s; } .tkd.is-drawn .tkd-g > :nth-child(3) { animation-delay: .2s, 2.4s; }
+.tkd.is-drawn .tkd-g > :nth-child(4) { animation-delay: .3s, 2.4s; } .tkd.is-drawn .tkd-g > :nth-child(5) { animation-delay: .4s, 2.4s; } .tkd.is-drawn .tkd-g > :nth-child(6) { animation-delay: .5s, 2.4s; }
+.tkd.is-drawn .tkd-a { animation: tkd-pop .35s calc(.5s + var(--i) * .05s) cubic-bezier(.3,1.6,.5,1) forwards, tkd-out .4s 2.2s ease forwards; }
+.tkd.is-drawn .tkd-o { animation: tkd-line 1.3s .8s ease-in-out forwards, tkd-fill .7s 2.1s ease forwards; }
+.tkd.is-drawn .tkd-k { animation-delay: 1s, 2.25s; }
+@keyframes tkd-line { to { stroke-dashoffset: 0; } }
+@keyframes tkd-out { to { opacity: 0; } }
+@keyframes tkd-pop { from { opacity: 0; transform: scale(.2); } to { opacity: 1; transform: none; } }
+@keyframes tkd-fill { to { fill-opacity: 1; stroke-opacity: 0; } }
+
+/* Footer-Schriftzug am Handy etwas tiefer, näher an den unteren Rand (Tim 27.10.) */
+@media (max-width: 680px) { html.tk-black .tk-sign { margin-top: 76px; padding-bottom: 10px; } }
+.tk-logo:has(.tkd)::after { opacity: 0; transition: opacity .6s; }
+.tk-logo:has(.tkd.is-done)::after { opacity: 1; }
