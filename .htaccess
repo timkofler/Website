@@ -26,6 +26,16 @@ Options -Indexes
   # --- Alte WordPress-Adressen (301), nur Hauptdomain ---
   RewriteCond %{HTTP_HOST} ^crypto-x\.at$ [NC]
   RewriteRule ^(wp-admin|wp-login\.php|xmlrpc\.php|feed)(/.*)?$ https://crypto-x.at/ [R=301,L]
+  # WordPress-Archive, Technik-Pfade und Datums-Ordner (sonst 404/403 in der Search Console)
+  RewriteCond %{HTTP_HOST} ^crypto-x\.at$ [NC]
+  RewriteRule ^(wp-content|wp-includes|wp-json|comments|sample-page|kontakt)(/.*)?$ https://crypto-x.at/ [R=301,L]
+  RewriteCond %{HTTP_HOST} ^crypto-x\.at$ [NC]
+  RewriteRule ^(category|tag|author|page)(/.*)?$ https://crypto-x.at/wissen/ [R=301,L]
+  RewriteCond %{HTTP_HOST} ^crypto-x\.at$ [NC]
+  RewriteRule ^2025(/\d{2}(/\d{2})?)?/?$ https://crypto-x.at/wissen/ [R=301,L]
+  RewriteCond %{HTTP_HOST} ^crypto-x\.at$ [NC]
+  RewriteCond %{QUERY_STRING} (^|&)(p|page_id|cat|s)=
+  RewriteRule ^$ https://crypto-x.at/? [R=301,L]
   RewriteCond %{HTTP_HOST} ^crypto-x\.at$ [NC]
   RewriteRule ^blog/?$ https://crypto-x.at/wissen/ [R=301,L]
   RewriteCond %{HTTP_HOST} ^crypto-x\.at$ [NC]
