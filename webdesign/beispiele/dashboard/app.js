@@ -179,13 +179,11 @@
   var root = document.documentElement, sw = $("[data-theme-sw]");
   function isLight() { var t = root.getAttribute("data-theme"); return t ? t === "light" : !(window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches); }
   function syncSw() { if (!sw) return; var l = isLight(); sw.setAttribute("aria-checked", l); sw.setAttribute("aria-label", l ? "Dunkle Ansicht" : "Helle Ansicht"); }
-  // Ohne eigene Wahl folgt die App der Edition der Hauptseite (White = hell, Black = dunkel)
-  try { if (!localStorage.getItem("tk-dash-theme")) { var ed = (location.search.match(/[?&]edition=(white|black)\b/) || [])[1] || localStorage.getItem("tk-edition"); if (ed === "white" || ed === "black") root.setAttribute("data-theme", ed === "white" ? "light" : "dark"); } } catch (e) {}
   syncSw();
   if (sw) sw.addEventListener("click", function () {
     var t = isLight() ? "dark" : "light";
     root.setAttribute("data-theme", t); syncSw();
-    try { localStorage.setItem("tk-dash-theme", t); } catch (e) {}
+    try { localStorage.setItem("tk-dash-theme2", t); } catch (e) {}
   });
   if (window.matchMedia) { var mq = matchMedia("(prefers-color-scheme: dark)"); if (mq.addEventListener) mq.addEventListener("change", syncSw); }
 

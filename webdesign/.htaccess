@@ -34,6 +34,8 @@ Options -Indexes
   RewriteRule ^vereins-app/?$ /beispiele/verein-app/ [R=302,L]
   # Kurzlink für Werbung (Story-Sticker, Google) zum kostenlosen Webseiten-Entwurf; ?utm_source=… bleibt erhalten
   RewriteRule ^gratis/?$ /entwurf/ [R=302,L]
+  # /gründer, /grunder (mit Umlaut oder ohne e getippt) → /gruender/
+  RewriteRule ^gr(ü|ü|u)nder/?$ /gruender/ [R=301,NC,L]
   # Die frühere „Vorschau in 60 Sekunden“ gibt es nicht mehr. /vorschau (QR-Code auf den gedruckten Briefen)
   # und alte Vorschau-Links führen zum Gratis-Entwurf; ?utm_source=… bleibt erhalten.
   RewriteRule ^vorschau(/.*)?$ /entwurf/ [R=302,L]
