@@ -142,7 +142,7 @@ APPS = [
     ("/beispiele/betriebs-app/", "betriebs-app.webp", "Für Betriebe", "Betriebs-App",
      "Termine, Gutscheine, Stempelkarte und Angebote statt sieben Abos.",
      "Betriebs-App: eine eigene App statt vieler Software-Abos für Termine, Gutscheine und Rechnungen"),
-    ("/beispiele/verein-app/", "vereins-app.webp?v=2", "Für Vereine", "Vereins-App",
+    ("/beispiele/verein-app/", "vereins-app.webp?v=3", "Für Vereine", "Vereins-App",
      "Mitglieder, Beiträge mit QR-Zahlschein, Termine mit Zusagen und Kassabuch.",
      "Vereins-App: Mitglieder-App am Handy und Übersicht für den Vorstand mit Mitgliedern, Beiträgen und Kassastand"),
     ("/beispiele/dashboard/", "haustechnik.webp", "Für Handwerker", "Büro-Dashboard",
