@@ -354,3 +354,17 @@ html.tk-black .tk-try__list { display: none; }
   html.tk-black .tk-try__list > span::before { content: ""; position: absolute; left: 0; top: .1em; width: 18px; height: 18px; border-radius: 50%; background: rgba(255,90,31,.14); box-shadow: inset 0 0 0 1px rgba(255,90,31,.45); }
   html.tk-black .tk-try__list > span::after { content: ""; position: absolute; left: 6px; top: calc(.1em + 4px); width: 4px; height: 8px; border: solid #ff7a45; border-width: 0 2px 2px 0; transform: rotate(45deg); }
 }
+/* Über mich: Fotos dunkler und wärmer abgestimmt, unten weich in den Hintergrund auslaufend (Tim 27.10.) */
+html.tk-black .about__pics img { border-radius: 22px; filter: saturate(.78) contrast(1.06) brightness(.9) sepia(.08);
+  -webkit-mask-image: linear-gradient(#000 62%, rgba(0,0,0,.35) 88%, transparent); mask-image: linear-gradient(#000 62%, rgba(0,0,0,.35) 88%, transparent); }
+html.tk-black .about__pics { position: relative; }
+html.tk-black .about__pics::before { content: ""; position: absolute; left: 10%; right: 10%; top: 4%; height: 50%; z-index: -1; border-radius: 50%; background: radial-gradient(closest-side, rgba(255,90,31,.22), transparent); filter: blur(30px); pointer-events: none; }
+html.tk-black .about__pics figcaption { margin-top: -18px; position: relative; font-family: var(--mono); font-size: .74rem; letter-spacing: .04em; }
+/* Footer: Schlusssatz + Schriftzug „Tim Kofler“ gemeinsam weiter nach unten (Tim 27.10.) */
+html.tk-black .tk-endnote { margin-top: 120px; }
+html.tk-black .tk-endnote + .tk-sign { margin-top: 36px; }
+@media (max-width: 680px) { html.tk-black .tk-endnote { margin-top: 84px; } html.tk-black .tk-endnote + .tk-sign { margin-top: 32px; } }
+/* Unterseiten: Punktfeld hinter den Planeten, Punkte nur noch daneben (Tim 27.10.) */
+html.tk-black .tk-hero:not(:has(.tk-hero__stage)) { isolation: isolate; }
+html.tk-black .tk-hero:not(:has(.tk-hero__stage)) .tk-field { z-index: -2; }
+html.tk-black .tk-hero:not(:has(.tk-hero__stage))::before { z-index: -1; }

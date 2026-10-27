@@ -35,9 +35,9 @@ function init(THREE, RoomEnvironment) {
   host.classList.add("is-on");
   var scene = S.scene, cam = S.camera, R = S.renderer;
   var pm = new THREE.PMREMGenerator(R); scene.environment = pm.fromScene(new RoomEnvironment(), .04).texture; scene.environmentIntensity = .45;
-  scene.background = tex(THREE, 4, 256, function (g, w, h) { var gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, "#c9dbef"); gr.addColorStop(.6, "#e9eef4"); gr.addColorStop(1, "#f3efe7"); g.fillStyle = gr; g.fillRect(0, 0, w, h); });
+  scene.background = tex(THREE, 4, 256, function (g, w, h) { var gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, "#0b0b0c"); gr.addColorStop(.55, "#141415"); gr.addColorStop(1, "#2a150c"); g.fillStyle = gr; g.fillRect(0, 0, w, h); });
 
-  scene.add(new THREE.HemisphereLight(0xe4eeff, 0x8d7b63, .9));
+  scene.add(new THREE.HemisphereLight(0xfff1e6, 0x5a3b2a, .9));
   var sun = new THREE.DirectionalLight(0xfff0dc, 2.6); sun.position.set(9, 15, 11); sun.castShadow = true;
   sun.shadow.mapSize.set(mobile ? 1024 : 2048, mobile ? 1024 : 2048); sun.shadow.bias = -.0005; sun.shadow.normalBias = .02;
   var sc = sun.shadow.camera; sc.left = -11; sc.right = 11; sc.top = 11; sc.bottom = -11; sc.near = 2; sc.far = 40;
