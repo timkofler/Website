@@ -4,7 +4,7 @@
 @font-face{font-family:"Manrope";src:url(/beispiele/_shared/fonts/manrope.woff2) format("woff2");font-weight:200 800;font-display:swap}
 :root{--bar:45px;--bg:#0e0b0a;--bg2:#15100e;--card:#1a1411;--txt:#f5ede5;--mut:#b6a598;--dim:#7d6e63;--acc:#e8c8a0;--acc2:#d9a07a;--line:rgba(255,236,214,.12);
   --serif:"Cormorant",Georgia,serif;--serifR:"CormorantR",Georgia,serif;--sans:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --pad:clamp(20px,4.6vw,72px);--ease:cubic-bezier(.2,.75,.15,1);--vh:calc(100svh - var(--bar))}
+  --pad:clamp(20px,4.6vw,72px);--edge:max(var(--pad),calc((100vw - 1180px) / 2 + var(--pad)));--ease:cubic-bezier(.2,.75,.15,1);--vh:calc(100svh - var(--bar))}
 *,*::before,*::after{box-sizing:border-box}
 [hidden]{display:none!important}
 html{scroll-padding-top:calc(var(--bar) + 70px);background:var(--bg)}
@@ -28,7 +28,7 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--acc);l
 .gl canvas{display:block;width:100%;height:100%}
 
 /* ---------- Kopf ---------- */
-.nav{position:fixed;left:0;right:0;top:var(--bar);z-index:50;display:flex;align-items:center;gap:30px;padding:18px var(--pad);background:linear-gradient(rgba(14,11,10,.8),rgba(14,11,10,0));transition:transform .4s var(--ease)}
+.nav{position:fixed;left:0;right:0;top:var(--bar);z-index:50;display:flex;align-items:center;gap:30px;padding:18px var(--edge);background:linear-gradient(rgba(14,11,10,.8),rgba(14,11,10,0));transition:transform .4s var(--ease)}
 .nav.is-solid{background:rgba(14,11,10,.95);box-shadow:0 1px 0 var(--line)}
 .nav__logo{display:flex;align-items:baseline;gap:10px;font:500 30px/1 var(--serif);letter-spacing:.01em;color:var(--txt)}
 .nav__logo span{font:600 11px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--mut)}
@@ -38,7 +38,7 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--acc);l
 .nav__links a:hover{color:var(--txt)}.nav__links a:hover::after{transform:none}
 .nav__btn{cursor:pointer;border:0;border-radius:999px;padding:10px 18px;background:rgba(255,240,222,.08);box-shadow:inset 0 0 0 1px var(--line);font-weight:700;font-size:14px;transition:background .2s,box-shadow .2s}
 .nav__btn:hover{background:var(--acc);color:#1a1310;box-shadow:none}
-@media (max-width:860px){.nav__links{display:none}.nav__btn{margin-left:auto}.nav{padding:14px var(--pad)}.nav__logo{font-size:26px}.nav__logo span{display:none}}
+@media (max-width:860px){.nav__links{display:none}.nav__btn{margin-left:auto}.nav{padding:14px var(--edge)}.nav__logo{font-size:26px}.nav__logo span{display:none}}
 
 /* ---------- Grundbausteine ---------- */
 .copy{max-width:540px;position:relative}
@@ -61,10 +61,10 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--acc);l
 .wrap{max-width:1180px;margin:0 auto;padding:0 var(--pad)}
 
 /* ---------- Start ---------- */
-.hero{position:relative;min-height:var(--vh);display:flex;align-items:center;padding:110px var(--pad) 90px}
+.hero{position:relative;min-height:var(--vh);display:flex;align-items:center;padding:110px var(--edge) 90px}
 .hero .copy{max-width:600px}
 .hero .lead{max-width:40ch}
-.hint{position:absolute;left:var(--pad);bottom:96px;display:flex;align-items:center;gap:12px;font-size:13px;letter-spacing:.06em;color:var(--mut)}
+.hint{position:absolute;left:var(--edge);bottom:96px;display:flex;align-items:center;gap:12px;font-size:13px;letter-spacing:.06em;color:var(--mut)}
 .hint::before{content:"";width:34px;height:1px;background:var(--acc);animation:hint 2.4s var(--ease) infinite}
 @keyframes hint{0%{transform:scaleX(0);transform-origin:left}45%{transform:scaleX(1);transform-origin:left}55%{transform:scaleX(1);transform-origin:right}100%{transform:scaleX(0);transform-origin:right}}
 .hint__t{display:none}
@@ -75,7 +75,7 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--acc);l
 .pinned{position:relative;height:280vh}
 #farbe{height:300vh}
 #styling{height:240vh}
-.pin{position:sticky;top:var(--bar);height:var(--vh);display:flex;align-items:center;padding:90px var(--pad) 60px}
+.pin{position:sticky;top:var(--bar);height:var(--vh);display:flex;align-items:center;padding:90px var(--edge) 60px}
 .pinned--l .pin{justify-content:flex-end}
 .facts{display:flex;gap:30px;margin-top:34px;flex-wrap:wrap}
 .facts li{display:grid;gap:4px;max-width:130px}
