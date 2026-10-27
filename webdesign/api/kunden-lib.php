@@ -1040,7 +1040,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <link rel="manifest" href="/site.webmanifest">
   <link rel="stylesheet" href="/assets/css/style.css?v=5d1d811a">
   <link rel="stylesheet" href="/assets/css/tk.css?v=43919f31">
-  <link rel="stylesheet" href="/assets/css/black.css?v=6799ad6f">
+  <link rel="stylesheet" href="/assets/css/black.css?v=3dd4482e">
   <script src="/assets/js/tk-black.js?v=02c0d65b"></script>
   <link rel="stylesheet" href="/assets/css/portal.css?v=lr261026b">
 </head>
