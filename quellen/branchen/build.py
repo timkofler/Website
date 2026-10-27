@@ -91,7 +91,7 @@ def head(title, desc, url, og_title, og_desc, ld, extra_css=""):
   <link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/style.css?v=5d1d811a">
-  <link rel="stylesheet" href="/assets/css/tk.css?v=fc047587">
+  <link rel="stylesheet" href="/assets/css/tk.css?v=744ba3f9">
   <link rel="stylesheet" href="/assets/css/entwurf.css?v=6fe37e4b">
   <link rel="stylesheet" href="/assets/css/gruender.css?v=02222399">
   <link rel="stylesheet" href="/assets/css/branchen.css?v={CSS_V}">
