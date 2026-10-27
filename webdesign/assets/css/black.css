@@ -170,7 +170,7 @@ html.tk-black .section--line::before { content: ""; position: absolute; left: 50
   background: linear-gradient(90deg, transparent, rgba(255,90,31,.7) 50%, transparent); box-shadow: 0 0 18px rgba(255,90,31,.45); }
 
 /* ---------- Kopfbereich mittig mit Lichthorizont ---------- */
-html.tk-black .tk-hero:has(.tk-hero__stage) { padding: 130px 0 48px; text-align: center; isolation: isolate; }
+html.tk-black .tk-hero:has(.tk-hero__stage) { padding: 64px 0 120px; text-align: center; isolation: isolate; }
 html.tk-black .tk-hero:has(.tk-hero__stage) .container { display: flex; flex-direction: column; align-items: center; }
 html.tk-black .tk-hero:has(.tk-hero__stage) .label { justify-content: center; }
 html.tk-black .tk-hero:has(.tk-hero__stage) h1 { max-width: 15ch; margin-left: auto; margin-right: auto; }
@@ -178,7 +178,7 @@ html.tk-black .tk-hero:has(.tk-hero__stage) h1 { max-width: 15ch; margin-left: a
 html.tk-black .tk-hero:has(.tk-hero__stage) .lead { margin-left: auto; margin-right: auto; max-width: 52ch; }
 html.tk-black .tk-hero:has(.tk-hero__stage) .btn-row { justify-content: center; }
 html.tk-black .tk-hero:has(.tk-hero__stage) .tk-free-chip { margin-left: auto; margin-right: auto; }
-html.tk-black .tk-hero:has(.tk-hero__stage) .tk-hero__stage { position: relative; right: auto; top: auto; transform: none; width: min(380px, 78vw); margin: 44px auto 0; }
+html.tk-black .tk-hero:has(.tk-hero__stage) .tk-hero__stage { position: relative; right: auto; top: auto; transform: none; width: min(380px, 78vw); margin: 70px auto 0; }
 /* Laufschrift eng um die Plakette, nicht weit draußen (Tim 27.10.) */
 html.tk-black .tk-hero:has(.tk-hero__stage) .tk-ring { inset: -8%; }
 /* Kopf: nur ein Knopf plus Gratis-Hinweis, damit es nicht zu viel auf einmal ist (Tim 27.10.). Preisrechner bleibt über Pakete erreichbar */
@@ -190,13 +190,13 @@ html.tk-black .tk-hero::before { left: 50%; right: auto; top: -60px; width: 900p
 /* Punktfeld hinter den Planeten legen: Punkte nur im Himmel */
 html.tk-black .tk-hero:has(.tk-hero__stage) .tk-field { z-index: -2; }
 /* Orange Horizont-Kurve unter dem Logo */
-html.tk-black .tk-hero:has(.tk-hero__stage)::after { left: 50%; right: auto; bottom: -1180px; width: 2400px; height: 1500px; margin-left: -1200px; border-radius: 50%; z-index: -1;
+html.tk-black .tk-hero:has(.tk-hero__stage)::after { left: 50%; right: auto; bottom: -1180px; width: 2400px; height: 1500px; margin-left: -1200px; border-radius: 50%; z-index: -1; bottom: -1108px;
   background: radial-gradient(closest-side, #0b0b0c 97%, transparent 100%);
   box-shadow: 0 -2px 0 rgba(255,140,90,.9), 0 -10px 40px rgba(255,90,31,.55), 0 -60px 160px rgba(255,90,31,.28); }
 @media (max-width: 680px) {
-  html.tk-black .tk-hero:has(.tk-hero__stage) { padding-top: 40px; padding-bottom: 56px; }
-  html.tk-black .tk-hero:has(.tk-hero__stage) .tk-hero__stage { width: min(300px, 76vw); margin-top: 48px; }
-  html.tk-black .tk-hero:has(.tk-hero__stage)::after { bottom: -1300px; }
+  html.tk-black .tk-hero:has(.tk-hero__stage) { padding-top: 40px; padding-bottom: 90px; }
+  html.tk-black .tk-hero:has(.tk-hero__stage) .tk-hero__stage { width: min(300px, 76vw); margin-top: 64px; }
+  html.tk-black .tk-hero:has(.tk-hero__stage)::after { bottom: -1282px; }
   html.tk-black .tk-hero::before { width: 600px; margin-left: -300px; }
 }
 html.tk-black .tk-marquee { border-top-color: transparent; }
@@ -346,3 +346,25 @@ html.tk-black .tk-ref__stats { border-color: rgba(220,247,99,.2); background: ra
 @media (max-width: 680px) { html.tk-black .tk-sign { margin-top: 76px; padding-bottom: 10px; } }
 .tk-logo:has(.tkd)::after { opacity: 0; transition: opacity .6s; }
 .tk-logo:has(.tkd.is-done)::after { opacity: 1; }
+/* Große Vereins-App-Kachel: Funktionsliste füllt die rechte Seite (Tim 27.10.) */
+html.tk-black .tk-try__list { display: none; }
+@media (min-width: 601px) {
+  html.tk-black .tk-tries--5 > li:first-child .tk-try__list { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 22px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.08); }
+  html.tk-black .tk-try__list > span { position: relative; padding-left: 28px; color: #d4d4d8; font-size: .92rem; line-height: 1.4; }
+  html.tk-black .tk-try__list > span::before { content: ""; position: absolute; left: 0; top: .1em; width: 18px; height: 18px; border-radius: 50%; background: rgba(255,90,31,.14); box-shadow: inset 0 0 0 1px rgba(255,90,31,.45); }
+  html.tk-black .tk-try__list > span::after { content: ""; position: absolute; left: 6px; top: calc(.1em + 4px); width: 4px; height: 8px; border: solid #ff7a45; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+}
+/* Über mich: Fotos dunkler und wärmer abgestimmt, unten weich in den Hintergrund auslaufend (Tim 27.10.) */
+html.tk-black .about__pics img { border-radius: 22px; filter: saturate(.78) contrast(1.06) brightness(.9) sepia(.08);
+  -webkit-mask-image: linear-gradient(#000 62%, rgba(0,0,0,.35) 88%, transparent); mask-image: linear-gradient(#000 62%, rgba(0,0,0,.35) 88%, transparent); }
+html.tk-black .about__pics { position: relative; }
+html.tk-black .about__pics::before { content: ""; position: absolute; left: 10%; right: 10%; top: 4%; height: 50%; z-index: -1; border-radius: 50%; background: radial-gradient(closest-side, rgba(255,90,31,.22), transparent); filter: blur(30px); pointer-events: none; }
+html.tk-black .about__pics figcaption { margin-top: -18px; position: relative; font-family: var(--mono); font-size: .74rem; letter-spacing: .04em; }
+/* Footer: Schlusssatz + Schriftzug „Tim Kofler“ gemeinsam weiter nach unten (Tim 27.10.) */
+html.tk-black .tk-endnote { margin-top: 120px; }
+html.tk-black .tk-endnote + .tk-sign { margin-top: 36px; }
+@media (max-width: 680px) { html.tk-black .tk-endnote { margin-top: 84px; } html.tk-black .tk-endnote + .tk-sign { margin-top: 32px; } }
+/* Unterseiten: Punktfeld hinter den Planeten, Punkte nur noch daneben (Tim 27.10.) */
+html.tk-black .tk-hero:not(:has(.tk-hero__stage)) { isolation: isolate; }
+html.tk-black .tk-hero:not(:has(.tk-hero__stage)) .tk-field { z-index: -2; }
+html.tk-black .tk-hero:not(:has(.tk-hero__stage))::before { z-index: -1; }

@@ -291,6 +291,7 @@
   Array.prototype.forEach.call(document.querySelectorAll("[data-tkr]"), function (card) {
     var imgs = Array.prototype.slice.call(card.querySelectorAll(".tk-try__shot img"));
     var segs = Array.prototype.slice.call(card.querySelectorAll(".tk-tryr__seg i"));
+    var tabs = Array.prototype.slice.call(card.querySelectorAll(".tk-tryr__tabs > span"));
     var bar = card.querySelector(".tk-ex__bar > span"), tt = card.querySelector(".tk-try__body > b"), tp = card.querySelector(".tk-try__p");
     var DUR = 4500, cur = 0, timer = 0, swapT = 0, vis = false, hold = false;
     if (reduce || imgs.length < 2) return;
@@ -309,6 +310,8 @@
         txt.forEach(function (el) { el.classList.remove("is-swap"); });
       }, 300);
       segs.forEach(function (s, i) { s.classList.toggle("is-on", i === n); });
+      tabs.forEach(function (t, i) { t.classList.toggle("is-on", i === n); });
+      if (tabs[n]) restart(tabs[n]);
       if (segs[n]) restart(segs[n]);
       var nx = imgs[(n + 1) % imgs.length]; if (nx.loading === "lazy") nx.loading = "eager";
       plan();
@@ -326,6 +329,7 @@
       new IntersectionObserver(function (es) {
         vis = es[0].isIntersecting;
         if (vis && segs[cur]) restart(segs[cur]);
+        if (vis && tabs[cur]) restart(tabs[cur]);
         plan();
       }, { threshold: 0.5 }).observe(card);
     }
