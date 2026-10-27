@@ -785,6 +785,7 @@ p.tk-abo__deal b { color: #ffb27a; display: block; }
 .footer__social a[aria-label="Instagram"] { --brand: #e1306c; --ring: linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5); }
 .footer__social a[aria-label="YouTube"] { --brand: #ff0000; }
 .footer__social a[aria-label="Pinterest"] { --brand: #e60023; }
+.footer__social a[aria-label="LinkedIn"] { --brand: #0a66c2; --ring: rgba(10,102,194,.7); }
 .footer__social a[aria-label="GitHub"] { --brand: #f0f6fc; --ring: rgba(240,246,252,.55); }
 .footer__social a[aria-label^="Google"] { --brand: #4285f4; --ring: conic-gradient(from -45deg, #ea4335 0 25%, #4285f4 0 50%, #34a853 0 75%, #fbbc05 0); }
 .footer__social a::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; pointer-events: none;
@@ -792,6 +793,7 @@ p.tk-abo__deal b { color: #ffb27a; display: block; }
   animation: tk-social-shine 7s ease-in-out infinite; }
 .footer__social li:nth-child(2) a::after { animation-delay: .35s; } .footer__social li:nth-child(3) a::after { animation-delay: .7s; }
 .footer__social li:nth-child(4) a::after { animation-delay: 1.05s; } .footer__social li:nth-child(5) a::after { animation-delay: 1.4s; }
+.footer__social li:nth-child(6) a::after { animation-delay: 1.75s; }
 .footer__social a:hover { color: var(--brand); border-color: transparent; box-shadow: 0 0 22px -4px var(--brand); filter: brightness(1.15); }
 @keyframes tk-social-shine { 0% { background-position: 160% 0; } 18%, 100% { background-position: -60% 0; } }
 @media (prefers-reduced-motion: reduce) { .footer__social a::after { animation: none; opacity: 0; } }
