@@ -314,7 +314,7 @@ section{position:relative}
 /* Kamera freundlich erfragen (haarfarbe.js) */
 .ft__ask{position:absolute;inset:auto 14px 14px;z-index:4;display:grid;gap:10px;padding:20px 20px 18px;border-radius:20px;background:rgba(28,21,20,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--line);box-shadow:0 30px 60px -20px rgba(0,0,0,.7);animation:ftAsk .4s cubic-bezier(.2,1.2,.4,1) both}
 @keyframes ftAsk{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
-.ft__ask [hidden]{display:none!important}
+.ft__ask[hidden],.ft__ask [hidden]{display:none!important}
 .ft__ask-x{position:absolute;top:10px;right:10px;width:34px;height:34px;border:0;border-radius:50%;background:transparent;color:var(--mu);font-size:14px;cursor:pointer}
 .ft__ask-x:hover{color:var(--tx);background:rgba(255,255,255,.06)}
 .ft__ring{position:relative;width:48px;height:48px}
@@ -494,11 +494,11 @@ section{position:relative}
       <div class="ft__ask" id="ft-ask" role="dialog" aria-labelledby="ft-ask-t" hidden>
         <button type="button" class="ft__ask-x" id="ft-ask-x" aria-label="Schließen">✕</button>
         <div class="ft__ring" aria-hidden="true"><svg viewBox="0 0 48 48"><circle class="bg" cx="24" cy="24" r="21"/><circle class="fg" cx="24" cy="24" r="21"/></svg><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span><em class="ok">✓</em><em class="no">!</em></div>
-        <p class="ft__ask-k"><span data-s="ask">Kurz gefragt</span><span data-s="wait">Bitte im Browser erlauben</span><span data-s="ok">Kamera läuft</span><span data-s="no">Kamera blockiert</span></p>
-        <h3 id="ft-ask-t"><span data-s="ask wait ok">Dürfen wir kurz Ihre Kamera benutzen?</span><span data-s="no">Kein Problem, dann mit Foto.</span></h3>
+        <p class="ft__ask-k"><span data-s="ask">Kurz gefragt</span><span data-s="wait" hidden>Bitte im Browser erlauben</span><span data-s="ok" hidden>Kamera läuft</span><span data-s="no" hidden>Kamera blockiert</span></p>
+        <h3 id="ft-ask-t"><span data-s="ask wait ok">Dürfen wir kurz Ihre Kamera benutzen?</span><span data-s="no" hidden>Kein Problem, dann mit Foto.</span></h3>
         <ul data-s="ask wait ok"><li>Nur, um Ihre Haare zu erkennen und einzufärben.</li><li>Das Bild bleibt auf Ihrem Gerät, nichts wird hochgeladen.</li><li>Die Kamera geht aus, sobald Sie weiterscrollen.</li></ul>
-        <p class="ft__ask-p" data-s="no">Die Kamera ist für diese Seite gesperrt. Sie können sie in den Browser-Einstellungen beim Schloss neben der Adresse freigeben oder einfach ein Foto wählen.</p>
-        <div class="ft__ask-b"><button type="button" class="btn" id="ft-ask-ok"><span data-s="ask ok">Ja, Kamera starten</span><span data-s="wait">Warte auf Ihre Antwort …</span><span data-s="no">Nochmal versuchen</span></button><button type="button" class="btn ghost" id="ft-ask-foto">Lieber ein Foto</button></div>
+        <p class="ft__ask-p" data-s="no" hidden>Die Kamera ist für diese Seite gesperrt. Sie können sie in den Browser-Einstellungen beim Schloss neben der Adresse freigeben oder einfach ein Foto wählen.</p>
+        <div class="ft__ask-b"><button type="button" class="btn" id="ft-ask-ok"><span data-s="ask ok">Ja, Kamera starten</span><span data-s="wait" hidden>Warte auf Ihre Antwort …</span><span data-s="no" hidden>Nochmal versuchen</span></button><button type="button" class="btn ghost" id="ft-ask-foto">Lieber ein Foto</button></div>
       </div>
       <button type="button" class="ft__before" id="ft-before">Gedrückt halten: Vorher</button>
     </div>
