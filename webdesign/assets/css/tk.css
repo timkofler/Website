@@ -86,7 +86,7 @@ h1 .lime, h2 .lime, h3 .lime {
 /* Laufband mit Stärken */
 .tk-marquee { overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 18px 0; background: var(--bg);
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
-.tk-marquee__track { display: flex; width: max-content; animation: tk-marquee 38s linear infinite; }
+.tk-marquee__track { display: flex; width: max-content; animation: tk-marquee 80s linear infinite; }
 .tk-marquee span { font-family: var(--display); font-weight: 600; font-size: clamp(1rem, 2.2vw, 1.5rem); color: #cfcfcf; white-space: nowrap; padding: 0 28px; display: inline-flex; align-items: center; gap: 56px; }
 .tk-marquee span::after { content: ""; width: 9px; height: 9px; background: #6b6b6b; transform: rotate(45deg); display: inline-block; }
 @keyframes tk-marquee { to { transform: translateX(-50%); } }
@@ -1487,3 +1487,5 @@ html.tk-menu-open .tk-bx-bar { display: none; }
 
 /* Sehr schmale Handys (320 px): lange Wörter wie „Überraschungen“ trennen statt seitlich überstehen */
 @media (max-width: 360px) { .section h2 { -webkit-hyphens: auto; hyphens: auto; overflow-wrap: break-word; } }
+.tk-marquee span em { font-style: normal; }
+.tk-marquee span b { color: #ff5a1f; font-weight: 700; }
