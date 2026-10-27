@@ -11,6 +11,13 @@
 .tk-ref__shot img, .tk-ref__shot video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; transition: transform .6s ease; }
 .tk-ref__shot:hover img, .tk-ref__shot:hover video { transform: scale(1.02); }
 @media (max-width: 900px) { .tk-ref { grid-template-columns: 1fr; gap: 36px; } }
+/* Kennzahlen unter dem Referenz-Video */
+.tk-ref__media { min-width: 0; display: grid; gap: 14px; }
+.tk-ref__stats { list-style: none; margin: 0; padding: 16px 18px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; border: 1px solid var(--line-2); border-radius: 18px; background: var(--bg-2); }
+.tk-ref__stats li { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.tk-ref__stats b { font: 600 clamp(1.3rem, 2.2vw, 1.75rem)/1 var(--body); letter-spacing: -.03em; color: var(--text); font-variant-numeric: tabular-nums; }
+.tk-ref__stats span { color: var(--muted); font-size: .82rem; line-height: 1.35; }
+@media (max-width: 560px) { .tk-ref__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 16px; } }
 @media (max-width: 680px) { .tk-hero { padding: 80px 0 64px; } }
 
 /* Logo */
@@ -1459,3 +1466,6 @@ html.tk-menu-open .tk-bx-bar { display: none; }
   .tk-chat.is-kb .tk-chat__note, .tk-chat.is-kb .tk-chat__wabar { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .tk-chat { transition: none; } }
+
+/* Sehr schmale Handys (320 px): lange Wörter wie „Überraschungen“ trennen statt seitlich überstehen */
+@media (max-width: 360px) { .section h2 { -webkit-hyphens: auto; hyphens: auto; overflow-wrap: break-word; } }

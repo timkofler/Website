@@ -82,3 +82,19 @@
   .vn-frame, .vn-handle__knob { transition: none; }
   .vn-frame.is-hint .vn-handle__knob { animation: none; }
 }
+
+/* Vorher/Nachher-Text sauber unter den beiden Hälften, ohne Kästen (2026-10-27) */
+.vn-info { display: block; margin-top: 22px; }
+.vn-diff { grid-template-columns: 1fr 1fr; gap: 0; }
+.vn-diff li, .vn-diff li + li { padding: 16px 22px 0; border: 0; border-radius: 0; background: none; border-top: 2px solid rgba(255,255,255,.14); font-size: .98rem; }
+.vn-diff li + li { border-top-color: transparent; border-image: linear-gradient(90deg, var(--hot), var(--hot-2)) 1; }
+.vn-diff li:first-child { padding-left: 0; }
+.vn-diff b { display: inline-flex; align-items: center; gap: 8px; }
+.vn-diff b::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #8a8a8e; }
+.vn-diff li + li b::before { background: var(--hot); box-shadow: 0 0 10px rgba(255,90,31,.6); }
+.vn-note { max-width: none; margin-top: 22px; text-align: center; }
+.vn-cta { margin-top: 22px; justify-content: center; }
+@media (max-width: 680px) {
+  .vn-diff { grid-template-columns: 1fr; gap: 18px; }
+  .vn-diff li, .vn-diff li + li { padding: 14px 0 0; }
+}
