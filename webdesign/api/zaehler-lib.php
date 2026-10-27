@@ -149,6 +149,11 @@ const ZL_TEST_DIREKT = [
         '/ablauf/' => 2, '/sicherheit/' => 2, '/webseite/' => 2, '/webseite/friseur/' => 2, '/webdesign-melk/' => 2],
 ];
 
+// Tims eigene Formular-Tests, die als Kontaktaufnahme gezählt wurden: 27.10.2026 abends ein Test-Rückruf.
+const ZL_TEST_KONTAKTE = [
+    '2026-10-27' => ['rueckruf' => 1],
+];
+
 function zl_minus(array &$map, string $key, int $x): void
 {
     if (isset($map[$key])) {
@@ -178,6 +183,9 @@ function zl_ohne_speedtests(string $day, array $d): array
 function zl_ohne_tests(string $day, array $d): array
 {
     $d = zl_ohne_speedtests($day, $d);
+    foreach (isset($d['kontakte']) ? (ZL_TEST_KONTAKTE[$day] ?? []) : [] as $art => $x) {
+        zl_minus($d['kontakte'], $art, $x);
+    }
     if (!in_array($day, ZL_TEST_TAGE, true)) {
         return $d;
     }
