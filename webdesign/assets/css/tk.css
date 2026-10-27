@@ -13,11 +13,13 @@
 @media (max-width: 900px) { .tk-ref { grid-template-columns: 1fr; gap: 36px; } }
 /* Kennzahlen unter dem Referenz-Video */
 .tk-ref__media { min-width: 0; display: grid; gap: 14px; }
-.tk-ref__stats { list-style: none; margin: 0; padding: 16px 18px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; border: 1px solid var(--line-2); border-radius: 18px; background: var(--bg-2); }
-.tk-ref__stats li { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.tk-ref__stats b { font: 600 clamp(1.3rem, 2.2vw, 1.75rem)/1 var(--body); letter-spacing: -.03em; color: var(--text); font-variant-numeric: tabular-nums; }
+.tk-ref__stats { list-style: none; margin: 0; padding: 18px 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border: 1px solid rgba(220,247,99,.22); border-radius: 18px; background: radial-gradient(120% 140% at 0% 0%, rgba(220,247,99,.07), transparent 60%), var(--bg-2); }
+.tk-ref__stats li { display: flex; flex-direction: column; gap: 6px; min-width: 0; padding: 0 18px; }
+.tk-ref__stats li + li { border-left: 1px solid rgba(220,247,99,.14); }
+.tk-ref__stats b { font: 600 clamp(1.3rem, 2.2vw, 1.75rem)/1 var(--body); letter-spacing: -.03em; color: #dcf763; font-variant-numeric: tabular-nums; text-shadow: 0 0 22px rgba(220,247,99,.25); }
 .tk-ref__stats span { color: var(--muted); font-size: .82rem; line-height: 1.35; }
-@media (max-width: 560px) { .tk-ref__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 16px; } }
+@media (max-width: 560px) { .tk-ref__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 18px; } .tk-ref__stats li:nth-child(3) { border-left: 0; } }
+.tk-ref__shot { border-color: rgba(220,247,99,.18); box-shadow: 0 30px 80px -40px rgba(220,247,99,.18); }
 @media (max-width: 680px) { .tk-hero { padding: 80px 0 64px; } }
 
 /* Logo */
@@ -512,9 +514,25 @@ html.js .tk-apps:not(.is-visible) .tk-feat li { opacity: 0; transform: translate
 }
 
 /* Empfehlungsbonus */
-.tk-bonus { margin-top: 0; }
-.tk-bonus .form-steps { margin: 0; }
-.tk-bonus .tk-host__price small { margin-left: 4px; }
+.tk-bonus { margin-top: 0; gap: 26px 48px; border-color: rgba(255,90,31,.18); background: radial-gradient(90% 120% at 100% 0%, rgba(255,90,31,.10), transparent 55%), linear-gradient(135deg, rgba(255,255,255,.035), rgba(255,255,255,0) 60%); }
+.tk-bonus .form-steps { margin: 0; gap: 0; position: relative; }
+/* Schritte: orange Nummernkreise, durch eine Linie verbunden */
+.tk-bonus .form-steps li { grid-template-columns: 44px 1fr; column-gap: 18px; position: relative; padding-bottom: 26px; }
+.tk-bonus .form-steps li:last-child { padding-bottom: 0; }
+.tk-bonus .form-steps li::before { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(145deg, #ff7a3d, #ff5a1f); color: #0b0b0b; font-weight: 700; box-shadow: 0 0 0 5px rgba(255,90,31,.12), 0 10px 26px -8px rgba(255,90,31,.6); position: relative; z-index: 1; }
+.tk-bonus .form-steps li:not(:last-child)::after { content: ""; position: absolute; left: 21px; top: 50px; bottom: 6px; width: 2px; border-radius: 2px; background: linear-gradient(rgba(255,90,31,.55), rgba(255,90,31,.08)); }
+.tk-bonus .form-steps b { font-size: 1.12rem; margin-top: 2px; }
+.tk-bonus .form-steps span { line-height: 1.55; }
+/* Bonus-Kasten: große 50 € im Verlauf, leichte Glut */
+.tk-bonus .tk-host__box { position: relative; overflow: hidden; text-align: center; padding: 30px 26px 24px; border-color: rgba(255,90,31,.35); background: radial-gradient(120% 80% at 50% 0%, rgba(255,90,31,.16), transparent 60%), #121212; box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 30px 70px -30px rgba(255,90,31,.45); }
+.tk-bonus .tk-host__k { color: #ff7a45; }
+.tk-bonus .tk-host__price { font-size: clamp(3.4rem, 7vw, 4.6rem); line-height: 1; margin: 12px 0 6px; letter-spacing: -.02em; background: linear-gradient(180deg, #ffb07a, #ff5a1f 70%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.tk-bonus .tk-host__price small { display: block; margin: 8px 0 0; font-size: .95rem; color: var(--muted); -webkit-text-fill-color: var(--muted); letter-spacing: 0; }
+.tk-bonus .tk-host__inc { margin: 14px 0 20px; }
+.tk-bonus .tk-host__inc b { color: var(--text); }
+.tk-bonus .tk-host__note { display: flex; gap: 12px; align-items: flex-start; border: 0; margin-top: 4px; padding: 14px 16px; border-radius: 14px; background: rgba(255,255,255,.03); line-height: 1.6; }
+.tk-bonus .tk-host__note::before { content: "i"; flex: 0 0 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font: 700 .75rem var(--mono, monospace); color: #ff7a45; border: 1px solid rgba(255,90,31,.45); margin-top: 1px; }
+@media (max-width: 560px) { .tk-bonus .form-steps li { grid-template-columns: 38px 1fr; column-gap: 14px; } .tk-bonus .form-steps li::before { width: 38px; height: 38px; } .tk-bonus .form-steps li:not(:last-child)::after { left: 18px; top: 44px; } }
 
 /* WhatsApp-Kontakt (nur Link, kein Widget) */
 .wa-box { margin: 22px 0; padding: 18px; border: 1px solid var(--line); border-radius: 14px; }
