@@ -20,7 +20,7 @@ const AF_USD_EUR = 0.92;
 const AF_STATUS = ['neu' => 'Neu', 'arbeit' => 'In Arbeit', 'geschickt' => 'Entwurf/Angebot geschickt', 'kunde' => 'Kunde geworden', 'abgesagt' => 'Abgesagt'];
 const AF_ARTEN = ['anfrage' => 'Anfrage', 'gruender' => 'Gründer', 'verein' => 'Verein', 'rueckruf' => 'Rückruf', 'entwurf' => 'Gratis-Entwurf'];
 // Vorschläge im Kosten-Formular, auch wenn darüber noch keine Anfrage kam.
-const AF_QUELLEN_VORSCHLAG = ['google-anzeige', 'willhaben', 'instagram', 'pinterest', 'flyer', 'brief'];
+const AF_QUELLEN_VORSCHLAG = ['google-anzeige', 'willhaben', 'instagram', 'pinterest', 'flyer', 'brief', 'auto'];
 
 function af_file(string $id): string
 {
@@ -109,7 +109,7 @@ function af_quelle(string $q): string
 
 function af_quelle_name(string $q): string
 {
-    $fest = ['google-anzeige' => 'Google-Anzeige', 'direkt' => 'Direkt / ohne Kennung', 'willhaben' => 'willhaben', 'brief' => 'Briefe (Porto)', 'flyer' => 'Flyer + Visitenkarten'];
+    $fest = ['google-anzeige' => 'Google-Anzeige', 'direkt' => 'Direkt / ohne Kennung', 'willhaben' => 'willhaben', 'brief' => 'Briefe (Porto)', 'flyer' => 'Flyer + Visitenkarten', 'auto' => 'Autobeschriftung'];
     return $fest[$q] ?? (strpos($q, '.') !== false ? $q : ucfirst($q));
 }
 
