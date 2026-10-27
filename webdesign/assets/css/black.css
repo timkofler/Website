@@ -346,3 +346,11 @@ html.tk-black .tk-ref__stats { border-color: rgba(220,247,99,.2); background: ra
 @media (max-width: 680px) { html.tk-black .tk-sign { margin-top: 76px; padding-bottom: 10px; } }
 .tk-logo:has(.tkd)::after { opacity: 0; transition: opacity .6s; }
 .tk-logo:has(.tkd.is-done)::after { opacity: 1; }
+/* Große Vereins-App-Kachel: Funktionsliste füllt die rechte Seite (Tim 27.10.) */
+html.tk-black .tk-try__list { display: none; }
+@media (min-width: 601px) {
+  html.tk-black .tk-tries--5 > li:first-child .tk-try__list { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 22px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.08); }
+  html.tk-black .tk-try__list > span { position: relative; padding-left: 28px; color: #d4d4d8; font-size: .92rem; line-height: 1.4; }
+  html.tk-black .tk-try__list > span::before { content: ""; position: absolute; left: 0; top: .1em; width: 18px; height: 18px; border-radius: 50%; background: rgba(255,90,31,.14); box-shadow: inset 0 0 0 1px rgba(255,90,31,.45); }
+  html.tk-black .tk-try__list > span::after { content: ""; position: absolute; left: 6px; top: calc(.1em + 4px); width: 4px; height: 8px; border: solid #ff7a45; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+}
