@@ -131,7 +131,7 @@ echo <<<HTML
   <link rel="stylesheet" href="/assets/css/style.css?v=5d1d811a">
   <link rel="stylesheet" href="/assets/css/tk.css?v=3ae5cf0f">
   <link rel="stylesheet" href="/assets/css/black.css?v=126caa16">
-  <script src="/assets/js/tk-black.js?v=9c01d95c"></script>
+  <script src="/assets/js/tk-black.js?v=aa3c164b"></script>
   <link rel="stylesheet" href="/assets/css/ansicht.css?v=1">
 </head>
 <body class="an-page">

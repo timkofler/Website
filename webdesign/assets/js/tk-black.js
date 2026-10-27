@@ -26,9 +26,26 @@
       '<path class="tkd-o tkd-t" d="' + T + '" pathLength="100"/><path class="tkd-o tkd-k" d="' + K + '" pathLength="100"/>' + a + '</svg>';
     img.parentNode.replaceChild(w, img);
     var io = new IntersectionObserver(function (es) {
-      if (es[0].isIntersecting) { w.classList.add("is-drawn"); io.disconnect(); setTimeout(function () { w.classList.add("is-done"); }, 3000); }
+      if (es[0].isIntersecting) { w.classList.add("is-drawn"); io.disconnect(); setTimeout(function () { w.classList.add("is-done"); loop(); }, 3000); }
     }, { threshold: .9 });
     io.observe(w);
+    // Dauerschleife (Tim 27.10.): fertig stehen lassen, rückwärts wieder auflösen, kurz leer, neu zeichnen
+    var CYCLE = 3000, HOLD = 3500, GAP = 700;
+    function loop() {
+      if (!w.getAnimations) return;
+      var anims = w.getAnimations({ subtree: true });
+      setTimeout(function () {
+        w.classList.remove("is-done");
+        anims.forEach(function (a) { a.playbackRate = -1; a.play(); a.currentTime = CYCLE; });
+        setTimeout(function () {
+          anims.forEach(function (a) { a.pause(); a.currentTime = 0; a.playbackRate = 1; });
+          setTimeout(function () {
+            anims.forEach(function (a) { a.play(); });
+            setTimeout(function () { w.classList.add("is-done"); loop(); }, CYCLE);
+          }, GAP);
+        }, CYCLE);
+      }, HOLD);
+    }
   }
 
   function mount() { footLogo(); }
