@@ -1332,3 +1332,7 @@ html.va-full,html.va-full body{overflow:hidden}
 @media (max-width:900px){:root[data-theme="dark"] .frows{grid-template-columns:1fr}}
 @media (max-width:560px){:root[data-theme="dark"] .frow__l{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){:root[data-theme="dark"] .s:hover,:root[data-theme="dark"] .frow:hover{transform:none}}
+
+/* Stichpunkte im Abo-Vergleich hervorheben (Tim 27.10.) */
+.calc .sec__head p b{color:#fff;font-weight:700}
+.calc .sec__head p b.o{color:#ff5a1f}
