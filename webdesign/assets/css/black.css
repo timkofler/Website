@@ -170,7 +170,7 @@ html.tk-black .section--line::before { content: ""; position: absolute; left: 50
   background: linear-gradient(90deg, transparent, rgba(255,90,31,.7) 50%, transparent); box-shadow: 0 0 18px rgba(255,90,31,.45); }
 
 /* ---------- Kopfbereich mittig mit Lichthorizont ---------- */
-html.tk-black .tk-hero:has(.tk-hero__stage) { padding: 130px 0 48px; text-align: center; isolation: isolate; }
+html.tk-black .tk-hero:has(.tk-hero__stage) { padding: 64px 0 48px; text-align: center; isolation: isolate; }
 html.tk-black .tk-hero:has(.tk-hero__stage) .container { display: flex; flex-direction: column; align-items: center; }
 html.tk-black .tk-hero:has(.tk-hero__stage) .label { justify-content: center; }
 html.tk-black .tk-hero:has(.tk-hero__stage) h1 { max-width: 15ch; margin-left: auto; margin-right: auto; }
@@ -178,7 +178,7 @@ html.tk-black .tk-hero:has(.tk-hero__stage) h1 { max-width: 15ch; margin-left: a
 html.tk-black .tk-hero:has(.tk-hero__stage) .lead { margin-left: auto; margin-right: auto; max-width: 52ch; }
 html.tk-black .tk-hero:has(.tk-hero__stage) .btn-row { justify-content: center; }
 html.tk-black .tk-hero:has(.tk-hero__stage) .tk-free-chip { margin-left: auto; margin-right: auto; }
-html.tk-black .tk-hero:has(.tk-hero__stage) .tk-hero__stage { position: relative; right: auto; top: auto; transform: none; width: min(380px, 78vw); margin: 44px auto 0; }
+html.tk-black .tk-hero:has(.tk-hero__stage) .tk-hero__stage { position: relative; right: auto; top: auto; transform: none; width: min(380px, 78vw); margin: 30px auto 0; }
 /* Laufschrift eng um die Plakette, nicht weit draußen (Tim 27.10.) */
 html.tk-black .tk-hero:has(.tk-hero__stage) .tk-ring { inset: -8%; }
 /* Kopf: nur ein Knopf plus Gratis-Hinweis, damit es nicht zu viel auf einmal ist (Tim 27.10.). Preisrechner bleibt über Pakete erreichbar */
