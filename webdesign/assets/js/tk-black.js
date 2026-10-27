@@ -9,19 +9,39 @@
   var KEY = "tk-edition";
   function saved() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
   var q = /[?&]edition=(white|black)\b/.exec(location.search);
+  // white.css wird nur geladen, wenn White gewählt ist (Black-Besucher sparen die Datei).
+  // Die Adresse steht im <meta name="tk-white-css"> vor diesem Skript.
+  var wm = document.querySelector('meta[name="tk-white-css"]'), WCSS = wm && wm.getAttribute("content");
+  function whiteLink() { return document.querySelector('link[href*="/white.css"]'); }
+  function loadWhite(cb) {
+    var l = whiteLink();
+    if (!l) {
+      l = document.createElement("link"); l.rel = "stylesheet"; l.href = WCSS;
+      l.addEventListener("load", function () { l.setAttribute("data-ok", ""); });
+      document.head.appendChild(l);
+    }
+    if (!cb) return;
+    if (l.hasAttribute("data-ok") || l.sheet) { cb(); return; }
+    var done = false, go = function () { if (!done) { done = true; cb(); } };
+    l.addEventListener("load", go); l.addEventListener("error", go); setTimeout(go, 2500);
+  }
   function apply(ed) {
     root.classList.toggle("tk-white", ed === "white");
     var m = document.querySelector('meta[name="theme-color"]');
     if (m) m.setAttribute("content", ed === "white" ? "#f6f3ee" : "#0b0b0c");
   }
   // Nur auf Seiten mit white.css (nicht im Kundenportal)
-  var hasWhite = !!document.querySelector('link[href*="/white.css"]');
-  apply(hasWhite ? (q ? q[1] : saved()) : "black");
+  var hasWhite = !!WCSS;
+  var first = hasWhite ? (q ? q[1] : saved()) : "black";
+  // Beim Seitenaufbau per document.write, damit die Datei wie ein normales <link> den ersten Anblick abwartet (kein Aufblitzen)
+  if (first === "white" && document.readyState === "loading") document.write('<link rel="stylesheet" href="' + WCSS + '">');
+  else if (first === "white") loadWhite();
+  apply(first);
 
   // Umschalter im Kopf: zwei Felder „Black | White“, am Handy ein runder Knopf mit Sonne/Mond
   function switcher() {
     var head = document.querySelector(".header__inner");
-    if (!head || head.querySelector(".tk-ed") || !document.querySelector('link[href*="/white.css"]')) return;
+    if (!head || head.querySelector(".tk-ed") || !hasWhite) return;
     var b = document.createElement("button");
     b.type = "button"; b.className = "tk-ed";
     b.innerHTML = '<span class="tk-ed__o tk-ed__b"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><em>Black</em></span>' +
@@ -32,13 +52,18 @@
       b.setAttribute("aria-label", w ? "Zur Black Edition wechseln" : "Zur White Edition wechseln");
       b.title = w ? "Black Edition" : "White Edition";
     }
+    // Schon beim Zeigen/Antippen vorladen, damit der Wechsel sofort sitzt
+    ["pointerenter", "touchstart", "focus"].forEach(function (ev) { b.addEventListener(ev, function () { loadWhite(); }, { passive: true, once: true }); });
     b.addEventListener("click", function () {
       var ed = root.classList.contains("tk-white") ? "black" : "white";
+      if (ed === "white") loadWhite(function () { swap(ed); }); else swap(ed);
+    });
+    function swap(ed) {
       root.classList.add("tk-ed-anim");
       apply(ed); label();
       try { localStorage.setItem(KEY, ed); ["va-theme2", "ba-theme2", "tk-dash-theme2"].forEach(function (k) { localStorage.removeItem(k); }); } catch (e) {}  // App-Beispiele folgen danach wieder der Edition
       setTimeout(function () { root.classList.remove("tk-ed-anim"); }, 450);
-    });
+    }
     label();
     var free = head.querySelector(".header__free"), end = head.querySelector(".header__end, .ew-head");
     if (free) free.parentNode.insertBefore(b, free);
