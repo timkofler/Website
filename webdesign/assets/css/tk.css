@@ -1274,7 +1274,7 @@ html:not(.anf-js) .anf__panel--rr { padding-bottom: 0; }
   .mf-home .tk-calc__toggle { min-height: 40px; padding: 0 18px; font-size: .86rem; gap: 6px; }
   .mf-home .tk-calc__toggle svg { width: 15px; height: 15px; }
   .mf-home #fragen .faq__item summary { padding: 15px 44px 15px 18px; font-family: var(--body); font-weight: 600; font-size: .9rem; }
-  .mf-home #referenz .tk-ref__shot, .mf-home #ueber .tk-worte, .mf-home #anfrage .anf__steps, .mf-home #fragen .faq-wrap__ask { display: none; }
+  .mf-home #ueber .tk-worte, .mf-home #anfrage .anf__steps, .mf-home #fragen .faq-wrap__ask { display: none; }
   .mf-home .footer__grid > div:nth-child(2), .mf-home .footer__grid > div:nth-child(3) { display: none; }
   html:not(:has(#mf-nojs)) .mf-home .mf-card, html:not(:has(#mf-nojs)) .mf-home .mf-more { display: flex; }
   html:not(:has(#mf-nojs)) .mf-home .mf-slot { display: block; margin-top: 16px; }
