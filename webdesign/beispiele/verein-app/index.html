@@ -22,8 +22,8 @@
 <link rel="manifest" href="/site.webmanifest">
 <link rel="preload" href="/beispiele/_shared/fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/beispiele/_shared/demo.css">
-<link rel="stylesheet" href="/beispiele/verein-app/style.css?v=34">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://tim-kofler.at/"},{"@type":"ListItem","position":2,"name":"Beispiele","item":"https://tim-kofler.at/beispiele/"},{"@type":"ListItem","position":3,"name":"Vereins-App","item":"https://tim-kofler.at/beispiele/verein-app/"}]},{"@type":"WebPage","@id":"https://tim-kofler.at/beispiele/verein-app/#seite","url":"https://tim-kofler.at/beispiele/verein-app/","name":"Vereins-App ohne Abo: Vereinsverwaltung für Österreich","description":"Mitglieder, Beiträge mit QR-Zahlschein, Termine mit Zusagen, Umfragen und Kassabuch mit Belegen per Foto in einer eigenen Vereins-App. Einmal gebaut, ohne monatliches Abo.","inLanguage":"de-AT","isPartOf":{"@id":"https://tim-kofler.at/#website"},"author":{"@id":"https://tim-kofler.at/#tim"},"mainEntity":{"@id":"https://tim-kofler.at/beispiele/verein-app/#angebot"}},{"@type":"Service","@id":"https://tim-kofler.at/beispiele/verein-app/#angebot","name":"Vereins-App ohne Abo","serviceType":"Vereinsverwaltung","alternateName":["Vereinssoftware","Mitgliederverwaltung für Vereine"],"description":"Eigene Vereins-App in den Vereinsfarben: Mitgliederverwaltung, Beiträge mit QR-Zahlschein, Termine mit Zu- und Absagen, Umfragen, Helfer-Einteilung, Anwesenheit und Kassabuch mit Belegen. Einmal bezahlt, ohne Abo, die Daten liegen auf dem Webspace des Vereins.","url":"https://tim-kofler.at/beispiele/verein-app/","image":"https://tim-kofler.at/assets/img/og-verein.jpg","provider":{"@id":"https://tim-kofler.at/#unternehmen"},"areaServed":{"@type":"Country","name":"Österreich"},"audience":{"@type":"Audience","audienceType":"Vereine: Musikvereine, Sportvereine, Kulturvereine"}}]}</script>
+<link rel="stylesheet" href="/beispiele/verein-app/style.css?v=35">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Start","item":"https://tim-kofler.at/"},{"@type":"ListItem","position":2,"name":"Beispiele","item":"https://tim-kofler.at/beispiele/"},{"@type":"ListItem","position":3,"name":"Vereins-App","item":"https://tim-kofler.at/beispiele/verein-app/"}]},{"@type":"WebPage","@id":"https://tim-kofler.at/beispiele/verein-app/#seite","url":"https://tim-kofler.at/beispiele/verein-app/","name":"Vereins-App ohne Abo: Vereinsverwaltung für Österreich","description":"Mitglieder, Beiträge mit QR-Zahlschein, Termine mit Zusagen, Umfragen und Kassabuch mit Belegen per Foto und Kassabericht als PDF in einer eigenen Vereins-App. Einmal gebaut, ohne monatliches Abo.","inLanguage":"de-AT","isPartOf":{"@id":"https://tim-kofler.at/#website"},"author":{"@id":"https://tim-kofler.at/#tim"},"mainEntity":{"@id":"https://tim-kofler.at/beispiele/verein-app/#angebot"}},{"@type":"Service","@id":"https://tim-kofler.at/beispiele/verein-app/#angebot","name":"Vereins-App ohne Abo","serviceType":"Vereinsverwaltung","alternateName":["Vereinssoftware","Mitgliederverwaltung für Vereine"],"description":"Eigene Vereins-App in den Vereinsfarben: Mitgliederverwaltung, Beiträge mit QR-Zahlschein, Termine mit Zu- und Absagen, Umfragen, Helfer-Einteilung, Anwesenheit und Kassabuch mit Belegen. Einmal bezahlt, ohne Abo, die Daten liegen auf dem Webspace des Vereins.","url":"https://tim-kofler.at/beispiele/verein-app/","image":"https://tim-kofler.at/assets/img/og-verein.jpg","provider":{"@id":"https://tim-kofler.at/#unternehmen"},"areaServed":{"@type":"Country","name":"Österreich"},"audience":{"@type":"Audience","audienceType":"Vereine: Musikvereine, Sportvereine, Kulturvereine"}}]}</script>
 </head>
 <body>
 <div class="tk-demo-bar"><a href="/"><img src="/beispiele/_shared/tk-logo-2.svg" alt="" width="34" height="17"><span>tim-kofler.at</span></a>
@@ -327,6 +327,7 @@
               <!-- Kassabuch -->
               <div class="dp" data-dp="kassa" role="tabpanel" aria-label="Kassabuch">
                 <div class="kasse">
+                  <div class="ro" data-c-ro hidden><i><svg><use href="#i-shield"/></svg></i><span><b>Ansicht der Rechnungsprüfer</b><small>Nur lesen: Buchungen, Belege und Änderungsprotokoll sind sichtbar, ändern lässt sich nichts. Eigener Zugang unter <em data-ro-url>verein.at/pruefung</em></small></span><button class="dbtn sm ghost" type="button" data-ro-x>Zurück zur Kassier-Ansicht</button></div>
                   <div class="kasse__top">
                     <div><small>Kassastand</small><b class="num" data-c-sum>0 €</b></div>
                     <div class="kasse__io"><span class="ok">Einnahmen <b class="num" data-c-in>0 €</b></span><span class="bad">Ausgaben <b class="num" data-c-out>0 €</b></span></div>
@@ -341,8 +342,9 @@
                   </form>
                   <input type="file" accept="image/*" data-c-later hidden>
                   <div class="tbl tbl--c" tabindex="0" aria-label="Buchungen"><table><thead><tr><th>Datum</th><th>Buchung</th><th>Bereich</th><th class="r">Betrag</th></tr></thead><tbody data-c-rows></tbody></table></div>
-                  <div class="row2"><button class="dbtn sm" type="button" data-csv-c><svg><use href="#i-dl"/></svg>Kassabuch als CSV</button><button class="dbtn sm ghost" type="button" data-report><svg><use href="#i-shield"/></svg>Bericht für die Rechnungsprüfer</button></div>
-                  <div class="report" data-report-box hidden></div>
+                  <div class="log" data-c-logbox hidden><h4>Änderungsprotokoll</h4><ul data-c-log></ul></div>
+                  <div class="row2"><button class="dbtn sm" type="button" data-report><svg><use href="#i-file"/></svg>Kassabericht als PDF</button><button class="dbtn sm ghost" type="button" data-pruef aria-pressed="false"><svg><use href="#i-shield"/></svg>Zugang für Rechnungsprüfer</button><button class="dbtn sm ghost" type="button" data-handover><svg><use href="#i-key"/></svg>Übergabe an neuen Kassier</button><button class="dbtn sm ghost" type="button" data-csv-c><svg><use href="#i-dl"/></svg>CSV</button></div>
+                  <p class="kasse__n">Tipp: Ein Fehler wird storniert statt gelöscht <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>. Die Buchung bleibt mit ihrer Nummer sichtbar, so bleibt die Nummernfolge lückenlos.</p>
                 </div>
               </div>
               <!-- Aussehen: Farbe und Logo -->
@@ -420,6 +422,23 @@
 </section>
 
 <!-- Was die App kann -->
+<!-- Aus dem Vereinsalltag: die Kassa -->
+<section class="sec safe" id="alltag">
+  <div class="wrap">
+    <div class="sec__head" data-reveal>
+      <span class="kick"><i></i>Aus dem Vereinsalltag</span>
+      <h2>Die Kassa macht ihr <span class="grad">nebenbei.</span></h2>
+      <p>Kassier ist ein Ehrenamt. Die meiste Arbeit fällt an, wenn alle anderen schon heimgehen. Genau dort hilft die App.</p>
+    </div>
+    <div class="sgrid">
+      <div class="s" data-reveal><i><svg><use href="#i-cam"/></svg></i><h3>Sonntagabend nach dem Fest</h3><p>Die Kassa ist gezählt, die Rechnungen stecken in der Jackentasche, morgen ist wieder Arbeit. Du fotografierst den Beleg gleich am Tisch, tippst den Betrag ein und gehst heim.</p></div>
+      <div class="s" data-reveal style="--d:.05s"><i><svg><use href="#i-file"/></svg></i><h3>Kurz vor der Hauptversammlung</h3><p>Statt Belege aus dem Schuhkarton zu sortieren, holst du den fertigen Kassabericht als PDF: mit Deckblatt, Kurzfassung zum Vorlesen und Feldern für die Unterschriften.</p></div>
+      <div class="s" data-reveal style="--d:.1s"><i><svg><use href="#i-shield"/></svg></i><h3>Die Rechnungsprüfer kommen</h3><p>Sie bekommen einen eigenen Zugang nur zum Lesen. Jede Buchung hat eine fortlaufende Nummer, ein Fehler wird storniert statt gelöscht, und im Protokoll steht, wer was geändert hat.</p></div>
+      <div class="s" data-reveal style="--d:.15s"><i><svg><use href="#i-key"/></svg></i><h3>Der Kassier hört auf</h3><p>Die Kassa gehört dem Verein, nicht dem Handy des Kassiers. Das Übergabeprotokoll zeigt der Nachfolge Bestände, offene Beiträge und fehlende Belege auf einen Blick.</p></div>
+    </div>
+  </div>
+</section>
+
 <section class="sec feats" id="funktionen">
   <div class="wrap">
     <div class="sec__head" data-reveal>
@@ -431,7 +450,7 @@
       <article class="f" data-reveal><i><svg><use href="#i-users"/></svg></i><h3>Mitgliederliste</h3><p>Alle Mitglieder an einem Ort, mit Suche, Gruppen und Ehrungen. Die bestehende Excel-Liste ist mit einem Import gleich drin. Für die Jahreshauptversammlung als Liste zum Ausdrucken oder für Excel.</p></article>
       <article class="f" data-reveal style="--d:.05s"><i><svg><use href="#i-qr"/></svg></i><h3>Beiträge mit QR-Zahlschein</h3><p>Jedes Mitglied bekommt seinen Zahlschein mit QR-Code. Scannen, überweisen, fertig. Der Kassier sieht auf einen Blick, wer noch offen ist.</p></article>
       <article class="f" data-reveal style="--d:.1s"><i><svg><use href="#i-cal"/></svg></i><h3>Termine mit Zusagen</h3><p>Proben, Training, Feste, Sitzungen. Mitglieder sagen in der App zu oder ab, statt in der WhatsApp-Gruppe nachzufragen.</p></article>
-      <article class="f" data-reveal><i><svg><use href="#i-book"/></svg></i><h3>Kassabuch</h3><p>Einnahmen und Ausgaben nach Bereichen, der Kassastand immer aktuell und ein fertiger Bericht für die Rechnungsprüfung.</p></article>
+      <article class="f" data-reveal><i><svg><use href="#i-book"/></svg></i><h3>Kassabuch</h3><p>Einnahmen und Ausgaben nach Bereichen mit fortlaufender Belegnummer, der Kassastand immer aktuell und der Kassabericht für die Hauptversammlung als PDF.</p></article>
       <article class="f" data-reveal style="--d:.05s"><i><svg><use href="#i-plus"/></svg></i><h3>Online beitreten</h3><p>Das Beitrittsformular direkt auf eurer Vereinsseite. Neue Mitglieder landen gleich in der Liste, ohne Abtippen.</p></article>
       <article class="f" data-reveal style="--d:.1s"><i><svg><use href="#i-mail"/></svg></i><h3>Nachrichten an Gruppen</h3><p>Einladung zur Hauptversammlung an alle, Probenplan nur an ein Register, Erinnerung nur an die Offenen. In der App auf der Pinnwand und per E-Mail von eurer Vereinsadresse.</p></article>
       <article class="f" data-reveal><i><svg><use href="#i-heart"/></svg></i><h3>Helfer fürs Fest</h3><p>Schichten für Aufbau, Schank und Kassa anlegen, Namen draufziehen. Freie Plätze sieht jeder in der App und tippt einfach „Ich helfe“.</p></article>
@@ -449,7 +468,7 @@
       <h3 class="flist__t">Alle Funktionen auf einen Blick</h3>
       <div class="flist__g">
         <div><h4><svg><use href="#i-users"/></svg>Mitglieder</h4><ul><li><svg><use href="#i-check"/></svg>Mitgliederliste mit Suche und Filtern</li><li><svg><use href="#i-check"/></svg>Register, Sektionen oder Gruppen</li><li><svg><use href="#i-check"/></svg>Karteikarte pro Mitglied</li><li><svg><use href="#i-check"/></svg>Mitglieder ändern ihre Adresse selbst</li><li><svg><use href="#i-check"/></svg>Eigene Felder, z. B. Instrument oder Trikotnummer</li><li><svg><use href="#i-check"/></svg>Beitritt online mit Formular</li><li><svg><use href="#i-check"/></svg>Jubiläen und Ehrungsliste</li><li><svg><use href="#i-check"/></svg>Import aus Excel mit Prüfung auf Doppelte</li><li><svg><use href="#i-check"/></svg>Liste als Excel-Datei</li></ul></div>
-        <div><h4><svg><use href="#i-euro"/></svg>Beiträge und Kassa</h4><ul><li><svg><use href="#i-check"/></svg>QR-Zahlschein für jedes Mitglied</li><li><svg><use href="#i-check"/></svg>Offene Beiträge auf einen Blick</li><li><svg><use href="#i-check"/></svg>Kontoauszug einlesen, Beiträge werden automatisch abgehakt</li><li><svg><use href="#i-check"/></svg>Zahlschein und Erinnerung per E-Mail</li><li><svg><use href="#i-check"/></svg>Kassabuch nach Bereichen</li><li><svg><use href="#i-check"/></svg>Belege per Foto</li><li><svg><use href="#i-check"/></svg>Bericht für die Rechnungsprüfer</li></ul></div>
+        <div><h4><svg><use href="#i-euro"/></svg>Beiträge und Kassa</h4><ul><li><svg><use href="#i-check"/></svg>QR-Zahlschein für jedes Mitglied</li><li><svg><use href="#i-check"/></svg>Offene Beiträge auf einen Blick</li><li><svg><use href="#i-check"/></svg>Kontoauszug einlesen, Beiträge werden automatisch abgehakt</li><li><svg><use href="#i-check"/></svg>Zahlschein und Erinnerung per E-Mail</li><li><svg><use href="#i-check"/></svg>Kassabuch nach Bereichen</li><li><svg><use href="#i-check"/></svg>Belege per Foto</li><li><svg><use href="#i-check"/></svg>Kassabericht als PDF mit Deckblatt, Kurzfassung und Unterschriften</li><li><svg><use href="#i-check"/></svg>Zugang nur zum Lesen für die Rechnungsprüfer</li><li><svg><use href="#i-check"/></svg>Stornieren statt Löschen, lückenlose Belegnummern</li><li><svg><use href="#i-check"/></svg>Übergabeprotokoll beim Kassierwechsel</li></ul></div>
         <div><h4><svg><use href="#i-cal"/></svg>Termine und Vereinsleben</h4><ul><li><svg><use href="#i-check"/></svg>Termine mit Zu- und Absage</li><li><svg><use href="#i-check"/></svg>Termine nur für die eigene Gruppe</li><li><svg><use href="#i-check"/></svg>Wochenübersicht für den Vorstand</li><li><svg><use href="#i-check"/></svg>Termine im Handy-Kalender</li><li><svg><use href="#i-check"/></svg>Erinnerung einen Tag vorher</li><li><svg><use href="#i-check"/></svg>Anwesenheit mit Jahresstatistik</li><li><svg><use href="#i-check"/></svg>Helfer-Einteilung fürs Fest</li></ul></div>
         <div><h4><svg><use href="#i-chat"/></svg>Kommunikation</h4><ul><li><svg><use href="#i-check"/></svg>Nachrichten an alle oder an Gruppen</li><li><svg><use href="#i-check"/></svg>Pinnwand und Dokumente</li><li><svg><use href="#i-check"/></svg>Umfragen, auf Wunsch anonym</li><li><svg><use href="#i-check"/></svg>Kommentare bei Terminen und Nachrichten</li><li><svg><use href="#i-check"/></svg>Sehen, wie viele gelesen haben</li><li><svg><use href="#i-check"/></svg>Zusätzlich per E-Mail</li></ul></div>
         <div><h4><svg><use href="#i-shield"/></svg>Sicherheit und Aussehen</h4><ul><li><svg><use href="#i-check"/></svg>Anmeldung mit Code aus der Authenticator-App</li><li><svg><use href="#i-check"/></svg>Jeder sieht nur, was er braucht</li><li><svg><use href="#i-check"/></svg>Daten auf eurem Webspace in der EU</li><li><svg><use href="#i-check"/></svg>Vereinsfarbe, Logo und Name</li><li><svg><use href="#i-check"/></svg>Hell- und Dunkelansicht</li><li><svg><use href="#i-check"/></svg>Ohne Werbung und ohne Tracking</li></ul></div>
@@ -525,8 +544,8 @@
       <details class="qa__i" data-reveal><summary><h3>Brauchen die Mitglieder eine App aus dem App Store?</h3><i aria-hidden="true"><svg><use href="#i-plus"/></svg></i></summary><p>Nein. Die Vereins-App läuft im Browser am Handy und am PC. Wer will, legt sie mit einem Tipp auf den Startbildschirm, dann öffnet sie sich wie eine normale App.</p></details>
       <details class="qa__i" data-reveal><summary><h3>Ist die Mitgliederverwaltung DSGVO-tauglich?</h3><i aria-hidden="true"><svg><use href="#i-plus"/></svg></i></summary><p>Die Daten liegen auf eurem eigenen Webspace bei einem Anbieter in der EU, nicht bei einer fremden Plattform. Jeder sieht nur, was er braucht: Mitglieder ihre eigenen Daten, der Kassier die Beiträge, die Obfrau alles. Es gibt kein Tracking und keine Werbung. Verantwortlich für die Daten bleibt der Verein, zum Beispiel für das Verarbeitungsverzeichnis.</p></details>
       <details class="qa__i" data-reveal><summary><h3>Können wir unsere Excel-Liste übernehmen?</h3><i aria-hidden="true"><svg><use href="#i-plus"/></svg></i></summary><p>Ja. Die Mitgliederliste aus Excel oder als CSV-Datei importiert ihr selbst: Die App erkennt die Spalten und zeigt vorher, wer schon drin ist, wo eine E-Mail fehlt oder ein Datum unklar ist. Erst dann wird übernommen, auch 1.000 Mitglieder auf einmal. Beim Einrichten mache ich den ersten Import gern für euch, inklusive Beiträgen und Gruppen. Umgekehrt lässt sich jede Liste jederzeit wieder als Excel-Datei sichern.</p></details>
-      <details class="qa__i" data-reveal><summary><h3>Was bekommen die Rechnungsprüfer?</h3><i aria-hidden="true"><svg><use href="#i-plus"/></svg></i></summary><p>Ein Kassabuch mit Einnahmen-Ausgaben-Rechnung nach Bereichen, zu jeder Ausgabe den Beleg als Foto und einen Bericht, welcher Beleg noch fehlt. Alles lässt sich als Tabelle herunterladen.</p></details>
-      <details class="qa__i" data-reveal><summary><h3>Was passiert, wenn der Vorstand wechselt?</h3><i aria-hidden="true"><svg><use href="#i-plus"/></svg></i></summary><p>Nichts geht verloren. Die Daten bleiben beim Verein, der neue Vorstand bekommt einfach eigene Zugänge und der alte wird ausgetragen.</p></details>
+      <details class="qa__i" data-reveal><summary><h3>Was bekommen die Rechnungsprüfer?</h3><i aria-hidden="true"><svg><use href="#i-plus"/></svg></i></summary><p>Einen eigenen Zugang nur zum Lesen und den Kassabericht als PDF: Deckblatt, Kurzfassung für die Hauptversammlung, Einnahmen-Ausgaben-Rechnung mit Vermögensübersicht, alle Buchungen mit fortlaufender Belegnummer und Felder für die Unterschriften. Zu jeder Ausgabe gibt es den Beleg als Foto, fehlende Belege stehen extra da. Fehler werden storniert statt gelöscht, jede Änderung steht im Protokoll.</p></details>
+      <details class="qa__i" data-reveal><summary><h3>Was passiert, wenn der Vorstand wechselt?</h3><i aria-hidden="true"><svg><use href="#i-plus"/></svg></i></summary><p>Nichts geht verloren. Die Daten bleiben beim Verein, der neue Vorstand bekommt einfach eigene Zugänge und der alte wird ausgetragen. Für die Kassa gibt es ein Übergabeprotokoll mit Beständen zum Stichtag, offenen Beiträgen, fehlenden Belegen, Checkliste und Unterschriften.</p></details>
     </div>
   </div>
 </section>
@@ -542,12 +561,12 @@
 </section>
 </main>
 
-<footer class="foot"><div class="wrap"><span>Beispiel von <a href="/">Tim Kofler – Webdesign</a>. Vereine, Personen und Zahlen sind erfunden, Abo-Preise sind Richtwerte.</span><span><a href="/beispiele/">Alle Beispiele</a> · <a href="/impressum/">Impressum</a> · <a href="/datenschutz/">Datenschutz</a></span></div></footer>
+<footer class="foot"><div class="wrap"><span>Beispiel von <a href="/">Tim Kofler – Webdesign</a>. Vereine, Personen und Zahlen sind erfunden, Abo-Preise sind Richtwerte.</span><span><a href="/beispiele/">Alle Beispiele</a> · <a href="/impressum/">Impressum</a> · <a href="/datenschutz/">Datenschutz</a> · <a href="/barrierefreiheit/">Barrierefreiheit</a></span></div></footer>
 
 <div class="toast" data-toast role="status" aria-live="polite"><i><svg><use href="#i-bell"/></svg></i><span><b data-toast-t>Neu</b><span data-toast-s></span></span></div>
 
 <script src="/beispiele/_shared/demo.js?v=29766291" defer></script>
 <script src="/beispiele/_shared/vendor/qrcode-generator-2.0.4/qrcode.js" defer></script>
 <script src="/assets/js/tk-qr.js?v=1" defer></script>
-<script src="/beispiele/verein-app/app.js?v=21" defer></script>
+<script src="/beispiele/verein-app/app.js?v=22" defer></script>
 </body></html>

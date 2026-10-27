@@ -145,8 +145,8 @@
   // ---- Flüssige Markierung im Menü: am PC ein Glasbalken, am Handy eine Leuchtkugel hinter dem Symbol ----
   var ind = $(".side__ind"), indAt = null, calm = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   function moveInd(anim) {
-    var b = $('.nav-b[aria-current="page"]');
-    if (!ind || !b || !b.offsetWidth) return;
+    var b = $$('.nav-b[aria-current="page"]').filter(function (x) { return x.offsetWidth; })[0];
+    if (!ind || !b) return;
     var ball = innerWidth <= 960, side = ind.parentNode, sr = side.getBoundingClientRect(), br = b.getBoundingClientRect(), r, d = 40;
     var bx = br.left - sr.left - side.clientLeft, by = br.top - sr.top - side.clientTop;
     if (ball) { var ir = b.querySelector("svg").getBoundingClientRect(), it = parseFloat(getComputedStyle(b.querySelector("svg")).transform.split(",")[5]) || 0; r = { x: bx + br.width / 2 - d / 2, y: ir.top - it - sr.top - side.clientTop + ir.height / 2 - d / 2 - 13, w: d, h: d }; }
@@ -194,13 +194,23 @@
     if (v !== cur) closeDoc();
     cur = v;
     $$(".view").forEach(function (s) { s.classList.toggle("is-on", s.id === "v-" + v); });
-    $$(".nav-b").forEach(function (b) { if (b.getAttribute("data-go") === v) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); });
+    $$(".nav-b,.nav-m").forEach(function (b) { if (b.getAttribute("data-go") === v) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); });
+    // Am Handy stecken Stunden, Rechnungen, Lager und Monteur-App unter "Mehr": dann leuchtet "Mehr"
+    var mb = $(".nav-more"); if (mb) { if ($('.nav-m[data-go="' + v + '"]')) mb.setAttribute("aria-current", "page"); else mb.removeAttribute("aria-current"); }
+    more(false);
     moveInd(true);
     try { history.replaceState(null, "", "#" + v); } catch (e) {}
     render();
     if (scroll) { var a = $("#app").getBoundingClientRect().top; if (a < 0 || a > innerHeight * .4) scrollTo({ top: scrollY + a - 50, behavior: "smooth" }); }
   }
+  addEventListener("keydown", function (e) { if (e.key === "Escape") more(false); });
+  function more(open) {
+    var m = $("#more-m"), b = $(".nav-more"); if (!m) return;
+    m.hidden = !open; b.setAttribute("aria-expanded", open);
+  }
   document.addEventListener("click", function (e) {
+    if (e.target.closest(".nav-more")) { more($("#more-m").hidden); return; }
+    if (!e.target.closest("#more-m")) more(false);
     var g = e.target.closest("[data-go]"); if (g) { go(g.getAttribute("data-go"), true); return; }
     if (e.target.closest("[data-reset]")) { try { localStorage.removeItem(KEY); } catch (er) {} S = seed(); render(); toast("Demo-Daten zurückgesetzt"); }
   });
@@ -1039,12 +1049,13 @@
     ["Bio-Hof Lechner", "Warmwasser für den Hofladen", "Mühlbach", "Im Hofladen brauchen wir warmes Wasser beim Waschbecken. Was kostet das ungefähr?"],
     ["Fam. Schuster", "Gäste-WC einbauen", "Musterdorf", "Wir möchten im Vorraum ein kleines Gäste-WC. Wann könnten Sie vorbeikommen?"]
   ];
-  $("#ld-sim").addEventListener("click", function () {
+  $$("[data-sim]").forEach(function (b) { b.addEventListener("click", simLead); });
+  function simLead() {
     var w = WEB.filter(function (x) { return !kunde(x[0]); })[0];
     if (!w) { toast("Alle Beispiel-Anfragen sind schon da"); return; }
     addLead(w[0], w[1], "web", w[2], w[3]); ST = "pipe"; PS = "anfrage"; save(); render();
     toast("Neue Anfrage über die Webseite: " + w[0]);
-  });
+  }
 
   // Besichtigung: freien Platz bei Stefan suchen und auf die Plantafel legen
   function planVisit(l) {
@@ -1221,6 +1232,7 @@
   function badges() {
     var due = S.inv.filter(isDue).length, fin = S.jobs.filter(function (j) { return j.st === "fertig"; }).length, low = S.stock.filter(function (s) { return s.qty < s.min; }).length;
     $("#b-inv").textContent = due || ""; $("#b-jobs").textContent = fin || ""; $("#b-lager").textContent = low || ""; $("#b-zeit").textContent = running().length || ""; $("#b-sales").textContent = S.tasks.filter(taskDue).length || "";
+    var mz = running().length; $("#bm-zeit").textContent = mz || ""; $("#bm-inv").textContent = due || ""; $("#bm-lager").textContent = low || ""; $("#b-more").textContent = (mz + due + low) || "";
   }
   function render() {
     fillSelects(); renderClock(); badges();

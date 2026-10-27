@@ -371,15 +371,32 @@ svg{flex:none}
 @media (max-width:640px){.addc{grid-template-columns:1fr 1fr}.addc__t{grid-column:1/-1}.addc .dbtn{grid-column:1/-1}.cat{grid-template-columns:96px minmax(0,1fr) 76px}}
 .tbl--c{max-height:260px}
 .row2{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.report{margin-top:12px;background:var(--bg2);border:1px solid var(--line2);border-radius:14px;padding:16px;font-size:13.5px}
-.report h4{font:800 17px/1.2 var(--hd);margin-bottom:4px}
-.report p{color:var(--mu);font-size:12.5px}
-.report table{width:100%;border-collapse:collapse;margin-top:10px}
-.report td{padding:6px 0;border-top:1px solid var(--line)}
-.report td:last-child{text-align:right;font-variant-numeric:tabular-nums}
-.report tr.sum td{font-weight:800;border-top:2px solid var(--line2)}
-.report .sig{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:22px;font-size:12px;color:var(--mu2)}
-.report .sig span{border-top:1px solid var(--mu2);padding-top:5px}
+/* Belegnummer, Storno, Prüfer-Ansicht */
+.tbl--c td:nth-child(2){white-space:normal;min-width:170px}
+.tbl .bn{display:block;font-size:10.5px;color:var(--mu2);font-variant-numeric:tabular-nums}
+.sto{display:inline-grid;place-items:center;width:24px;height:24px;border:0;border-radius:7px;background:transparent;color:var(--mu2);flex:none;opacity:.55;transition:opacity .2s,background .2s,color .2s}
+.sto svg{width:14px;height:14px}
+.tbl tr:hover .sto,.sto:focus-visible{opacity:1}.sto:hover{background:var(--badl);color:var(--bad)}
+.tbl tr.is-sto td{color:var(--mu2)}
+.tbl tr.is-sto .bt>span:first-child{text-decoration:line-through}
+.tbl tr.is-sto td.r{color:var(--mu2)!important}
+.sto-t{font-style:normal;font-size:11px;font-weight:700;padding:1px 8px;border-radius:999px;box-shadow:inset 0 0 0 1px currentColor;color:var(--mu2)}
+.ro{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;margin-bottom:12px;padding:11px 13px;border-radius:12px;background:color-mix(in srgb,var(--vc) 14%,transparent);color:var(--ink);border:1px solid color-mix(in srgb,var(--vc) 40%,transparent)}
+.ro>i{display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:var(--vc);color:var(--vc-on);flex:none}
+.ro>i svg{width:17px;height:17px}
+.ro>span{flex:1;min-width:220px}.ro b{display:block;font-size:14px}.ro small{display:block;font-size:12.5px;color:var(--mu)}
+.ro em{font-style:normal;font-weight:700;color:var(--ink)}
+.ro .dbtn{width:auto;margin:0}
+.kasse.is-ro .addc,.kasse.is-ro .sto,.kasse.is-ro [data-handover],.kasse.is-ro .kasse__n{display:none}
+.kasse.is-ro .bel.no{pointer-events:none}
+[data-pruef][aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--vc)}
+.log{margin-top:12px;padding:12px 14px;border-radius:12px;border:1px solid var(--line2);background:var(--bg2)}
+.log h4{font:800 14px/1.2 var(--hd);margin-bottom:6px}
+.log ul{list-style:none;margin:0;padding:0}
+.log li{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 12px;padding:6px 0;border-top:1px solid var(--line);font-size:12.5px}
+.log li:first-child{border-top:0}.log small{color:var(--mu2)}
+.kasse__n{margin-top:8px;font-size:12px;color:var(--mu)}
+.kasse__n svg{width:13px;height:13px;vertical-align:-2px}
 
 /* ---------- Funktionen, Rechner, Fair, Datenschutz ---------- */
 .fgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
