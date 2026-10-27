@@ -1,7 +1,7 @@
 // Tim Kofler – 3D-Zeichen im Kopfbereich der Startseite: TK-Logo als Metall-Plakette mit glühendem Ring,
 // Umlaufbahnen und Funken. Fährt beim Scrollen mit, dreht sich dabei einmal um sich selbst und löst sich am Ende auf.
 // Three.js kommt lokal aus /beispiele/_shared/vendor/ und wird erst nach dem Laden der Seite geholt.
-// Ohne WebGL, bei "Bewegung reduzieren" oder auf schwachen Geräten bleibt das Standbild (tk-3d.webp) stehen.
+// Ohne WebGL, bei "Bewegung reduzieren" oder auf schwachen Geräten bleibt das Standbild (tk-3d-2.webp) stehen.
 var reduce = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
 var small = !!(window.matchMedia && matchMedia("(max-width: 760px), (pointer: coarse)").matches);
 var root = document.documentElement;
@@ -158,9 +158,9 @@ function build(THREE, RoomEnvironment) {
   // Die Leinwand ist doppelt so groß wie die Bühne: Die Plakette (Ring ⌀ 2,8) füllt die mittlere Hälfte.
   var VIEW = 6.4, DIST = (VIEW / 2) / Math.tan(15 * Math.PI / 180);
   cam.position.set(0, 0, DIST); cam.lookAt(0, 0, 0);
-  var pm = new THREE.PMREMGenerator(R); scene.environment = pm.fromScene(new RoomEnvironment(), .04).texture; scene.environmentIntensity = .9; pm.dispose();
+  var pm = new THREE.PMREMGenerator(R); scene.environment = pm.fromScene(new RoomEnvironment(), .04).texture; scene.environmentIntensity = .3; pm.dispose();
 
-  var key = new THREE.DirectionalLight("#ffffff", 1.4); key.position.set(-3, 3, 5); scene.add(key);
+  var key = new THREE.DirectionalLight("#ffffff", .8); key.position.set(-3, 3, 5); scene.add(key);
   var warm = new THREE.DirectionalLight("#ff6a2a", 5); warm.position.set(4, -1, 2); scene.add(warm);
   var rimL = new THREE.DirectionalLight("#ffb23f", 3); rimL.position.set(-4, 2, -3); scene.add(rimL);
 
@@ -168,12 +168,12 @@ function build(THREE, RoomEnvironment) {
   var spin = new THREE.Group(); rig.add(spin);     // Drehung beim Scrollen und Ziehen
   var badge = new THREE.Group(); spin.add(badge);
 
-  // Münze: dunkles, gebürstetes Metall mit Fase
-  var coinMat = new THREE.MeshPhysicalMaterial({ color: "#151515", metalness: .85, roughness: .38, clearcoat: 1, clearcoatRoughness: .2 });
-  var capMat = new THREE.MeshPhysicalMaterial({ map: brushed(THREE), metalness: .8, roughness: .34, clearcoat: 1, clearcoatRoughness: .25 });
+  // Münze: fast schwarzes, mattes Metall mit Fase (kein heller Schimmer, Tim 27.10.)
+  var coinMat = new THREE.MeshPhysicalMaterial({ color: "#070707", metalness: .6, roughness: .55, clearcoat: 1, clearcoatRoughness: .2 });
+  var capMat = new THREE.MeshPhysicalMaterial({ map: brushed(THREE), color: "#555555", metalness: .6, roughness: .5, clearcoat: .3, clearcoatRoughness: .5 });
   var coin = new THREE.Mesh(new THREE.CylinderGeometry(1.36, 1.36, .16, 128, 1), [coinMat, capMat, capMat]);
   coin.rotation.x = Math.PI / 2; badge.add(coin);
-  var rimMat = new THREE.MeshPhysicalMaterial({ color: "#2a2a2a", metalness: 1, roughness: .22, clearcoat: 1 });
+  var rimMat = new THREE.MeshPhysicalMaterial({ color: "#111111", metalness: .8, roughness: .4, clearcoat: 1 });
   var rimT = new THREE.Mesh(new THREE.TorusGeometry(1.36, .045, 20, 160), rimMat);
   badge.add(rimT);
   // Feiner oranger Einlegering auf beiden Seiten
@@ -183,7 +183,7 @@ function build(THREE, RoomEnvironment) {
   // Buchstaben: T in hellem Metall, K glühend orange; auf beiden Seiten der Münze lesbar
   var ext = { depth: .16, bevelEnabled: true, bevelThickness: .035, bevelSize: .022, bevelSegments: 3, curveSegments: 1 };
   var tGeo = new THREE.ExtrudeGeometry(shape(THREE, T_PTS), ext), kGeo = new THREE.ExtrudeGeometry(shape(THREE, K_PTS), ext);
-  var tMat = new THREE.MeshPhysicalMaterial({ color: "#ffffff", metalness: .9, roughness: .16, clearcoat: 1, clearcoatRoughness: .08, envMapIntensity: 1.7 });
+  var tMat = new THREE.MeshPhysicalMaterial({ color: "#d9d9d9", metalness: .2, roughness: .5, clearcoat: 0, envMapIntensity: .5 });
   var kMat = new THREE.MeshPhysicalMaterial({ color: "#ff5a1f", emissive: "#ff3c0c", emissiveIntensity: .3, metalness: .3, roughness: .28, clearcoat: 1, clearcoatRoughness: .1 });
   kMat.toneMapped = false; // sonst bleicht die Filmkurve das Signal-Orange aus
   var letters = [];
