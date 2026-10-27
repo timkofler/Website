@@ -146,11 +146,24 @@ function cx_guard(): void
     }
 }
 
+// Kennung eines Anschlusses für die Ratengrenze: bei IPv4 die Adresse, bei IPv6 nur das /64-Netz.
+// Sonst könnte ein einzelner Rechner über seinen riesigen IPv6-Bereich beliebig viele Kennungen
+// vortäuschen und die Grenze je Anschluss umgehen (so wie es der KI-Chat schon macht).
+function cx_client_id(): string
+{
+    $ip = (string) ($_SERVER['REMOTE_ADDR'] ?? '');
+    $bin = @inet_pton($ip);
+    if (is_string($bin) && strlen($bin) === 16) {
+        return bin2hex(substr($bin, 0, 8)) . '::/64';
+    }
+    return $ip;
+}
+
 // Höchstens 6 Absendungen pro Stunde je Anschluss und 30 pro Stunde insgesamt (falls jemand ständig die IP wechselt).
 // Gespeichert wird nur ein Hash der IP-Adresse.
 function cx_rate_ok(): bool
 {
-    return cx_rate_hit('ip:' . ($_SERVER['REMOTE_ADDR'] ?? ''), 6, 3600)
+    return cx_rate_hit('ip:' . cx_client_id(), 6, 3600)
         && cx_rate_hit('alle', 30, 3600);
 }
 
