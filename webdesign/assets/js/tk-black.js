@@ -132,6 +132,15 @@
     }
     window.addEventListener("scroll", function () { if (!tick) { tick = true; requestAnimationFrame(check); } }, { passive: true });
     check();
+    // Ganz unten blendet der schwebende Knopf aus (tk-at-end), damit „Tim Kofler" frei steht; dafür steht der Knopf dort ruhig unter dem Schriftzug
+    var sign = document.querySelector(".tk-sign");
+    if (sign && !document.querySelector(".tk-top-end")) {
+      var e = document.createElement("button");
+      e.type = "button"; e.className = "tk-top-end";
+      e.innerHTML = b.innerHTML + "<span>Nach oben</span>";
+      e.addEventListener("click", function () { b.click(); });
+      sign.insertAdjacentElement("afterend", e);
+    }
   }
 
   function mount() { switcher(); footLogo(); topBtn(); }

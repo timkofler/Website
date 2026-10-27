@@ -756,13 +756,16 @@
   else window.addEventListener("load", function () { setTimeout(boot, 300); });
 })();
 
-// Unten beim Schriftzug „Tim Kofler" die schwebenden Knöpfe ausblenden (Klasse tk-at-end, Rest macht CSS)
+// Unten ab dem Schlusssatz bis zum Schriftzug „Tim Kofler" die schwebenden Knöpfe ausblenden (Klasse tk-at-end, Rest macht CSS)
 (function () {
-  var sign = document.querySelector(".tk-sign");
-  if (!sign || !("IntersectionObserver" in window)) return;
-  new IntersectionObserver(function (e) {
-    document.documentElement.classList.toggle("tk-at-end", e[0].isIntersecting);
-  }, { rootMargin: "0px 0px -15% 0px" }).observe(sign);
+  var els = [".tk-endnote", ".tk-sign"].map(function (q) { return document.querySelector(q); }).filter(Boolean);
+  if (!els.length || !("IntersectionObserver" in window)) return;
+  var seen = [];
+  var io = new IntersectionObserver(function (e) {
+    e.forEach(function (x) { seen[els.indexOf(x.target)] = x.isIntersecting; });
+    document.documentElement.classList.toggle("tk-at-end", seen.indexOf(true) > -1);
+  });
+  els.forEach(function (el) { io.observe(el); });
 })();
 
 // Im Anfrage-Bereich sind alle Kontaktwege schon da: schwebende Knöpfe ausblenden, damit sie keine Felder verdecken (Klasse tk-in-anf)
