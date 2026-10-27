@@ -1,11 +1,50 @@
 // Black Edition: das Design der Seite (echtes Schwarz, Glas, Orange nur als Akzent).
-// Seit 27.10.2026 fix für alle, ohne Umschalter (Tims Wunsch). Wird im <head> ohne defer geladen,
-// damit die Klasse sofort sitzt und nichts aufblitzt. Es wird nichts gespeichert.
+// Black ist Standard. Seit 27.10.2026 gibt es dazu die helle „White Edition“ (Klasse tk-white zusätzlich zu tk-black),
+// umschaltbar im Kopf; die Wahl bleibt im Browser (localStorage „tk-edition“), sonst wird nichts gespeichert.
+// Wird im <head> ohne defer geladen, damit die Klasse sofort sitzt und nichts aufblitzt.
 (function () {
   var root = document.documentElement;
   root.classList.add("tk-black");
-  // Alte Wahl aus der Zeit mit Umschalter aufräumen
   try { localStorage.removeItem("tk-black"); } catch (e) {}
+  var KEY = "tk-edition";
+  function saved() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+  var q = /[?&]edition=(white|black)\b/.exec(location.search);
+  function apply(ed) {
+    root.classList.toggle("tk-white", ed === "white");
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.setAttribute("content", ed === "white" ? "#f6f3ee" : "#0b0b0c");
+  }
+  // Nur auf Seiten mit white.css (nicht im Kundenportal)
+  var hasWhite = !!document.querySelector('link[href*="/white.css"]');
+  apply(hasWhite ? (q ? q[1] : saved()) : "black");
+
+  // Umschalter im Kopf: zwei Felder „Black | White“, am Handy ein runder Knopf mit Sonne/Mond
+  function switcher() {
+    var head = document.querySelector(".header__inner");
+    if (!head || head.querySelector(".tk-ed") || !document.querySelector('link[href*="/white.css"]')) return;
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "tk-ed";
+    b.innerHTML = '<span class="tk-ed__o tk-ed__b"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><em>Black</em></span>' +
+      '<span class="tk-ed__o tk-ed__w"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><em>White</em></span>';
+    function label() {
+      var w = root.classList.contains("tk-white");
+      b.setAttribute("aria-pressed", w ? "true" : "false");
+      b.setAttribute("aria-label", w ? "Zur Black Edition wechseln" : "Zur White Edition wechseln");
+      b.title = w ? "Black Edition" : "White Edition";
+    }
+    b.addEventListener("click", function () {
+      var ed = root.classList.contains("tk-white") ? "black" : "white";
+      root.classList.add("tk-ed-anim");
+      apply(ed); label();
+      try { localStorage.setItem(KEY, ed); } catch (e) {}
+      setTimeout(function () { root.classList.remove("tk-ed-anim"); }, 450);
+    });
+    label();
+    var free = head.querySelector(".header__free"), end = head.querySelector(".header__end, .ew-head");
+    if (free) free.parentNode.insertBefore(b, free);
+    else if (end) end.insertBefore(b, end.firstChild);
+    else head.appendChild(b);
+  }
 
   // Footer-Logo zeichnet sich selbst, sobald es ins Bild kommt (Hilfslinien, Ankerpunkte, Umrisse, dann Füllung),
   // wie bei der Logo-Animation. Ohne JavaScript oder bei "Bewegung reduzieren" bleibt das normale Bild stehen.
@@ -48,7 +87,29 @@
     }
   }
 
-  function mount() { footLogo(); }
+  // "Nach oben"-Knopf: erscheint nach einem Bildschirm Scrollen, sitzt über WhatsApp/Fragen? unten rechts
+  function topBtn() {
+    if (document.querySelector(".tk-top")) return;
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "tk-top";
+    b.setAttribute("aria-label", "Nach oben"); b.title = "Nach oben";
+    b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>';
+    b.addEventListener("click", function () {
+      var still = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, behavior: still ? "auto" : "smooth" });
+    });
+    document.body.appendChild(b);
+    var on = false, tick = false;
+    function check() {
+      tick = false;
+      var v = window.scrollY > window.innerHeight * 0.9;
+      if (v !== on) { on = v; b.classList.toggle("is-on", v); }
+    }
+    window.addEventListener("scroll", function () { if (!tick) { tick = true; requestAnimationFrame(check); } }, { passive: true });
+    check();
+  }
+
+  function mount() { switcher(); footLogo(); topBtn(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount);
   else mount();
 })();

@@ -1,0 +1,221 @@
+/* ================= White Edition (Tim 27.10.2026) =================
+   Helle Schwester der Black Edition: warmes Weiß, dunkle Schrift, dieselbe Gestalt und dasselbe Orange.
+   Hängt an html.tk-white (zusätzlich zu tk-black, gesetzt von tk-black.js über den Umschalter im Kopf).
+   Logo hell: T dunkel, K orange wie am Briefkopf. Die 3D-Plakette bleibt schwarz. */
+
+/* ---------- Umschalter (beide Editionen) ---------- */
+.tk-ed { display: inline-flex; align-items: center; gap: 2px; padding: 3px; min-height: 42px; box-sizing: border-box; border-radius: 999px; cursor: pointer;
+  border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.02); color: #9b9b9f; font: 600 .72rem/1 var(--mono, monospace); letter-spacing: .08em; text-transform: uppercase; }
+.tk-ed__o { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: 999px; transition: background .3s, color .3s; white-space: nowrap; }
+.tk-ed__o em { font-style: normal; }
+.tk-ed svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.tk-ed__b svg { fill: currentColor; stroke: none; }
+.tk-ed[aria-pressed="false"] .tk-ed__b, .tk-ed[aria-pressed="true"] .tk-ed__w { background: #ff5a1f; color: #0b0b0c; }
+.tk-ed:hover { border-color: rgba(255,90,31,.6); }
+.tk-ed:focus-visible { outline: 2px solid #ff5a1f; outline-offset: 3px; }
+.header__end .tk-ed, .ew-head .tk-ed { margin-right: 4px; }
+.header.is-pill .tk-ed { min-height: 40px; }
+@media (max-width: 1240px) { .tk-ed__o em { display: none; } .tk-ed__o { padding: 0 10px; } }
+@media (max-width: 1100px) {
+  .tk-ed { width: 44px; height: 44px; min-height: 44px; padding: 0; justify-content: center; }
+  .tk-ed[aria-pressed="false"] .tk-ed__b, .tk-ed[aria-pressed="true"] .tk-ed__w { display: none; }
+  .tk-ed .tk-ed__o { background: none !important; color: #ff7a45 !important; height: auto; padding: 0; }
+  .tk-ed svg { width: 19px; height: 19px; }
+}
+@media (max-width: 359px) { .ew-head .tk-ed { display: none; } }
+html.tk-ed-anim body, html.tk-ed-anim body * { transition: background-color .4s ease, border-color .4s ease, color .4s ease !important; }
+
+/* ---------- Grundwerte ---------- */
+html.tk-black.tk-white {
+  --bg: #f6f3ee; --bg-2: #efeae2; --surface: #ffffff; --surface-2: #faf8f4;
+  --line: rgba(28,20,12,.09); --line-2: rgba(28,20,12,.15);
+  --text: #16130f; --muted: #5f5850;
+  --bk-glass: linear-gradient(180deg, #ffffff, #fcfbf8);
+  --bk-beam: linear-gradient(90deg, transparent 8%, rgba(255,90,31,.28) 50%, transparent 92%) top center / 100% 1px no-repeat;
+  --bk-beam-hot: linear-gradient(90deg, transparent 8%, rgba(255,90,31,.85) 50%, transparent 92%) top center / 100% 1px no-repeat;
+  --bk-edge: 0 1px 0 rgba(255,255,255,.9) inset, 0 16px 36px -24px rgba(70,40,15,.28);
+  --bk-glow: 0 0 0 1px rgba(255,90,31,.38), 0 22px 46px -20px rgba(255,90,31,.38);
+  background: #f6f3ee; color-scheme: light;
+}
+html.tk-white body { background: #f6f3ee; color: var(--text); }
+html.tk-white body::after { background-image: linear-gradient(rgba(28,20,12,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(28,20,12,.045) 1px, transparent 1px); }
+html.tk-white select option, html.tk-white select optgroup { background-color: #fff; color: #16130f; }
+html.tk-white select option:checked { background-color: #ff5a1f; color: #fff; }
+html.tk-white ::selection { color: #fff; }
+
+/* ---------- Kopf, Menü, Logo ---------- */
+html.tk-white .header, html.tk-white.tk-3d-on.tk-3d-view .header { background: rgba(246,243,238,.86); border-bottom-color: rgba(28,20,12,.08); }
+html.tk-white .header.is-pill { background: transparent; }
+html.tk-white .header.is-pill .header__inner { background: rgba(255,255,255,.82); border-color: rgba(28,20,12,.1); box-shadow: 0 18px 40px -22px rgba(70,40,15,.35); }
+@media (max-width: 1100px) { html.tk-white .header { background: rgba(246,243,238,.96); } }
+html.tk-white .nav a, html.tk-white .nav button { color: #4a443d; }
+html.tk-white .nav a:hover, html.tk-white .nav a.is-active { background: rgba(28,20,12,.05); }
+html.tk-white .tk-logo img { content: url("/assets/img/tk-logo-2-hell.svg"); }
+html.tk-white .header__free { color: #16130f; border-color: rgba(28,20,12,.16); background: #fff; }
+html.tk-white .header__free:hover { color: #16130f; background: #fff7f2; }
+html.tk-white .tk-ed { border-color: rgba(28,20,12,.14); background: #fff; color: #6b645b; }
+html.tk-white .tk-ed[aria-pressed="true"] .tk-ed__w { color: #fff; }
+@media (max-width: 1100px) { html.tk-white .tk-ed .tk-ed__o { color: #e0531c !important; } }
+html.tk-white .nav-toggle { background: #fff; color: #16130f; border-color: rgba(255,90,31,.45); }
+html.tk-white .mnav, html.tk-white .nav__drop { background: #fbf9f6; border-color: rgba(28,20,12,.1); box-shadow: 0 30px 60px -30px rgba(70,40,15,.4); }
+html.tk-white .mnav a, html.tk-white .nav__drop a { color: #16130f; }
+html.tk-white .ew-head__tel { color: #16130f; border-color: rgba(28,20,12,.14); background: #fff; }
+
+/* ---------- Kopfbereich ---------- */
+html.tk-white .lead, html.tk-white p { color: var(--muted); }
+html.tk-white h1, html.tk-white h2, html.tk-white h3, html.tk-white h4 { color: var(--text); }
+html.tk-white .tk-hero .label::after { content: "White Edition"; color: #a8481c; border-color: rgba(255,90,31,.45); background: linear-gradient(135deg, #fff, #fff3ea); box-shadow: 0 6px 16px -10px rgba(255,90,31,.6); }
+html.tk-white .tk-hero::before { background: conic-gradient(from 180deg at 50% 0%, transparent 160deg, rgba(255,140,80,.16) 174deg, rgba(255,190,140,.26) 180deg, rgba(255,140,80,.16) 186deg, transparent 200deg); }
+html.tk-white .tk-hero:has(.tk-hero__stage)::after { background: radial-gradient(closest-side, #fbf8f3 90%, #f3ece2 97%, transparent 100%);
+  box-shadow: 0 -2px 0 rgba(255,120,60,.85), 0 -10px 40px rgba(255,90,31,.35), 0 -60px 160px rgba(255,90,31,.16); }
+html.tk-white .tk-field { opacity: .5; filter: invert(1); }
+html.tk-white .tk-ring { color: #c4532a; }
+html.tk-white .tk-free-chip { background: #fff; color: #16130f; border-color: rgba(255,90,31,.45); }
+@media (min-width: 1101px) {
+  html.tk-white .tk-hero:not(:has(.tk-hero__stage))::before { background: radial-gradient(circle at 60% 50%, #fbf8f3 62%, #f1e9de 100%); }
+}
+@media (max-width: 1100px) { html.tk-white .tk-hero:not(:has(.tk-hero__stage))::before { background: #fbf8f3; } }
+
+/* Laufband */
+html.tk-white .tk-marquee { background: linear-gradient(180deg, #fff, #fbf7f2); border-top-color: rgba(255,90,31,.25); border-bottom-color: rgba(255,90,31,.15); box-shadow: 0 0 40px -16px rgba(255,90,31,.25); }
+html.tk-white .tk-marquee span { color: #16130f; }
+
+/* ---------- Karten und Kacheln ---------- */
+html.tk-white .step, html.tk-white .price, html.tk-white .faq__item, html.tk-white .tk-bx__card,
+html.tk-white .tk-feat li, html.tk-white .mf-card, html.tk-white .tk-try, html.tk-white .tk-calc,
+html.tk-white .tk-ask, html.tk-white .nl__card, html.tk-white .anf__direkt, html.tk-white .tk-free__in,
+html.tk-white .tk-abo, html.tk-white .tk-calc__sum, html.tk-white .price-extra__item, html.tk-white .rule, html.tk-white .tk-abo__once {
+  background: var(--bk-beam), var(--bk-glass); border-color: rgba(28,20,12,.09); box-shadow: var(--bk-edge); }
+html.tk-white .step:hover, html.tk-white .price:hover, html.tk-white .faq__item:hover, html.tk-white .tk-bx__card:hover,
+html.tk-white .tk-feat li:hover, html.tk-white .mf-card:hover, html.tk-white .tk-try:hover, html.tk-white .price-extra__item:hover, html.tk-white .rule:hover {
+  background: var(--bk-beam-hot), var(--bk-glass); border-color: rgba(255,90,31,.5); box-shadow: var(--bk-glow); }
+html.tk-white .faq__item[open] { background: var(--bk-beam-hot), var(--bk-glass); }
+html.tk-white .price--hi { background: linear-gradient(180deg, #fff, #fff8f3); border-color: rgba(255,90,31,.5); box-shadow: 0 0 0 1px rgba(255,90,31,.15), 0 30px 60px -30px rgba(255,90,31,.45); }
+html.tk-white .price__amount { color: #16130f; }
+html.tk-white .price__tag { border-color: rgba(28,20,12,.15); }
+html.tk-white .price--hi .price__tag { color: #fff; }
+html.tk-white .tk-feat__ic { background: #fff; border-color: rgba(28,20,12,.12); box-shadow: 0 6px 16px -10px rgba(70,40,15,.35); }
+html.tk-white .tk-feat li:hover .tk-feat__ic { color: var(--hot); }
+html.tk-white .tk-try__shot, html.tk-white .tk-ex__bar { background: #f1ece5; border-color: rgba(28,20,12,.08); }
+html.tk-white .tk-ex__bar span { background: #fff; border-color: rgba(28,20,12,.1); }
+html.tk-white .tk-try__list > span { color: #3d3832; }
+html.tk-white .tk-abo__once strong { color: #16130f; }
+html.tk-white .faq__item summary::after { border-color: rgba(28,20,12,.15);
+  background: linear-gradient(#16130f, #16130f) center / 12px 1.5px no-repeat, linear-gradient(#16130f, #16130f) center / 1.5px 12px no-repeat, #fff; box-shadow: 0 4px 10px -6px rgba(70,40,15,.4); }
+html.tk-white .faq__item[open] summary::after { background: linear-gradient(var(--hot), var(--hot)) center / 12px 1.5px no-repeat, linear-gradient(var(--hot), var(--hot)) center / 1.5px 12px no-repeat, #fff3ec; }
+html.tk-white .tk-phone { background: linear-gradient(150deg, #2a2a2c 0%, #121213 40%, #0d0d0e 66%, #222224 100%); box-shadow: 0 0 0 1px rgba(28,20,12,.15), 0 40px 80px -30px rgba(40,25,10,.55), inset 0 0 0 2px #151516; }
+html.tk-white .tk-car__item.is-center .tk-phone { box-shadow: 0 0 0 1px rgba(255,90,31,.5), 0 40px 80px -30px rgba(40,25,10,.55), 0 0 70px -20px rgba(255,90,31,.5), inset 0 0 0 2px #151516; }
+html.tk-white .tk-car__note { color: #7a7268; }
+html.tk-white .tk-ref__stats { background: radial-gradient(120% 140% at 0% 0%, rgba(150,190,20,.1), transparent 60%), #fff; border-color: rgba(120,150,20,.3); }
+
+/* ---------- Schwebende Hinweise, Chat ---------- */
+html.tk-white .tk-float, html.tk-white .tk-calc-bar, html.tk-white .tk-chat-btn { background: rgba(255,255,255,.94); color: #16130f; border-color: rgba(255,90,31,.45); box-shadow: 0 16px 40px -14px rgba(70,40,15,.45); }
+html.tk-white .tk-chat-btn:hover { border-color: var(--hot); }
+
+/* ---------- Anfrage-Formular ---------- */
+html.tk-white .anf { background: var(--bk-beam), linear-gradient(160deg, #fff, #fcfaf7 60%); border-color: rgba(28,20,12,.1); box-shadow: 0 40px 90px -40px rgba(70,40,15,.4); }
+html.tk-white .anf__side { background: #faf7f3; border-left-color: rgba(28,20,12,.08); }
+html.tk-white .form input, html.tk-white .form select, html.tk-white .form textarea,
+html.tk-white .anf .form input[type=text], html.tk-white .anf .form input[type=email], html.tk-white .anf .form input[type=tel], html.tk-white .anf .form select, html.tk-white .anf .form textarea {
+  background-color: #fff; border-color: rgba(28,20,12,.16); color: #16130f; }
+html.tk-white .form input::placeholder, html.tk-white .form textarea::placeholder { color: #9a9288; }
+html.tk-white .form label, html.tk-white .form__field > span { color: #3d3832; }
+
+/* ---------- Footer ---------- */
+html.tk-white .footer { background: #f1ece5; border-top-color: rgba(28,20,12,.08); }
+html.tk-white .footer a { color: #3d3832; }
+html.tk-white .tkd-t { fill: #16130f; stroke: #16130f; }
+html.tk-white .tkd-g > * { stroke: rgba(28,20,12,.3); }
+html.tk-white .tkd-a { fill: #f1ece5; stroke: #16130f; }
+html.tk-white .footer__social a[aria-label] { --brand: #3d3832; --ring: rgba(28,20,12,.14); box-shadow: 0 4px 10px -6px rgba(70,40,15,.35);
+  background: linear-gradient(#fff, #fff) padding-box, var(--ring) border-box; }
+html.tk-white .tk-sign .footer__big { color: #16130f; }
+html.tk-white .footer__pill { background: #fff; border-color: rgba(28,20,12,.12); color: #3d3832; }
+
+/* ---------- Beispiel-Karussell ---------- */
+html.tk-white .tk-car__item figcaption b { color: #8a8278; }
+html.tk-white .tk-car__item.is-center figcaption b { color: #16130f; }
+html.tk-white .tk-car__item figcaption .tk-vers__tag { color: #4a443d; }
+html.tk-white .tk-vers__tag i { background: rgba(28,20,12,.22); }
+html.tk-white .tk-vers__tag i.is-on { background: #ff5a1f; }
+html.tk-white .tk-car__btn { background: #fff; border-color: rgba(28,20,12,.14); color: #16130f; }
+html.tk-white .tk-car__dot::after { background: rgba(28,20,12,.25); }
+html.tk-white main a:not(.btn):not([class]) { color: #16130f; }
+html.tk-white .muted a { color: #16130f; text-decoration-color: rgba(255,90,31,.6); }
+
+/* ---------- Eigene App statt Abos ---------- */
+html.tk-white .tk-app2__cmp > div { border-color: rgba(28,20,12,.1); background: #fff; box-shadow: var(--bk-edge); }
+html.tk-white .tk-app2__was b { color: #8a8278; }
+html.tk-white .tk-app2__neu { background: radial-gradient(90% 120% at 100% 0%, rgba(255,90,31,.12), transparent 60%), #fff !important; box-shadow: 0 24px 50px -26px rgba(255,90,31,.55); }
+html.tk-white .tk-app2__deal b { color: #c2461a; }
+html.tk-white .tk-app2__list svg { color: #e0531c; }
+html.tk-white .tk-abo__media { border-color: rgba(28,20,12,.12); box-shadow: 0 30px 60px -30px rgba(40,25,10,.5); }
+
+/* ---------- Dunkle Inseln: Geräte und App-Vorschauen bleiben dunkel, mit den Black-Farben ---------- */
+html.tk-white .tk-dash, html.tk-white .tk-abo__media, html.tk-white .tk-lgx__phone, html.tk-white .tk-chat {
+  --text: #f5f5f2; --muted: #9b9b9f; --line: rgba(255,255,255,.07); --line-2: rgba(255,255,255,.11); --surface: #111112; --surface-2: #161617; --bg: #0b0b0c; --bg-2: #0e0e0f; color: #f5f5f2; }
+html.tk-white .tk-dash { background: linear-gradient(160deg, #2a2320, #121112 55%, #161211); box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 40px 80px -30px rgba(40,25,10,.6), 0 0 80px -20px rgba(255,90,31,.25); }
+html.tk-white .tk-dash p, html.tk-white .tk-dash h3, html.tk-white .tk-dash h4, html.tk-white .tk-dash b, html.tk-white .tk-dash strong { color: inherit; }
+html.tk-white .tk-dash__kpis strong { color: #fff; }
+html.tk-white .tk-dash-w::before { opacity: .55; }
+html.tk-white .tk-tryr__tabs > span { border-color: rgba(28,20,12,.14); }
+html.tk-white .tk-tryr__tabs > span.is-on { color: #a8401a; background: #fff3ec; }
+/* Logo-Abschnitt + CryptoX-Referenz */
+html.tk-white .tk-lgx__list{border-top-color:rgba(28,20,12,.1)}
+html.tk-white .tk-lgx__list li{border-bottom-color:rgba(28,20,12,.1)}
+html.tk-white .tk-lgx__list b{color:#16130f}
+html.tk-white .tk-lgx__cap{color:#6f675e}
+html.tk-white .tk-lgx__phone{box-shadow:0 30px 70px rgba(40,25,10,.22),0 0 0 1px rgba(0,0,0,.08),0 0 90px -20px rgba(255,90,31,.3)}
+html.tk-white .btn.tk-btn-cx{color:#4d6300;border-color:rgba(110,140,0,.5);background:rgba(190,230,40,.12)}
+html.tk-white .btn.tk-btn-cx:hover{color:#3c4d00;border-color:#6e8c00;background:rgba(190,230,40,.22);box-shadow:0 0 24px -8px rgba(110,140,0,.45)}
+
+html.tk-white .tk-ref__stats b{color:#5f7a00;text-shadow:none}
+
+html.tk-white .tk-ref__stats li+li{border-left-color:rgba(110,140,0,.18)}
+/* Formulare: Chips, Mehr Angaben, Newsletter */
+html.tk-white .form__chips button,html.tk-white .anf .form__chips-row button:not([aria-pressed=true]){background:#fff;border-color:rgba(28,20,12,.16);color:#2a251f}
+html.tk-white .form__chips button:hover{border-color:rgba(255,90,31,.5)}
+html.tk-white .form__chips button[aria-pressed=true]{background:#fff1e9;border-color:#ff5a1f;color:#b8461a}
+html.tk-white .form__more,html.tk-white .anf .form__more{background:#fbf9f6;border-color:rgba(28,20,12,.12)}
+html.tk-white .anf .form__more input[type=text],html.tk-white .anf .form__more select{background-color:#fff}
+html.tk-white .nl__form{background:#fff;border-color:rgba(28,20,12,.1);box-shadow:0 20px 50px -30px rgba(40,25,10,.25)}
+html.tk-white .nl__card{background:linear-gradient(155deg,rgba(255,90,31,.1),rgba(255,90,31,.02) 62%),#fff}
+html.tk-white .anf__tabs{background:#efeae2;border-color:rgba(28,20,12,.08)}
+html.tk-white .anf__when span{background:#fff;border-color:rgba(28,20,12,.16);color:#5f5850}
+html.tk-white .anf__when input:checked + span{background:var(--hot-grad);border-color:transparent;color:#0b0b0b}
+html.tk-white .tk-chat input{color:#f5f5f2}
+/* Unterseiten */
+html.tk-white .ew-trust li{background:#fff;border-color:rgba(28,20,12,.12);color:#5f5850}
+html.tk-white .form{background:#fff;border-color:rgba(28,20,12,.1)}
+html.tk-white .anf .form{background:none}
+html.tk-white .glass{background:rgba(255,255,255,.8);border-color:rgba(28,20,12,.08);box-shadow:0 30px 70px -30px rgba(40,25,10,.25)}
+html.tk-white .ab-jump a{background:#fff;border-color:rgba(28,20,12,.12);color:#16130f}
+html.tk-white .ab-jump a:hover{background:#fff1e9;border-color:var(--hot)}
+html.tk-white .ab-step__body{background:#fff;border-color:rgba(28,20,12,.09)}
+html.tk-white .ab-step.is-on .ab-step__body{border-color:rgba(255,90,31,.4);box-shadow:0 24px 50px -30px rgba(255,90,31,.35)}
+html.tk-white .vn-tabs button,html.tk-white .ew-pill > span,html.tk-white .ew-slider,html.tk-white .vn-diff li{color:#3d3832}
+html.tk-white .vn-tabs button{background:#fff}
+html.tk-white .vn-tabs button:hover,html.tk-white .ew-seg label:hover span{border-color:rgba(255,90,31,.5)}
+html.tk-white .vn-tabs button.is-on,html.tk-white .ew-seg input:checked + span,html.tk-white .ew-pill input:checked + span{background:#fff1e9;border-color:var(--hot);color:#b8461a}
+html.tk-white .ew-prev__dev button.is-on{background:#16130f;color:#fff}
+html.tk-white .ew-nl-hint p{color:#3d3832}
+/* Beispiele-Übersicht */
+html.tk-white .tk-bx__card,html.tk-white .tk-bx-list .tk-ex{background:#fff;border-color:rgba(28,20,12,.09);box-shadow:0 24px 60px -40px rgba(40,25,10,.3)}
+html.tk-white .tk-bx__card--app{background:linear-gradient(160deg,rgba(255,90,31,.08),#fff 60%);border-color:rgba(255,90,31,.38)}
+html.tk-white .tk-bx__chips a,html.tk-white .tk-bx-bar a{border-color:rgba(28,20,12,.12);background:#fff;color:#2a251f}
+html.tk-white .tk-bx-bar a{border-color:transparent;background:none}
+html.tk-white .tk-bx-bar a.is-on{background:#ff5a1f;color:#111}
+html.tk-white .tk-bx__chips em,html.tk-white .tk-bx-bar em,html.tk-white .tk-bx__top small,html.tk-white .tk-bx-part small,html.tk-white .tk-bx__legal{color:#7a7268}
+html.tk-white .tk-bx-bar__in{background:rgba(255,255,255,.9);border:1px solid rgba(28,20,12,.08);box-shadow:0 14px 34px -18px rgba(40,25,10,.35);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+html.tk-white .tk-bx-bar__sep{background:rgba(28,20,12,.14)}
+html.tk-white .tk-bx-list .tk-ex .ticks li{border-color:rgba(28,20,12,.12);background:#faf8f5;color:#3d3832}
+html.tk-white .tk-vpick__a{background:#faf8f5;border-color:rgba(28,20,12,.12)}
+html.tk-white .tk-vpick__a:hover,html.tk-white .tk-exg .tk-vpick__a.is-on{background:#fff1e9;border-color:#ff5a1f}
+html.tk-white .tk-exg .tk-vpick__a b{background:#e8e2d9;color:#16130f}
+html.tk-white .tk-exg .tk-vpick__a.is-on b{background:#ff5a1f;color:#111}
+html.tk-white .prose p,html.tk-white .prose li,html.tk-white .prose address{color:#3d3832}
+/* Helle Orange-Töne auf hellem Grund: dunkleres Orange */
+html.tk-white .vr-up__chips li,html.tk-white .br-also__tag,html.tk-white .br-app__tag,html.tk-white .gr-price .price__once,html.tk-white .tk-feat__ic{color:#b8461a}
+html.tk-white .vr-up__chips li{background:#fff1e9}
+html.tk-white .tk-top{background:rgba(255,255,255,.94);box-shadow:0 14px 34px -14px rgba(70,40,15,.45)}
+html.tk-white .tk-top:hover{background:linear-gradient(160deg,#ff6a2f,#e24a12);color:#fff}
