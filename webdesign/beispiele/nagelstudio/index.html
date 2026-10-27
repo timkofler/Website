@@ -8,7 +8,7 @@
 <link rel="icon" href="/assets/img/tk-badge-2-192.png" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="preload" href="/beispiele/nagelstudio/bilder/hero-mandel.webp" as="image">
+<link rel="preload" href="/beispiele/nagelstudio/bilder/hero-rosa.webp" as="image">
 <link rel="stylesheet" href="/beispiele/_shared/demo.css">
 <style>
 @font-face{font-family:"Cormorant";src:url(/beispiele/_shared/fonts/cormorant-600.woff2) format("woff2");font-weight:300 700;font-display:swap}
@@ -79,7 +79,7 @@ h1,h2,h3,p{margin:0}
 @keyframes draw{to{stroke-dashoffset:0}}
 .hero__cta{display:flex;flex-wrap:wrap;gap:14px 26px;align-items:center;margin-top:38px}
 .hero__pic{position:relative;justify-self:end;width:100%;max-width:520px}
-.hero__frame{position:relative;aspect-ratio:4/5;overflow:hidden;border-radius:260px 260px 4px 4px;background:var(--night)}
+.hero__frame{position:relative;aspect-ratio:4/5;overflow:hidden;border-radius:260px 260px 4px 4px;background:var(--paper2)}
 .hero__frame img{width:100%;height:100%;object-fit:cover;transform:scale(1.08);animation:settle 2.4s var(--ease) forwards}
 @keyframes settle{to{transform:scale(1)}}
 .hero__frame::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.22) 48%,transparent 60%);transform:translateX(-100%);animation:shine 7s 1.6s ease-in-out infinite}
@@ -294,7 +294,7 @@ h1,h2,h3,p{margin:0}
       <div class="hero__cta"><a class="btn" href="#termin">Termin buchen <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 11.5 11.5 4.5M5.5 4.5h6v6"/></svg></a><a class="link" href="#look">Look zusammenstellen</a></div>
     </div>
     <div class="hero__pic">
-      <div class="hero__frame"><img src="/beispiele/nagelstudio/bilder/hero-mandel.webp" width="1100" height="1650" alt="Gepflegte Hand mit mandelförmigen, zartrosa Nägeln vor dunklem Hintergrund"></div>
+      <div class="hero__frame"><img src="/beispiele/nagelstudio/bilder/hero-rosa.webp" width="1100" height="1375" alt="Hand mit mandelförmigen Nägeln in Rosé vor zartrosa Hintergrund"></div>
       <p class="hero__next" aria-live="polite"><small>Nächster freier Termin</small><b id="next-slot">Donnerstag, 14:30</b><span>online buchbar</span></p>
     </div>
   </div>
@@ -501,4 +501,4 @@ h1,h2,h3,p{margin:0}
     <div class="foot__bot"><span>© Studio Mila · Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb</span><a href="/bildnachweis/#nagelstudio">Bildnachweis</a></div>
   </div>
 </footer>
-<script src="/beispiele/_shared/demo.js?v=29766291" defer></script><script src="/beispiele/nagelstudio/app.js?v=20261027" defer></script></body></html>
+<script src="/beispiele/_shared/demo.js?v=29766291" defer></script><script src="/beispiele/nagelstudio/app.js?v=20261027b" defer></script></body></html>

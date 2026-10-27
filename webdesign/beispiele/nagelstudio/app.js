@@ -96,7 +96,6 @@
   var FORMEN = [["rund", "Rund"], ["oval", "Oval"], ["mandel", "Mandel"], ["eckig", "Eckig"], ["ballerina", "Ballerina"]];
   var FARBEN = [["Nude", "#e3bfb2"], ["Rosé", "#e0a3aa"], ["Milchweiß", "#f3ede8"], ["Kirschrot", "#a8162c"], ["Bordeaux", "#5e1a28"],
     ["Salbei", "#8ea28a"], ["Lavendel", "#b3a3d4"], ["Mitternacht", "#1e2340"], ["Espresso", "#4d3027"]];
-  var LEN = { kurz: 0.7, mittel: 1, lang: 1.45 };
 
   // Nagelumriss mit Nagelhaut bei y=0; r = halbe Breite, B = Länge des Nagelbetts, T = freier Rand.
   function nailPath(shape, r, B, T) {
@@ -110,6 +109,8 @@
     return p + " Z";
   }
   var TIP = { rund: 0.55, oval: 1.0, mandel: 1.5, eckig: 0.95, ballerina: 1.45 };
+  // Länge des freien Rands im Verhältnis zur Fingerbreite: kurz endet knapp über der Fingerkuppe.
+  var FREI = { rund: 0.8, oval: 1, mandel: 1.2, eckig: 0.95, ballerina: 1.2 }, LANG = { kurz: 0.55, mittel: 1.05, lang: 1.7 };
 
   function el(name, attrs, parent) {
     var e = document.createElementNS(SVGNS, name);
@@ -117,27 +118,36 @@
     if (parent) parent.appendChild(e);
     return e;
   }
-  // Vier Finger als weiche Formen, leicht gefächert; Nägel werden bei jeder Änderung neu gezeichnet.
-  var FINGER = [{ x: 108, y: 128, w: 52, rot: -9 }, { x: 170, y: 96, w: 56, rot: -3 }, { x: 234, y: 104, w: 54, rot: 3 }, { x: 292, y: 146, w: 46, rot: 9 }];
+  // Vier Finger von oben, leicht gefächert. Jeder Finger ist ein Rechteck mit runder Kuppe (R = halbe Breite);
+  // der Nagel sitzt auf dem Finger, Nagelhaut und seitliche Hautfalten liegen darüber, damit er eingebettet wirkt.
+  var FINGER = [{ x: 106, y: 150, w: 54, rot: -10 }, { x: 170, y: 112, w: 58, rot: -3.5 }, { x: 236, y: 118, w: 56, rot: 3 }, { x: 296, y: 166, w: 48, rot: 10 }];
   var hand = $("#hand"), nails = [];
+  function fingerPath(R, h) { return "M" + (-R * 1.06) + "," + h + " L" + (-R) + "," + R + " A" + R + "," + R + " 0 0 1 " + R + "," + R + " L" + (R * 1.06) + "," + h + " Z"; }
   (function build() {
     var defs = el("defs", {}, hand);
     var sk = el("linearGradient", { id: "skin", x1: "0", x2: "1" }, defs);
-    el("stop", { offset: "0", "stop-color": "#d9ae9c" }, sk); el("stop", { offset: ".45", "stop-color": "#f0d2c4" }, sk); el("stop", { offset: "1", "stop-color": "#cf9f8d" }, sk);
+    el("stop", { offset: "0", "stop-color": "#cf9e8b" }, sk); el("stop", { offset: ".22", "stop-color": "#e9c4b3" }, sk); el("stop", { offset: ".5", "stop-color": "#f3d6c8" }, sk);
+    el("stop", { offset: ".8", "stop-color": "#e4bba9" }, sk); el("stop", { offset: "1", "stop-color": "#c79483" }, sk);
     var fade = el("linearGradient", { id: "fade", x1: "0", y1: "0", x2: "0", y2: "1" }, defs);
-    el("stop", { offset: ".55", "stop-color": "#fff" }, fade); el("stop", { offset: ".95", "stop-color": "#fff", "stop-opacity": "0" }, fade);
+    el("stop", { offset: ".6", "stop-color": "#fff" }, fade); el("stop", { offset: ".97", "stop-color": "#fff", "stop-opacity": "0" }, fade);
     var mask = el("mask", { id: "m-fade" }, defs); el("rect", { x: 0, y: 0, width: 400, height: 400, fill: "url(#fade)" }, mask);
     var chrome = el("linearGradient", { id: "chrome", x1: "0", y1: "0", x2: "1", y2: "1" }, defs);
     el("stop", { offset: "0", "stop-color": "#fff", "stop-opacity": ".85" }, chrome); el("stop", { offset: ".35", "stop-color": "#fff", "stop-opacity": "0" }, chrome);
     el("stop", { offset: ".6", "stop-color": "#fff", "stop-opacity": ".5" }, chrome); el("stop", { offset: "1", "stop-color": "#000", "stop-opacity": ".25" }, chrome);
+    var cv = el("linearGradient", { id: "curve", x1: "0", x2: "1" }, defs);
+    [["0", ".2"], [".28", "0"], [".72", "0"], ["1", ".2"]].forEach(function (st) { el("stop", { offset: st[0], "stop-color": "#000", "stop-opacity": st[1] }, cv); });
+    var sh = el("filter", { id: "soft", x: "-20%", y: "-20%", width: "140%", height: "140%" }, defs); el("feGaussianBlur", { stdDeviation: "1.4" }, sh);
     var g = el("g", { mask: "url(#m-fade)" }, hand);
-    FINGER.forEach(function (f, i) {
+    FINGER.forEach(function (f) {
       var fg = el("g", { transform: "translate(" + f.x + "," + f.y + ") rotate(" + f.rot + ")" }, g);
-      var h = 360 - f.y, r = f.w / 2;
-      el("path", { d: "M" + (-r) + "," + h + " L" + (-r) + "," + r + " A" + r + "," + r + " 0 0 1 " + r + "," + r + " L" + r + "," + h + " Z", fill: "url(#skin)" }, fg);
-      el("path", { d: "M" + (-r * 0.5) + "," + (f.w * 1.7) + " q" + (r * 0.5) + "," + (r * 0.22) + " " + r + ",0", stroke: "#c4907e", "stroke-width": "1.4", fill: "none", opacity: ".55" }, fg);
-      var ng = el("g", { class: "nail", transform: "translate(0," + (f.w * 1.12) + ")" }, fg);
-      nails.push({ g: ng, w: f.w });
+      var R = f.w / 2, h = 380 - f.y, d = fingerPath(R, h);
+      el("path", { d: d, fill: "rgba(0,0,0,.35)", transform: "translate(3,5)", filter: "url(#soft)" }, fg);
+      el("path", { d: d, fill: "url(#skin)" }, fg);
+      // Fingerkuppe etwas heller, zwei Gelenkfalten
+      el("ellipse", { cx: 0, cy: R * 0.75, rx: R * 0.62, ry: R * 0.5, fill: "#f8e0d4", opacity: ".35" }, fg);
+      [4.3, 4.55].forEach(function (y, i) { el("path", { d: "M" + (-R * 0.45) + "," + (R * y) + " q" + (R * 0.45) + "," + (R * (i ? 0.16 : 0.2)) + " " + (R * 0.9) + ",0", stroke: "#b98572", "stroke-width": "1.2", fill: "none", "stroke-linecap": "round", opacity: ".5" }, fg); });
+      var ng = el("g", { class: "nail" }, fg);
+      nails.push({ g: ng, R: R, d: d });
     });
   })();
 
@@ -153,18 +163,36 @@
   function draw() {
     var shape = val("form"), len = val("len"), fin = val("fin"), fc = FARBEN[+val("farbe")];
     nails.forEach(function (n) {
-      var r = n.w * 0.34, B = n.w * 0.78, T = r * TIP[shape] * LEN[len] * 1.6, d = nailPath(shape, r, B, T);
+      // Nagelhaut bei y = C, Nagelbett endet bei y = E (knapp unter der Kuppe), danach der freie Rand.
+      var R = n.R, r = R * 0.7, C = R * 2.55, E = R * 0.5, B = C - E, T = R * FREI[shape] * LANG[len];
+      var d = nailPath(shape, r, B, T), tf = "translate(0," + C + ")";
       while (n.g.firstChild) n.g.removeChild(n.g.firstChild);
-      var id = "c" + Math.random().toString(36).slice(2, 8);
-      var cp = el("clipPath", { id: id }, n.g); el("path", { d: d }, cp);
-      var base = fin === "french" ? "#f3d6d0" : fc[1];
-      el("path", { d: d, fill: base, opacity: fin === "french" ? ".92" : "1" }, n.g);
+      var id = "c" + Math.random().toString(36).slice(2, 8), ids = id + "s";
+      var cp = el("clipPath", { id: id }, n.g); el("path", { d: d, transform: tf }, cp);
+      // Schatten des freien Rands auf der Kuppe
+      el("path", { d: d, transform: "translate(1.5," + (C + 3) + ")", fill: "rgba(80,40,40,.28)", filter: "url(#soft)" }, n.g);
+      var base = fin === "french" ? "#f1d3cc" : fc[1];
+      var ng = el("g", { transform: tf }, n.g);
+      el("path", { d: d, fill: base }, ng);
       var inner = el("g", { "clip-path": "url(#" + id + ")" }, n.g);
-      if (fin === "french") el("path", { d: "M" + (-r * 1.4) + "," + (-B - T * 0.15) + " Q0," + (-B - T * 0.15 - r * 0.9) + " " + (r * 1.4) + "," + (-B - T * 0.15) + " L" + (r * 1.4) + "," + (-B - T - r) + " L" + (-r * 1.4) + "," + (-B - T - r) + " Z", fill: fc[0] === "Rosé" || fc[0] === "Nude" ? "#f7f3ef" : fc[1] }, inner);
-      if (fin === "chrom") el("rect", { x: -r, y: -B - T - 4, width: r * 2, height: B + T + 8, fill: "url(#chrome)" }, inner);
-      if (fin === "glanz" || fin === "chrom" || fin === "french") el("path", { d: "M" + (-r * 0.45) + "," + (-B * 0.25) + " C" + (-r * 0.55) + "," + (-B * 0.8) + " " + (-r * 0.4) + "," + (-B - T * 0.4) + " " + (-r * 0.12) + "," + (-B - T * 0.55), stroke: "#fff", "stroke-width": r * 0.22, "stroke-linecap": "round", fill: "none", opacity: fin === "chrom" ? ".7" : ".45" }, inner);
-      if (fin === "matt") el("rect", { x: -r, y: -B - T - 4, width: r * 2, height: B + T + 8, fill: "#fff", opacity: ".08" }, inner);
-      el("path", { d: d, fill: "none", stroke: "rgba(0,0,0,.18)", "stroke-width": "1" }, n.g);
+      var y0 = C - B - T;
+      if (fin === "french") el("path", { d: "M" + (-r * 1.4) + "," + (E + 2) + " Q0," + (E - R * 0.55) + " " + (r * 1.4) + "," + (E + 2) + " L" + (r * 1.4) + "," + (y0 - 4) + " L" + (-r * 1.4) + "," + (y0 - 4) + " Z", fill: fc[0] === "Rosé" || fc[0] === "Nude" ? "#f8f4f0" : fc[1] }, inner);
+      if (fin === "chrom") el("rect", { x: -r, y: y0 - 4, width: r * 2, height: B + T + 8, fill: "url(#chrome)" }, inner);
+      // seitliche Wölbung: Ränder dunkler, Mitte heller
+      el("rect", { x: -r, y: y0 - 4, width: r * 2, height: B + T + 8, fill: "url(#curve)", opacity: fin === "matt" ? ".6" : "1" }, inner);
+      if (fin !== "matt") el("path", { d: "M" + (-r * 0.38) + "," + (C - B * 0.18) + " C" + (-r * 0.46) + "," + (C - B * 0.7) + " " + (-r * 0.34) + "," + (E - T * 0.25) + " " + (-r * 0.1) + "," + (E - T * 0.5), stroke: "#fff", "stroke-width": r * 0.2, "stroke-linecap": "round", fill: "none", opacity: fin === "chrom" ? ".75" : ".5" }, inner);
+      if (fin === "matt") el("rect", { x: -r, y: y0 - 4, width: r * 2, height: B + T + 8, fill: "#fff", opacity: ".1" }, inner);
+      // Haut über dem Nagel: Nagelhaut (U-Bogen) und seitliche Falten bis zur Kuppe
+      var cs = el("clipPath", { id: ids }, n.g);
+      var k = r * 0.28;
+      el("path", { d: "M" + (-R * 1.2) + "," + (C - k * 0.9) + " Q0," + (C + k * 1.3) + " " + (R * 1.2) + "," + (C - k * 0.9) + " L" + (R * 1.2) + "," + (C + R * 4) + " L" + (-R * 1.2) + "," + (C + R * 4) + " Z" }, cs);
+      [-1, 1].forEach(function (sx) {
+        el("path", { d: "M" + (sx * R * 1.2) + "," + (E - R * 0.6) + " L" + (sx * r * 1.03) + "," + (E - R * 0.6) + " L" + (sx * r * 0.99) + "," + (E + R * 0.3) + " Q" + (sx * r * 0.9) + "," + (E + B * 0.55) + " " + (sx * r * 0.9) + "," + C + " L" + (sx * R * 1.2) + "," + C + " Z" }, cs);
+      });
+      el("path", { d: n.d, fill: "url(#skin)", "clip-path": "url(#" + ids + ")" }, n.g);
+      el("path", { d: "M" + (-r * 1.02) + "," + (C - k * 0.75) + " Q0," + (C + k * 1.45) + " " + (r * 1.02) + "," + (C - k * 0.75), stroke: "#b47f6d", "stroke-width": "1.3", fill: "none", opacity: ".6", "stroke-linecap": "round" }, n.g);
+      [-1, 1].forEach(function (sx) { el("path", { d: "M" + (sx * r * 0.985) + "," + (E + R * 0.5) + " Q" + (sx * r * 0.9) + "," + (E + B * 0.55) + " " + (sx * r * 0.9) + "," + (C - k), stroke: "#b47f6d", "stroke-width": "1", fill: "none", opacity: ".4" }, n.g); });
+      el("path", { d: d, transform: tf, fill: "none", stroke: "rgba(0,0,0,.16)", "stroke-width": ".8" }, n.g);
       n.g.classList.remove("pop"); void n.g.getBoundingClientRect(); n.g.classList.add("pop");
     });
     var fN = FORMEN.filter(function (f) { return f[0] === shape; })[0][1];

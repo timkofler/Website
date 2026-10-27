@@ -171,7 +171,7 @@ SEITEN = [
   ("PV", "9335881", "", "olia danilevich", "Video Massage", "_shared/media/massage-hell.mp4"),
  ]),
  ("Studio Mila (Nagelstudio)", "/beispiele/nagelstudio/", [
-  ("P", "35031996", "close-up-of-hand-with-elegant-nail-art-design-35031996", "Salim Da", "Mandelnägel zartrosa", "nagelstudio/bilder/hero-mandel.webp"),
+  ("P", "939835", "person-s-hand-with-pink-manicure-939835", "Valeria Boltneva", "Hand mit rosé Mandelnägeln (Titelbild)", "nagelstudio/bilder/hero-rosa.webp"),
   ("P", "34373403", "elegant-manicured-hands-with-gold-jewelry-34373403", "Moo Lens", "Nude-Nägel mit Goldringen", "nagelstudio/bilder/nude-gold.webp"),
   ("P", "12653044", "close-up-of-woman-hands-12653044", "Marianna Hambardzumyan", "French mit blauer Spitze", "nagelstudio/bilder/french-blau.webp"),
   ("P", "16363470", "hands-with-professional-manicure-done-16363470", "Oswal Darks", "Rosé mit Glitzer", "nagelstudio/bilder/glitzer-rose.webp"),
