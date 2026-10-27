@@ -1,0 +1,224 @@
+/* ================= Black Edition (2026-10) =================
+   Edlere, ruhigere Variante: echtes Schwarz #0b0b0c, leichtes Glas, Orange nur als feiner Akzent,
+   orange Leuchtkante beim Drüberfahren, mehr Luft, weniger Effekte. Gold nur für das Abzeichen.
+   Alles hängt an html.tk-black (gesetzt von tk-black.js), ohne die Klasse bleibt die Seite wie sie ist. */
+
+/* ---------- Schalter (in beiden Varianten sichtbar) ---------- */
+.tkb-switch { display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 0 12px 0 10px; border-radius: 999px; border: 1px solid var(--line-2); background: rgba(255,255,255,.02); color: var(--muted); font: 600 .86rem var(--body); cursor: pointer; transition: color .25s, border-color .25s, background .25s, box-shadow .25s; }
+.tkb-switch:hover { color: var(--text); border-color: rgba(216,180,106,.6); }
+.tkb-switch:focus-visible { outline: 2px solid #d8b46a; outline-offset: 3px; }
+.tkb-switch__ic { display: inline-flex; color: #d8b46a; }
+.tkb-switch__ic svg { width: 17px; height: 17px; }
+.tkb-switch__track { position: relative; width: 30px; height: 18px; border-radius: 999px; background: #2a2a2b; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); transition: background .3s; }
+.tkb-switch__track i { position: absolute; left: 3px; top: 3px; width: 12px; height: 12px; border-radius: 50%; background: #8d8d90; transition: transform .3s cubic-bezier(.2,.7,.2,1), background .3s; }
+.tkb-switch[aria-pressed="true"] { color: #f1dfb0; border-color: rgba(216,180,106,.45); background: linear-gradient(135deg, rgba(216,180,106,.12), rgba(216,180,106,.02)); }
+.tkb-switch[aria-pressed="true"] .tkb-switch__track { background: linear-gradient(135deg, #f3dfa8, #c9a052 55%, #8e6a2c); }
+.tkb-switch[aria-pressed="true"] .tkb-switch__track i { transform: translateX(12px); background: #0b0b0c; }
+.header .tkb-switch--head { min-height: 42px; }
+.header.is-pill .tkb-switch--head { min-height: 40px; }
+@media (max-width: 1240px) and (min-width: 1101px) { .tkb-switch--head .tkb-switch__t { display: none; } }
+@media (max-width: 1100px) {
+  .tkb-switch--head { width: 44px; height: 44px; min-height: 44px; padding: 0; justify-content: center; }
+  .tkb-switch--head .tkb-switch__t, .tkb-switch--head .tkb-switch__track { display: none; }
+  .tkb-switch--head .tkb-switch__ic svg { width: 19px; height: 19px; }
+}
+.tkb-switch--foot { min-height: 32px; padding: 0 10px 0 8px; font-size: .8rem; }
+.tkb-switch--foot .tkb-switch__ic svg { width: 14px; height: 14px; }
+.footer__legal { align-items: center; flex-wrap: wrap; row-gap: 10px; justify-content: center; }
+.tkb-switch--portal { margin-left: 12px; min-height: 30px; padding: 0 10px 0 8px; font-size: .78rem; vertical-align: middle; }
+.ew-foot .tkb-switch--foot { margin-left: auto; }
+
+/* Sanfter Übergang nur im Moment des Umschaltens */
+html.tk-black-swap body, html.tk-black-swap body * { transition: background-color .5s ease, border-color .5s ease, color .5s ease, box-shadow .5s ease !important; }
+
+/* ---------- Grundwerte ---------- */
+html.tk-black {
+  --bg: #0b0b0c; --bg-2: #0e0e0f; --surface: #111112; --surface-2: #161617;
+  --line: rgba(255,255,255,.07); --line-2: rgba(255,255,255,.11);
+  --text: #f5f5f2; --muted: #9b9b9f;
+  --display: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --hot: #ff5a1f; --hot-2: #ff7a45; --hot-dim: rgba(255,90,31,.1);
+  --hot-grad: linear-gradient(#ff5a1f, #ff5a1f);
+  --gold: #d8b46a; --gold-grad: linear-gradient(135deg, #f3dfa8, #c9a052 55%, #8e6a2c);
+  --bk-glass: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.012));
+  --bk-beam: linear-gradient(90deg, transparent 8%, rgba(255,255,255,.22) 50%, transparent 92%) top center / 100% 1px no-repeat;
+  --bk-beam-hot: linear-gradient(90deg, transparent 8%, rgba(255,140,90,.85) 50%, transparent 92%) top center / 100% 1px no-repeat;
+  --bk-edge: inset 0 1px 0 rgba(255,255,255,.06);
+  --bk-glow: 0 0 0 1px rgba(255,90,31,.32), 0 0 34px -8px rgba(255,90,31,.42), inset 0 1px 0 rgba(255,255,255,.07);
+  background: #0b0b0c;
+}
+html.tk-black body { background: #0b0b0c; }
+html.tk-black .header { background: rgba(11,11,12,.8); }
+html.tk-black .header.is-pill .header__inner { background: rgba(14,14,15,.78); border-color: rgba(255,255,255,.08); box-shadow: 0 18px 40px -20px rgba(0,0,0,.9); }
+
+/* Mehr Luft zwischen den Abschnitten */
+html.tk-black .section:not(.tk-hero) { padding: 150px 0; }
+@media (max-width: 680px) { html.tk-black .section:not(.tk-hero) { padding: 96px 0; } }
+
+/* Überschriften: Akzent in reinem Orange, ohne Verlauf und Schimmer */
+html.tk-black h1 .lime, html.tk-black h2 .lime, html.tk-black h3 .lime,
+html.tk-black .tk-hero h1 .lime { background: none; -webkit-background-clip: border-box; background-clip: border-box; color: var(--hot); animation: none; }
+html.tk-black h1 { font-weight: 500; letter-spacing: -.025em; }
+html.tk-black h2 { font-weight: 500; letter-spacing: -.022em; }
+html.tk-black .label { color: var(--muted); }
+html.tk-black .rule__k { color: var(--hot) !important; }
+
+/* Kopfbereich: ruhiger Blickfang statt Farbwolke */
+html.tk-black .tk-hero::before { width: 560px; height: 560px; background: radial-gradient(circle, rgba(255,90,31,.12), transparent 62%); filter: blur(40px); animation: none; opacity: .8; }
+html.tk-black .tk-progress { background: var(--hot); box-shadow: 0 0 10px rgba(255,90,31,.5); height: 2px; }
+
+/* Buttons: flaches Orange, Leuchten erst beim Drüberfahren */
+html.tk-black .btn:not(.btn--line) { background: #ff5a1f; color: #0b0b0c; box-shadow: none; }
+html.tk-black .btn:not(.btn--line):hover { background: #ff6a33; box-shadow: 0 0 0 1px rgba(255,90,31,.5), 0 10px 34px -8px rgba(255,90,31,.6); }
+html.tk-black .btn--line { border-color: rgba(255,255,255,.14); background: rgba(255,255,255,.02); }
+html.tk-black .btn--line:hover { border-color: rgba(255,90,31,.7); background: rgba(255,90,31,.06); box-shadow: 0 0 24px -8px rgba(255,90,31,.5); }
+html.tk-black .btn.tk-btn-cx { background: rgba(220,247,99,.05); border-color: rgba(220,247,99,.45); color: #dcf763; box-shadow: none; }
+html.tk-black .btn.tk-btn-cx:hover { background: rgba(220,247,99,.1); border-color: #dcf763; color: #e8ff86; box-shadow: 0 0 24px -8px rgba(220,247,99,.5); }
+html.tk-black .header__free { border-color: rgba(255,255,255,.14); background: rgba(255,255,255,.02); }
+html.tk-black .header__free:hover { border-color: rgba(255,90,31,.7); background: rgba(255,90,31,.06); }
+
+/* ---------- Glas-Karten mit oranger Leuchtkante ---------- */
+html.tk-black .step, html.tk-black .price, html.tk-black .faq__item, html.tk-black .tk-bx__card,
+html.tk-black .tk-feat li, html.tk-black .mf-card, html.tk-black .tk-try, html.tk-black .tk-calc,
+html.tk-black .tk-ask, html.tk-black .nl__card, html.tk-black .anf__direkt, html.tk-black .tk-free__in,
+html.tk-black .tk-abo, html.tk-black .tk-calc__sum, html.tk-black .price-extra__item {
+  background: var(--bk-beam), var(--bk-glass), #0e0e0f; border-color: rgba(255,255,255,.08); box-shadow: var(--bk-edge);
+  transition: border-color .35s, box-shadow .35s, transform .35s, background .35s;
+}
+html.tk-black .step:hover, html.tk-black .price:hover, html.tk-black .faq__item:hover, html.tk-black .tk-bx__card:hover,
+html.tk-black .tk-feat li:hover, html.tk-black .mf-card:hover, html.tk-black .tk-try:hover, html.tk-black .price-extra__item:hover {
+  border-color: rgba(255,90,31,.55); box-shadow: var(--bk-glow); background: var(--bk-beam-hot), var(--bk-glass), #0e0e0f;
+}
+html.tk-black .faq__item[open] { border-color: rgba(255,90,31,.35); background: var(--bk-beam-hot), var(--bk-glass), #0e0e0f; box-shadow: var(--bk-edge); }
+html.tk-black .faq__item summary::after { color: var(--hot); }
+html.tk-black .tk-calc::before, html.tk-black .tk-abo::before { display: none; }
+html.tk-black .tk-calc__opt:has(input:checked), html.tk-black .tk-calc__opt.is-on { background: rgba(255,90,31,.08); }
+
+/* Kachel-Raster als Glasplatte */
+html.tk-black .rules { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.07); }
+html.tk-black .rule { background: #0b0b0c; transition: background .35s; }
+html.tk-black .rule:hover { background: linear-gradient(180deg, rgba(255,90,31,.06), rgba(255,90,31,0) 70%), #0d0d0e; }
+html.tk-black .rule::after, html.tk-black .step::after { height: 1px; box-shadow: 0 0 12px rgba(255,90,31,.8); }
+
+/* Preise: große weiße Zahlen, Orange nur am Abzeichen */
+html.tk-black .price__amount { color: #fff; font-weight: 500; letter-spacing: -.03em; }
+html.tk-black .price--hi { background: var(--bk-glass), #0f0f10; border-color: rgba(255,90,31,.5); box-shadow: 0 0 0 1px rgba(255,90,31,.18), 0 0 60px -20px rgba(255,90,31,.35), var(--bk-edge); }
+html.tk-black .price__tag { border-color: rgba(255,255,255,.14); }
+html.tk-black .price--hi .price__tag { background: #ff5a1f; color: #0b0b0c; }
+
+/* Laufband ruhiger */
+html.tk-black .tk-marquee span::after { box-shadow: none; }
+
+/* Goldenes Abzeichen „Black Edition“ im Kopfbereich */
+html.tk-black .tk-hero .label::after { content: "Black Edition"; display: inline-flex; align-items: center; height: 22px; margin-left: 12px; padding: 0 10px; border-radius: 999px; vertical-align: 1px;
+  font: 600 .62rem var(--mono); letter-spacing: .16em; text-transform: uppercase; color: #f1dfb0;
+  border: 1px solid rgba(216,180,106,.5); background: linear-gradient(135deg, rgba(216,180,106,.16), rgba(216,180,106,.03)); box-shadow: inset 0 1px 0 rgba(255,240,200,.15); }
+
+/* Footer: großer Schriftzug ohne Verlauf */
+html.tk-black .footer { border-top-color: rgba(255,255,255,.06); }
+
+/* Mini-Dashboard: große weiße Zahlen, oranger Trendpfeil, Glasbalken mit Lichtkante */
+html.tk-black .tk-dash__kpis strong { color: #fff; font-weight: 500; letter-spacing: -.03em; }
+html.tk-black .tk-dash__kpis em { color: var(--hot); }
+html.tk-black .tk-dash__kpis em::before { content: "↗"; margin-right: 4px; font-weight: 700; }
+html.tk-black .tk-dash__chart span { background: linear-gradient(180deg, rgba(255,255,255,.13), rgba(255,255,255,.025)); box-shadow: inset 0 1px 0 rgba(255,255,255,.3), inset 0 0 0 1px rgba(255,255,255,.06); }
+html.tk-black .tk-dash__chart span.is-pk { background: linear-gradient(180deg, rgba(255,90,31,.55), rgba(255,90,31,.08)); box-shadow: inset 0 2px 0 #ff7a45, inset 0 0 0 1px rgba(255,90,31,.35), 0 0 30px -6px rgba(255,90,31,.55); }
+html.tk-black .tk-dash__tabs button.is-on { background: rgba(255,90,31,.12); box-shadow: inset 0 0 0 1px rgba(255,90,31,.5); }
+html.tk-black .tk-hero .label { flex-wrap: wrap; row-gap: 10px; }
+@media (max-width: 680px) { html.tk-black .tk-hero .label::after { margin-left: 0; } }
+
+/* ---------- Kundenportal ---------- */
+html.tk-black body.kp { background: #0b0b0c; }
+html.tk-black body.kp main::before { opacity: .32; background: radial-gradient(50% 36% at 50% -6%, rgba(255,90,31,.08), transparent 70%), url("/assets/img/kp-facetten.svg") center / cover no-repeat; }
+html.tk-black body.kp:has(.kp-auth) main::before { opacity: .45; background: radial-gradient(36% 32% at 50% 46%, rgba(255,90,31,.09), transparent 70%), url("/assets/img/kp-facetten.svg") center / cover no-repeat; }
+html.tk-black .kp-auth { border-color: rgba(255,255,255,.08); background: var(--bk-glass), rgba(12,12,13,.72); }
+html.tk-black .kp-auth__ico { background: rgba(255,90,31,.08); border-color: rgba(255,90,31,.4); box-shadow: inset 0 1px 0 rgba(255,255,255,.12); }
+html.tk-black .kp-card, html.tk-black .kp-projekt, html.tk-black .kp-konto, html.tk-black .kp-login__info {
+  border-color: rgba(255,255,255,.08); background: var(--bk-beam), var(--bk-glass), #0e0e0f; box-shadow: var(--bk-edge); transition: border-color .35s, box-shadow .35s; }
+html.tk-black .kp-card:hover, html.tk-black .kp-konto:hover { border-color: rgba(255,90,31,.45); box-shadow: var(--bk-glow); }
+
+/* Unterschrift im Footer: reines Orange, ruhiges Licht */
+html.tk-black .tk-sign .footer__big span { background: none; color: var(--hot); -webkit-background-clip: border-box; background-clip: border-box; animation: none; filter: drop-shadow(0 0 22px rgba(255,90,31,.22)); }
+html.tk-black .tk-sign::after { background: radial-gradient(ellipse at center, rgba(255,90,31,.08), transparent 70%); }
+
+/* Landingpage-Kopf: Platz für den Schalter am Handy */
+.ew-head:has(.tkb-switch) { gap: 10px; }
+@media (max-width: 400px) { .ew-head:has(.tkb-switch) { gap: 8px; } .ew-head .tkb-switch--head { width: 38px; height: 38px; min-height: 38px; } .ew-head:has(.tkb-switch) .btn--sm { padding: 0 14px; white-space: nowrap; } }
+
+/* Anfrage-Karte: neutrales Glas statt warmem Braun */
+html.tk-black .anf { background: var(--bk-beam), linear-gradient(160deg, rgba(255,255,255,.045), rgba(255,255,255,.012) 55%), #0d0d0e; border-color: rgba(255,255,255,.08); box-shadow: var(--bk-edge), 0 40px 90px rgba(0,0,0,.55); }
+html.tk-black .anf::before { background: radial-gradient(40% 34% at 6% 0%, rgba(255,90,31,.07), transparent 70%); }
+html.tk-black .anf__side { background: rgba(255,255,255,.012); border-left-color: rgba(255,255,255,.06); }
+html.tk-black .anf .form input[type=text], html.tk-black .anf .form input[type=email], html.tk-black .anf .form input[type=tel], html.tk-black .anf .form select, html.tk-black .anf .form textarea { background-color: rgba(255,255,255,.025); border-color: rgba(255,255,255,.1); }
+html.tk-black .anf .form input:focus, html.tk-black .anf .form select:focus, html.tk-black .anf .form textarea:focus { box-shadow: 0 0 0 3px rgba(255,90,31,.15); }
+@media (max-width: 359px) { .ew-head .tkb-switch--head { display: none; } }
+
+/* ================= Black Edition, Stufe 2: eigene Gestalt =================
+   Schlanke Überschriften, mittiger Kopfbereich mit Lichthorizont, Glas-Kacheln mit Abstand,
+   Lichtstrahlen als Abschnitts-Trenner, feines Raster im Hintergrund. */
+
+/* Feines Raster über der ganzen Seite, nach außen ausgeblendet */
+html.tk-black body::after { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-image: linear-gradient(rgba(255,255,255,.028) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.028) 1px, transparent 1px);
+  background-size: 72px 72px; -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 30%, transparent 85%); mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 30%, transparent 85%); }
+
+/* Überschriften: schlank und eng statt breit */
+html.tk-black h1, html.tk-black h2, html.tk-black h3 { font-family: var(--body); font-weight: 600; letter-spacing: -.045em; line-height: 1.02; }
+html.tk-black h1 { font-size: clamp(2.7rem, 6.2vw, 5.6rem); }
+html.tk-black h2 { font-size: clamp(2.2rem, 5vw, 4.2rem); }
+html.tk-black h3 { letter-spacing: -.025em; line-height: 1.2; }
+html.tk-black .lead { color: #a3a3a8; }
+
+/* Abschnitts-Trenner: Lichtstrahl statt Linie */
+html.tk-black .section--line { border-top-color: transparent; }
+html.tk-black .section--line::before { content: ""; position: absolute; left: 50%; top: 0; width: min(720px, 80vw); height: 1px; transform: translateX(-50%); pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255,90,31,.7) 50%, transparent); box-shadow: 0 0 18px rgba(255,90,31,.45); }
+
+/* ---------- Kopfbereich mittig mit Lichthorizont ---------- */
+html.tk-black .tk-hero:has(.tk-hero__stage) { padding: 140px 0 0; text-align: center; }
+html.tk-black .tk-hero:has(.tk-hero__stage) .container { display: flex; flex-direction: column; align-items: center; }
+html.tk-black .tk-hero:has(.tk-hero__stage) .label { justify-content: center; }
+html.tk-black .tk-hero:has(.tk-hero__stage) h1 { max-width: 15ch; margin-left: auto; margin-right: auto; }
+html.tk-black .tk-hero:has(.tk-hero__stage) .lead { margin-left: auto; margin-right: auto; max-width: 52ch; }
+html.tk-black .tk-hero:has(.tk-hero__stage) .btn-row { justify-content: center; }
+html.tk-black .tk-hero:has(.tk-hero__stage) .tk-free-chip { margin-left: auto; margin-right: auto; }
+html.tk-black .tk-hero:has(.tk-hero__stage) .tk-hero__stage { position: relative; right: auto; top: auto; transform: none; width: min(420px, 78vw); margin: 70px auto 0; }
+/* Lichtstrahl von oben */
+html.tk-black .tk-hero::before { left: 50%; right: auto; top: -60px; width: 900px; height: 700px; margin-left: -450px; border-radius: 0; filter: blur(6px); opacity: 1; animation: none;
+  background: conic-gradient(from 180deg at 50% 0%, transparent 160deg, rgba(255,120,60,.22) 174deg, rgba(255,210,170,.34) 180deg, rgba(255,120,60,.22) 186deg, transparent 200deg);
+  -webkit-mask-image: linear-gradient(#000 20%, transparent 90%); mask-image: linear-gradient(#000 20%, transparent 90%); }
+/* Orange Horizont-Kurve unter dem Logo */
+html.tk-black .tk-hero:has(.tk-hero__stage)::after { left: 50%; right: auto; bottom: -1180px; width: 2400px; height: 1500px; margin-left: -1200px; border-radius: 50%; z-index: 0;
+  background: radial-gradient(closest-side, #0b0b0c 97%, transparent 100%);
+  box-shadow: 0 -2px 0 rgba(255,140,90,.9), 0 -10px 40px rgba(255,90,31,.55), 0 -60px 160px rgba(255,90,31,.28); }
+@media (max-width: 680px) {
+  html.tk-black .tk-hero:has(.tk-hero__stage) { padding-top: 96px; padding-bottom: 56px; }
+  html.tk-black .tk-hero:has(.tk-hero__stage) .tk-hero__stage { width: min(300px, 76vw); margin-top: 48px; }
+  html.tk-black .tk-hero:has(.tk-hero__stage)::after { bottom: -1300px; }
+  html.tk-black .tk-hero::before { width: 600px; margin-left: -300px; }
+}
+html.tk-black .tk-marquee { border-top-color: transparent; }
+
+/* ---------- Glas-Kacheln mit Abstand (Bento) ---------- */
+html.tk-black .rules { gap: 14px; background: none; border: 0; border-radius: 0; overflow: visible; }
+html.tk-black .rule { border: 1px solid rgba(255,255,255,.08); border-radius: 22px; background: var(--bk-beam), var(--bk-glass), #0e0e0f; box-shadow: var(--bk-edge); overflow: hidden; transition: border-color .35s, box-shadow .35s, transform .35s; }
+html.tk-black .rule:hover { border-color: rgba(255,90,31,.55); box-shadow: var(--bk-glow); background: var(--bk-beam-hot), radial-gradient(120% 80% at 50% 0%, rgba(255,90,31,.08), transparent 60%), #0e0e0f; transform: translateY(-3px); }
+html.tk-black .rule::after { display: none; }
+html.tk-black .rule__k { display: inline-flex; padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(255,90,31,.35); background: rgba(255,90,31,.06); }
+html.tk-black .step, html.tk-black .price { border-radius: 24px; }
+html.tk-black .step:hover, html.tk-black .price:hover { transform: translateY(-3px); }
+html.tk-black .price__amount { font-family: var(--body); font-weight: 600; letter-spacing: -.05em; font-size: clamp(2.6rem, 4vw, 3.4rem); }
+html.tk-black .tk-marquee span { font-weight: 600; letter-spacing: -.02em; }
+html.tk-black .footer__big { letter-spacing: -.06em; font-weight: 700; }
+
+/* Unterseiten-Kopf: Planetenrand mit oranger Lichtkante rechts */
+@media (min-width: 1101px) {
+  html.tk-black .tk-hero:not(:has(.tk-hero__stage))::before { left: auto; right: -760px; top: 50%; width: 1100px; height: 1100px; margin: -550px 0 0; border-radius: 50%; filter: none; opacity: 1; animation: none;
+    background: radial-gradient(circle at 60% 50%, #0b0b0c 62%, #111 100%); -webkit-mask-image: none; mask-image: none;
+    box-shadow: -2px 0 0 rgba(255,140,90,.85), -14px 0 50px rgba(255,90,31,.45), -80px 0 180px rgba(255,90,31,.2), inset 30px 0 80px rgba(255,90,31,.08); }
+}
+@media (max-width: 1100px) {
+  html.tk-black .tk-hero:not(:has(.tk-hero__stage))::before { left: auto; right: -420px; top: -220px; width: 560px; height: 560px; margin: 0; border-radius: 50%; filter: none; opacity: .9; animation: none;
+    background: #0b0b0c; -webkit-mask-image: none; mask-image: none;
+    box-shadow: -2px 2px 0 rgba(255,140,90,.8), -12px 12px 44px rgba(255,90,31,.4), -50px 50px 140px rgba(255,90,31,.16); }
+}
