@@ -158,36 +158,39 @@ function cx_webseite(array $c, string $email, string $name, string $fallback): v
     $art = str_starts_with($f['Paket'], 'Vereinsseite') || isset($f['Art des Vereins']) ? 'verein' : (isset($f['Gegründet']) ? 'gruender' : 'anfrage');
     $stored = af_save($art, $name, $f['Unternehmen / Branche'], $f['Gefunden über'], $f);
 
-    $saved = cx_contact($email, $name, [(int) ($c['list_webdesign'] ?? 0)], [
-        'WEB_PAKET' => $f['Paket'], 'WEB_QUELLE' => $f['Gefunden über'],
-    ]);
-
     $rows = '';
     foreach ($f as $k => $v) {
         $rows .= '<tr><td style="padding:6px 12px 6px 0;color:#a1a1a1;vertical-align:top;white-space:nowrap">' . cx_h($k)
             . '</td><td style="padding:6px 0;color:#f4f4f0">' . nl2br(cx_h($v !== '' ? $v : '–')) . '</td></tr>';
     }
+    // Tim bekommt die Anfrage SOFORT (interne Mail an eine feste Adresse + Eintrag im Admin unter
+    // „Anfragen“), damit kein Lead verloren geht. Der Brevo-Eintrag und die Eingangsbestätigung an die
+    // Person folgen erst NACH Bestätigung der E-Mail-Adresse (Double-Opt-in) – siehe bestaetigen.php.
     $notify = (string) ($c['notify_email'] ?? 'tk@crypto-x.at');
     $toTim = cx_mail($notify, 'Tim', 'Neue Webseiten-Anfrage: ' . $name . ($f['Paket'] !== '' ? ' (' . $f['Paket'] . ')' : '')
         . ($f['Empfohlen von'] !== '' ? ' – Empfehlung von ' . $f['Empfohlen von'] : ''),
         cx_mail_layout('Neue Webseiten-Anfrage', cx_mail_table($rows)
-            . '<p style="margin:18px 0 0;font-size:14px;color:#a1a1a1">Mit „Antworten“ schreibst du direkt an die Person.</p>'),
+            . '<p style="margin:18px 0 0;font-size:14px;color:#a1a1a1">⚠ Die E-Mail-Adresse ist noch nicht bestätigt. Die Person kommt erst in die Brevo-Liste und bekommt erst dann eine Eingangsbestätigung, wenn sie den Bestätigungslink klickt. Du kannst dich aber jederzeit direkt melden – mit „Antworten“ schreibst du direkt an die Person.</p>'),
         $email);
 
-    if (!$saved && !$toTim && !$stored) {
+    if (!$toTim && !$stored) {
         cx_respond(false, 'Deine Anfrage konnte gerade nicht übermittelt werden. ' . $fallback);
     }
 
-    $verein = str_starts_with($f['Paket'], 'Vereinsseite');
-    $inner = '<p style="margin:0 0 14px">Hallo ' . cx_h($name) . ',</p>'
-        . '<p style="margin:0 0 14px">danke für deine Anfrage! Ich sehe mir deine Angaben an und melde mich innerhalb von zwei Werktagen persönlich bei dir, per E-Mail, oder auf WhatsApp bzw. Telegram, wenn du eine Nummer angegeben hast.</p>'
-        . ($verein
-            ? '<p style="margin:0 0 14px">Gemeinsam klären wir dann, was auf eure Vereinsseite soll. Die Gestaltung ist für euch kostenlos.</p>'
-            : '<p style="margin:0 0 14px">Gemeinsam klären wir dann, was deine Seite können soll, und du bekommst ein unverbindliches Angebot.</p>')
-        . cx_mail_gruss();
-    cx_mail($email, $name, $verein ? 'Deine Anfrage für eine Vereinsseite' : 'Deine Anfrage für eine Webseite', cx_mail_layout('Danke für deine Anfrage', $inner), $notify);
+    // Double-Opt-in-Mail an die Person. Paket, Quelle und der Vereins-Hinweis reisen signiert im Link mit;
+    // erst nach dem Klick trägt bestaetigen.php den Kontakt in Brevo ein und schickt die Eingangsbestätigung.
+    $extra = ['v' => str_starts_with($f['Paket'], 'Vereinsseite') ? 1 : 0];
+    if ($f['Paket'] !== '') {
+        $extra['pk'] = $f['Paket'];
+    }
+    if ($f['Gefunden über'] !== '') {
+        $extra['ql'] = $f['Gefunden über'];
+    }
+    if (!cx_send_optin($email, $name, 'webseite', $extra)) {
+        cx_respond(false, 'Die Bestätigungsmail konnte gerade nicht verschickt werden. ' . $fallback);
+    }
 
-    cx_respond(true, 'Danke! Deine Anfrage ist angekommen.', (string) ($c['weiter_webseite'] ?? '/webseite-erstellen-lassen/danke/'));
+    cx_respond(true, 'Fast geschafft! Bitte bestätige noch kurz deine E-Mail über den Link, den ich dir gerade geschickt habe – deine Anfrage ist aber schon bei mir.', (string) ($c['weiter_webseite'] ?? '/webseite-erstellen-lassen/danke/'));
 }
 
 
