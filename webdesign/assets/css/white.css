@@ -238,3 +238,4 @@ html.tk-white .gr-items { background: rgba(28,20,12,.09); border-color: rgba(28,
 /* Rahmen-Knöpfe: sichtbarer Rahmen auf hellem Grund */
 html.tk-white .btn--line { border-color: rgba(28,20,12,.18); background: #fff; color: #16130f; }
 html.tk-white .btn--line:hover { border-color: rgba(255,90,31,.7); background: #fff6f1; color: #16130f; box-shadow: 0 0 24px -10px rgba(255,90,31,.5); }
+html.tk-white .ew-prev p { color: inherit; }
