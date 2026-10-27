@@ -26,15 +26,15 @@
   while (plan.length < 5) { if (d0.getDay() > 0 && d0.getDay() < 6) plan.push(iso(d0)); d0 = add(d0, 1); }
 
   var STAFF = [
-    { id: "st", name: "Stefan Kofler", short: "SK", role: "Meister", c: "#2f5bff", soll: 38.5 },
+    { id: "st", name: "Stefan Kofler", short: "SK", role: "Meister", c: "#ff5a1f", soll: 38.5 },
     { id: "lu", name: "Lukas Hofer", short: "LH", role: "Monteur", c: "#12a36b", soll: 38.5 },
     { id: "ma", name: "Martin Eder", short: "ME", role: "Monteur", c: "#e69a00", soll: 38.5 },
     { id: "jo", name: "Jonas Pichler", short: "JP", role: "Lehrling", c: "#e5484d", soll: 38.5 }
   ];
   var COLS = [
-    { id: "neu", name: "Neu / Angebot", c: "#8a90a2" },
+    { id: "neu", name: "Neu / Angebot", c: "#8e8e93" },
     { id: "plan", name: "Geplant", c: "#e69a00" },
-    { id: "arbeit", name: "In Arbeit", c: "#2f5bff" },
+    { id: "arbeit", name: "In Arbeit", c: "#ff5a1f" },
     { id: "fertig", name: "Fertig", c: "#12a36b" }
   ];
   var ANNA = { id: "an", name: "Anna Kofler", short: "AK", role: "Büro", c: "#c026d3" };
@@ -822,9 +822,9 @@
   // Ablauf: Anfrage → Besichtigung (auf der Plantafel) → Angebot → angenommen = Auftrag → Rechnung → Mahnung.
   // Jeder Schritt legt die nächste Aufgabe selbst an.
   var STAGES = [
-    { id: "anfrage", name: "Neue Anfrage", c: "#8a90a2" },
+    { id: "anfrage", name: "Neue Anfrage", c: "#8e8e93" },
     { id: "termin", name: "Besichtigung", c: "#e69a00" },
-    { id: "angebot", name: "Angebot offen", c: "#2f5bff" },
+    { id: "angebot", name: "Angebot offen", c: "#ff5a1f" },
     { id: "gewonnen", name: "Gewonnen", c: "#12a36b" }
   ];
   var SRC = { web: "Webseite", tel: "Telefon", mail: "E-Mail", emp: "Empfehlung" };
@@ -929,9 +929,9 @@
     var open = S.inv.filter(function (i) { return !i.paid; }), m = today.slice(0, 7), paid = S.inv.filter(function (i) { return i.paid && i.paid.slice(0, 7) === m; });
     var sum = function (l, f) { return l.reduce(function (a, x) { return a + f(x); }, 0); };
     var steps = [
-      ["Anfragen", by("anfrage").length, "neu, noch offen", "", "#8a90a2"],
+      ["Anfragen", by("anfrage").length, "neu, noch offen", "", "#8e8e93"],
       ["Besichtigung", by("termin").length, "auf der Plantafel", "cal", "#e69a00"],
-      ["Angebote", ang.length, eur(sum(ang, function (l) { return angSum(l.ang); })) + " netto", "", "#2f5bff"],
+      ["Angebote", ang.length, eur(sum(ang, function (l) { return angSum(l.ang); })) + " netto", "", "#ff5a1f"],
       ["Aufträge", act.length, "geplant und in Arbeit", "jobs", "#7c3aed"],
       ["Zu verrechnen", fin.length, fin.length ? "fertig, Rechnung fehlt" : "alles verrechnet", "jobs", "#0e9f9a"],
       ["Rechnung offen", open.length, eur(sum(open, gross)) + (open.filter(isDue).length ? " · " + open.filter(isDue).length + " überfällig" : ""), "inv", "#e5484d"],
@@ -1093,7 +1093,7 @@
   }
   function paperHTML(l) {
     var a = l.ang, k = kunde(l.kunde) || {}, valid = iso(add(parse(a.sent || today), 30));
-    return '<div class="paper"><div class="paper__hd"><div><b>Haustechnik Kofler</b><small>Elektro, Sanitär &amp; Heizung<br>Hauptstraße 10 · 1234 Musterdorf</small></div><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#2f5bff"/><path d="M14 11v18M27 11l-9.5 9L27 29" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
+    return '<div class="paper"><div class="paper__hd"><div><b>Haustechnik Kofler</b><small>Elektro, Sanitär &amp; Heizung<br>Hauptstraße 10 · 1234 Musterdorf</small></div><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#ff5a1f"/><path d="M14 11v18M27 11l-9.5 9L27 29" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
       '<div class="paper__to">' + esc(l.kunde) + "<br>" + esc(k.str || "") + "<br>" + esc(k.ort || l.ort) + '</div><div class="paper__meta"><span>Angebot <b>' + a.nr + "</b></span><span>Datum " + short(a.sent || today).split(" ")[1] + now.getFullYear() + "</span></div><h4>" + esc(l.titel) + "</h4><p>Vielen Dank für Ihre Anfrage. Gerne bieten wir Ihnen folgende Leistungen an:</p>" +
       '<table><thead><tr><th>Leistung</th><th class=r>Menge</th><th class=r>Preis</th><th class=r>Summe</th></tr></thead><tbody>' + a.pos.map(function (p) { return "<tr><td>" + esc(p.t) + '</td><td class="r num">' + String(p.q).replace(".", ",") + " " + esc(p.u) + '</td><td class="r num">' + eur(+p.p, 2) + '</td><td class="r num">' + eur(p.q * p.p, 2) + "</td></tr>"; }).join("") + "</tbody></table>" + totals(a) +
       "<p>Das Angebot gilt bis " + short(valid).split(" ")[1] + parse(valid).getFullYear() + ". Wir freuen uns auf Ihre Zusage!</p><p class=paper__ft>Beispiel-Dokument eines erfundenen Betriebs · erstellt mit dem Dashboard von tim-kofler.at</p></div>";

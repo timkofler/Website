@@ -52,8 +52,8 @@ html.tk-black .header { background: rgba(11,11,12,.8); }
 html.tk-black .header.is-pill .header__inner { background: rgba(14,14,15,.78); border-color: rgba(255,255,255,.08); box-shadow: 0 18px 40px -20px rgba(0,0,0,.9); }
 
 /* Mehr Luft zwischen den Abschnitten */
-html.tk-black .section:not(.tk-hero) { padding: 150px 0; }
-@media (max-width: 680px) { html.tk-black .section:not(.tk-hero) { padding: 96px 0; } }
+html.tk-black .section:not(.tk-hero) { padding: 112px 0; }
+@media (max-width: 680px) { html.tk-black .section:not(.tk-hero) { padding: 80px 0; } }
 
 /* Überschriften: Akzent in reinem Orange, ohne Verlauf und Schimmer */
 html.tk-black h1 .lime, html.tk-black h2 .lime, html.tk-black h3 .lime,
@@ -265,3 +265,42 @@ html.tk-black .footer__social a[aria-label] { --brand: #cfcfcc; --ring: rgba(255
   background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.012)) padding-box, linear-gradient(#0e0e0f, #0e0e0f) padding-box, var(--ring) border-box; }
 html.tk-black .footer__social a[aria-label]::after { opacity: .35; }
 html.tk-black .footer__social a[aria-label]:hover { --brand: var(--hot); --ring: rgba(255,90,31,.65); box-shadow: 0 0 22px -6px rgba(255,90,31,.7); filter: none; }
+
+/* ================= Black Edition, Stufe 4 (Tims Liste 27.10. vormittags) ================= */
+
+/* Handys im Beispiel-Karussell: dunkles Glas statt Chrom, das mittlere mit oranger Lichtkante */
+html.tk-black .tk-phone { background: linear-gradient(150deg, #232325 0%, #0f0f10 38%, #0b0b0c 66%, #1c1c1e 100%);
+  box-shadow: 0 0 0 1px rgba(255,255,255,.09), 0 40px 90px rgba(0,0,0,.8), inset 0 0 0 2px #121213; }
+html.tk-black .tk-phone::after { background: linear-gradient(115deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,0) 30%, rgba(255,255,255,0) 72%, rgba(255,255,255,.03) 100%); }
+html.tk-black .tk-car__item.is-center .tk-phone { box-shadow: 0 0 0 1px rgba(255,90,31,.5), 0 40px 90px rgba(0,0,0,.8), 0 0 80px -16px rgba(255,90,31,.45), inset 0 0 0 2px #121213; }
+
+/* Hinweis „Beispiel-Entwürfe …“ sitzt direkt unter der Gratis-Box statt verloren darunter */
+html.tk-black .tk-car__note { margin-top: 14px; font-size: .8rem; color: #7d7d82; }
+html.tk-black .section .container > .tk-car__note::before { display: none; }
+
+/* Zum Ausprobieren: oben eine breite Kachel, darunter 2 × 2, Schlagwort als kleine Pille statt Balken */
+html.tk-black .tk-try__body .rule__k { align-self: flex-start; font-size: .7rem; }
+@media (min-width: 1101px) {
+  html.tk-black .tk-tries--5 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+  html.tk-black .tk-tries--5 > li, html.tk-black .tk-tries--5 > li:nth-child(-n+2) { grid-column: auto; }
+  html.tk-black .tk-tries--5 > li:first-child { grid-column: 1 / -1; }
+  html.tk-black .tk-tries--5 > li:first-child .tk-try { flex-direction: row; }
+  html.tk-black .tk-tries--5 > li:first-child .tk-try__shot { flex: 0 0 58%; border-bottom: 0; border-right: 1px solid rgba(255,255,255,.08); }
+  html.tk-black .tk-tries--5 > li:first-child .tk-try__body { justify-content: center; padding: 34px 38px; }
+  html.tk-black .tk-tries--5 > li:first-child .tk-try__body b { font-size: 1.5rem; }
+  html.tk-black .tk-try__body { padding: 20px 24px 22px; }
+}
+html.tk-black .tk-try { background: var(--bk-beam), var(--bk-glass), #0e0e0f; border-color: rgba(255,255,255,.08); }
+html.tk-black .tk-try:hover, html.tk-black .tk-try:focus-visible { border-color: rgba(255,90,31,.55); box-shadow: var(--bk-glow); }
+html.tk-black .tk-try__shot, html.tk-black .tk-ex__bar { background: #111112; border-color: rgba(255,255,255,.07); }
+html.tk-black .tk-ex__bar span { background: #0b0b0c; border-color: rgba(255,255,255,.08); }
+
+/* „Einmal zahlen. Kein Abo.“: neutrales Glas, Orange nur am Haken; Sonderpreis-Satz ohne orangen Balken */
+html.tk-black .tk-abo__once { border-color: rgba(255,255,255,.1); background: var(--bk-beam), var(--bk-glass), #0e0e0f; box-shadow: var(--bk-edge); animation: none; }
+html.tk-black .tk-abo__once strong { background: none; -webkit-background-clip: border-box; background-clip: border-box; color: #fff; }
+html.tk-black .tk-abo__once-ic { background: rgba(255,90,31,.12); color: var(--hot); border: 1px solid rgba(255,90,31,.5); box-shadow: 0 0 22px -6px rgba(255,90,31,.6); }
+html.tk-black p.tk-abo__deal { border-left: 0; padding-left: 0; color: var(--muted); }
+html.tk-black p.tk-abo__deal b { color: var(--text); }
+
+/* Referenz: Kennzahlen unter dem Video */
+html.tk-black .tk-ref__stats { border-color: rgba(255,255,255,.08); background: var(--bk-glass), #0e0e0f; }
