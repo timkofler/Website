@@ -114,27 +114,30 @@ h1,h2,h3,p{margin:0}
 /* Konfigurator */
 .cfg{background:var(--night);color:#f3e9e6;position:relative;overflow:hidden}
 .cfg .eyebrow{color:var(--rose-s)}.cfg .title__script{color:var(--rose-s)}.cfg .lead{color:#c9b6ba}
-.cfg__grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(30px,5vw,80px);align-items:center;margin-top:50px}
-.stage{position:relative;aspect-ratio:1/1;max-width:560px;width:100%;justify-self:center;border-radius:50%;background:radial-gradient(circle at 50% 42%,#3a2c31,#231a1d 68%)}
+.cfg::before{content:"";position:absolute;width:60vw;height:60vw;left:-20vw;bottom:-30vw;border-radius:50%;background:radial-gradient(circle,rgba(217,176,182,.12),transparent 65%);pointer-events:none}
+.cfg__head{display:grid;grid-template-columns:1fr 1fr;gap:20px clamp(30px,5vw,80px);align-items:end}
+.cfg__head .lead{margin:0 0 10px;justify-self:end}
+.cfg__grid{display:grid;grid-template-columns:1.02fr .98fr;gap:clamp(30px,4vw,64px);align-items:center;margin-top:clamp(36px,4vw,56px);position:relative}
+.stage{position:relative;aspect-ratio:1/1;max-width:620px;width:100%;justify-self:center;border-radius:50%;background:radial-gradient(circle at 50% 42%,#3a2c31,#231a1d 68%)}
 .stage svg{position:absolute;inset:0;width:100%;height:100%}
 .stage .nail{transform-box:fill-box;transform-origin:50% 100%}
 .stage .nail.pop{animation:pop .5s var(--ease)}
 @keyframes pop{0%{transform:scale(.92);opacity:.5}100%{transform:none;opacity:1}}
 .stage__tag{position:absolute;left:50%;bottom:6%;transform:translateX(-50%);white-space:nowrap;font:400 11px/1 var(--bd);letter-spacing:.24em;text-transform:uppercase;color:#c9b6ba}
-.opts{display:grid;gap:26px}
+.opts{display:grid;gap:26px;padding:clamp(22px,3vw,40px);border-radius:28px;background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.015));box-shadow:inset 0 0 0 1px rgba(243,233,230,.12),0 50px 80px -60px rgba(0,0,0,.8)}
 .opt legend{font:400 11px/1 var(--bd);letter-spacing:.28em;text-transform:uppercase;color:var(--rose-s);margin-bottom:12px;padding:0}
 .opt{border:0;margin:0;padding:0;min-width:0}
 .pills{display:flex;flex-wrap:wrap;gap:8px}
 .pills label{position:relative}
 .pills input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
-.pills span{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 16px;border-radius:999px;box-shadow:inset 0 0 0 1px rgba(243,233,230,.25);font:400 14px/1 var(--bd);transition:all .3s;cursor:pointer}
+.pills span{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 14px;border-radius:999px;box-shadow:inset 0 0 0 1px rgba(243,233,230,.25);font:400 14px/1 var(--bd);transition:all .3s;cursor:pointer}
 .pills input:checked+span{background:#f3e9e6;color:var(--night);box-shadow:none}
 .pills input:focus-visible+span{outline:2px solid var(--rose-s);outline-offset:3px}
 .pills span svg{width:12px;height:18px}
-.sw{display:flex;flex-wrap:wrap;gap:10px}
+.sw{display:flex;flex-wrap:wrap;gap:9px}
 .sw label{position:relative}
 .sw input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
-.sw span{display:block;width:40px;height:40px;border-radius:50%;background:var(--c);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);transition:transform .3s var(--ease),box-shadow .3s;cursor:pointer}
+.sw span{display:block;width:36px;height:36px;border-radius:50%;background:var(--c);box-shadow:inset 0 0 0 1px rgba(255,255,255,.28);transition:transform .3s var(--ease),box-shadow .3s;cursor:pointer}
 .sw input:checked+span{transform:scale(1.12);box-shadow:0 0 0 3px var(--night),0 0 0 4.5px #f3e9e6}
 .sw input:focus-visible+span{outline:2px solid var(--rose-s);outline-offset:6px}
 .cfg__sum{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-top:24px;border-top:1px solid rgba(243,233,230,.16)}
@@ -142,7 +145,7 @@ h1,h2,h3,p{margin:0}
 .cfg__sum small{display:block;font:300 14px/1.4 var(--bd);color:#c9b6ba;margin-top:4px}
 .cfg .btn{background:#f3e9e6;color:var(--night)}
 .cfg .btn:hover{background:#fff}
-@media (max-width:900px){.cfg__grid{grid-template-columns:1fr}.stage{max-width:420px}}
+@media (max-width:900px){.cfg__head,.cfg__grid{grid-template-columns:1fr}.cfg__head .lead{justify-self:start}.stage{max-width:440px}}
 
 /* Preise */
 .prices{background:var(--paper2)}
@@ -153,6 +156,7 @@ h1,h2,h3,p{margin:0}
 .plist b{order:1;font:400 13px/1.4 var(--bd);letter-spacing:.2em;text-transform:uppercase}
 .plist b small{display:block;letter-spacing:.04em;text-transform:none;color:var(--mu);font-size:13px;margin-top:3px}
 .plist span{order:3;font:500 22px/1 var(--caps);white-space:nowrap;font-variant-numeric:lining-nums}
+.art{position:sticky;top:150px}
 .art h3{font:400 46px/1 var(--script);color:var(--rose)}
 .art p{color:var(--mu);font-size:15px;margin-top:10px}
 .art ul{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
@@ -164,24 +168,44 @@ h1,h2,h3,p{margin:0}
 
 /* Auffüll-Erinnerung */
 .refill__grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(30px,5vw,80px);align-items:center;margin-top:50px}
-.refill__card{background:var(--cream);padding:clamp(24px,4vw,44px);border-radius:4px;box-shadow:0 40px 70px -55px rgba(46,34,38,.6)}
-.f{display:grid;gap:8px;margin-bottom:18px}
+.refill__card{background:var(--cream);padding:clamp(24px,4vw,40px);border-radius:24px;box-shadow:inset 0 0 0 1px rgba(127,74,87,.12),0 40px 70px -55px rgba(46,34,38,.6)}
+.hint{display:flex;gap:10px;align-items:center;font-size:13px;color:var(--mu);margin-top:6px}
+.hint svg{width:16px;height:16px;flex:none;fill:none;stroke:var(--rose-t);stroke-width:1.3}
+.choice{display:grid;gap:10px}
+.choice--grid{grid-template-columns:1fr 1fr}
+.choice label{position:relative}
+.choice input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.choice span{position:relative;display:flex;flex-direction:column;gap:2px;padding:14px 16px 14px 48px;border-radius:14px;background:#fff;box-shadow:inset 0 0 0 1px var(--line);cursor:pointer;transition:box-shadow .3s,transform .3s var(--ease),background .3s}
+.choice span::before{content:"";position:absolute;left:17px;top:50%;width:18px;height:18px;margin-top:-9px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--rose-s);transition:box-shadow .3s var(--ease)}
+.choice label:hover span{box-shadow:inset 0 0 0 1px var(--rose-t)}
+.choice input:checked+span{box-shadow:inset 0 0 0 1.5px var(--rose-t),0 16px 30px -22px rgba(127,74,87,.7);background:#fffaf8}
+.choice input:checked+span::before{box-shadow:inset 0 0 0 5.5px var(--rose-t)}
+.choice input:focus-visible+span{outline:2px solid var(--rose-t);outline-offset:3px}
+.choice b{font-weight:500;font-size:15px;line-height:1.3}
+.choice small{color:var(--mu);font-size:13px;line-height:1.3}
+.f{display:grid;gap:10px;margin:0 0 20px;border:0;padding:0;min-width:0}
 .f>label,.f>legend{font:400 11px/1 var(--bd);letter-spacing:.24em;text-transform:uppercase;color:var(--rose-t);padding:0}
-.f input,.f select,.f textarea{width:100%;min-height:50px;padding:12px 14px;border:1px solid var(--line);border-radius:4px;background:#fff;font:300 16px/1.3 var(--bd);color:var(--ink)}
+.f>legend{margin-bottom:10px}
+.f input,.f select,.f textarea{width:100%;min-height:52px;padding:12px 16px;border:1px solid var(--line);border-radius:14px;background:#fff;font:300 16px/1.3 var(--bd);color:var(--ink);transition:border-color .3s,box-shadow .3s}
+.f input::placeholder,.f textarea::placeholder{color:#a8949a}
+.f input[type=date]{appearance:none;-webkit-appearance:none;font-weight:400;letter-spacing:.04em}
+.f input[type=date]::-webkit-calendar-picker-indicator{opacity:.55;cursor:pointer}
 .f textarea{min-height:90px;resize:vertical}
 .f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--rose-t);box-shadow:0 0 0 3px rgba(127,74,87,.15)}
 .f2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media (max-width:560px){.f2{grid-template-columns:1fr}}
 .grow{display:grid;grid-template-columns:auto 1fr;gap:clamp(20px,4vw,50px);align-items:center}
-.grow svg{width:clamp(120px,18vw,180px);height:auto;overflow:visible}
+.grow__pic svg{width:clamp(150px,20vw,230px);height:auto;overflow:visible;display:block}
 #g-pol{transition:d .9s var(--ease)}
-.grow__out b{display:block;font:500 clamp(32px,4vw,46px)/1.05 var(--caps)}
+#g-mm{transition:opacity .5s}#g-br,#g-t1{transition:d .9s var(--ease)}
+.grow__out b{display:block;font:500 clamp(28px,2.8vw,38px)/1.12 var(--caps)}
 .grow__out p{color:var(--mu);margin-top:10px;font-size:15px}
 .meter{height:6px;background:var(--paper2);border-radius:3px;overflow:hidden;margin-top:18px}
 .meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,#c99aa3,var(--rose-t));transition:width .9s var(--ease)}
 .grow__btns{display:flex;flex-wrap:wrap;gap:12px 22px;align-items:center;margin-top:24px}
 @media (max-width:900px){.refill__grid{grid-template-columns:1fr}}
-@media (max-width:520px){.grow{grid-template-columns:1fr}.grow svg{width:120px}}
+@media (max-width:520px){.grow{grid-template-columns:1fr}.grow__pic svg{width:170px}.choice--grid span{padding:12px 12px 12px 40px}.choice--grid span::before{left:13px}}
+@media (max-width:350px){.choice--grid{grid-template-columns:1fr}}
 
 /* Über mich */
 .me{overflow:hidden}.me__grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(30px,6vw,100px);align-items:center}
@@ -196,8 +220,38 @@ h1,h2,h3,p{margin:0}
 /* Gutschein */
 .gift{background:var(--paper2)}
 .gift__grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,80px);align-items:center;margin-top:50px}
-.vcard{position:relative;aspect-ratio:1.6/1;border-radius:14px;background:linear-gradient(135deg,#3a262d,#231a1d 60%,#3d2a31);color:#f3e9e6;padding:clamp(20px,4vw,36px);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;box-shadow:0 50px 80px -50px rgba(35,26,29,.9);transform:rotate(-2deg);transition:transform .6s var(--ease)}
+.vstage{position:relative;aspect-ratio:1.6/1}
+.vfly{position:absolute;inset:0}
+.vcard{position:absolute;inset:0;z-index:2;border-radius:14px;background:linear-gradient(135deg,#3a262d,#231a1d 60%,#3d2a31);color:#f3e9e6;padding:clamp(20px,4vw,36px);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;box-shadow:0 50px 80px -50px rgba(35,26,29,.9);transform:rotate(-2deg);transition:transform .6s var(--ease)}
 .vcard:hover{transform:rotate(0) translateY(-4px)}
+.env{position:absolute;left:12%;width:76%;bottom:2%;height:58%;opacity:0;transform:translateY(30px);border-radius:6px}
+.env__back{z-index:1;background:#6c3d49}
+.env__front{z-index:3;background:linear-gradient(170deg,#93596a,#7f4a57);clip-path:polygon(0 0,50% 52%,100% 0,100% 100%,0 100%);box-shadow:0 30px 50px -30px rgba(35,26,29,.8)}
+.env__flap{z-index:1;height:32%;bottom:auto;top:40%;background:linear-gradient(180deg,#8a5262,#744350);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:50% 0;transform:translateY(30px) rotateX(180deg)}
+.env__seal{position:absolute;z-index:5;left:50%;top:64%;width:clamp(40px,6vw,56px);aspect-ratio:1;margin-left:calc(clamp(40px,6vw,56px)/-2);border-radius:50%;background:radial-gradient(circle at 35% 30%,#efc9cf,#c98f9a);display:grid;place-items:center;font:400 clamp(24px,3.4vw,34px)/1 var(--script);color:#7f4a57;font-style:normal;transform:scale(0);box-shadow:0 6px 14px -6px rgba(35,26,29,.6)}
+.vstage.is-send .vcard{animation:v-in 1s var(--ease) forwards}
+.vstage.is-send .env{animation:v-env .5s var(--ease) forwards}
+.vstage.is-send .env__flap{animation:v-envf .5s var(--ease) forwards,v-flap .55s 1.05s var(--ease) forwards}
+@keyframes v-envf{to{opacity:1;transform:rotateX(180deg)}}
+.vstage.is-send .env__seal{animation:v-seal .45s 1.55s cubic-bezier(.3,1.6,.5,1) forwards}
+.vstage.is-send .vfly{animation:v-fly .9s 2.15s cubic-bezier(.55,0,.8,.4) forwards}
+@keyframes v-in{0%{transform:rotate(-2deg)}100%{transform:translateY(20%) scale(.55)}}
+@keyframes v-env{to{opacity:1;transform:translateY(0)}}
+@keyframes v-flap{0%{transform:rotateX(180deg);z-index:1}49%{z-index:1}50%{z-index:4}100%{transform:rotateX(0);z-index:4;opacity:1}}
+@keyframes v-seal{to{transform:scale(1)}}
+@keyframes v-fly{0%{transform:none;opacity:1}20%{transform:translate(-3%,4%) rotate(-3deg)}100%{transform:translate(70%,-70%) rotate(14deg) scale(.35);opacity:0}}
+.vdone{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;padding:20px;animation:v-done .6s var(--ease)}
+.vdone svg{width:64px;height:64px;fill:none;stroke:var(--rose-t);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.vdone circle{stroke-dasharray:151;stroke-dashoffset:151;animation:v-draw .7s .1s var(--ease) forwards}
+.vdone path{stroke-dasharray:36;stroke-dashoffset:36;animation:v-draw .45s .65s var(--ease) forwards}
+.vdone b{font:500 clamp(28px,3vw,38px)/1.1 var(--caps)}
+.vdone p{color:var(--mu);font-size:15px;max-width:380px}
+.vdone .link{margin-top:6px}
+@keyframes v-draw{to{stroke-dashoffset:0}}
+@keyframes v-done{from{opacity:0;transform:translateY(14px)}}
+.sparkle{position:absolute;z-index:6;width:10px;height:10px;pointer-events:none;background:var(--rose-s);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);animation:sp .9s var(--ease) forwards}
+@keyframes sp{0%{transform:translate(0,0) scale(.2);opacity:1}100%{transform:translate(var(--x),var(--y)) scale(1.2) rotate(90deg);opacity:0}}
+@media (prefers-reduced-motion:reduce){.vstage.is-send .vfly{animation:none;opacity:0}}
 .vcard::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,232,214,.16) 46%,transparent 60%);transform:translateX(-100%);animation:shine 6s ease-in-out infinite}
 .vcard__top{display:flex;justify-content:space-between;align-items:flex-start}
 .vcard__top b{font:400 40px/1 var(--script);color:#ecd2be;font-weight:400}
@@ -206,7 +260,8 @@ h1,h2,h3,p{margin:0}
 .vcard__val em{display:block;font:400 clamp(26px,3vw,36px)/1 var(--script);color:#d8b9a3;margin-bottom:6px}
 .vcard__for{font-size:14px;color:#c9b6ba;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .vcard__for b{color:#f3e9e6;font-weight:400}
-.gift .pills span{box-shadow:inset 0 0 0 1px var(--line)}
+#gift{background:var(--cream);padding:clamp(22px,3.6vw,40px);border-radius:24px;box-shadow:inset 0 0 0 1px rgba(127,74,87,.12),0 40px 70px -55px rgba(46,34,38,.6)}
+.gift .pills span{box-shadow:inset 0 0 0 1px var(--line);background:#fff}
 .gift .pills input:checked+span{background:var(--ink);color:#fff}
 @media (max-width:900px){.gift__grid{grid-template-columns:1fr}}
 
@@ -220,28 +275,43 @@ h1,h2,h3,p{margin:0}
 .faq details p{color:var(--mu);padding:0 0 24px;max-width:700px}
 
 /* Laufband + Termin */
-.marquee{overflow:hidden;border-block:1px solid var(--line);padding:clamp(16px,2.4vw,28px) 0}
-.marquee__in{display:flex;gap:40px;width:max-content;animation:run 32s linear infinite}
-.marquee span{font:500 clamp(54px,8vw,120px)/1 var(--caps);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;display:flex;gap:40px;align-items:center}
-.marquee span i{font:400 .7em/1 var(--script);text-transform:none;color:var(--rose);letter-spacing:0}
+.marquee{overflow:hidden;border-block:1px solid var(--line);padding:clamp(12px,1.6vw,20px) 0}
+.marquee__in{display:flex;gap:28px;width:max-content;animation:run 38s linear infinite}
+.marquee span{font:500 clamp(24px,2.6vw,38px)/1 var(--caps);letter-spacing:.2em;text-transform:uppercase;white-space:nowrap;display:flex;gap:28px;align-items:center}
+.marquee span i{font-size:.5em;font-style:normal;color:var(--rose);letter-spacing:0}
+.marquee span em{font:400 1.25em/1 var(--script);text-transform:none;letter-spacing:0;color:var(--rose-t)}
 @keyframes run{to{transform:translateX(-50%)}}
 .marquee:hover .marquee__in{animation-play-state:paused}
 .book__grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(30px,5vw,80px);align-items:start}
+.book__grid>div:first-child{position:sticky;top:150px}
 .book__info{display:grid;gap:22px;margin-top:34px;font-size:15px;color:var(--mu)}
 .book__info b{display:block;font:400 11px/1 var(--bd);letter-spacing:.24em;text-transform:uppercase;color:var(--rose-t);margin-bottom:8px}
-.form{background:var(--cream);padding:clamp(22px,4vw,44px);border-radius:4px;box-shadow:0 40px 70px -55px rgba(46,34,38,.6)}
-.form fieldset{border:0;margin:0 0 18px;padding:0;min-width:0}
-.form .pills span{box-shadow:inset 0 0 0 1px var(--line);font-size:14px;min-height:44px}
+.form{background:var(--cream);padding:clamp(22px,3.6vw,40px);border-radius:24px;box-shadow:inset 0 0 0 1px rgba(127,74,87,.12),0 40px 70px -55px rgba(46,34,38,.6)}
+.form fieldset{border:0;margin:0;padding:0;min-width:0}
+.step{padding-bottom:26px!important;margin-bottom:26px!important;border-bottom:1px solid var(--line)!important}
+.step legend{display:flex;align-items:center;gap:12px;font:500 22px/1 var(--caps);letter-spacing:.04em;margin-bottom:16px;padding:0}
+.step legend i{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--rose-t);color:#fff;font:500 13px/1 var(--bd);font-style:normal}
+.step .f2 .f{margin-bottom:16px}
+.opt-l{text-transform:none;letter-spacing:0;color:var(--mu);margin-left:6px}
+.times{margin-top:12px}
+.form .pills span{box-shadow:inset 0 0 0 1px var(--line);font-size:14px;min-height:44px;background:#fff}
+.form .pills label:hover span{box-shadow:inset 0 0 0 1px var(--rose-t)}
+.book__sum{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center;justify-content:space-between}
+.book__sum p{font:500 20px/1.3 var(--caps);color:var(--ink)}
+.msg.ok{display:flex;gap:12px;align-items:flex-start;padding:16px 18px;border-radius:14px;background:#fff;box-shadow:inset 0 0 0 1px var(--rose-s);color:var(--ink);animation:v-done .5s var(--ease)}
+.msg.ok::before{content:"✓";flex:none;width:26px;height:26px;border-radius:50%;background:var(--rose-t);color:#fff;display:grid;place-items:center;font-size:14px}
 .form .pills input:checked+span{background:var(--ink);color:#fff;box-shadow:none}
 .form .pills input:disabled+span{opacity:.35;text-decoration:line-through;cursor:not-allowed}
-.days span{flex-direction:column;justify-content:center;gap:2px;min-width:64px;min-height:62px!important;border-radius:14px!important;padding:0 12px!important}
+.days{display:grid!important;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px!important}
+.days span{flex-direction:column;justify-content:center;gap:4px;width:100%;min-height:66px!important;border-radius:14px!important;padding:0 4px!important;font-weight:500}
+@media (max-width:560px){.days{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .days span small{font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.75}
-.look{display:none;align-items:center;gap:12px;padding:12px 14px;margin-bottom:18px;background:#fff;border:1px dashed var(--line);border-radius:4px;font-size:14px}
+.look{display:none;align-items:center;gap:12px;padding:12px 16px;margin-bottom:22px;background:#fff;border:1px dashed var(--rose-s);border-radius:14px;font-size:14px}
 .look.on{display:flex}
 .look i{width:18px;height:26px;border-radius:9px 9px 4px 4px;background:var(--c,#e3a5a9);flex:none}
 .look button{margin-left:auto;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--rose-t)}
 .msg{margin-top:14px;font-size:15px;color:var(--rose-t);min-height:1.4em}
-@media (max-width:900px){.book__grid{grid-template-columns:1fr}}
+@media (max-width:900px){.book__grid{grid-template-columns:1fr}.book__grid>div:first-child{position:static}}
 
 /* Lightbox */
 .lb{position:fixed;inset:0;z-index:1200;background:rgba(35,26,29,.94);display:grid;place-items:center;padding:60px 70px}
@@ -321,9 +391,11 @@ h1,h2,h3,p{margin:0}
 
 <section class="sec cfg" id="look">
   <div class="wrap">
-    <p class="eyebrow" data-reveal>Probier’s aus</p>
-    <h2 class="title" data-reveal style="margin-top:14px"><span class="title__script">Dein</span><span class="title__caps">Look</span></h2>
-    <p class="lead" data-reveal>Form, Farbe und Finish wählen und sofort sehen, wie es aussieht. Gefällt’s dir, nimmst du den Look direkt in deine Terminanfrage mit.</p>
+    <div class="cfg__head">
+      <div data-reveal><p class="eyebrow">Probier’s aus</p>
+      <h2 class="title" style="margin-top:14px"><span class="title__script">Dein</span><span class="title__caps">Look</span></h2></div>
+      <p class="lead" data-reveal>Form, Farbe und Finish wählen und sofort sehen, wie es aussieht. Gefällt’s dir, nimmst du den Look direkt in deine Terminanfrage mit.</p>
+    </div>
     <div class="cfg__grid">
       <div class="stage" data-reveal>
         <svg id="hand" viewBox="0 0 400 400" role="img" aria-label="Vorschau deiner Nägel"></svg>
@@ -377,21 +449,33 @@ h1,h2,h3,p{margin:0}
     <div class="refill__grid">
       <form class="refill__card" id="refill" data-reveal>
         <div class="f"><label for="r-date">Letzter Termin</label><input type="date" id="r-date" required></div>
-        <div class="f"><label for="r-type">Behandlung</label><select id="r-type">
-          <option value="21-28" data-n="Auffüllen">Gel oder Verstärkung (3–4 Wochen)</option>
-          <option value="14-21" data-n="Maniküre mit Lack">Maniküre mit Lack (2–3 Wochen)</option>
-          <option value="28-35" data-n="Maniküre">Pflege-Maniküre (4–5 Wochen)</option></select></div>
-        <p style="font-size:14px;color:var(--mu)">Wird nur hier im Browser gerechnet, nichts wird gespeichert.</p>
+        <fieldset class="f"><legend>Behandlung</legend><div class="choice" id="r-type">
+          <label><input type="radio" name="rtype" value="21-28" data-n="Auffüllen" checked><span><b>Gel oder Verstärkung</b><small>alle 3–4 Wochen</small></span></label>
+          <label><input type="radio" name="rtype" value="14-21" data-n="Maniküre mit Lack"><span><b>Maniküre mit Lack</b><small>alle 2–3 Wochen</small></span></label>
+          <label><input type="radio" name="rtype" value="28-35" data-n="Maniküre"><span><b>Pflege-Maniküre</b><small>alle 4–5 Wochen</small></span></label></div></fieldset>
+        <p class="hint"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 2.5 4v4c0 3.2 2.3 5.6 5.5 6.5 3.2-.9 5.5-3.3 5.5-6.5V4Z"/></svg>Wird nur hier im Browser gerechnet, nichts wird gespeichert.</p>
       </form>
       <div class="grow" data-reveal>
-        <svg viewBox="0 0 120 180" aria-hidden="true">
-          <defs><linearGradient id="g-skin" x1="0" x2="1"><stop offset="0" stop-color="#e8c3b4"/><stop offset=".5" stop-color="#f1d3c6"/><stop offset="1" stop-color="#ddb3a3"/></linearGradient></defs>
-          <path d="M24 180V70a36 36 0 0 1 72 0v110Z" fill="url(#g-skin)"/>
-          <path d="M34 130V38c0-18 52-18 52 0v92c-9 9-43 9-52 0Z" fill="#f4d9d1" stroke="#d7a89c" stroke-width="1"/>
-          <path id="g-pol" d="M37 126V40c0-15 46-15 46 0v86c-8 8-38 8-46 0Z" fill="#b8737f"/>
-          <path d="M43 50c0-9 6-13 11-13" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".45" fill="none"/>
-          <path d="M30 134c10 12 50 12 60 0" fill="none" stroke="#c99a8f" stroke-width="1.5"/>
-        </svg>
+        <div class="grow__pic"><svg viewBox="0 0 200 240" aria-hidden="true">
+          <defs>
+            <linearGradient id="g-skin" x1="0" x2="1"><stop offset="0" stop-color="#d7a693"/><stop offset=".18" stop-color="#ebc6b6"/><stop offset=".5" stop-color="#f4d6c9"/><stop offset=".82" stop-color="#ebc6b6"/><stop offset="1" stop-color="#d7a693"/></linearGradient>
+            <linearGradient id="g-lack" x1="0" x2="1"><stop offset="0" stop-color="#8f4f5c"/><stop offset=".3" stop-color="#b8737f"/><stop offset=".55" stop-color="#c78894"/><stop offset="1" stop-color="#8f4f5c"/></linearGradient>
+            <linearGradient id="g-nat" x1="0" x2="1"><stop offset="0" stop-color="#ecc3b8"/><stop offset=".5" stop-color="#f8e2da"/><stop offset="1" stop-color="#ecc3b8"/></linearGradient>
+            <linearGradient id="g-fd" x1="0" y1="0" x2="0" y2="1"><stop offset=".72" stop-color="#fff"/><stop offset="1" stop-color="#000"/></linearGradient>
+            <mask id="g-m" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="240"><rect width="200" height="240" fill="url(#g-fd)"/></mask>
+            <filter id="g-soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5"/></filter>
+          </defs>
+          <circle cx="100" cy="122" r="98" fill="#ead9d4"/>
+          <g mask="url(#g-m)"><path d="M58 250V104a42 42 0 0 1 84 0v146Z" fill="#7f4a57" opacity=".18" filter="url(#g-soft)" transform="translate(5 8)"/>
+          <path d="M58 250V104a42 42 0 0 1 84 0v146Z" fill="url(#g-skin)"/>
+          <path d="M68 182V82c0-30 64-30 64 0v100Z" fill="url(#g-nat)" stroke="#d9aa9b" stroke-width="1"/>
+          <path id="g-pol" d="M71 160V84c0-26 58-26 58 0v76c-10 9-48 9-58 0Z" fill="url(#g-lack)"/>
+          <path id="g-shine" d="M80 150V88c0-12 6-18 13-20" stroke="#fff" stroke-width="4.5" stroke-linecap="round" opacity=".42" fill="none"/>
+          <path d="M58 250V170q42 30 84 0v80Z" fill="url(#g-skin)"/>
+          <path d="M64 172q36 25 72 0" fill="none" stroke="#c4917f" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M66 96v74M134 96v74" stroke="#c99682" stroke-width="1" opacity=".5"/></g>
+          <g id="g-mm" opacity="0"><path id="g-br" d="M156 160v20" stroke="#7f4a57" stroke-width="1.2" fill="none"/><path id="g-t1" d="M152 160h8" stroke="#7f4a57" stroke-width="1.2"/><path d="M152 180h8" stroke="#7f4a57" stroke-width="1.2"/><text id="g-mmt" x="164" y="174" font-size="11" fill="#7f4a57" font-family="Outfit,system-ui,sans-serif">0 mm</text></g>
+        </svg></div>
         <div class="grow__out" aria-live="polite">
           <b id="r-out">Am besten zwischen 10. und 17. November</b>
           <p id="r-sub">Dein Nagel ist seit dem letzten Termin etwa 2 mm nachgewachsen.</p>
@@ -420,10 +504,22 @@ h1,h2,h3,p{margin:0}
     <p class="eyebrow" data-reveal>Das schönste Geschenk</p>
     <h2 class="title" data-reveal style="margin-top:14px"><span class="title__script">Ein</span><span class="title__caps">Gutschein</span></h2>
     <div class="gift__grid">
-      <div class="vcard" data-reveal aria-live="polite">
-        <div class="vcard__top"><span class="vcard__label">Gutschein</span><b aria-hidden="true">Mila</b></div>
-        <p class="vcard__val"><em id="v-what">für eine Auszeit</em><span id="v-val">50 €</span></p>
-        <p class="vcard__for"><span>Für <b id="v-to">dich</b></span><span>von <b id="v-from">mir</b></span></p>
+      <div class="vstage" id="vstage" data-reveal>
+        <div class="vfly">
+          <i class="env env__back" aria-hidden="true"></i>
+          <div class="vcard">
+            <div class="vcard__top"><span class="vcard__label">Gutschein</span><b aria-hidden="true">Mila</b></div>
+            <p class="vcard__val"><em id="v-what">für eine Auszeit</em><span id="v-val">50 €</span></p>
+            <p class="vcard__for"><span>Für <b id="v-to">dich</b></span><span>von <b id="v-from">mir</b></span></p>
+          </div>
+          <i class="env env__front" aria-hidden="true"></i><i class="env env__flap" aria-hidden="true"></i><i class="env__seal" aria-hidden="true">M</i>
+        </div>
+        <div class="vdone" id="vdone" hidden>
+          <svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24"/><path d="M15 27l7 7 15-16"/></svg>
+          <b id="vdone-t">Gutschein ist unterwegs!</b>
+          <p>Das ist ein Beispiel – auf der echten Seite käme deine Bestellung jetzt direkt im Studio an.</p>
+          <button type="button" class="link" id="v-again">Noch einen Gutschein</button>
+        </div>
       </div>
       <form id="gift" data-reveal>
         <fieldset class="f" style="border:0;margin:0 0 18px;padding:0"><legend>Wert</legend><div class="pills">
@@ -433,8 +529,8 @@ h1,h2,h3,p{margin:0}
           <label><input type="radio" name="val" value="Maniküre"><span>Maniküre</span></label>
           <label><input type="radio" name="val" value="Neues Set"><span>Neues Set</span></label></div></fieldset>
         <div class="f2"><div class="f"><label for="v-to-in">Für</label><input id="v-to-in" maxlength="24" placeholder="Name"></div><div class="f"><label for="v-from-in">Von</label><input id="v-from-in" maxlength="24" placeholder="Name"></div></div>
-        <button class="btn" type="submit">Gutschein bestellen</button>
-        <p class="msg" role="status"></p>
+        <button class="btn" type="submit" id="v-send">Gutschein bestellen <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></button>
+        <p class="msg sr-only" role="status" id="v-msg"></p>
         <p style="font-size:14px;color:var(--mu);margin-top:6px">Abholen im Studio oder als PDF per E-Mail.</p>
       </form>
     </div>
@@ -448,12 +544,18 @@ h1,h2,h3,p{margin:0}
       <details><summary>Wie lange halten Gelnägel?</summary><p>Rund drei bis vier Wochen, dann ist der Nagel so weit nachgewachsen, dass Auffüllen sinnvoll ist. Mit der Erinnerung oben siehst du deinen Termin.</p></details>
       <details><summary>Was ist der Unterschied zur Naturnagelverstärkung?</summary><p>Bei der Verstärkung bleibt dein Nagel so lang, wie er ist, und bekommt nur eine schützende Gelschicht. Bei der Modellage verlängere ich ihn mit einer Schablone.</p></details>
       <details><summary>Kann ich meine alten Nägel mitbringen?</summary><p>Ja. Fremdarbeiten löse ich schonend ab (20 €) und schaue mir deinen Naturnagel an, bevor wir neu starten.</p></details>
+      <details><summary>Schadet Gel meinen Naturnägeln?</summary><p>Nicht, wenn sauber gearbeitet wird. Ich feile den Naturnagel nur leicht an und löse beim Wechsel schonend ab, statt zu reißen. Ich arbeite mit HEMA-freien Gels, das senkt das Allergierisiko deutlich.</p></details>
+      <details><summary>Wie lange dauert mein erster Termin?</summary><p>Plane etwa zwei Stunden ein. Beim ersten Mal nehme ich mir 15 Minuten extra für Beratung, ohne Aufpreis, damit Form und Länge gut zu dir und deinem Alltag passen.</p></details>
+      <details><summary>Wie bereite ich mich vor?</summary><p>Bitte komm ohne Handcreme und mit abgelöstem Nagellack. Hast du eine Idee, bring gern ein Foto mit oder schick es vorher per WhatsApp.</p></details>
+      <details><summary>Machst du auch Füße?</summary><p>Ja, Pediküre mit Lack oder Gel auf Anfrage. Schreib einfach „Füße“ in deinen Wunsch beim Termin, dann plane ich die Zeit ein.</p></details>
+      <details><summary>Wie kann ich bezahlen?</summary><p>Bar, mit Karte oder mit dem Handy. Gutscheine von Studio Mila kannst du bei jedem Termin einlösen, auch in Teilbeträgen.</p></details>
+      <details><summary>Was, wenn ein Nagel abbricht?</summary><p>Innerhalb einer Woche nach deinem Termin repariere ich ihn kostenlos. Danach kostet eine Reparatur 5 € pro Nagel.</p></details>
       <details><summary>Was ist, wenn ich absagen muss?</summary><p>Bitte bis 24 Stunden vorher Bescheid geben, per Telefon, WhatsApp oder über den Link in deiner Bestätigung.</p></details>
     </div>
   </div>
 </section>
 
-<div class="marquee" aria-hidden="true"><div class="marquee__in"><span>Termin buchen <i>✦</i> Termin buchen <i>✦</i></span><span>Termin buchen <i>✦</i> Termin buchen <i>✦</i></span></div></div>
+<div class="marquee" aria-hidden="true"><div class="marquee__in"><span>Termin buchen <i>✦</i> <em>Gel &amp; Nail Art</em> <i>✦</i> Maniküre <i>✦</i> <em>mit viel Zeit</em> <i>✦</i> Gutscheine <i>✦</i></span><span>Termin buchen <i>✦</i> <em>Gel &amp; Nail Art</em> <i>✦</i> Maniküre <i>✦</i> <em>mit viel Zeit</em> <i>✦</i> Gutscheine <i>✦</i></span><span>Termin buchen <i>✦</i> <em>Gel &amp; Nail Art</em> <i>✦</i> Maniküre <i>✦</i> <em>mit viel Zeit</em> <i>✦</i> Gutscheine <i>✦</i></span><span>Termin buchen <i>✦</i> <em>Gel &amp; Nail Art</em> <i>✦</i> Maniküre <i>✦</i> <em>mit viel Zeit</em> <i>✦</i> Gutscheine <i>✦</i></span></div></div>
 
 <section class="sec" id="termin">
   <div class="wrap book__grid">
@@ -468,13 +570,18 @@ h1,h2,h3,p{margin:0}
     </div>
     <form class="form" id="book" data-reveal novalidate>
       <div class="look" id="look-chip"><i></i><span id="look-txt"></span><button type="button" id="look-x">Entfernen</button></div>
-      <div class="f"><label for="b-svc">Behandlung</label><select id="b-svc">
-        <option>Maniküre</option><option>Maniküre mit Lack</option><option>Naturnagelverstärkung</option><option selected>Gel-Modellage Neu</option><option>Auffüllen</option><option>Ablösen</option></select></div>
-      <fieldset class="f"><legend>Tag</legend><div class="pills days" id="b-days"></div></fieldset>
-      <fieldset class="f"><legend>Uhrzeit</legend><div class="pills" id="b-times"></div></fieldset>
-      <div class="f2"><div class="f"><label for="b-name">Name</label><input id="b-name" autocomplete="name" required></div><div class="f"><label for="b-tel">Telefon</label><input id="b-tel" type="tel" autocomplete="tel" required></div></div>
-      <div class="f"><label for="b-note">Wunsch <span style="text-transform:none;letter-spacing:0;color:var(--mu)">(optional)</span></label><textarea id="b-note" placeholder="z. B. Farbe, Länge oder ein Foto per WhatsApp"></textarea></div>
-      <button class="btn" type="submit">Termin anfragen</button>
+      <fieldset class="step"><legend><i>1</i>Behandlung</legend><div class="choice choice--grid" id="b-svc">
+        <label><input type="radio" name="svc" value="Maniküre"><span><b>Maniküre</b><small>45 Min. · 32 €</small></span></label>
+        <label><input type="radio" name="svc" value="Maniküre mit Lack"><span><b>Maniküre mit Lack</b><small>60 Min. · 39 €</small></span></label>
+        <label><input type="radio" name="svc" value="Naturnagelverstärkung"><span><b>Verstärkung</b><small>75 Min. · 49 €</small></span></label>
+        <label><input type="radio" name="svc" value="Gel-Modellage Neu" checked><span><b>Modellage neu</b><small>90 Min. · 59 €</small></span></label>
+        <label><input type="radio" name="svc" value="Auffüllen"><span><b>Auffüllen</b><small>75 Min. · 45 €</small></span></label>
+        <label><input type="radio" name="svc" value="Ablösen"><span><b>Ablösen</b><small>30 Min. · 20 €</small></span></label></div></fieldset>
+      <fieldset class="step"><legend><i>2</i>Tag und Uhrzeit</legend><div class="pills days" id="b-days"></div><div class="pills times" id="b-times"></div></fieldset>
+      <fieldset class="step"><legend><i>3</i>Deine Daten</legend>
+        <div class="f2"><div class="f"><label for="b-name">Name</label><input id="b-name" autocomplete="name" placeholder="Vor- und Nachname" required></div><div class="f"><label for="b-tel">Telefon</label><input id="b-tel" type="tel" autocomplete="tel" placeholder="für die Bestätigung" required></div></div>
+        <div class="f" style="margin-bottom:0"><label for="b-note">Wunsch <span class="opt-l">optional</span></label><textarea id="b-note" placeholder="z. B. Farbe, Länge oder ein Foto per WhatsApp"></textarea></div></fieldset>
+      <div class="book__sum"><p id="b-sum">Modellage neu · Mi 28.10. · 09:00</p><button class="btn" type="submit">Termin anfragen</button></div>
       <p class="msg" id="b-msg" role="status"></p>
     </form>
   </div>
@@ -501,4 +608,4 @@ h1,h2,h3,p{margin:0}
     <div class="foot__bot"><span>© Studio Mila · Beispiel-Entwurf · Design: tim-kofler.at · erfundener Betrieb</span><a href="/bildnachweis/#nagelstudio">Bildnachweis</a></div>
   </div>
 </footer>
-<script src="/beispiele/_shared/demo.js?v=29766291" defer></script><script src="/beispiele/nagelstudio/app.js?v=20261027e" defer></script></body></html>
+<script src="/beispiele/_shared/demo.js?v=29766291" defer></script><script src="/beispiele/nagelstudio/app.js?v=20261027f" defer></script></body></html>
