@@ -264,6 +264,8 @@ function build(THREE, RoomEnvironment) {
     if (small || bk) {
       var dc = cut - scrollY - y, clip = Math.max(0, H / 2 - dc);
       fade = clamp((dc + S * .2) / (S * .2), 0, 1);
+      // Black Edition: beim Runterscrollen langsam ausblenden wie im normalen Design
+      if (bk) fade = Math.min(fade, clamp((y - innerHeight * .12) / (innerHeight * .3), 0, 1));
       cv.style.clipPath = clip ? "inset(0 0 " + clip.toFixed(1) + "px 0)" : "";
     } else { fade = clamp((d - S * .1) / (S * .16), 0, 1); if (cv.style.clipPath) cv.style.clipPath = ""; }
     cv.style.transform = "translate3d(" + (cx - W / 2).toFixed(1) + "px," + (y - H / 2).toFixed(1) + "px,0)";

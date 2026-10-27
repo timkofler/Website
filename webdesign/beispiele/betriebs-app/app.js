@@ -38,7 +38,7 @@
   // Kleine echte Inhalte je Abo-Fenster statt Platzhalter-Balken
   var WIN = {
     Terminbuchung: '<div class="w-slots"><span class="x">09:00</span><span class="on">10:30</span><span>14:00</span></div><span class="w-sub">Mo, 26. Okt. · 3 Termine frei</span>',
-    Gutscheine: '<div class="w-gift"><span><small>Gutschein</small><b>50 €</b></span><span class="w-qr">' + qrSvg("GL-50", { logo: "G", a: "#d63a74" }) + '</span></div>',
+    Gutscheine: '<div class="w-gift"><span><small>Gutschein</small><b>50 €</b></span><span class="w-qr">' + qrSvg("GL-50", { logo: "G", a: "#ef5a92" }) + '</span></div>',
     Stempelkarte: '<div class="w-stamps"><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span></div><span class="w-sub">Noch 2 Stempel bis gratis</span>',
     Angebote: '<div class="w-row"><span>Angebot 041</span><b>1.180 €</b></div><div class="w-row"><span>Unterschrift</span><em class="w-chip">offen</em></div>',
     Rechnungen: '<div class="w-row"><span>Nr. 1042</span><b>89 €</b><em class="w-chip">offen</em></div><div class="w-row"><span>Nr. 1041</span><b>120 €</b><em class="w-chip ok">bezahlt</em></div>',
@@ -135,7 +135,7 @@
   /* ---------------- Kunden-App ---------------- */
   var BR = {
     beauty: {
-      name: "Studio Glanz", logo: "G", a: "#d63a74", a2: "#f472b6", a3: "#8f1d4a", url: "app.studio-glanz.at/buero",
+      name: "Studio Glanz", logo: "G", a: "#ef5a92", a2: "#f9a8d4", a3: "#b02a63", url: "app.studio-glanz.at/buero",
       open: "Heute geöffnet bis 18 Uhr", closed: [0, 1], times: ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30"],
       tTitle: "Termin buchen", tWhat: "Leistung", tTab: "Termin", tTile: "Termine", tUnit: "Termin",
       svcs: [["Damenhaarschnitt", "45 Min.", 42], ["Herrenhaarschnitt", "30 Min.", 26], ["Färben & Schnitt", "2 Std.", 95], ["Maniküre", "45 Min.", 32]],
@@ -147,7 +147,7 @@
       seed: [["termin", "Termin: Damenhaarschnitt", "Sabine K. · morgen 10:30", "08:12"], ["gutschein", "Gutschein verkauft: 50 €", "Für Oma, von Jakob", "07:45"], ["angebot", "Angebot angenommen", "Hochsteckfrisur · Familie Berger", "gestern"]]
     },
     gastro: {
-      name: "Gasthaus Lindenhof", logo: "L", a: "#c2620a", a2: "#f59e0b", a3: "#7a3a05", url: "app.gasthaus-lindenhof.at/buero",
+      name: "Gasthaus Lindenhof", logo: "L", a: "#ea8a2e", a2: "#fbbf24", a3: "#a4520c", url: "app.gasthaus-lindenhof.at/buero",
       open: "Heute Küche bis 21 Uhr", closed: [1, 2], times: ["11:30", "12:00", "12:30", "13:00", "13:30", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30"],
       tTitle: "Tisch reservieren", tWhat: "Personen", tTab: "Tisch", tTile: "Reservierungen", tUnit: "Tisch",
       svcs: [["2 Personen", "", null], ["4 Personen", "", null], ["6 Personen", "", null], ["Gruppe", "bis 20 Personen, Extrastüberl", null]],
@@ -159,7 +159,7 @@
       seed: [["termin", "Reservierung: 4 Personen", "Fam. Wagner · heute 18:30", "09:02"], ["gutschein", "Gutschein verkauft: 80 €", "Für Peter, von den Kollegen", "08:20"], ["treue", "Stempel vergeben", "Mittagsmenü · Herbert L. (9/10)", "gestern"]]
     },
     hand: {
-      name: "Elektro Brunner", logo: "B", a: "#ff5a1f", a2: "#ffb23f", a3: "#8a2a08", url: "app.elektro-brunner.at/buero",
+      name: "Elektro Brunner", logo: "B", a: "#2563eb", a2: "#38bdf8", a3: "#1e3a8a", url: "app.elektro-brunner.at/buero",
       open: "Heute erreichbar bis 17 Uhr", closed: [0, 6], times: ["08:00", "09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"],
       tTitle: "Termin vereinbaren", tWhat: "Worum geht es?", tTab: "Termin", tTile: "Termine", tUnit: "Termin",
       svcs: [["Besichtigung vor Ort", "für ein Angebot", 0], ["E-Check Wohnung", "ca. 1,5 Std.", 149], ["Störung / Reparatur", "Anfahrt + 1. Stunde", 89], ["Beratung Wallbox & PV", "ca. 1 Std.", 0]],

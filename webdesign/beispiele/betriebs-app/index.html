@@ -476,7 +476,7 @@ button{cursor:pointer}
 @property --vc{syntax:"<color>";inherits:true;initial-value:#ff5a1f}
 @property --vc2{syntax:"<color>";inherits:true;initial-value:#ffb23f}
 .hero{--vc:#ff5a1f;--vc2:#ffb23f}
-.demo{--vc:#d63a74;--vc2:#f472b6;transition:--vc .7s ease,--vc2 .7s ease;position:relative;overflow:hidden;
+.demo{--vc:#ef5a92;--vc2:#f9a8d4;transition:--vc .7s ease,--vc2 .7s ease;position:relative;overflow:hidden;
   background:radial-gradient(48% 38% at 12% 34%,color-mix(in srgb,var(--vc) 20%,transparent),transparent 72%),
     radial-gradient(42% 36% at 92% 64%,color-mix(in srgb,var(--vc2) 14%,transparent),transparent 72%),var(--bg2)}
 .play__phone::before{background:radial-gradient(closest-side,color-mix(in srgb,var(--vc) 42%,transparent),transparent);filter:blur(24px)}
@@ -660,6 +660,54 @@ button{cursor:pointer}
   .sw[aria-checked="true"] .sw__knob{transform:translateX(24px) rotate(180deg)}
 }
 @media (prefers-reduced-motion:reduce){.aurora i{animation:none}.demo{transition:none}.app__tabs button svg,.sw__knob,.sw__rays,.sw__sky i{transition:none}}
+
+/* ================= Black-Look wie tim-kofler.at (Tim 27.10.): Manrope, Glas-Kacheln, Leuchtkanten, Orange ohne Verlauf. Nur im dunklen Modus ================= */
+@font-face{font-family:"Manrope";src:url(/assets/fonts/manrope.woff2) format("woff2");font-weight:200 800;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url(/assets/fonts/jetbrains-mono.woff2) format("woff2");font-weight:400 700;font-display:swap}
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]){--bk-glass:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.012));--bk-beam:linear-gradient(90deg,transparent 8%,rgba(255,255,255,.2) 50%,transparent 92%) top center/100% 1px no-repeat;--bk-beam-hot:linear-gradient(90deg,transparent 8%,rgba(255,140,90,.85) 50%,transparent 92%) top center/100% 1px no-repeat;--bk-glow:0 0 0 1px rgba(255,90,31,.32),0 0 34px -8px rgba(255,90,31,.42),inset 0 1px 0 rgba(255,255,255,.07)}
+:root:not([data-theme="light"]) body{background:radial-gradient(rgba(255,255,255,.045) 1px,transparent 1.2px) 0 0/28px 28px,#0b0b0c}
+:root:not([data-theme="light"]) .hero__t,:root:not([data-theme="light"]) .sec__head h2,:root:not([data-theme="light"]) .end h2{font-family:"Manrope",var(--hd);font-weight:500;letter-spacing:-.03em}
+:root:not([data-theme="light"]) .hero__t b{font-weight:600}
+:root:not([data-theme="light"]) .cell h3,:root:not([data-theme="light"]) .fair h3,:root:not([data-theme="light"]) .feat b{font-family:"Manrope",var(--hd);font-weight:600;letter-spacing:-.015em}
+:root:not([data-theme="light"]) .hero__head .grad,:root:not([data-theme="light"]) .sec__head .grad,:root:not([data-theme="light"]) .end .grad{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#ff5a1f}
+:root:not([data-theme="light"]) .kick{font:500 11.5px/1 "JetBrains Mono",ui-monospace,monospace;letter-spacing:.08em;border-color:rgba(255,255,255,.1);background:rgba(255,255,255,.02)}
+:root:not([data-theme="light"]) .hero .btn:not(.line),:root:not([data-theme="light"]) .sec__head .btn:not(.line),:root:not([data-theme="light"]) .end .btn:not(.line){background:#ff5a1f;color:#0b0b0c;border-radius:999px;box-shadow:none}
+:root:not([data-theme="light"]) .hero .btn:not(.line):hover,:root:not([data-theme="light"]) .sec__head .btn:not(.line):hover,:root:not([data-theme="light"]) .end .btn:not(.line):hover{background:#ff6a33;filter:none;box-shadow:0 0 0 1px rgba(255,90,31,.5),0 10px 34px -8px rgba(255,90,31,.6)}
+:root:not([data-theme="light"]) .hero .btn.line,:root:not([data-theme="light"]) .end .btn.line{border-radius:999px;background:rgba(255,255,255,.02);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+:root:not([data-theme="light"]) .hero .btn.line:hover,:root:not([data-theme="light"]) .end .btn.line:hover{background:rgba(255,90,31,.06);box-shadow:inset 0 0 0 1px rgba(255,90,31,.7),0 0 24px -8px rgba(255,90,31,.5)}
+:root:not([data-theme="light"]) .sec{position:relative}
+:root:not([data-theme="light"]) .sec + .sec::before{content:"";position:absolute;top:0;left:0;right:0;margin:0 auto;width:min(900px,80%);height:1px;background:linear-gradient(90deg,transparent,rgba(255,140,90,.45),transparent);pointer-events:none}
+:root:not([data-theme="light"]) .cell,:root:not([data-theme="light"]) .fair>div,:root:not([data-theme="light"]) .feat,:root:not([data-theme="light"]) .res{background:var(--bk-beam),var(--bk-glass),#0e0e0f;border:1px solid rgba(255,255,255,.08);border-radius:24px;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);-webkit-backdrop-filter:none;backdrop-filter:none}
+:root:not([data-theme="light"]) .cell::after,:root:not([data-theme="light"]) .feat::before{display:none}
+:root:not([data-theme="light"]) .cell:hover,:root:not([data-theme="light"]) .fair>div:hover,:root:not([data-theme="light"]) .feat:hover{border-color:rgba(255,90,31,.55);box-shadow:var(--bk-glow);background:var(--bk-beam-hot),var(--bk-glass),#0e0e0f}
+:root:not([data-theme="light"]) .feat[aria-pressed="true"]{border-color:rgba(255,90,31,.7);box-shadow:var(--bk-glow);background:var(--bk-beam-hot),linear-gradient(180deg,rgba(255,90,31,.08),rgba(255,90,31,.01)),#0e0e0f}
+:root:not([data-theme="light"]) .cell i,:root:not([data-theme="light"]) .feat i{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.015)),#101011;border:1px solid rgba(255,255,255,.1);color:#ff7a45;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+:root:not([data-theme="light"]) .fair li::before{background:#ff7a45}
+}
+
+:root[data-theme="dark"]{--bk-glass:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.012));--bk-beam:linear-gradient(90deg,transparent 8%,rgba(255,255,255,.2) 50%,transparent 92%) top center/100% 1px no-repeat;--bk-beam-hot:linear-gradient(90deg,transparent 8%,rgba(255,140,90,.85) 50%,transparent 92%) top center/100% 1px no-repeat;--bk-glow:0 0 0 1px rgba(255,90,31,.32),0 0 34px -8px rgba(255,90,31,.42),inset 0 1px 0 rgba(255,255,255,.07)}
+:root[data-theme="dark"] body{background:radial-gradient(rgba(255,255,255,.045) 1px,transparent 1.2px) 0 0/28px 28px,#0b0b0c}
+:root[data-theme="dark"] .hero__t,:root[data-theme="dark"] .sec__head h2,:root[data-theme="dark"] .end h2{font-family:"Manrope",var(--hd);font-weight:500;letter-spacing:-.03em}
+:root[data-theme="dark"] .hero__t b{font-weight:600}
+:root[data-theme="dark"] .cell h3,:root[data-theme="dark"] .fair h3,:root[data-theme="dark"] .feat b{font-family:"Manrope",var(--hd);font-weight:600;letter-spacing:-.015em}
+:root[data-theme="dark"] .hero__head .grad,:root[data-theme="dark"] .sec__head .grad,:root[data-theme="dark"] .end .grad{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#ff5a1f}
+:root[data-theme="dark"] .kick{font:500 11.5px/1 "JetBrains Mono",ui-monospace,monospace;letter-spacing:.08em;border-color:rgba(255,255,255,.1);background:rgba(255,255,255,.02)}
+:root[data-theme="dark"] .hero .btn:not(.line),:root[data-theme="dark"] .sec__head .btn:not(.line),:root[data-theme="dark"] .end .btn:not(.line){background:#ff5a1f;color:#0b0b0c;border-radius:999px;box-shadow:none}
+:root[data-theme="dark"] .hero .btn:not(.line):hover,:root[data-theme="dark"] .sec__head .btn:not(.line):hover,:root[data-theme="dark"] .end .btn:not(.line):hover{background:#ff6a33;filter:none;box-shadow:0 0 0 1px rgba(255,90,31,.5),0 10px 34px -8px rgba(255,90,31,.6)}
+:root[data-theme="dark"] .hero .btn.line,:root[data-theme="dark"] .end .btn.line{border-radius:999px;background:rgba(255,255,255,.02);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+:root[data-theme="dark"] .hero .btn.line:hover,:root[data-theme="dark"] .end .btn.line:hover{background:rgba(255,90,31,.06);box-shadow:inset 0 0 0 1px rgba(255,90,31,.7),0 0 24px -8px rgba(255,90,31,.5)}
+:root[data-theme="dark"] .sec{position:relative}
+:root[data-theme="dark"] .sec + .sec::before{content:"";position:absolute;top:0;left:0;right:0;margin:0 auto;width:min(900px,80%);height:1px;background:linear-gradient(90deg,transparent,rgba(255,140,90,.45),transparent);pointer-events:none}
+:root[data-theme="dark"] .cell,:root[data-theme="dark"] .fair>div,:root[data-theme="dark"] .feat,:root[data-theme="dark"] .res{background:var(--bk-beam),var(--bk-glass),#0e0e0f;border:1px solid rgba(255,255,255,.08);border-radius:24px;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);-webkit-backdrop-filter:none;backdrop-filter:none}
+:root[data-theme="dark"] .cell::after,:root[data-theme="dark"] .feat::before{display:none}
+:root[data-theme="dark"] .cell:hover,:root[data-theme="dark"] .fair>div:hover,:root[data-theme="dark"] .feat:hover{border-color:rgba(255,90,31,.55);box-shadow:var(--bk-glow);background:var(--bk-beam-hot),var(--bk-glass),#0e0e0f}
+:root[data-theme="dark"] .feat[aria-pressed="true"]{border-color:rgba(255,90,31,.7);box-shadow:var(--bk-glow);background:var(--bk-beam-hot),linear-gradient(180deg,rgba(255,90,31,.08),rgba(255,90,31,.01)),#0e0e0f}
+:root[data-theme="dark"] .cell i,:root[data-theme="dark"] .feat i{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.015)),#101011;border:1px solid rgba(255,255,255,.1);color:#ff7a45;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+:root[data-theme="dark"] .fair li::before{background:#ff7a45}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .res .btn:not(.line){background:#ff5a1f;color:#0b0b0c;border-radius:999px;box-shadow:none}:root:not([data-theme="light"]) .res .btn.line{border-radius:999px;background:rgba(255,255,255,.02);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}:root:not([data-theme="light"]) .res__big b{color:#ff5a1f}
+}
+:root[data-theme="dark"] .res .btn:not(.line){background:#ff5a1f;color:#0b0b0c;border-radius:999px;box-shadow:none}:root[data-theme="dark"] .res .btn.line{border-radius:999px;background:rgba(255,255,255,.02);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}:root[data-theme="dark"] .res__big b{color:#ff5a1f}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Start", "item": "https://tim-kofler.at/"}, {"@type": "ListItem", "position": 2, "name": "Beispielseiten", "item": "https://tim-kofler.at/beispiele/"}, {"@type": "ListItem", "position": 3, "name": "Betriebs-App", "item": "https://tim-kofler.at/beispiele/betriebs-app/"}]}, {"@type": "Service", "@id": "https://tim-kofler.at/beispiele/betriebs-app/#angebot", "name": "Eigene Betriebs-App statt Software-Abos", "serviceType": "Web-App-Entwicklung", "provider": {"@id": "https://tim-kofler.at/#unternehmen"}, "areaServed": {"@type": "Country", "name": "Österreich"}, "url": "https://tim-kofler.at/beispiele/betriebs-app/"}]}</script>
 </head>
@@ -968,5 +1016,5 @@ button{cursor:pointer}
 <script src="/beispiele/_shared/demo.js?v=29766291" defer></script>
 <script src="/beispiele/_shared/vendor/qrcode-generator-2.0.4/qrcode.js" defer></script>
 <script src="/assets/js/tk-qr.js?v=1" defer></script>
-<script src="/beispiele/betriebs-app/app.js?v=11" defer></script>
+<script src="/beispiele/betriebs-app/app.js?v=12" defer></script>
 </body></html>
