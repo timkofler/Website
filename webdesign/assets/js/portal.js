@@ -262,6 +262,31 @@
     if (f && !window.confirm(f.getAttribute('data-kp-confirm'))) e.preventDefault();
   });
 
+  // Kleine Kopier-Knöpfe mit eigenem Text (Entwurf-Link, Bewertungslink).
+  Array.prototype.forEach.call(document.querySelectorAll('[data-kp-copy-text]'), function (b) {
+    if (!navigator.clipboard) { b.hidden = true; return; }
+    b.addEventListener('click', function () {
+      var t = b.textContent;
+      navigator.clipboard.writeText(b.getAttribute('data-kp-copy-text')).then(function () {
+        b.textContent = 'Kopiert ✓';
+        setTimeout(function () { b.textContent = t; }, 1600);
+      });
+    });
+  });
+
+  // Schnellwahl fürs Nachfass-Datum: „in 3 Tagen“, „in 1 Woche“ … oder leeren.
+  Array.prototype.forEach.call(document.querySelectorAll('[data-kp-datum]'), function (b) {
+    b.addEventListener('click', function () {
+      var f = b.form && b.form.querySelector('input[name="nachfassen"]');
+      if (!f) return;
+      var n = b.getAttribute('data-kp-datum');
+      if (n === '') { f.value = ''; return; }
+      var d = new Date();
+      d.setDate(d.getDate() + parseInt(n, 10));
+      f.value = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    });
+  });
+
   var copy = document.querySelector('[data-kp-copy-btn]');
   var src = document.querySelector('[data-kp-copy]');
   if (copy && src && navigator.clipboard) {

@@ -156,7 +156,8 @@ function cx_webseite(array $c, string $email, string $name, string $fallback): v
     // Im Admin unter „Anfragen“ (gesperrter Bereich auf dem Webspace), damit nichts nur im Postfach liegt.
     require_once __DIR__ . '/anfrage-lib.php';
     $art = str_starts_with($f['Paket'], 'Vereinsseite') || isset($f['Art des Vereins']) ? 'verein' : (isset($f['Gegründet']) ? 'gruender' : 'anfrage');
-    $stored = af_save($art, $name, $f['Unternehmen / Branche'], $f['Gefunden über'], $f);
+    $afId = af_save($art, $name, $f['Unternehmen / Branche'], $f['Gefunden über'], $f, true);
+    $stored = $afId !== '';
 
     $rows = '';
     foreach ($f as $k => $v) {
@@ -180,6 +181,9 @@ function cx_webseite(array $c, string $email, string $name, string $fallback): v
     // Double-Opt-in-Mail an die Person. Paket, Quelle und der Vereins-Hinweis reisen signiert im Link mit;
     // erst nach dem Klick trägt bestaetigen.php den Kontakt in Brevo ein und schickt die Eingangsbestätigung.
     $extra = ['v' => str_starts_with($f['Paket'], 'Vereinsseite') ? 1 : 0];
+    if ($afId !== '') {
+        $extra['af'] = $afId; // damit der Klick die gespeicherte Anfrage als bestätigt markiert
+    }
     if ($f['Paket'] !== '') {
         $extra['pk'] = $f['Paket'];
     }
@@ -221,7 +225,12 @@ function cx_rueckruf(array $c, string $name, string $fallback): void
     }
     $notify = (string) ($c['notify_email'] ?? 'tk@crypto-x.at');
     require_once __DIR__ . '/anfrage-lib.php';
-    $stored = af_save('rueckruf', $name, '', $f['Gefunden über'], $f);
+    $afId = af_save('rueckruf', $name, '', $f['Gefunden über'], $f);
+    $stored = $afId !== '';
+    // Rückruf hat keine Bestätigung per Mail, deshalb gleich aufs Handy (ohne Name und Nummer).
+    require_once __DIR__ . '/push-lib.php';
+    pu_send('📞 Neuer Rückruf-Wunsch' . ($wann !== '' ? ', erreichbar: ' . $wann : '') . ' · über ' . af_quelle_name(af_quelle($f['Gefunden über'])),
+        $stored ? '/kunden/admin/?anfrage=' . $afId : '/kunden/admin/#anfragen');
     $ok = cx_mail($notify, 'Tim', 'Rückruf-Wunsch: ' . $name . ' (' . $tel . ')',
         cx_mail_layout('Bitte zurückrufen', cx_mail_table($rows)
             . '<p style="margin:18px 0 0;font-size:14px;color:#a1a1a1">Die Person hat keine E-Mail-Adresse angegeben, nur die Telefonnummer.</p>'));

@@ -35,6 +35,15 @@ if (($data['s'] ?? '') === 'webseite') {
         cx_page('Das hat nicht geklappt', 'Deine Bestätigung konnte gerade nicht gespeichert werden. Bitte klick den Link später noch einmal an.', 502);
     }
     cx_consent_log('optin_bestaetigt_webseite', $email);
+    // Gespeicherte Anfrage als bestätigt markieren und Tim aufs Handy melden (nur beim ersten Klick).
+    require_once __DIR__ . '/anfrage-lib.php';
+    require_once __DIR__ . '/push-lib.php';
+    $afId = (string) ($data['af'] ?? '');
+    if (ew_valid_id($afId) && ($af = af_mark_optin('anfrage', $afId))) {
+        $pk = (string) ($af['felder']['Paket'] ?? '');
+        pu_send('✅ Neue Anfrage bestätigt: ' . (AF_ARTEN[$af['art'] ?? ''] ?? 'Anfrage') . ($pk !== '' ? ' · ' . $pk : '') . ' · über ' . af_quelle_name(af_quelle((string) ($af['quelle'] ?? ''))),
+            '/kunden/admin/?anfrage=' . $afId);
+    }
 
     // Eingangsbestätigung an die Person (Antworten gehen an Tim). Tim wurde bereits bei der Anfrage informiert.
     $verein = !empty($data['v']);
@@ -73,6 +82,13 @@ if (($data['s'] ?? '') === 'gratisentwurf') {
         cx_page('Das hat nicht geklappt', 'Deine Bestätigung konnte gerade nicht gespeichert werden. Bitte klick den Link später noch einmal an.', 502);
     }
     cx_consent_log('optin_bestaetigt_gratisentwurf', $email);
+    require_once __DIR__ . '/anfrage-lib.php';
+    require_once __DIR__ . '/push-lib.php';
+    $ewId = (string) ($data['id'] ?? '');
+    if ($stored !== [] && ($ew = af_mark_optin('entwurf', $ewId))) {
+        $wo = implode(', ', array_filter([(string) ($ew['branche'] ?? ''), (string) ($ew['ort'] ?? '')]));
+        pu_send('🎨 Gratis-Entwurf bestätigt' . ($wo !== '' ? ': ' . $wo : '') . ' · bitte innerhalb von 48 Stunden schicken', '/kunden/admin/?entwurf=' . $ewId);
+    }
 
     // Eingangsbestätigung „ich lege los" an die Person. Tim wurde bereits bei der Anfrage informiert.
     ew_send_eingang($d, (string) ($c['notify_email'] ?? 'office@tim-kofler.at'));

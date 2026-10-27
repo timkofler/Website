@@ -47,6 +47,10 @@ return [
     // Speicherplatz je Kunde in GB
     'kunde_max_gb'     => 10,
 
+    // ---------------- Handy-Benachrichtigung (Telegram) ----------------
+    // Schlüssel des eigenen Bots von @BotFather (z. B. 123456789:AA…). Danach im Admin unter Werbung → Benachrichtigungen „Chat suchen“.
+    // 'telegram_token'  => '',
+
     // ---------------- KI-Antworten im Chat ("Fragen?"-Knopf) ----------------
     // API-Schlüssel von Anthropic: platform.claude.com → Settings → API Keys → "Create Key" (Name z. B. "tim-kofler.at Chat").
     // Nur hier eintragen, nie im Repo oder in einer Mail. Leer = der Chat antwortet wie bisher nur mit festen Antworten.

@@ -1,0 +1,8 @@
+/* Kundenbewertungen auf der Startseite (wird von tk-stimmen.js nur geladen, wenn es freigegebene gibt) */
+.tk-stimmen { margin-top: 36px; }
+.tk-stimmen__h { margin: 0 0 14px; font-size: 1.05rem; }
+.tk-stimmen__liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.tk-stimme { padding: 18px 20px; border: 1px solid var(--line-2); border-radius: 18px; background: var(--bg-2); }
+.tk-stimme__sterne { display: block; color: var(--hot); letter-spacing: .12em; font-size: 1rem; }
+.tk-stimme blockquote { margin: 8px 0 10px; color: var(--text); font-size: .98rem; line-height: 1.55; }
+.tk-stimme cite { font-style: normal; color: var(--muted); font-size: .88rem; }

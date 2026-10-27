@@ -54,13 +54,41 @@ function af_delete(string $id): void
 }
 
 // Neue Anfrage aus anmelden.php speichern. $felder sind genau die Zeilen aus Tims Benachrichtigungsmail.
-function af_save(string $art, string $name, string $firma, string $quelle, array $felder): bool
+// Mit $optin wartet die Anfrage auf die Bestätigung der E-Mail-Adresse (Double-Opt-in). Gibt die ID zurück, leer bei Fehler.
+function af_save(string $art, string $name, string $firma, string $quelle, array $felder, bool $optin = false): string
 {
     $id = date('Ymd-His') . '-' . bin2hex(random_bytes(3));
-    return af_write($id, [
+    $d = [
         'art' => isset(AF_ARTEN[$art]) ? $art : 'anfrage', 'zeit' => date('c'), 'status' => 'neu',
         'name' => $name, 'firma' => $firma, 'quelle' => $quelle, 'felder' => $felder,
-    ]);
+    ];
+    if ($optin) {
+        $d['optin'] = 'offen';
+    }
+    return af_write($id, $d) ? $id : '';
+}
+
+// Nach so vielen Tagen ohne Bestätigung der E-Mail-Adresse verschwindet eine neue Anfrage aus der Liste
+// (meist Spam oder Tippfehler). Sie bleibt unter „Unbestätigt“ sichtbar und wird nicht gelöscht.
+const AF_OPTIN_TAGE = 7;
+
+function af_versteckt(array $d): bool
+{
+    return ($d['optin'] ?? '') === 'offen' && ($d['status'] ?? 'neu') === 'neu'
+        && (strtotime((string) ($d['zeit'] ?? '')) ?: 0) < time() - AF_OPTIN_TAGE * 86400;
+}
+
+// Bestätigungslink geklickt: in der gespeicherten Anfrage bzw. im Gratis-Entwurf vermerken. Gibt die Daten zurück.
+function af_mark_optin(string $art, string $id): array
+{
+    $d = $art === 'entwurf' ? ew_read($id) : af_read($id);
+    if (!$d || ($d['optin'] ?? '') === 'ok') {
+        return [];
+    }
+    $d['optin'] = 'ok';
+    $d['optin_zeit'] = date('c');
+    $art === 'entwurf' ? ew_write($id, $d) : af_write($id, $d);
+    return $d;
 }
 
 // Gespeicherte Anfragen und Gratis-Entwürfe zusammen, neueste zuerst. Ohne Auftrag nach 12 Monaten gelöscht wie bei den Entwürfen.
@@ -85,7 +113,8 @@ function af_all(): array
         $out['e' . $id] = [
             'art' => 'entwurf', 'id' => $id, 'link' => '?entwurf=' . $id, 'zeit' => $d['zeit'] ?? '', 'status' => $d['status'] ?? 'neu',
             'name' => $d['name'] ?? '', 'firma' => $d['firma'] ?? '', 'quelle' => $d['quelle'] ?? '', 'notiz' => $d['notiz'] ?? '',
-            'ort' => $d['ort'] ?? '', 'branche' => $d['branche'] ?? '',
+            'ort' => $d['ort'] ?? '', 'branche' => $d['branche'] ?? '', 'optin' => $d['optin'] ?? '', 'nachfassen' => $d['nachfassen'] ?? '',
+            'ansicht' => $d['ansicht'] ?? '', 'email' => $d['email'] ?? '', 'telefon' => $d['telefon'] ?? '',
         ];
     }
     uasort($out, static fn($a, $b) => strcmp((string) $b['zeit'], (string) $a['zeit']));
@@ -109,7 +138,7 @@ function af_quelle(string $q): string
 
 function af_quelle_name(string $q): string
 {
-    $fest = ['google-anzeige' => 'Google-Anzeige', 'direkt' => 'Direkt / ohne Kennung', 'willhaben' => 'willhaben', 'brief' => 'Briefe (Porto)', 'flyer' => 'Flyer + Visitenkarten', 'auto' => 'Autobeschriftung'];
+    $fest = ['google-anzeige' => 'Google-Anzeige', 'google (suche)' => 'Google-Suche', 'direkt' => 'Direkt / ohne Kennung', 'willhaben' => 'willhaben', 'brief' => 'Briefe (Porto)', 'flyer' => 'Flyer + Visitenkarten', 'auto' => 'Autobeschriftung'];
     return $fest[$q] ?? (strpos($q, '.') !== false ? $q : ucfirst($q));
 }
 
