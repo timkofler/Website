@@ -120,6 +120,13 @@ function cx_email(string $v): string
     return (strlen($v) <= 254 && filter_var($v, FILTER_VALIDATE_EMAIL)) ? $v : '';
 }
 
+// Macht einen Text einzeilig: Zeilenumbrüche und Tabs werden zu einem Leerzeichen, Doppelte zusammengezogen.
+// Für Felder, die nie mehrzeilig sein dürfen (Mail-Betreff, Empfängername).
+function cx_oneline(string $v): string
+{
+    return trim((string) preg_replace('/\s+/u', ' ', str_replace(["\r", "\n", "\t"], ' ', $v)));
+}
+
 // Grundschutz gegen Spam und fremde Seiten: nur POST, nur von crypto-x.at, Honeypot, Mindestzeit.
 function cx_guard(): void
 {
@@ -273,6 +280,10 @@ function cx_contact(string $email, string $firstname, array $listIds, array $ext
 function cx_mail(string $to, string $toName, string $subject, string $html, string $replyTo = ''): bool
 {
     $c = cx_config();
+    // Betreff und Empfängername sind einzeilig: Zeilenumbrüche/Tabs raus, damit kein fremder Text
+    // oder Kopfzeilen-Trick in die Mail rutscht (auch wenn der Versand über die Brevo-JSON-API läuft).
+    $subject = cx_oneline($subject);
+    $toName = cx_oneline($toName);
     $body = [
         'sender' => ['email' => (string) ($c['sender_email'] ?? 'tk@crypto-x.at'), 'name' => (string) ($c['sender_name'] ?? 'CryptoX')],
         'to' => [array_filter(['email' => $to, 'name' => $toName])],
