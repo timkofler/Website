@@ -436,6 +436,7 @@ td.today,th.today{background:var(--popl)}
 /* Was noch möglich ist */
 .more{padding:clamp(60px,8vw,100px) 0}
 .more h2{font-size:clamp(30px,4vw,48px);max-width:720px}
+.more h2 span{color:var(--pop)}
 .more .lead{color:var(--mu);max-width:640px;margin-top:12px;font-size:16.5px}
 .ideas{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:32px}
 .idea{background:var(--solid);border:1px solid var(--line);border-radius:var(--r);padding:20px;transition:transform .3s,box-shadow .3s}
@@ -512,18 +513,18 @@ td.today,th.today{background:var(--popl)}
 }
 .reset-m{display:none}
 .h3d{padding-bottom:0}
-.h3d__box{position:relative;margin-top:30px;border-radius:22px;overflow:hidden;background:linear-gradient(#c9dbef,#f3efe7);box-shadow:0 40px 80px -50px rgba(18,22,37,.8)}
+.h3d__box{position:relative;margin-top:30px;border-radius:22px;overflow:hidden;background:linear-gradient(#0b0b0c,#141415 55%,#2a150c);border:1px solid rgba(255,255,255,.08);box-shadow:0 40px 80px -50px rgba(0,0,0,.8),0 0 80px -40px rgba(255,90,31,.3)}
 .h3d__view{position:relative;aspect-ratio:16/8.5;min-height:420px}
 .h3d__view .s3d{position:absolute;inset:0;display:block;width:100%;height:100%;cursor:grab}
 .h3d__view .s3d.is-drag{cursor:grabbing}
-.h3d__no{position:absolute;inset:0;display:grid;place-items:center;margin:0;color:#8e8e93;font-size:14px}
+.h3d__no{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;margin:0}
 .h3d__view.is-on .h3d__no{display:none}
 .h3d__legend{position:absolute;left:16px;top:16px;right:16px;display:flex;flex-wrap:wrap;gap:8px}
-.h3d__legend button{display:inline-flex;align-items:center;gap:8px;min-height:38px;padding:0 14px;border:1px solid rgba(255,255,255,.14);border-radius:999px;background:rgba(15,20,36,.72);color:#c9cfdd;font:600 13px/1 var(--bd);cursor:pointer;backdrop-filter:blur(6px)}
+.h3d__legend button{display:inline-flex;align-items:center;gap:8px;min-height:38px;padding:0 14px;border:1px solid rgba(255,255,255,.14);border-radius:999px;background:rgba(14,14,15,.72);color:#c9cfdd;font:600 13px/1 var(--bd);cursor:pointer;backdrop-filter:blur(6px)}
 .h3d__legend button::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--c);box-shadow:0 0 10px var(--c);opacity:.45}
 .h3d__legend button[aria-pressed="true"]{color:#fff;border-color:var(--c)}
 .h3d__legend button[aria-pressed="true"]::before{opacity:1}
-.h3d__info{position:absolute;right:16px;bottom:16px;max-width:min(420px,calc(100% - 32px));margin:0;padding:14px 16px;border-radius:14px;background:rgba(15,20,36,.8);color:#aab2c5;font-size:14px;line-height:1.45;backdrop-filter:blur(6px)}
+.h3d__info{position:absolute;right:16px;bottom:16px;max-width:min(420px,calc(100% - 32px));margin:0;padding:14px 16px;border-radius:14px;background:rgba(14,14,15,.8);color:#aab2c5;font-size:14px;line-height:1.45;backdrop-filter:blur(6px)}
 .h3d__info:empty{display:none}
 .h3d__info b{display:block;color:#fff;font-size:16px;margin-bottom:2px}
 @media (max-width:700px){.h3d__view{aspect-ratio:auto;height:520px;min-height:0}.h3d__legend{left:10px;right:10px;top:10px;gap:6px}.h3d__legend button{min-height:34px;padding:0 11px;font-size:12px}.h3d__info{left:10px;right:10px;bottom:10px;font-size:13px}}
@@ -748,7 +749,7 @@ body{background:radial-gradient(90% 60% at 85% -10%,color-mix(in srgb,var(--pop)
 
 /* App-Rahmen: Fensterleiste oben, Aurora dahinter */
 .app{position:relative;isolation:isolate;grid-template-rows:auto minmax(0,1fr);background:linear-gradient(165deg,color-mix(in srgb,var(--pop) 9%,var(--solid)) 0%,var(--solid) 45%,color-mix(in srgb,var(--pop2) 9%,var(--solid)) 100%);
-  border:1px solid var(--g-b);box-shadow:inset 0 1px 0 var(--g-hl),0 40px 90px -40px rgba(20,35,100,.55)}
+  border:1px solid var(--g-b);box-shadow:inset 0 1px 0 var(--g-hl),0 40px 90px -40px rgba(0,0,0,.55)}
 .app>.aurora{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none;border-radius:inherit}
 .aurora i{position:absolute;border-radius:50%;filter:blur(60px);opacity:var(--aur);animation:drift 26s ease-in-out infinite alternate}
 .aurora i:nth-child(1){width:44%;aspect-ratio:1;left:-8%;top:-6%;background:radial-gradient(closest-side,color-mix(in srgb,var(--pop) 70%,transparent),transparent)}
@@ -798,8 +799,8 @@ body{background:radial-gradient(90% 60% at 85% -10%,color-mix(in srgb,var(--pop)
 /* Glaskarten */
 .card,.fl,.idea,.board-w,.mp-sec,.kd-k>div,.m-wk,.m-day,.m-job,.mail{background:linear-gradient(155deg,var(--g-sh) 0%,transparent 55%),var(--card);border-color:var(--g-b);box-shadow:inset 0 1px 0 var(--g-hl),var(--g-dr);-webkit-backdrop-filter:blur(20px) saturate(1.5);backdrop-filter:blur(20px) saturate(1.5)}
 .fl{border-top:3px solid var(--c)}
-.lead,.job{background:color-mix(in srgb,var(--solid) 78%,transparent);border-color:var(--g-b);box-shadow:inset 0 1px 0 var(--g-hl),0 8px 20px -16px rgba(20,35,100,.5)}
-.lead:hover,.job:hover{box-shadow:inset 0 1px 0 var(--g-hl),0 16px 30px -16px rgba(20,35,100,.55);transform:translateY(-1px)}
+.lead,.job{background:color-mix(in srgb,var(--solid) 78%,transparent);border-color:var(--g-b);box-shadow:inset 0 1px 0 var(--g-hl),0 8px 20px -16px rgba(0,0,0,.5)}
+.lead:hover,.job:hover{box-shadow:inset 0 1px 0 var(--g-hl),0 16px 30px -16px rgba(0,0,0,.55);transform:translateY(-1px)}
 .card,.idea,.fl,.lead,.job{transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s,background-color .4s,border-color .4s}
 .idea:hover{transform:translateY(-3px)}
 .col{border:1px solid var(--line)}
@@ -817,8 +818,8 @@ body{background:radial-gradient(90% 60% at 85% -10%,color-mix(in srgb,var(--pop)
 .btn.ok{background:var(--ok);box-shadow:none}
 .btn.bad{background:var(--bad);box-shadow:none}
 .frm input,.frm select,.frm textarea,.search,.chat-f input,.pos input,.mail textarea{background:color-mix(in srgb,var(--solid) 75%,transparent);color:var(--ink);border-color:var(--line2)}
-.clock,.mont__intro,.m-clk{background:radial-gradient(120% 90% at 100% 0%,rgba(255,178,63,.35),transparent 60%),linear-gradient(150deg,#3a1d10,#0e1430 65%);box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 24px 50px -26px rgba(15,25,80,.8)}
-.cta{background:radial-gradient(80% 140% at 100% 0%,rgba(255,178,63,.4),transparent 60%),linear-gradient(140deg,#3a1d10,#0d1226 70%);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 30px 60px -30px rgba(15,25,80,.7)}
+.clock,.mont__intro,.m-clk{background:radial-gradient(120% 90% at 100% 0%,rgba(255,178,63,.35),transparent 60%),linear-gradient(150deg,#3a1d10,#0d0d0e 65%);box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 24px 50px -26px rgba(0,0,0,.8)}
+.cta{background:radial-gradient(80% 140% at 100% 0%,rgba(255,90,31,.32),transparent 60%),linear-gradient(140deg,#3a1d10,#0d0d0e 70%);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 30px 60px -30px rgba(0,0,0,.7)}
 .cta .btn{background:#fff;color:#141416;box-shadow:0 12px 26px -12px rgba(0,0,0,.6)}
 .drawer{background:color-mix(in srgb,var(--solid) 86%,transparent);-webkit-backdrop-filter:blur(26px) saturate(1.4);backdrop-filter:blur(26px) saturate(1.4);border-left:1px solid var(--g-b)}
 .mp-b{background:transparent}
@@ -904,6 +905,70 @@ body{background:radial-gradient(90% 60% at 85% -10%,color-mix(in srgb,var(--pop)
   #v-sales .sl-tabs{margin-top:4px}
   .sim-l{display:block;margin:14px auto 2px;padding:6px 10px;border:0;background:none;color:var(--mu);font:500 13px var(--bd);text-decoration:underline;text-underline-offset:3px}
 }
+
+/* ================= Black-Look wie tim-kofler.at (Tim 27.10.): Manrope, Punktraster, Glas-Kacheln, nur Orange (kein Blau). Nur im dunklen Modus ================= */
+@font-face{font-family:"Manrope";src:url(/assets/fonts/manrope.woff2) format("woff2");font-weight:200 800;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url(/assets/fonts/jetbrains-mono.woff2) format("woff2");font-weight:400 700;font-display:swap}
+@media (prefers-color-scheme: dark){
+:root:not([data-theme="light"]){--bk-beam:linear-gradient(90deg,transparent 8%,rgba(255,255,255,.16) 50%,transparent 92%) top center/100% 1px no-repeat}
+:root:not([data-theme="light"]) body{background:radial-gradient(70% 40% at 50% -8%,rgba(255,90,31,.12),transparent 70%),radial-gradient(rgba(255,255,255,.045) 1px,transparent 1.2px) 0 0/28px 28px,#0b0b0c;background-attachment:scroll}
+:root:not([data-theme="light"]) .aurora i:nth-child(2),:root:not([data-theme="light"]) .aurora i:nth-child(3){display:none}
+:root:not([data-theme="light"]) .aurora i:nth-child(1){opacity:.35}
+:root:not([data-theme="light"]) .intro h1{font-family:"Manrope",var(--hd);font-weight:500;letter-spacing:-.018em;line-height:1.12}
+:root:not([data-theme="light"]) .intro h1 span{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#ff5a1f}
+:root:not([data-theme="light"]) .main h2,:root:not([data-theme="light"]) .main h3,:root:not([data-theme="light"]) .more h2,:root:not([data-theme="light"]) .more h3,:root:not([data-theme="light"]) .firm b,:root:not([data-theme="light"]) .brand b{font-family:"Manrope",var(--hd);font-weight:600;letter-spacing:-.015em}
+:root:not([data-theme="light"]) .main h2{font-weight:500;letter-spacing:-.018em}
+:root:not([data-theme="light"]) .kick{font:500 11.5px/1 "JetBrains Mono",ui-monospace,monospace;letter-spacing:.08em;color:var(--mu);border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.02)}
+:root:not([data-theme="light"]) .intro li,:root:not([data-theme="light"]) .chip{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.1);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+:root:not([data-theme="light"]) .app{background:linear-gradient(90deg,transparent 8%,rgba(255,255,255,.2) 50%,transparent 92%) top center/100% 1px no-repeat,#0c0c0d;border-color:rgba(255,255,255,.09);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 40px 90px -40px rgba(0,0,0,.9),0 0 80px -40px rgba(255,90,31,.25)}
+:root:not([data-theme="light"]) .side{background:rgba(255,255,255,.015);border-right-color:rgba(255,255,255,.07)}
+:root:not([data-theme="light"]) .side__ind{background:#ff5a1f;box-shadow:0 0 0 1px rgba(255,90,31,.45),0 10px 26px -10px rgba(255,90,31,.7)}
+:root:not([data-theme="light"]) .no-ind .nav-b[aria-current="page"]{background:#ff5a1f}
+:root:not([data-theme="light"]) .card,:root:not([data-theme="light"]) .idea{background:var(--bk-beam),linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01)),#0f0f10;border-color:rgba(255,255,255,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+:root:not([data-theme="light"]) .idea:hover{border-color:rgba(255,90,31,.55);box-shadow:0 0 0 1px rgba(255,90,31,.3),0 0 34px -8px rgba(255,90,31,.45)}
+:root:not([data-theme="light"]) .clock,:root:not([data-theme="light"]) .mont__intro,:root:not([data-theme="light"]) .m-clk{background:radial-gradient(110% 90% at 100% 0%,rgba(255,90,31,.28),transparent 60%),linear-gradient(150deg,#1a1210,#0d0d0e 65%);border:1px solid rgba(255,90,31,.25);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 24px 50px -26px rgba(0,0,0,.85)}
+:root:not([data-theme="light"]) .clock::after{background:radial-gradient(closest-side,rgba(255,90,31,.35),transparent)}
+:root:not([data-theme="light"]) .clock__t{font-family:"Manrope",var(--hd);font-weight:500;letter-spacing:-.02em}
+:root:not([data-theme="light"]) .btn.ok{background:#ff5a1f;color:#0b0b0c}
+:root:not([data-theme="light"]) .btn.ok:hover{background:#ff6a33}
+:root:not([data-theme="light"]) .more h2{font-weight:500;letter-spacing:-.018em;line-height:1.12}
+:root:not([data-theme="light"]) .cta{border:1px solid rgba(255,90,31,.25)}
+:root:not([data-theme="light"]) .cta h3{font-family:"Manrope",var(--hd);font-weight:600;letter-spacing:-.015em}
+:root:not([data-theme="light"]) .cta .btn{background:#ff5a1f;color:#0b0b0c;border-radius:999px;box-shadow:none;text-decoration:none}
+:root:not([data-theme="light"]) .cta .btn:hover{background:#ff6a33;box-shadow:0 0 0 1px rgba(255,90,31,.5),0 10px 34px -8px rgba(255,90,31,.6)}
+:root:not([data-theme="light"]) .idea i{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.015)),#101011;border:1px solid rgba(255,255,255,.1);color:#ff7a45}
+:root:not([data-theme="light"]) .h3d__legend button{background:rgba(14,14,15,.72);border-color:rgba(255,255,255,.12);color:#d4d4d8}
+:root:not([data-theme="light"]) .h3d__info{background:rgba(14,14,15,.85);border:1px solid rgba(255,255,255,.08);color:#a3a3a8}
+}
+:root[data-theme="dark"]{--bk-beam:linear-gradient(90deg,transparent 8%,rgba(255,255,255,.16) 50%,transparent 92%) top center/100% 1px no-repeat}
+:root[data-theme="dark"] body{background:radial-gradient(70% 40% at 50% -8%,rgba(255,90,31,.12),transparent 70%),radial-gradient(rgba(255,255,255,.045) 1px,transparent 1.2px) 0 0/28px 28px,#0b0b0c;background-attachment:scroll}
+:root[data-theme="dark"] .aurora i:nth-child(2),:root[data-theme="dark"] .aurora i:nth-child(3){display:none}
+:root[data-theme="dark"] .aurora i:nth-child(1){opacity:.35}
+:root[data-theme="dark"] .intro h1{font-family:"Manrope",var(--hd);font-weight:500;letter-spacing:-.018em;line-height:1.12}
+:root[data-theme="dark"] .intro h1 span{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#ff5a1f}
+:root[data-theme="dark"] .main h2,:root[data-theme="dark"] .main h3,:root[data-theme="dark"] .more h2,:root[data-theme="dark"] .more h3,:root[data-theme="dark"] .firm b,:root[data-theme="dark"] .brand b{font-family:"Manrope",var(--hd);font-weight:600;letter-spacing:-.015em}
+:root[data-theme="dark"] .main h2{font-weight:500;letter-spacing:-.018em}
+:root[data-theme="dark"] .kick{font:500 11.5px/1 "JetBrains Mono",ui-monospace,monospace;letter-spacing:.08em;color:var(--mu);border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.02)}
+:root[data-theme="dark"] .intro li,:root[data-theme="dark"] .chip{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.1);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+:root[data-theme="dark"] .app{background:linear-gradient(90deg,transparent 8%,rgba(255,255,255,.2) 50%,transparent 92%) top center/100% 1px no-repeat,#0c0c0d;border-color:rgba(255,255,255,.09);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 40px 90px -40px rgba(0,0,0,.9),0 0 80px -40px rgba(255,90,31,.25)}
+:root[data-theme="dark"] .side{background:rgba(255,255,255,.015);border-right-color:rgba(255,255,255,.07)}
+:root[data-theme="dark"] .side__ind{background:#ff5a1f;box-shadow:0 0 0 1px rgba(255,90,31,.45),0 10px 26px -10px rgba(255,90,31,.7)}
+:root[data-theme="dark"] .no-ind .nav-b[aria-current="page"]{background:#ff5a1f}
+:root[data-theme="dark"] .card,:root[data-theme="dark"] .idea{background:var(--bk-beam),linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01)),#0f0f10;border-color:rgba(255,255,255,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+:root[data-theme="dark"] .idea:hover{border-color:rgba(255,90,31,.55);box-shadow:0 0 0 1px rgba(255,90,31,.3),0 0 34px -8px rgba(255,90,31,.45)}
+:root[data-theme="dark"] .clock,:root[data-theme="dark"] .mont__intro,:root[data-theme="dark"] .m-clk{background:radial-gradient(110% 90% at 100% 0%,rgba(255,90,31,.28),transparent 60%),linear-gradient(150deg,#1a1210,#0d0d0e 65%);border:1px solid rgba(255,90,31,.25);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 24px 50px -26px rgba(0,0,0,.85)}
+:root[data-theme="dark"] .clock::after{background:radial-gradient(closest-side,rgba(255,90,31,.35),transparent)}
+:root[data-theme="dark"] .clock__t{font-family:"Manrope",var(--hd);font-weight:500;letter-spacing:-.02em}
+:root[data-theme="dark"] .btn.ok{background:#ff5a1f;color:#0b0b0c}
+:root[data-theme="dark"] .btn.ok:hover{background:#ff6a33}
+:root[data-theme="dark"] .more h2{font-weight:500;letter-spacing:-.018em;line-height:1.12}
+:root[data-theme="dark"] .cta{border:1px solid rgba(255,90,31,.25)}
+:root[data-theme="dark"] .cta h3{font-family:"Manrope",var(--hd);font-weight:600;letter-spacing:-.015em}
+:root[data-theme="dark"] .cta .btn{background:#ff5a1f;color:#0b0b0c;border-radius:999px;box-shadow:none;text-decoration:none}
+:root[data-theme="dark"] .cta .btn:hover{background:#ff6a33;box-shadow:0 0 0 1px rgba(255,90,31,.5),0 10px 34px -8px rgba(255,90,31,.6)}
+:root[data-theme="dark"] .idea i{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.015)),#101011;border:1px solid rgba(255,255,255,.1);color:#ff7a45}
+:root[data-theme="dark"] .h3d__legend button{background:rgba(14,14,15,.72);border-color:rgba(255,255,255,.12);color:#d4d4d8}
+:root[data-theme="dark"] .h3d__info{background:rgba(14,14,15,.85);border:1px solid rgba(255,255,255,.08);color:#a3a3a8}
 </style></head><body>
 <div class="tk-demo-bar"><a href="/beispiele/#dashboard"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
 <span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musterdaten</span>
@@ -1170,10 +1235,10 @@ body{background:radial-gradient(90% 60% at 85% -10%,color-mix(in srgb,var(--pop)
 <section class="more h3d" id="haus" aria-labelledby="h3d-h">
   <div class="wrap">
     <span class="kick" data-reveal><i></i>Extra für die Firmen-Website</span>
-    <h2 id="h3d-h" data-reveal style="margin-top:14px">Was steckt in den Wänden? Ein Haus im Querschnitt.</h2>
+    <h2 id="h3d-h" data-reveal style="margin-top:14px">Was steckt in den Wänden? <span>Ein Haus im Querschnitt.</span></h2>
     <p class="lead" data-reveal>So könnte Haustechnik Kofler auf der eigenen Website zeigen, was sie kann: Strom, Wasser, Heizung, Photovoltaik und Abwasser leuchten nacheinander auf. Tipp auf einen Bereich, um ihn einzeln zu sehen, und dreh das Haus mit Maus oder Finger.</p>
     <div class="h3d__box" data-reveal>
-      <div class="h3d__view" id="haus3d"><p class="h3d__no">Für die 3D-Ansicht braucht dein Browser WebGL.</p></div>
+      <div class="h3d__view" id="haus3d"><img class="h3d__no" src="/beispiele/dashboard/img/haus3d-vorschau.webp" width="1278" height="680" alt="Haus im Querschnitt mit Leitungen für Strom, Wasser, Heizung, Photovoltaik und Abwasser" loading="lazy" decoding="async"></div>
       <div class="h3d__legend" role="group" aria-label="Leitungen anzeigen">
         <button type="button" data-sys="strom" style="--c:#ffb81c" aria-pressed="true">Strom</button><button type="button" data-sys="wasser" style="--c:#2f8cff" aria-pressed="true">Wasser</button><button type="button" data-sys="heizung" style="--c:#ff5a2e" aria-pressed="true">Heizung</button><button type="button" data-sys="pv" style="--c:#1fbf63" aria-pressed="true">Photovoltaik</button><button type="button" data-sys="abwasser" style="--c:#8a96ad" aria-pressed="true">Abwasser</button>
       </div>
@@ -1184,7 +1249,7 @@ body{background:radial-gradient(90% 60% at 85% -10%,color-mix(in srgb,var(--pop)
 <section class="more">
   <div class="wrap">
     <span class="kick" data-reveal><i></i>Was sich noch erfassen lässt</span>
-    <h2 data-reveal style="margin-top:14px">Jeder Betrieb hat seine eigenen Listen. Ich mache daraus ein Werkzeug.</h2>
+    <h2 data-reveal style="margin-top:14px">Jeder Betrieb hat seine eigenen Listen. <span>Ich mache daraus ein Werkzeug.</span></h2>
     <p class="lead" data-reveal>Das Dashboard oben ist nur ein Beispiel. Gebaut wird genau das, was dir im Alltag Zeit spart, und es läuft auf deinem normalen Webspace.</p>
     <div class="ideas">
       <div class="idea" data-reveal><i><svg><use href="#i-car"/></svg></i><h3>Fahrtenbuch</h3><p>Kilometer pro Fahrt und Auftrag, mit Monatsauswertung fürs Finanzamt.</p></div>
@@ -1212,4 +1277,4 @@ body{background:radial-gradient(90% 60% at 85% -10%,color-mix(in srgb,var(--pop)
 <div class="lbox" id="lbox" hidden><button class="x" type="button" data-lbox-close aria-label="Schließen"><svg><use href="#i-x"/></svg></button><img alt=""><p></p></div>
 <input type="file" id="pic-in" accept="image/*" capture="environment" hidden>
 <div class="toast" id="toast" role="status"></div>
-<script src="/beispiele/_shared/demo.js?v=29766291" defer></script><script src="/beispiele/dashboard/umschalter.js?v=1" defer></script><script src="/beispiele/dashboard/app.js?v=20261027b" defer></script><script type="module" src="/beispiele/dashboard/haus3d.js?v=2"></script></body></html>
+<script src="/beispiele/_shared/demo.js?v=29766291" defer></script><script src="/beispiele/dashboard/umschalter.js?v=1" defer></script><script src="/beispiele/dashboard/app.js?v=20261027b" defer></script><script type="module" src="/beispiele/dashboard/haus3d.js?v=3"></script></body></html>
