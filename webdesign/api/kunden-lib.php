@@ -128,7 +128,9 @@ function kp_dummy_verify(string $pass): void
 
 function kp_ip_hash(): string
 {
-    return substr(hash('sha256', (string) (cx_config()['secret'] ?? 'tk') . ($_SERVER['REMOTE_ADDR'] ?? '')), 0, 32);
+    // Wie bei den Formularen: IPv6 nur bis zum /64-Netz, damit ein einzelner Rechner die
+    // Versuchsgrenze je Anschluss nicht durch ständig neue IPv6-Adressen umgehen kann.
+    return substr(hash('sha256', (string) (cx_config()['secret'] ?? 'tk') . cx_client_id()), 0, 32);
 }
 
 function kp_read_json(string $file): array
@@ -219,7 +221,7 @@ function kp_save_accounts(array $a): bool
 function kp_valid_user(string $u): bool
 {
     // „sitzungen“ und „sperre“ sind Ordner des Portals selbst und keine Benutzernamen.
-    return !in_array($u, ['sitzungen', 'sperre'], true) && (bool) preg_match('/^[a-z0-9](?:[a-z0-9-]{1,38}[a-z0-9])$/', $u);
+    return !in_array($u, ['sitzungen', 'sperre'], true) && (bool) preg_match('/^[a-z0-9](?:[a-z0-9-]{1,38}[a-z0-9])$/D', $u);
 }
 
 function kp_account(string $u): ?array
@@ -289,7 +291,7 @@ function kp_invite_create(string $u): array
 // Prüft einen Link aus der Mail, ohne ihn zu verbrauchen. Ergebnis: Benutzername oder ''.
 function kp_invite_check(string $raw): string
 {
-    if (!preg_match('/^([a-z0-9-]{3,40})\.([a-f0-9]{64})$/', $raw, $m) || !kp_valid_user($m[1]) || kp_account($m[1]) === null) {
+    if (!preg_match('/^([a-z0-9-]{3,40})\.([a-f0-9]{64})$/D', $raw, $m) || !kp_valid_user($m[1]) || kp_account($m[1]) === null) {
         return '';
     }
     $d = kp_read_json(kp_invite_file($m[1]));
@@ -385,11 +387,13 @@ function kp_fails(string $key): array
     return array_values(array_filter(kp_read_json(kp_fail_file($key)), static fn($t) => is_int($t) && $t > $now - KP_FAIL_WINDOW));
 }
 
-// Höchstzahl je Schlüssel: pro Anschluss und Konto KP_FAILS, für den gemeinsamen Schlüssel „admin“ viel mehr,
-// damit Fremde Tim nicht mit ein paar falschen Passwörtern aussperren können.
+// Höchstzahl je Schlüssel: pro Anschluss KP_FAILS, für die gemeinsamen Konto-Schlüssel („admin“ und
+// „kunde:<name>“) viel mehr. Der enge Schutz liegt auf dem Anschluss-Schlüssel „ip:“; der Konto-Schlüssel
+// darf nicht schon nach wenigen Fehlversuchen sperren, sonst kann ein Fremder, der nur den Benutzernamen
+// kennt, ein Konto absichtlich aussperren (die Anmeldung inklusive 2FA abklemmen).
 function kp_limit(string $key): int
 {
-    return $key === 'admin' ? 50 : KP_FAILS;
+    return ($key === 'admin' || str_starts_with($key, 'kunde:')) ? 50 : KP_FAILS;
 }
 
 // Reserviert einen Versuch für alle Schlüssel, unter Sperre (parallele Anfragen zählen einzeln mit).
@@ -443,7 +447,7 @@ function kp_user_dir(string $u): string
 
 function kp_valid_batch(string $e): bool
 {
-    return (bool) preg_match('/^\d{8}-\d{6}-[a-f0-9]{4}$/', $e);
+    return (bool) preg_match('/^\d{8}-\d{6}-[a-f0-9]{4}$/D', $e);
 }
 
 // Alle Upload-Durchgänge eines Kunden, neueste zuerst.
@@ -490,8 +494,10 @@ function kp_safe_name(string $original, string $ext, int $n): string
 {
     $base = pathinfo($original, PATHINFO_FILENAME);
     $base = strtr($base, ['ä' => 'ae', 'ö' => 'oe', 'ü' => 'ue', 'Ä' => 'Ae', 'Ö' => 'Oe', 'Ü' => 'Ue', 'ß' => 'ss']);
-    $base = preg_replace('/[^A-Za-z0-9._-]+/', '-', $base) ?? '';
-    $base = trim(substr(trim($base, '.-_'), 0, 70), '.-_');
+    // Punkte im Rumpf durch „-“ ersetzen: so entsteht aus z. B. „foto.php.jpg“ der Name „foto-php.jpg“
+    // und keine Doppel-Endung, die ein falsch eingestellter Server als PHP ausführen könnte.
+    $base = preg_replace('/[^A-Za-z0-9_-]+/', '-', $base) ?? '';
+    $base = trim(substr(trim($base, '-_'), 0, 70), '-_');
     return sprintf('%02d-%s.%s', $n, $base !== '' ? $base : 'datei', $ext);
 }
 
