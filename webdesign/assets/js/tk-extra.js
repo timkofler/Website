@@ -211,7 +211,7 @@
   // zählt die Links in /beispiele/ und setzt die Zahl beim Deploy automatisch.
   var ANZAHL = 24;
   // Runde Ausschnitte aus den Videos/Fotos der Beispielseiten (Lizenzen siehe /bildnachweis/)
-  var pics = ["dachdecker", "gasthaus", "pension", "friseur", "werkstatt", "baeckerei", "cafe-2", "fleischerei", "tischlerei", "maler", "massage", "bodenleger"];
+  var pics = ["dachdecker", "gasthaus", "pension", "friseur", "werkstatt", "baeckerei", "cafe-2", "fleischerei", "tischlerei", "maler", "massage", "nagelstudio", "bodenleger"];
   var a = document.createElement("a");
   a.className = "tk-float";
   a.href = "/beispiele/";
