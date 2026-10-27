@@ -91,7 +91,7 @@ def head(title, desc, url, og_title, og_desc, ld, extra_css=""):
   <link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/style.css?v=5d1d811a">
-  <link rel="stylesheet" href="/assets/css/tk.css?v=d194bb1f">
+  <link rel="stylesheet" href="/assets/css/tk.css?v=ef05b43a">
   <link rel="stylesheet" href="/assets/css/entwurf.css?v=6fe37e4b">
   <link rel="stylesheet" href="/assets/css/gruender.css?v=02222399">
   <link rel="stylesheet" href="/assets/css/branchen.css?v={CSS_V}">
@@ -142,7 +142,7 @@ APPS = [
     ("/beispiele/betriebs-app/", "betriebs-app.webp", "Für Betriebe", "Betriebs-App",
      "Termine, Gutscheine, Stempelkarte und Angebote statt sieben Abos.",
      "Betriebs-App: eine eigene App statt vieler Software-Abos für Termine, Gutscheine und Rechnungen"),
-    ("/beispiele/verein-app/", "vereins-app.webp?v=2", "Für Vereine", "Vereins-App",
+    ("/beispiele/verein-app/", "vereins-app.webp?v=3", "Für Vereine", "Vereins-App",
      "Mitglieder, Beiträge mit QR-Zahlschein, Termine mit Zusagen und Kassabuch.",
      "Vereins-App: Mitglieder-App am Handy und Übersicht für den Vorstand mit Mitgliedern, Beiträgen und Kassastand"),
     ("/beispiele/dashboard/", "haustechnik.webp", "Für Handwerker", "Büro-Dashboard",

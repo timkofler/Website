@@ -22,6 +22,65 @@ if ($email === '') {
 }
 
 $c = cx_config();
+
+// ---------------- Webseiten-Anfrage: jetzt (nach Bestätigung) eintragen ----------------
+if (($data['s'] ?? '') === 'webseite') {
+    $name = (string) ($data['n'] ?? '');
+    $ok = cx_contact($email, $name, [(int) ($c['list_webdesign'] ?? 0)], [
+        'WEB_PAKET' => (string) ($data['pk'] ?? ''),
+        'WEB_QUELLE' => (string) ($data['ql'] ?? ''),
+        'OPTIN_DATUM' => date('Y-m-d'),
+    ], ['emailBlacklisted' => false]); // ausdrückliche Einwilligung hebt eine frühere Abmeldung auf
+    if (!$ok) {
+        cx_page('Das hat nicht geklappt', 'Deine Bestätigung konnte gerade nicht gespeichert werden. Bitte klick den Link später noch einmal an.', 502);
+    }
+    cx_consent_log('optin_bestaetigt_webseite', $email);
+
+    // Eingangsbestätigung an die Person (Antworten gehen an Tim). Tim wurde bereits bei der Anfrage informiert.
+    $verein = !empty($data['v']);
+    $notify = (string) ($c['notify_email'] ?? 'tk@crypto-x.at');
+    $inner = '<p style="margin:0 0 14px">Hallo ' . cx_h($name) . ',</p>'
+        . '<p style="margin:0 0 14px">danke, deine E-Mail-Adresse ist bestätigt und deine Anfrage ist bei mir! Ich sehe mir deine Angaben an und melde mich innerhalb von zwei Werktagen persönlich bei dir, per E-Mail, oder auf WhatsApp bzw. Telegram, wenn du eine Nummer angegeben hast.</p>'
+        . ($verein
+            ? '<p style="margin:0 0 14px">Gemeinsam klären wir dann, was auf eure Vereinsseite soll. Die Gestaltung ist für euch kostenlos.</p>'
+            : '<p style="margin:0 0 14px">Gemeinsam klären wir dann, was deine Seite können soll, und du bekommst ein unverbindliches Angebot.</p>')
+        . cx_mail_gruss();
+    cx_mail($email, $name, $verein ? 'Deine Anfrage für eine Vereinsseite' : 'Deine Anfrage für eine Webseite', cx_mail_layout('Danke für deine Anfrage', $inner), $notify);
+
+    header('Location: /webseite-erstellen-lassen/bestaetigt/', true, 303);
+    exit;
+}
+
+// ---------------- Gratis-Entwurf: jetzt (nach Bestätigung) eintragen + Entwurf-Versand starten ----------------
+if (($data['s'] ?? '') === 'gratisentwurf') {
+    require __DIR__ . '/entwurf-lib.php';
+    $name = (string) ($data['n'] ?? '');
+    // Gespeicherte Anfrage laden; fehlt sie (z. B. Schreibfehler), reichen E-Mail/Name/Firma aus dem Token.
+    $stored = ew_read((string) ($data['id'] ?? ''));
+    $d = ($stored !== [] && cx_email((string) ($stored['email'] ?? '')) === $email)
+        ? $stored
+        : ['email' => $email, 'name' => $name, 'firma' => (string) ($data['fi'] ?? ''), 'inhalt' => [], 'farbe' => '', 'farbe_hex' => '', 'quelle' => ''];
+
+    $lists = [(int) ($c['list_entwurf'] ?? $c['list_webdesign'] ?? 0)];
+    if (!empty($data['nl'])) {
+        $lists[] = (int) ($c['list_newsletter'] ?? 0); // zusätzlich Newsletter gewünscht (angekreuzt + jetzt bestätigt)
+    }
+    $ok = cx_contact($email, $name, $lists, [
+        'WEB_PAKET' => 'Gratis-Entwurf', 'WEB_QUELLE' => (string) ($d['quelle'] ?? ''),
+        'OPTIN_DATUM' => date('Y-m-d'),
+    ], ['emailBlacklisted' => false]); // ausdrückliche Einwilligung hebt eine frühere Abmeldung auf
+    if (!$ok) {
+        cx_page('Das hat nicht geklappt', 'Deine Bestätigung konnte gerade nicht gespeichert werden. Bitte klick den Link später noch einmal an.', 502);
+    }
+    cx_consent_log('optin_bestaetigt_gratisentwurf', $email);
+
+    // Eingangsbestätigung „ich lege los" an die Person. Tim wurde bereits bei der Anfrage informiert.
+    ew_send_eingang($d, (string) ($c['notify_email'] ?? 'office@tim-kofler.at'));
+
+    header('Location: /entwurf/bestaetigt/', true, 303);
+    exit;
+}
+
 $sicherheit = ($data['s'] ?? '') === 'sicherheit'; // Anmeldung über /sicherheit/
 $attrs = ['OPTIN_DATUM' => date('Y-m-d')];
 if ($sicherheit) {

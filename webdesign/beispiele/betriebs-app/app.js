@@ -25,13 +25,13 @@
 
   /* ---------------- Kopfbereich ---------------- */
   var APPS = [
-    { n: "Terminbuchung", s: "Termine", p: 39, c: "#3b6cf6", i: "i-cal" },
+    { n: "Terminbuchung", s: "Termine", p: 39, c: "#ff5a1f", i: "i-cal" },
     { n: "Gutscheine", p: 29, c: "#ff5a1f", i: "i-gift" },
-    { n: "Stempelkarte", s: "Treue", p: 35, c: "#9b5cff", i: "i-stamp" },
-    { n: "Angebote", p: 25, c: "#12a36b", i: "i-sign" },
-    { n: "Rechnungen", p: 15, c: "#d99a00", i: "i-inv" },
-    { n: "Kundenkartei", s: "Kunden", p: 20, c: "#e64980", i: "i-users" },
-    { n: "Website", p: 25, c: "#1098ad", i: "i-web" }
+    { n: "Stempelkarte", s: "Treue", p: 35, c: "#ffb23f", i: "i-stamp" },
+    { n: "Angebote", p: 25, c: "#e9e9e6", i: "i-sign" },
+    { n: "Rechnungen", p: 15, c: "#ff7a45", i: "i-inv" },
+    { n: "Kundenkartei", s: "Kunden", p: 20, c: "#ffb23f", i: "i-users" },
+    { n: "Website", p: 25, c: "#e9e9e6", i: "i-web" }
   ];
   // QR-Code im Stil von tim-kofler.at (assets/js/tk-qr.js), mit dem Logo des Betriebs in der Mitte
   var qrSvg = function (text, b) { return window.tkQR ? tkQR.svg(text, { logo: { text: b.logo, bg: b.a }, quiet: 0 }) : ""; };
@@ -45,7 +45,7 @@
     Kundenkartei: '<div class="w-av"><i>SK</i><div>Sabine K.<span>zuletzt: Färben</span></div></div><div class="w-av"><i class="b">TR</i><div>Thomas R.<span>zuletzt: Schnitt</span></div></div>',
     Website: '<div class="w-site"><b>Dein Betrieb</b><span><u></u><u></u></span></div>'
   };
-  var EXTRA = [{ n: "Stunden", c: "#5b6cff", i: "i-clock" }, { n: "Lager", c: "#6aa121", i: "i-box" }];
+  var EXTRA = [{ n: "Stunden", c: "#ff7a45", i: "i-clock" }, { n: "Lager", c: "#ffb23f", i: "i-box" }];
   var TOTAL = APPS.reduce(function (s, a) { return s + a.p; }, 0);
   // Startpunkte (Mitte des Fensters, Anteil der Bühne) und Drehung, für breite und schmale Bildschirme.
   var POS_W = [[.14, .19, -8], [.3, .72, 6], [.11, .62, -4], [.85, .18, 7], [.71, .72, -6], [.89, .55, 5], [.34, .33, 4]];
@@ -159,7 +159,7 @@
       seed: [["termin", "Reservierung: 4 Personen", "Fam. Wagner · heute 18:30", "09:02"], ["gutschein", "Gutschein verkauft: 80 €", "Für Peter, von den Kollegen", "08:20"], ["treue", "Stempel vergeben", "Mittagsmenü · Herbert L. (9/10)", "gestern"]]
     },
     hand: {
-      name: "Elektro Brunner", logo: "B", a: "#2563eb", a2: "#38bdf8", a3: "#1e3a8a", url: "app.elektro-brunner.at/buero",
+      name: "Elektro Brunner", logo: "B", a: "#ff5a1f", a2: "#ffb23f", a3: "#8a2a08", url: "app.elektro-brunner.at/buero",
       open: "Heute erreichbar bis 17 Uhr", closed: [0, 6], times: ["08:00", "09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"],
       tTitle: "Termin vereinbaren", tWhat: "Worum geht es?", tTab: "Termin", tTile: "Termine", tUnit: "Termin",
       svcs: [["Besichtigung vor Ort", "für ein Angebot", 0], ["E-Check Wohnung", "ca. 1,5 Std.", 149], ["Störung / Reparatur", "Anfahrt + 1. Stunde", 89], ["Beratung Wallbox & PV", "ca. 1 Std.", 0]],
@@ -171,7 +171,7 @@
       seed: [["angebot", "Angebot angenommen", "Zählerkasten neu · Fam. Pichler", "08:40"], ["termin", "Termin: E-Check Wohnung", "M. Steiner · Mi 10:00", "07:58"], ["gutschein", "Gutschein verkauft: 100 €", "Für Papa, Smart-Home-Beratung", "gestern"]]
     }
   };
-  var COLORS = { termin: "var(--blue)", gutschein: "var(--pop)", treue: "#b26bff", angebot: "var(--ok)" };
+  var COLORS = { termin: "var(--blue)", gutschein: "var(--pop)", treue: "#ffb23f", angebot: "var(--ok)" };
   var ICONS = { termin: "i-cal", gutschein: "i-gift", treue: "i-stamp", angebot: "i-sign" };
   var KEY = "tk-betriebsapp-v1";
   var S = store.get(KEY);
