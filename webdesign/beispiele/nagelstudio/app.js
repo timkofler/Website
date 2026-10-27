@@ -164,7 +164,7 @@
   (function build() {
     var defs = el("defs", {}, hand);
     var fade = el("linearGradient", { id: "fade", x1: "0", y1: "0", x2: "0", y2: "1" }, defs);
-    el("stop", { offset: ".62", "stop-color": "#fff" }, fade); el("stop", { offset: ".98", "stop-color": "#fff", "stop-opacity": "0" }, fade);
+    el("stop", { offset: ".72", "stop-color": "#fff" }, fade); el("stop", { offset: ".99", "stop-color": "#fff", "stop-opacity": "0" }, fade);
     var mask = el("mask", { id: "m-fade" }, defs); el("rect", { x: 0, y: 0, width: 400, height: 400, fill: "url(#fade)" }, mask);
     var chrome = el("linearGradient", { id: "chrome", x1: "0", y1: "0", x2: "1", y2: "1" }, defs);
     el("stop", { offset: "0", "stop-color": "#fff", "stop-opacity": ".85" }, chrome); el("stop", { offset: ".35", "stop-color": "#fff", "stop-opacity": "0" }, chrome);
@@ -174,10 +174,8 @@
     // Rundung der Finger: Ränder dunkler, Mitte heller; läuft zur Fingerwurzel hin aus
     var rd = el("linearGradient", { id: "round", x1: "0", x2: "1" }, defs);
     [["0", SKIN_LO, ".6"], [".22", SKIN_LO, "0"], [".5", SKIN_HI, ".6"], [".78", SKIN_LO, "0"], ["1", SKIN_LO, ".6"]].forEach(function (st) { el("stop", { offset: st[0], "stop-color": st[1], "stop-opacity": st[2] }, rd); });
-    var vf = el("linearGradient", { id: "vfade", x1: "0", y1: "0", x2: "0", y2: "1" }, defs);
-    el("stop", { offset: ".55", "stop-color": "#fff" }, vf); el("stop", { offset: ".85", "stop-color": "#000" }, vf);
-    var fm = el("mask", { id: "m-finger", maskContentUnits: "objectBoundingBox" }, defs); el("rect", { x: 0, y: 0, width: 1, height: 1, fill: "url(#vfade)" }, fm);
     var bl = el("filter", { id: "soft", x: "-30%", y: "-30%", width: "160%", height: "160%" }, defs); el("feGaussianBlur", { stdDeviation: "1.4" }, bl);
+    var bl3 = el("filter", { id: "soft3", x: "-50%", y: "-50%", width: "200%", height: "200%" }, defs); el("feGaussianBlur", { stdDeviation: "3" }, bl3);
     var bl2 = el("filter", { id: "soft6", x: "-30%", y: "-30%", width: "160%", height: "160%" }, defs); el("feGaussianBlur", { stdDeviation: "6" }, bl2);
     var g = el("g", { mask: "url(#m-fade)" }, hand);
     var hp = handPath();
@@ -187,20 +185,29 @@
     el("path", { d: hp, fill: SKIN, stroke: SKIN_LO, "stroke-width": "1", "stroke-opacity": ".45" }, g);
     FINGER.forEach(function (f) {
       var fg = el("g", { transform: "translate(" + f.x + "," + f.y + ") rotate(" + f.rot + ")" }, g);
-      el("path", { d: fingerPath(f), fill: "url(#round)", mask: "url(#m-finger)", "clip-path": "url(#c-hand)" }, fg);
+      // eigene Maske je Finger: Rundung läuft über die untere Fingerhälfte weich in den Handrücken aus
+      var k = "mf" + FINGER.indexOf(f), gr = el("linearGradient", { id: k + "g", gradientUnits: "userSpaceOnUse", x1: 0, y1: -f.L * 0.55, x2: 0, y2: -f.L * 0.08 }, defs);
+      el("stop", { offset: "0", "stop-color": "#fff" }, gr); el("stop", { offset: ".5", "stop-color": "#888" }, gr); el("stop", { offset: "1", "stop-color": "#000" }, gr);
+      var mk = el("mask", { id: k, maskUnits: "userSpaceOnUse", x: -60, y: -f.L - 20, width: 120, height: f.L + 60 }, defs);
+      el("rect", { x: -60, y: -f.L - 20, width: 120, height: f.L + 60, fill: "url(#" + k + "g)" }, mk);
+      el("path", { d: fingerPath(f), fill: "url(#round)", mask: "url(#" + k + ")" }, fg);
       // Gelenkfalte am Mittelglied
       var y = -f.L * 0.62, w = f.wb * 0.38;
       el("path", { d: "M" + (-w) + "," + y + " q" + w + "," + (f.wb * 0.12) + " " + (w * 2) + ",0", stroke: SKIN_LO, "stroke-width": ".9", fill: "none", "stroke-linecap": "round", opacity: ".45" }, fg);
       // eigene Gruppe für die Pop-Animation, damit sie die Verschiebung zur Kuppe nicht überschreibt
+      // Knöchel: zarter Lichtpunkt am Fingeransatz mit weichem Schatten darunter (nicht beim Daumen)
+      if (f !== FINGER[4]) {
+        el("ellipse", { cx: 0, cy: f.wb * 0.15, rx: f.wb * 0.55, ry: f.wb * 0.34, fill: SKIN_HI, opacity: ".38", filter: "url(#soft3)" }, fg);
+        el("path", { d: "M" + (-f.wb * 0.55) + "," + (f.wb * 0.75) + " q" + (f.wb * 0.55) + "," + (f.wb * 0.32) + " " + (f.wb * 1.1) + ",0", stroke: SKIN_LO, "stroke-width": "1.4", fill: "none", "stroke-linecap": "round", opacity: ".2", filter: "url(#soft)" }, fg);
+      }
       f.g = el("g", { class: "nail" }, el("g", { transform: "translate(0," + (-f.L) + ")" }, fg));
     });
-    var ch = el("clipPath", { id: "c-hand" }, defs); el("path", { d: hp }, ch);
     // zarte Schatten in den Schwimmhäuten
     for (var i = 0; i < 3; i++) {
       var f = FINGER[i], n = FINGER[i + 1];
       el("path", { d: "M" + P(f, f.wb * 0.6, -f.L * 0.34) + " Q" + P(f, f.wb * 1.15, -f.L * 0.2 + 6) + " " + P(n, -n.wb * 0.6, -n.L * 0.34), stroke: SKIN_LO, "stroke-width": "1.6", fill: "none", opacity: ".35", filter: "url(#soft)" }, g);
     }
-    FINGER.forEach(function (f) { nails.push({ g: f.g, R: f.wt, d: fingerPath(f), tf: "translate(0," + f.L + ")" }); });
+    FINGER.forEach(function (f, i) { nails.push({ g: f.g, R: f.wt, d: fingerPath(f), tf: "translate(0," + f.L + ")", m: "mf" + i }); });
   })();
 
   var cfg = $("#cfg"), formBox = $("#o-form"), farbBox = $("#o-farbe");
@@ -237,13 +244,14 @@
       // Haut über dem Nagel: Nagelhaut (U-Bogen) und seitliche Falten bis zur Kuppe
       var cs = el("clipPath", { id: ids }, n.g);
       var k = r * 0.28;
-      el("path", { d: "M" + (-R * 1.2) + "," + (C - k * 0.9) + " Q0," + (C + k * 1.3) + " " + (R * 1.2) + "," + (C - k * 0.9) + " L" + (R * 1.2) + "," + (C + R * 4) + " L" + (-R * 1.2) + "," + (C + R * 4) + " Z" }, cs);
+      el("path", { d: "M" + (-R * 1.2) + "," + (C - k * 0.9) + " Q0," + (C + k * 1.3) + " " + (R * 1.2) + "," + (C - k * 0.9) + " L" + (R * 1.2) + "," + (C + R * 1.2) + " L" + (-R * 1.2) + "," + (C + R * 1.2) + " Z" }, cs);
       [-1, 1].forEach(function (sx) {
         el("path", { d: "M" + (sx * R * 1.2) + "," + (E - R * 0.6) + " L" + (sx * r * 1.03) + "," + (E - R * 0.6) + " L" + (sx * r * 0.99) + "," + (E + R * 0.3) + " Q" + (sx * r * 0.9) + "," + (E + B * 0.55) + " " + (sx * r * 0.9) + "," + C + " L" + (sx * R * 1.2) + "," + C + " Z" }, cs);
       });
       var skin = el("g", { "clip-path": "url(#" + ids + ")" }, n.g);
-      el("path", { d: n.d, transform: n.tf, fill: SKIN }, skin);
-      el("path", { d: n.d, transform: n.tf, fill: "url(#round)" }, skin);
+      var sk = el("g", { transform: n.tf }, skin);
+      el("path", { d: n.d, fill: SKIN }, sk);
+      el("path", { d: n.d, fill: "url(#round)", mask: "url(#" + n.m + ")" }, sk);
       el("path", { d: "M" + (-r * 1.02) + "," + (C - k * 0.75) + " Q0," + (C + k * 1.45) + " " + (r * 1.02) + "," + (C - k * 0.75), stroke: "#b47f6d", "stroke-width": "1.3", fill: "none", opacity: ".6", "stroke-linecap": "round" }, n.g);
       [-1, 1].forEach(function (sx) { el("path", { d: "M" + (sx * r * 0.985) + "," + (E + R * 0.5) + " Q" + (sx * r * 0.9) + "," + (E + B * 0.55) + " " + (sx * r * 0.9) + "," + (C - k), stroke: "#b47f6d", "stroke-width": "1", fill: "none", opacity: ".4" }, n.g); });
       el("path", { d: d, transform: tf, fill: "none", stroke: "rgba(0,0,0,.16)", "stroke-width": ".8" }, n.g);
