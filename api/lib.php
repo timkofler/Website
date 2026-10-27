@@ -99,6 +99,13 @@ function cx_email(string $v): string
     return (strlen($v) <= 254 && filter_var($v, FILTER_VALIDATE_EMAIL)) ? $v : '';
 }
 
+// Macht einen Text einzeilig: Zeilenumbrüche und Tabs werden zu einem Leerzeichen, Doppelte zusammengezogen.
+// Für Felder, die nie mehrzeilig sein dürfen (Betreff, Empfängername).
+function cx_oneline(string $v): string
+{
+    return trim((string) preg_replace('/\s+/u', ' ', str_replace(["\r", "\n", "\t"], ' ', $v)));
+}
+
 // Grundschutz gegen Spam und fremde Seiten: nur POST, nur von crypto-x.at, Honeypot, Mindestzeit.
 function cx_guard(): void
 {
@@ -125,32 +132,78 @@ function cx_guard(): void
     }
 }
 
-// Höchstens 6 Absendungen pro Stunde je Anschluss. Gespeichert wird nur ein Hash der IP-Adresse.
+// Läuft $fn unter einer exklusiven Dateisperre, damit parallele Anfragen nicht gleichzeitig
+// zählen (sonst lesen viele Anfragen denselben Stand und kommen alle durch).
+function cx_locked(string $lockFile, callable $fn)
+{
+    $dir = dirname($lockFile);
+    if (!is_dir($dir)) {
+        @mkdir($dir, 0700, true);
+    }
+    $h = @fopen($lockFile, 'c');
+    if ($h) {
+        flock($h, LOCK_EX);
+    }
+    try {
+        return $fn();
+    } finally {
+        if ($h) {
+            flock($h, LOCK_UN);
+            fclose($h);
+        }
+    }
+}
+
+// Kennung eines Anschlusses: bei IPv4 die Adresse, bei IPv6 nur das /64-Netz. Sonst könnte ein
+// einzelner Rechner über seinen riesigen IPv6-Bereich beliebig viele Kennungen vortäuschen und
+// die Grenze je Anschluss umgehen.
+function cx_client_id(): string
+{
+    $ip = (string) ($_SERVER['REMOTE_ADDR'] ?? '');
+    $bin = @inet_pton($ip);
+    if (is_string($bin) && strlen($bin) === 16) {
+        return bin2hex(substr($bin, 0, 8)) . '::/64';
+    }
+    return $ip;
+}
+
+// Höchstens 6 Absendungen pro Stunde je Anschluss und 30 pro Stunde insgesamt (falls jemand ständig
+// die IP wechselt). Der gemeinsame Topf bremst Massen-Mails an fremde Adressen. Nur ein IP-Hash wird gespeichert.
 function cx_rate_ok(): bool
+{
+    return cx_rate_hit('ip:' . cx_client_id(), 6, 3600)
+        && cx_rate_hit('alle', 30, 3600);
+}
+
+// Zählt – unter Sperre, also auch bei parallelen Anfragen korrekt – einen Versuch für $key und sagt,
+// ob in den letzten $window Sekunden höchstens $limit liegen. Der Schlüssel wird nur als Hash gespeichert.
+function cx_rate_hit(string $key, int $limit, int $window): bool
 {
     $dir = CX_DATA . '/rate';
     if (!is_dir($dir) && !@mkdir($dir, 0700, true)) {
         return true;
     }
     $salt = (string) (cx_config()['secret'] ?? 'cx');
-    $file = $dir . '/' . hash('sha256', $salt . ($_SERVER['REMOTE_ADDR'] ?? '')) . '.json';
+    $file = $dir . '/' . hash('sha256', $salt . $key) . '.json';
     $now = time();
-    $hits = is_file($file) ? (json_decode((string) file_get_contents($file), true) ?: []) : [];
-    $hits = array_values(array_filter($hits, static fn($t) => is_int($t) && $t > $now - 3600));
-    if (count($hits) >= 6) {
-        return false;
-    }
-    $hits[] = $now;
-    @file_put_contents($file, json_encode($hits), LOCK_EX);
-    // Alte Dateien gelegentlich aufräumen.
-    if (random_int(1, 50) === 1) {
-        foreach (glob($dir . '/*.json') ?: [] as $f) {
-            if (@filemtime($f) < $now - 7200) {
-                @unlink($f);
+    return (bool) cx_locked($dir . '/.lock', static function () use ($dir, $file, $now, $limit, $window) {
+        $hits = is_file($file) ? (json_decode((string) file_get_contents($file), true) ?: []) : [];
+        $hits = array_values(array_filter($hits, static fn($t) => is_int($t) && $t > $now - $window));
+        if (count($hits) >= $limit) {
+            return false;
+        }
+        $hits[] = $now;
+        @file_put_contents($file, json_encode($hits), LOCK_EX);
+        // Alte Dateien gelegentlich aufräumen.
+        if (random_int(1, 50) === 1) {
+            foreach (glob($dir . '/*.json') ?: [] as $f) {
+                if (@filemtime($f) < $now - 7200) {
+                    @unlink($f);
+                }
             }
         }
-    }
-    return true;
+        return true;
+    });
 }
 
 // Aufruf der Brevo-API (https://api.brevo.com/v3). Der Schlüssel bleibt auf dem Server.
@@ -220,6 +273,10 @@ function cx_contact(string $email, string $firstname, array $listIds, array $ext
 function cx_mail(string $to, string $toName, string $subject, string $html, string $replyTo = ''): bool
 {
     $c = cx_config();
+    // Betreff und Empfängername sind einzeilig: Zeilenumbrüche/Tabs raus, damit kein fremder Text
+    // oder Kopfzeilen-Trick in die Mail rutscht (auch wenn der Versand über die Brevo-JSON-API läuft).
+    $subject = cx_oneline($subject);
+    $toName = cx_oneline($toName);
     $body = [
         'sender' => ['email' => (string) ($c['sender_email'] ?? 'tk@crypto-x.at'), 'name' => (string) ($c['sender_name'] ?? 'CryptoX')],
         'to' => [array_filter(['email' => $to, 'name' => $toName])],

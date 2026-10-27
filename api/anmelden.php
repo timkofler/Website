@@ -16,10 +16,12 @@ if (!cx_ready()) {
 $c = cx_config();
 $form = cx_field('form', 20);
 $email = cx_email(cx_field('email', 254));
-$name = str_replace(['<', '>', '"'], '', cx_field('name', 80));
-// Keine Links oder Domains im Namen: er steht in der Bestätigungsmail an die angegebene Adresse.
-if (preg_match('~https?:|www\.|[/@]|\w\.[a-z]{2,}\b~i', $name)) {
-    cx_respond(false, 'Bitte gib nur deinen Namen an, ohne Links oder Adressen.');
+$name = cx_field('name', 80);
+// Positivliste statt Sperrliste: nur echte Namen (Buchstaben, auch mit Akzenten, dazu Leerzeichen,
+// Bindestrich, Apostroph). Keine Punkte, Zahlen, @, Links oder Zeilenumbrüche – der Name steht in
+// der Bestätigungsmail an die angegebene Adresse. So lässt sich kein fremder Text einschleusen.
+if ($name !== '' && !preg_match('/^[\p{L}\p{M}][\p{L}\p{M} \x{27}\x{2019}-]{0,79}$/uD', $name)) {
+    cx_respond(false, 'Bitte gib nur deinen Namen an, ohne Links, Adressen oder Sonderzeichen.');
 }
 
 if ($email === '') {
