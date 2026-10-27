@@ -258,12 +258,14 @@ function build(THREE, RoomEnvironment) {
     var p = prog, fade;
 
     // Mitfahren: Die Plakette wandert langsamer nach oben als der Inhalt und taucht dabei hinter das Laufband.
-    var sy = Math.max(0, scrollY - heroTop), y = cy - scrollY + sy * ride, d = bottom - scrollY - y;
-    if (small) {
+    // Black Edition: Plakette steht auf dem Lichthorizont und scrollt ganz normal mit, unten am Laufband abgeschnitten
+    var bk = root.classList.contains("tk-black");
+    var sy = Math.max(0, scrollY - heroTop), y = cy - scrollY + sy * (bk ? 0 : ride), d = bottom - scrollY - y;
+    if (small || bk) {
       var dc = cut - scrollY - y, clip = Math.max(0, H / 2 - dc);
       fade = clamp((dc + S * .2) / (S * .2), 0, 1);
       cv.style.clipPath = clip ? "inset(0 0 " + clip.toFixed(1) + "px 0)" : "";
-    } else fade = clamp((d - S * .1) / (S * .16), 0, 1);
+    } else { fade = clamp((d - S * .1) / (S * .16), 0, 1); if (cv.style.clipPath) cv.style.clipPath = ""; }
     cv.style.transform = "translate3d(" + (cx - W / 2).toFixed(1) + "px," + (y - H / 2).toFixed(1) + "px,0)";
     cv.style.opacity = fade.toFixed(3);
 
@@ -281,7 +283,7 @@ function build(THREE, RoomEnvironment) {
     rig.scale.setScalar(sc);
     // Buchstaben-Ring (DOM, tk-extra.js) fährt mit der Plakette mit, schrumpft mit und blendet gemeinsam aus,
     // damit er beim Scrollen nicht allein stehen bleibt
-    if (ringEl) { ringEl.style.translate = "0 " + (sy * ride).toFixed(1) + "px"; ringEl.style.scale = (1 - p * .22).toFixed(3); ringEl.style.opacity = fade.toFixed(3); }
+    if (ringEl) { ringEl.style.translate = "0 " + (sy * (bk ? 0 : ride)).toFixed(1) + "px"; ringEl.style.scale = (1 - p * .22).toFixed(3); ringEl.style.opacity = fade.toFixed(3); }
     letters.forEach(function (L, i) { L.t.position.x = -(1 - a2) * .35; L.k.position.x = (1 - a2) * .35; });
     kMat.emissiveIntensity = .3 + Math.sin(t * 2.2) * .08 + p * .35;
 
