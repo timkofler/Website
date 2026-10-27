@@ -9,5 +9,6 @@ Die Startseite wird im Browser geladen, der Hero-Bereich umgestaltet und die ech
 Es entstehen 5 Bilder (Plakette in leicht verschiedener Drehung); das schönste als JPG (Qualität 86)
 unter `webdesign/assets/img/` speichern. Bei jeder Änderung einen NEUEN Dateinamen verwenden (Caches).
 
-- og-tk-3.jpg: Startseite und alle übrigen Seiten (start.json)
-- og-entwurf.jpg, og-gruender.jpg, og-ablauf.jpg, og-sicherheit.jpg, og-verein.jpg: jeweilige Unterseite
+- og-tk-4.jpg: Startseite und alle übrigen Seiten (start.json)
+- og-entwurf-2.jpg, og-gruender-2.jpg, og-ablauf-2.jpg, og-sicherheit-2.jpg, og-verein-3.jpg, og-erneuern.jpg (erneuern.json), og-vereins-app.jpg (verein-app.json): jeweilige Unterseite
+- Seit der Black Edition (27.10.2026) stellt render.js den zentrierten Black-Hero für das Bild wieder auf Text links, Plakette rechts um.

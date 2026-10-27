@@ -18,6 +18,15 @@ await p.addStyleTag({content:`
  .tk-hero__stage{right:40px!important;width:430px!important}
  .tk-hero::after{display:none}
  body{overflow:hidden}
+ html.tk-black .tk-hero:has(.tk-hero__stage){padding:0!important;text-align:left!important}
+ html.tk-black .tk-hero:has(.tk-hero__stage) .container{display:block!important}
+ html.tk-black .tk-hero:has(.tk-hero__stage) .label{justify-content:flex-start!important}
+ html.tk-black .tk-hero .label::after{display:none!important}
+ html.tk-black .tk-hero:has(.tk-hero__stage) h1{margin-left:0!important;max-width:none!important}
+ html.tk-black .tk-hero:has(.tk-hero__stage) .tk-hero__stage{position:absolute!important;right:70px!important;top:50%!important;transform:translateY(-50%)!important;width:380px!important;margin:0!important}
+ html.tk-black .tk-hero::before{left:auto!important;right:-120px!important;margin:0!important;top:-40px!important}
+ html.tk-black .tk-hero:has(.tk-hero__stage)::after{display:none!important}
+ .og-chips{justify-content:flex-start}
  .tk-hero h1 .lime{animation:none!important;background-position:0 50%!important}
  body:before{content:"";position:fixed;left:0;right:0;top:0;height:4px;background:var(--hot-grad);z-index:5}
 `});

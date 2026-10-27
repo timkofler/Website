@@ -4,7 +4,7 @@
 # RP=rawpixel (CC0), WP=WordPress Photo Directory (CC0), PH=Poly Haven (CC0), WM=Wikimedia Commons (CC0)
 SEITEN = [
  ("Friseur „Haarwerk“ (Entwurf 1)", "/beispiele/friseur/", [
-  ("MX", "43232", "barber-cutting-hair-with-scissors-and-comb-43232", "", "Video Haarschnitt", "_shared/media/friseur-cut.mp4"),
+  ("PV", "7686515", "", "ArtHouse Studio", "Video Haarschnitt mit Schere und Kamm", "_shared/media/friseur-schnitt.mp4"),
   ("PV", "7440182", "", "cottonbro studio", "Video Haare kämmen", "_shared/media/friseur-style.mp4"),
   ("P", "774909", "woman-in-collared-shirt-774909", "Andrea Piacquadio", "Beispielfoto Haarfarbe", "friseur/haarfarbe-beispiel.webp"),
  ]),
@@ -39,8 +39,8 @@ SEITEN = [
   ("P", "16976882", "", "Hairstudio Natascia Freda", "Hochsteckfrisur", "friseur/v3/bilder/hochsteck.webp"),
  ]),
  ("Café Mühlbach", "/beispiele/cafe/", [
-  ("MX", "236", "filling-a-white-cup-of-coffee-236", "", "Video Kaffee einschenken", "_shared/media/cafe-pour.mp4"),
-  ("MX", "810", "latte-art-810", "", "Video Latte Art", "_shared/media/cafe-latte.mp4"),
+  ("PV", "6950167", "", "Sascha Weber", "Video Kaffee einschenken", "_shared/media/cafe-kaffee.mp4"),
+  ("PV", "6683383", "", "Kampus Production", "Video Latte Art", "_shared/media/cafe-latteart.mp4"),
  ]),
  ("KFZ Steiner (Werkstatt)", "/beispiele/werkstatt/", [
   ("PV", "8316569", "", "Yusuf Çelik", "Video Reifenwechsel", "_shared/media/werkstatt.mp4"),
@@ -105,7 +105,7 @@ SEITEN = [
  ]),
  ("Bäckerei Kornfeld", "/beispiele/baeckerei/", [
   ("PV", "5261345", "", "Carlos Buitrago", "Video Brot geht im Ofen auf (Zeitraffer)", "_shared/media/brot-ofen.mp4"),
-  ("MX", "50025", "pastry-chef-taking-out-three-molds-from-an-oven-50025", "", "Video Ofen", "_shared/media/baeckerei-ofen.mp4"),
+  ("PV", "3195294", "", "Pressmaster", "Video Teig formen in der Backstube", "_shared/media/baeckerei-backstube.mp4"),
   ("P", "11461397", "bread-with-baked-crust-sprinkled-with-sesame-seeds-11461397", "Dina Nasyrova", "Vollkornbrot", "_shared/media/brot-hero.webp"),
   ("P", "30826792", "artisan-sourdough-bread-display-in-bakery-30826792", "Magda Ehlers", "Brotlaibe", "_shared/media/laib.jpg"),
   ("P", "6202224", "close-up-shot-of-croissants-6202224", "Claudio Segovia", "Croissants", "_shared/media/croissant.webp"),

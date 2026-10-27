@@ -61,6 +61,7 @@ inhalt = """<section class="page-head">
     <ul>
       <li>Porträtfoto von Tim Kofler, Logo, Grafiken, Bildschirmfotos und Bildschirmaufnahmen der eigenen Webseiten: Tim Kofler.</li>
       <li>3D-Darstellungen (Auto, Möbel, Haus, Kaffeebecher, Cider-Dose, Haar, Wohnzimmer) sind im Browser berechnet und selbst programmiert.</li>
+      <li>Die Logo-Animation im Abschnitt „Logo &amp; Animation“ der Startseite (erfundener Betrieb „kubo holzbau“) ist selbst gezeichnet und im Browser berechnet (Three.js, MIT-Lizenz), ohne fremde Bilder. Schrift: Manrope (SIL Open Font License 1.1).</li>
       <li>Die Produktbilder im Beispiel-Onlineshop Birnkammer (Flaschen, Gläser, Sackerl, Kistl, Gutschein) sind selbst gezeichnete Grafiken ohne fremde Bilder; auch der 3D-Hof in der Shop-Verwaltung ist aus einfachen Grundformen selbst gebaut (Darstellung mit Three.js, MIT-Lizenz).</li>
       <li>Die Scroll-Filme im Café Mühlbach und im Landgasthof Hollerhof hat Tim Kofler mit KI erzeugt (Google Flow). Sie zeigen keine echten Orte oder Personen.</li>
       <li>Schriften: Unbounded, Manrope, JetBrains Mono und die Schriften der Beispielseiten stammen von Google Fonts (SIL Open Font License bzw. Apache License 2.0) und liegen auf diesem Server.</li>
