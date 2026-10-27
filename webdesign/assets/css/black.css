@@ -24,7 +24,7 @@
 }
 .tkb-switch--foot { min-height: 32px; padding: 0 10px 0 8px; font-size: .8rem; }
 .tkb-switch--foot .tkb-switch__ic svg { width: 14px; height: 14px; }
-.footer__legal { align-items: center; }
+.footer__legal { align-items: center; flex-wrap: wrap; row-gap: 10px; justify-content: center; }
 .tkb-switch--portal { margin-left: 12px; min-height: 30px; padding: 0 10px 0 8px; font-size: .78rem; vertical-align: middle; }
 .ew-foot .tkb-switch--foot { margin-left: auto; }
 
