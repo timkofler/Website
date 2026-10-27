@@ -33,12 +33,6 @@ else if (reduce || lowEnd() || !webglOk()) still();
 else {
   root.classList.add("tk-3d");
   var go = function () {
-    // Black Edition: dort zeichnet sich das Logo selbst (tk-draw.js), Three.js erst beim Ausschalten laden
-    if (root.classList.contains("tk-black")) {
-      new MutationObserver(function (r, o) { if (!root.classList.contains("tk-black")) { o.disconnect(); go(); } })
-        .observe(root, { attributes: true, attributeFilter: ["class"] });
-      return;
-    }
     Promise.all([
       import("/beispiele/_shared/vendor/three-r180/three.module.min.js"),
       import("/beispiele/_shared/vendor/three-r180/RoomEnvironment.js")
