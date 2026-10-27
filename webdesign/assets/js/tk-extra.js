@@ -209,7 +209,7 @@
   try { if (sessionStorage.getItem("tk-float-zu") === "1") return; } catch (e) {}
   // Alle Beispiele der Übersicht (Webseiten + Web-Apps). Nicht von Hand pflegen: .github/scripts/beispiele-zaehler.py
   // zählt die Links in /beispiele/ und setzt die Zahl beim Deploy automatisch.
-  var ANZAHL = 23;
+  var ANZAHL = 24;
   // Runde Ausschnitte aus den Videos/Fotos der Beispielseiten (Lizenzen siehe /bildnachweis/)
   var pics = ["dachdecker", "gasthaus", "pension", "friseur", "werkstatt", "baeckerei", "cafe", "fleischerei", "tischlerei", "maler", "massage", "bodenleger"];
   var a = document.createElement("a");
