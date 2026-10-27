@@ -25,7 +25,6 @@ APPS = ("dashboard", "betriebs-app", "verein-app")
 AUSGENOMMEN = {
     "_shared",
     *APPS,            # Web-Apps, werden extra gezählt
-    "halloween",      # Saison-Seite, nicht in der Übersicht
     "pizzeria",       # dritter Entwurf der Branche Gasthaus & Restaurant
 }
 ENDUNGEN = {".html", ".php", ".js", ".txt", ".json", ".xml", ".md"}
