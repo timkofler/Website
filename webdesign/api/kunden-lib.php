@@ -616,6 +616,8 @@ function kp_store_upload(string $u, array $acc, string $site, string $msg, array
 // Benachrichtigung an Tim (und eine kurze Bestätigung an den Kunden, falls eine E-Mail hinterlegt ist).
 function kp_notify(string $u, array $acc, array $batch): void
 {
+    require_once __DIR__ . '/push-lib.php';
+    pu_send('📎 Neue Dateien im Kundenportal (' . count($batch['dateien']) . ')', '/kunden/admin/?k=' . rawurlencode($u) . '#uploads');
     $c = cx_config();
     if (empty($c['brevo_api_key'])) {
         cx_log('Kundenportal: Upload von ' . $u . ' ohne Benachrichtigung (kein Brevo-Schlüssel)');
@@ -995,6 +997,8 @@ function kp_notify_message(string $u, array $acc, array $msg): void
     $notify = (string) ($c['notify_email'] ?? 'office@tim-kofler.at');
     $email = (string) ($acc['email'] ?? '');
     if ($msg['von'] === 'kunde') {
+        require_once __DIR__ . '/push-lib.php';
+        pu_send('💬 Neue Nachricht im Kundenportal (' . $art . ')', '/kunden/admin/?k=' . rawurlencode($u) . '#nachrichten');
         $who = trim((string) ($acc['firma'] ?? '')) !== '' ? $acc['firma'] . ' (' . ($acc['name'] ?? $u) . ')' : (string) ($acc['name'] ?? $u);
         $inner = '<p style="margin:0 0 14px">' . cx_h($who) . ' hat dir im Kundenportal geschrieben:</p>' . $text
             . cx_button(kp_portal_url('/kunden/admin/?k=' . rawurlencode($u) . '#nachrichten'), 'Antworten');
@@ -1042,7 +1046,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <link rel="stylesheet" href="/assets/css/tk.css?v=32bd1175">
   <link rel="stylesheet" href="/assets/css/black.css?v=59c0593d">
   <script src="/assets/js/tk-black.js?v=9c01d95c"></script>
-  <link rel="stylesheet" href="/assets/css/portal.css?v=lr261026b">
+  <link rel="stylesheet" href="/assets/css/portal.css?v=ad271026">
 </head>
 <body class="kp">
 <header class="header">
@@ -1067,7 +1071,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
     <span class="tkp-black-slot"><a href="/impressum/">Impressum</a> · <a href="/datenschutz/#kundenportal">Datenschutz</a></span>
   </div>
 </footer>
-<script src="/assets/js/portal.js?v=9ac4cfac"></script>
+<script src="/assets/js/portal.js?v=ad271026"></script>
 </body>
 </html>
 HTML;

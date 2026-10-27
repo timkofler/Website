@@ -1,0 +1,38 @@
+/* Privater Entwurf-Link (/entwurf/ansehen/) und Bewertungsseite (/bewertung/) – ergänzt style.css, tk.css und black.css */
+.an-sec { padding: 96px 0 96px; }
+.an-wrap { max-width: 980px; }
+.an-wrap h1 { margin: 14px 0 14px; font-size: clamp(2rem, 6vw, 3.6rem); line-height: 1.08; }
+.an-text { max-width: 640px; margin: 0 0 28px; }
+.an-bilder { display: grid; gap: 22px; margin: 0 0 40px; }
+.an-bild { margin: 0; border: 1px solid var(--line-2); border-radius: 20px; overflow: hidden; background: var(--surface); box-shadow: 0 30px 60px -40px rgba(0,0,0,.9); }
+.an-bild img { display: block; width: 100%; height: auto; }
+.an-leer { padding: 28px; border: 1px dashed var(--line-2); border-radius: 16px; color: var(--muted); }
+.an-frage { border: 1px solid var(--line-2); border-radius: 22px; background: var(--bg-2); padding: 28px; }
+.an-frage h2 { margin: 0 0 8px; font-size: 1.4rem; }
+.an-frage > p { margin: 0 0 18px; color: var(--muted); }
+.an-knoepfe { display: flex; flex-wrap: wrap; gap: 12px; }
+.an-knoepfe form { margin: 0; }
+.an-kontakt { margin: 18px 0 0 !important; font-size: .92rem; }
+.an-danke { margin: 0 0 28px; padding: 16px 20px; border: 1px solid rgba(255,90,31,.45); border-radius: 16px; background: var(--hot-dim); }
+.an-danke b { color: var(--text); }
+/* Bewertung */
+.bw-form { max-width: 640px; }
+.bw-feld { display: grid; gap: 8px; }
+.bw-feld > span { font-weight: 600; font-size: .95rem; }
+.bw-sterne { display: flex; flex-direction: row-reverse; justify-content: flex-end; gap: 6px; position: relative; }
+.bw-sterne input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.bw-sterne label { cursor: pointer; width: 46px; height: 46px; display: grid; place-items: center; border-radius: 12px; border: 1px solid var(--line-2); background: var(--surface); color: var(--muted); transition: color .15s, border-color .15s; }
+.bw-sterne label svg { width: 26px; height: 26px; fill: currentColor; }
+.bw-sterne input:checked ~ label, .bw-sterne label:hover, .bw-sterne label:hover ~ label { color: var(--hot); border-color: rgba(255,90,31,.55); }
+.bw-sterne input:focus-visible + label { outline: 2px solid var(--hot); outline-offset: 2px; }
+.bw-google { margin-top: 28px; padding: 20px 22px; border: 1px solid var(--line-2); border-radius: 18px; background: var(--bg-2); }
+.bw-google p { margin: 0 0 12px; }
+@media (max-width: 680px) {
+  .an-sec { padding: 64px 0 72px; }
+  .an-bilder { gap: 14px; }
+  .an-bild { border-radius: 14px; }
+  .an-frage { padding: 20px 18px; border-radius: 18px; }
+  .an-knoepfe { flex-direction: column; }
+  .an-knoepfe .btn { width: 100%; justify-content: center; }
+  .bw-sterne label { width: 52px; height: 52px; }
+}

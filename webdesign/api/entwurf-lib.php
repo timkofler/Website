@@ -192,6 +192,7 @@ function ew_handle(array $c, string $fallback): void
     }
 
     $id = date('Ymd-His') . '-' . bin2hex(random_bytes(3));
+    $d['optin'] = 'offen'; // wird in bestaetigen.php auf „ok“ gesetzt
     $stored = ew_write($id, $d);
 
     // Tim bekommt die Anfrage SOFORT (gespeichert im Admin unter „Anfragen" + interne Mail an die feste
