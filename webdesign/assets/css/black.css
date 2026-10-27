@@ -222,8 +222,10 @@ html.tk-black .tk-marquee span { font-weight: 600; letter-spacing: -.02em; }
 
 /* Footer-Schriftzug bleibt wie im normalen Design (Unbounded mit Verlauf) */
 html.tk-black .footer__big { font-family: "Unbounded", "Manrope", system-ui, sans-serif; }
-/* „Kofler“: weicher dunkler Schatten zieht langsam durch den orangen Verlauf (Tims Wahl C) */
-html.tk-black .tk-sign .footer__big span { background-image: linear-gradient(100deg, #ff4d1a 0%, #ff5f22 10%, #ff7a32 20%, #ff8f42 28%, #f2702a 34%, #c24614 39%, #7a240a 43%, #3a1006 47%, #1a0805 50%, #3a1006 53%, #7a240a 57%, #c24614 61%, #f2702a 66%, #ff8f42 72%, #ffa14a 80%, #ffab48 90%, #ffb23f 100%); animation-duration: 9s; }
+/* „Kofler“: weicher dunkler Schatten pendelt langsam hin und her wie bei KITT, nur innerhalb des Wortes (Tims Wahl C) */
+html.tk-black .tk-sign .footer__big span { background-image: linear-gradient(100deg, #ff4d1a 0%, #ff5f22 10%, #ff7a32 20%, #ff8f42 28%, #f2702a 34%, #c24614 39%, #7a240a 43%, #3a1006 47%, #1a0805 50%, #3a1006 53%, #7a240a 57%, #c24614 61%, #f2702a 66%, #ff8f42 72%, #ffa14a 80%, #ffab48 90%, #ffb23f 100%); animation: tkb-kitt 6s ease-in-out infinite alternate; }
+@keyframes tkb-kitt { from { background-position: 80% 0; } to { background-position: 20% 0; } }
+@media (prefers-reduced-motion: reduce) { html.tk-black .tk-sign .footer__big span { animation: none; background-position: 50% 0; } }
 
 /* Vier Schritte: kein Balken oben, Lichtkegel füllt die ganze Karte */
 html.tk-black .step::after { display: none; }
