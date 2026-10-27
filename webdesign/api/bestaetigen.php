@@ -41,13 +41,28 @@ if (($data['s'] ?? '') === 'webseite') {
     $afId = (string) ($data['af'] ?? '');
     if (ew_valid_id($afId) && ($af = af_mark_optin('anfrage', $afId))) {
         $pk = (string) ($af['felder']['Paket'] ?? '');
-        pu_send('✅ Neue Anfrage bestätigt: ' . (AF_ARTEN[$af['art'] ?? ''] ?? 'Anfrage') . ($pk !== '' ? ' · ' . $pk : '') . ' · über ' . af_quelle_name(af_quelle((string) ($af['quelle'] ?? ''))),
-            '/kunden/admin/?anfrage=' . $afId);
+        if (($af['art'] ?? '') === 'check') {
+            pu_send('🔎 Webseiten-Check bestätigt: ' . (string) ($af['firma'] ?? '') . ' · bitte innerhalb von 24 Stunden (Werktage) antworten', '/kunden/admin/?anfrage=' . $afId);
+        } else {
+            pu_send('✅ Neue Anfrage bestätigt: ' . (AF_ARTEN[$af['art'] ?? ''] ?? 'Anfrage') . ($pk !== '' ? ' · ' . $pk : '') . ' · über ' . af_quelle_name(af_quelle((string) ($af['quelle'] ?? ''))),
+                '/kunden/admin/?anfrage=' . $afId);
+        }
+    }
+
+    $notify = (string) ($c['notify_email'] ?? 'tk@crypto-x.at');
+    // Webseiten-Check (/check/): eigene Eingangsbestätigung mit dem 24-Stunden-Versprechen.
+    if (!empty($data['ck'])) {
+        $inner = '<p style="margin:0 0 14px">Hallo ' . cx_h($name) . ',</p>'
+            . '<p style="margin:0 0 14px">danke, deine E-Mail-Adresse ist bestätigt! Ich sehe mir deine Webseite jetzt persönlich am Handy und am PC an und schicke dir meine Einschätzung innerhalb von 24 Stunden an Werktagen an diese Adresse.</p>'
+            . '<p style="margin:0 0 14px">Du bekommst eine ehrliche Antwort, auch wenn alles passt. Ein Anruf oder Verkaufsgespräch folgt nicht.</p>'
+            . cx_mail_gruss();
+        cx_mail($email, $name, 'Dein Webseiten-Check ist bei mir', cx_mail_layout('Danke, ich schau sie mir an', $inner), $notify);
+        header('Location: /check/bestaetigt/', true, 303);
+        exit;
     }
 
     // Eingangsbestätigung an die Person (Antworten gehen an Tim). Tim wurde bereits bei der Anfrage informiert.
     $verein = !empty($data['v']);
-    $notify = (string) ($c['notify_email'] ?? 'tk@crypto-x.at');
     $inner = '<p style="margin:0 0 14px">Hallo ' . cx_h($name) . ',</p>'
         . '<p style="margin:0 0 14px">danke, deine E-Mail-Adresse ist bestätigt und deine Anfrage ist bei mir! Ich sehe mir deine Angaben an und melde mich innerhalb von zwei Werktagen persönlich bei dir, per E-Mail, oder auf WhatsApp bzw. Telegram, wenn du eine Nummer angegeben hast.</p>'
         . ($verein

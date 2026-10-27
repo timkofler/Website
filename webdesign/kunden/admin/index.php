@@ -906,6 +906,10 @@ if ($af !== '' && ($d = af_read($af))) {
             $html = '<a href="mailto:' . cx_h($val) . '">' . cx_h($val) . '</a>';
         } elseif ($key === 'Telefon') {
             $html = '<a href="tel:' . cx_h(preg_replace('/[^0-9+]/', '', $val) ?? '') . '">' . cx_h($val) . '</a>';
+        } elseif ($key === 'Webseite' && !preg_match('/\s/', $val)) {
+            // Webseiten-Check: Adresse gleich zum Öffnen (nur http/https, sonst bleibt es Text)
+            $u = preg_match('~^https?://~i', $val) ? $val : 'https://' . $val;
+            $html = '<a href="' . cx_h($u) . '" target="_blank" rel="noopener noreferrer">' . cx_h($val) . '</a>';
         }
         // Lange Texte (Nachricht, Rechner) eingeklappt, die ersten Worte bleiben sichtbar.
         if (mb_strlen($val) > 160) {
@@ -1789,6 +1793,14 @@ foreach ($afAlle as $key => $d) {
         $frist = (strtotime((string) ($d['optin_zeit'] ?? $d['zeit'])) ?: 0) + 48 * 3600;
         $std = (int) round(($frist - time()) / 3600);
         $todo[] = [$std < 0 ? 0 : 2, $link, '🎨', 'Gratis-Entwurf für ' . $titel, $std >= 0 ? 'noch ' . $std . ' Std.' : 'seit ' . -$std . ' Std. überfällig'];
+    } elseif (($d['art'] ?? '') === 'check' && in_array($st, ['neu', 'arbeit'], true) && ($d['optin'] ?? '') !== 'offen') {
+        // Versprochen: Antwort innerhalb von 24 Stunden an Werktagen ab der Bestätigung (Wochenende zählt nicht).
+        $frist = (strtotime((string) ($d['optin_zeit'] ?? $d['zeit'])) ?: 0) + 24 * 3600;
+        while ((int) date('N', $frist) >= 6) {
+            $frist += 24 * 3600;
+        }
+        $std = (int) round(($frist - time()) / 3600);
+        $todo[] = [$std < 0 ? 0 : 2, $link, '🔎', 'Webseiten-Check: ' . $titel, $std >= 0 ? 'noch ' . $std . ' Std.' : 'seit ' . -$std . ' Std. überfällig'];
     } elseif ($st === 'neu' && ($d['optin'] ?? '') !== 'offen') {
         $tage = (int) floor((time() - (strtotime((string) $d['zeit']) ?: time())) / 86400);
         $todo[] = [$tage >= 2 ? 1 : 3, $link, ($d['art'] ?? '') === 'rueckruf' ? '📞' : '✉️', (($d['art'] ?? '') === 'rueckruf' ? 'Rückruf-Wunsch: ' : 'Neue Anfrage: ') . $titel, $tage === 0 ? 'von heute' : ($tage === 1 ? 'von gestern' : 'seit ' . $tage . ' Tagen offen')];

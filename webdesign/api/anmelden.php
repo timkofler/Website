@@ -36,8 +36,8 @@ if (!cx_rate_hit('mail:' . strtolower($email), 3, 86400)) {
 }
 
 // Nur Formulare annehmen, deren Liste in der config.php dieses Webspace steht
-// (tim-kofler.at kennt Webseiten-Anfrage, Gratis-Entwurf und Newsletter, crypto-x.at Beta und Newsletter).
-$lists = ['newsletter' => 'list_newsletter', 'beta' => 'list_beta', 'webseite' => 'list_webdesign', 'entwurf' => 'list_webdesign'];
+// (tim-kofler.at kennt Webseiten-Anfrage, Gratis-Entwurf, Webseiten-Check und Newsletter, crypto-x.at Beta und Newsletter).
+$lists = ['newsletter' => 'list_newsletter', 'beta' => 'list_beta', 'webseite' => 'list_webdesign', 'entwurf' => 'list_webdesign', 'check' => 'list_webdesign'];
 if (!isset($lists[$form]) || !array_key_exists($lists[$form], $c)) {
     cx_respond(false, 'Ungültige Anfrage.');
 }
@@ -61,6 +61,10 @@ if ($form === 'entwurf') {
 
 if ($form === 'webseite') {
     cx_webseite($c, $email, $name, $fallback);
+}
+
+if ($form === 'check') {
+    cx_check($c, $email, $name, $fallback);
 }
 
 if ($form !== 'beta') {
@@ -195,6 +199,57 @@ function cx_webseite(array $c, string $email, string $name, string $fallback): v
     }
 
     cx_respond(true, 'Fast geschafft! Bitte bestätige noch kurz deine E-Mail über den Link, den ich dir gerade geschickt habe – deine Anfrage ist aber schon bei mir.', (string) ($c['weiter_webseite'] ?? '/webseite-erstellen-lassen/danke/'));
+}
+
+
+// ---------------- Kostenloser Webseiten-Check (/check/) ----------------
+// Nur Link, Name und E-Mail. Ablauf wie bei der Webseiten-Anfrage: sofort im Admin + Mail an Tim,
+// Brevo-Eintrag und Eingangsbestätigung erst nach Bestätigung der E-Mail-Adresse (bestaetigen.php).
+function cx_check(array $c, string $email, string $name, string $fallback): void
+{
+    $url = trim(cx_field('url', 200));
+    // Nur eine Webadresse annehmen (mit oder ohne https://, ohne Leerzeichen), sonst landet hier beliebiger Text.
+    $host = (string) (parse_url(preg_match('~^https?://~i', $url) ? $url : 'https://' . $url, PHP_URL_HOST) ?? '');
+    if ($url === '' || preg_match('/\s/', $url) || !preg_match('/^([a-z0-9äöüß-]+\.)+[a-z]{2,}$/iu', $host)) {
+        cx_respond(false, 'Bitte gib die Adresse deiner Webseite an, zum Beispiel mein-betrieb.at.');
+    }
+    if ($name === '') {
+        cx_respond(false, 'Bitte gib deinen Namen an.');
+    }
+    if (cx_field('datenschutz', 5) !== 'ja') {
+        cx_respond(false, 'Bitte bestätige, dass du die Datenschutzerklärung gelesen hast.');
+    }
+    $f = ['Name' => $name, 'E-Mail' => $email, 'Webseite' => $url, 'Gefunden über' => cx_field('quelle', 120)];
+
+    require_once __DIR__ . '/anfrage-lib.php';
+    $afId = af_save('check', $name, preg_replace('/^www\./i', '', $host) ?? $host, $f['Gefunden über'], $f, true);
+    $stored = $afId !== '';
+
+    $rows = '';
+    foreach ($f as $k => $v) {
+        $rows .= '<tr><td style="padding:6px 12px 6px 0;color:#a1a1a1;vertical-align:top;white-space:nowrap">' . cx_h($k)
+            . '</td><td style="padding:6px 0;color:#f4f4f0">' . cx_h($v !== '' ? $v : '–') . '</td></tr>';
+    }
+    $notify = (string) ($c['notify_email'] ?? 'tk@crypto-x.at');
+    $toTim = cx_mail($notify, 'Tim', 'Webseiten-Check: ' . $host . ' (' . $name . ')',
+        cx_mail_layout('Neuer Webseiten-Check', cx_mail_table($rows)
+            . '<p style="margin:18px 0 0;font-size:14px;color:#a1a1a1">Versprochen ist eine Antwort innerhalb von 24 Stunden an Werktagen, sobald die E-Mail-Adresse bestätigt ist (du bekommst dann eine Push-Nachricht). Mit „Antworten“ schreibst du direkt an die Person.</p>'),
+        $email);
+    if (!$toTim && !$stored) {
+        cx_respond(false, 'Deine Anfrage konnte gerade nicht übermittelt werden. ' . $fallback);
+    }
+
+    $extra = ['ck' => 1, 'pk' => 'Webseiten-Check'];
+    if ($afId !== '') {
+        $extra['af'] = $afId;
+    }
+    if ($f['Gefunden über'] !== '') {
+        $extra['ql'] = $f['Gefunden über'];
+    }
+    if (!cx_send_optin($email, $name, 'webseite', $extra)) {
+        cx_respond(false, 'Die Bestätigungsmail konnte gerade nicht verschickt werden. ' . $fallback);
+    }
+    cx_respond(true, 'Fast geschafft! Bitte bestätige noch kurz deine E-Mail über den Link, den ich dir gerade geschickt habe. Danach bekommst du deine Einschätzung innerhalb von 24 Stunden an Werktagen.', '/check/danke/');
 }
 
 
