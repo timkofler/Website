@@ -1,0 +1,25 @@
+/* /web-apps/: Produkte als Bild + Karte, abwechselnd links/rechts */
+.wa-jump { list-style: none; padding: 0; margin: 28px 0 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.tk-hero .wa-jump a { display: inline-block; text-decoration: none; padding: 8px 16px; border: 1px solid var(--line-2); border-radius: 999px; font-size: .92rem; color: var(--text); text-decoration: none; }
+.tk-hero .wa-jump a:hover { border-color: var(--lime); }
+.wa-prods { display: grid; gap: 56px; }
+.wa-prod { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 32px; align-items: center; scroll-margin-top: 90px; }
+.wa-prod--rev .wa-prod__shot { order: 2; }
+.wa-prod__shot { position: relative; display: block; padding-top: 34px; border: 1px solid var(--line-2); border-radius: 22px; overflow: hidden; background: var(--bg-2); }
+.wa-prod__shot img { display: block; width: 100%; height: auto; transition: transform .5s ease; }
+.wa-prod__shot:hover img { transform: scale(1.02); }
+.wa-prod__card .price__tag { position: static; align-self: flex-start; margin-bottom: 14px; }
+.wa-prod__card .price__lead { margin-top: 10px; }
+.wa-prod__card .ticks { flex: none; grid-template-columns: 1fr 1fr; column-gap: 18px; }
+.wa-prod__card .price__note { margin: 0 0 18px; }
+.wa-prod__card .btn-row { display: flex; flex-wrap: wrap; gap: 10px; }
+@media (max-width: 900px) {
+  .wa-prod { grid-template-columns: 1fr; gap: 18px; }
+  .wa-prod--rev .wa-prod__shot { order: 0; }
+  .wa-prods { gap: 44px; }
+}
+@media (max-width: 560px) {
+  .wa-prod__card .ticks { grid-template-columns: 1fr; }
+  .wa-prod__card .btn-row .btn { flex: 1 1 100%; justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) { .wa-prod__shot img { transition: none; } }

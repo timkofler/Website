@@ -402,7 +402,13 @@ function cx_send_optin(string $email, string $firstname, string $source, array $
     $token = cx_token(['e' => $email, 'n' => $firstname, 's' => $source, 't' => time()] + $extra);
     $link = cx_brand()['site'] . '/api/bestaetigen.php?t=' . rawurlencode($token);
     $hallo = $firstname !== '' ? 'Hallo ' . cx_h($firstname) . ',' : 'Hallo,';
-    if ($source === 'webseite') {
+    if ($source === 'webseite' && !empty($extra['ck'])) {
+        // Webseiten-Check (/check/): die 24 Stunden laufen erst ab der Bestätigung.
+        $subject = 'Bitte bestätige deinen Webseiten-Check';
+        $erklaerung = 'danke für deine Anfrage! Bitte bestätige noch kurz mit einem Klick, dass sie von dir kommt – '
+            . 'dann sehe ich mir deine Webseite an und schicke dir meine Einschätzung innerhalb von 24 Stunden an Werktagen an diese Adresse.';
+        $label = 'Check bestätigen';
+    } elseif ($source === 'webseite') {
         // Webseiten-Anfrage: Tim ist über die Anfrage bereits informiert und meldet sich in jedem Fall.
         // Dieser Klick bestätigt nur die E-Mail-Adresse (Eingangsbestätigung + Eintrag erst danach).
         $subject = 'Bitte bestätige deine Webseiten-Anfrage';

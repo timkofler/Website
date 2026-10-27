@@ -1,5 +1,5 @@
 <?php
-// Tim Kofler – alle Anfragen an einem Ort: Webseiten-Anfragen (Startseite, /gruender/, /verein/) und Rückruf-Wünsche
+// Tim Kofler – alle Anfragen an einem Ort: Webseiten-Anfragen (Startseite, /gruender/, /verein/), Webseiten-Checks (/check/) und Rückruf-Wünsche
 // werden hier gespeichert, die Gratis-Entwürfe bleiben in api/_data/entwuerfe/ (entwurf-lib.php) und werden nur mitgelesen.
 // Dazu die Werbekosten pro Quelle, die Tim im Admin einträgt. Alles liegt unter api/_data/ und ist für Besucher gesperrt.
 
@@ -18,7 +18,7 @@ const AF_BETRIEB_START = ['Claude-Abo' => null];
 const AF_USD_EUR = 0.92;
 // Ein Status für alle Arten von Anfragen (auch die Gratis-Entwürfe, deren „erledigt“ von früher bleibt lesbar).
 const AF_STATUS = ['neu' => 'Neu', 'arbeit' => 'In Arbeit', 'geschickt' => 'Entwurf/Angebot geschickt', 'kunde' => 'Kunde geworden', 'abgesagt' => 'Abgesagt'];
-const AF_ARTEN = ['anfrage' => 'Anfrage', 'gruender' => 'Gründer', 'verein' => 'Verein', 'rueckruf' => 'Rückruf', 'entwurf' => 'Gratis-Entwurf'];
+const AF_ARTEN = ['anfrage' => 'Anfrage', 'gruender' => 'Gründer', 'verein' => 'Verein', 'rueckruf' => 'Rückruf', 'entwurf' => 'Gratis-Entwurf', 'check' => 'Webseiten-Check'];
 // Vorschläge im Kosten-Formular, auch wenn darüber noch keine Anfrage kam.
 const AF_QUELLEN_VORSCHLAG = ['google-anzeige', 'willhaben', 'instagram', 'pinterest', 'flyer', 'brief', 'auto'];
 
