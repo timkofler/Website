@@ -1026,7 +1026,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
     header('Content-Type: text/html; charset=utf-8');
     echo <<<HTML
 <!DOCTYPE html>
-<html lang="de-AT">
+<html lang="de-AT" class="tk-black">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -1039,9 +1039,9 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="stylesheet" href="/assets/css/style.css?v=5d1d811a">
-  <link rel="stylesheet" href="/assets/css/tk.css?v=21a50071">
-  <link rel="stylesheet" href="/assets/css/black.css?v=7d9261fc">
-  <script src="/assets/js/tk-black.js?v=46f18685"></script>
+  <link rel="stylesheet" href="/assets/css/tk.css?v=3ae5cf0f">
+  <link rel="stylesheet" href="/assets/css/black.css?v=89cafa46">
+  <script src="/assets/js/tk-black.js?v=9c01d95c"></script>
   <link rel="stylesheet" href="/assets/css/portal.css?v=lr261026b">
 </head>
 <body class="kp">
