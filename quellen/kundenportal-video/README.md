@@ -1,6 +1,6 @@
 # Kundenportal-Video (tim-kofler.at/ablauf/, Abschnitt [04] Kundenportal)
 
-Ergebnis: `webdesign/assets/video/kundenportal-demo.mp4` (stumm, ca. 71 s, 600 × 1298, 30 Bilder/s, ruhiges Tempo) und Standbild
+Ergebnis: `webdesign/assets/video/kundenportal-demo.mp4` (stumm, ca. 76 s, seit 27.10.2026 im Black-Look, 600 × 1298, 30 Bilder/s, ruhiges Tempo) und Standbild
 `webdesign/assets/img/kundenportal-demo-poster.webp` (Bild bei 10,5 s). Eigene Aufnahme des echten Portals am Handy
 (390 × 844, doppelte Auflösung) mit einem erfundenen Beispielkunden „Anna Muster, Bäckerei Muster“. Keine fremden Bilder:
 Die drei hochgeladenen Dateien sind selbst erzeugte Platzhalter, im Video sind nur Name und Größe zu sehen.
