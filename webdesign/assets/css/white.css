@@ -147,6 +147,7 @@ html.tk-white .tk-vers__tag i.is-on { background: #ff5a1f; }
 html.tk-white .tk-car__btn { background: #fff; border-color: rgba(28,20,12,.14); color: #16130f; }
 html.tk-white .tk-car__dot::after { background: rgba(28,20,12,.25); }
 html.tk-white main a:not(.btn):not([class]) { color: #16130f; }
+html.tk-white main a:not(.btn):not([class]):hover { color: var(--hot); }
 html.tk-white .muted a { color: #16130f; text-decoration-color: rgba(255,90,31,.6); }
 
 /* ---------- Eigene App statt Abos ---------- */
@@ -230,3 +231,8 @@ html.tk-white .tk-top:hover{background:linear-gradient(160deg,#ff6a2f,#e24a12);c
 /* Fotos: kein Ausblenden ins Weiß, volle Farbe mit weichem Schatten (Tim: Bilder zu weiß) */
 html.tk-white .about__pics img { filter: none; -webkit-mask-image: none; mask-image: none; box-shadow: 0 30px 60px -30px rgba(40,25,10,.45); }
 html.tk-white .about__pics figcaption { margin-top: 10px; }
+html.tk-white .gr-item:hover { background: #fff; }
+html.tk-white .gr-items { background: rgba(28,20,12,.09); border-color: rgba(28,20,12,.09); }
+/* Rahmen-Knöpfe: sichtbarer Rahmen auf hellem Grund */
+html.tk-white .btn--line { border-color: rgba(28,20,12,.18); background: #fff; color: #16130f; }
+html.tk-white .btn--line:hover { border-color: rgba(255,90,31,.7); background: #fff6f1; color: #16130f; box-shadow: 0 0 24px -10px rgba(255,90,31,.5); }
