@@ -371,3 +371,14 @@ html.tk-black .tk-hero:not(:has(.tk-hero__stage))::before { z-index: -1; }
 
 /* Kopf-Logo: statt hellem Glanz wandert ein dunkler Schatten übers orange K (Tim 27.10., Variante 2) */
 html.tk-black .header .tk-logo::after { background-image: linear-gradient(100deg, transparent 0%, transparent 32%, rgba(0,0,0,.55) 46%, transparent 60%, transparent 100%); }
+
+/* Handy: Ablauf als Zeitleiste, Nummern links, senkrechte Linie verbindet sie (Tim 27.10.) */
+@media (max-width: 680px) {
+  html.tk-black .steps { row-gap: 28px; padding-top: 0; padding-left: 58px; list-style: none; }
+  html.tk-black .step > h3::before { left: -58px; top: 0; }
+  html.tk-black .step > h3::after { display: block; top: 52px; left: -39px; width: 2px; height: calc(100% - 52px + 28px); border-radius: 2px;
+    background: linear-gradient(180deg, rgba(255,90,31,.75), rgba(255,90,31,.18)); }
+  html.tk-black .steps--4 > .step:nth-child(2n) > h3::after, html.tk-black .gr-steps > .step:nth-child(2n) > h3::after { display: block; }
+  html.tk-black .steps > .step:last-child > h3::after { display: none; }
+  html.tk-black .footer__orte .footer__orte-l { display: block; }
+}
