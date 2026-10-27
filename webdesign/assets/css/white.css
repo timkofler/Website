@@ -42,6 +42,10 @@ html.tk-white .header__end .tk-ed ~ .nav-toggle::before { background: rgba(28,20
 @media (max-width: 1100px) { html.tk-white .header__end .tk-ed:has(~ .nav-toggle):hover, html.tk-white .header__end .tk-ed ~ .nav-toggle:hover { border-color: rgba(28,20,12,.14); } }
 html.tk-white .mnav, html.tk-white .nav__drop { background: #fbf9f6; border-color: rgba(28,20,12,.1); box-shadow: 0 30px 60px -30px rgba(70,40,15,.4); }
 html.tk-white .mnav a, html.tk-white .nav__drop a { color: #16130f; }
+html.tk-white .nav__drop::before { background: #fbf9f6; border-color: rgba(28,20,12,.1); }
+html.tk-white .mnav__d { border-color: rgba(28,20,12,.12); }
+html.tk-white .mnav__d:hover, html.tk-white .mnav__d:active { border-color: var(--hot); }
+html.tk-white .mnav__d--hot { border-color: rgba(255,90,31,.5); background: radial-gradient(120% 140% at 100% 0%, rgba(255,90,31,.16), rgba(255,90,31,0) 60%), #fff; }
 html.tk-white .ew-head__tel { color: #16130f; border-color: rgba(28,20,12,.14); background: #fff; }
 
 /* ---------- Kopfbereich ---------- */
