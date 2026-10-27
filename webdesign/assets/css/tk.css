@@ -1489,3 +1489,42 @@ html.tk-menu-open .tk-bx-bar { display: none; }
 @media (max-width: 360px) { .section h2 { -webkit-hyphens: auto; hyphens: auto; overflow-wrap: break-word; } }
 .tk-marquee span em { font-style: normal; }
 .tk-marquee span b { color: #ff5a1f; font-weight: 700; }
+/* Rechner-Karte: Branchen als Reiter, der aktive leuchtet und füllt sich, damit man das Wechseln sofort sieht (Tim 27.10.) */
+.tk-tryr__tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 2px; }
+.tk-tryr__tabs > span { position: relative; overflow: hidden; padding: 5px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.12); color: var(--muted); font-size: .74rem; font-weight: 600; line-height: 1.2; transition: color .3s, border-color .3s, background .3s; }
+.tk-tryr__tabs > span::after { content: ""; position: absolute; left: 0; bottom: 0; height: 2px; width: 0; background: #ff5a1f; }
+.tk-tryr__tabs > span.is-on { color: #fff; border-color: rgba(255,90,31,.6); background: rgba(255,90,31,.12); }
+.tk-tryr__tabs > span.is-on::after { animation: tkgFill var(--tkr-dur, 4.5s) linear forwards; }
+.tk-tryr.is-hold .tk-tryr__tabs > span.is-on::after { animation: none; width: 100%; }
+.tk-tryr__seg { bottom: 12px; padding: 6px 9px; gap: 6px; }
+.tk-tryr__seg i { width: 26px; height: 4px; }
+@media (prefers-reduced-motion: reduce) { .tk-tryr__tabs { display: none; } }
+/* Eigene App statt Abos: eigener Abschnitt nach den Paketen, Vergleich vorher/nachher, Funktionsliste (Tim 27.10.) */
+.tk-app2__cmp { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: stretch; gap: 14px; margin: 0 0 22px; }
+.tk-app2__cmp > div { padding: 22px 24px; border-radius: 22px; border: 1px solid rgba(255,255,255,.08); background: linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.01)), #0e0e0f; }
+.tk-app2__cmp small { display: block; font-family: var(--mono); font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.tk-app2__cmp b { display: block; margin: 10px 0 6px; font-size: clamp(1.8rem, 3.4vw, 2.6rem); font-weight: 600; letter-spacing: -.03em; line-height: 1.05; }
+.tk-app2__cmp b em { font-style: normal; font-size: .45em; font-weight: 500; letter-spacing: 0; color: var(--muted); }
+.tk-app2__cmp > div > span { display: block; color: var(--muted); font-size: .95rem; }
+.tk-app2__was b { color: #a3a3a8; }
+.tk-app2__was s { text-decoration-color: rgba(255,90,31,.8); text-decoration-thickness: 3px; }
+.tk-app2__neu { border-color: rgba(255,90,31,.45) !important; background: radial-gradient(90% 120% at 100% 0%, rgba(255,90,31,.16), transparent 60%), #0e0e0f !important; box-shadow: 0 0 40px -14px rgba(255,90,31,.5); }
+.tk-app2__neu b { color: #ff5a1f; }
+.tk-app2__neu > span { color: var(--text); }
+.tk-app2__to { display: grid; place-items: center; align-self: center; width: 46px; height: 46px; border-radius: 50%; background: #ff5a1f; color: #0b0b0c; box-shadow: 0 0 0 6px rgba(255,90,31,.12); }
+.tk-app2__to svg { width: 22px; height: 22px; }
+.tk-app2__grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(22px, 3vw, 40px); align-items: center; }
+.tk-app2__grid .tk-abo__media { aspect-ratio: 16 / 10.5; }
+.tk-app2__list { list-style: none; margin: 0 0 18px; padding: 0; display: grid; gap: 12px; }
+.tk-app2__list li { display: flex; gap: 12px; align-items: flex-start; }
+.tk-app2__list svg { flex: none; width: 22px; height: 22px; padding: 4px; margin-top: 1px; border-radius: 50%; color: #ff7a45; background: rgba(255,90,31,.12); box-shadow: inset 0 0 0 1px rgba(255,90,31,.4); }
+.tk-app2__list b { display: block; color: var(--text); font-weight: 600; }
+.tk-app2__list span { color: var(--muted); font-size: .92rem; line-height: 1.45; }
+.tk-app2__deal { margin: 0 0 18px; padding: 4px 0 4px 14px; border-left: 3px solid #ff5a1f; color: var(--muted); }
+.tk-app2__deal b { display: block; color: #ffb27a; font-weight: 600; }
+.tk-app2__note { margin: 18px 0 0; }
+@media (max-width: 900px) {
+  .tk-app2__cmp { grid-template-columns: 1fr; }
+  .tk-app2__to { justify-self: center; transform: rotate(90deg); }
+  .tk-app2__grid { grid-template-columns: 1fr; }
+}
