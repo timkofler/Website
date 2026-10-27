@@ -1,5 +1,5 @@
 seite;datei;motiv;quelle;id;url;urheber;lizenz
-/beispiele/friseur/;_shared/media/friseur-cut.mp4;Video Haarschnitt;Mixkit;43232;https://mixkit.co/free-stock-video/barber-cutting-hair-with-scissors-and-comb-43232/;;Mixkit Stock Video Free License
+/beispiele/friseur/;_shared/media/friseur-schnitt.mp4;Video Haarschnitt mit Schere und Kamm;Pexels;7686515;https://www.pexels.com/video/7686515/;ArtHouse Studio;Pexels-Lizenz
 /beispiele/friseur/;_shared/media/friseur-style.mp4;Video Haare kämmen;Pexels;7440182;https://www.pexels.com/video/7440182/;cottonbro studio;Pexels-Lizenz
 /beispiele/friseur/;friseur/haarfarbe-beispiel.webp;Beispielfoto Haarfarbe;Pexels;774909;https://www.pexels.com/photo/woman-in-collared-shirt-774909/;Andrea Piacquadio;Pexels-Lizenz
 /beispiele/friseur/v2/;friseur/v2/bilder/farbe-kupfer.webp;Farbe Kupfer;StockSnap;8ZXCTK4EJE;https://stocksnap.io/photo/people-girl-8ZXCTK4EJE;Sam Burriss;CC0
@@ -28,8 +28,8 @@ seite;datei;motiv;quelle;id;url;urheber;lizenz
 /beispiele/friseur/v3/;friseur/v3/bilder/locken.webp;Locken;StockSnap;6E5ZAMCKC4;https://stocksnap.io/photo/beautiful-bright-6E5ZAMCKC4;Jonas Svidras;CC0
 /beispiele/friseur/v3/;friseur/v3/bilder/herren.webp;Herren;StockSnap;O6KYUCUFY4;https://stocksnap.io/photo/barber-cutting-O6KYUCUFY4;Nick Demou;CC0
 /beispiele/friseur/v3/;friseur/v3/bilder/hochsteck.webp;Hochsteckfrisur;Pexels;16976882;https://www.pexels.com/photo/16976882/;Hairstudio Natascia Freda;Pexels-Lizenz
-/beispiele/cafe/;_shared/media/cafe-pour.mp4;Video Kaffee einschenken;Mixkit;236;https://mixkit.co/free-stock-video/filling-a-white-cup-of-coffee-236/;;Mixkit Stock Video Free License
-/beispiele/cafe/;_shared/media/cafe-latte.mp4;Video Latte Art;Mixkit;810;https://mixkit.co/free-stock-video/latte-art-810/;;Mixkit Stock Video Free License
+/beispiele/cafe/;_shared/media/cafe-kaffee.mp4;Video Kaffee einschenken;Pexels;6950167;https://www.pexels.com/video/6950167/;Sascha Weber;Pexels-Lizenz
+/beispiele/cafe/;_shared/media/cafe-latteart.mp4;Video Latte Art;Pexels;6683383;https://www.pexels.com/video/6683383/;Kampus Production;Pexels-Lizenz
 /beispiele/werkstatt/;_shared/media/werkstatt.mp4;Video Reifenwechsel;Pexels;8316569;https://www.pexels.com/video/8316569/;Yusuf Çelik;Pexels-Lizenz
 /beispiele/werkstatt/;_shared/media/werkstatt-foto.webp;Bremse;Pexels;6870300;https://www.pexels.com/photo/a-person-fixing-a-car-6870300/;Gustavo Fring;Pexels-Lizenz
 /beispiele/werkstatt/;_shared/media/werkstatt-car.webp;Auto in Seitenansicht (freigestellt, umgefärbt, Logos entfernt);Pexels;12170284;https://www.pexels.com/photo/side-view-of-a-blue-car-12170284/;Mike Bird;Pexels-Lizenz
@@ -84,7 +84,7 @@ seite;datei;motiv;quelle;id;url;urheber;lizenz
 /beispiele/pizzeria/;pizzeria/bilder/d-tiramisu.webp;Tiramisù;Pexels;14766327;https://www.pexels.com/photo/close-up-shot-of-tiramisu-cake-14766327/;Evgeniya Davydova;Pexels-Lizenz
 /beispiele/pizzeria/;pizzeria/bilder/g-wein.webp;Rotwein;Pexels;312080;https://www.pexels.com/photo/red-liquid-poured-into-wine-glass-312080/;freestocks.org;Pexels-Lizenz
 /beispiele/baeckerei/;_shared/media/brot-ofen.mp4;Video Brot geht im Ofen auf (Zeitraffer);Pexels;5261345;https://www.pexels.com/video/5261345/;Carlos Buitrago;Pexels-Lizenz
-/beispiele/baeckerei/;_shared/media/baeckerei-ofen.mp4;Video Ofen;Mixkit;50025;https://mixkit.co/free-stock-video/pastry-chef-taking-out-three-molds-from-an-oven-50025/;;Mixkit Stock Video Free License
+/beispiele/baeckerei/;_shared/media/baeckerei-backstube.mp4;Video Teig formen in der Backstube;Pexels;3195294;https://www.pexels.com/video/3195294/;Pressmaster;Pexels-Lizenz
 /beispiele/baeckerei/;_shared/media/brot-hero.webp;Vollkornbrot;Pexels;11461397;https://www.pexels.com/photo/bread-with-baked-crust-sprinkled-with-sesame-seeds-11461397/;Dina Nasyrova;Pexels-Lizenz
 /beispiele/baeckerei/;_shared/media/laib.jpg;Brotlaibe;Pexels;30826792;https://www.pexels.com/photo/artisan-sourdough-bread-display-in-bakery-30826792/;Magda Ehlers;Pexels-Lizenz
 /beispiele/baeckerei/;_shared/media/croissant.webp;Croissants;Pexels;6202224;https://www.pexels.com/photo/close-up-shot-of-croissants-6202224/;Claudio Segovia;Pexels-Lizenz
