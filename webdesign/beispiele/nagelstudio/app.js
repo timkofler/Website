@@ -118,22 +118,48 @@
     if (parent) parent.appendChild(e);
     return e;
   }
-  // Eine schlanke Hand von oben: Handrücken, vier sich verjüngende Finger und der Daumen, alles in einer Hautfarbe,
-  // damit die Formen nahtlos ineinander übergehen. Jeder Nagel sitzt an der Fingerkuppe (R = halbe Breite der Kuppe).
+  // Eine schlanke Hand von oben als eine durchgehende Form: Die Finger wachsen mit weichen Schwimmhäuten aus dem
+  // Handrücken, auch der Daumen. Jeder Nagel sitzt an der Fingerkuppe (R = halbe Breite der Kuppe).
   var SKIN = "#eac4b2", SKIN_HI = "#f7ddd0", SKIN_LO = "#c99682";
   var FINGER = [
-    { x: 151, y: 266, rot: -7, L: 152, wb: 23.5, wt: 17.5 },  // Zeigefinger
-    { x: 194, y: 256, rot: -1.5, L: 172, wb: 24, wt: 18.5 },  // Mittelfinger
-    { x: 236, y: 262, rot: 5, L: 158, wb: 23, wt: 17.5 },     // Ringfinger
-    { x: 274, y: 282, rot: 12, L: 122, wb: 19.5, wt: 14.5 },  // kleiner Finger
-    { x: 118, y: 336, rot: -34, L: 108, wb: 25, wt: 18.5, daumen: true }
+    { x: 151, y: 272, rot: -6, L: 160, wb: 18.5, wt: 13.5 },  // Zeigefinger
+    { x: 190, y: 263, rot: -1, L: 182, wb: 19.5, wt: 14 },    // Mittelfinger
+    { x: 228, y: 268, rot: 4.5, L: 168, wb: 18.5, wt: 13.5 }, // Ringfinger
+    { x: 262, y: 286, rot: 11, L: 128, wb: 15.5, wt: 11.5 },  // kleiner Finger
+    { x: 132, y: 340, rot: -36, L: 116, wb: 20, wt: 14.5 }    // Daumen
   ];
   var hand = $("#hand"), nails = [];
-  // Finger mit Ursprung an der Wurzel, zeigt nach oben; leicht taillierte Seiten, runde Kuppe.
+  function P(f, lx, ly) {
+    var a = f.rot * Math.PI / 180, c = Math.cos(a), s = Math.sin(a);
+    return [(f.x + lx * c - ly * s).toFixed(1), (f.y + lx * s + ly * c).toFixed(1)].join(",");
+  }
+  // einzelner Finger in eigenen Koordinaten (Wurzel bei 0,0, zeigt nach oben)
   function fingerPath(f) {
     var L = f.L, b = f.wb, t = f.wt;
     return "M" + (-b) + ",20 L" + (-b) + ",0 C" + (-b * 0.98) + "," + (-L * 0.42) + " " + (-t * 1.04) + "," + (-L * 0.7) + " " + (-t) + "," + (-(L - t)) +
       " A" + t + "," + t + " 0 0 1 " + t + "," + (-(L - t)) + " C" + (t * 1.04) + "," + (-L * 0.7) + " " + (b * 0.98) + "," + (-L * 0.42) + " " + b + ",0 L" + b + ",20 Z";
+  }
+  // Umriss der ganzen Hand: Daumen, vier Finger mit Schwimmhäuten dazwischen, rechte Seite.
+  function handPath() {
+    var F = FINGER, W = 0.2, T = F[4], tb = T.wb, tt = T.wt, TL = T.L;
+    // linke Seite mit Daumen: Außenkante hinauf, Kuppe, Innenkante hinunter, Schwimmhaut zum Zeigefinger
+    var d = "M160,412 C152,394 134,378 " + P(T, -tb, 4) +
+      " C" + P(T, -tb * 0.98, -TL * 0.42) + " " + P(T, -tt * 1.04, -TL * 0.7) + " " + P(T, -tt, -(TL - tt)) +
+      " A" + tt + "," + tt + " 0 0 1 " + P(T, tt, -(TL - tt)) +
+      " C" + P(T, tt * 1.04, -TL * 0.7) + " " + P(T, tb * 0.98, -TL * 0.5) + " " + P(T, tb * 1.02, -TL * 0.36) +
+      " Q142,296 " + P(F[0], -F[0].wb, -F[0].L * 0.06);
+    for (var i = 0; i < 4; i++) {
+      var f = F[i], L = f.L, b = f.wb, t = f.wt, y0 = i === 0 ? -L * 0.06 : -L * W;
+      d += " C" + P(f, -b * 0.99, y0 - L * 0.25) + " " + P(f, -t * 1.05, -L * 0.74) + " " + P(f, -t, -(L - t)) +
+        " A" + t + "," + t + " 0 0 1 " + P(f, t, -(L - t));
+      var yEnd = i === 3 ? -L * 0.04 : -L * W;
+      d += " C" + P(f, t * 1.05, -L * 0.74) + " " + P(f, b * 0.99, yEnd - L * 0.25) + " " + P(f, b * 0.99, yEnd);
+      if (i < 3) { // Schwimmhaut: weicher Bogen zum nächsten Finger
+        var n = F[i + 1];
+        d += " Q" + P(f, b * 1.25, -L * W + 9) + " " + P(n, -n.wb * 0.99, -n.L * W);
+      }
+    }
+    return d + " C283,304 284,352 268,412 Z";
   }
   (function build() {
     var defs = el("defs", {}, hand);
@@ -145,33 +171,35 @@
     el("stop", { offset: ".6", "stop-color": "#fff", "stop-opacity": ".5" }, chrome); el("stop", { offset: "1", "stop-color": "#000", "stop-opacity": ".25" }, chrome);
     var cv = el("linearGradient", { id: "curve", x1: "0", x2: "1" }, defs);
     [["0", ".2"], [".28", "0"], [".72", "0"], ["1", ".2"]].forEach(function (st) { el("stop", { offset: st[0], "stop-color": "#000", "stop-opacity": st[1] }, cv); });
-    // Rundung der Finger: Ränder dunkler, Mitte heller (als Überlage, damit die Grundfarbe überall gleich bleibt)
+    // Rundung der Finger: Ränder dunkler, Mitte heller; läuft zur Fingerwurzel hin aus
     var rd = el("linearGradient", { id: "round", x1: "0", x2: "1" }, defs);
-    [["0", SKIN_LO, ".55"], [".2", SKIN_LO, "0"], [".5", SKIN_HI, ".55"], [".8", SKIN_LO, "0"], ["1", SKIN_LO, ".55"]].forEach(function (st) { el("stop", { offset: st[0], "stop-color": st[1], "stop-opacity": st[2] }, rd); });
+    [["0", SKIN_LO, ".6"], [".22", SKIN_LO, "0"], [".5", SKIN_HI, ".6"], [".78", SKIN_LO, "0"], ["1", SKIN_LO, ".6"]].forEach(function (st) { el("stop", { offset: st[0], "stop-color": st[1], "stop-opacity": st[2] }, rd); });
+    var vf = el("linearGradient", { id: "vfade", x1: "0", y1: "0", x2: "0", y2: "1" }, defs);
+    el("stop", { offset: ".55", "stop-color": "#fff" }, vf); el("stop", { offset: ".85", "stop-color": "#000" }, vf);
+    var fm = el("mask", { id: "m-finger", maskContentUnits: "objectBoundingBox" }, defs); el("rect", { x: 0, y: 0, width: 1, height: 1, fill: "url(#vfade)" }, fm);
     var bl = el("filter", { id: "soft", x: "-30%", y: "-30%", width: "160%", height: "160%" }, defs); el("feGaussianBlur", { stdDeviation: "1.4" }, bl);
     var bl2 = el("filter", { id: "soft6", x: "-30%", y: "-30%", width: "160%", height: "160%" }, defs); el("feGaussianBlur", { stdDeviation: "6" }, bl2);
     var g = el("g", { mask: "url(#m-fade)" }, hand);
-    var palm = "M134,262 C162,246 230,246 262,262 C278,270 292,282 293,302 C295,334 287,380 280,410 L146,410 C138,388 124,372 110,356 C100,344 102,326 112,308 C118,288 124,272 134,262 Z";
-    // weicher Schatten der ganzen Hand
+    var hp = handPath();
     var shadow = el("g", { filter: "url(#soft6)", opacity: ".55", transform: "translate(6,10)" }, g);
-    el("path", { d: palm, fill: "#000" }, shadow);
-    FINGER.forEach(function (f) { el("path", { d: fingerPath(f), fill: "#000", transform: "translate(" + f.x + "," + f.y + ") rotate(" + f.rot + ")" }, shadow); });
-    // Daumen zuerst (liegt unter dem Handrücken), dann Finger von außen nach innen, zuletzt der Handrücken
-    var order = [4, 3, 0, 2, 1];
-    order.forEach(function (i) {
-      var f = FINGER[i], fg = el("g", { transform: "translate(" + f.x + "," + f.y + ") rotate(" + f.rot + ")" }, g), d = fingerPath(f);
-      el("path", { d: d, fill: SKIN, stroke: SKIN_LO, "stroke-width": "1.2", "stroke-opacity": ".55" }, fg);
-      el("path", { d: d, fill: "url(#round)" }, fg);
-      // Gelenkfalten
-      [[0.36, 0.16], [0.4, 0.12], [0.66, 0.1]].forEach(function (k) {
-        var y = -f.L * k[0], w = f.wb * 0.42;
-        el("path", { d: "M" + (-w) + "," + y + " q" + w + "," + (f.wb * k[1]) + " " + (w * 2) + ",0", stroke: SKIN_LO, "stroke-width": "1", fill: "none", "stroke-linecap": "round", opacity: ".55" }, fg);
-      });
-      var ng = el("g", { class: "nail", transform: "translate(0," + (-f.L) + ")" }, fg);
-      f.g = ng;
+    el("path", { d: hp, fill: "#000" }, shadow);
+    // Hand samt Daumen als eine Form, Rundung der Finger darüber
+    el("path", { d: hp, fill: SKIN, stroke: SKIN_LO, "stroke-width": "1", "stroke-opacity": ".45" }, g);
+    FINGER.forEach(function (f) {
+      var fg = el("g", { transform: "translate(" + f.x + "," + f.y + ") rotate(" + f.rot + ")" }, g);
+      el("path", { d: fingerPath(f), fill: "url(#round)", mask: "url(#m-finger)", "clip-path": "url(#c-hand)" }, fg);
+      // Gelenkfalte am Mittelglied
+      var y = -f.L * 0.62, w = f.wb * 0.38;
+      el("path", { d: "M" + (-w) + "," + y + " q" + w + "," + (f.wb * 0.12) + " " + (w * 2) + ",0", stroke: SKIN_LO, "stroke-width": ".9", fill: "none", "stroke-linecap": "round", opacity: ".45" }, fg);
+      // eigene Gruppe für die Pop-Animation, damit sie die Verschiebung zur Kuppe nicht überschreibt
+      f.g = el("g", { class: "nail" }, el("g", { transform: "translate(0," + (-f.L) + ")" }, fg));
     });
-    el("path", { d: palm, fill: SKIN }, g);
-    el("path", { d: palm, fill: "url(#round)", opacity: ".18" }, g);
+    var ch = el("clipPath", { id: "c-hand" }, defs); el("path", { d: hp }, ch);
+    // zarte Schatten in den Schwimmhäuten
+    for (var i = 0; i < 3; i++) {
+      var f = FINGER[i], n = FINGER[i + 1];
+      el("path", { d: "M" + P(f, f.wb * 0.6, -f.L * 0.34) + " Q" + P(f, f.wb * 1.15, -f.L * 0.2 + 6) + " " + P(n, -n.wb * 0.6, -n.L * 0.34), stroke: SKIN_LO, "stroke-width": "1.6", fill: "none", opacity: ".35", filter: "url(#soft)" }, g);
+    }
     FINGER.forEach(function (f) { nails.push({ g: f.g, R: f.wt, d: fingerPath(f), tf: "translate(0," + f.L + ")" }); });
   })();
 
