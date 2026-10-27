@@ -15,7 +15,9 @@
 .tk-ed:focus-visible { outline: 2px solid #ff5a1f; outline-offset: 3px; }
 .header__end .tk-ed, .ew-head .tk-ed { margin-right: 4px; }
 .header.is-pill .tk-ed { min-height: 40px; }
-@media (max-width: 1240px) { .tk-ed__o em { display: none; } .tk-ed__o { padding: 0 10px; } }
+/* Tim: nur Mond und Sonne, ohne Text */
+.tk-ed__o em { display: none; }
+.tk-ed__o { padding: 0 11px; }
 @media (max-width: 1100px) {
   .tk-ed { width: 44px; height: 44px; min-height: 44px; padding: 0; justify-content: center; }
   .tk-ed[aria-pressed="false"] .tk-ed__b, .tk-ed[aria-pressed="true"] .tk-ed__w { display: none; }
@@ -66,14 +68,18 @@ html.tk-white .lead, html.tk-white p { color: var(--muted); }
 html.tk-white h1, html.tk-white h2, html.tk-white h3, html.tk-white h4 { color: var(--text); }
 html.tk-white .tk-hero .label::after { content: "White Edition"; color: #a8481c; border-color: rgba(255,90,31,.45); background: linear-gradient(135deg, #fff, #fff3ea); box-shadow: 0 6px 16px -10px rgba(255,90,31,.6); }
 html.tk-white .tk-hero::before { background: conic-gradient(from 180deg at 50% 0%, transparent 160deg, rgba(255,140,80,.16) 174deg, rgba(255,190,140,.26) 180deg, rgba(255,140,80,.16) 186deg, transparent 200deg); }
-html.tk-white .tk-hero:has(.tk-hero__stage)::after { background: radial-gradient(closest-side, #fbf8f3 90%, #f3ece2 97%, transparent 100%);
-  box-shadow: 0 -2px 0 rgba(255,120,60,.85), 0 -10px 40px rgba(255,90,31,.35), 0 -60px 160px rgba(255,90,31,.16); }
-html.tk-white .tk-field { opacity: .5; filter: invert(1); }
+/* Horizont: dunkler Planet mit orangem Rand wie in Black, damit die schwarze Plakette mit Logo davor gut lesbar bleibt (Tim: weiß wirkt nicht) */
+html.tk-white .tk-hero:has(.tk-hero__stage)::after { background: radial-gradient(closest-side, #17130f 88%, #2a1c14 96%, transparent 100%);
+  box-shadow: 0 -2px 0 rgba(255,120,60,.95), 0 -12px 44px rgba(255,90,31,.45), 0 -70px 170px rgba(255,90,31,.2); }
+/* Punktfeld: dunkel statt invertiert (invert machte die orangen Punkte blau) */
+html.tk-white .tk-field { opacity: .6; filter: invert(1) hue-rotate(180deg) saturate(1.4); }
 html.tk-white .tk-ring { color: #c4532a; }
 html.tk-white .tk-free-chip { background: #fff; color: #16130f; border-color: rgba(255,90,31,.45); }
+/* Unterseiten: Planet ebenfalls dunkel mit oranger Kante, wie auf der Startseite */
 @media (min-width: 1101px) {
-  html.tk-white .tk-hero:not(:has(.tk-hero__stage))::before { background: radial-gradient(circle at 60% 50%, #fbf8f3 62%, #f1e9de 100%); }
+  html.tk-white .tk-hero:not(:has(.tk-hero__stage))::before { background: radial-gradient(circle at 60% 50%, #17130f 62%, #22180f 100%); }
 }
+/* Handy: Planet liegt hinter der Überschrift, daher hell lassen */
 @media (max-width: 1100px) { html.tk-white .tk-hero:not(:has(.tk-hero__stage))::before { background: #fbf8f3; } }
 
 /* Laufband */
@@ -220,3 +226,7 @@ html.tk-white .vr-up__chips li{background:#fff1e9}
 html.tk-white .tk-top{background:rgba(255,255,255,.94);box-shadow:0 14px 34px -14px rgba(70,40,15,.45)}
 html.tk-white .tk-top:hover{background:linear-gradient(160deg,#ff6a2f,#e24a12);color:#fff}
 @media (max-width:1099px){html.tk-white .header::after{background:linear-gradient(rgba(246,243,238,.92),rgba(246,243,238,.55) 45%,rgba(246,243,238,0))}}
+
+/* Fotos: kein Ausblenden ins Weiß, volle Farbe mit weichem Schatten (Tim: Bilder zu weiß) */
+html.tk-white .about__pics img { filter: none; -webkit-mask-image: none; mask-image: none; box-shadow: 0 30px 60px -30px rgba(40,25,10,.45); }
+html.tk-white .about__pics figcaption { margin-top: 10px; }
