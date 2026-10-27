@@ -394,23 +394,44 @@ function cx_log(string $msg): void
 
 // Newsletter: Bestätigungsmail mit signiertem Link verschicken.
 // Name und Inhalt des Newsletters kommen aus der config.php (newsletter_name, newsletter_inhalt), Standard ist CryptoX.
-function cx_send_optin(string $email, string $firstname, string $source): bool
+function cx_send_optin(string $email, string $firstname, string $source, array $extra = []): bool
 {
     $c = cx_config();
-    $nl = (string) ($c['newsletter_name'] ?? 'CryptoX Newsletter');
-    $was = (string) ($c['newsletter_inhalt'] ?? 'Darin geht es um neue Funktionen im CryptoX Dashboard, Software-Tipps und neue Artikel. Keine Anlageberatung, keine Signale.');
-    if ($source === 'sicherheit') {
-        $nl .= ' mit Sicherheits-Hinweisen';
-        $was = 'Ich schreibe dir, wenn eine wichtige Sicherheitslücke kleine Websites betrifft, dazu ab und zu Tipps für deine Webseite. Kein Spam.';
-    }
-    $token = cx_token(['e' => $email, 'n' => $firstname, 's' => $source, 't' => time()]);
+    // $extra reist zusätzlich signiert im Token mit (z. B. Paket/Quelle der Webseiten-Anfrage) und wird
+    // erst nach dem Klick in bestaetigen.php verarbeitet. Vorher wird nichts in Brevo eingetragen.
+    $token = cx_token(['e' => $email, 'n' => $firstname, 's' => $source, 't' => time()] + $extra);
     $link = cx_brand()['site'] . '/api/bestaetigen.php?t=' . rawurlencode($token);
     $hallo = $firstname !== '' ? 'Hallo ' . cx_h($firstname) . ',' : 'Hallo,';
+    if ($source === 'webseite') {
+        // Webseiten-Anfrage: Tim ist über die Anfrage bereits informiert und meldet sich in jedem Fall.
+        // Dieser Klick bestätigt nur die E-Mail-Adresse (Eingangsbestätigung + Eintrag erst danach).
+        $subject = 'Bitte bestätige deine Webseiten-Anfrage';
+        $erklaerung = 'danke für deine Anfrage! Deine Angaben liegen bereits bei mir und ich melde mich in jedem Fall bei dir. '
+            . 'Bitte bestätige noch kurz mit einem Klick, dass die Anfrage von dir kommt – dann schicke ich dir eine Eingangsbestätigung.';
+        $label = 'Anfrage bestätigen';
+    } elseif ($source === 'gratisentwurf') {
+        // Gratis-Entwurf: Angaben liegen schon bei Tim. Erst nach Bestätigung der E-Mail lege ich los
+        // und schicke den Entwurf an diese Adresse (Schutz davor, fremde Adressen anzuschreiben).
+        $subject = 'Bitte bestätige deine Entwurf-Anfrage';
+        $erklaerung = 'danke für deine Anfrage! Bitte bestätige noch kurz mit einem Klick deine E-Mail-Adresse – '
+            . 'dann lege ich mit deinem kostenlosen Entwurf los und schicke ihn dir innerhalb von 48 Stunden an diese Adresse.';
+        $label = 'Entwurf bestätigen';
+    } else {
+        $nl = (string) ($c['newsletter_name'] ?? 'CryptoX Newsletter');
+        $was = (string) ($c['newsletter_inhalt'] ?? 'Darin geht es um neue Funktionen im CryptoX Dashboard, Software-Tipps und neue Artikel. Keine Anlageberatung, keine Signale.');
+        if ($source === 'sicherheit') {
+            $nl .= ' mit Sicherheits-Hinweisen';
+            $was = 'Ich schreibe dir, wenn eine wichtige Sicherheitslücke kleine Websites betrifft, dazu ab und zu Tipps für deine Webseite. Kein Spam.';
+        }
+        $subject = 'Bitte bestätige deine Anmeldung zum ' . $nl;
+        $erklaerung = 'bitte bestätige mit einem Klick, dass du den ' . cx_h($nl) . ' bekommen möchtest. ' . cx_h($was);
+        $label = 'Anmeldung bestätigen';
+    }
     $inner = '<p style="margin:0 0 14px">' . $hallo . '</p>'
-        . '<p style="margin:0 0 14px">bitte bestätige mit einem Klick, dass du den ' . cx_h($nl) . ' bekommen möchtest. ' . cx_h($was) . '</p>'
-        . cx_button($link, 'Anmeldung bestätigen')
-        . '<p style="margin:0 0 14px;font-size:14px;color:#a1a1a1">Der Link ist 7 Tage gültig. Wenn du dich nicht angemeldet hast, ignoriere diese E-Mail einfach. Ohne Bestätigung wirst du nicht eingetragen.</p>';
-    $ok = cx_mail($email, $firstname, 'Bitte bestätige deine Anmeldung zum ' . $nl, cx_mail_layout('Fast geschafft', $inner));
+        . '<p style="margin:0 0 14px">' . $erklaerung . '</p>'
+        . cx_button($link, $label)
+        . '<p style="margin:0 0 14px;font-size:14px;color:#a1a1a1">Der Link ist 7 Tage gültig. Wenn du das nicht warst, ignoriere diese E-Mail einfach. Ohne Bestätigung wird nichts eingetragen.</p>';
+    $ok = cx_mail($email, $firstname, $subject, cx_mail_layout('Fast geschafft', $inner));
     if ($ok) {
         cx_consent_log('optin_mail_' . $source, $email);
     }
