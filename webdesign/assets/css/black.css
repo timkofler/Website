@@ -180,7 +180,7 @@ html.tk-black .tk-hero:has(.tk-hero__stage) .btn-row { justify-content: center; 
 html.tk-black .tk-hero:has(.tk-hero__stage) .tk-free-chip { margin-left: auto; margin-right: auto; }
 html.tk-black .tk-hero:has(.tk-hero__stage) .tk-hero__stage { position: relative; right: auto; top: auto; transform: none; width: min(380px, 78vw); margin: 44px auto 0; }
 /* Laufschrift eng um die Plakette, nicht weit draußen (Tim 27.10.) */
-html.tk-black .tk-hero:has(.tk-hero__stage) .tk-ring { inset: -1%; }
+html.tk-black .tk-hero:has(.tk-hero__stage) .tk-ring { inset: -8%; }
 /* Kopf: nur ein Knopf plus Gratis-Hinweis, damit es nicht zu viel auf einmal ist (Tim 27.10.). Preisrechner bleibt über Pakete erreichbar */
 html.tk-black .tk-hero:has(.tk-hero__stage) .tk-hero__calc { display: none; }
 /* Lichtstrahl von oben */
