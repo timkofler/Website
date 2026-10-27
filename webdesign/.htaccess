@@ -20,6 +20,9 @@ Options -Indexes
   RewriteRule ^ https://tim-kofler.at%{REQUEST_URI} [R=301,L]
   # Kurzlink für den QR-Code im Brief an Betriebe
   RewriteRule ^brief/?$ /?utm_source=brief&utm_campaign=referenzkunde#pakete [R=302,NE,L]
+  # Kurzlink für den QR-Code der Autobeschriftung (Seitenscheiben). Der QR enthält HTTPS://TIM-KOFLER.AT/AUTO in
+  # Großbuchstaben (kleinerer Code), deshalb [NC].
+  RewriteRule ^auto/?$ /?utm_source=auto&utm_campaign=autowerbung [R=302,NC,L]
   # Kurzer Link für Flyer, Briefe und Karten zur Newsletter-Anmeldung mit Checkliste
   RewriteRule ^checkliste/?$ /newsletter/ [R=302,L]
   # Kurzlink für Story-Sticker und Briefe zum Sicherheits-Hinweis (PHP-Versionen); ?utm_source=… bleibt erhalten
