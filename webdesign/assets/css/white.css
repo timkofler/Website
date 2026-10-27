@@ -29,7 +29,7 @@ html.tk-ed-anim body, html.tk-ed-anim body * { transition: background-color .4s 
 
 /* ---------- Grundwerte ---------- */
 html.tk-black.tk-white {
-  --bg: #f6f3ee; --bg-2: #efeae2; --surface: #ffffff; --surface-2: #faf8f4;
+  --lime: #3d3832; --lime-2: #16130f; --bg: #f6f3ee; --bg-2: #efeae2; --surface: #ffffff; --surface-2: #faf8f4;
   --line: rgba(28,20,12,.09); --line-2: rgba(28,20,12,.15);
   --text: #16130f; --muted: #5f5850;
   --bk-glass: linear-gradient(180deg, #ffffff, #fcfbf8);
@@ -109,8 +109,10 @@ html.tk-white .tk-abo__once strong { color: #16130f; }
 html.tk-white .faq__item summary::after { border-color: rgba(28,20,12,.15);
   background: linear-gradient(#16130f, #16130f) center / 12px 1.5px no-repeat, linear-gradient(#16130f, #16130f) center / 1.5px 12px no-repeat, #fff; box-shadow: 0 4px 10px -6px rgba(70,40,15,.4); }
 html.tk-white .faq__item[open] summary::after { background: linear-gradient(var(--hot), var(--hot)) center / 12px 1.5px no-repeat, linear-gradient(var(--hot), var(--hot)) center / 1.5px 12px no-repeat, #fff3ec; }
-html.tk-white .tk-phone { background: linear-gradient(150deg, #2a2a2c 0%, #121213 40%, #0d0d0e 66%, #222224 100%); box-shadow: 0 0 0 1px rgba(28,20,12,.15), 0 40px 80px -30px rgba(40,25,10,.55), inset 0 0 0 2px #151516; }
-html.tk-white .tk-car__item.is-center .tk-phone { box-shadow: 0 0 0 1px rgba(255,90,31,.5), 0 40px 80px -30px rgba(40,25,10,.55), 0 0 70px -20px rgba(255,90,31,.5), inset 0 0 0 2px #151516; }
+/* Handys im Karussell: weißer Rahmen (Tim) */
+html.tk-white .tk-phone { background: linear-gradient(150deg, #ffffff 0%, #ece9e4 38%, #f8f6f3 66%, #dedad4 100%); box-shadow: 0 0 0 1px rgba(28,20,12,.14), 0 40px 80px -30px rgba(40,25,10,.45), inset 0 0 0 2px #fff; }
+html.tk-white .tk-phone::after { background: linear-gradient(115deg, rgba(255,255,255,.12) 0%, rgba(255,255,255,0) 32%, rgba(255,255,255,0) 70%, rgba(255,255,255,.05) 100%); }
+html.tk-white .tk-car__item.is-center .tk-phone { box-shadow: 0 0 0 1px rgba(255,90,31,.5), 0 40px 80px -30px rgba(40,25,10,.45), 0 0 70px -20px rgba(255,90,31,.5), inset 0 0 0 2px #fff; }
 html.tk-white .tk-car__note { color: #7a7268; }
 html.tk-white .tk-ref__stats { background: radial-gradient(120% 140% at 0% 0%, rgba(150,190,20,.1), transparent 60%), #fff; border-color: rgba(120,150,20,.3); }
 
@@ -147,6 +149,7 @@ html.tk-white .tk-vers__tag i.is-on { background: #ff5a1f; }
 html.tk-white .tk-car__btn { background: #fff; border-color: rgba(28,20,12,.14); color: #16130f; }
 html.tk-white .tk-car__dot::after { background: rgba(28,20,12,.25); }
 html.tk-white main a:not(.btn):not([class]) { color: #16130f; }
+html.tk-white main a:not(.btn):not([class]):hover { color: var(--hot); }
 html.tk-white .muted a { color: #16130f; text-decoration-color: rgba(255,90,31,.6); }
 
 /* ---------- Eigene App statt Abos ---------- */
@@ -230,3 +233,9 @@ html.tk-white .tk-top:hover{background:linear-gradient(160deg,#ff6a2f,#e24a12);c
 /* Fotos: kein Ausblenden ins Weiß, volle Farbe mit weichem Schatten (Tim: Bilder zu weiß) */
 html.tk-white .about__pics img { filter: none; -webkit-mask-image: none; mask-image: none; box-shadow: 0 30px 60px -30px rgba(40,25,10,.45); }
 html.tk-white .about__pics figcaption { margin-top: 10px; }
+html.tk-white .gr-item:hover { background: #fff; }
+html.tk-white .gr-items { background: rgba(28,20,12,.09); border-color: rgba(28,20,12,.09); }
+/* Rahmen-Knöpfe: sichtbarer Rahmen auf hellem Grund */
+html.tk-white .btn--line { border-color: rgba(28,20,12,.18); background: #fff; color: #16130f; }
+html.tk-white .btn--line:hover { border-color: rgba(255,90,31,.7); background: #fff6f1; color: #16130f; box-shadow: 0 0 24px -10px rgba(255,90,31,.5); }
+html.tk-white .ew-prev p { color: inherit; }

@@ -400,3 +400,6 @@ html.tk-black select option:disabled { color: #8a8a8e; }
 .tk-top svg { width: 20px; height: 20px; }
 @media (max-width: 680px) { .tk-top { right: 16px; bottom: 76px; width: 42px; height: 42px; } }
 @media print { .tk-top { display: none; } }
+/* Schritte: keine Browser-Nummern "1." vor den Karten, nur die orangen Kreise */
+html.tk-black ol.steps { list-style: none; }
+html.tk-black main a:not(.btn):not([class]):hover { color: var(--hot); }

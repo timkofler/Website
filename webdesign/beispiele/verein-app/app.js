@@ -1253,6 +1253,8 @@
   var root = document.documentElement, sw = $("[data-theme-sw]");
   var isLight = function () { var t = root.getAttribute("data-theme"); return t ? t === "light" : !!(window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches); };
   function syncSw() { var l = isLight(); sw.setAttribute("aria-checked", l); sw.setAttribute("aria-label", l ? "Dunkle Ansicht" : "Helle Ansicht"); }
+  // Ohne eigene Wahl folgt die App der Edition der Hauptseite (White = hell, Black = dunkel)
+  try { if (!localStorage.getItem("va-theme")) { var ed = (location.search.match(/[?&]edition=(white|black)\b/) || [])[1] || localStorage.getItem("tk-edition"); if (ed === "white" || ed === "black") root.setAttribute("data-theme", ed === "white" ? "light" : "dark"); } } catch (e) {}
   try { var saved = localStorage.getItem("va-theme"); if (saved === "light" || saved === "dark") root.setAttribute("data-theme", saved); } catch (e) {}
   syncSw();
   sw.addEventListener("click", function () {
