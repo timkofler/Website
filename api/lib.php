@@ -99,6 +99,13 @@ function cx_email(string $v): string
     return (strlen($v) <= 254 && filter_var($v, FILTER_VALIDATE_EMAIL)) ? $v : '';
 }
 
+// Macht einen Text einzeilig: Zeilenumbrüche und Tabs werden zu einem Leerzeichen, Doppelte zusammengezogen.
+// Für Felder, die nie mehrzeilig sein dürfen (Betreff, Empfängername).
+function cx_oneline(string $v): string
+{
+    return trim((string) preg_replace('/\s+/u', ' ', str_replace(["\r", "\n", "\t"], ' ', $v)));
+}
+
 // Grundschutz gegen Spam und fremde Seiten: nur POST, nur von crypto-x.at, Honeypot, Mindestzeit.
 function cx_guard(): void
 {
@@ -125,32 +132,78 @@ function cx_guard(): void
     }
 }
 
-// Höchstens 6 Absendungen pro Stunde je Anschluss. Gespeichert wird nur ein Hash der IP-Adresse.
+// Läuft $fn unter einer exklusiven Dateisperre, damit parallele Anfragen nicht gleichzeitig
+// zählen (sonst lesen viele Anfragen denselben Stand und kommen alle durch).
+function cx_locked(string $lockFile, callable $fn)
+{
+    $dir = dirname($lockFile);
+    if (!is_dir($dir)) {
+        @mkdir($dir, 0700, true);
+    }
+    $h = @fopen($lockFile, 'c');
+    if ($h) {
+        flock($h, LOCK_EX);
+    }
+    try {
+        return $fn();
+    } finally {
+        if ($h) {
+            flock($h, LOCK_UN);
+            fclose($h);
+        }
+    }
+}
+
+// Kennung eines Anschlusses: bei IPv4 die Adresse, bei IPv6 nur das /64-Netz. Sonst könnte ein
+// einzelner Rechner über seinen riesigen IPv6-Bereich beliebig viele Kennungen vortäuschen und
+// die Grenze je Anschluss umgehen.
+function cx_client_id(): string
+{
+    $ip = (string) ($_SERVER['REMOTE_ADDR'] ?? '');
+    $bin = @inet_pton($ip);
+    if (is_string($bin) && strlen($bin) === 16) {
+        return bin2hex(substr($bin, 0, 8)) . '::/64';
+    }
+    return $ip;
+}
+
+// Höchstens 6 Absendungen pro Stunde je Anschluss und 30 pro Stunde insgesamt (falls jemand ständig
+// die IP wechselt). Der gemeinsame Topf bremst Massen-Mails an fremde Adressen. Nur ein IP-Hash wird gespeichert.
 function cx_rate_ok(): bool
+{
+    return cx_rate_hit('ip:' . cx_client_id(), 6, 3600)
+        && cx_rate_hit('alle', 30, 3600);
+}
+
+// Zählt – unter Sperre, also auch bei parallelen Anfragen korrekt – einen Versuch für $key und sagt,
+// ob in den letzten $window Sekunden höchstens $limit liegen. Der Schlüssel wird nur als Hash gespeichert.
+function cx_rate_hit(string $key, int $limit, int $window): bool
 {
     $dir = CX_DATA . '/rate';
     if (!is_dir($dir) && !@mkdir($dir, 0700, true)) {
         return true;
     }
     $salt = (string) (cx_config()['secret'] ?? 'cx');
-    $file = $dir . '/' . hash('sha256', $salt . ($_SERVER['REMOTE_ADDR'] ?? '')) . '.json';
+    $file = $dir . '/' . hash('sha256', $salt . $key) . '.json';
     $now = time();
-    $hits = is_file($file) ? (json_decode((string) file_get_contents($file), true) ?: []) : [];
-    $hits = array_values(array_filter($hits, static fn($t) => is_int($t) && $t > $now - 3600));
-    if (count($hits) >= 6) {
-        return false;
-    }
-    $hits[] = $now;
-    @file_put_contents($file, json_encode($hits), LOCK_EX);
-    // Alte Dateien gelegentlich aufräumen.
-    if (random_int(1, 50) === 1) {
-        foreach (glob($dir . '/*.json') ?: [] as $f) {
-            if (@filemtime($f) < $now - 7200) {
-                @unlink($f);
+    return (bool) cx_locked($dir . '/.lock', static function () use ($dir, $file, $now, $limit, $window) {
+        $hits = is_file($file) ? (json_decode((string) file_get_contents($file), true) ?: []) : [];
+        $hits = array_values(array_filter($hits, static fn($t) => is_int($t) && $t > $now - $window));
+        if (count($hits) >= $limit) {
+            return false;
+        }
+        $hits[] = $now;
+        @file_put_contents($file, json_encode($hits), LOCK_EX);
+        // Alte Dateien gelegentlich aufräumen.
+        if (random_int(1, 50) === 1) {
+            foreach (glob($dir . '/*.json') ?: [] as $f) {
+                if (@filemtime($f) < $now - 7200) {
+                    @unlink($f);
+                }
             }
         }
-    }
-    return true;
+        return true;
+    });
 }
 
 // Aufruf der Brevo-API (https://api.brevo.com/v3). Der Schlüssel bleibt auf dem Server.
@@ -220,6 +273,10 @@ function cx_contact(string $email, string $firstname, array $listIds, array $ext
 function cx_mail(string $to, string $toName, string $subject, string $html, string $replyTo = ''): bool
 {
     $c = cx_config();
+    // Betreff und Empfängername sind einzeilig: Zeilenumbrüche/Tabs raus, damit kein fremder Text
+    // oder Kopfzeilen-Trick in die Mail rutscht (auch wenn der Versand über die Brevo-JSON-API läuft).
+    $subject = cx_oneline($subject);
+    $toName = cx_oneline($toName);
     $body = [
         'sender' => ['email' => (string) ($c['sender_email'] ?? 'tk@crypto-x.at'), 'name' => (string) ($c['sender_name'] ?? 'CryptoX')],
         'to' => [array_filter(['email' => $to, 'name' => $toName])],
@@ -306,19 +363,30 @@ function cx_log(string $msg): void
 
 // Newsletter: Bestätigungsmail mit signiertem Link verschicken.
 // Name und Inhalt des Newsletters kommen aus der config.php (newsletter_name, newsletter_inhalt), Standard ist CryptoX.
-function cx_send_optin(string $email, string $firstname, string $source): bool
+function cx_send_optin(string $email, string $firstname, string $source, array $extra = []): bool
 {
     $c = cx_config();
-    $nl = (string) ($c['newsletter_name'] ?? 'CryptoX Newsletter');
-    $was = (string) ($c['newsletter_inhalt'] ?? 'Darin geht es um neue Funktionen im CryptoX Dashboard, Software-Tipps und neue Artikel. Keine Anlageberatung, keine Signale.');
-    $token = cx_token(['e' => $email, 'n' => $firstname, 's' => $source, 't' => time()]);
+    // $extra kommt zusätzlich in den signierten Token (z. B. Beta-Angaben, Newsletter-Wunsch) und wird
+    // erst nach dem Klick in bestaetigen.php verarbeitet. Nichts wird vorher in Brevo eingetragen.
+    $token = cx_token(['e' => $email, 'n' => $firstname, 's' => $source, 't' => time()] + $extra);
     $link = cx_brand()['site'] . '/api/bestaetigen.php?t=' . rawurlencode($token);
     $hallo = $firstname !== '' ? 'Hallo ' . cx_h($firstname) . ',' : 'Hallo,';
+    if ($source === 'beta') {
+        $subject = 'Bitte bestätige deine Beta-Bewerbung';
+        $erklaerung = 'bitte bestätige mit einem Klick deine E-Mail-Adresse, damit ich deine Bewerbung als Beta-Tester für das CryptoX Dashboard bearbeiten kann.';
+        $label = 'Bewerbung bestätigen';
+    } else {
+        $nl = (string) ($c['newsletter_name'] ?? 'CryptoX Newsletter');
+        $was = (string) ($c['newsletter_inhalt'] ?? 'Darin geht es um neue Funktionen im CryptoX Dashboard, Software-Tipps und neue Artikel. Keine Anlageberatung, keine Signale.');
+        $subject = 'Bitte bestätige deine Anmeldung zum ' . $nl;
+        $erklaerung = 'bitte bestätige mit einem Klick, dass du den ' . cx_h($nl) . ' bekommen möchtest. ' . cx_h($was);
+        $label = 'Anmeldung bestätigen';
+    }
     $inner = '<p style="margin:0 0 14px">' . $hallo . '</p>'
-        . '<p style="margin:0 0 14px">bitte bestätige mit einem Klick, dass du den ' . cx_h($nl) . ' bekommen möchtest. ' . cx_h($was) . '</p>'
-        . cx_button($link, 'Anmeldung bestätigen')
-        . '<p style="margin:0 0 14px;font-size:14px;color:#a1a1a1">Der Link ist 7 Tage gültig. Wenn du dich nicht angemeldet hast, ignoriere diese E-Mail einfach. Ohne Bestätigung wirst du nicht eingetragen.</p>';
-    $ok = cx_mail($email, $firstname, 'Bitte bestätige deine Anmeldung zum ' . $nl, cx_mail_layout('Fast geschafft', $inner));
+        . '<p style="margin:0 0 14px">' . $erklaerung . '</p>'
+        . cx_button($link, $label)
+        . '<p style="margin:0 0 14px;font-size:14px;color:#a1a1a1">Der Link ist 7 Tage gültig. Wenn du das nicht warst, ignoriere diese E-Mail einfach. Ohne Bestätigung wird nichts eingetragen.</p>';
+    $ok = cx_mail($email, $firstname, $subject, cx_mail_layout('Fast geschafft', $inner));
     if ($ok) {
         cx_consent_log('optin_mail_' . $source, $email);
     }
