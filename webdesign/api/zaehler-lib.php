@@ -142,8 +142,42 @@ const ZL_EMAIL_AB = '2026-10-25';
 // Beispielseite gelandet sind, Tests. Ältere Gründer-Briefe zeigten nur auf /gruender/, die bleiben.
 const ZL_TEST_TAGE = ['2026-10-26'];
 
+// Speedtests (Lighthouse) gegen die Live-Seite, die sich als normales Handy/PC ausgaben und als „Direkt“ zählten:
+// 27.10.2026 15:59–16:08 je Seite einmal Handy und einmal PC.
+const ZL_TEST_DIREKT = [
+    '2026-10-27' => ['/' => 2, '/beispiele/' => 2, '/entwurf/' => 2, '/gruender/' => 2, '/verein/' => 2, '/webseite-erneuern/' => 2,
+        '/ablauf/' => 2, '/sicherheit/' => 2, '/webseite/' => 2, '/webseite/friseur/' => 2, '/webdesign-melk/' => 2],
+];
+
+function zl_minus(array &$map, string $key, int $x): void
+{
+    if (isset($map[$key])) {
+        $map[$key] = (int) $map[$key] - $x;
+        if ($map[$key] <= 0) {
+            unset($map[$key]);
+        }
+    }
+}
+
+function zl_ohne_speedtests(string $day, array $d): array
+{
+    foreach (ZL_TEST_DIREKT[$day] ?? [] as $page => $x) {
+        $x = min($x, (int) ($d['einstieg'][$page] ?? 0), (int) ($d['quellen']['direkt'] ?? 0));
+        if ($x <= 0) {
+            continue;
+        }
+        zl_minus($d['einstieg'], $page, $x);
+        zl_minus($d['seiten'], $page, $x);
+        zl_minus($d['quellen'], 'direkt', $x);
+        $d['besuche'] = max(0, (int) ($d['besuche'] ?? 0) - $x);
+        $d['aufrufe'] = max(0, (int) ($d['aufrufe'] ?? 0) - $x);
+    }
+    return $d;
+}
+
 function zl_ohne_tests(string $day, array $d): array
 {
+    $d = zl_ohne_speedtests($day, $d);
     if (!in_array($day, ZL_TEST_TAGE, true)) {
         return $d;
     }
@@ -161,17 +195,9 @@ function zl_ohne_tests(string $day, array $d): array
     if ($n <= 0) {
         return $d;
     }
-    $minus = static function (array &$map, string $key, int $x): void {
-        if (isset($map[$key])) {
-            $map[$key] = (int) $map[$key] - $x;
-            if ($map[$key] <= 0) {
-                unset($map[$key]);
-            }
-        }
-    };
-    $minus($d['kampagnen'], 'brief / referenz', $ref);
-    $minus($d['kampagnen'], 'brief / gruender', $gr);
-    $minus($d['quellen'], 'brief', $n);
+    zl_minus($d['kampagnen'], 'brief / referenz', $ref);
+    zl_minus($d['kampagnen'], 'brief / gruender', $gr);
+    zl_minus($d['quellen'], 'brief', $n);
     $d['besuche'] = max(0, (int) ($d['besuche'] ?? 0) - $n);
     $d['aufrufe'] = max(0, (int) ($d['aufrufe'] ?? 0) - $n);
     // Einstiegs- und Seitenzähler der Beispielseiten um die Test-Einstiege kürzen.
@@ -181,8 +207,8 @@ function zl_ohne_tests(string $day, array $d): array
             continue;
         }
         $y = min((int) $x, $rest);
-        $minus($d['einstieg'], (string) $page, $y);
-        $minus($d['seiten'], (string) $page, $y);
+        zl_minus($d['einstieg'], (string) $page, $y);
+        zl_minus($d['seiten'], (string) $page, $y);
         $rest -= $y;
     }
     return $d;
