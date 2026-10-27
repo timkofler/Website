@@ -265,7 +265,8 @@ label{display:grid;gap:7px;font-size:13px;font-weight:700;color:#c9ced4;letter-s
 input,select,textarea{width:100%;min-height:52px;border-radius:12px;border:1.5px solid #30363d;background:#171a1e;color:var(--txt);font:500 16px var(--sans);padding:0 14px;transition:border-color .2s}
 textarea{padding:12px 14px;min-height:90px;resize:vertical}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--y)}
-input[type=date]{color-scheme:dark}
+input[type=date],select{color-scheme:dark}
+select option{background:#171a1e;color:var(--txt)}
 .plate{display:flex;align-items:stretch;border-radius:10px;overflow:hidden;background:#fff;border:2.5px solid #111;box-shadow:0 0 0 1.5px #3a3f45;position:relative}
 .plate::before,.plate::after{content:"";position:absolute;left:44px;right:0;height:5px;background:linear-gradient(180deg,#d4002a 0 33%,#fff 33% 66%,#d4002a 66%)}
 .plate::before{top:0}.plate::after{bottom:0}

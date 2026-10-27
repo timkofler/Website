@@ -1044,9 +1044,9 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <link rel="manifest" href="/site.webmanifest">
   <link rel="stylesheet" href="/assets/css/style.css?v=5d1d811a">
   <link rel="stylesheet" href="/assets/css/tk.css?v=32bd1175">
-  <link rel="stylesheet" href="/assets/css/black.css?v=73b7f526">
-  <script src="/assets/js/tk-black.js?v=9c01d95c"></script>
-  <link rel="stylesheet" href="/assets/css/portal.css?v=ad271026">
+  <link rel="stylesheet" href="/assets/css/black.css?v=126caa16">
+  <script src="/assets/js/tk-black.js?v=aa3c164b"></script>
+  <link rel="stylesheet" href="/assets/css/portal.css?v=53c41bfc">
 </head>
 <body class="kp">
 <header class="header">
