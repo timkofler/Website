@@ -21,7 +21,7 @@ BASIS = br.BASIS
 
 # Kopf wie die live Branchenseiten (inkl. Black-Edition-Schalter), nur Titel/Meta/JSON-LD tauschen
 VORLAGE = os.path.join(WEB, "webseite", "handwerk", "index.html")
-BLACK = ('  <link rel="stylesheet" href="/assets/css/black.css?v=586c8f2c">\n'
+BLACK = ('  <link rel="stylesheet" href="/assets/css/black.css?v=5e143bbb">\n'
          '  <script src="/assets/js/tk-black.js?v=02c0d65b"></script>\n')
 
 
