@@ -24,9 +24,9 @@ $origin = (string) ($_SERVER['HTTP_ORIGIN'] ?? '');
 if (($site !== '' && $site !== 'same-origin') || ($origin !== '' && !preg_match('#^https://(www\.)?tim-kofler\.at$#', $origin))) {
     $done();
 }
-// Suchmaschinen, Vorschau-Dienste und automatische Tests nicht mitzählen. Tims eigenes Gerät auch nicht.
+// Suchmaschinen, Vorschau-Dienste und automatische Tests nicht mitzählen (Lighthouse am Handy meldet sich als „moto g power (2022)“). Tims eigenes Gerät auch nicht.
 $ua = (string) ($_SERVER['HTTP_USER_AGENT'] ?? '');
-if ($ua === '' || preg_match('/bot|crawl|spider|slurp|preview|headless|lighthouse|pagespeed|gtmetrix|pingdom|uptime|monitor|curl|wget|python|java\/|httpclient|facebookexternalhit/i', $ua)
+if ($ua === '' || preg_match('/bot|crawl|spider|slurp|preview|headless|lighthouse|pagespeed|gtmetrix|pingdom|uptime|monitor|curl|wget|python|java\/|httpclient|facebookexternalhit|moto g power \(2022\)/i', $ua)
     || isset($_COOKIE[ZL_NOCOUNT])) {
     $done();
 }
