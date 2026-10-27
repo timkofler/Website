@@ -85,7 +85,7 @@ def ld():
 def formular(num):
     wa = br.wa_link("kannst du dir bitte meine Webseite ansehen? Die Adresse ist: ")
     return f"""
-<section class="section section--line" id="anfrage">
+<section class="section section--line" id="anfrage" data-anf>
   <div class="container form-wrap">
     <div>
       <span class="label"><b>[{num:02d}]</b> Check anfordern</span>
