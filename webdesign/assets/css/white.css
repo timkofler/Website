@@ -219,3 +219,4 @@ html.tk-white .vr-up__chips li,html.tk-white .br-also__tag,html.tk-white .br-app
 html.tk-white .vr-up__chips li{background:#fff1e9}
 html.tk-white .tk-top{background:rgba(255,255,255,.94);box-shadow:0 14px 34px -14px rgba(70,40,15,.45)}
 html.tk-white .tk-top:hover{background:linear-gradient(160deg,#ff6a2f,#e24a12);color:#fff}
+@media (max-width:1099px){html.tk-white .header::after{background:linear-gradient(rgba(246,243,238,.92),rgba(246,243,238,.55) 45%,rgba(246,243,238,0))}}
