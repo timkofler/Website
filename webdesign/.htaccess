@@ -41,6 +41,9 @@ Options -Indexes
   RewriteRule ^vorschau(/.*)?$ /entwurf/ [R=302,L]
   # Alte Vorschau-Endpunkte bleiben beim Hochladen auf dem Server liegen, sind aber nicht mehr erreichbar.
   RewriteRule ^api/vorschau(-lib)?\.php(/|$) - [G,L]
+  # Die Halloween-Beispielseite „Villa Hollerbach“ ist seit 27.10.2026 raus. Alte Links führen zur Übersicht,
+  # bis Tim den Ordner im KAS gelöscht hat (der Deploy löscht keine Dateien).
+  RewriteRule ^beispiele/halloween(/.*)?$ /beispiele/ [R=301,L]
   # Frühere Mixkit-Videos (seit 27.10.2026 durch Pexels ersetzt) bleiben am Server liegen, werden aber nicht mehr ausgeliefert.
   RewriteRule ^beispiele/_shared/media/(friseur-cut|cafe-pour|cafe-latte|baeckerei-ofen|baeckerei)(-poster\.webp|\.mp4)$ - [G,L]
 </IfModule>
