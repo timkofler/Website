@@ -16,6 +16,7 @@
   var YEAR = today.getFullYear();
   var addDays = function (d) { var x = new Date(today); x.setDate(x.getDate() + d); return x; };
   var dshort = function (d) { return ("0" + d.getDate()).slice(-2) + "." + ("0" + (d.getMonth() + 1)).slice(-2) + "."; };
+  var bnr = function (c) { return YEAR + "-" + ("00" + c.bn).slice(-3); };
   var iso = function (d) { return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); };
 
   // ---------- Vorher/Nachher-Regler ----------
@@ -138,9 +139,16 @@
       cash.push({ d: addDays(-span + Math.round(span * (j + 0.5) / (P.cash.length + 1))), t: c[0], c: c[1], a: c[2], beleg: b, nr: j + 1 });
     });
     cash.push({ d: addDays(-Math.min(span - 5, 200)), t: "Mitgliedsbeiträge " + YEAR + " (Sammelbuchung)", c: "Mitgliedsbeiträge", a: paid });
+    // Eine doppelt erfasste Ausgabe ist schon storniert: sie bleibt mit Nummer sichtbar, zählt aber nicht
+    var dup = cash.filter(function (c) { return c.a < 0 && c.beleg; })[0], dupD = new Date(dup.d); dupD.setDate(dupD.getDate() + 1);
+    cash.push({ d: dupD, t: dup.t, c: dup.c, a: dup.a, beleg: "", sto: true });
     cash.sort(function (a, b) { return b.d - a.d; });
+    // Fortlaufende Belegnummern in der Reihenfolge der Buchungen
+    cash.slice().reverse().forEach(function (c, j) { c.bn = j + 1; });
+    var kas = P.board[2][1], dupC = cash.filter(function (c) { return c.sto; })[0];
     S = {
-      k: k, P: P, mem: mem, me: me, cash: cash, filter: "alle", q: "", io: "out", newMem: {},
+      k: k, P: P, mem: mem, me: me, cash: cash, bn: cash.length, ro: false,
+      log: [{ w: kas, t: "Nr. " + bnr(dupC) + " storniert: „" + dupC.t + "“ war doppelt gebucht", s: dshort(dupC.d) + YEAR }, { w: kas, t: "Anfangsbestand 1. Jänner eingetragen: " + eur(P.start, true), s: "02.01." + YEAR }], filter: "alle", q: "", io: "out", newMem: {},
       ev: P.events.map(function (e, j) { return { id: "e" + j, t: e[0], o: e[1], h: e[2], d: addDays(e[3]), yes: e[4], no: e[5], mine: "", cm: [], g: e[6] || "" }; }),
       feed: [], rem: 0,
       msgs: P.msgs.map(function (m, j) { return { id: "m" + j, t: m[0], x: m[1], from: m[2], d: addDays(-m[3]), to: "alle", toMe: true, n: 0, read: 0, mail: true, unread: j === 0, cm: [] }; })
@@ -566,7 +574,7 @@
 
   function cashSums() {
     var inn = 0, out = 0;
-    S.cash.forEach(function (c) { if (c.a >= 0) inn += c.a; else out -= c.a; });
+    S.cash.forEach(function (c) { if (c.sto) return; if (c.a >= 0) inn += c.a; else out -= c.a; });
     return { inn: inn, out: out, sum: S.P.start + inn - out };
   }
   function renderKpis() {
@@ -630,7 +638,7 @@
     var m = S.mem[+b.getAttribute("data-pay") - 1], amt = S.P.arts[m.art].b;
     if (m.st === "ok") {
       m.st = "bad";
-      S.cash = S.cash.filter(function (c) { return c.m !== m.nr; });
+      S.cash.forEach(function (c) { if (c.m === m.nr && !c.sto) { c.sto = true; logC("Nr. " + bnr(c) + " storniert: „" + c.t + "“ (Beitrag wieder offen)"); } });
     } else {
       payMem(m);
       feed("ok", "i-check", "Beitrag von " + m.name + " abgehakt (" + amt + " €), im Kassabuch gebucht");
@@ -642,7 +650,7 @@
   });
   function payMem(m, src) {
     m.st = "ok";
-    S.cash.unshift({ d: new Date(today), t: "Beitrag " + YEAR + " " + m.name + (src ? " (" + src + ")" : ""), c: "Mitgliedsbeiträge", a: S.P.arts[m.art].b, m: m.nr, fresh: true });
+    S.cash.unshift({ d: new Date(today), t: "Beitrag " + YEAR + " " + m.name + (src ? " (" + src + ")" : ""), c: "Mitgliedsbeiträge", a: S.P.arts[m.art].b, m: m.nr, fresh: true, bn: ++S.bn });
   }
   function mnr(m) { return "M-" + ("000" + m.nr).slice(-4); }
 
@@ -957,12 +965,18 @@
   });
 
   // Kassabuch
+  var STO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>';
+  function logC(t) {
+    var n = new Date();
+    S.log.unshift({ w: S.P.board[2][1], t: t, s: "heute " + ("0" + n.getHours()).slice(-2) + ":" + ("0" + n.getMinutes()).slice(-2) });
+    if (S.ro) renderLog();
+  }
   function renderCash() {
     var s = cashSums(), cats = {};
     $("[data-c-sum]").textContent = eur(s.sum, true);
     $("[data-c-in]").textContent = eur(s.inn, true);
     $("[data-c-out]").textContent = eur(s.out, true);
-    S.cash.forEach(function (c) { cats[c.c] = (cats[c.c] || 0) + c.a; });
+    S.cash.forEach(function (c) { if (!c.sto) cats[c.c] = (cats[c.c] || 0) + c.a; });
     var keys = Object.keys(cats).sort(function (a, b) { return Math.abs(cats[b]) - Math.abs(cats[a]); }).slice(0, 6);
     var max = Math.max.apply(null, keys.map(function (k) { return Math.abs(cats[k]); }).concat([1]));
     $("[data-c-cats]").innerHTML = keys.map(function (k) {
@@ -970,12 +984,13 @@
       return '<div class="cat"><span>' + esc(k) + '</span><span class="b"><i class="' + (v >= 0 ? "in" : "out") + '" style="width:' + (Math.abs(v) / max * 100) + '%"></i></span><span>' + (v >= 0 ? "+" : "−") + eur(Math.abs(Math.round(v))) + "</span></div>";
     }).join("");
     $("[data-c-rows]").innerHTML = S.cash.map(function (c, i) {
-      var bel = c.beleg ? '<button type="button" class="bel" data-bel="' + i + '" title="Beleg ansehen" aria-label="Beleg zu ' + esc(c.t) + ' ansehen"><svg><use href="#i-file"/></svg></button>'
+      var bel = c.sto ? '<em class="sto-t">storniert</em>' : c.beleg ? '<button type="button" class="bel" data-bel="' + i + '" title="Beleg ansehen" aria-label="Beleg zu ' + esc(c.t) + ' ansehen"><svg><use href="#i-file"/></svg></button>'
         : c.a < 0 && !c.m ? '<button type="button" class="bel no" data-bel-add="' + i + '" title="Foto vom Beleg nachreichen">Beleg fehlt</button>' : "";
-      var h = "<tr" + (c.fresh ? ' class="is-new"' : "") + "><td>" + dshort(c.d) + '</td><td><span class="bt"><span>' + esc(c.t) + "</span>" + bel + "</span></td><td>" + esc(c.c) + '</td><td class="r ' + (c.a >= 0 ? "in" : "out") + '">' + (c.a >= 0 ? "+ " : "− ") + eur(Math.abs(c.a), true) + "</td></tr>";
-      return h;
+      var sto = c.sto || c.m ? "" : '<button type="button" class="sto" data-sto="' + i + '" title="Stornieren" aria-label="' + esc(c.t) + ' stornieren">' + STO + "</button>";
+      var amt = (c.a >= 0 ? "+ " : "− ") + eur(Math.abs(c.a), true);
+      return "<tr" + (c.fresh ? ' class="is-new"' : c.sto ? ' class="is-sto"' : "") + "><td>" + dshort(c.d) + '<small class="bn">Nr. ' + ("00" + c.bn).slice(-3) + '</small></td><td><span class="bt"><span>' + esc(c.t) + "</span>" + bel + sto + "</span></td><td>" + esc(c.c) + '</td><td class="r ' + (c.a >= 0 ? "in" : "out") + '">' + (c.sto ? "<s>" + amt + "</s>" : amt) + "</td></tr>";
     }).join("");
-    var rb = $("[data-report-box]"); if (!rb.hidden) renderReport();
+    if (S.ro) renderLog();
   }
   $(".addc__io").addEventListener("click", function (e) {
     var b = e.target.closest("[data-io]"); if (!b) return;
@@ -987,7 +1002,8 @@
     if (!t || !(a > 0) || a > 100000) { toast("Bitte Text und Betrag eingeben", "z. B. 86,50"); return; }
     a = Math.round(a * 100) / 100;
     S.cash.forEach(function (c) { c.fresh = false; });
-    S.cash.unshift({ d: new Date(today), t: t, c: S.io === "in" ? "Sonstige Einnahmen" : "Sonstige Ausgaben", a: S.io === "in" ? a : -a, fresh: true, beleg: cBel });
+    S.cash.unshift({ d: new Date(today), t: t, c: S.io === "in" ? "Sonstige Einnahmen" : "Sonstige Ausgaben", a: S.io === "in" ? a : -a, fresh: true, beleg: cBel, bn: ++S.bn });
+    logC("Nr. " + bnr(S.cash[0]) + " gebucht: „" + t + "“ " + (S.io === "in" ? "+ " : "− ") + eur(a, true) + (cBel ? " mit Beleg" : ""));
     $("[data-c-t]").value = ""; $("[data-c-a]").value = "";
     feed(S.io === "in" ? "ok" : "bad", "i-book", "Gebucht: " + t + " (" + (S.io === "in" ? "+" : "−") + eur(a, true) + ")" + (cBel ? " mit Beleg" : ""));
     setBel("");
@@ -1028,7 +1044,7 @@
     var f = this.files && this.files[0], c = belFor; this.value = "";
     if (!c) return;
     readPhoto(f, function (src) {
-      c.beleg = src; c.fresh = true; renderCash();
+      c.beleg = src; c.fresh = true; logC("Beleg zu Nr. " + bnr(c) + " nachgereicht"); renderCash();
       feed("ok", "i-file", "Beleg nachgereicht: " + c.t);
       toast("Beleg gespeichert", c.t + " · die Rechnungsprüfer sehen ihn");
     });
@@ -1051,28 +1067,134 @@
     var b = e.target.closest("[data-bel]");
     if (b) { openBel(S.cash[+b.getAttribute("data-bel")]); return; }
     var a = e.target.closest("[data-bel-add]");
-    if (a) { belFor = S.cash[+a.getAttribute("data-bel-add")]; $("[data-c-later]").click(); }
+    if (a) { if (S.ro) return; belFor = S.cash[+a.getAttribute("data-bel-add")]; $("[data-c-later]").click(); return; }
+    var x = e.target.closest("[data-sto]");
+    if (x && !S.ro) {
+      var c = S.cash[+x.getAttribute("data-sto")];
+      S.cash.forEach(function (q) { q.fresh = false; });
+      c.sto = true;
+      logC("Nr. " + bnr(c) + " storniert: „" + c.t + "“");
+      feed("", "i-book", "Storniert: " + c.t + " (Nr. " + bnr(c) + ")");
+      toast("Storniert", "Nr. " + bnr(c) + " bleibt sichtbar, zählt aber nicht mehr");
+      renderCash(); renderKpis(); flash("[data-k-cash]");
+    }
   });
-  function renderReport() {
-    var s = cashSums(), inC = {}, outC = {};
-    S.cash.forEach(function (c) { var o = c.a >= 0 ? inC : outC; o[c.c] = (o[c.c] || 0) + Math.abs(c.a); });
-    var rows = function (o) { return Object.keys(o).sort().map(function (k) { return "<tr><td>" + esc(k) + "</td><td>" + eur(o[k], true) + "</td></tr>"; }).join(""); };
-    var b = S.P.board;
-    $("[data-report-box]").innerHTML = "<h4>Einnahmen-Ausgaben-Rechnung " + YEAR + "</h4><p>" + esc(S.P.name) + " · Stand " + dshort(today) + YEAR + " · Musterdaten</p>" +
-      "<table><tr><td>Anfangsbestand 1. Jänner</td><td>" + eur(S.P.start, true) + '</td></tr><tr class="sum"><td>Einnahmen</td><td>' + eur(s.inn, true) + "</td></tr>" + rows(inC) +
-      '<tr class="sum"><td>Ausgaben</td><td>' + eur(s.out, true) + "</td></tr>" + rows(outC) +
-      '<tr class="sum"><td>Kassastand heute</td><td>' + eur(s.sum, true) + "</td></tr></table>" +
-      belNote() + '<div class="sig"><span>' + esc(b[2][0]) + ": " + esc(b[2][1]) + "</span><span>Rechnungsprüfer 1 und 2</span></div>";
+  // Rechnungsprüfer: eigener Zugang nur zum Lesen, mit Änderungsprotokoll
+  function renderLog() {
+    $("[data-c-log]").innerHTML = S.log.slice(0, 8).map(function (l) {
+      return "<li><span>" + esc(l.t) + "</span><small>" + esc(l.w) + " · " + esc(l.s) + "</small></li>";
+    }).join("");
   }
-  function belNote() {
-    var outs = S.cash.filter(function (c) { return c.a < 0 && !c.m; }), miss = outs.filter(function (c) { return !c.beleg; });
-    return '<p class="rep__bel' + (miss.length ? " miss" : "") + '">Belege: ' + (outs.length - miss.length) + " von " + outs.length + " Ausgaben haben einen Beleg" +
-      (miss.length ? ". Es fehlt: " + miss.map(function (c) { return esc(c.t); }).join(", ") + "." : ", alles vollständig.") + "</p>";
+  function setRo(on) {
+    S.ro = on;
+    var k = $(".kasse");
+    k.classList.toggle("is-ro", on);
+    $("[data-c-ro]").hidden = !on; $("[data-c-logbox]").hidden = !on;
+    $("[data-ro-url]").textContent = S.P.url.split("/")[0] + "/pruefung";
+    $("[data-pruef]").setAttribute("aria-pressed", on);
+    if (on) { renderLog(); toast("Ansicht der Rechnungsprüfer", "nur lesen, Buchungen ändern geht nicht"); }
   }
-  $("[data-report]").addEventListener("click", function () {
-    var rb = $("[data-report-box]"); rb.hidden = !rb.hidden;
-    if (!rb.hidden) { renderReport(); rb.scrollIntoView({ block: "nearest", behavior: "smooth" }); }
-  });
+  $("[data-pruef]").addEventListener("click", function () { setRo(!S.ro); });
+  $("[data-ro-x]").addEventListener("click", function () { setRo(false); });
+
+  // Kassabericht und Übergabeprotokoll als druckfertige Seiten (im Druckfenster „Als PDF speichern“)
+  function docOpen(title, body) {
+    var w = window.open("", "_blank");
+    if (!w) { toast("Fenster wurde blockiert", "bitte Pop-ups für diese Seite erlauben"); return; }
+    var vc = S.brand.color, B = S.brand;
+    var lg = B.type === "bild" && B.img ? '<img src="' + esc(B.img) + '" alt="">' : esc(B.short || ini(B.name));
+    w.document.open();
+    w.document.write('<!doctype html><html lang="de-AT"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + esc(title) + "</title><style>" +
+      ":root{--vc:" + vc + ";--ink:#14171f;--mu:#5b6270;--ln:#dfe2e8}*{box-sizing:border-box;margin:0}" +
+      "body{font:14px/1.5 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:var(--ink);background:#e9ebef;-webkit-print-color-adjust:exact;print-color-adjust:exact}" +
+      ".bar{position:sticky;top:0;z-index:2;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;padding:12px 16px;background:#14171f;color:#fff;font-size:13px}" +
+      ".bar button{font:700 14px/1 inherit;padding:11px 18px;border:0;border-radius:999px;background:var(--vc);color:#fff;cursor:pointer}.bar span{opacity:.75}" +
+      ".pg{width:210mm;max-width:100%;min-height:297mm;margin:18px auto;padding:18mm 17mm 16mm;background:#fff;box-shadow:0 10px 40px -18px rgba(0,0,0,.35);position:relative;display:flex;flex-direction:column}" +
+      ".pg>footer{margin-top:auto;padding-top:14px;border-top:1px solid var(--ln);display:flex;justify-content:space-between;gap:10px;font-size:10.5px;color:var(--mu)}" +
+      "h1{font-size:34px;line-height:1.1;letter-spacing:-.02em}h2{font-size:21px;margin-bottom:4px;letter-spacing:-.01em}h3{font-size:14px;margin:18px 0 6px}.sub{color:var(--mu);margin-bottom:14px}" +
+      ".cv{justify-content:flex-start}.cv__band{position:absolute;left:0;right:0;top:0;height:9mm;background:var(--vc)}.cv__lg{width:30mm;height:30mm;border-radius:50%;background:var(--vc);color:#fff;display:grid;place-items:center;font-weight:800;font-size:30px;margin:26mm 0 12mm;overflow:hidden}.cv__lg img{width:100%;height:100%;object-fit:cover}" +
+      ".cv h1{font-size:44px}.cv .v{font-size:20px;font-weight:700;margin-top:6px}.cv dl{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin:14mm 0 10mm;font-size:14px}.cv dt{color:var(--mu)}" +
+      ".toc{list-style:none;padding:0;border-top:2px solid var(--ink)}.toc li{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--ln)}" +
+      ".tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}.tile{border:1px solid var(--ln);border-radius:10px;padding:14px}.tile small{display:block;color:var(--mu);font-size:12px}.tile b{font-size:26px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}.tile.hl{background:var(--vc);border-color:var(--vc);color:#fff}.tile.hl small{color:rgba(255,255,255,.8)}" +
+      "table{width:100%;border-collapse:collapse;font-size:12.5px}th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--mu);padding:6px 6px;border-bottom:2px solid var(--ink)}td{padding:6px 6px;border-bottom:1px solid var(--ln);vertical-align:top}" +
+      ".r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}tr.s td{font-weight:800;border-top:2px solid var(--ink);border-bottom:0}tr.h td{font-weight:700;background:#f4f5f7}tr.x td{color:#9aa0aa;text-decoration:line-through}tr.x td.st{text-decoration:none;font-style:italic}" +
+      ".miss{color:#c0392b;font-weight:700}.note{font-size:12px;color:var(--mu);margin-top:8px}.box{border:1px solid var(--ln);border-radius:10px;padding:12px 14px;margin-top:12px}" +
+      ".two{display:grid;grid-template-columns:1fr 1fr;gap:18px}.chk{list-style:none;padding:0}.chk li{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--ln)}.chk li:before{content:'';flex:none;width:14px;height:14px;border:1.5px solid var(--ink);border-radius:3px;margin-top:3px}" +
+      ".sig{display:grid;grid-template-columns:1fr 1fr;gap:16mm 14mm;margin-top:18mm}.sig div{border-top:1.5px solid var(--ink);padding-top:6px;font-size:12px}.sig small{display:block;color:var(--mu)}" +
+      ".mu{color:var(--mu)}.big{font-size:15px}" +
+      "@media(max-width:820px){.pg{min-height:0;padding:22px 18px;margin:10px auto}.cv__lg{margin:30px 0 20px}.two,.tiles{grid-template-columns:1fr}h1,.cv h1{font-size:30px}.sig{gap:34px 18px}}" +
+      "@page{size:A4;margin:0}@media print{body{background:#fff}.bar{display:none}.pg{margin:0;box-shadow:none;width:auto;min-height:297mm;page-break-after:always;break-after:page}.pg:last-child{page-break-after:auto;break-after:auto}tr{break-inside:avoid}}" +
+      '</style></head><body><div class="bar"><button type="button">Als PDF speichern oder drucken</button><span>Im Druckfenster „Als PDF speichern“ wählen · Musterdaten</span></div>' +
+      body.replace(/\{LG\}/g, lg) + "</body></html>");
+    w.document.close();
+    w.document.querySelector(".bar button").addEventListener("click", function () { w.print(); });
+    w.focus();
+  }
+  function foot(n, of) {
+    return '<footer><span>' + esc(S.brand.name) + " · Musterdaten · erstellt mit der Vereins-App</span><span>App von Tim Kofler – Webdesign" + (n ? " · Seite " + n + " von " + of : "") + "</span></footer>";
+  }
+  function byCat(sign) {
+    var o = {};
+    S.cash.forEach(function (c) { if (!c.sto && (c.a >= 0) === sign) o[c.c] = (o[c.c] || 0) + Math.abs(c.a); });
+    return Object.keys(o).sort(function (a, b) { return o[b] - o[a]; }).map(function (k) { return [k, o[k]]; });
+  }
+  function kassabericht() {
+    var s = cashSums(), b = S.P.board, inC = byCat(true), outC = byCat(false), res = s.inn - s.out;
+    var stand = dshort(today) + YEAR, list = S.cash.slice().sort(function (x, y) { return x.bn - y.bn; });
+    var outs = S.cash.filter(function (c) { return !c.sto && c.a < 0 && !c.m; }), miss = outs.filter(function (c) { return !c.beleg; });
+    var nSto = S.cash.filter(function (c) { return c.sto; }).length;
+    var top = function (a) { return a.slice(0, 3).map(function (x) { return "<tr><td>" + esc(x[0]) + '</td><td class="r">' + eur(x[1], true) + "</td></tr>"; }).join(""); };
+    var cat = function (a) { return a.map(function (x) { return "<tr><td>" + esc(x[0]) + '</td><td class="r">' + eur(x[1], true) + "</td></tr>"; }).join(""); };
+    var P = 5, h = "";
+    // 1 Deckblatt
+    h += '<section class="pg cv"><div class="cv__band"></div><div class="cv__lg">{LG}</div><h1>Kassabericht ' + YEAR + '</h1><p class="v">' + esc(S.brand.name) + "</p>" +
+      "<dl><dt>Rechnungsjahr</dt><dd>01.01. bis 31.12." + YEAR + "</dd><dt>Stand</dt><dd>" + stand + "</dd><dt>" + esc(b[2][0]) + "</dt><dd>" + esc(b[2][1]) + "</dd><dt>" + esc(b[0][0]) + "</dt><dd>" + esc(b[0][1]) + "</dd></dl>" +
+      '<ol class="toc"><li><span>1 · Kurzfassung für die Hauptversammlung</span><span>2</span></li><li><span>2 · Einnahmen-Ausgaben-Rechnung mit Vermögensübersicht</span><span>3</span></li><li><span>3 · Alle Buchungen mit Belegnummer</span><span>4</span></li><li><span>4 · Prüfvermerk und Unterschriften</span><span>5</span></li></ol>' + foot(1, P) + "</section>";
+    // 2 Kurzfassung
+    h += '<section class="pg"><h2>Kurzfassung für die Hauptversammlung</h2><p class="sub">Die wichtigsten Zahlen auf einer Seite, zum Vorlesen oder Herzeigen.</p>' +
+      '<div class="tiles"><div class="tile"><small>Anfangsbestand 1. Jänner</small><b>' + eur(S.P.start, true) + '</b></div><div class="tile hl"><small>Kassastand ' + stand + "</small><b>" + eur(s.sum, true) + '</b></div><div class="tile"><small>Einnahmen</small><b>' + eur(s.inn, true) + '</b></div><div class="tile"><small>Ausgaben</small><b>' + eur(s.out, true) + "</b></div></div>" +
+      '<p class="big">Ergebnis des Jahres bisher: <b>' + (res >= 0 ? "+ " : "− ") + eur(Math.abs(res), true) + "</b>" + (res >= 0 ? ", der Verein hat mehr eingenommen als ausgegeben." : ", der Verein hat mehr ausgegeben als eingenommen.") + "</p>" +
+      '<div class="two"><div><h3>Größte Einnahmen</h3><table>' + top(inC) + "</table></div><div><h3>Größte Ausgaben</h3><table>" + top(outC) + "</table></div></div>" +
+      '<div class="box">' + (outs.length - miss.length) + " von " + outs.length + " Ausgaben haben einen Beleg" + (miss.length ? '. <span class="miss">Es fehlt: ' + miss.map(function (c) { return esc(c.t) + " (Nr. " + bnr(c) + ")"; }).join(", ") + ".</span>" : ", alles vollständig.") + "</div>" + foot(2, P) + "</section>";
+    // 3 Einnahmen-Ausgaben-Rechnung
+    h += '<section class="pg"><h2>Einnahmen-Ausgaben-Rechnung ' + YEAR + '</h2><p class="sub">Mit Vermögensübersicht, nach Bereichen. Stornierte Buchungen zählen nicht.</p>' +
+      '<table><thead><tr><th>Bereich</th><th class="r">Betrag</th></tr></thead><tbody><tr class="h"><td>Einnahmen</td><td class="r">' + eur(s.inn, true) + "</td></tr>" + cat(inC) +
+      '<tr class="h"><td>Ausgaben</td><td class="r">' + eur(s.out, true) + "</td></tr>" + cat(outC) + "</tbody></table>" +
+      '<h3>Vermögensübersicht</h3><table><tr><td>Anfangsbestand 1. Jänner</td><td class="r">' + eur(S.P.start, true) + '</td></tr><tr><td>Ergebnis (Einnahmen minus Ausgaben)</td><td class="r">' + (res >= 0 ? "+ " : "− ") + eur(Math.abs(res), true) + '</td></tr><tr class="s"><td>Kassa und Bank am ' + stand + '</td><td class="r">' + eur(s.sum, true) + "</td></tr></table>" +
+      '<p class="note">Nach § 21 Vereinsgesetz erstellt der Vorstand binnen fünf Monaten nach Ende des Rechnungsjahres eine Einnahmen- und Ausgabenrechnung samt Vermögensübersicht. Große Vereine mit doppelter Buchhaltung brauchen zusätzlich ihren Steuerberater.</p>' + foot(3, P) + "</section>";
+    // 4 Buchungen
+    h += '<section class="pg"><h2>Alle Buchungen mit Belegnummer</h2><p class="sub">' + list.length + " Buchungen, Nummern fortlaufend" + (nSto ? ", davon " + nSto + " storniert" : "") + ".</p>" +
+      '<table><thead><tr><th>Nr.</th><th>Datum</th><th>Buchung</th><th>Bereich</th><th class="r">Betrag</th><th>Beleg</th></tr></thead><tbody>' +
+      list.map(function (c) {
+        return "<tr" + (c.sto ? ' class="x"' : "") + "><td>" + bnr(c) + "</td><td>" + dshort(c.d) + "</td><td>" + esc(c.t) + "</td><td>" + esc(c.c) + '</td><td class="r">' + (c.a >= 0 ? "+ " : "− ") + eur(Math.abs(c.a), true) + "</td>" +
+          (c.sto ? '<td class="st">storniert</td>' : "<td" + (c.a < 0 && !c.m && !c.beleg ? ' class="miss">fehlt' : ">" + (c.beleg ? "ja" : "")) + "</td>") + "</tr>";
+      }).join("") + "</tbody></table>" +
+      '<p class="note">Ein Fehler wird storniert statt gelöscht: Die Buchung bleibt mit ihrer Nummer sichtbar, zählt aber nicht mehr. So bleibt die Nummernfolge lückenlos, und jede Änderung steht im Protokoll.</p>' + foot(4, P) + "</section>";
+    // 5 Prüfvermerk
+    h += '<section class="pg"><h2>Prüfvermerk und Unterschriften</h2><p class="sub">Für die Rechnungsprüfer und die Hauptversammlung.</p>' +
+      '<div class="box">Die Rechnungsprüfer haben Kassabuch, Belege und Kontoauszüge für das Rechnungsjahr ' + YEAR + " am ______________ geprüft.</div>" +
+      '<ul class="chk" style="margin-top:12px"><li>Ohne Beanstandung. Wir empfehlen der Hauptversammlung die Entlastung des Vorstands.</li><li>Mit Anmerkungen: __________________________________________</li></ul>' +
+      '<div class="sig"><div>' + esc(b[2][1]) + "<small>" + esc(b[2][0]) + "</small></div><div>" + esc(b[0][1]) + "<small>" + esc(b[0][0]) + '</small></div><div>&nbsp;<small>Rechnungsprüfer/in 1</small></div><div>&nbsp;<small>Rechnungsprüfer/in 2</small></div></div>' +
+      '<p class="note" style="margin-top:14mm">Ort, Datum: ______________________</p>' + foot(5, P) + "</section>";
+    docOpen("Kassabericht " + YEAR + " – " + S.brand.name, h);
+    feed("", "i-file", "Kassabericht " + YEAR + " als PDF erstellt");
+  }
+  function uebergabe() {
+    var s = cashSums(), b = S.P.board, stand = dshort(today) + YEAR;
+    var open = S.mem.filter(function (m) { return m.st === "bad"; }), openSum = open.reduce(function (t, m) { return t + S.P.arts[m.art].b; }, 0);
+    var miss = S.cash.filter(function (c) { return !c.sto && c.a < 0 && !c.m && !c.beleg; });
+    var last = S.cash.reduce(function (m, c) { return Math.max(m, c.bn); }, 0);
+    var h = '<section class="pg"><div class="cv__band"></div><div style="display:flex;gap:16px;align-items:center;margin-top:6mm"><div class="cv__lg" style="width:18mm;height:18mm;font-size:18px;margin:0">{LG}</div><div><h1 style="font-size:28px">Übergabeprotokoll Kassa</h1><p class="mu">' + esc(S.brand.name) + " · Stichtag " + stand + "</p></div></div>" +
+      '<p style="margin-top:14px">Die Kassa gehört dem Verein. Mit diesem Protokoll übergibt ' + esc(b[2][1]) + " (bisher " + esc(b[2][0]) + ") alle Unterlagen an die Nachfolge.</p>" +
+      '<h3>Bestände zum Stichtag</h3><table><tr><td>Kassa und Bank laut Kassabuch</td><td class="r"><b>' + eur(s.sum, true) + '</b></td></tr><tr><td>Barkassa gemeinsam gezählt</td><td class="r">__________ €</td></tr><tr><td>Buchungen ' + YEAR + '</td><td class="r">' + S.cash.length + ", letzte Nr. " + YEAR + "-" + ("00" + last).slice(-3) + "</td></tr></table>" +
+      '<h3>Was noch offen ist</h3><table><tr><td>Offene Mitgliedsbeiträge</td><td class="r">' + open.length + " Mitglieder · " + eur(openSum, true) + '</td></tr><tr><td>Fehlende Belege</td><td class="r' + (miss.length ? ' miss">' + miss.map(function (c) { return "Nr. " + bnr(c); }).join(", ") : '">keine') + "</td></tr></table>" +
+      '<h3>Checkliste</h3><ul class="chk"><li>Barkassa gemeinsam gezählt und übergeben</li><li>Kontoauszüge und Belegordner übergeben</li><li>Zeichnungsberechtigung bei der Bank geändert</li><li>Zugang zur Vereins-App für die Nachfolge angelegt</li><li>Bisheriger Zugang ausgetragen (die Daten bleiben beim Verein)</li><li>Kassabericht ' + YEAR + " als PDF übergeben</li></ul>" +
+      '<div class="sig" style="margin-top:14mm"><div>' + esc(b[2][1]) + "<small>bisher " + esc(b[2][0]) + '</small></div><div>&nbsp;<small>neu ' + esc(b[2][0]) + "</small></div><div>" + esc(b[0][1]) + "<small>" + esc(b[0][0]) + '</small></div><div>&nbsp;<small>Ort, Datum</small></div></div>' + foot(0, 0) + "</section>";
+    docOpen("Übergabeprotokoll Kassa – " + S.brand.name, h);
+    feed("", "i-key", "Übergabeprotokoll für die Kassa erstellt");
+  }
+  $("[data-report]").addEventListener("click", kassabericht);
+  $("[data-handover]").addEventListener("click", uebergabe);
 
   // CSV (Strichpunkt und BOM, damit Excel in Österreich Umlaute und Spalten richtig liest; = + - @ am Anfang
   // bekommen ein Hochkomma, damit Excel eingetippte Texte nicht als Formel ausführt)
@@ -1093,8 +1215,8 @@
     toast("Liste heruntergeladen", "öffnet sich direkt in Excel");
   });
   $("[data-csv-c]").addEventListener("click", function () {
-    csv("kassabuch-muster.csv", [["Datum", "Buchung", "Bereich", "Betrag", "Beleg"]].concat(S.cash.map(function (c) {
-      return [dshort(c.d) + c.d.getFullYear(), c.t, c.c, c.a.toFixed(2).replace(".", ","), c.beleg ? "ja" : c.a < 0 ? "fehlt" : ""];
+    csv("kassabuch-muster.csv", [["Nr", "Datum", "Buchung", "Bereich", "Betrag", "Beleg", "Status"]].concat(S.cash.slice().sort(function (x, y) { return x.bn - y.bn; }).map(function (c) {
+      return [bnr(c), dshort(c.d) + c.d.getFullYear(), c.t, c.c, c.a.toFixed(2).replace(".", ","), c.beleg ? "ja" : c.a < 0 && !c.m ? "fehlt" : "", c.sto ? "storniert" : ""];
     })));
     toast("Kassabuch heruntergeladen", "für Rechnungsprüfer oder Steuerberater");
   });
@@ -1160,7 +1282,7 @@
     mv[11] = n;
     // Kassastand: echte Buchungen dieses Jahres, Monat für Monat aufsummiert
     var cv = [], run = S.P.start, months = today.getMonth() + 1, byM = {};
-    S.cash.forEach(function (c) { if (c.d.getFullYear() === YEAR) byM[c.d.getMonth()] = (byM[c.d.getMonth()] || 0) + c.a; });
+    S.cash.forEach(function (c) { if (!c.sto && c.d.getFullYear() === YEAR) byM[c.d.getMonth()] = (byM[c.d.getMonth()] || 0) + c.a; });
     for (var m = 0; m < months; m++) { run += byM[m] || 0; cv.push(run); }
     if (cv.length < 2) cv.unshift(S.P.start);
     spark($('[data-spark="mem"]'), mv, !sparkDrawn[S.k]);
@@ -1696,7 +1818,7 @@
     $("[data-m-year]").textContent = YEAR;
     $("[data-me-first]").textContent = S.me.name.split(" ")[0];
     $("[data-d-newbadge]").hidden = true;
-    $("[data-report-box]").hidden = true;
+    setRo(false);
     jn.value = ""; jok.checked = false;
     $("[data-j-form]").hidden = false; $("[data-j-done]").hidden = true;
     evD.min = iso(today); evD.value = iso(addDays(12));
