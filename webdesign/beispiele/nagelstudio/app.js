@@ -95,7 +95,7 @@
   /* ---------- Nagel-Konfigurator ---------- */
   var FORMEN = [["rund", "Rund"], ["oval", "Oval"], ["mandel", "Mandel"], ["eckig", "Eckig"], ["ballerina", "Ballerina"]];
   var FARBEN = [["Nude", "#e3bfb2"], ["Rosé", "#e0a3aa"], ["Milchweiß", "#f3ede8"], ["Kirschrot", "#a8162c"], ["Bordeaux", "#5e1a28"],
-    ["Salbei", "#8ea28a"], ["Lavendel", "#b3a3d4"], ["Mitternacht", "#1e2340"], ["Espresso", "#4d3027"]];
+    ["Salbei", "#8ea28a"], ["Lavendel", "#b3a3d4"], ["Mitternacht", "#1e2340"], ["Espresso", "#4d3027"], ["Schwarz", "#121012"]];
 
   // Nagelumriss mit Nagelhaut bei y=0; r = halbe Breite, B = Länge des Nagelbetts, T = freier Rand.
   function nailPath(shape, r, B, T) {
@@ -283,36 +283,46 @@
       if (s.frei) first = false;
     });
   }
-  dayBox.addEventListener("change", renderTimes);
-  renderTimes();
+  var svcBox = $("#b-svc");
+  function setSvc(v) { var i = $('input[value="' + v + '"]', svcBox); if (i) { i.checked = true; bookSum(); } }
+  // Zusammenfassung über dem Absende-Knopf: Behandlung · Tag · Uhrzeit
+  function bookSum() {
+    var sv = $('input[name="svc"]:checked', svcBox), d = days[+$('input[name="tag"]:checked', dayBox).value], t = $('input[name="zeit"]:checked', timeBox);
+    $("#b-sum").textContent = $("b", sv.nextElementSibling).textContent + " · " + TAGE[d.getDay()] + " " + d.getDate() + "." + (d.getMonth() + 1) + "." + (t ? " · " + t.value : "");
+  }
+  dayBox.addEventListener("change", function () { renderTimes(); bookSum(); });
+  timeBox.addEventListener("change", bookSum); svcBox.addEventListener("change", bookSum);
+  renderTimes(); bookSum();
   function pickDay(date) {
     var best = 0, bd = Infinity;
     days.forEach(function (d, i) { var x = Math.abs(d - date); if (x < bd) { bd = x; best = i; } });
-    var inp = $('input[value="' + best + '"]', dayBox); inp.checked = true; renderTimes();
+    var inp = $('input[value="' + best + '"]', dayBox); inp.checked = true; renderTimes(); bookSum();
   }
   $("#cfg-take").addEventListener("click", function () {
     $("#look-txt").textContent = "Dein Look: " + look.txt;
     $("i", lookChip).style.setProperty("--c", look.color);
     lookChip.classList.add("on");
-    $("#b-svc").value = look.svc;
+    setSvc(look.svc);
   });
   $("#look-x").addEventListener("click", function () { lookChip.classList.remove("on"); });
   $("#book").addEventListener("submit", function (e) {
     e.preventDefault();
     var name = $("#b-name"), tel = $("#b-tel"), msg = $("#b-msg");
-    if (!name.value.trim() || !tel.value.trim()) { msg.textContent = "Bitte Name und Telefonnummer angeben."; (name.value.trim() ? tel : name).focus(); return; }
+    if (!name.value.trim() || !tel.value.trim()) { msg.classList.remove("ok"); msg.textContent = "Bitte Name und Telefonnummer angeben."; (name.value.trim() ? tel : name).focus(); return; }
+    msg.classList.add("ok");
     var d = days[+$('input[name="tag"]:checked', dayBox).value], t = $('input[name="zeit"]:checked', timeBox);
     msg.textContent = "Danke, " + name.value.trim().split(" ")[0] + "! Anfrage für " + TAGE_LANG[d.getDay()] + ", " + d.getDate() + ". " + MONATE[d.getMonth()] + (t ? " um " + t.value + " Uhr" : "") + ". " + DEMO_MSG;
   });
 
   /* ---------- Auffüll-Erinnerung ---------- */
   var rDate = $("#r-date"), rType = $("#r-type"), due = null;
+  function rSel() { return $('input[name="rtype"]:checked', rType); }
   function iso(d) { return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); }
   (function () { var d = new Date(); d.setDate(d.getDate() - 16); rDate.value = iso(d); rDate.max = iso(new Date()); })();
   function refill() {
     if (!rDate.value) return;
     var p = rDate.value.split("-"), last = new Date(+p[0], +p[1] - 1, +p[2]);
-    var span = rType.value.split("-"), a = new Date(last), b = new Date(last);
+    var span = rSel().value.split("-"), a = new Date(last), b = new Date(last);
     a.setDate(a.getDate() + +span[0]); b.setDate(b.getDate() + +span[1]); due = a;
     var today = new Date(); today.setHours(0, 0, 0, 0);
     var since = Math.max(0, Math.round((today - last) / 864e5)), mm = since / 10;
@@ -325,14 +335,20 @@
       "Seit dem letzten Termin ist dein Nagel etwa " + mm.toFixed(1).replace(".", ",") + " mm nachgewachsen" + (mm >= 2.5 ? ", die Lücke an der Nagelhaut wird sichtbar." : ".");
     var share = Math.min(1, since / +span[1]);
     $("#r-meter").style.width = (share * 100) + "%";
-    var gap = Math.min(26, mm * 6), yb = 126 - gap;
-    $("#g-pol").setAttribute("d", "M37 " + yb + "V40c0-15 46-15 46 0v" + (yb - 40) + "c-8 8-38 8-46 0Z");
+    // Grafik: Lack rutscht mit dem Wachstum nach oben, die Lücke an der Nagelhaut wird mit Maß angezeigt
+    var gap = Math.min(30, mm * 7), yb = 160 - gap;
+    $("#g-pol").setAttribute("d", "M71 " + yb + "V84c0-26 58-26 58 0v" + (yb - 84) + "c-10 9-48 9-58 0Z");
+    $("#g-br").setAttribute("d", "M156 " + (yb + 6) + "V180");
+    $("#g-t1").setAttribute("d", "M152 " + (yb + 6) + "h8");
+    $("#g-mm").setAttribute("opacity", gap > 5 ? "1" : "0");
+    $("#g-mmt").textContent = mm.toFixed(1).replace(".", ",") + " mm";
+    $("#g-mmt").setAttribute("y", (yb + 6 + 180) / 2 + 4);
   }
   rDate.addEventListener("change", refill); rType.addEventListener("change", refill);
   refill();
   $("#r-ics").addEventListener("click", function () {
     if (!due) return;
-    var n = rType.options[rType.selectedIndex].getAttribute("data-n");
+    var n = rSel().getAttribute("data-n");
     var d = new Date(due); d.setDate(d.getDate() - 3);
     var st = iso(d).replace(/-/g, ""), en = new Date(d); en.setDate(en.getDate() + 1);
     var ics = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Studio Mila//Beispiel//DE", "BEGIN:VEVENT",
@@ -347,7 +363,7 @@
   });
   $("#r-book").addEventListener("click", function () {
     if (due) pickDay(due);
-    $("#b-svc").value = rType.options[rType.selectedIndex].getAttribute("data-n");
+    setSvc(rSel().getAttribute("data-n"));
   });
 
   /* ---------- Gutschein ---------- */
@@ -360,5 +376,29 @@
     $("#v-from").textContent = $("#v-from-in").value.trim() || "mir";
   }
   gift.addEventListener("input", giftUpd); gift.addEventListener("change", giftUpd);
-  gift.addEventListener("submit", function (e) { e.preventDefault(); $(".msg", gift).textContent = DEMO_MSG; });
+  // Bestellen: Karte wandert in ein Kuvert, Siegel drauf, Kuvert fliegt weg, dann Bestätigung
+  var vstage = $("#vstage"), vdone = $("#vdone"), vsend = $("#v-send"), vt = [];
+  function sparkle() {
+    for (var i = 0; i < 10; i++) {
+      var sp = document.createElement("i"), a = Math.PI * 2 * i / 10;
+      sp.className = "sparkle"; sp.style.left = "50%"; sp.style.top = "70%";
+      sp.style.setProperty("--x", Math.round(Math.cos(a) * 90) + "px"); sp.style.setProperty("--y", Math.round(Math.sin(a) * 70) + "px");
+      vstage.appendChild(sp); setTimeout(function (x) { x.remove(); }.bind(null, sp), 1000);
+    }
+  }
+  gift.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (vstage.classList.contains("is-send")) return;
+    var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var to = $("#v-to-in").value.trim();
+    $("#vdone-t").textContent = "Gutschein über " + $("#v-val").textContent + (to ? " für " + to : "") + " ist unterwegs!";
+    $("#v-msg").textContent = DEMO_MSG;
+    vsend.disabled = true; vstage.classList.add("is-send");
+    vt.push(setTimeout(sparkle, reduce ? 0 : 1600));
+    vt.push(setTimeout(function () { vdone.hidden = false; }, reduce ? 50 : 2950));
+  });
+  $("#v-again").addEventListener("click", function () {
+    vt.forEach(clearTimeout); vt = [];
+    vdone.hidden = true; vstage.classList.remove("is-send"); vsend.disabled = false; vsend.focus();
+  });
 })();
