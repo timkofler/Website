@@ -118,7 +118,7 @@
   function load() {
     var d = B[cur];
     ["vorher", "nachher"].forEach(function (w) {
-      var img = imgs[w], src = DIR + cur + "-" + w + "-" + dev + ".webp?v=2";
+      var img = imgs[w], src = DIR + cur + "-" + w + "-" + dev + ".webp?v=3";
       var source = img.parentNode.querySelector("source");
       if (source) source.remove(); // ab jetzt entscheidet der Knopf PC/Handy, nicht mehr die Bildschirmbreite
       img.width = dev === "pc" ? 1600 : 780;
@@ -141,7 +141,7 @@
   function preload(k) {
     if (done[k + dev]) return;
     done[k + dev] = 1;
-    ["vorher", "nachher"].forEach(function (w) { new Image().src = DIR + k + "-" + w + "-" + dev + ".webp?v=2"; });
+    ["vorher", "nachher"].forEach(function (w) { new Image().src = DIR + k + "-" + w + "-" + dev + ".webp?v=3"; });
   }
 
   // Handy: Reiterzeile wischbar, der gewählte Reiter rückt ins Bild, Rand blendet nur dort aus, wo es weitergeht.
