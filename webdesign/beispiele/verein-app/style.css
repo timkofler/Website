@@ -1255,7 +1255,7 @@ html.va-full,html.va-full body{overflow:hidden}
 :root:not([data-theme="light"]){--bk-glass:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.012));--bk-beam:linear-gradient(90deg,transparent 8%,rgba(255,255,255,.2) 50%,transparent 92%) top center/100% 1px no-repeat;--bk-beam-hot:linear-gradient(90deg,transparent 8%,rgba(255,140,90,.85) 50%,transparent 92%) top center/100% 1px no-repeat;--bk-glow:0 0 0 1px rgba(255,90,31,.32),0 0 34px -8px rgba(255,90,31,.42),inset 0 1px 0 rgba(255,255,255,.07)}
 :root:not([data-theme="light"]) body{background:radial-gradient(rgba(255,255,255,.045) 1px,transparent 1.2px) 0 0/28px 28px,#0b0b0c}
 :root:not([data-theme="light"]) .demo,:root:not([data-theme="light"]) .calc{background:transparent}
-:root:not([data-theme="light"]) .hero h1,:root:not([data-theme="light"]) .sec__head h2,:root:not([data-theme="light"]) .end h2{font-family:"Manrope",var(--hd);font-weight:500;letter-spacing:-.03em;line-height:1.06}
+:root:not([data-theme="light"]) .hero h1,:root:not([data-theme="light"]) .sec__head h2,:root:not([data-theme="light"]) .end h2{font-family:"Manrope",var(--hd);font-weight:500;letter-spacing:-.018em;line-height:1.12}
 :root:not([data-theme="light"]) .s h3,:root:not([data-theme="light"]) .fair h3,:root:not([data-theme="light"]) .frow h3{font-family:"Manrope",var(--hd);font-weight:600;letter-spacing:-.015em}
 :root:not([data-theme="light"]) .hero .grad,:root:not([data-theme="light"]) .sec__head .grad,:root:not([data-theme="light"]) .end .grad{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#ff5a1f}
 :root:not([data-theme="light"]) .kick{font:500 11.5px/1 "JetBrains Mono",ui-monospace,monospace;letter-spacing:.08em;color:var(--mu);border-color:rgba(255,255,255,.1);background:rgba(255,255,255,.02)}
@@ -1296,7 +1296,7 @@ html.va-full,html.va-full body{overflow:hidden}
 :root[data-theme="dark"]{--bk-glass:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.012));--bk-beam:linear-gradient(90deg,transparent 8%,rgba(255,255,255,.2) 50%,transparent 92%) top center/100% 1px no-repeat;--bk-beam-hot:linear-gradient(90deg,transparent 8%,rgba(255,140,90,.85) 50%,transparent 92%) top center/100% 1px no-repeat;--bk-glow:0 0 0 1px rgba(255,90,31,.32),0 0 34px -8px rgba(255,90,31,.42),inset 0 1px 0 rgba(255,255,255,.07)}
 :root[data-theme="dark"] body{background:radial-gradient(rgba(255,255,255,.045) 1px,transparent 1.2px) 0 0/28px 28px,#0b0b0c}
 :root[data-theme="dark"] .demo,:root[data-theme="dark"] .calc{background:transparent}
-:root[data-theme="dark"] .hero h1,:root[data-theme="dark"] .sec__head h2,:root[data-theme="dark"] .end h2{font-family:"Manrope",var(--hd);font-weight:500;letter-spacing:-.03em;line-height:1.06}
+:root[data-theme="dark"] .hero h1,:root[data-theme="dark"] .sec__head h2,:root[data-theme="dark"] .end h2{font-family:"Manrope",var(--hd);font-weight:500;letter-spacing:-.018em;line-height:1.12}
 :root[data-theme="dark"] .s h3,:root[data-theme="dark"] .fair h3,:root[data-theme="dark"] .frow h3{font-family:"Manrope",var(--hd);font-weight:600;letter-spacing:-.015em}
 :root[data-theme="dark"] .hero .grad,:root[data-theme="dark"] .sec__head .grad,:root[data-theme="dark"] .end .grad{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#ff5a1f}
 :root[data-theme="dark"] .kick{font:500 11.5px/1 "JetBrains Mono",ui-monospace,monospace;letter-spacing:.08em;color:var(--mu);border-color:rgba(255,255,255,.1);background:rgba(255,255,255,.02)}

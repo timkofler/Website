@@ -397,7 +397,7 @@ button{cursor:pointer}
 .cell i svg{width:22px;height:22px}
 .cell h3{font:700 18px/1.2 var(--hd);letter-spacing:-.01em}
 .cell p{color:var(--mu);font-size:14.5px;margin-top:6px}
-.cell a{color:var(--popt);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.cell a{display:table;margin-top:6px;white-space:nowrap;color:var(--popt);font-weight:600;text-decoration:underline;text-underline-offset:3px}
 
 /* ---------- Ehrlich gesagt ---------- */
 .fair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
@@ -667,7 +667,7 @@ button{cursor:pointer}
 @media (prefers-color-scheme: dark){
 :root:not([data-theme="light"]){--bk-glass:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.012));--bk-beam:linear-gradient(90deg,transparent 8%,rgba(255,255,255,.2) 50%,transparent 92%) top center/100% 1px no-repeat;--bk-beam-hot:linear-gradient(90deg,transparent 8%,rgba(255,140,90,.85) 50%,transparent 92%) top center/100% 1px no-repeat;--bk-glow:0 0 0 1px rgba(255,90,31,.32),0 0 34px -8px rgba(255,90,31,.42),inset 0 1px 0 rgba(255,255,255,.07)}
 :root:not([data-theme="light"]) body{background:radial-gradient(rgba(255,255,255,.045) 1px,transparent 1.2px) 0 0/28px 28px,#0b0b0c}
-:root:not([data-theme="light"]) .hero__t,:root:not([data-theme="light"]) .sec__head h2,:root:not([data-theme="light"]) .end h2{font-family:"Manrope",var(--hd);font-weight:500;letter-spacing:-.03em}
+:root:not([data-theme="light"]) .hero__t,:root:not([data-theme="light"]) .sec__head h2,:root:not([data-theme="light"]) .end h2{font-family:"Manrope",var(--hd);font-weight:500;letter-spacing:-.018em;line-height:1.12}
 :root:not([data-theme="light"]) .hero__t b{font-weight:600}
 :root:not([data-theme="light"]) .cell h3,:root:not([data-theme="light"]) .fair h3,:root:not([data-theme="light"]) .feat b{font-family:"Manrope",var(--hd);font-weight:600;letter-spacing:-.015em}
 :root:not([data-theme="light"]) .hero__head .grad,:root:not([data-theme="light"]) .sec__head .grad,:root:not([data-theme="light"]) .end .grad{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#ff5a1f}
@@ -688,7 +688,7 @@ button{cursor:pointer}
 
 :root[data-theme="dark"]{--bk-glass:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.012));--bk-beam:linear-gradient(90deg,transparent 8%,rgba(255,255,255,.2) 50%,transparent 92%) top center/100% 1px no-repeat;--bk-beam-hot:linear-gradient(90deg,transparent 8%,rgba(255,140,90,.85) 50%,transparent 92%) top center/100% 1px no-repeat;--bk-glow:0 0 0 1px rgba(255,90,31,.32),0 0 34px -8px rgba(255,90,31,.42),inset 0 1px 0 rgba(255,255,255,.07)}
 :root[data-theme="dark"] body{background:radial-gradient(rgba(255,255,255,.045) 1px,transparent 1.2px) 0 0/28px 28px,#0b0b0c}
-:root[data-theme="dark"] .hero__t,:root[data-theme="dark"] .sec__head h2,:root[data-theme="dark"] .end h2{font-family:"Manrope",var(--hd);font-weight:500;letter-spacing:-.03em}
+:root[data-theme="dark"] .hero__t,:root[data-theme="dark"] .sec__head h2,:root[data-theme="dark"] .end h2{font-family:"Manrope",var(--hd);font-weight:500;letter-spacing:-.018em;line-height:1.12}
 :root[data-theme="dark"] .hero__t b{font-weight:600}
 :root[data-theme="dark"] .cell h3,:root[data-theme="dark"] .fair h3,:root[data-theme="dark"] .feat b{font-family:"Manrope",var(--hd);font-weight:600;letter-spacing:-.015em}
 :root[data-theme="dark"] .hero__head .grad,:root[data-theme="dark"] .sec__head .grad,:root[data-theme="dark"] .end .grad{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#ff5a1f}
