@@ -1,6 +1,6 @@
 // Menü (PC-Kapsel, „Mehr“, Handy-Kacheln) + aktuelles Jahr im Footer. Keine Tracker, keine Cookies (nur ein anonymer Zähler, siehe unten).
 document.addEventListener("DOMContentLoaded", () => {
-  // Handy-Menü: runder Knopf öffnet die Kacheln (#mnav) und streckt sich dabei zur „Schließen“-Pille.
+  // Handy-Menü: Knopf in der Kapsel öffnet die Kacheln (#mnav), offen zeigt er ein X im orangen Punkt.
   const toggle = document.querySelector(".nav-toggle");
   const mnav = document.getElementById("mnav");
   const setMenu = (open) => {

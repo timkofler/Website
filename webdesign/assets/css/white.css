@@ -36,7 +36,10 @@ html.tk-white .header__free:hover { color: #16130f; background: #fff7f2; }
 html.tk-white .tk-ed { border-color: rgba(28,20,12,.14); background: #fff; color: #6b645b; }
 html.tk-white .tk-ed[aria-pressed="true"] .tk-ed__w { color: #fff; }
 @media (max-width: 1100px) { html.tk-white .tk-ed .tk-ed__o { color: #e0531c !important; } }
-html.tk-white .nav-toggle { background: #fff; color: #16130f; border-color: rgba(255,90,31,.45); }
+html.tk-white .nav-toggle { background: #fff; color: #16130f; border-color: rgba(28,20,12,.14); }
+html.tk-white .nav-toggle[aria-expanded="true"] path { stroke: #fff; }
+html.tk-white .header__end .tk-ed ~ .nav-toggle::before { background: rgba(28,20,12,.14); }
+@media (max-width: 1100px) { html.tk-white .header__end .tk-ed:has(~ .nav-toggle):hover, html.tk-white .header__end .tk-ed ~ .nav-toggle:hover { border-color: rgba(28,20,12,.14); } }
 html.tk-white .mnav, html.tk-white .nav__drop { background: #fbf9f6; border-color: rgba(28,20,12,.1); box-shadow: 0 30px 60px -30px rgba(70,40,15,.4); }
 html.tk-white .mnav a, html.tk-white .nav__drop a { color: #16130f; }
 html.tk-white .ew-head__tel { color: #16130f; border-color: rgba(28,20,12,.14); background: #fff; }

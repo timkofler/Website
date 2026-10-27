@@ -101,9 +101,9 @@ echo <<<HTML
   <link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/style.css?v=5d1d811a">
-  <link rel="stylesheet" href="/assets/css/tk.css?v=8afa2281">
-  <link rel="stylesheet" href="/assets/css/black.css?v=914627d0">
-  <meta name="tk-white-css" content="/assets/css/white.css?v=196ca52a">
+  <link rel="stylesheet" href="/assets/css/tk.css?v=fc047587">
+  <link rel="stylesheet" href="/assets/css/black.css?v=7c112269">
+  <meta name="tk-white-css" content="/assets/css/white.css?v=67c2730e">
   <script src="/assets/js/tk-black.js?v=add20d6a"></script>
   <link rel="stylesheet" href="/assets/css/ansicht.css?v=1">
 </head>

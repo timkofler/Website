@@ -1128,16 +1128,15 @@ html:not(.anf-js) .anf__panel--rr { padding-bottom: 0; }
 }
 @media (min-width: 1101px) and (max-width: 1200px) { .nav > a, .nav__more-btn { padding: 8px 11px; } .header__free i { display: none; } }
 
-/* Handy: runder Knopf, der sich beim Öffnen zur „Schließen“-Pille streckt */
-.nav-toggle { position: relative; align-items: center; justify-content: flex-end; width: 44px; height: 44px; padding: 0; border-radius: 999px; border: 1px solid rgba(255,90,31,.42); background: var(--surface-2); color: var(--text); cursor: pointer; overflow: hidden; box-shadow: 0 0 0 3px rgba(255,90,31,.08), 0 0 14px rgba(255,90,31,.14);
-  transition: width .45s cubic-bezier(.2,.7,.2,1), border-color .3s, background .3s, box-shadow .3s; }
-.nav-toggle:hover { border-color: rgba(255,90,31,.7); }
-.nav-toggle svg { flex: none; width: 42px; height: 20px; }
-.nav-toggle path { transform-box: fill-box; transform-origin: center; transition: transform .4s cubic-bezier(.2,.7,.2,1); }
+/* Handy: schlichter Menüknopf (mit Sonne/Mond in black.css zu einer Kapsel verbunden). Offen: X in kleinem orangem Punkt (Tim 27.10.) */
+.nav-toggle { position: relative; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border-radius: 999px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.02); color: var(--text); cursor: pointer; transition: border-color .3s; }
+.nav-toggle:hover { border-color: rgba(255,90,31,.6); }
+.nav-toggle::after { content: ""; position: absolute; left: 50%; top: 50%; width: 32px; height: 32px; margin: -16px 0 0 -16px; border-radius: 50%; background: var(--hot); transform: scale(0); transition: transform .35s cubic-bezier(.2,.7,.2,1); }
+.nav-toggle svg { position: relative; z-index: 1; flex: none; width: 22px; height: 20px; }
+.nav-toggle path { transform-box: fill-box; transform-origin: center; transition: transform .4s cubic-bezier(.2,.7,.2,1), stroke .3s; }
 .nav-toggle .nt-3 { stroke: var(--hot); }
-.nav-toggle__t { position: absolute; left: 16px; top: 50%; font: 700 .9rem var(--body); white-space: nowrap; opacity: 0; transform: translate(8px, -50%); transition: opacity .2s, transform .3s; pointer-events: none; }
-.nav-toggle[aria-expanded="true"] { width: 126px; border-color: rgba(255,90,31,.6); background: rgba(255,90,31,.1); box-shadow: 0 0 22px rgba(255,90,31,.18); }
-.nav-toggle[aria-expanded="true"] .nav-toggle__t { opacity: 1; transform: translate(0, -50%); transition: opacity .25s .15s, transform .35s .15s; }
+.nav-toggle[aria-expanded="true"]::after { transform: scale(1); }
+.nav-toggle[aria-expanded="true"] path { stroke: #0b0b0c; }
 .nav-toggle[aria-expanded="true"] .nt-1 { transform: translateY(3px) rotate(45deg); }
 .nav-toggle[aria-expanded="true"] .nt-3 { transform: translate(-2px, -3px) rotate(-45deg) scaleX(1.4); }
 .mnav { display: none; }
@@ -1174,7 +1173,7 @@ html:not(.anf-js) .anf__panel--rr { padding-bottom: 0; }
 @keyframes tk-go-nudge { 0%, 55%, 100% { transform: none; } 70% { transform: translateX(4px); } 85% { transform: translateX(-1px); } }
 @keyframes tk-mnav { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) {
-  .nav-toggle, .nav-toggle path, .nav-toggle__t, .nav__drop, .header__inner, .header .tk-logo img { transition: none !important; }
+  .nav-toggle, .nav-toggle::after, .nav-toggle path, .nav__drop, .header__inner, .header .tk-logo img { transition: none !important; }
   .mnav.is-open, .mnav__go::before, .mnav__go svg, .header.is-pill .header__inner { animation: none; }
 }
 

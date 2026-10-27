@@ -424,6 +424,12 @@ html.tk-black main a:not(.btn):not([class]):hover { color: var(--hot); }
   .tk-ed[aria-pressed="false"] .tk-ed__b, .tk-ed[aria-pressed="true"] .tk-ed__w { display: none; }
   .tk-ed .tk-ed__o { background: none !important; color: #ff7a45 !important; height: auto; padding: 0; }
   .tk-ed svg { width: 19px; height: 19px; }
+  /* Sonne/Mond und Menü sitzen zusammen in einer Kapsel, getrennt durch einen feinen Strich (Tim 27.10.) */
+  .header__end .tk-ed:has(~ .nav-toggle) { width: 46px; margin-right: -10px; padding-left: 3px; border-right: 0; border-radius: 999px 0 0 999px; }
+  .header__end .tk-ed ~ .nav-toggle { width: 48px; border-left: 0; border-radius: 0 999px 999px 0; }
+  .header__end .tk-ed ~ .nav-toggle::before { content: ""; position: absolute; left: 0; top: 11px; bottom: 11px; width: 1px; background: rgba(255,255,255,.14); }
+  .header__end .tk-ed ~ .nav-toggle::after { margin-left: -17px; }
+  .header__end .tk-ed:has(~ .nav-toggle):hover, .header__end .tk-ed ~ .nav-toggle:hover { border-color: rgba(255,255,255,.14); }
 }
 @media (max-width: 359px) { .ew-head .tk-ed { display: none; } }
 html.tk-ed-anim body, html.tk-ed-anim body * { transition: background-color .4s ease, border-color .4s ease, color .4s ease !important; }
