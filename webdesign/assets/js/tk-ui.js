@@ -464,6 +464,66 @@
   document.body.appendChild(btn);
   document.body.appendChild(box);
 
+  // Kleiner Bot: schaut ab und zu hinter dem Knopf hervor und klopft drauf (selten, nie bei "Bewegung reduzieren")
+  if (!reduce) {
+    btn.insertAdjacentHTML("afterbegin",
+      '<span class="tk-bot" aria-hidden="true"><span class="tk-bot__peek"><svg class="tk-bot__fig" viewBox="0 0 48 48">' +
+      '<defs><linearGradient id="tkbotG" x1="0" y1="0" x2=".3" y2="1"><stop offset="0" stop-color="#55433a"/><stop offset=".55" stop-color="#241c17"/><stop offset="1" stop-color="#110d0b"/></linearGradient>' +
+      '<filter id="tkbotF" x="-50%" y="-80%" width="200%" height="260%"><feGaussianBlur stdDeviation="1.2"/></filter></defs>' +
+      '<path d="M30 14 L34 6" stroke="#5b4c44" stroke-width="1.6" stroke-linecap="round"/><circle cx="34.5" cy="5" r="2" fill="#ff5a1f"/>' +
+      '<rect x="4" y="22" width="5" height="10" rx="2.5" fill="#201a16" stroke="rgba(255,255,255,.16)" stroke-width=".8"/>' +
+      '<rect x="39" y="22" width="5" height="10" rx="2.5" fill="#201a16" stroke="rgba(255,255,255,.16)" stroke-width=".8"/>' +
+      '<rect x="8" y="13" width="32" height="30" rx="10" fill="url(#tkbotG)" stroke="rgba(255,255,255,.28)" stroke-width="1"/>' +
+      '<path d="M13 17.5 h10" stroke="rgba(255,255,255,.28)" stroke-width="1.3" stroke-linecap="round"/>' +
+      '<rect x="11.5" y="21" width="25" height="13" rx="6.5" fill="#050505" stroke="rgba(255,90,31,.3)" stroke-width=".8"/>' +
+      '<g class="tk-bot__eyes"><g class="tk-bot__norm">' +
+      '<rect x="15" y="26" width="6" height="3" rx="1.5" fill="#ff5a1f" filter="url(#tkbotF)" opacity=".7"/><rect x="27" y="26" width="6" height="3" rx="1.5" fill="#ff5a1f" filter="url(#tkbotF)" opacity=".7"/>' +
+      '<rect class="tk-bot__blink" x="15" y="26" width="6" height="3" rx="1.5" fill="#ff7a45"/><rect class="tk-bot__blink" x="27" y="26" width="6" height="3" rx="1.5" fill="#ff7a45"/></g>' +
+      '<g class="tk-bot__happy" fill="none" stroke="#ff7a45" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 29 L18 26 L20.5 29"/><path d="M27.5 29 L30 26 L32.5 29"/></g></g>' +
+      '</svg></span><span class="tk-bot__hand tk-bot__hand--l"></span><span class="tk-bot__hand tk-bot__hand--r"></span></span>');
+    var css = document.createElement("style");
+    css.textContent =
+      ".tk-bot{position:absolute;right:18px;bottom:calc(100% - 5px);width:60px;height:62px;pointer-events:none;visibility:hidden}" +
+      ".tk-bot__peek{position:absolute;left:0;right:0;top:0;bottom:4px;overflow:hidden}" +
+      ".tk-bot__fig{position:absolute;left:6px;top:58px;width:48px;height:48px;overflow:visible;transform-origin:50% 100%}" +
+      ".tk-bot__hand{position:absolute;bottom:0;width:11px;height:8px;border-radius:5px 5px 3px 3px;background:#241d19;border:1px solid rgba(255,255,255,.22);opacity:0}" +
+      ".tk-bot__hand--l{left:3px}.tk-bot__hand--r{right:3px}" +
+      ".tk-bot__eyes{transform-box:view-box}.tk-bot__blink{transform-box:fill-box;transform-origin:center}.tk-bot__happy{opacity:0}" +
+      ".tk-chat-btn.is-bot .tk-bot{visibility:visible}" +
+      ".tk-chat-btn.is-bot{animation:tk-bot-btn 5s}" +
+      ".is-bot .tk-bot__fig{animation:tk-bot-rise 5s cubic-bezier(.3,.7,.3,1) both}" +
+      ".is-bot .tk-bot__eyes{animation:tk-bot-look 5s ease-in-out both}" +
+      ".is-bot .tk-bot__blink{animation:tk-bot-blink 5s both}" +
+      ".is-bot .tk-bot__norm{animation:tk-bot-norm 5s both}.is-bot .tk-bot__happy{animation:tk-bot-happy 5s both}" +
+      ".is-bot .tk-bot__hand--l{animation:tk-bot-hand 5s both}.is-bot .tk-bot__hand--r{animation:tk-bot-tap 5s both}" +
+      "@keyframes tk-bot-rise{0%{transform:translateY(0)}14%{transform:translateY(-42px) rotate(-10deg)}20%,86%{transform:translateY(-46px) rotate(-10deg)}100%{transform:translateY(0)}}" +
+      "@keyframes tk-bot-look{0%,22%{transform:none}30%,42%{transform:translateX(-4px)}50%,60%{transform:translateX(2px)}66%,100%{transform:translate(-2px,1.5px)}}" +
+      "@keyframes tk-bot-blink{0%,44%,48%,100%{transform:none}46%{transform:scaleY(.1)}}" +
+      "@keyframes tk-bot-norm{0%,70%,90%,100%{opacity:1}72%,88%{opacity:0}}" +
+      "@keyframes tk-bot-happy{0%,70%,90%,100%{opacity:0}72%,88%{opacity:1}}" +
+      "@keyframes tk-bot-hand{0%,10%{opacity:0;transform:translateY(4px)}16%,86%{opacity:1;transform:none}94%,100%{opacity:0;transform:translateY(4px)}}" +
+      "@keyframes tk-bot-tap{0%,10%{opacity:0;transform:translateY(4px)}16%,66%{opacity:1;transform:none}70%,77%{transform:translateY(-9px) rotate(-12deg)}74%,81%{transform:none}86%{opacity:1;transform:none}94%,100%{opacity:0;transform:translateY(4px)}}" +
+      "@keyframes tk-bot-btn{0%,72%,77%,79%,83%,100%{translate:0 0}74%,81%{translate:0 1px;border-color:rgba(255,90,31,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 16px 40px rgba(0,0,0,.55),0 0 0 3px rgba(255,90,31,.3),0 0 34px rgba(255,90,31,.4)}}";
+    document.head.appendChild(css);
+    var botMal = 0;
+    try { botMal = +sessionStorage.getItem("tk-bot") || 0; } catch (e) {}
+    var botVersteckt = function () {
+      var c = document.documentElement.classList;
+      return document.hidden || box.classList.contains("is-open") || c.contains("tk-at-end") || c.contains("tk-in-anf") || c.contains("tk-menu-open");
+    };
+    var botLos = function () {
+      if (botMal >= 3) return;                                   // höchstens 3-mal pro Besuch (über alle Seiten)
+      if (botVersteckt()) { setTimeout(botLos, 10000); return; }
+      botMal++;
+      try { sessionStorage.setItem("tk-bot", botMal); } catch (e) {}
+      btn.classList.add("is-bot");
+      setTimeout(function () { btn.classList.remove("is-bot"); }, 5100);
+      setTimeout(botLos, 40000);
+    };
+    btn.addEventListener("click", function () { botMal = 3; try { sessionStorage.setItem("tk-bot", 3); } catch (e) {} }); // Chat gefunden: Bot hat seine Arbeit getan
+    setTimeout(botLos, 8000);
+  }
+
   var log = box.querySelector(".tk-chat__log");
   var chips = box.querySelector(".tk-chat__chips");
   var input = box.querySelector("input");

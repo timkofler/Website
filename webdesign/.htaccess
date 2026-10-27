@@ -26,6 +26,9 @@ Options -Indexes
   RewriteRule ^php/?$ /sicherheit/ [R=302,L]
   # Kurzlink für Werbung (Story, Google) zur Beispiel-Betriebs-App; ?utm_source=… bleibt erhalten
   RewriteRule ^app/?$ /beispiele/betriebs-app/ [R=302,L]
+  # Kurzlinks für Briefe, Flyer und Werbung zu den beiden Apps
+  RewriteRule ^betriebs-app/?$ /beispiele/betriebs-app/ [R=302,L]
+  RewriteRule ^vereins-app/?$ /beispiele/verein-app/ [R=302,L]
   # Kurzlink für Werbung (Story-Sticker, Google) zum kostenlosen Webseiten-Entwurf; ?utm_source=… bleibt erhalten
   RewriteRule ^gratis/?$ /entwurf/ [R=302,L]
   # Die frühere „Vorschau in 60 Sekunden“ gibt es nicht mehr. /vorschau (QR-Code auf den gedruckten Briefen)
