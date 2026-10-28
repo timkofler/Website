@@ -462,7 +462,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 .hero h1 .l1{background:linear-gradient(100deg,#061632 20%,#0b3fa8 60%,#061632 90%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:rise 1s cubic-bezier(.2,.8,.2,1) both,sheen 9s 1.6s ease-in-out infinite}
 .hero h1 .l2{animation-delay:.18s;filter:drop-shadow(0 10px 28px rgba(10,108,240,.35))}
 @keyframes rise{from{opacity:0;transform:translateY(.45em);filter:blur(10px)}to{opacity:1;transform:none}}
-.hero h1 .l2 .g,.xp b{background-image:linear-gradient(100deg,#00b8ff 0%,#0a6cf0 30%,#3fc4ff 45%,#0a6cf0 60%,#0b3fa8 100%);background-size:250% 100%;animation:sheen 6s 1.2s ease-in-out infinite}
+.hero h1 .l2 .g,.xp b{background-image:linear-gradient(100deg,#0a5fd8 0%,#0b47b8 30%,#1f86f2 45%,#0b47b8 60%,#0a2f86 100%);background-size:250% 100%;animation:sheen 6s 1.2s ease-in-out infinite}
 @keyframes sheen{0%,100%{background-position:100% 0}50%{background-position:0 0}}
 .xp b{text-shadow:none;filter:drop-shadow(0 0 18px rgba(0,184,255,.55))}
 .xp__fly{position:absolute;right:-.5em;bottom:.02em;width:.42em;height:.42em;color:#0a6cf0;opacity:0;transform:translate(-40%,30%) rotate(70deg) scale(.6);animation:flyin .9s 1.7s cubic-bezier(.2,.8,.2,1) forwards,bob 3.2s 2.6s ease-in-out infinite}
@@ -866,13 +866,42 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 /* Abschluss-Banner: Flieger startet quer durchs Bild */
 .foot__cta{position:relative;overflow:hidden;isolation:isolate}
 .foot__cta>div{position:relative;z-index:1}
-.foot__fly{position:absolute;left:-60px;bottom:-40px;width:44px;height:44px;color:#fff;opacity:0;transform:rotate(76deg);filter:drop-shadow(0 6px 14px rgba(0,0,0,.35));z-index:0;pointer-events:none}
-.foot__trail{position:absolute;left:0;bottom:0;width:140%;height:2px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55));transform-origin:0 50%;transform:rotate(-14deg) scaleX(0);opacity:0;z-index:0;pointer-events:none}
-.foot__cta.in .foot__fly{animation:takeoff 3.2s cubic-bezier(.45,.05,.4,1) .4s forwards}
-.foot__cta.in .foot__trail{animation:trail 3.2s cubic-bezier(.45,.05,.4,1) .4s forwards}
-@keyframes takeoff{0%{opacity:0;left:-60px;bottom:-40px}10%{opacity:1}85%{opacity:1}100%{opacity:0;left:calc(100% + 60px);bottom:calc(30% + 120px)}}
-@keyframes trail{0%{opacity:0;transform:rotate(-14deg) scaleX(0)}15%{opacity:1}70%{opacity:.8}100%{opacity:0;transform:rotate(-14deg) scaleX(1)}}
-@media (prefers-reduced-motion:reduce){.vals--deck .dk,.vals--deck .deck__hd em::before{animation:none}.job__list .job__item.rv{transform:none}.foot__fly,.foot__trail{display:none}.job__item .st i{animation:none}}
+@media (prefers-reduced-motion:reduce){.vals--deck .dk,.vals--deck .deck__hd em::before{animation:none}.job__list .job__item.rv{transform:none}.job__item .st i{animation:none}}
+
+/* Formular neu (Cockpit-Stil, Felder mit Beschriftung im Kasten) */
+.cbox--f{padding:0;overflow:hidden}
+.fhd{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px clamp(22px,3vw,32px);background:linear-gradient(180deg,#17386a,#0f2a52);color:#cfe0ff;font:400 11.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.fhd b{font-weight:400;color:#4ade80;display:inline-flex;align-items:center;gap:8px}
+.fhd b::before{content:"";width:8px;height:8px;border-radius:50%;background:#4ade80;box-shadow:0 0 10px #4ade80;animation:livep 2s infinite}
+.fbd{padding:clamp(22px,3vw,34px)}
+.cbox--f .tabs{display:grid;grid-template-columns:1fr 1fr;width:100%;border-radius:14px;padding:5px;background:rgba(10,26,51,.05);border:1px solid rgba(10,26,51,.08);box-shadow:inset 0 1px 3px rgba(10,26,51,.08);backdrop-filter:none;-webkit-backdrop-filter:none}
+.cbox--f .tabs button{display:flex;align-items:center;justify-content:center;gap:9px;border-radius:10px;padding:13px 10px;font-size:15px;color:var(--ink2)}
+.cbox--f .tabs button svg{width:18px;height:18px;flex:none;opacity:.7}
+.cbox--f .tabs button[aria-selected="true"]{background:#fff;color:var(--blue);box-shadow:0 6px 16px -8px rgba(10,26,51,.35),0 0 0 1px rgba(10,108,240,.18)}
+.cbox--f .tabs button[aria-selected="true"] svg{opacity:1}
+.fq{display:block;font:400 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin-bottom:10px}
+.cbox--f .seg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.cbox--f .seg--aog{grid-template-columns:repeat(3,1fr)}
+.cbox--f .seg button{position:relative;padding:14px 8px;border-radius:12px;font-size:15px;background:rgba(255,255,255,.7);border:1px solid rgba(10,26,51,.12);color:var(--ink2);box-shadow:none}
+.cbox--f .seg button[aria-pressed="true"]{background:rgba(10,108,240,.08);border-color:var(--blue);color:var(--blue);box-shadow:0 0 0 3px rgba(10,108,240,.1)}
+.cbox--f .seg button[aria-pressed="true"]::after{content:"";position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:var(--blue) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/11px no-repeat;box-shadow:0 0 0 2px #fff}
+.cbox--f .seg--aog button[aria-pressed="true"][data-v="AOG"]{background:rgba(229,72,77,.1);border-color:#e5484d;color:#c62a30;box-shadow:0 0 0 3px rgba(229,72,77,.12)}
+.cbox--f .seg--aog button[aria-pressed="true"][data-v="AOG"]::after{background-color:#e5484d}
+.cbox--f .form{gap:12px}
+.cbox--f .form label{display:block;position:relative;padding:11px 16px 9px;border-radius:14px;background:rgba(255,255,255,.75);border:1px solid rgba(10,26,51,.12);box-shadow:inset 0 1px 2px rgba(10,26,51,.05);font:400 10.5px/1.2 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mut);cursor:text;transition:border-color .2s,box-shadow .2s,background .2s}
+.cbox--f .form label::before{content:"";position:absolute;left:-1px;top:12px;bottom:12px;width:3px;border-radius:0 3px 3px 0;background:var(--grad);transform:scaleY(0);transition:transform .25s}
+.cbox--f .form label:hover{border-color:rgba(10,108,240,.35)}
+.cbox--f .form label:focus-within{background:#fff;border-color:var(--blue);box-shadow:0 0 0 4px rgba(10,108,240,.12);color:var(--blue)}
+.cbox--f .form label:focus-within::before{transform:none}
+.cbox--f .form label input,.cbox--f .form label select,.cbox--f .form label textarea{display:block;margin-top:5px;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;font:400 16px/1.45 var(--sans);letter-spacing:0;text-transform:none;color:var(--ink);min-height:24px}
+.cbox--f .form label input:focus,.cbox--f .form label select:focus,.cbox--f .form label textarea:focus{outline:0;border:0;box-shadow:none;background:transparent}
+.cbox--f .form label input::placeholder,.cbox--f .form label textarea::placeholder{color:#9aa8bd}
+.cbox--f .form label textarea{min-height:96px;resize:vertical}
+.cbox--f .form label select{padding-right:26px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230a6cf0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") right center/16px no-repeat}
+.cbox--f .form .btn{justify-self:stretch;min-height:58px;margin-top:6px}
+.cbox--f .note{text-align:center}
+.cbox--f .note::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#4ade80;margin-right:8px;vertical-align:2px}
+@media (max-width:600px){.cbox--f .tabs button{white-space:nowrap;font-size:14.5px;padding:13px 6px}.cbox--f .tabs button svg{display:none}.cbox--f .seg{grid-template-columns:1fr 1fr}.cbox--f .seg--aog{grid-template-columns:repeat(3,1fr)}.fhd{font-size:10.5px;letter-spacing:.1em}}
 </style>
 </head>
 <body>
@@ -1176,13 +1205,15 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 <text class="m-lbl" x="34" y="440">Vienna International Airport</text></svg></a><div class="map__foot"><small>Map data © OpenStreetMap contributors</small><a class="map__go" href="https://www.google.com/maps/search/?api=1&amp;query=Tower+Stra%C3%9Fe+3%2C+1300+Schwechat" target="_blank" rel="noopener">Directions <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div></div>
       </div>
       <div class="cbox cbox--f rv">
+        <div class="fhd" aria-hidden="true"><span>XBASE · New request</span><b>Online</b></div>
+        <div class="fbd">
         <div class="tabs" role="tablist" aria-label="Request type">
-          <button type="button" role="tab" id="t-contact" aria-controls="p-contact" aria-selected="true">Contact us</button>
-          <button type="button" role="tab" id="t-material" aria-controls="p-material" aria-selected="false">Material request</button>
+          <button type="button" role="tab" id="t-contact" aria-controls="p-contact" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>Contact us</button>
+          <button type="button" role="tab" id="t-material" aria-controls="p-material" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg>Material request</button>
         </div>
         <form class="pane" id="p-contact" aria-labelledby="t-contact">
           <div class="form">
-            <div class="full"><span style="display:block;font-size:14px;font-weight:500;color:var(--ink2);margin-bottom:10px">What is it about?</span>
+            <div class="full"><span class="fq">What is it about?</span>
               <div class="seg" id="topic" role="group" aria-label="Topic"><button type="button" aria-pressed="true">Services</button><button type="button" aria-pressed="false">Workforce</button><button type="button" aria-pressed="false">Consulting</button><button type="button" aria-pressed="false">Careers</button></div></div>
             <label>Name<input name="name" autocomplete="name" placeholder="First and last name"></label>
             <label>Company<input name="company" autocomplete="organization" placeholder="optional"></label>
@@ -1195,7 +1226,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
         </form>
         <form class="pane" id="p-material" aria-labelledby="t-material" hidden>
           <div class="form">
-            <div class="full"><span style="display:block;font-size:14px;font-weight:500;color:var(--ink2);margin-bottom:10px">Priority</span>
+            <div class="full"><span class="fq">Priority</span>
               <div class="seg seg--aog" role="group" aria-label="Priority"><button type="button" aria-pressed="true" data-v="Routine">Routine</button><button type="button" aria-pressed="false" data-v="Urgent">Urgent</button><button type="button" aria-pressed="false" data-v="AOG">AOG</button></div></div>
             <div class="aog-alert full" role="status"><i aria-hidden="true"></i>AOG: Aircraft on Ground. Your request goes straight to the top of our list.</div>
             <label>Part number<input name="pn" placeholder="e.g. 3214552-1" autocapitalize="characters"></label>
@@ -1212,6 +1243,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
             <p class="note full">AOG requests are handled with top priority.</p>
           </div>
         </form>
+        </div>
       </div>
     </div>
   </div>
@@ -1221,7 +1253,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 <footer class="foot">
 
   <div class="wrap">
-    <div class="foot__cta rv"><i class="foot__trail" aria-hidden="true"></i><svg class="foot__fly" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>
+    <div class="foot__cta rv">
       <div><h2>Ready for take-off?</h2><p>Tell us what you need. We usually reply within one working day.</p></div>
       <div class="hero__cta"><a class="btn btn--w" href="#contact" data-topic="Services">Get in touch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn--l" href="#contact" data-tab="material">Material request</a></div>
     </div>
