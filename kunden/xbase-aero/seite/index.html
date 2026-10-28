@@ -336,6 +336,45 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
 @media (max-width:960px){.about,.refs{grid-template-columns:1fr}.about__pics img:last-child{margin-bottom:0}.about__pics{grid-template-columns:1fr 1fr}.about__pics img:first-child,.about__pics img:last-child{aspect-ratio:4/5}.band img{object-position:28% 50%}}
 @media (max-width:600px){.cards--7{grid-template-columns:1fr}.cards--7 .card{display:grid;grid-template-columns:48px 1fr;column-gap:16px;align-items:center;padding:22px 20px}.cards--7 .card__n{display:none}.cards--7 .card__i{width:48px;height:48px;border-radius:14px;margin:0}.cards--7 .card__i svg{width:24px;height:24px}.cards--7 .card h3{font-size:19px}.cards--7 .card p{grid-column:1/-1;margin-top:12px;font-size:15px}.card--cta .more{grid-column:1/-1;padding-top:16px}.hero h1{font-size:clamp(36px,10.4vw,46px)}.band p{font-size:30px}.vals{grid-template-columns:1fr}.tabs{display:flex}.tabs button{flex:1;padding:12px 10px}}
 @media (prefers-reduced-motion:reduce){.sky img{animation:none!important;transform:translateX(8vw)}.sky .c2{transform:translateX(55vw)}.sky .c5{transform:translateX(35vw)}.xp path{stroke-dashoffset:0}}
+
+/* Feinschliff Handy (28.10.) */
+.foot{padding-bottom:84px}
+.sky .c1{animation-duration:62s}.sky .c2{animation-duration:48s}.sky .c3{animation-duration:80s}.sky .c4{animation-duration:40s}.sky .c5{animation-duration:58s}
+.draft{transition:transform .35s cubic-bezier(.2,.7,.2,1),opacity .35s}
+.draft.hide{transform:translateY(140%);opacity:0;pointer-events:none}
+.stats b{background:linear-gradient(120deg,#fff 30%,#6fd0ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.foot__cta{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;padding:34px clamp(24px,4vw,48px);margin-bottom:56px;border-radius:28px;background:radial-gradient(60% 120% at 100% 0%,rgba(0,184,255,.35),transparent 60%),linear-gradient(140deg,#0a2a66,#0b3fa8);border:1px solid rgba(111,208,255,.18);position:relative;overflow:hidden}
+.foot__cta h2{font-size:clamp(30px,3.4vw,44px);color:#fff}
+.foot__cta p{color:#bcd3f2;margin-top:8px;font-size:16px}
+.foot__cta .hero__cta{margin-top:0}
+.foot__cta .btn--l{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25);color:#fff}
+.foot__cta .btn--l:hover{background:rgba(255,255,255,.18)}
+.foot__cta .btn--w{background:#fff;color:var(--ink)}
+@media (max-width:960px){
+  .about__pics{grid-template-columns:1fr;gap:14px}
+  .about__pics img:first-child,.about__pics img:last-child{aspect-ratio:4/3;object-position:50% 50%;margin:0}
+}
+@media (max-width:600px){
+  .hero h1{font-size:calc((100vw - 32px) * .106);line-height:1.06}
+  .hero h1 .l2{white-space:nowrap;margin-top:.04em}
+  .plan{margin-bottom:-70px}
+  #services{padding-top:44px}
+  .steps{row-gap:30px;padding-left:0}
+  .steps::before,.steps::after{display:block;left:27px;right:auto;top:28px;bottom:28px;width:2px;height:auto}
+  .steps::before{background:linear-gradient(180deg,rgba(111,208,255,.6),rgba(111,208,255,.08))}
+  .steps::after{bottom:auto;height:calc(var(--p,0) * (100% - 56px));background:linear-gradient(180deg,#00b8ff,#6fd0ff)}
+  .steps__fly{display:block;left:28px;top:calc(28px + var(--p,0) * (100% - 56px));transform:translate(-50%,-50%) rotate(180deg);width:26px;height:26px;z-index:1}
+  .stats{margin-top:64px}
+  .stats div{padding:24px 20px}
+  .job__main{padding:30px 24px}
+  .job__item{padding:20px}
+  .cbox{padding:28px 22px}
+  .foot{padding-top:44px}
+  .foot__cta{padding:28px 22px;margin-bottom:44px}
+  .foot__cta .hero__cta,.foot__cta .btn{width:100%}
+  .foot__top{gap:30px}
+  .foot__bot{flex-direction:column;gap:8px;padding-bottom:64px;line-height:1.5}
+}
 </style>
 </head>
 <body>
@@ -521,8 +560,8 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
         </div>
       </div>
       <div class="about__pics rv">
-        <img src="assets/img/cockpit-800.webp" srcset="assets/img/cockpit-800.webp 800w, assets/img/cockpit.webp 1600w" sizes="(max-width:960px) 55vw, 28vw" width="800" height="600" alt="Cockpit overhead panel" loading="lazy">
-        <img src="assets/img/triebwerk-800.webp" srcset="assets/img/triebwerk-800.webp 800w, assets/img/triebwerk.webp 1600w" sizes="(max-width:960px) 45vw, 22vw" width="800" height="600" alt="Aircraft engine on the apron" loading="lazy">
+        <img src="assets/img/cockpit-800.webp" srcset="assets/img/cockpit-800.webp 800w, assets/img/cockpit.webp 1600w" sizes="(max-width:960px) 100vw, 28vw" width="800" height="600" alt="Cockpit overhead panel" loading="lazy">
+        <img src="assets/img/triebwerk-800.webp" srcset="assets/img/triebwerk-800.webp 800w, assets/img/triebwerk.webp 1600w" sizes="(max-width:960px) 100vw, 22vw" width="800" height="600" alt="Aircraft engine on the apron" loading="lazy">
       </div>
     </div>
 
@@ -642,6 +681,10 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
 
 <footer class="foot">
   <div class="wrap">
+    <div class="foot__cta">
+      <div><h2>Ready for take-off?</h2><p>Tell us what you need. We usually reply within one working day.</p></div>
+      <div class="hero__cta"><a class="btn btn--w" href="#contact" data-topic="Services">Get in touch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn--l" href="#contact" data-tab="material">Material request</a></div>
+    </div>
     <div class="foot__top">
       <div><img src="assets/img/xbase-logo-weiss.webp" width="600" height="164" alt="XBASE Aero"><p>Best Aviation Services. Delivered by Xperts. Based at Vienna International Airport.</p></div>
       <div class="foot__nav">
@@ -655,6 +698,6 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
 
 <a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener"><img src="assets/img/tk-logo-2.svg" width="702" height="358" alt=""><span>Draft by Tim Kofler</span></a>
 
-<script src="assets/app.js?v=3" defer></script>
+<script src="assets/app.js?v=4" defer></script>
 <script type="module" src="assets/flug3d.js?v=5"></script>
 </body></html>
