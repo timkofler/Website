@@ -3,6 +3,8 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="description" content="XBASE Aero supports airlines, CAMOs, maintenance organisations and operators with engineering, compliance, materials and qualified aviation professionals. Based at Vienna International Airport.">
 <meta name="theme-color" content="#f3f7fc">
+<link rel="modulepreload" href="assets/vendor/three.module.min.js">
+<link rel="modulepreload" href="assets/vendor/three.core.min.js">
 <link rel="preload" href="assets/fonts/outfit.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
 <style>
@@ -659,6 +661,14 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 @media(max-width:960px){.job__row{flex-direction:column;align-items:stretch;gap:30px}}
 .btn--l:hover,.btn--l:focus{box-shadow:inset 0 0 0 1px rgba(10,26,51,.14);background:#fff;border-color:transparent}
 .foot__cta .btn--l:hover,.foot__cta .btn--l:focus{box-shadow:inset 0 0 0 1px rgba(255,255,255,.28);background:rgba(255,255,255,.16)}
+.xp b{padding:.12em .06em .02em .1em;margin:-.12em 0 -.02em -.1em}
+@media(min-width:961px){.cards--7 .card h3{min-height:2.24em}}
+.card.is-seen::before{transform:scaleX(1)}
+.route::before,.route::after{display:none}
+.route__pt{width:56px;height:56px;border-radius:16px;color:var(--blue);background:linear-gradient(140deg,rgba(0,184,255,.18),rgba(11,63,168,.14));box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 8px 18px -10px rgba(10,108,240,.5)}
+.route li:hover .route__pt{background:linear-gradient(140deg,rgba(0,184,255,.18),rgba(11,63,168,.14));color:var(--blue)}
+.hero__sky{opacity:0;transition:opacity .7s;animation:none}
+.hero__sky.on{opacity:1}
 </style>
 </head>
 <body>
@@ -682,13 +692,13 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 <main id="top">
 <section class="hero">
   <div class="sky" aria-hidden="true">
-    <img class="c1" src="assets/img/wolke-1.webp?v=3" width="1400" height="560" alt="">
-    <img class="c4" src="assets/img/wolke-2.webp?v=3" width="1000" height="460" alt="">
-    <img class="c2" src="assets/img/wolke-2.webp?v=3" width="1000" height="460" alt="">
-    <img class="c3" src="assets/img/wolke-3.webp?v=3" width="1600" height="420" alt="">
-    <img class="c5" src="assets/img/wolke-1.webp?v=3" width="1400" height="560" alt="">
-    <img class="c6" src="assets/img/wolke-3.webp?v=3" width="1600" height="420" alt="" loading="lazy">
-    <img class="c7" src="assets/img/wolke-2.webp?v=3" width="1000" height="460" alt="" loading="lazy">
+    <img class="c1" data-src="assets/img/wolke-1.webp?v=3" width="1400" height="560" alt="">
+    <img class="c4" data-src="assets/img/wolke-2.webp?v=3" width="1000" height="460" alt="">
+    <img class="c2" data-src="assets/img/wolke-2.webp?v=3" width="1000" height="460" alt="">
+    <img class="c3" data-src="assets/img/wolke-3.webp?v=3" width="1600" height="420" alt="">
+    <img class="c5" data-src="assets/img/wolke-1.webp?v=3" width="1400" height="560" alt="">
+    <img class="c6" data-src="assets/img/wolke-3.webp?v=3" width="1600" height="420" alt="" loading="lazy">
+    <img class="c7" data-src="assets/img/wolke-2.webp?v=3" width="1000" height="460" alt="" loading="lazy">
   </div>
   <div class="wrap">
     <div>
@@ -1003,7 +1013,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 
 <a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener"><img src="assets/img/tk-logo-2.svg" width="702" height="358" alt=""><span>Draft by Tim Kofler</span></a>
 
-<script src="assets/app.js?v=6" defer></script>
-<script src="assets/himmel.js?v=5" defer></script>
+<script src="assets/app.js?v=7" defer></script>
+<script src="assets/himmel.js?v=6" defer></script>
 <script type="module" src="assets/flug3d.js?v=10"></script>
 </body></html>
