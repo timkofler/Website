@@ -244,6 +244,10 @@
   background: radial-gradient(ellipse 65% 85% at 50% 125%, rgba(255,90,31,.30), transparent 70%), radial-gradient(ellipse 40% 50% at 50% -20%, rgba(255,178,63,.10), transparent 70%), var(--bg-2);
   box-shadow: 0 0 70px rgba(255,90,31,.10); }
 .ew-end__box::before { content: ""; position: absolute; left: 20%; right: 20%; top: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,178,63,.8), transparent); }
+/* Zweizeilige Schluss-Überschrift: Unterlängen (g) stoßen sonst an Umlaute der nächsten Zeile (Ü) */
+html.tk-black .ew-end__box h2 { line-height: 1.32; }
+/* Link unter dem Knopf nie mitten im Satz umbrechen: lieber als Ganzes in die nächste Zeile */
+.ew-end .gr-end-alt a { display: inline-block; }
 .ew-end__chips { list-style: none; margin: 0 0 26px; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 10px; }
 .ew-end__chips li { display: inline-flex; align-items: center; gap: 7px; padding: 6px 13px 6px 9px; border-radius: 999px; border: 1px solid rgba(255,90,31,.35); background: rgba(255,90,31,.08); font: 500 .8rem var(--mono); color: var(--text); }
 .ew-end__chips svg { width: 15px; height: 15px; color: var(--hot); }

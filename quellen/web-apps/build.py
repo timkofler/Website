@@ -32,7 +32,7 @@ PRODUKTE = [
      ["Online-Terminbuchung mit Erinnerung", "Gutscheine mit QR-Code zum Einlösen", "Digitale Stempelkarte statt Papier",
       "Angebote mit Unterschrift am Handy", "Büro-Ansicht mit allen Terminen und Gutscheinen", "Abo-Rechner: was du dir pro Jahr sparst"],
      "Eigene App (Zusatzleistung)", "#anfrage"),
-    ("vereins-app", "vereins-app.webp?v=3", "Vereins-App: Mitglieder-App am Handy und Übersicht für den Vorstand",
+    ("vereins-app", "vereins-app-blau.webp", "Vereins-App: Mitglieder-App am Handy und Übersicht für den Vorstand",
      "/beispiele/verein-app/", "tim-kofler.at/beispiele/verein-app", "Für Sport-, Musik- und Kulturvereine", "Vereins-App",
      "Vereinsverwaltung ohne Jahresabo, egal wie viele Mitglieder. In den Vereinsfarben, die Daten liegen beim Verein.",
      ["Mitgliederliste mit Excel-Import", "Beiträge mit QR-Zahlschein", "Termine mit Zu- und Absagen",
