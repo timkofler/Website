@@ -1477,7 +1477,7 @@ $bzKamp = static function (string $k) use ($bzLabel): string {
     [$q, $c] = array_pad(explode(' / ', $k, 2), 2, '');
     return $bzLabel($q) . ' · ' . $c;
 };
-// Gratis-Entwurf-Anfragen im Zeitraum (für die Kontaktaufnahmen) und alle Anfragen nach Quelle.
+// Abgeschickte Anfragen im Zeitraum (für die Kontaktaufnahmen) und alle Anfragen nach Quelle.
 $bzAnf = [];
 $bzAnfQ = [];
 $bzVon = (new DateTimeImmutable('today'))->modify('-' . ($zeit - 1) . ' days')->getTimestamp();
@@ -1485,8 +1485,10 @@ foreach ($afAlle as $d) {
     if (!af_versteckt($d) && (strtotime((string) ($d['zeit'] ?? '')) ?: 0) >= $bzVon) {
         $q = af_quelle_name(af_quelle((string) ($d['quelle'] ?? '')));
         $bzAnfQ[$q] = ($bzAnfQ[$q] ?? 0) + 1;
-        if ($d['art'] === 'entwurf') {
-            $bzAnf[$q] = ($bzAnf[$q] ?? 0) + 1;
+        // Rückrufe zählt schon der Besucherzähler; Tests („Test“ als Name) nicht mitzählen.
+        if ($d['art'] !== 'rueckruf' && !preg_match('/^\s*test\b/i', (string) ($d['name'] ?? ''))) {
+            $k = $d['art'] === 'entwurf' ? 'entwurf' : ($d['art'] === 'check' ? 'check' : 'formular');
+            $bzAnf[$k] = ($bzAnf[$k] ?? 0) + 1;
         }
     }
 }
@@ -1583,14 +1585,15 @@ $bzSeiten = $bzList($bz['seiten'], $bzSeite, 'Noch keine Aufrufe im Zeitraum.');
 $bzAnfragen = $bzList($bzAnfQ, static fn(string $q): string => $q, 'Keine Anfragen im Zeitraum.');
 // Kontaktaufnahmen: Klicks auf WhatsApp/Telegram/Telefon/E-Mail, abgeschickte Anfragen und Rückruf-Wünsche, dazu die Entwürfe.
 $bzKontakt = $bz['kontakte'];
-if ($bzAnfSum > 0) {
-    $bzKontakt['entwurf'] = $bzAnfSum;
-    arsort($bzKontakt);
+// Abgeschickte Anfragen (Webseite, Gründer, Verein, Check, Gratis-Entwurf) kommen aus der Anfragen-Liste.
+foreach ($bzAnf as $k => $n) {
+    $bzKontakt[$k] = ($bzKontakt[$k] ?? 0) + $n;
 }
+arsort($bzKontakt);
 $bzKontaktSum = array_sum($bzKontakt);
 $bzKontaktName = static fn(string $k): string => [
     'whatsapp' => 'WhatsApp geöffnet', 'telegram' => 'Telegram geöffnet', 'telefon' => 'Nummer angetippt', 'email' => 'E-Mail geöffnet',
-    'formular' => 'Anfrage abgeschickt', 'rueckruf' => 'Rückruf-Wunsch', 'entwurf' => 'Gratis-Entwurf angefragt',
+    'formular' => 'Anfrage abgeschickt', 'rueckruf' => 'Rückruf-Wunsch', 'entwurf' => 'Gratis-Entwurf angefragt', 'check' => 'Webseiten-Check angefragt',
 ][$k] ?? ucfirst($k);
 $bzKontakte = $bzList($bzKontakt, $bzKontaktName, 'Noch keine Kontaktaufnahmen im Zeitraum. Gezählt werden Klicks auf WhatsApp, Telegram, Telefon und E-Mail sowie abgeschickte Formulare.');
 $bzQuote = $bz['besuche'] > 0 && $bzKontaktSum > 0 ? number_format($bzKontaktSum / $bz['besuche'] * 100, 1, ',', '') . ' % der Besuche' : 'im Zeitraum';
