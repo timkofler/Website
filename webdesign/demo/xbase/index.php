@@ -698,7 +698,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 @media (prefers-reduced-motion:reduce){.xl__h{display:none}}
 @media (min-width:961px){.xp__fly--logo{width:.5em;height:.27em;right:-.82em;bottom:.08em}}
 /* Handy: Text füllt den ersten Bildschirm, gleichmäßig verteilt, der Flieger kommt danach */
-@media (max-width:600px){.hero{padding-top:var(--navh)}.hero .wrap>div:first-child{min-height:calc(100svh - var(--navh));display:flex;flex-direction:column;align-items:flex-start;padding:clamp(76px,13svh,124px) 0 28px}.plan{--pe:max(0px,(100svh - 98vw - 150px) * .5 + 145px);margin-top:calc(-18vw + var(--pe) * .5);margin-bottom:calc(2svh + var(--pe) * .5)}.hero h1{margin-top:clamp(30px,9svh,96px)}.hero .lead{margin-top:clamp(24px,4svh,40px)}.hero__cta{margin-top:clamp(40px,11svh,110px);align-self:stretch}
+@media (max-width:600px){.hero{padding-top:var(--navh)}.hero .wrap>div:first-child{display:flex;flex-direction:column;align-items:flex-start;padding:clamp(34px,6svh,64px) 0 0}.plan{margin-top:-6vw;margin-bottom:0}.hero h1{margin-top:clamp(22px,4svh,40px)}.hero .lead{margin-top:clamp(18px,2.6svh,28px)}.hero__cta{margin-top:clamp(26px,4svh,40px);align-self:stretch}
 .xp b.xl{margin-left:-.16em}.xl .xl__w{width:.98em}.xp__fly--logo{right:-.62em;width:.44em;height:.24em}.hero h1{font-size:calc((100vw - 32px) * .101)}}
 /* Bordkarte: VIE und ACH nebeneinander (Karriere-Route hatte .route mitgestylt), am Handy ohne Halbkreise */
 .pass .route{display:flex;align-items:center;gap:18px;list-style:none;padding:0;position:static;-webkit-user-select:auto;user-select:auto}
@@ -1180,5 +1180,5 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 
 <script src="assets/app.js?v=10" defer></script>
 <script src="assets/himmel.js?v=7" defer></script>
-<script type="module" src="assets/flug3d.js?v=11"></script>
+<script type="module" src="assets/flug3d.js?v=12"></script>
 </body></html>
