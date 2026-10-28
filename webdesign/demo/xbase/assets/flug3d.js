@@ -268,7 +268,7 @@ function start() {
 
   const ease = t => t < 0 ? 0 : t > 1 ? 1 : t * t * (3 - 2 * t);
   // Bau startet erst, wenn das Flugzeug im Bild ist
-  let t0 = null;
+  let t0 = null, sCur = 0;
   new IntersectionObserver((es, io) => {
     if (es[0].isIntersecting) { t0 = performance.now(); io.disconnect(); }
   }, { threshold: 0.8 }).observe(plan);
@@ -300,7 +300,10 @@ function start() {
   function frame(now) {
     if (!visible) return;
     const t = window.__flugT ?? (t0 === null ? 0 : Math.max(0, now - t0) / 1000);
-    const s = Math.min(1, Math.max(0, (scrollY - sOff) / sLen));
+    // Abheben erst, wenn der Bau fertig ist (4,2 s), dann weich zur Scroll-Position
+    const sT = t < 4.2 ? 0 : Math.min(1, Math.max(0, (scrollY - sOff) / sLen));
+    sCur += (sT - sCur) * (window.__flugT == null ? 0.08 : 1);
+    const s = sCur < 0.0005 ? 0 : sCur;
 
     // Scans: Bauplan (0,3–2,1 s), dann Hülle (2,3–4,0 s)
     const a = ease((t - 0.3) / 1.8), b = ease((t - 2.3) / 1.7);
