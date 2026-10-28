@@ -643,6 +643,22 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 @media (prefers-reduced-motion:reduce){.route::before,.route li,.route__pt{transform:none;opacity:1;transition:none}.route::before{opacity:.45}.route::after{display:none}}
 .xp{isolation:isolate}.xp>svg{z-index:-1}
 @media(max-width:960px){.job__h{flex-wrap:nowrap;white-space:nowrap;font-size:min(7.7vw,40px);column-gap:.26em}.job__logo{height:1.12em}}
+.sky{animation:skyin .8s 1.4s both}
+@keyframes skyin{from{opacity:0}}
+.hero__sky{animation:skyin .6s both}
+.job__row{display:flex;align-items:flex-end;justify-content:space-between;gap:28px;margin-top:auto;padding-top:8px}
+.job__row>.hero__cta{margin-top:0;flex:none}
+.route{margin-top:44px;gap:26px;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+.route li{grid-template-columns:56px 1fr;column-gap:18px}
+.route::before{left:27px;top:28px;bottom:28px}
+.route::after{left:17px;top:17px}
+@keyframes routefly{0%{opacity:0;top:17px}12%{opacity:1}85%{opacity:1}100%{opacity:0;top:calc(100% - 37px)}}
+.route__pt{width:56px;height:56px;border-radius:16px}
+.route__pt svg{width:27px;height:27px}
+.route li:hover .route__pt{background:#fff;color:var(--blue)}
+@media(max-width:960px){.job__row{flex-direction:column;align-items:stretch;gap:30px}}
+.btn--l:hover,.btn--l:focus{box-shadow:inset 0 0 0 1px rgba(10,26,51,.14);background:#fff;border-color:transparent}
+.foot__cta .btn--l:hover,.foot__cta .btn--l:focus{box-shadow:inset 0 0 0 1px rgba(255,255,255,.28);background:rgba(255,255,255,.16)}
 </style>
 </head>
 <body>
@@ -896,8 +912,8 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
       <span class="k">Careers</span>
       <h2 class="h2 job__h">Take off with <img class="job__logo" src="assets/img/xbase-logo.webp" width="600" height="164" alt="XBASE Aero" loading="lazy"></h2>
       <p class="lead">You work in aviation and are looking for interesting assignments, fair conditions and a team that knows you? Get in touch, even if there is no matching vacancy.</p>
-      <ol class="route rv"><li style="--i:0"><span class="route__pt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg></span><div><b>Interesting assignments</b><small>Across airlines, CAMOs and MROs</small></div></li><li style="--i:1"><span class="route__pt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15.5l2 2 4-4"/></svg></span><div><b>Fair and reliable</b><small>Fair conditions and planning you can count on</small></div></li><li style="--i:2"><span class="route__pt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span><div><b>One personal contact</b><small>A real person instead of a hotline</small></div></li></ol>
-      <div class="hero__cta"><a class="btn btn--p" href="#contact" data-topic="Careers">Apply now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+      <div class="job__row"><ol class="route rv"><li style="--i:0"><span class="route__pt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg></span><div><b>Interesting assignments</b><small>Across airlines, CAMOs and MROs</small></div></li><li style="--i:1"><span class="route__pt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15.5l2 2 4-4"/></svg></span><div><b>Fair and reliable</b><small>Fair conditions and planning you can count on</small></div></li><li style="--i:2"><span class="route__pt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span><div><b>One personal contact</b><small>A real person instead of a hotline</small></div></li></ol>
+      <div class="hero__cta"><a class="btn btn--p" href="#contact" data-topic="Careers">Apply now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></div>
     </div>
     <div class="job__list">
       <a class="job__item rv" href="#contact" data-topic="Careers"><span><span class="tagx">Example</span><b>Aircraft Technician B1/B2 (m/f/d)</b><small>Vienna Airport · Full-time</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -989,5 +1005,5 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 
 <script src="assets/app.js?v=6" defer></script>
 <script src="assets/himmel.js?v=5" defer></script>
-<script type="module" src="assets/flug3d.js?v=9"></script>
+<script type="module" src="assets/flug3d.js?v=10"></script>
 </body></html>
