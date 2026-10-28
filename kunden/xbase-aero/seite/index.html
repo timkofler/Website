@@ -784,6 +784,37 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 .aog-alert i{width:10px;height:10px;border-radius:50%;background:#e5484d;flex:none;animation:aogp 1.4s ease-out infinite}
 .pane[data-prio="AOG"] .aog-alert{display:flex}
 @keyframes aogp{0%{box-shadow:0 0 0 0 rgba(229,72,77,.55)}100%{box-shadow:0 0 0 12px rgba(229,72,77,0)}}
+
+/* About: Werte als Flugroute mit Wegpunkten, der Flieger folgt dem Scrollen */
+.vals.vals--path{grid-template-columns:1fr;gap:14px;position:relative;padding-left:46px}
+.vals--path::before{content:"";position:absolute;left:16px;top:26px;bottom:26px;width:2px;background:repeating-linear-gradient(180deg,var(--blue) 0 6px,transparent 6px 12px);opacity:.4}
+.vals--path::after{content:"";position:absolute;left:5px;top:14px;width:24px;height:24px;background:var(--blue);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z'/%3E%3C/svg%3E") center/contain no-repeat;transform:rotate(180deg);filter:drop-shadow(0 4px 8px rgba(10,108,240,.5));z-index:2}
+.vals--path>div{position:relative}
+.vals--path>div::before{content:"";position:absolute;left:-36px;top:22px;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px var(--blue),0 0 0 8px rgba(10,108,240,.14)}
+.vals--path .wp{display:block;font:400 11px/1 var(--mono);font-style:normal;letter-spacing:.08em;color:var(--blue);margin-bottom:8px}
+@supports (animation-timeline:view()){
+  .vals--path::after{animation:wpfly linear both;animation-timeline:view();animation-range:entry 60% exit 40%}
+  @keyframes wpfly{from{top:14px}to{top:calc(100% - 38px)}}
+}
+/* Karriere: Jobs wie eine Abflugtafel */
+.job__list .job__item.rv{transform:perspective(900px) rotateX(-60deg) translateY(10px);transform-origin:50% 0}
+.job__list .job__item.rv.in{transform:none}
+.job__list .job__item.rv.in:hover{transform:translateX(4px)}
+.job__item .st{margin-left:auto;display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border-radius:999px;font:400 11px/1 var(--mono);font-style:normal;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;color:#0f9a62;background:rgba(24,195,126,.12)}
+.job__item .st i{width:7px;height:7px;border-radius:50%;background:#18c37e;animation:board 1.6s ease-in-out infinite}
+.job__item .st--open{color:var(--blue);background:rgba(10,108,240,.08)}
+@keyframes board{50%{opacity:.25}}
+@media (max-width:600px){.job__item{flex-wrap:wrap}.job__item>span:first-child{flex:1 1 70%}.job__item .st{order:3;margin-left:0}}
+/* Abschluss-Banner: Flieger startet quer durchs Bild */
+.foot__cta{position:relative;overflow:hidden;isolation:isolate}
+.foot__cta>div{position:relative;z-index:1}
+.foot__fly{position:absolute;left:-60px;bottom:-40px;width:44px;height:44px;color:#fff;opacity:0;transform:rotate(76deg);filter:drop-shadow(0 6px 14px rgba(0,0,0,.35));z-index:0;pointer-events:none}
+.foot__trail{position:absolute;left:0;bottom:0;width:140%;height:2px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55));transform-origin:0 50%;transform:rotate(-14deg) scaleX(0);opacity:0;z-index:0;pointer-events:none}
+.foot__cta.in .foot__fly{animation:takeoff 3.2s cubic-bezier(.45,.05,.4,1) .4s forwards}
+.foot__cta.in .foot__trail{animation:trail 3.2s cubic-bezier(.45,.05,.4,1) .4s forwards}
+@keyframes takeoff{0%{opacity:0;left:-60px;bottom:-40px}10%{opacity:1}85%{opacity:1}100%{opacity:0;left:calc(100% + 60px);bottom:calc(30% + 120px)}}
+@keyframes trail{0%{opacity:0;transform:rotate(-14deg) scaleX(0)}15%{opacity:1}70%{opacity:.8}100%{opacity:0;transform:rotate(-14deg) scaleX(1)}}
+@media (prefers-reduced-motion:reduce){.vals--path::after{animation:none}.job__list .job__item.rv{transform:none}.foot__fly,.foot__trail{display:none}.job__item .st i{animation:none}}
 </style>
 </head>
 <body>
@@ -981,11 +1012,11 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
         <span class="k rv">About us</span>
         <h2 class="h2 rv">From aviation. <span class="g">For aviation.</span></h2>
         <p class="lead rv">XBASE Aero was founded in 2026 at Vienna International Airport. We bring together experience from engineering, operations and maintenance, and we know what counts in day-to-day aviation: safety, speed and reliability.</p>
-        <div class="vals">
-          <div class="rv"><b>Xpertise</b><span>People who have worked in the industry and speak your language.</span></div>
-          <div class="rv"><b>Fast response</b><span>Short decision paths and a direct line to the people in charge.</span></div>
-          <div class="rv"><b>Compliance first</b><span>Every job done with the regulations and your approvals in mind.</span></div>
-          <div class="rv"><b>One partner</b><span>Seven service areas, one point of contact for your organisation.</span></div>
+        <div class="vals vals--path">
+          <div class="rv"><i class="wp">WPT 01 · XPRT</i><b>Xpertise</b><span>People who have worked in the industry and speak your language.</span></div>
+          <div class="rv"><i class="wp">WPT 02 · FAST</i><b>Fast response</b><span>Short decision paths and a direct line to the people in charge.</span></div>
+          <div class="rv"><i class="wp">WPT 03 · CMPL</i><b>Compliance first</b><span>Every job done with the regulations and your approvals in mind.</span></div>
+          <div class="rv"><i class="wp">WPT 04 · ONE</i><b>One partner</b><span>Seven service areas, one point of contact for your organisation.</span></div>
         </div>
       </div>
       <div class="about__pics rv">
@@ -1059,10 +1090,10 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
       <div class="hero__cta"><a class="btn btn--p" href="#contact" data-topic="Careers">Apply now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></div>
     </div>
     <div class="job__list">
-      <a class="job__item rv" href="#contact" data-topic="Careers"><span><span class="tagx">Example</span><b>Aircraft Technician B1/B2 (m/f/d)</b><small>Vienna Airport · Full-time</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <a class="job__item rv" href="#contact" data-topic="Careers"><span><span class="tagx">Example</span><b>CAMO Engineer (m/f/d)</b><small>Vienna · Full-time</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <a class="job__item rv" href="#contact" data-topic="Careers"><span><span class="tagx">Example</span><b>Technical Writer Aviation (m/f/d)</b><small>Office or remote · Part-time possible</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <a class="job__item rv" href="#contact" data-topic="Careers"><span><b>Open application</b><small>We will get back to you within a few days</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="job__item rv" href="#contact" data-topic="Careers"><span><span class="tagx">Example</span><b>Aircraft Technician B1/B2 (m/f/d)</b><small>Vienna Airport · Full-time</small></span><em class="st"><i></i>Now boarding</em><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="job__item rv" href="#contact" data-topic="Careers"><span><span class="tagx">Example</span><b>CAMO Engineer (m/f/d)</b><small>Vienna · Full-time</small></span><em class="st"><i></i>Now boarding</em><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="job__item rv" href="#contact" data-topic="Careers"><span><span class="tagx">Example</span><b>Technical Writer Aviation (m/f/d)</b><small>Office or remote · Part-time possible</small></span><em class="st"><i></i>Now boarding</em><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="job__item rv" href="#contact" data-topic="Careers"><span><b>Open application</b><small>We will get back to you within a few days</small></span><em class="st st--open">Open</em><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
   </div>
 </section>
@@ -1130,7 +1161,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 <footer class="foot">
 
   <div class="wrap">
-    <div class="foot__cta">
+    <div class="foot__cta rv"><i class="foot__trail" aria-hidden="true"></i><svg class="foot__fly" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>
       <div><h2>Ready for take-off?</h2><p>Tell us what you need. We usually reply within one working day.</p></div>
       <div class="hero__cta"><a class="btn btn--w" href="#contact" data-topic="Services">Get in touch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn--l" href="#contact" data-tab="material">Material request</a></div>
     </div>
