@@ -603,9 +603,9 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 .job__perks{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:12px}
 .job__perks li{position:relative;padding-left:30px;color:var(--ink2);font-size:16px}
 .job__perks li::before{content:"";position:absolute;left:0;top:.15em;width:18px;height:18px;border-radius:5px;background:var(--grad);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7'/%3E%3C/svg%3E") center/14px no-repeat,linear-gradient(#000,#000);-webkit-mask-composite:xor;mask-composite:exclude}
-.job__logo{position:absolute;right:56px;bottom:50px;width:250px;height:auto;pointer-events:none;opacity:.95}
-@media(max-width:960px){.job__logo{position:static;order:9;width:190px;margin:28px 0 0;align-self:flex-start}}
-.job__main>*:not(.job__logo){position:relative}
+.job__h{display:flex;flex-wrap:wrap;align-items:center;column-gap:.32em;row-gap:6px}
+.job__logo{height:1.5em;width:auto;margin:-.12em 0 -.18em}
+.job__main>*{position:relative}
 
 /* Knöpfe: eckiger, mit schrägen Kanten wie das kursive X im Logo */
 .btn{border-radius:6px;clip-path:polygon(14px 0,100% 0,calc(100% - 14px) 100%,0 100%);padding:0 34px}
@@ -865,9 +865,9 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 
 <section class="sec" id="careers">
   <div class="wrap job">
-    <div class="job__main rv"><img class="job__logo" src="assets/img/xbase-logo.webp" width="600" height="164" alt="" aria-hidden="true" loading="lazy">
+    <div class="job__main rv">
       <span class="k">Careers</span>
-      <h2 class="h2">Take off with <span class="g">XBASE Aero.</span></h2>
+      <h2 class="h2 job__h">Take off with <img class="job__logo" src="assets/img/xbase-logo.webp" width="600" height="164" alt="XBASE Aero" loading="lazy"></h2>
       <p class="lead">You work in aviation and are looking for interesting assignments, fair conditions and a team that knows you? Get in touch, even if there is no matching vacancy.</p>
       <ul class="job__perks"><li>Interesting assignments across airlines, CAMOs and MROs</li><li>Fair conditions and reliable planning</li><li>One personal contact instead of a hotline</li></ul>
       <div class="hero__cta"><a class="btn btn--p" href="#contact" data-topic="Careers">Apply now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
