@@ -635,6 +635,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 .pane.is-done>.form{display:none}
 .sent{display:none}
 .pane.is-done{display:grid;place-items:center}
+.pane.is-done[hidden]{display:none}
 .pane.is-done .sent{display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px 8px;animation:sentin .5s cubic-bezier(.2,.7,.2,1) both}
 .sent__ico{position:relative;width:104px;height:104px}
 .sent__ico>svg{width:100%;height:100%;fill:none;stroke-linecap:round;stroke-linejoin:round}
@@ -1277,7 +1278,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 
 <a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener" aria-label="Draft by Tim Kofler"><img src="assets/img/tk-logo-2.svg" width="702" height="358" alt=""><span>Draft by Tim Kofler</span></a>
 
-<script src="assets/app.js?v=12" defer></script>
+<script src="assets/app.js?v=13" defer></script>
 <script src="assets/himmel.js?v=7" defer></script>
 <script type="module" src="assets/flug3d.js?v=12"></script>
 </body></html>
