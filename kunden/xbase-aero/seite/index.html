@@ -700,7 +700,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 @media (prefers-reduced-motion:reduce){.xl__h{display:none}}
 @media (min-width:961px){.xp__fly--logo{width:.5em;height:.27em;right:-.82em;bottom:.08em}}
 /* Handy: Text füllt den ersten Bildschirm, gleichmäßig verteilt, der Flieger kommt danach */
-@media (max-width:600px){.hero{padding-top:var(--navh)}.hero .wrap>div:first-child{min-height:calc(100svh - var(--navh));display:flex;flex-direction:column;align-items:flex-start;padding:clamp(34px,6svh,60px) 0 28px}.plan{margin-top:-18vw;margin-bottom:18svh}.hero h1{margin-top:clamp(34px,12svh,120px)}.hero .lead{margin-top:clamp(24px,4svh,40px)}.hero__cta{margin-top:clamp(40px,11svh,110px);align-self:stretch}
+@media (max-width:600px){.hero{padding-top:var(--navh)}.hero .wrap>div:first-child{min-height:calc(100svh - var(--navh));display:flex;flex-direction:column;align-items:flex-start;padding:clamp(56px,10svh,100px) 0 28px}.plan{margin-top:-18vw;margin-bottom:2svh}.hero h1{margin-top:clamp(34px,12svh,120px)}.hero .lead{margin-top:clamp(24px,4svh,40px)}.hero__cta{margin-top:clamp(40px,11svh,110px);align-self:stretch}
 .xp b.xl{margin-left:-.16em}.xl .xl__w{width:.98em}.xp__fly--logo{right:-.62em;width:.44em;height:.24em}.hero h1{font-size:calc((100vw - 32px) * .101)}}
 /* Bordkarte: VIE und ACH nebeneinander (Karriere-Route hatte .route mitgestylt), am Handy ohne Halbkreise */
 .pass .route{display:flex;align-items:center;gap:18px;list-style:none;padding:0;position:static;-webkit-user-select:auto;user-select:auto}
@@ -708,7 +708,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 .pass .route b{display:block}
 /* Löcher an der Abrisslinie: Karte schneidet die Kreise ab, so sieht man nur die Ausstanzung */
 .pass{overflow:hidden}.pass__stub::before,.pass__stub::after{background:#e9f1fb;box-shadow:inset 0 2px 4px rgba(10,26,51,.1),inset 0 0 0 1px rgba(10,26,51,.06)}
-@media (max-width:760px){.pass .route{gap:14px}.pass .route b{font-size:clamp(30px,9vw,40px)}.pass .route i{max-width:11ch}}
+@media (max-width:760px){.pass .route{gap:12px;align-items:flex-start}.pass .route b{font-size:clamp(30px,9vw,40px)}.pass .route b:last-child{text-align:right}.pass .route i{max-width:none;white-space:nowrap;letter-spacing:.02em;font-size:10px}.pass .route__l{align-self:flex-start;margin-top:calc(clamp(30px,9vw,40px) * .5)}}
 @media (min-width:961px){.hero h1{margin-top:54px}}
 </style>
 </head>
