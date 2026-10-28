@@ -499,7 +499,8 @@ html.js .tk-apps:not(.is-visible) .tk-feat li { opacity: 0; transform: translate
 .tk-float__txt span { display: block; font-size: .78rem; color: var(--hot-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tk-float__txt i { font-style: normal; }
 .tk-float__s { display: none; }
-.tk-float__x { flex: none; width: 26px; height: 26px; margin-left: 2px; border-radius: 50%; border: 1px solid #3a3a3a; background: transparent; color: var(--muted); font-size: .9rem; line-height: 1; cursor: pointer; }
+.tk-float__x { flex: none; display: grid; place-items: center; width: 26px; height: 26px; padding: 0; margin-left: 2px; border-radius: 50%; border: 1px solid #3a3a3a; background: transparent; color: var(--muted); cursor: pointer; }
+.tk-float__x svg { display: block; width: 12px; height: 12px; }
 .tk-float__x:hover { color: var(--text); border-color: #777; }
 @media (max-width: 680px) { .tk-float { left: 10px; bottom: 14px; max-width: calc(100vw - 180px); padding-right: 6px; gap: 7px; } .tk-float__pics { width: 36px; height: 36px; } .tk-float__x { width: 24px; height: 24px; margin-left: 0; } .tk-float__txt span { display: none; } .tk-float__txt b { font-size: .84rem; } .tk-float__l { display: none; } .tk-float__s { display: inline; } }
 @media (max-width: 360px) { .tk-float__txt { display: none; } }
