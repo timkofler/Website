@@ -661,7 +661,7 @@ kp_page('Kundenportal', <<<HTML
 </section>
 
 <aside class="kp-card kp-tim" aria-label="Dein Ansprechpartner">
-  <img class="kp-tim__foto" src="/assets/img/team/tim-portrait.webp?v=2" alt="Tim Kofler" width="64" height="64" loading="lazy">
+  <img class="kp-tim__foto" src="/assets/img/team/tim-portrait.webp?v=3" alt="Tim Kofler" width="64" height="64" loading="lazy">
   <div class="kp-tim__txt"><b>Tim Kofler</b><small>Dein Ansprechpartner für die Webseite. Lieber reden als schreiben? Ruf mich einfach an.</small></div>
   <div class="kp-tim__links">
     <a class="btn btn--sm btn--line" href="tel:+4367761773118">Anrufen</a>
