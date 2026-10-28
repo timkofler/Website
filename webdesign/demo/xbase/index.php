@@ -680,6 +680,11 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 .foot__cta.is-m{transition:transform .15s ease-out}
 @keyframes ctasheen{0%,60%{background-position:130% 0}100%{background-position:-30% 0}}
 @media (prefers-reduced-motion:reduce){.foot__cta::after{animation:none;opacity:0}.foot__cta{transform:none}}
+
+/* X aus dem XBASE-Logo als Vektor statt Schrift-X */
+.xp b.xl{display:inline-block;font-style:normal;font-size:1em;line-height:1;transform:none;padding:0;margin:0 -.04em 0 0;background:none;color:inherit;animation:none;vertical-align:baseline;position:relative;width:1.06em;height:.74em}
+.xl__s{position:absolute;left:-.04em;bottom:-.08em;height:.88em;width:auto;overflow:visible}
+.xl__t{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 </style>
 </head>
 <body>
@@ -714,7 +719,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
   <div class="wrap">
     <div>
       <span class="hero__tag"><i></i>Based at Vienna International Airport</span>
-      <h1><span class="l1">Best Aviation Services</span> <span class="l2"><span class="g">Delivered by</span> <span class="xp"><b>X</b><span class="g">perts.</span><svg viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M4 18 C 90 4, 200 2, 296 10"/></svg><i class="xp__fly" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></i></span></span></h1>
+      <h1><span class="l1">Best Aviation Services</span> <span class="l2"><span class="g">Delivered by</span> <span class="xp"><b class="xl"><svg class="xl__s" viewBox="0 0 325 221" aria-hidden="true"><defs><linearGradient id="xg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2ec8ff"/><stop offset=".45" stop-color="#0a6cf0"/><stop offset="1" stop-color="#0b3fa8"/></linearGradient><linearGradient id="xf" x1="0" y1="0" x2="1" y2="0"><stop offset=".8" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient><mask id="xm" maskUnits="userSpaceOnUse" x="0" y="0" width="100%" height="100%"><rect width="100%" height="100%" fill="url(#xf)"/></mask></defs><path mask="url(#xm)" fill="url(#xg)" d="M146.5 139.2 146.8 140.8 156.8 155.0 164.8 164.5 171.0 170.8 186.0 183.2 196.2 189.8 207.2 195.8 224.2 202.8 237.8 207.0 255.5 211.2 276.5 214.8 293.2 216.8 322.0 218.8 323.0 218.2 323.2 201.8 322.5 200.8 315.2 200.0 295.5 196.2 271.5 189.2 258.8 184.0 245.2 177.0 235.8 171.0 227.0 164.5 214.8 153.5 205.0 142.8 195.2 129.5 181.8 106.5 180.0 107.0ZM2.0 201.8 19.5 199.0 31.8 196.0 44.0 194.0 54.0 191.2 68.5 188.8 75.5 186.8 203.8 69.0 275.0 5.0 276.8 2.8 276.2 2.2 218.5 2.5 158.2 57.8 157.0 58.0 155.8 56.8 130.5 14.0 123.0 2.5 82.5 2.0 61.5 2.5 61.8 4.5 118.5 89.2 118.5 90.8 39.8 164.0 15.0 188.2 12.2 190.0 3.0 199.2Z"/></svg><span class="xl__t">X</span></b><span class="g">perts.</span><svg viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M4 18 C 90 4, 200 2, 296 10"/></svg><i class="xp__fly" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></i></span></span></h1>
       <p class="lead">XBASE Aero supports airlines, CAMOs, maintenance organisations and operators with engineering, compliance, materials and qualified aviation professionals. One partner, one point of contact.</p>
       <div class="hero__cta">
         <a class="btn btn--p" href="#contact">Get in touch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
