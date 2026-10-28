@@ -815,18 +815,21 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 @keyframes aogp{0%{box-shadow:0 0 0 0 rgba(229,72,77,.55)}100%{box-shadow:0 0 0 12px rgba(229,72,77,0)}}
 
 /* About: Werte als Flugroute mit Wegpunkten, der Flieger folgt dem Scrollen */
-.vals.vals--path{grid-template-columns:1fr;gap:14px;position:relative;padding-left:46px}
-.vals--path::before{content:"";position:absolute;left:16px;top:26px;bottom:26px;width:2px;background:repeating-linear-gradient(180deg,var(--blue) 0 6px,transparent 6px 12px);opacity:.4}
-.vals--path::after{content:"";position:absolute;left:16px;top:26px;bottom:26px;width:2px;border-radius:2px;background:linear-gradient(180deg,#00b8ff,var(--blue));box-shadow:0 0 10px rgba(0,184,255,.55);transform-origin:top;z-index:0}
-.vals--path>div{position:relative}
-.vals--path>div::before{content:"";position:absolute;left:-36px;top:22px;width:12px;height:12px;border-radius:50%;background:#fff;z-index:1;box-shadow:0 0 0 3px var(--blue),0 0 0 8px rgba(10,108,240,.14)}
-.vals--path .wp{display:block;font:400 11px/1 var(--mono);font-style:normal;letter-spacing:.08em;color:var(--blue);margin-bottom:8px}
-@supports (animation-timeline:view()){
-  .vals--path::after{animation:wpline linear both;animation-timeline:view();animation-range:entry 70% cover 65%}
-  @keyframes wpline{from{transform:scaleY(0)}to{transform:scaleY(1)}}
-  .vals--path>div::before{animation:wpon linear both;animation-timeline:view();animation-range:entry 90% cover 45%}
-  @keyframes wpon{0%,70%{background:#fff;box-shadow:0 0 0 3px var(--blue),0 0 0 8px rgba(10,108,240,.14)}100%{background:var(--blue);box-shadow:0 0 0 3px var(--blue),0 0 0 9px rgba(0,184,255,.3),0 0 18px rgba(0,184,255,.7)}}
-}
+.vals.vals--deck{grid-template-columns:1fr 1fr;gap:1px;padding:0;position:relative;border-radius:22px;overflow:hidden;background:#17386a;border:1px solid #1d4580;box-shadow:0 34px 70px -34px rgba(5,20,50,.75)}
+.vals--deck .deck__hd{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 18px;border:0;border-radius:0;background:#06142e;font:400 11px/1 var(--mono);letter-spacing:.12em;color:#6fd0ff}
+.vals--deck .deck__hd em{font-style:normal;display:inline-flex;align-items:center;gap:8px;color:#5ee9a0}
+.vals--deck .deck__hd em::before{content:"";width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e;animation:livep 2s ease-out infinite}
+.vals--deck>div:not(.deck__hd){position:relative;border:0;border-radius:0;padding:20px 18px 22px;background:radial-gradient(120% 90% at 0 0,rgba(0,184,255,.14),transparent 60%),linear-gradient(160deg,#0b2550,#06142e);overflow:hidden}
+.vals--deck>div:not(.deck__hd)::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(180deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px);pointer-events:none}
+.vals--deck .dk{display:block;font:700 30px/1 var(--mono);font-style:normal;letter-spacing:.04em;color:#6fd0ff;text-shadow:0 0 14px rgba(0,184,255,.65)}
+.vals--deck small{display:block;margin-top:8px;font:400 10.5px/1 var(--mono);letter-spacing:.12em;color:rgba(169,186,214,.65)}
+.vals--deck b{margin-top:16px;color:#fff}
+.vals--deck span{color:#a9bad6}
+.vals--deck .rv.in .dk{animation:dkon .9s steps(1) both}
+@keyframes dkon{0%{opacity:.15}15%{opacity:1}25%{opacity:.3}40%,100%{opacity:1}}
+@media (max-width:600px){.vals--deck .dk{font-size:24px}.vals--deck>div:not(.deck__hd){padding:18px 15px 20px}.vals--deck b{font-size:16.5px}.vals--deck span{font-size:13.5px}}
+@media (max-width:360px){.vals.vals--deck{grid-template-columns:1fr}}
+@keyframes livep{70%{box-shadow:0 0 0 8px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
 /* Karriere: Jobs wie eine Abflugtafel */
 .job__list .job__item.rv{transform:perspective(900px) rotateX(-60deg) translateY(10px);transform-origin:50% 0}
 .job__list .job__item.rv.in{transform:none}
@@ -845,7 +848,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 .foot__cta.in .foot__trail{animation:trail 3.2s cubic-bezier(.45,.05,.4,1) .4s forwards}
 @keyframes takeoff{0%{opacity:0;left:-60px;bottom:-40px}10%{opacity:1}85%{opacity:1}100%{opacity:0;left:calc(100% + 60px);bottom:calc(30% + 120px)}}
 @keyframes trail{0%{opacity:0;transform:rotate(-14deg) scaleX(0)}15%{opacity:1}70%{opacity:.8}100%{opacity:0;transform:rotate(-14deg) scaleX(1)}}
-@media (prefers-reduced-motion:reduce){.vals--path::after,.vals--path>div::before{animation:none}.job__list .job__item.rv{transform:none}.foot__fly,.foot__trail{display:none}.job__item .st i{animation:none}}
+@media (prefers-reduced-motion:reduce){.vals--deck .dk,.vals--deck .deck__hd em::before{animation:none}.job__list .job__item.rv{transform:none}.foot__fly,.foot__trail{display:none}.job__item .st i{animation:none}}
 </style>
 </head>
 <body>
@@ -1045,11 +1048,12 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
         <span class="k rv">About us</span>
         <h2 class="h2 rv">From aviation. <span class="g">For aviation.</span></h2>
         <p class="lead rv">XBASE Aero was founded in 2026 at Vienna International Airport. We bring together experience from engineering, operations and maintenance, and we know what counts in day-to-day aviation: safety, speed and reliability.</p>
-        <div class="vals vals--path">
-          <div class="rv"><i class="wp">WPT 01 · XPRT</i><b>Xpertise</b><span>People who have worked in the industry and speak your language.</span></div>
-          <div class="rv"><i class="wp">WPT 02 · FAST</i><b>Fast response</b><span>Short decision paths and a direct line to the people in charge.</span></div>
-          <div class="rv"><i class="wp">WPT 03 · CMPL</i><b>Compliance first</b><span>Every job done with the regulations and your approvals in mind.</span></div>
-          <div class="rv"><i class="wp">WPT 04 · ONE</i><b>One partner</b><span>Seven service areas, one point of contact for your organisation.</span></div>
+        <div class="vals vals--deck">
+          <div class="deck__hd" aria-hidden="true"><span>XBASE · SYS STATUS</span><em>ALL SYSTEMS GO</em></div>
+          <div class="rv"><i class="dk" aria-hidden="true">XPRT</i><small>SYS 01</small><b>Xpertise</b><span>People who have worked in the industry and speak your language.</span></div>
+          <div class="rv"><i class="dk" aria-hidden="true">FAST</i><small>SYS 02</small><b>Fast response</b><span>Short decision paths and a direct line to the people in charge.</span></div>
+          <div class="rv"><i class="dk" aria-hidden="true">CMPL</i><small>SYS 03</small><b>Compliance first</b><span>Every job done with the regulations and your approvals in mind.</span></div>
+          <div class="rv"><i class="dk" aria-hidden="true">ONE</i><small>SYS 04</small><b>One partner</b><span>Seven service areas, one point of contact for your organisation.</span></div>
         </div>
       </div>
       <div class="about__pics rv">
