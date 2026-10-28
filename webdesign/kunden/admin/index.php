@@ -1449,9 +1449,14 @@ $artNeu = kp_art_options('betrieb');
 
 // Besucher: anonyme Tagessummen aus /api/zaehler.php, dazu die Gratis-Entwurf-Anfragen im selben Zeitraum.
 $zeit = (int) ($_GET['zeit'] ?? 30);
-$zeit = in_array($zeit, [7, 30, 90], true) ? $zeit : 30;
+$zeit = in_array($zeit, [1, 7, 30, 90], true) ? $zeit : 30;
 $bz = zl_range($zeit);
-$bzHeute = end($bz['tage']) ?: ['besuche' => 0, 'aufrufe' => 0];
+// Heute und gestern getrennt, damit man auf einen Blick sieht, woher die Besucher heute kommen.
+$bzIst1 = $zeit === 1;
+$bzT = $bzIst1 ? $bz : zl_range(1);
+$bzG = zl_range(2)['tage'];
+$bzGestern = reset($bzG) ?: ['besuche' => 0, 'aufrufe' => 0];
+$bzZeitTxt = $bzIst1 ? 'heute' : 'letzte ' . $zeit . ' Tage';
 $bzLabel = static function (string $q): string {
     $fest = ['google-anzeige' => 'Google-Anzeige', 'google (suche)' => 'Google-Suche', 'direkt' => 'Direkt',
         'chatgpt' => 'ChatGPT', 'perplexity' => 'Perplexity', 'gemini' => 'Gemini', 'claude' => 'Claude', 'x' => 'X (Twitter)', 'andere' => 'Andere'];
@@ -1473,6 +1478,12 @@ $bzList = static function (array $map, callable $label, string $leer, int $max =
     return '<ul class="kp-bz__list">' . $out . '</ul>' . ($rest > 0 ? '<p class="kp-hint">… und ' . $rest . ' weitere</p>' : '');
 };
 $bzSeite = static fn(string $p): string => $p === '/' ? 'Startseite' : rtrim($p, '/');
+// Die drei stärksten Quellen von heute als kurze Zeile, z. B. „Instagram 3 · Google-Suche 2 · Direkt 1“.
+$bzWoher = [];
+foreach (array_slice($bzT['quellen'], 0, 3, true) as $q => $n) {
+    $bzWoher[] = '<i>' . cx_h($bzLabel((string) $q)) . ' ' . (int) $n . '</i>';
+}
+$bzWoherHtml = $bzWoher ? implode(' · ', $bzWoher) : 'noch kein Besuch';
 $bzKamp = static function (string $k) use ($bzLabel): string {
     [$q, $c] = array_pad(explode(' / ', $k, 2), 2, '');
     return $bzLabel($q) . ' · ' . $c;
@@ -1569,7 +1580,7 @@ $bzLine = '<div class="kp-bz__plot"><svg viewBox="0 0 100 100" preserveAspectRat
     . $bzMarken . '<div class="kp-bz__skala">' . $bzSkala . '</div></div>';
 $bzFirst = date('d.m.', strtotime((string) array_key_first($bz['tage'])) ?: 0);
 $bzZeiten = '';
-foreach ([7 => '7 Tage', 30 => '30 Tage', 90 => '90 Tage'] as $z => $t) {
+foreach ([1 => 'Heute', 7 => '7 Tage', 30 => '30 Tage', 90 => '90 Tage'] as $z => $t) {
     $bzZeiten .= '<a class="kp-pill' . ($z === $zeit ? ' kp-pill--hot' : '') . '" href="/kunden/admin/?zeit=' . $z . '#besucher"' . ($z === $zeit ? ' aria-current="true"' : '') . '>' . $t . '</a>';
 }
 $bzAus = isset($_COOKIE[ZL_NOCOUNT]);
@@ -1577,7 +1588,8 @@ $bzSeit = $bz['seit'] !== '' ? 'Gezählt wird seit ' . date('d.m.Y', strtotime($
 $bzGeraet = '<form method="post" action="/kunden/admin/?zeit=' . $zeit . '" class="kp-bz__geraet">' . $csrf . '<input type="hidden" name="aktion" value="zaehlen"><input type="hidden" name="wert" value="' . ($bzAus ? 'ein' : 'aus') . '">'
     . '<span>' . ($bzAus ? '<b>Dieses Gerät wird nicht mitgezählt.</b>' : 'Dieses Gerät wird mitgezählt.') . '</span>'
     . '<button class="btn btn--line" type="submit">' . ($bzAus ? 'Wieder mitzählen' : 'Dieses Gerät nicht mitzählen') . '</button></form>';
-$bzSub = 'heute <b>' . $bzHeute['besuche'] . '</b> · ' . $zeit . ' Tage ' . $bz['besuche'];
+$bzTop = (string) (array_key_first($bzT['quellen']) ?? '');
+$bzSub = 'heute <b>' . $bzT['besuche'] . '</b>' . ($bzTop !== '' ? ' (meist ' . cx_h($bzLabel($bzTop)) . ')' : '') . ($bzIst1 ? '' : ' · ' . $zeit . ' Tage ' . $bz['besuche']);
 $bzQuellen = $bzList($bz['quellen'], $bzLabel, 'Noch keine Besuche im Zeitraum.');
 $bzKampagnen = $bzList($bz['kampagnen'], $bzKamp, 'Noch keine Besuche über Links mit utm_campaign.');
 $bzEinstieg = $bzList($bz['einstieg'], $bzSeite, 'Noch keine Besuche im Zeitraum.');
@@ -1613,23 +1625,33 @@ $chFragen = $chListe
         . (count($chListe) > 8 ? '<details class="kp-chat-mehr"><summary>Alle ' . count($chListe) . ' Fragen</summary><ul class="kp-chat-fragen">' . implode('', array_map($chZeile, array_slice($chListe, 8))) . '</ul></details>' : '')
     : '<p class="kp-hint">Noch keine eingetippten Fragen im Zeitraum.</p>';
 $chTage = min($zeit, CH_FRAGEN_TAGE);
+$chZeit = $bzIst1 ? 'heute' : 'in ' . $zeit . ' Tagen, heute ' . $ch['heute'];
+$chTageTxt = $chTage === 1 ? 'heute' : 'letzte ' . $chTage . ' Tage';
 // Erklärung eingeklappt; ist die KI aus, bleibt der Hinweis sichtbar.
 $chInfo = ch_ready() ? '<details class="kp-info"><summary>So arbeitet der KI-Chat</summary>' . $chStatus . '</details>' : $chStatus;
 $chCard = <<<HTML
-<div class="kp-card"><h3>KI-Chat</h3><p><b>{$ch['fragen']}</b> Fragen in {$zeit} Tagen, heute {$ch['heute']} · Kosten ca. {$chKosten} US-Dollar{$chFehler}</p>
-<h4 class="kp-chat-h">Gestellte Fragen <em>(letzte {$chTage} Tage)</em></h4>{$chFragen}{$chInfo}</div>
+<div class="kp-card"><h3>KI-Chat</h3><p><b>{$ch['fragen']}</b> Fragen {$chZeit} · Kosten ca. {$chKosten} US-Dollar{$chFehler}</p>
+<h4 class="kp-chat-h">Gestellte Fragen <em>({$chTageTxt})</em></h4>{$chFragen}{$chInfo}</div>
 HTML;
+// Bei „Heute“ statt Kurve (nur ein Punkt) der Vergleich mit gestern; sonst zeigt die Heute-Kachel die stärksten Quellen.
+$bzKpi3 = $bzIst1
+    ? '<div class="kp-card"><small>Gestern</small><b>' . (int) $bzGestern['besuche'] . '</b><span>' . (int) $bzGestern['aufrufe'] . ' Aufrufe</span></div>'
+    : '<div class="kp-card"><small>Heute</small><b>' . (int) $bzT['besuche'] . '</b><span class="kp-bz__woher">' . $bzWoherHtml . '</span></div>';
+$bzChart = $bzIst1 ? '' : <<<HTML
+<div class="kp-card kp-bz__chart"><div class="kp-bz__fein" role="img" aria-label="Besuche pro Tag, letzte {$zeit} Tage, Schnitt {$bzAvgTxt} pro Tag">{$bzLine}</div><div class="kp-bz__axis"><span>{$bzFirst}</span><span>heute</span></div><div class="kp-bz__legende"><span><i class="kp-bz__l-avg"></i>Schnitt</span><span><i class="kp-bz__l-hot"></i>über Schnitt</span><span><i class="kp-bz__l-mark"></i>Besuche über einen Werbelink</span></div></div>
+HTML;
+$bzWoherH = $bzIst1 ? 'Woher die Besucher heute kommen' : 'Woher die Besucher kommen';
 $bzPanel = <<<HTML
 <div class="kp-bz__head"><h2>Besucher</h2><nav class="kp-bz__zeit" aria-label="Zeitraum">{$bzZeiten}</nav></div>
 <div class="kp-bz__kpis">
-  <div class="kp-card"><small>Besuche von außen</small><b>{$bz['besuche']}</b><span>letzte {$zeit} Tage</span></div>
+  <div class="kp-card"><small>Besuche von außen</small><b>{$bz['besuche']}</b><span>{$bzZeitTxt}</span></div>
   <div class="kp-card"><small>Seitenaufrufe</small><b>{$bz['aufrufe']}</b><span>inkl. Weiterklicken</span></div>
-  <div class="kp-card"><small>Heute</small><b>{$bzHeute['besuche']}</b><span>{$bzHeute['aufrufe']} Aufrufe</span></div>
+  {$bzKpi3}
   <div class="kp-card"><small>Kontaktaufnahmen</small><b>{$bzKontaktSum}</b><span>{$bzQuote}</span></div>
 </div>
-<div class="kp-card kp-bz__chart"><div class="kp-bz__fein" role="img" aria-label="Besuche pro Tag, letzte {$zeit} Tage, Schnitt {$bzAvgTxt} pro Tag">{$bzLine}</div><div class="kp-bz__axis"><span>{$bzFirst}</span><span>heute</span></div><div class="kp-bz__legende"><span><i class="kp-bz__l-avg"></i>Schnitt</span><span><i class="kp-bz__l-hot"></i>über Schnitt</span><span><i class="kp-bz__l-mark"></i>Besuche über einen Werbelink</span></div></div>
+{$bzChart}
 <div class="kp-bz__grid">
-  <div class="kp-card"><h3>Woher die Besucher kommen</h3>{$bzQuellen}</div>
+  <div class="kp-card"><h3>{$bzWoherH}</h3>{$bzQuellen}</div>
   <div class="kp-card"><h3>Kampagnen <em>(utm_campaign)</em></h3>{$bzKampagnen}</div>
   <div class="kp-card"><h3>Erste Seite beim Besuch</h3>{$bzEinstieg}</div>
   <div class="kp-card"><h3>Meistgesehene Seiten</h3>{$bzSeiten}</div>
