@@ -218,7 +218,7 @@
   a.innerHTML = '<span class="tk-float__pics">' + pics.map(function (p, i) {
     return '<img src="/assets/img/float/' + p + '.webp" alt="" width="46" height="46" loading="lazy"' + (i === 0 ? ' class="is-on"' : "") + ">";
   }).join("") + '</span><span class="tk-float__txt"><b><i class="tk-float__l">' + ANZAHL + ' Beispiele</i><i class="tk-float__s">Beispiele</i> ansehen</b><span>Webseiten und Web-Apps live testen</span></span>'
-    + '<button class="tk-float__x" type="button" aria-label="Hinweis schließen">✕</button>';
+    + '<button class="tk-float__x" type="button" aria-label="Hinweis schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17"/></svg></button>';
   document.body.appendChild(a);
   a.querySelector(".tk-float__x").addEventListener("click", function (e) {
     e.preventDefault(); e.stopPropagation();
