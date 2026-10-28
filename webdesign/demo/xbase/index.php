@@ -535,6 +535,52 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 .sky--dark .d2{top:52%;width:min(1000px,130vw);animation-duration:120s;animation-delay:-75s}
 .sky--dark .d3{top:30%;width:min(460px,70vw);animation-duration:70s;animation-delay:-45s;opacity:.09!important}
 .dark .wrap{z-index:1}
+
+/* Referenz als Bordkarte */
+.pass{display:grid;grid-template-columns:1fr minmax(260px,.42fr);margin-top:48px;position:relative;border-radius:30px;background:var(--glass);border:1px solid var(--glass-b);box-shadow:var(--glass-s),0 50px 90px -60px rgba(10,26,51,.55);-webkit-backdrop-filter:blur(16px) saturate(160%);backdrop-filter:blur(16px) saturate(160%)}
+.pass__main{padding:clamp(28px,3.8vw,54px)}
+.pass__head{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-bottom:22px;border-bottom:1px solid rgba(10,26,51,.08)}
+.pass__head span{font:600 13px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:#fff;background:var(--grad);padding:9px 14px;border-radius:999px}
+.pass__head small{font:400 12px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
+.pass .route{margin-top:30px}
+.pass .route b{font-size:clamp(40px,4.4vw,64px);letter-spacing:-.03em}
+.pass .route__l svg{background:#eef4fc}
+.pass__main>p{font:500 clamp(19px,1.6vw,24px)/1.35 var(--head);letter-spacing:-.01em;margin-top:26px;max-width:34ch;color:var(--ink2)}
+.pass__f{display:flex;gap:clamp(20px,3vw,44px);margin-top:26px;padding-top:22px;border-top:1px dashed rgba(10,26,51,.14);flex-wrap:wrap}
+.pass__f dt{font:400 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+.pass__f dd{margin:8px 0 0;font:600 18px/1.1 var(--head);color:var(--ink)}
+.pass__stub{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:40px 32px;border-left:2px dashed rgba(10,26,51,.16);background:linear-gradient(160deg,rgba(255,255,255,.9),rgba(255,255,255,.6));border-radius:0 30px 30px 0}
+.pass__stub::before,.pass__stub::after{content:"";position:absolute;left:-17px;width:32px;height:32px;border-radius:50%;background:#eef4fc;box-shadow:inset 0 0 0 1px var(--glass-b)}
+.pass__stub::before{top:-17px}.pass__stub::after{bottom:-17px}
+.pass__stub img{width:min(230px,90%);height:auto;filter:brightness(.22) contrast(1.2);mix-blend-mode:multiply}
+.pass__bar{display:block;width:min(220px,88%);height:46px;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 4px,var(--ink) 4px 5px,transparent 5px 8px,var(--ink) 8px 11px,transparent 11px 13px);opacity:.75;border-radius:2px}
+.pass__stub small{font:400 10px/1 var(--mono);letter-spacing:.3em;text-transform:uppercase;color:var(--mut)}
+@media (max-width:760px){.pass{grid-template-columns:1fr}.pass__stub{border-left:0;border-top:2px dashed rgba(10,26,51,.16);border-radius:0 0 30px 30px;padding:32px 24px}.pass__stub::before,.pass__stub::after{top:-17px;bottom:auto}.pass__stub::before{left:-17px}.pass__stub::after{left:auto;right:-17px}.pass .route b{font-size:34px}.pass .route i{max-width:12ch}}
+
+/* Footer: weicher Übergang, kein Kasten im Kasten */
+.foot{position:relative;background:linear-gradient(180deg,#0b3fa8 0,#0a2a66 260px,var(--navy) 520px);margin-top:clamp(140px,14vw,200px)}
+.foot__clouds{position:absolute;left:0;right:0;bottom:100%;height:clamp(140px,14vw,220px);pointer-events:none;overflow:hidden;background:linear-gradient(180deg,rgba(11,63,168,0),rgba(11,63,168,.35) 45%,#0b3fa8)}
+.foot__clouds::after{content:"";position:absolute;inset:auto 0 0;height:45%;background:linear-gradient(180deg,rgba(11,63,168,0),#0b3fa8 92%)}
+.foot__clouds img{position:absolute;bottom:-28%;height:auto;max-width:none;opacity:.95}
+.foot__clouds .f1{left:-6%;width:min(760px,70vw)}
+.foot__clouds .f2{left:34%;width:min(620px,60vw);bottom:-36%;opacity:.85}
+.foot__clouds .f3{right:-8%;width:min(820px,72vw)}
+.foot__cta{background:none;border:0;box-shadow:none;padding:10px 0 58px;margin-bottom:52px;border-bottom:1px solid rgba(255,255,255,.12);border-radius:0}
+.foot__cta h2{font-size:clamp(34px,4vw,56px)}
+@media (max-width:600px){.foot__cta{padding:0 0 40px}}
+
+/* Hero füllt den Bildschirm */
+@media (min-width:961px){.hero{min-height:100vh;min-height:100svh}}
+
+/* Handy-Menüknopf mit kleinem Flieger */
+.burger{position:relative;transition:background .3s,border-color .3s,box-shadow .3s,color .3s}
+.burger span{background:linear-gradient(90deg,transparent 0,currentColor 7px 10px,transparent 10px)}
+.burger__fly{position:absolute;left:50%;top:50%;width:12px;height:12px;color:var(--blue);transform:translate(1px,-50%) rotate(90deg);transition:transform .5s cubic-bezier(.5,0,.2,1),opacity .35s}
+.burger__fly svg{display:block;width:100%;height:100%}
+.burger[aria-expanded="true"]{background:var(--grad);border-color:transparent;color:#fff;box-shadow:0 12px 26px -10px rgba(10,108,240,.7)}
+.burger[aria-expanded="true"] span{background:transparent}
+.burger[aria-expanded="true"] .burger__fly{opacity:0;transform:translate(22px,-26px) rotate(45deg) scale(.6)}
+@media (hover:hover){.burger:hover .burger__fly{transform:translate(4px,-50%) rotate(90deg)}}
 </style>
 </head>
 <body>
@@ -547,7 +593,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
       <a href="#services">Services</a><a href="#about">About us</a><a href="#references">References</a><a href="#careers">Careers</a><a href="#contact">Contact</a>
     </nav>
     <a class="btn btn--p" href="#contact" data-tab="material">Material request</a>
-    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mpanel"><span></span></button>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mpanel"><span></span><i class="burger__fly" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></i></button>
   </div>
 </header>
 <div class="mpanel" id="mpanel">
@@ -742,12 +788,17 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
   <div class="wrap">
     <span class="k rv">References</span>
     <h2 class="h2 rv">Trusted <span class="g">in the industry.</span></h2>
-    <div class="refcard rv">
-      <div class="refcard__logo"><img src="assets/img/peoples-logo.webp" width="700" height="302" alt="People's Airline"></div>
-      <div class="refcard__txt">
-        <small>Reference customer · Airline</small>
-        <p>People's, the airline connecting Vienna and St. Gallen-Altenrhein, works with XBASE Aero.</p>
+    <div class="pass rv">
+      <div class="pass__main">
+        <div class="pass__head"><span>Boarding pass</span><small>Reference customer · Airline</small></div>
         <div class="route" aria-hidden="true"><b>VIE<i>Vienna</i></b><span class="route__l"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></span><b>ACH<i>St. Gallen-Altenrhein</i></b></div>
+        <p>People's, the airline connecting Vienna and St. Gallen-Altenrhein, works with XBASE Aero.</p>
+        <dl class="pass__f"><div><dt>Airline</dt><dd>People's</dd></div><div><dt>Route</dt><dd>VIE – ACH</dd></div><div><dt>Partner</dt><dd>XBASE Aero</dd></div></dl>
+      </div>
+      <div class="pass__stub">
+        <img src="assets/img/peoples-logo.webp" width="700" height="302" alt="People's Airline" loading="lazy">
+        <span class="pass__bar" aria-hidden="true"></span>
+        <small>VIE · ACH · XB</small>
       </div>
     </div>
   </div>
@@ -855,6 +906,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 </main>
 
 <footer class="foot">
+  <div class="foot__clouds" aria-hidden="true"><img class="f1" src="assets/img/wolke-1.webp?v=3" width="1400" height="560" alt="" loading="lazy"><img class="f2" src="assets/img/wolke-2.webp?v=3" width="1000" height="460" alt="" loading="lazy"><img class="f3" src="assets/img/wolke-3.webp?v=3" width="1600" height="420" alt="" loading="lazy"></div>
   <div class="wrap">
     <div class="foot__cta">
       <div><h2>Ready for take-off?</h2><p>Tell us what you need. We usually reply within one working day.</p></div>
