@@ -616,6 +616,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 .foot__cta .btn--l{box-shadow:inset 0 0 0 1px rgba(255,255,255,.28)}
 .foot__cta .btn--w:hover{box-shadow:none;filter:drop-shadow(0 12px 18px rgba(0,0,0,.45))}
 .nav .btn{padding:0 26px;clip-path:polygon(11px 0,100% 0,calc(100% - 11px) 100%,0 100%)}
+@media(min-width:961px){.lead--one{max-width:none}}
 </style>
 </head>
 <body>
@@ -721,7 +722,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
   <div class="wrap">
     <span class="k rv">Services</span>
     <h2 class="h2 rv">Everything your operation needs. <span class="g">From one partner.</span></h2>
-    <p class="lead rv">From continuing airworthiness to parts and people: we support you where you need it, for a single task or as a long-term partner.</p>
+    <p class="lead lead--one rv">From continuing airworthiness to parts and people: we support you where you need it, for a single task or as a long-term partner.</p>
     <div class="cards cards--7">
       <article class="card rv">
         <span class="card__n">01</span>
@@ -961,6 +962,6 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 <a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener"><img src="assets/img/tk-logo-2.svg" width="702" height="358" alt=""><span>Draft by Tim Kofler</span></a>
 
 <script src="assets/app.js?v=5" defer></script>
-<script src="assets/himmel.js?v=3" defer></script>
-<script type="module" src="assets/flug3d.js?v=7"></script>
+<script src="assets/himmel.js?v=4" defer></script>
+<script type="module" src="assets/flug3d.js?v=8"></script>
 </body></html>
