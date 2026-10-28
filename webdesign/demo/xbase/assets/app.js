@@ -15,6 +15,9 @@
   tabs.forEach(t=>t.addEventListener('click',()=>show(t.id.slice(2))));
   document.querySelectorAll('[data-tab]').forEach(a=>a.addEventListener('click',()=>show(a.dataset.tab)));
   document.querySelectorAll('[data-topic]').forEach(a=>a.addEventListener('click',()=>{show('contact');document.querySelectorAll('#topic button').forEach(y=>y.setAttribute('aria-pressed',String(y.textContent===a.dataset.topic)))}));
+  // Am Handy steht das Formular unter der Adresskarte: Knöpfe springen direkt zum Formular
+  const fbox=document.querySelector('.cbox--f');
+  document.querySelectorAll('a[href="#contact"]').forEach(a=>a.addEventListener('click',e=>{if(!fbox||!matchMedia('(max-width:960px)').matches)return;e.preventDefault();if(!a.dataset.tab&&!a.dataset.topic)show('contact');setTimeout(()=>fbox.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'}),30)}));
   document.querySelectorAll('.pane').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();sendFly(f);f.querySelector('.note').textContent='Thank you! This is a draft. On the live site your request will be sent by e-mail.'}));
   // Entwurf-Abzeichen: beim Runterscrollen weg, beim Hochscrollen und ganz unten wieder da
   const dr=document.querySelector('.draft');
