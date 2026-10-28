@@ -4,14 +4,14 @@
 <meta name="description" content="XBASE Aero supports airlines, CAMOs, maintenance organisations and operators with engineering, compliance, materials and qualified aviation professionals. Based at Vienna International Airport.">
 <meta name="theme-color" content="#f3f7fc">
 <link rel="preload" href="assets/fonts/outfit.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 @font-face{font-family:"Outfit";src:url(assets/fonts/outfit.woff2) format("woff2");font-weight:100 900;font-display:swap}
-@font-face{font-family:"Inter";src:url(assets/fonts/inter.woff2) format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Manrope";src:url(assets/fonts/manrope.woff2) format("woff2");font-weight:200 800;font-display:swap}
 @font-face{font-family:"Space Mono";src:url(assets/fonts/spacemono-400.woff2) format("woff2");font-weight:400;font-display:swap}
-:root{--bg:#f3f7fc;--white:#fff;--ink:#0a1a33;--ink2:#22334f;--mut:#5b6b84;--line:rgba(10,26,51,.1);--line2:rgba(10,26,51,.18);
+:root{--bg:#f3f7fc;--white:#fff;--ink:#0a1a33;--ink2:#3a4c6b;--mut:#5b6b84;--line:rgba(10,26,51,.1);--line2:rgba(10,26,51,.18);
   --sky:#00b0ff;--blue:#0a6cf0;--deep:#0b3fa8;--navy:#061632;--navy2:#0b2147;--grad:linear-gradient(120deg,#00b8ff,#0a6cf0 55%,#0b3fa8);
-  --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--head:"Outfit","Inter",system-ui,sans-serif;--mono:"Space Mono",ui-monospace,Menlo,Consolas,monospace;--navh:76px}
+  --sans:"Manrope",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--head:"Outfit","Manrope",system-ui,sans-serif;--mono:"Space Mono",ui-monospace,Menlo,Consolas,monospace;--navh:76px}
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:calc(var(--navh) + 12px)}
 body{margin:0;background:#eef4fc;color:var(--ink);font:400 17px/1.62 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:clip}
@@ -271,7 +271,8 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
 @keyframes drift{from{transform:translateX(-110%)}to{transform:translateX(110vw)}}
 .nav{background:rgba(255,255,255,.62);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(255,255,255,.5)}
 .nav.is-s{background:rgba(243,247,252,.9)}
-.hero .lead{color:var(--ink2)}
+.hero .lead{color:var(--ink2);font-weight:500}
+.lead{font-weight:450}
 .hero__tag{background:rgba(255,255,255,.85)}
 .hero h1 .l2{display:block;margin-top:.08em}
 @media (min-width:961px){.hero h1{font-size:clamp(40px,4.3vw,66px)}.hero .wrap{grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr)}.hero h1 .l2{white-space:nowrap}}
