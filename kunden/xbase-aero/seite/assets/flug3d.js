@@ -2,8 +2,9 @@
 // Ablauf: Ein Scan zeichnet den Bauplan als Drahtgitter, ein zweiter Scan macht daraus das fertige Flugzeug.
 // Beim Scrollen hebt es ab, zieht Kondensstreifen und fliegt aus dem Bild. Die Prüf-Schilder hängen an Punkten
 // am Flugzeug. Ohne WebGL oder bei "weniger Bewegung" bleibt die SVG-Zeichnung stehen.
-import * as THREE from "./vendor/three.module.min.js";
-import { RoomEnvironment } from "./vendor/RoomEnvironment.js";
+// Three.js wird erst geladen, wenn echtes (Hardware-)WebGL da ist. Ohne Grafikchip (Software-Rendering)
+// bleibt die SVG-Zeichnung, sonst ruckelt das Handy und die Seite reagiert träge.
+let THREE, RoomEnvironment;
 
 const hero = document.querySelector(".hero");
 const plan = document.getElementById("plan");
@@ -11,11 +12,20 @@ const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const small = matchMedia("(max-width: 960px)").matches;
 
 function webglOk() {
-  try { const c = document.createElement("canvas"); return !!(c.getContext("webgl2") || c.getContext("webgl")); }
-  catch (e) { return false; }
+  try {
+    const gl = document.createElement("canvas").getContext("webgl2") || document.createElement("canvas").getContext("webgl");
+    if (!gl) return false;
+    if (/[?&]gl=1/.test(location.search)) return true;
+    const ext = gl.getExtension("WEBGL_debug_renderer_info");
+    return !/swiftshader|llvmpipe|softpipe|software|basic render/i.test(String(gl.getParameter(ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER)));
+  } catch (e) { return false; }
 }
 
-if (hero && plan && !reduce && webglOk()) start();
+if (hero && plan && !reduce && webglOk()) {
+  Promise.all([import("./vendor/three.module.min.js"), import("./vendor/RoomEnvironment.js")])
+    .then(([t, r]) => { THREE = t; RoomEnvironment = r.RoomEnvironment; start(); })
+    .catch(() => {});
+}
 
 function start() {
   const BLUE = 0x0a6cf0, DEEP = 0x0b3fa8, SKY = 0x00b8ff;

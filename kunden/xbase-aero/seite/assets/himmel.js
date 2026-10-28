@@ -6,7 +6,7 @@ function himmel(hero, night) {
   cv.className = "hero__sky";
   cv.setAttribute("aria-hidden", "true");
   const gl = cv.getContext("webgl", { premultipliedAlpha: true, alpha: true, antialias: false });
-  if (!gl) return;
+  if (!gl || soft(gl)) return;
 
   const vs = "attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}";
   const fs = `#ifdef GL_FRAGMENT_PRECISION_HIGH
@@ -102,6 +102,14 @@ void main(){
     if (++drawn === 3) cv.classList.add("on");
   }
   requestAnimationFrame(frame);
+}
+// Ohne Grafikchip (Software-Rendering) lieber die Wolkenbilder zeigen, der Shader würde alles bremsen
+function soft(gl) {
+  if (/[?&]gl=1/.test(location.search)) return false;
+  try {
+    const ext = gl.getExtension("WEBGL_debug_renderer_info");
+    return /swiftshader|llvmpipe|softpipe|software|basic render/i.test(String(gl.getParameter(ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER)));
+  } catch (e) { return false; }
 }
 // Ersatz-Wolkenbilder nur laden, wo kein Live-Himmel läuft (spart Ladezeit)
 function bilder(el) {

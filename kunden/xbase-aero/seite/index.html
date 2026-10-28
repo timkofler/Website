@@ -3,8 +3,6 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="description" content="XBASE Aero supports airlines, CAMOs, maintenance organisations and operators with engineering, compliance, materials and qualified aviation professionals. Based at Vienna International Airport.">
 <meta name="theme-color" content="#f3f7fc">
-<link rel="modulepreload" href="assets/vendor/three.module.min.js">
-<link rel="modulepreload" href="assets/vendor/three.core.min.js">
 <link rel="preload" href="assets/fonts/outfit.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
 <style>
@@ -717,7 +715,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 
 <header class="nav" id="nav">
   <div class="wrap">
-    <a class="logo" href="#top" aria-label="XBASE Aero – back to top"><img src="assets/img/xbase-logo.webp" width="600" height="164" alt="XBASE Aero"></a>
+    <a class="logo" href="#top" aria-label="XBASE Aero – back to top"><img src="assets/img/xbase-logo-450.webp" srcset="assets/img/xbase-logo-450.webp 450w, assets/img/xbase-logo.webp 900w" sizes="(max-width:600px) 139px, 168px" width="600" height="164" alt="XBASE Aero"></a>
     <nav class="nav__links" aria-label="Main menu">
       <a href="#services">Services</a><a href="#about">About us</a><a href="#references">References</a><a href="#careers">Careers</a><a href="#contact">Contact</a>
     </nav>
@@ -961,7 +959,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
   <div class="wrap job">
     <div class="job__main rv">
       <span class="k">Careers</span>
-      <h2 class="h2 job__h">Take off with <img class="job__logo" src="assets/img/xbase-logo.webp" width="600" height="164" alt="XBASE Aero" loading="lazy"></h2>
+      <h2 class="h2 job__h">Take off with <img class="job__logo" src="assets/img/xbase-logo-450.webp" srcset="assets/img/xbase-logo-450.webp 450w, assets/img/xbase-logo.webp 900w" sizes="(max-width:600px) 123px, 206px" width="600" height="164" alt="XBASE Aero" loading="lazy"></h2>
       <p class="lead">You work in aviation and are looking for interesting assignments, fair conditions and a team that knows you? Get in touch, even if there is no matching vacancy.</p>
       <div class="job__row"><ol class="route rv"><li style="--i:0"><span class="route__pt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg></span><div><b>Interesting assignments</b><small>Across airlines, CAMOs and MROs</small></div></li><li style="--i:1"><span class="route__pt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15.5l2 2 4-4"/></svg></span><div><b>Fair and reliable</b><small>Fair conditions and planning you can count on</small></div></li><li style="--i:2"><span class="route__pt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span><div><b>One personal contact</b><small>A real person instead of a hotline</small></div></li></ol>
       <div class="hero__cta"><a class="btn btn--p" href="#contact" data-topic="Careers">Apply now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></div>
@@ -997,7 +995,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
           <button type="button" role="tab" id="t-contact" aria-controls="p-contact" aria-selected="true">Contact us</button>
           <button type="button" role="tab" id="t-material" aria-controls="p-material" aria-selected="false">Material request</button>
         </div>
-        <form class="pane" id="p-contact" role="tabpanel" aria-labelledby="t-contact">
+        <form class="pane" id="p-contact" aria-labelledby="t-contact">
           <div class="form">
             <div class="full"><span style="display:block;font-size:14px;font-weight:500;color:var(--ink2);margin-bottom:10px">What is it about?</span>
               <div class="seg" id="topic" role="group" aria-label="Topic"><button type="button" aria-pressed="true">Services</button><button type="button" aria-pressed="false">Workforce</button><button type="button" aria-pressed="false">Consulting</button><button type="button" aria-pressed="false">Careers</button></div></div>
@@ -1010,7 +1008,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
             <p class="note full">We usually reply within one working day.</p>
           </div>
         </form>
-        <form class="pane" id="p-material" role="tabpanel" aria-labelledby="t-material" hidden>
+        <form class="pane" id="p-material" aria-labelledby="t-material" hidden>
           <div class="form">
             <div class="full"><span style="display:block;font-size:14px;font-weight:500;color:var(--ink2);margin-bottom:10px">Priority</span>
               <div class="seg seg--aog" role="group" aria-label="Priority"><button type="button" aria-pressed="true" data-v="Routine">Routine</button><button type="button" aria-pressed="false" data-v="Urgent">Urgent</button><button type="button" aria-pressed="false" data-v="AOG">AOG</button></div></div>
@@ -1042,7 +1040,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
       <div class="hero__cta"><a class="btn btn--w" href="#contact" data-topic="Services">Get in touch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn--l" href="#contact" data-tab="material">Material request</a></div>
     </div>
     <div class="foot__top">
-      <div><img src="assets/img/xbase-logo-weiss.webp" width="600" height="164" alt="XBASE Aero"><p>Best Aviation Services. Delivered by Xperts. Based at Vienna International Airport.</p></div>
+      <div><img src="assets/img/xbase-logo-weiss-450.webp" srcset="assets/img/xbase-logo-weiss-450.webp 450w, assets/img/xbase-logo-weiss.webp 900w" sizes="183px" width="600" height="164" alt="XBASE Aero" loading="lazy"><p>Best Aviation Services. Delivered by Xperts. Based at Vienna International Airport.</p></div>
       <div class="foot__nav">
         <div><small>Company</small><a href="#services">Services</a><a href="#about">About us</a><a href="#references">References</a><a href="#careers">Careers</a></div>
         <div><small>Legal</small><a href="#">Legal notice</a><a href="#">Privacy policy</a><a href="#">Accessibility</a></div>
@@ -1052,9 +1050,9 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
   </div>
 </footer>
 
-<a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener"><img src="assets/img/tk-logo-2.svg" width="702" height="358" alt=""><span>Draft by Tim Kofler</span></a>
+<a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener" aria-label="Draft by Tim Kofler"><img src="assets/img/tk-logo-2.svg" width="702" height="358" alt=""><span>Draft by Tim Kofler</span></a>
 
 <script src="assets/app.js?v=9" defer></script>
-<script src="assets/himmel.js?v=6" defer></script>
-<script type="module" src="assets/flug3d.js?v=10"></script>
+<script src="assets/himmel.js?v=7" defer></script>
+<script type="module" src="assets/flug3d.js?v=11"></script>
 </body></html>
