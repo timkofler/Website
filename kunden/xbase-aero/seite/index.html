@@ -589,6 +589,13 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 
 /* Footer: sauberer Verlauf statt Wolken */
 .foot__fade{position:absolute;left:0;right:0;bottom:100%;height:clamp(180px,16vw,280px);pointer-events:none;background:linear-gradient(180deg,rgba(11,63,168,0) 0%,rgba(11,63,168,.06) 25%,rgba(11,63,168,.22) 50%,rgba(11,63,168,.55) 75%,rgba(11,63,168,.85) 90%,#0b3fa8 100%)}
+
+/* Nachtwolken live im Ablauf, Footer einfarbig dunkelblau mit Glas-Banner */
+#process.has-sky .sky{display:none}
+.foot{background:var(--navy)}
+.foot__cta{background:linear-gradient(150deg,rgba(255,255,255,.09),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.14);border-radius:28px;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 30px 60px -40px rgba(0,0,0,.7);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);padding:38px clamp(24px,4vw,52px);margin-bottom:56px}
+@media (max-width:600px){.foot__cta{padding:28px 22px;margin-bottom:44px}}
+.foot__cta .btn--l{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22)}
 </style>
 </head>
 <body>
@@ -805,8 +812,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
       </div>
       <div class="pass__stub">
         <img src="assets/img/peoples-logo.webp" width="700" height="302" alt="People's Airline" loading="lazy">
-        <span class="pass__bar" aria-hidden="true"></span>
-        <small>VIE · ACH · XB</small>
+        <small>VIE · ACH</small>
       </div>
     </div>
   </div>
@@ -914,7 +920,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 </main>
 
 <footer class="foot">
-  <div class="foot__fade" aria-hidden="true"></div>
+
   <div class="wrap">
     <div class="foot__cta">
       <div><h2>Ready for take-off?</h2><p>Tell us what you need. We usually reply within one working day.</p></div>
@@ -934,6 +940,6 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 <a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener"><img src="assets/img/tk-logo-2.svg" width="702" height="358" alt=""><span>Draft by Tim Kofler</span></a>
 
 <script src="assets/app.js?v=5" defer></script>
-<script src="assets/himmel.js?v=1" defer></script>
+<script src="assets/himmel.js?v=3" defer></script>
 <script type="module" src="assets/flug3d.js?v=7"></script>
 </body></html>

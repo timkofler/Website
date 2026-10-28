@@ -1,8 +1,7 @@
-// Lebendiger Himmel im Hero: Wolken aus Rauschen, die ziehen, sich auflösen und neu bilden.
-// Fällt auf die Wolkenbilder zurück, wenn kein WebGL da ist oder weniger Bewegung gewünscht ist.
-(() => {
-  const hero = document.querySelector(".hero");
-  if (!hero || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+// Lebendiger Himmel: Wolken aus Rauschen, die ziehen, sich auflösen und neu bilden.
+// Tag im Hero, Nachtwolken im dunklen Ablauf. Ohne WebGL oder bei weniger Bewegung bleiben die Wolkenbilder.
+function himmel(hero, night) {
+  if (!hero) return;
   const cv = document.createElement("canvas");
   cv.className = "hero__sky";
   cv.setAttribute("aria-hidden", "true");
@@ -11,7 +10,7 @@
 
   const vs = "attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}";
   const fs = `precision mediump float;
-uniform vec2 R;uniform float T;uniform float M;
+uniform vec2 R;uniform float T;uniform float M;uniform float N;uniform float S;
 float h(vec3 p){p=fract(p*.3183099+.1);p*=17.;return fract(p.x*p.y*p.z*(p.x+p.y+p.z));}
 float n(vec3 x){vec3 i=floor(x),f=fract(x);f=f*f*(3.-2.*f);
 return mix(mix(mix(h(i),h(i+vec3(1,0,0)),f.x),mix(h(i+vec3(0,1,0)),h(i+vec3(1,1,0)),f.x),f.y),
@@ -32,20 +31,26 @@ void main(){
   float sd=length(pq-sun);sky+=vec3(1.,.96,.88)*(.22*exp(-sd*2.6)+.08*exp(-sd*.9));
   float t=T;
   // Abdeckung: hinter dem Text (links) dünner, rechts und unten dichter
-  float cov=.40+.12*smoothstep(.62,.22,uv.x)*M-.04*smoothstep(.55,.1,y);
-  vec2 q1=vec2(uv.x*asp*1.25+t*.018,y*2.1);
+  float cov=.40+.12*smoothstep(.62,.22,uv.x)*M-.04*smoothstep(.55,.1,y)+N*.06;
+  vec2 c=gl_FragCoord.xy/S;
+  vec2 q1=vec2(c.x/860.+t*.018,c.y/510.);
   float d1=dens(q1,t,cov);
   // Licht von oben rechts: Probe Richtung Sonne für Schattenseiten
   float d1s=dens(q1+vec2(.05,.09),t,cov);
   float lit=clamp(1.-(d1s-d1)*1.8,0.,1.);
   vec3 cw=mix(vec3(.70,.78,.90),vec3(1.,.99,.97),lit*.75+.25*y);
   // zweite, ferne Schicht: kleiner, langsamer, blasser
-  vec2 q2=vec2(uv.x*asp*3.2+t*.008+7.,y*5.+3.);
+  vec2 q2=vec2(c.x/340.+t*.008+7.,c.y/216.+3.);
   float d2=dens(q2,t*.7+20.,cov+.06)*.55;
   vec3 col=mix(sky,mix(sky,vec3(.96,.98,1.),.85),d2);
   col=mix(col,cw,d1*.96);
   // nach unten in die Seitenfarbe ausblenden
   float a=smoothstep(.0,.16,y);
+  if(N>.5){
+    // Nacht: nur die Wolken, mondbläulich und leise, oben und unten weich ausgeblendet
+    vec3 nc=mix(vec3(.30,.40,.62),vec3(.62,.72,.90),lit);
+    float na=(d1*.2+d2*.06)*smoothstep(.0,.12,y)*smoothstep(1.,.85,y);
+    gl_FragColor=vec4(nc*na,na);return;}
   gl_FragColor=vec4(col*a,a);
 }`;
   function sh(t, s) { const o = gl.createShader(t); gl.shaderSource(o, s); gl.compileShader(o); return gl.getShaderParameter(o, gl.COMPILE_STATUS) ? o : null; }
@@ -61,7 +66,7 @@ void main(){
   const loc = gl.getAttribLocation(pr, "p");
   gl.enableVertexAttribArray(loc);
   gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-  const uR = gl.getUniformLocation(pr, "R"), uT = gl.getUniformLocation(pr, "T"), uM = gl.getUniformLocation(pr, "M");
+  const uR = gl.getUniformLocation(pr, "R"), uT = gl.getUniformLocation(pr, "T"), uM = gl.getUniformLocation(pr, "M"), uN = gl.getUniformLocation(pr, "N"), uS = gl.getUniformLocation(pr, "S");
 
   hero.prepend(cv);
   hero.classList.add("has-sky");
@@ -69,13 +74,15 @@ void main(){
   function size() {
     const w = Math.max(1, Math.round(hero.clientWidth * scale)), hh = Math.max(1, Math.round(hero.clientHeight * scale));
     if (cv.width !== w || cv.height !== hh) { cv.width = w; cv.height = hh; gl.viewport(0, 0, w, hh); }
-    gl.uniform1f(uM, innerWidth > 960 ? 1 : 0.4);
+    gl.uniform1f(uM, night ? 0 : innerWidth > 960 ? 1 : 0.15);
+    gl.uniform1f(uN, night ? 1 : 0);
+    gl.uniform1f(uS, innerWidth > 960 ? scale : scale / 1.9);
   }
   size();
   addEventListener("resize", size);
   let vis = true, last = 0;
   new IntersectionObserver(e => { vis = e[0].isIntersecting; }).observe(hero);
-  const t0 = performance.now() - 40000;
+  const t0 = performance.now() - (night ? 90000 : 40000);
   function frame(now) {
     requestAnimationFrame(frame);
     if (!vis || document.hidden || now - last < 33) return;
@@ -85,4 +92,8 @@ void main(){
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   }
   requestAnimationFrame(frame);
-})();
+}
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  himmel(document.querySelector(".hero"), false);
+  himmel(document.querySelector("#process"), true);
+}
