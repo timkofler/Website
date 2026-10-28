@@ -581,6 +581,14 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 .burger[aria-expanded="true"] span{background:transparent}
 .burger[aria-expanded="true"] .burger__fly{opacity:0;transform:translate(22px,-26px) rotate(45deg) scale(.6)}
 @media (hover:hover){.burger:hover .burger__fly{transform:translate(4px,-50%) rotate(90deg)}}
+
+/* Live-Himmel (himmel.js) ersetzt die Wolkenbilder im Hero */
+.hero__sky{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.hero.has-sky .sky{display:none}
+.hero.has-sky::before{opacity:.5}
+
+/* Footer: sauberer Verlauf statt Wolken */
+.foot__fade{position:absolute;left:0;right:0;bottom:100%;height:clamp(180px,16vw,280px);pointer-events:none;background:linear-gradient(180deg,rgba(11,63,168,0) 0%,rgba(11,63,168,.06) 25%,rgba(11,63,168,.22) 50%,rgba(11,63,168,.55) 75%,rgba(11,63,168,.85) 90%,#0b3fa8 100%)}
 </style>
 </head>
 <body>
@@ -906,7 +914,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 </main>
 
 <footer class="foot">
-  <div class="foot__clouds" aria-hidden="true"><img class="f1" src="assets/img/wolke-1.webp?v=3" width="1400" height="560" alt="" loading="lazy"><img class="f2" src="assets/img/wolke-2.webp?v=3" width="1000" height="460" alt="" loading="lazy"><img class="f3" src="assets/img/wolke-3.webp?v=3" width="1600" height="420" alt="" loading="lazy"></div>
+  <div class="foot__fade" aria-hidden="true"></div>
   <div class="wrap">
     <div class="foot__cta">
       <div><h2>Ready for take-off?</h2><p>Tell us what you need. We usually reply within one working day.</p></div>
@@ -926,5 +934,6 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 <a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener"><img src="assets/img/tk-logo-2.svg" width="702" height="358" alt=""><span>Draft by Tim Kofler</span></a>
 
 <script src="assets/app.js?v=5" defer></script>
+<script src="assets/himmel.js?v=1" defer></script>
 <script type="module" src="assets/flug3d.js?v=7"></script>
 </body></html>
