@@ -388,6 +388,8 @@
 .kp-bz__kpis b { font-size: 2.3rem; line-height: 1.1; font-weight: 200; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
 .kp-bz__kpis .kp-card:first-child b { color: var(--hot); }
 .kp-bz__kpis span { color: var(--muted); font-size: .78rem; }
+.kp-main .kp-bz__kpis .kp-bz__woher { color: var(--text); line-height: 1.35; }
+.kp-bz__woher i { font-style: normal; white-space: nowrap; }
 .kp-card.kp-bz__chart { margin-top: 12px; padding: 18px 18px 12px; }
 /* Tageskurve im Feine-Linien-Look: Haarlinie, gestrichelter Schnitt, hohle Punkte für Werbelinks */
 .kp-bz__fein { padding: 26px 44px 0 0; }
