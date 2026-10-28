@@ -94,11 +94,11 @@ function start() {
   wind.scale.z = 1.8;
   ac.add(wind);
   const winGeo = new THREE.SphereGeometry(0.032, 8, 6);
-  const wins = new THREE.InstancedMesh(winGeo, dark, 2 * 26);
+  const wins = new THREE.InstancedMesh(winGeo, dark, 2 * 15);
   const tmp = new THREE.Object3D();
   let wi = 0;
-  for (const s of [-1, 1]) for (let i = 0; i < 26; i++) {
-    tmp.position.set(s * 0.515, 0.14, 3.3 - i * 0.24);
+  for (const s of [-1, 1]) for (let i = 0; i < 15; i++) {
+    tmp.position.set(s * 0.515, 0.14, 2.5 - i * 0.3);
     tmp.updateMatrix();
     wins.setMatrixAt(wi++, tmp.matrix);
   }
@@ -163,6 +163,28 @@ function start() {
   finG.rotateY(Math.PI / 2);
   const fin = part(finG, blue, 25);
   ac.add(fin);
+  // XBASE-X auf beiden Seiten des Seitenleitwerks
+  const xc = document.createElement("canvas");
+  xc.width = xc.height = 256;
+  const xTex = new THREE.CanvasTexture(xc);
+  xTex.colorSpace = THREE.SRGBColorSpace;
+  xTex.anisotropy = 4;
+  // weißes X wie auf dem Leitwerk der XBASE-Maschine: zwei schlanke Balken, einer länger
+  const g2 = xc.getContext("2d");
+  g2.strokeStyle = "#ffffff";
+  g2.lineCap = "butt";
+  g2.lineWidth = 30;
+  g2.beginPath(); g2.moveTo(40, 40); g2.lineTo(216, 216); g2.stroke();
+  g2.lineWidth = 24;
+  g2.beginPath(); g2.moveTo(236, 20); g2.lineTo(52, 204); g2.stroke();
+  xTex.needsUpdate = true;
+  const xMat = new THREE.MeshBasicMaterial({ map: xTex, transparent: true, toneMapped: false, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, clippingPlanes: [clipSolid] });
+  for (const sd of [1, -1]) {
+    const xd = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 0.9), xMat);
+    xd.rotation.y = sd * Math.PI / 2;
+    xd.position.set(sd * 0.066, 1.08, -4.42);
+    ac.add(xd);
+  }
   // Streifen am Rumpf
   for (const th of [Math.PI / 2, Math.PI * 1.5]) {
     const stripe = new THREE.Mesh(new THREE.CylinderGeometry(0.526, 0.526, 5.6, 8, 1, true, th - 0.2, 0.4).rotateX(Math.PI / 2), deep);
