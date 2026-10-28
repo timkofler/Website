@@ -237,13 +237,16 @@ function start() {
   // Grundhaltung: von schräg oben, Nase nach rechts oben
   const YAW = Math.PI - 0.62;
   ac.rotation.set(0, YAW, 0);
-  let W = 1, H = 1, cx = 0, cy = 0, size = 1;
+  let W = 1, H = 1, cx = 0, cy = 0, size = 1, sOff = 0, sLen = 1;
   const camDir = new THREE.Vector3(0.05, 0.9, 0.44).normalize();
   function layout() {
     const r = hero.getBoundingClientRect(), p = plan.getBoundingClientRect();
     W = Math.max(1, r.width); H = Math.max(1, r.height);
     cx = p.left - r.left + p.width / 2; cy = p.top - r.top + p.height / 2;
     size = Math.min(p.width, p.height);
+    // Abheben erst, wenn das Flugzeug ganz zu sehen war (Handy: unter dem Text)
+    sOff = Math.max(0, p.bottom + scrollY - innerHeight);
+    sLen = sOff > 0 ? p.height * 1.1 : r.height * 0.85;
     renderer.setSize(W, H, false);
     camera.aspect = W / H;
     const visH = 11.2 * H / size;
@@ -264,7 +267,11 @@ function start() {
   }
 
   const ease = t => t < 0 ? 0 : t > 1 ? 1 : t * t * (3 - 2 * t);
-  const t0 = performance.now();
+  // Bau startet erst, wenn das Flugzeug im Bild ist
+  let t0 = null;
+  new IntersectionObserver((es, io) => {
+    if (es[0].isIntersecting) { t0 = performance.now(); io.disconnect(); }
+  }, { threshold: 0.8 }).observe(plan);
   const tmpV = new THREE.Vector3();
   const nose = new THREE.Vector3();
   let visible = true;
@@ -292,9 +299,8 @@ function start() {
 
   function frame(now) {
     if (!visible) return;
-    const t = window.__flugT ?? (now - t0) / 1000;
-    const heroH = hero.offsetHeight;
-    const s = Math.min(1, Math.max(0, scrollY / (heroH * 0.85)));
+    const t = window.__flugT ?? (t0 === null ? 0 : Math.max(0, now - t0) / 1000);
+    const s = Math.min(1, Math.max(0, (scrollY - sOff) / sLen));
 
     // Scans: Bauplan (0,3–2,1 s), dann Hülle (2,3–4,0 s)
     const a = ease((t - 0.3) / 1.8), b = ease((t - 2.3) / 1.7);
