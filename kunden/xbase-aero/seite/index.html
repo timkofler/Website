@@ -473,6 +473,35 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 .sky img{opacity:.96!important;filter:none!important}
 @media (max-width:960px){.sky{-webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,.45) 55%,#000 70%,#000 88%,transparent 99%);mask-image:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,.45) 55%,#000 70%,#000 88%,transparent 99%)}}
 @media (prefers-reduced-motion:reduce){.hero h1 .l1,.hero h1 .l2{animation:none}.xp__fly{opacity:1;transform:rotate(70deg)}}
+
+/* Karte im Kontakt schöner */
+.rwy{padding-top:32px}
+.map{border-radius:20px;overflow:hidden;border:1px solid rgba(111,208,255,.18);background:linear-gradient(160deg,rgba(20,60,120,.55),rgba(6,22,50,.8));box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 20px 40px -24px rgba(0,0,0,.6)}
+.rwy .map svg{display:block;width:100%;max-width:none;height:auto}
+.map__pulse{transform-box:fill-box;transform-origin:center;animation:mpulse 2.4s ease-out infinite}
+@keyframes mpulse{0%{transform:scale(1);opacity:.55}100%{transform:scale(3.4);opacity:0}}
+.map__foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;flex-wrap:wrap}
+.rwy .map__foot small{margin:0;color:#8aa0c2}
+.map__go{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#fff;font:600 14px/1 var(--sans);text-decoration:none;transition:background .2s}
+.map__go:hover{background:rgba(255,255,255,.16)}
+.map__go svg{width:15px;height:15px}
+@media (prefers-reduced-motion:reduce){.map__pulse{animation:none}}
+
+/* Hero wieder mit mehr Luft */
+@media (min-width:961px){
+  .hero{min-height:min(100svh,980px);padding-top:calc(var(--navh) + 64px);padding-bottom:96px}
+  .hero h1{margin-top:32px}
+  .hero .lead{margin-top:30px}
+  .hero__cta{margin-top:44px}
+  .hero__facts{margin-top:52px;padding-top:30px}
+}
+@media (min-width:1400px){.hero .wrap{gap:56px}.hero{padding-bottom:110px}#services{padding-top:64px}}
+@media (max-width:600px){
+  .hero{padding-top:calc(var(--navh) + 34px);padding-bottom:40px}
+  .hero h1{margin-top:26px}
+  .hero .lead{margin-top:22px}
+  .hero__cta{margin-top:30px}
+}
 </style>
 </head>
 <body>
@@ -496,11 +525,11 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 <main id="top">
 <section class="hero">
   <div class="sky" aria-hidden="true">
-    <img class="c1" src="assets/img/wolke-1.webp?v=2" width="1400" height="560" alt="">
-    <img class="c4" src="assets/img/wolke-2.webp?v=2" width="1000" height="460" alt="">
-    <img class="c2" src="assets/img/wolke-2.webp?v=2" width="1000" height="460" alt="">
-    <img class="c3" src="assets/img/wolke-3.webp?v=2" width="1600" height="420" alt="">
-    <img class="c5" src="assets/img/wolke-1.webp?v=2" width="1400" height="560" alt="">
+    <img class="c1" src="assets/img/wolke-1.webp?v=3" width="1400" height="560" alt="">
+    <img class="c4" src="assets/img/wolke-2.webp?v=3" width="1000" height="460" alt="">
+    <img class="c2" src="assets/img/wolke-2.webp?v=3" width="1000" height="460" alt="">
+    <img class="c3" src="assets/img/wolke-3.webp?v=3" width="1600" height="420" alt="">
+    <img class="c5" src="assets/img/wolke-1.webp?v=3" width="1400" height="560" alt="">
   </div>
   <div class="wrap">
     <div>
@@ -737,7 +766,21 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;ba
         <div class="cline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><div><small>E-mail</small><b>office@xbase.aero</b></div></div>
         <div class="cline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg><div><small>Phone</small><b>+43 … (to follow)</b></div></div>
         <div class="cline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><small>Office hours</small><b>Mon–Fri, 8 am – 5 pm</b></div></div>
-        <div class="rwy" aria-hidden="true"><svg viewBox="0 0 420 150" fill="none"><g stroke="rgba(111,208,255,.55)" stroke-width="10" stroke-linecap="round"><path d="M30 40 L390 96"/><path d="M250 12 L300 140"/></g><g stroke="#061632" stroke-width="1.6" stroke-dasharray="8 8"><path d="M30 40 L390 96"/><path d="M250 12 L300 140"/></g><circle cx="262" cy="74" r="7" fill="#00b8ff"/><circle cx="262" cy="74" r="16" stroke="#00b8ff" stroke-opacity=".4"/><text x="282" y="70" fill="#eaf2ff" font-family="Space Mono,monospace" font-size="12">XBASE Aero</text><text x="30" y="30" fill="#6c83a8" font-family="Space Mono,monospace" font-size="10">RWY 11</text><text x="330" y="140" fill="#6c83a8" font-family="Space Mono,monospace" font-size="10">RWY 34</text></svg><small>Vienna International Airport · LOWW</small></div>
+        <div class="rwy"><div class="map"><svg viewBox="0 0 460 230" fill="none" aria-hidden="true">
+<defs><pattern id="mg" width="23" height="23" patternUnits="userSpaceOnUse"><path d="M23 0H0V23" stroke="rgba(111,208,255,.07)"/></pattern>
+<radialGradient id="mh" cx=".6" cy=".45" r=".6"><stop offset="0" stop-color="#0d3a7a" stop-opacity=".9"/><stop offset="1" stop-color="#061632" stop-opacity="0"/></radialGradient></defs>
+<rect width="460" height="230" fill="url(#mg)"/><rect width="460" height="230" fill="url(#mh)"/>
+<g stroke="rgba(111,208,255,.22)" stroke-width="3" stroke-linecap="round"><path d="M70 92 L250 120 L300 150"/><path d="M200 112 L212 70 L262 60"/><path d="M262 60 L330 112"/></g>
+<g fill="rgba(111,208,255,.14)" stroke="rgba(111,208,255,.35)"><rect x="214" y="40" width="70" height="16" rx="4"/><rect x="290" y="50" width="30" height="34" rx="4" transform="rotate(18 305 67)"/></g>
+<g stroke-linecap="butt"><path d="M40 70 L420 130" stroke="#1d3d6e" stroke-width="16"/><path d="M200 18 L262 212" stroke="#1d3d6e" stroke-width="16"/></g>
+<g stroke="#eaf2ff" stroke-opacity=".75" stroke-width="1.4" stroke-dasharray="10 9"><path d="M62 73.5 L398 126.5"/><path d="M206 39 L255 191"/></g>
+<g stroke="#eaf2ff" stroke-opacity=".6" stroke-width="1.4"><path d="M45 66 l-2 9M49 67 l-2 9M53 67.5 l-2 9M417 125 l-2 9M413 124.5 l-2 9M409 124 l-2 9M195 22 l10 -3M197 27 l10 -3M257 210 l10 -3M255 205 l10 -3"/></g>
+<g fill="#8fb4e6" font-family="Space Mono,monospace" font-size="10"><text x="16" y="64">11</text><text x="428" y="142">29</text><text x="186" y="14">16</text><text x="268" y="226">34</text></g>
+<g transform="translate(372 30)" stroke="#6fd0ff" stroke-opacity=".7"><circle r="13" stroke-opacity=".3"/><path d="M0 -9 L4 4 L0 1 L-4 4 Z" fill="#6fd0ff" fill-opacity=".8" stroke="none"/><text y="24" x="-3.5" fill="#6fd0ff" stroke="none" font-family="Space Mono,monospace" font-size="9">N</text></g>
+<g class="map__pin" transform="translate(305 84)"><circle class="map__pulse" r="10" fill="#00b8ff"/><circle r="12" fill="#00b8ff" fill-opacity=".18"/><circle r="6.5" fill="#00b8ff" stroke="#fff" stroke-width="2.2"/></g>
+<g transform="translate(318 152)"><rect width="122" height="40" rx="10" fill="rgba(255,255,255,.1)" stroke="rgba(255,255,255,.22)"/><text x="12" y="17" fill="#fff" font-family="Outfit,Inter,sans-serif" font-weight="600" font-size="12">XBASE Aero</text><text x="12" y="31" fill="#8fb4e6" font-family="Space Mono,monospace" font-size="9">TOWER STR. 3</text></g>
+<path d="M310 92 L330 150" stroke="rgba(255,255,255,.3)" stroke-dasharray="2 3"/>
+</svg></div><div class="map__foot"><small>Vienna International Airport · LOWW · schematic</small><a class="map__go" href="https://www.google.com/maps/search/?api=1&amp;query=Tower+Stra%C3%9Fe+3%2C+1300+Schwechat" target="_blank" rel="noopener">Directions <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div></div>
       </div>
       <div class="cbox cbox--f rv">
         <div class="tabs" role="tablist" aria-label="Request type">
