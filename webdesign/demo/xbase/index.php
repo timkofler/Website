@@ -14,7 +14,7 @@
   --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--head:"Outfit","Inter",system-ui,sans-serif;--mono:"Space Mono",ui-monospace,Menlo,Consolas,monospace;--navh:76px}
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:calc(var(--navh) + 12px)}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.62 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:clip}
+body{margin:0;background:#eef4fc;color:var(--ink);font:400 17px/1.62 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:clip}
 img,svg{display:block;max-width:100%}
 a{color:inherit}
 p{margin:0}
@@ -349,9 +349,11 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
 .foot__cta .hero__cta{margin-top:0}
 .foot__cta .btn--l{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25);color:#fff}
 .foot__cta .btn--l:hover{background:rgba(255,255,255,.18)}
-.foot__cta .btn--w{background:#fff;color:var(--ink)}
+.foot__cta .btn--w,.foot__cta .btn--w:hover,.foot__cta .btn--w:focus,.foot__cta .btn--w:active{background:#fff;color:var(--ink)}
+.foot__cta .btn--w:hover{transform:translateY(-2px);box-shadow:0 14px 30px -14px rgba(0,0,0,.6)}
 @media (max-width:960px){
   .about__pics{grid-template-columns:1fr;gap:14px}
+  .about__pics img{height:auto}
   .about__pics img:first-child,.about__pics img:last-child{aspect-ratio:4/3;object-position:50% 50%;margin:0}
 }
 @media (max-width:600px){
@@ -381,6 +383,125 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
   .foot__top{gap:30px}
   .foot__bot{flex-direction:column;gap:8px;padding-bottom:64px;line-height:1.5}
 }
+@media (min-width:961px){#services{padding-top:56px}}
+@media (min-width:1400px){
+  .wrap{width:min(1600px,100% - 120px)}
+  .hero .wrap{gap:24px}
+  .hero{padding-bottom:30px}
+  #services{padding-top:40px}
+  .cards--7{gap:20px}
+  .hero h1{font-size:clamp(66px,4.3vw,92px)}
+  .hero .lead{font-size:clamp(20px,1.2vw,23px);max-width:36em}
+  .hero__tag{font-size:15px;padding:10px 16px 10px 12px}
+  .hero__cta .btn{min-height:60px;padding:0 32px;font-size:17px}
+  .hero__facts{max-width:720px}
+  .hero__facts b{font-size:26px}
+  .plan{max-width:860px;justify-self:center}
+  .chip{font-size:15px;padding:12px 16px}
+}
+
+/* Referenz als eine Karte mit Strecke */
+.refcard{display:grid;grid-template-columns:.85fr 1.15fr;margin-top:48px;background:#fff;border:1px solid var(--line);border-radius:32px;overflow:hidden;box-shadow:0 40px 80px -60px rgba(10,26,51,.5)}
+.refcard__logo{display:grid;place-items:center;padding:clamp(36px,5vw,72px);background:radial-gradient(80% 90% at 30% 20%,rgba(0,184,255,.12),transparent 70%),linear-gradient(160deg,#f7faff,#eaf2fd);border-right:1px solid var(--line)}
+.refcard__logo img{width:min(340px,86%);height:auto}
+.refcard__txt{padding:clamp(32px,4.4vw,64px);display:flex;flex-direction:column;justify-content:center}
+.refcard__txt small{font:400 12px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
+.refcard__txt p{font:500 clamp(22px,2.1vw,32px)/1.25 var(--head);letter-spacing:-.02em;margin-top:14px;max-width:24ch}
+.route{display:flex;align-items:center;gap:18px;margin-top:34px}
+.route b{font:600 30px/1 var(--head);letter-spacing:-.02em;color:var(--ink)}
+.route i{display:block;font:400 11px/1.3 var(--mono);font-style:normal;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin-top:6px}
+.route__l{flex:1;position:relative;height:2px;background:repeating-linear-gradient(90deg,var(--blue) 0 8px,transparent 8px 14px);opacity:.75}
+.route__l svg{position:absolute;top:50%;left:0;width:26px;height:26px;color:var(--blue);transform:translate(-50%,-50%) rotate(90deg);animation:route 6s cubic-bezier(.45,0,.55,1) infinite;background:#fff;border-radius:50%;padding:2px}
+@keyframes route{0%{left:4%}50%{left:96%}50.01%{left:96%;transform:translate(-50%,-50%) rotate(-90deg)}100%{left:4%;transform:translate(-50%,-50%) rotate(-90deg)}}
+@media (max-width:760px){.refcard{grid-template-columns:1fr}.refcard__logo{border-right:0;border-bottom:1px solid var(--line);padding:36px}.route b{font-size:24px}.route i{max-width:12ch}}
+@media (prefers-reduced-motion:reduce){.route__l svg{animation:none;left:50%}}
+
+/* PC: Bildband als Karte, Flugzeug ganz sichtbar */
+@media (min-width:961px){
+  .band{width:min(1240px,100% - 40px);margin-inline:auto;min-height:0;aspect-ratio:2/1;border-radius:32px;box-shadow:0 50px 90px -60px rgba(6,22,50,.7)}
+  .band img{object-position:50% 40%}
+  .band::after{background:linear-gradient(200deg,rgba(6,22,50,0) 55%,rgba(6,22,50,.6))}
+  .band .wrap{width:auto;margin:0;padding:0 clamp(28px,3.4vw,56px) clamp(26px,3vw,48px);display:block;text-align:left}
+  .band p{font-size:clamp(28px,2.6vw,44px);max-width:15ch}
+  .about__pics{display:block;position:relative;padding-bottom:22%}
+  .about__pics img{height:auto}
+  .about__pics img:first-child{width:86%;aspect-ratio:4/3;object-position:50% 50%}
+  .about__pics img:last-child{position:absolute;right:0;bottom:0;width:56%;aspect-ratio:4/3;margin:0;border:6px solid var(--bg);border-radius:26px;box-shadow:0 40px 70px -30px rgba(10,26,51,.6)}
+  .hero{min-height:0;padding-bottom:40px}
+  .sky{-webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,.4),rgba(0,0,0,.4) 42%,#000 62%),linear-gradient(180deg,#000 72%,transparent 98%);mask-image:linear-gradient(90deg,rgba(0,0,0,.4),rgba(0,0,0,.4) 42%,#000 62%),linear-gradient(180deg,#000 72%,transparent 98%);-webkit-mask-composite:source-in;mask-composite:intersect}
+}
+@media (min-width:1400px){.band{width:min(1600px,100% - 120px)}}
+
+/* Glas-Design */
+:root{--glass:linear-gradient(150deg,rgba(255,255,255,.82),rgba(255,255,255,.46));--glass-b:rgba(255,255,255,.85);--glass-s:inset 0 1px 0 rgba(255,255,255,.95),0 1px 2px rgba(10,40,90,.04),0 26px 50px -32px rgba(10,40,90,.38)}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:
+  radial-gradient(38% 32% at 8% 18%,rgba(0,184,255,.20),transparent 70%),
+  radial-gradient(34% 30% at 92% 42%,rgba(10,108,240,.15),transparent 70%),
+  radial-gradient(46% 38% at 38% 100%,rgba(111,208,255,.24),transparent 70%),
+  linear-gradient(180deg,#f1f6fd,#e8f1fc)}
+.card:not(.card--cta),.vals div,.person,.job__main,.job__item,.refcard,.cbox--f,.who span,.tabs{background:var(--glass);border:1px solid var(--glass-b);box-shadow:var(--glass-s);-webkit-backdrop-filter:blur(16px) saturate(160%);backdrop-filter:blur(16px) saturate(160%)}
+.card:not(.card--cta):hover,.job__item:hover{border-color:rgba(10,108,240,.35);box-shadow:inset 0 1px 0 #fff,0 34px 60px -34px rgba(10,60,140,.5)}
+.card__i{background:linear-gradient(140deg,rgba(0,184,255,.18),rgba(11,63,168,.14));box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 8px 18px -10px rgba(10,108,240,.5)}
+.refcard__logo{background:radial-gradient(80% 90% at 30% 20%,rgba(0,184,255,.14),transparent 70%),rgba(255,255,255,.35);border-right-color:var(--glass-b)}
+.form input,.form select,.form textarea{background:rgba(255,255,255,.6);border:1px solid rgba(10,26,51,.12);box-shadow:inset 0 1px 2px rgba(10,26,51,.06),0 1px 0 rgba(255,255,255,.9)}
+.form input:hover,.form select:hover,.form textarea:hover{border-color:rgba(10,108,240,.35)}
+.form input:focus,.form select:focus,.form textarea:focus{background:#fff;border-color:var(--blue);box-shadow:0 0 0 4px rgba(10,108,240,.14)}
+.seg button{background:rgba(255,255,255,.65);border-color:rgba(10,26,51,.12);box-shadow:inset 0 1px 0 #fff}
+.seg button:hover{border-color:rgba(10,108,240,.4)}
+.seg button[aria-pressed="true"],.tabs button[aria-selected="true"]{background:var(--grad);border-color:transparent;color:#fff;box-shadow:0 10px 24px -12px rgba(10,108,240,.9)}
+.btn--l{background:rgba(255,255,255,.55);border-color:var(--glass-b);box-shadow:inset 0 1px 0 #fff,0 12px 26px -18px rgba(10,40,90,.5);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.hero__tag{background:rgba(255,255,255,.6);border-color:var(--glass-b);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.avatar{box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 14px 28px -14px rgba(10,108,240,.8)}
+.cbox--d{background:radial-gradient(70% 60% at 100% 100%,rgba(0,176,255,.28),transparent 70%),linear-gradient(160deg,#0b2147,#061632);border:1px solid rgba(111,208,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 40px 70px -40px rgba(6,22,50,.8)}
+.stats{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.14);box-shadow:inset 0 1px 0 rgba(255,255,255,.1);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.hero::after{display:none}
+.hero{background:linear-gradient(180deg,#5aaef6 0%,#8fcbfb 36%,#cde9ff 68%,rgba(225,238,252,.6) 88%,rgba(238,244,252,0) 100%)}
+
+/* Slogan mit Auftritt */
+.hero h1 .l1,.hero h1 .l2{display:block;animation:rise 1s cubic-bezier(.2,.8,.2,1) both}
+.hero h1 .l1{background:linear-gradient(100deg,#061632 20%,#0b3fa8 60%,#061632 90%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:rise 1s cubic-bezier(.2,.8,.2,1) both,sheen 9s 1.6s ease-in-out infinite}
+.hero h1 .l2{animation-delay:.18s;filter:drop-shadow(0 10px 28px rgba(10,108,240,.35))}
+@keyframes rise{from{opacity:0;transform:translateY(.45em);filter:blur(10px)}to{opacity:1;transform:none}}
+.hero h1 .l2 .g,.xp b{background-image:linear-gradient(100deg,#00b8ff 0%,#0a6cf0 30%,#3fc4ff 45%,#0a6cf0 60%,#0b3fa8 100%);background-size:250% 100%;animation:sheen 6s 1.2s ease-in-out infinite}
+@keyframes sheen{0%,100%{background-position:100% 0}50%{background-position:0 0}}
+.xp b{text-shadow:none;filter:drop-shadow(0 0 18px rgba(0,184,255,.55))}
+.xp__fly{position:absolute;right:-.5em;bottom:.02em;width:.42em;height:.42em;color:#0a6cf0;opacity:0;transform:translate(-40%,30%) rotate(70deg) scale(.6);animation:flyin .9s 1.7s cubic-bezier(.2,.8,.2,1) forwards,bob 3.2s 2.6s ease-in-out infinite}
+.xp__fly svg{width:100%;height:100%;filter:drop-shadow(0 4px 8px rgba(10,108,240,.5))}
+@keyframes flyin{to{opacity:1;transform:translate(0,0) rotate(70deg) scale(1)}}
+@keyframes bob{0%,100%{translate:0 0}50%{translate:0 -.06em}}
+.hero h1 .l2{white-space:nowrap}
+.sky img{opacity:.96!important;filter:none!important}
+@media (max-width:960px){.sky{-webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,.45) 55%,#000 70%,#000 88%,transparent 99%);mask-image:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,.45) 55%,#000 70%,#000 88%,transparent 99%)}}
+@media (prefers-reduced-motion:reduce){.hero h1 .l1,.hero h1 .l2{animation:none}.xp__fly{opacity:1;transform:rotate(70deg)}}
+
+/* Karte im Kontakt schöner */
+.rwy{padding-top:32px}
+.map{border-radius:20px;overflow:hidden;border:1px solid rgba(111,208,255,.18);background:linear-gradient(160deg,rgba(20,60,120,.55),rgba(6,22,50,.8));box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 20px 40px -24px rgba(0,0,0,.6)}
+.rwy .map svg{display:block;width:100%;max-width:none;height:auto}
+.map__pulse{transform-box:fill-box;transform-origin:center;animation:mpulse 2.4s ease-out infinite}
+@keyframes mpulse{0%{transform:scale(1);opacity:.55}100%{transform:scale(3.4);opacity:0}}
+.map__foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;flex-wrap:wrap}
+.rwy .map__foot small{margin:0;color:#8aa0c2}
+.map__go{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#fff;font:600 14px/1 var(--sans);text-decoration:none;transition:background .2s}
+.map__go:hover{background:rgba(255,255,255,.16)}
+.map__go svg{width:15px;height:15px}
+@media (prefers-reduced-motion:reduce){.map__pulse{animation:none}}
+
+/* Hero wieder mit mehr Luft */
+@media (min-width:961px){
+  .hero{min-height:min(100svh,980px);padding-top:calc(var(--navh) + 64px);padding-bottom:96px}
+  .hero h1{margin-top:32px}
+  .hero .lead{margin-top:30px}
+  .hero__cta{margin-top:44px}
+  .hero__facts{margin-top:52px;padding-top:30px}
+}
+@media (min-width:1400px){.hero .wrap{gap:56px}.hero{padding-bottom:110px}#services{padding-top:64px}}
+@media (max-width:600px){
+  .hero{padding-top:calc(var(--navh) + 34px);padding-bottom:40px}
+  .hero h1{margin-top:26px}
+  .hero .lead{margin-top:22px}
+  .hero__cta{margin-top:30px}
+}
 </style>
 </head>
 <body>
@@ -404,16 +525,16 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
 <main id="top">
 <section class="hero">
   <div class="sky" aria-hidden="true">
-    <img class="c1" src="assets/img/wolke-1.webp" width="1400" height="560" alt="">
-    <img class="c4" src="assets/img/wolke-2.webp" width="1000" height="460" alt="">
-    <img class="c2" src="assets/img/wolke-2.webp" width="1000" height="460" alt="">
-    <img class="c3" src="assets/img/wolke-3.webp" width="1600" height="420" alt="">
-    <img class="c5" src="assets/img/wolke-1.webp" width="1400" height="560" alt="">
+    <img class="c1" src="assets/img/wolke-1.webp?v=3" width="1400" height="560" alt="">
+    <img class="c4" src="assets/img/wolke-2.webp?v=3" width="1000" height="460" alt="">
+    <img class="c2" src="assets/img/wolke-2.webp?v=3" width="1000" height="460" alt="">
+    <img class="c3" src="assets/img/wolke-3.webp?v=3" width="1600" height="420" alt="">
+    <img class="c5" src="assets/img/wolke-1.webp?v=3" width="1400" height="560" alt="">
   </div>
   <div class="wrap">
     <div>
       <span class="hero__tag"><i></i>Based at Vienna International Airport</span>
-      <h1>Best Aviation Services <span class="l2"><span class="g">Delivered by</span> <span class="xp"><b>X</b><span class="g">perts.</span><svg viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M4 18 C 90 4, 200 2, 296 10"/></svg></span></span></h1>
+      <h1><span class="l1">Best Aviation Services</span> <span class="l2"><span class="g">Delivered by</span> <span class="xp"><b>X</b><span class="g">perts.</span><svg viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M4 18 C 90 4, 200 2, 296 10"/></svg><i class="xp__fly" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></i></span></span></h1>
       <p class="lead">XBASE Aero supports airlines, CAMOs, maintenance organisations and operators with engineering, compliance, materials and qualified aviation professionals. One partner, one point of contact.</p>
       <div class="hero__cta">
         <a class="btn btn--p" href="#contact">Get in touch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -566,7 +687,7 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
         </div>
       </div>
       <div class="about__pics rv">
-        <img src="assets/img/cockpit-800.webp" srcset="assets/img/cockpit-800.webp 800w, assets/img/cockpit.webp 1600w" sizes="(max-width:960px) 100vw, 28vw" width="800" height="600" alt="Cockpit overhead panel" loading="lazy">
+        <img src="assets/img/cockpit-800.webp" srcset="assets/img/cockpit-800.webp 800w, assets/img/cockpit.webp 1600w" sizes="(max-width:960px) 100vw, 40vw" width="800" height="600" alt="Cockpit overhead panel" loading="lazy">
         <img src="assets/img/triebwerk-800.webp" srcset="assets/img/triebwerk-800.webp 800w, assets/img/triebwerk.webp 1600w" sizes="(max-width:960px) 100vw, 22vw" width="800" height="600" alt="Aircraft engine on the apron" loading="lazy">
       </div>
     </div>
@@ -586,9 +707,13 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
   <div class="wrap">
     <span class="k rv">References</span>
     <h2 class="h2 rv">Trusted <span class="g">in the industry.</span></h2>
-    <div class="refs">
-      <div class="ref rv"><img src="assets/img/peoples-logo.webp" width="700" height="302" alt="People's Airline"></div>
-      <div class="ref__txt rv"><q>People's, the airline connecting Vienna and St. Gallen-Altenrhein, works with XBASE Aero.</q><small>Reference customer · Airline</small></div>
+    <div class="refcard rv">
+      <div class="refcard__logo"><img src="assets/img/peoples-logo.webp" width="700" height="302" alt="People's Airline"></div>
+      <div class="refcard__txt">
+        <small>Reference customer · Airline</small>
+        <p>People's, the airline connecting Vienna and St. Gallen-Altenrhein, works with XBASE Aero.</p>
+        <div class="route" aria-hidden="true"><b>VIE<i>Vienna</i></b><span class="route__l"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></span><b>ACH<i>St. Gallen-Altenrhein</i></b></div>
+      </div>
     </div>
   </div>
 </section>
@@ -641,7 +766,21 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
         <div class="cline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><div><small>E-mail</small><b>office@xbase.aero</b></div></div>
         <div class="cline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg><div><small>Phone</small><b>+43 … (to follow)</b></div></div>
         <div class="cline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><small>Office hours</small><b>Mon–Fri, 8 am – 5 pm</b></div></div>
-        <div class="rwy" aria-hidden="true"><svg viewBox="0 0 420 150" fill="none"><g stroke="rgba(111,208,255,.55)" stroke-width="10" stroke-linecap="round"><path d="M30 40 L390 96"/><path d="M250 12 L300 140"/></g><g stroke="#061632" stroke-width="1.6" stroke-dasharray="8 8"><path d="M30 40 L390 96"/><path d="M250 12 L300 140"/></g><circle cx="262" cy="74" r="7" fill="#00b8ff"/><circle cx="262" cy="74" r="16" stroke="#00b8ff" stroke-opacity=".4"/><text x="282" y="70" fill="#eaf2ff" font-family="Space Mono,monospace" font-size="12">XBASE Aero</text><text x="30" y="30" fill="#6c83a8" font-family="Space Mono,monospace" font-size="10">RWY 11</text><text x="330" y="140" fill="#6c83a8" font-family="Space Mono,monospace" font-size="10">RWY 34</text></svg><small>Vienna International Airport · LOWW</small></div>
+        <div class="rwy"><div class="map"><svg viewBox="0 0 460 230" fill="none" aria-hidden="true">
+<defs><pattern id="mg" width="23" height="23" patternUnits="userSpaceOnUse"><path d="M23 0H0V23" stroke="rgba(111,208,255,.07)"/></pattern>
+<radialGradient id="mh" cx=".6" cy=".45" r=".6"><stop offset="0" stop-color="#0d3a7a" stop-opacity=".9"/><stop offset="1" stop-color="#061632" stop-opacity="0"/></radialGradient></defs>
+<rect width="460" height="230" fill="url(#mg)"/><rect width="460" height="230" fill="url(#mh)"/>
+<g stroke="rgba(111,208,255,.22)" stroke-width="3" stroke-linecap="round"><path d="M70 92 L250 120 L300 150"/><path d="M200 112 L212 70 L262 60"/><path d="M262 60 L330 112"/></g>
+<g fill="rgba(111,208,255,.14)" stroke="rgba(111,208,255,.35)"><rect x="214" y="40" width="70" height="16" rx="4"/><rect x="290" y="50" width="30" height="34" rx="4" transform="rotate(18 305 67)"/></g>
+<g stroke-linecap="butt"><path d="M40 70 L420 130" stroke="#1d3d6e" stroke-width="16"/><path d="M200 18 L262 212" stroke="#1d3d6e" stroke-width="16"/></g>
+<g stroke="#eaf2ff" stroke-opacity=".75" stroke-width="1.4" stroke-dasharray="10 9"><path d="M62 73.5 L398 126.5"/><path d="M206 39 L255 191"/></g>
+<g stroke="#eaf2ff" stroke-opacity=".6" stroke-width="1.4"><path d="M45 66 l-2 9M49 67 l-2 9M53 67.5 l-2 9M417 125 l-2 9M413 124.5 l-2 9M409 124 l-2 9M195 22 l10 -3M197 27 l10 -3M257 210 l10 -3M255 205 l10 -3"/></g>
+<g fill="#8fb4e6" font-family="Space Mono,monospace" font-size="10"><text x="16" y="64">11</text><text x="428" y="142">29</text><text x="186" y="14">16</text><text x="268" y="226">34</text></g>
+<g transform="translate(372 30)" stroke="#6fd0ff" stroke-opacity=".7"><circle r="13" stroke-opacity=".3"/><path d="M0 -9 L4 4 L0 1 L-4 4 Z" fill="#6fd0ff" fill-opacity=".8" stroke="none"/><text y="24" x="-3.5" fill="#6fd0ff" stroke="none" font-family="Space Mono,monospace" font-size="9">N</text></g>
+<g class="map__pin" transform="translate(305 84)"><circle class="map__pulse" r="10" fill="#00b8ff"/><circle r="12" fill="#00b8ff" fill-opacity=".18"/><circle r="6.5" fill="#00b8ff" stroke="#fff" stroke-width="2.2"/></g>
+<g transform="translate(318 152)"><rect width="122" height="40" rx="10" fill="rgba(255,255,255,.1)" stroke="rgba(255,255,255,.22)"/><text x="12" y="17" fill="#fff" font-family="Outfit,Inter,sans-serif" font-weight="600" font-size="12">XBASE Aero</text><text x="12" y="31" fill="#8fb4e6" font-family="Space Mono,monospace" font-size="9">TOWER STR. 3</text></g>
+<path d="M310 92 L330 150" stroke="rgba(255,255,255,.3)" stroke-dasharray="2 3"/>
+</svg></div><div class="map__foot"><small>Vienna International Airport · LOWW · schematic</small><a class="map__go" href="https://www.google.com/maps/search/?api=1&amp;query=Tower+Stra%C3%9Fe+3%2C+1300+Schwechat" target="_blank" rel="noopener">Directions <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div></div>
       </div>
       <div class="cbox cbox--f rv">
         <div class="tabs" role="tablist" aria-label="Request type">
