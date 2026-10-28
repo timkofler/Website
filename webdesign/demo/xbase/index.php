@@ -989,5 +989,5 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 
 <script src="assets/app.js?v=6" defer></script>
 <script src="assets/himmel.js?v=5" defer></script>
-<script type="module" src="assets/flug3d.js?v=8"></script>
+<script type="module" src="assets/flug3d.js?v=9"></script>
 </body></html>
