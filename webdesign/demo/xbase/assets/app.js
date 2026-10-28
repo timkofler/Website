@@ -13,7 +13,7 @@
   tabs.forEach(t=>t.addEventListener('click',()=>show(t.id.slice(2))));
   document.querySelectorAll('[data-tab]').forEach(a=>a.addEventListener('click',()=>show(a.dataset.tab)));
   document.querySelectorAll('[data-topic]').forEach(a=>a.addEventListener('click',()=>{show('contact');document.querySelectorAll('#topic button').forEach(y=>y.setAttribute('aria-pressed',String(y.textContent===a.dataset.topic)))}));
-  document.querySelectorAll('.pane').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();f.querySelector('.note').textContent='Thank you! This is a draft. On the live site your request will be sent by e-mail.'}));
+  document.querySelectorAll('.pane').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();sendFly(f);f.querySelector('.note').textContent='Thank you! This is a draft. On the live site your request will be sent by e-mail.'}));
   // Entwurf-Abzeichen: beim Runterscrollen weg, beim Hochscrollen und ganz unten wieder da
   const dr=document.querySelector('.draft');
   if(dr){let ly=scrollY;addEventListener('scroll',()=>{const y=scrollY,end=y+innerHeight>document.documentElement.scrollHeight-40;dr.classList.toggle('hide',y>ly&&y>200&&!end);if(y<ly||end)dr.classList.remove('hide');ly=y},{passive:true})}
@@ -31,3 +31,16 @@
     upd();addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);
   }
 })();
+
+// Abschicken: Knopf faltet sich zum Flieger, der davonfliegt
+function sendFly(f){
+  const b=f.querySelector('button[type=submit]');
+  if(!b||b.classList.contains('is-sent')||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const r=b.getBoundingClientRect(),p=document.createElement('span');
+  p.className='fly-plane';
+  p.innerHTML='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>';
+  p.style.left=r.left+r.width/2+'px';p.style.top=r.top+r.height/2+'px';
+  document.body.appendChild(p);b.classList.add('is-sent');
+  setTimeout(()=>p.remove(),1800);
+  setTimeout(()=>{b.classList.remove('is-sent');b.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'none'}],{duration:400,easing:'ease-out'})},3200);
+}
