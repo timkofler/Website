@@ -484,5 +484,5 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
 <a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener"><img src="assets/img/tk-logo-2.svg" width="702" height="358" alt=""><span>Entwurf von Tim Kofler</span></a>
 
 <script src="assets/app.js?v=2" defer></script>
-<script type="module" src="assets/flug3d.js?v=2"></script>
+<script type="module" src="assets/flug3d.js?v=3"></script>
 </body></html>
