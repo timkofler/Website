@@ -832,7 +832,7 @@ function kp_render_messages(array $d, string $ich, string $kundeName, ?callable 
             $out .= '<li class="kp-day"><span>' . cx_h(kp_day_label($t)) . '</span></li>';
         }
         $who = $mine ? 'Du' : ($von === 'tim' ? 'Tim' : $kundeName);
-        $ava = $von === 'tim' ? '<img class="kp-m__ava" src="/assets/img/team/tim-portrait.webp?v=2" alt="" width="22" height="22">'
+        $ava = $von === 'tim' ? '<img class="kp-m__ava" src="/assets/img/team/tim-portrait.webp?v=3" alt="" width="22" height="22">'
             : '<span class="kp-m__ava">' . kp_initials($kundeName) . '</span>';
         $art = (string) ($m['art'] ?? 'nachricht');
         $tag = $art !== 'nachricht' && isset(KP_ARTEN[$art]) ? '<span class="kp-tag kp-tag--' . $art . '">' . cx_h(KP_ARTEN[$art]) . '</span>' : '';
