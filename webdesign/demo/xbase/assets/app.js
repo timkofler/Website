@@ -1,8 +1,8 @@
 (()=>{
   const nav=document.getElementById('nav'),b=document.getElementById('burger'),p=document.getElementById('mpanel');
   const onS=()=>nav.classList.toggle('is-s',scrollY>10);onS();addEventListener('scroll',onS,{passive:true});
-  const close=()=>{p.classList.remove('open');b.setAttribute('aria-expanded','false');nav.classList.toggle('is-s',scrollY>10)};
-  b.addEventListener('click',()=>{const o=!p.classList.contains('open');p.classList.toggle('open',o);b.setAttribute('aria-expanded',String(o));if(o)nav.classList.add('is-s')});
+  const close=()=>{p.classList.remove('open');document.documentElement.classList.remove('mp-open');b.setAttribute('aria-expanded','false');nav.classList.toggle('is-s',scrollY>10)};
+  b.addEventListener('click',()=>{const o=!p.classList.contains('open');p.classList.toggle('open',o);document.documentElement.classList.toggle('mp-open',o);b.setAttribute('aria-expanded',String(o));if(o)nav.classList.add('is-s')});
   p.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));
   document.querySelectorAll('.seg button').forEach(x=>x.addEventListener('click',()=>{x.parentNode.querySelectorAll('button').forEach(y=>y.setAttribute('aria-pressed',String(y===x)));const f=x.closest('.pane');if(f)f.dataset.prio=x.dataset.v}));
   // Leistungen: Details aufklappen, am PC folgt ein Lichtschein der Maus

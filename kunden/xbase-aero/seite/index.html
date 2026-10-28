@@ -910,6 +910,27 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 @media (min-width:601px){.lead,.hero .lead{font-size:19px}}
 .card p,.cards--7 .card p,.card li,.card ul,.foot__top p,.card--cta p,.who span,.vals.vals--deck>div:not(.deck__hd)>span,.person p,.step p,.steps .step p,.route li small,.foot__cta p{font-size:16px;line-height:1.6}
 .hero__tag,.job__item small,.note,.cbox--f .note{font-size:14px}
+
+/* Handy-Menü neu: volle Höhe, Nummern, Pfeil-Kacheln, Kontaktkarte unten */
+.mpanel{inset:var(--navh) 0 0 0;display:flex;flex-direction:column;overflow-y:auto;overscroll-behavior:contain;padding:10px 20px calc(22px + env(safe-area-inset-bottom));border-bottom:0;background:radial-gradient(120% 60% at 100% 0%,rgba(0,184,255,.14),transparent 60%),linear-gradient(180deg,#f3f7fc,#e7f0fc)}
+.mp__nav a:not(.btn){min-height:64px;font-size:26px;justify-content:flex-start;gap:16px}
+.mp__nav a i{font:400 11px/1 var(--mono);letter-spacing:.1em;color:var(--blue);font-style:normal;width:20px}
+.mp__nav a:not(.btn)::after{content:"";margin-left:auto;width:38px;height:38px;border-radius:10px;background:rgba(10,108,240,.08) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230a6cf0' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14M13 6l6 6-6 6'/%3E%3C/svg%3E") center/18px no-repeat;transition:background-color .2s}
+.mp__nav a:active::after{background-color:rgba(10,108,240,.18)}
+.mpanel .btn{margin-top:24px;flex:none}
+.mp__card{padding-top:0;flex:none;border-radius:18px;overflow:hidden;background:linear-gradient(160deg,#17386a,#0b2147);color:#cfe0ff;box-shadow:0 20px 40px -24px rgba(6,22,50,.7)}
+.mpanel .mp__card{margin-top:24px}
+html.mp-open .draft{opacity:0;pointer-events:none}
+.mp__hd{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-bottom:1px solid rgba(255,255,255,.08);font:400 10.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.mp__hd b{font-weight:400;color:#4ade80;display:inline-flex;align-items:center;gap:7px}
+.mp__hd b::before{content:"";width:7px;height:7px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80}
+.mp__card>a{display:block;padding:16px 18px 4px;color:#fff;font:600 19px/1.2 var(--head);text-decoration:none;border:0;min-height:0}
+.mp__card>a::after{display:none}
+.mp__card small{display:block;padding:0 18px 16px;font-size:14px;color:#8fa6c9}
+.mpanel .mp__nav a,.mpanel>.btn,.mp__card{opacity:0;transform:translateY(12px);transition:opacity .4s,transform .45s cubic-bezier(.2,.7,.2,1)}
+.mpanel.open .mp__nav a,.mpanel.open>.btn,.mpanel.open .mp__card{opacity:1;transform:none;transition-delay:calc(var(--i,0) * 45ms + 60ms)}
+html.mp-open{overflow:hidden}
+@media (prefers-reduced-motion:reduce){.mpanel .mp__nav a,.mpanel>.btn,.mp__card{transition:none;opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -926,8 +947,9 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
   </div>
 </header>
 <div class="mpanel" id="mpanel">
-  <a href="#services">Services</a><a href="#about">About us</a><a href="#references">References</a><a href="#careers">Careers</a><a href="#contact">Contact</a>
-  <a class="btn btn--p" href="#contact" data-tab="material">Material request</a>
+  <nav class="mp__nav" aria-label="Menu"><a href="#services" style="--i:0"><i>01</i>Services</a><a href="#about" style="--i:1"><i>02</i>About us</a><a href="#references" style="--i:2"><i>03</i>References</a><a href="#careers" style="--i:3"><i>04</i>Careers</a><a href="#contact" style="--i:4"><i>05</i>Contact</a></nav>
+  <a class="btn btn--p" href="#contact" data-tab="material" style="--i:5">Material request <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  <div class="mp__card" style="--i:6"><div class="mp__hd"><span>XBASE · Contact</span><b>Online</b></div><a href="mailto:office@xbase.aero">office@xbase.aero</a><small>Tower Straße 3 · Vienna Airport</small></div>
 </div>
 
 <main id="top">
@@ -1278,7 +1300,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 
 <a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener" aria-label="Draft by Tim Kofler"><img src="assets/img/tk-logo-2.svg" width="702" height="358" alt=""><span>Draft by Tim Kofler</span></a>
 
-<script src="assets/app.js?v=13" defer></script>
+<script src="assets/app.js?v=14" defer></script>
 <script src="assets/himmel.js?v=7" defer></script>
 <script type="module" src="assets/flug3d.js?v=12"></script>
 </body></html>
