@@ -129,7 +129,7 @@ echo <<<HTML
   <link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/style.css?v=5d1d811a">
-  <link rel="stylesheet" href="/assets/css/tk.css?v=744ba3f9">
+  <link rel="stylesheet" href="/assets/css/tk.css?v=6db05800">
   <link rel="stylesheet" href="/assets/css/black.css?v=7c112269">
   <meta name="tk-white-css" content="/assets/css/white.css?v=24b159d5">
   <script src="/assets/js/tk-black.js?v=add20d6a"></script>
