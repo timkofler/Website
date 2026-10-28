@@ -357,9 +357,9 @@ function start() {
   function frame(now) {
     if (!visible) return;
     const t = window.__flugT ?? (t0 === null ? 0 : Math.max(0, now - t0) / 1000);
-    // Abheben erst, wenn der Bau fertig ist (5 s) und danach ein Stück weiter gescrollt wird
+    // Abheben erst, wenn der Bau fertig ist (5 s) und danach weiter gescrollt wird
     if (t >= 5 && yBuilt === null) yBuilt = window.__flugT == null ? scrollY : 0;
-    const sT = yBuilt === null ? 0 : Math.min(1, Math.max(0, (scrollY - Math.max(sOff, yBuilt) - innerHeight * 0.3) / sLen));
+    const sT = yBuilt === null ? 0 : Math.min(1, Math.max(0, (scrollY - Math.max(sOff, yBuilt)  - innerHeight * 0.05) / sLen));
     sCur += (sT - sCur) * (window.__flugT == null ? 0.08 : 1);
     const s = sCur < 0.0005 ? 0 : sCur;
 
