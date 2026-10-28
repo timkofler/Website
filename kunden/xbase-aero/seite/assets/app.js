@@ -21,7 +21,7 @@
   // Am Handy steht das Formular unter der Adresskarte: Knöpfe springen direkt zum Formular
   const fbox=document.querySelector('.cbox--f');
   document.querySelectorAll('a[href="#contact"]').forEach(a=>a.addEventListener('click',e=>{if(!fbox||!matchMedia('(max-width:960px)').matches)return;e.preventDefault();if(!a.dataset.tab&&!a.dataset.topic)show('contact');setTimeout(()=>fbox.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'}),30)}));
-  document.querySelectorAll('.pane').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();sendFly(f);f.querySelector('.note').textContent='Thank you! This is a draft. On the live site your request will be sent by e-mail.'}));
+  document.querySelectorAll('.pane').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();sent(f)}));
   // Entwurf-Abzeichen: beim Runterscrollen weg, beim Hochscrollen und ganz unten wieder da
   const dr=document.querySelector('.draft');
   if(dr){let ly=scrollY;addEventListener('scroll',()=>{const y=scrollY,end=y+innerHeight>document.documentElement.scrollHeight-40;dr.classList.toggle('hide',y>ly&&y>200&&!end);if(y<ly||end)dr.classList.remove('hide');ly=y},{passive:true})}
@@ -44,15 +44,17 @@
   }
 })();
 
-// Abschicken: Knopf faltet sich zum Flieger, der davonfliegt
-function sendFly(f){
-  const b=f.querySelector('button[type=submit]');
-  if(!b||b.classList.contains('is-sent')||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  const r=b.getBoundingClientRect(),p=document.createElement('span');
-  p.className='fly-plane';
-  p.innerHTML='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>';
-  p.style.left=r.left+r.width/2+'px';p.style.top=r.top+r.height/2+'px';
-  document.body.appendChild(p);b.classList.add('is-sent');
-  setTimeout(()=>p.remove(),1800);
-  setTimeout(()=>{b.classList.remove('is-sent');b.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'none'}],{duration:400,easing:'ease-out'})},3200);
+// Abschicken: Formular weicht einer Bestätigung mit Häkchen und Flieger, der einmal ums Abzeichen kreist
+function sent(f){
+  let ok=f.querySelector('.sent');
+  if(!ok){
+    ok=document.createElement('div');ok.className='sent';ok.setAttribute('role','status');
+    ok.innerHTML='<div class="sent__ico" aria-hidden="true"><svg viewBox="0 0 96 96"><circle class="sent__ring" cx="48" cy="48" r="40" pathLength="1"/><path class="sent__chk" d="M32 49l11 11 22-24" pathLength="1"/></svg><i class="sent__fly"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></i></div><h3>Request received</h3><p>Thank you! We usually reply within one working day.</p><small>Draft: on the live site your request is sent by e-mail.</small><button type="button" class="sent__again">Send another request</button>';
+    ok.querySelector('.sent__again').addEventListener('click',()=>{f.reset();f.classList.remove('is-done');f.style.minHeight='';f.querySelector('input,textarea')?.focus()});
+    f.appendChild(ok);
+  }
+  f.style.minHeight=Math.min(f.offsetHeight,520)+'px';
+  f.classList.add('is-done');
+  const r=f.getBoundingClientRect(),top=document.getElementById('nav')?.offsetHeight||0;
+  if(r.top<top||r.top>innerHeight*.5)scrollTo({top:scrollY+r.top-top-20,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
 }

@@ -621,12 +621,25 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 .job__main>.hero__cta{justify-content:flex-end}
 .btn--l,.foot__cta .btn--l{-webkit-backdrop-filter:none;backdrop-filter:none}
 .foot__top p{margin-top:26px}
-.btn.is-sent{animation:btnfold .35s ease-in forwards;pointer-events:none}
-@keyframes btnfold{to{transform:scale(.15);opacity:0}}
-.fly-plane{position:fixed;z-index:90;width:34px;height:34px;margin:-17px 0 0 -17px;color:var(--blue);pointer-events:none;animation:flyoff 1.5s cubic-bezier(.5,0,.75,.2) .2s both}
-.fly-plane svg{width:100%;height:100%;transform:rotate(45deg);filter:drop-shadow(0 6px 10px rgba(10,108,240,.4))}
-.fly-plane::after{content:"";position:absolute;left:50%;top:50%;width:120px;height:3px;border-radius:3px;transform-origin:0 50%;transform:rotate(135deg);background:linear-gradient(90deg,rgba(10,108,240,.5),transparent)}
-@keyframes flyoff{0%{transform:scale(.3);opacity:0}15%{transform:scale(1.1);opacity:1}100%{transform:translate(70vw,-90vh) scale(.5);opacity:.9}}
+.pane.is-done>.form{display:none}
+.sent{display:none}
+.pane.is-done{display:grid;place-items:center}
+.pane.is-done .sent{display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px 8px;animation:sentin .5s cubic-bezier(.2,.7,.2,1) both}
+.sent__ico{position:relative;width:104px;height:104px}
+.sent__ico>svg{width:100%;height:100%;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.sent__ring{stroke:var(--blue);stroke-width:4;stroke-dasharray:1;stroke-dashoffset:1;transform:rotate(-90deg);transform-origin:center;animation:sentdraw .9s .15s ease-out forwards}
+.sent__chk{stroke:var(--blue);stroke-width:6;stroke-dasharray:1;stroke-dashoffset:1;animation:sentdraw .45s .9s ease-out forwards}
+.sent__ico::before{content:"";position:absolute;inset:8px;border-radius:50%;background:radial-gradient(circle,rgba(0,184,255,.18),rgba(10,108,240,.06));box-shadow:0 18px 40px -18px rgba(10,108,240,.6)}
+.sent__fly{position:absolute;left:0;top:0;width:22px;height:22px;color:#00b8ff;offset-path:path("M52 9a43 43 0 1 1-.01 0");offset-rotate:auto 90deg;offset-distance:0;opacity:0;animation:sentorbit 1.6s .2s cubic-bezier(.45,0,.3,1) forwards;filter:drop-shadow(0 3px 6px rgba(10,108,240,.5))}
+.sent__fly svg{width:100%;height:100%;display:block}
+.sent h3{margin-top:22px;font:600 26px/1.15 var(--head);color:var(--ink)}
+.sent p{margin-top:10px;color:var(--ink2);max-width:30ch}
+.sent small{margin-top:8px;font-size:13px;color:var(--mut);max-width:34ch}
+.sent__again{margin-top:22px;background:none;border:0;padding:8px 4px;font:600 15px/1 var(--sans);color:var(--blue);cursor:pointer;text-decoration:underline;text-underline-offset:4px}
+@keyframes sentin{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes sentdraw{to{stroke-dashoffset:0}}
+@keyframes sentorbit{0%{offset-distance:0;opacity:0}12%{opacity:1}85%{opacity:1}100%{offset-distance:100%;opacity:0}}
+@media (prefers-reduced-motion:reduce){.sent__ring,.sent__chk{stroke-dashoffset:0}.sent__fly{display:none}}
 .route{list-style:none;margin:30px 0 0;padding:0;position:relative;display:grid;gap:24px}
 .route::before{content:"";position:absolute;left:21px;top:22px;bottom:22px;width:2px;background:repeating-linear-gradient(180deg,var(--blue) 0 6px,transparent 6px 12px);opacity:.45;transform:scaleY(0);transform-origin:top;transition:transform 1.5s cubic-bezier(.3,.7,.2,1) .25s}
 .route::after{content:"";position:absolute;left:12px;top:12px;width:20px;height:20px;background:var(--blue);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z'/%3E%3C/svg%3E") center/contain no-repeat;transform:rotate(180deg);opacity:0;z-index:2}
@@ -1180,7 +1193,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 
 <a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener" aria-label="Draft by Tim Kofler"><img src="assets/img/tk-logo-2.svg" width="702" height="358" alt=""><span>Draft by Tim Kofler</span></a>
 
-<script src="assets/app.js?v=10" defer></script>
+<script src="assets/app.js?v=11" defer></script>
 <script src="assets/himmel.js?v=7" defer></script>
 <script type="module" src="assets/flug3d.js?v=12"></script>
 </body></html>
