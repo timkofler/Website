@@ -14,7 +14,7 @@
   document.querySelectorAll('.card').forEach(c=>c.addEventListener('pointerenter',()=>c.classList.add('is-seen'),{once:true}));
   // Kontakt: Reiter "Contact us" / "Material request"
   const tabs=[...document.querySelectorAll('.tabs [role=tab]')];
-  const show=id=>tabs.forEach(t=>{const on=t.id==='t-'+id;t.setAttribute('aria-selected',String(on));document.getElementById(t.getAttribute('aria-controls')).hidden=!on});
+  const show=id=>tabs.forEach(t=>{const on=t.id==='t-'+id,p=document.getElementById(t.getAttribute('aria-controls'));t.setAttribute('aria-selected',String(on));p.hidden=!on;if(!on&&p.classList.contains('is-done')){p.reset();p.classList.remove('is-done');p.style.minHeight=''}});
   tabs.forEach(t=>t.addEventListener('click',()=>show(t.id.slice(2))));
   document.querySelectorAll('[data-tab]').forEach(a=>a.addEventListener('click',()=>show(a.dataset.tab)));
   document.querySelectorAll('[data-topic]').forEach(a=>a.addEventListener('click',()=>{show('contact');document.querySelectorAll('#topic button').forEach(y=>y.setAttribute('aria-pressed',String(y.textContent===a.dataset.topic)))}));
