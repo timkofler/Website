@@ -903,6 +903,12 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 .cbox--f .note{text-align:center}
 .cbox--f .note::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#4ade80;margin-right:8px;vertical-align:2px}
 @media (max-width:600px){.cbox--f .tabs button{white-space:nowrap;font-size:14.5px;padding:13px 6px}.cbox--f .tabs button svg{display:none}.cbox--f .seg{grid-template-columns:1fr 1fr}.cbox--f .seg--aog{grid-template-columns:repeat(3,1fr)}.fhd{font-size:10.5px;letter-spacing:.1em}}
+
+/* Einheitliche Textgrößen: Einleitung 17/19, Text 16, Klein 14 */
+.lead,.hero .lead{font-size:17px}
+@media (min-width:601px){.lead,.hero .lead{font-size:19px}}
+.card p,.cards--7 .card p,.card li,.card ul,.foot__top p,.card--cta p,.who span,.vals.vals--deck>div:not(.deck__hd)>span,.person p,.step p,.steps .step p,.route li small,.foot__cta p{font-size:16px;line-height:1.6}
+.hero__tag,.job__item small,.note,.cbox--f .note{font-size:14px}
 </style>
 </head>
 <body>
