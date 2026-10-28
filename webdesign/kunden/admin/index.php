@@ -1491,8 +1491,6 @@ $bzKamp = static function (string $k) use ($bzLabel): string {
 // Gratis-Entwurf-Anfragen im Zeitraum (für die Kontaktaufnahmen) und alle Anfragen nach Quelle.
 $bzAnf = [];
 $bzAnfQ = [];
-$bzCheck = 0;
-$bzForm = 0;
 $bzVon = (new DateTimeImmutable('today'))->modify('-' . ($zeit - 1) . ' days')->getTimestamp();
 foreach ($afAlle as $d) {
     if (!af_versteckt($d) && (strtotime((string) ($d['zeit'] ?? '')) ?: 0) >= $bzVon) {
@@ -1500,11 +1498,6 @@ foreach ($afAlle as $d) {
         $bzAnfQ[$q] = ($bzAnfQ[$q] ?? 0) + 1;
         if ($d['art'] === 'entwurf') {
             $bzAnf[$q] = ($bzAnf[$q] ?? 0) + 1;
-        } elseif ($d['art'] === 'check') {
-            $bzCheck++;
-        } elseif (in_array($d['art'], ['anfrage', 'gruender', 'verein'], true)) {
-            // Formular-Anfragen zählt der Besucherzähler selbst nicht mit (nur Rückrufe), daher hier aus den gespeicherten Anfragen.
-            $bzForm++;
         }
     }
 }
@@ -1604,21 +1597,14 @@ $bzAnfragen = $bzList($bzAnfQ, static fn(string $q): string => $q, 'Keine Anfrag
 $bzKontakt = $bz['kontakte'];
 if ($bzAnfSum > 0) {
     $bzKontakt['entwurf'] = $bzAnfSum;
+    arsort($bzKontakt);
 }
-// Webseiten-Checks (/check/) zählen wie Gratis-Entwürfe als Kontaktaufnahme.
-if ($bzCheck > 0) {
-    $bzKontakt['check'] = $bzCheck;
-}
-if ($bzForm > 0) {
-    $bzKontakt['formular'] = (int) ($bzKontakt['formular'] ?? 0) + $bzForm;
-}
-arsort($bzKontakt);
 $bzKontaktSum = array_sum($bzKontakt);
 $bzKontaktName = static fn(string $k): string => [
     'whatsapp' => 'WhatsApp geöffnet', 'telegram' => 'Telegram geöffnet', 'telefon' => 'Nummer angetippt', 'email' => 'E-Mail geöffnet',
-    'formular' => 'Anfrage abgeschickt', 'rueckruf' => 'Rückruf-Wunsch', 'entwurf' => 'Gratis-Entwurf angefragt', 'check' => 'Webseiten-Check angefragt',
+    'formular' => 'Anfrage abgeschickt', 'rueckruf' => 'Rückruf-Wunsch', 'entwurf' => 'Gratis-Entwurf angefragt',
 ][$k] ?? ucfirst($k);
-$bzKontakte = $bzList($bzKontakt, $bzKontaktName, 'Noch keine Kontaktaufnahmen im Zeitraum. Gezählt werden Klicks auf WhatsApp, Telegram, Telefon und E-Mail sowie abgeschickte Formulare, Gratis-Entwürfe und Webseiten-Checks.');
+$bzKontakte = $bzList($bzKontakt, $bzKontaktName, 'Noch keine Kontaktaufnahmen im Zeitraum. Gezählt werden Klicks auf WhatsApp, Telegram, Telefon und E-Mail sowie abgeschickte Formulare.');
 $bzQuote = $bz['besuche'] > 0 && $bzKontaktSum > 0 ? number_format($bzKontaktSum / $bz['besuche'] * 100, 1, ',', '') . ' % der Besuche' : 'im Zeitraum';
 // KI-Chat: Fragen und geschätzte Kosten im Zeitraum (Inhalte werden nicht gespeichert).
 $ch = ch_range($zeit);
