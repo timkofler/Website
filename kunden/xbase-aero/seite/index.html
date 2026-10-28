@@ -1,0 +1,478 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>XBASE Aero – Luftfahrttechnik, Personal und Beratung am Flughafen Wien</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="XBASE Aero unterstützt Airlines, Wartungsbetriebe und Operator mit Luftfahrttechnik, qualifiziertem Fachpersonal und Beratung. Direkt am Flughafen Wien-Schwechat.">
+<meta name="theme-color" content="#f3f7fc">
+<link rel="preload" href="assets/fonts/outfit.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Outfit";src:url(assets/fonts/outfit.woff2) format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Inter";src:url(assets/fonts/inter.woff2) format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Space Mono";src:url(assets/fonts/spacemono-400.woff2) format("woff2");font-weight:400;font-display:swap}
+:root{--bg:#f3f7fc;--white:#fff;--ink:#0a1a33;--ink2:#22334f;--mut:#5b6b84;--line:rgba(10,26,51,.1);--line2:rgba(10,26,51,.18);
+  --sky:#00b0ff;--blue:#0a6cf0;--deep:#0b3fa8;--navy:#061632;--navy2:#0b2147;--grad:linear-gradient(120deg,#00b8ff,#0a6cf0 55%,#0b3fa8);
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--head:"Outfit","Inter",system-ui,sans-serif;--mono:"Space Mono",ui-monospace,Menlo,Consolas,monospace;--navh:76px}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--navh) + 12px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.62 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:clip}
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+p{margin:0}
+h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;letter-spacing:-.03em;text-wrap:balance}
+.g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:6px}
+.wrap{width:min(1240px,100% - 40px);margin-inline:auto}
+.k{font:400 12px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--blue);display:inline-flex;align-items:center;gap:10px}
+.k::before{content:"";width:22px;height:2px;border-radius:2px;background:var(--grad)}
+.h2{font-size:clamp(36px,4.8vw,64px);margin-top:16px}
+.lead{color:var(--mut);font-size:clamp(17px,1.35vw,19px);max-width:56ch;margin-top:20px}
+.sec{padding:clamp(80px,10vw,136px) 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 26px;border-radius:999px;font:600 16px/1 var(--sans);text-decoration:none;border:0;cursor:pointer;transition:transform .25s,box-shadow .25s,background .25s,border-color .25s}
+.btn svg{width:18px;height:18px;transition:transform .25s}
+.btn:hover svg{transform:translateX(4px)}
+.btn--p{background:var(--grad);color:#fff;box-shadow:0 14px 34px -18px rgba(10,108,240,.9)}
+.btn--p:hover{transform:translateY(-2px);box-shadow:0 20px 40px -18px rgba(10,108,240,1)}
+.btn--l{border:1px solid var(--line2);color:var(--ink);background:rgba(255,255,255,.7)}
+.btn--l:hover{border-color:var(--blue);background:#fff}
+
+/* Kopfleiste */
+.nav{position:fixed;inset:0 0 auto;z-index:50;transition:background .3s,box-shadow .3s}
+.nav.is-s{background:rgba(243,247,252,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:var(--navh);gap:20px}
+.logo img{height:46px;width:auto}
+.nav__links{display:flex;gap:2px;margin-left:auto}
+.nav__links a{text-decoration:none;font-weight:500;font-size:15px;padding:10px 15px;border-radius:999px;color:var(--ink2);transition:background .2s,color .2s}
+.nav__links a:hover{background:rgba(10,108,240,.08);color:var(--blue)}
+.lang{display:flex;border:1px solid var(--line2);border-radius:999px;padding:3px;font:400 12px/1 var(--mono)}
+.lang span{padding:7px 10px;border-radius:999px;color:var(--mut)}
+.lang .on{background:var(--ink);color:#fff}
+.nav .btn{min-height:46px;padding:0 20px;font-size:15px}
+.burger{display:none;width:48px;height:48px;border-radius:999px;border:1px solid var(--line2);background:rgba(255,255,255,.7);cursor:pointer;place-items:center;color:var(--ink)}
+.burger span,.burger span::before,.burger span::after{display:block;width:18px;height:2px;background:currentColor;position:relative;transition:transform .3s,background .3s}
+.burger span::before,.burger span::after{content:"";position:absolute;left:0}
+.burger span::before{top:-6px}.burger span::after{top:6px}
+.burger[aria-expanded="true"] span{background:transparent}
+.burger[aria-expanded="true"] span::before{transform:translateY(6px) rotate(45deg)}
+.burger[aria-expanded="true"] span::after{transform:translateY(-6px) rotate(-45deg)}
+.mpanel{position:fixed;inset:var(--navh) 0 auto 0;z-index:49;background:var(--bg);border-bottom:1px solid var(--line);padding:4px 20px 24px;opacity:0;visibility:hidden;transform:translateY(-10px);transition:opacity .3s,transform .3s,visibility 0s .3s;box-shadow:0 30px 40px -30px rgba(10,26,51,.35)}
+.mpanel.open{opacity:1;visibility:visible;transform:none;transition:opacity .3s,transform .3s}
+.mpanel a:not(.btn){display:flex;align-items:center;justify-content:space-between;min-height:58px;border-bottom:1px solid var(--line);text-decoration:none;font:600 24px/1 var(--head);letter-spacing:-.02em}
+.mpanel a:not(.btn)::after{content:"→";color:var(--blue);font-family:var(--sans);font-size:20px}
+.mpanel .btn{width:100%;margin-top:20px}
+
+/* Startbild mit Flugzeug-Bauplan */
+.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:calc(var(--navh) + 40px) 0 70px;overflow:hidden;
+  background:radial-gradient(70% 70% at 72% 45%,rgba(0,176,255,.16),transparent 70%),
+  linear-gradient(rgba(10,108,240,.07) 1px,transparent 1px) 0 0/40px 40px,linear-gradient(90deg,rgba(10,108,240,.07) 1px,transparent 1px) 0 0/40px 40px,var(--bg)}
+.hero::after{content:"";position:absolute;inset:auto 0 0;height:160px;background:linear-gradient(transparent,var(--bg));pointer-events:none}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);gap:40px;align-items:center}
+.hero__tag{display:inline-flex;align-items:center;gap:10px;padding:8px 14px 8px 10px;border-radius:999px;background:#fff;border:1px solid var(--line);font:500 14px/1 var(--sans);color:var(--ink2);box-shadow:0 10px 24px -18px rgba(10,26,51,.4)}
+.hero__tag i{width:9px;height:9px;border-radius:50%;background:#18c37e;box-shadow:0 0 0 4px rgba(24,195,126,.18)}
+.hero h1{font-size:clamp(44px,5.3vw,80px);margin-top:24px}
+.hero .lead{margin-top:26px;font-size:clamp(18px,1.45vw,21px)}
+.hero__cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px}
+.hero__facts{display:flex;flex-wrap:wrap;gap:28px;margin-top:40px;padding-top:26px;border-top:1px solid var(--line);max-width:560px}
+.hero__facts div{font:400 12px/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.hero__facts b{display:block;font:600 22px/1.1 var(--head);letter-spacing:-.02em;text-transform:none;color:var(--ink);margin-top:6px}
+.plan{position:relative;aspect-ratio:1;width:100%;max-width:640px;justify-self:end;perspective:1400px}
+.plan__in{position:absolute;inset:0;transform:rotateX(var(--rx,10deg)) rotateY(var(--ry,-8deg));transform-style:preserve-3d;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.plan__in>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.ac{transform:rotate(38deg);transform-origin:500px 500px}
+.ac .o{fill:rgba(255,255,255,.72);stroke:var(--deep);stroke-width:2.2;stroke-linejoin:round}
+.ac .d{fill:none;stroke:rgba(11,63,168,.38);stroke-width:1.1}
+.ac .e{fill:rgba(0,176,255,.12);stroke:var(--blue);stroke-width:1.8}
+.ac .draw{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 2.4s cubic-bezier(.5,0,.2,1) forwards}
+.ac .d.draw{animation-delay:.9s;animation-duration:2s}
+@keyframes draw{to{stroke-dashoffset:0}}
+.ac .o{fill-opacity:0;animation:fill 1.2s 1.8s forwards}
+@keyframes fill{to{fill-opacity:1}}
+.dim{font:400 13px/1 var(--mono);fill:var(--mut);letter-spacing:.04em}
+.dim-l{stroke:rgba(10,26,51,.3);stroke-width:1;fill:none}
+.scan{animation:scan 5.5s 2.4s cubic-bezier(.45,0,.55,1) infinite;opacity:0}
+@keyframes scan{0%{transform:translateY(-80px);opacity:0}10%{opacity:1}85%{opacity:1}100%{transform:translateY(1000px);opacity:0}}
+.hs{opacity:0;animation:pop .5s forwards}
+.hs circle.r{fill:none;stroke:var(--blue);stroke-width:2;transform-box:fill-box;transform-origin:center;animation:ring 2.4s infinite}
+@keyframes ring{0%{transform:scale(.6);opacity:1}100%{transform:scale(2.6);opacity:0}}
+@keyframes pop{to{opacity:1}}
+.chip{position:absolute;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:14px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);box-shadow:0 18px 40px -24px rgba(10,26,51,.55);font:500 14px/1.2 var(--sans);white-space:nowrap;opacity:0;transform:translateY(10px) translateZ(60px);animation:chip .6s forwards}
+.chip small{display:block;font:400 11px/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.chip .ok{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:rgba(24,195,126,.14);color:#0f9a62;flex:none}
+.chip .ok svg{width:14px;height:14px}
+@keyframes chip{to{opacity:1;transform:translateY(0) translateZ(60px)}}
+
+/* Leistungen */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:56px}
+.card{position:relative;background:#fff;border:1px solid var(--line);border-radius:24px;padding:34px 30px 32px;overflow:hidden;transition:transform .35s,box-shadow .35s,border-color .35s}
+.card:hover{transform:translateY(-4px);box-shadow:0 30px 60px -36px rgba(10,26,51,.45);border-color:rgba(10,108,240,.3)}
+.card::before{content:"";position:absolute;inset:0 0 auto;height:3px;background:var(--grad);transform:scaleX(0);transform-origin:left;transition:transform .45s}
+.card:hover::before{transform:scaleX(1)}
+.card__n{font:400 12px/1 var(--mono);color:var(--mut);letter-spacing:.08em}
+.card__i{width:58px;height:58px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(140deg,rgba(0,184,255,.14),rgba(11,63,168,.12));color:var(--blue);margin:22px 0 26px}
+.card__i svg{width:28px;height:28px}
+.card h3{font-size:27px}
+.card p{color:var(--mut);margin-top:12px;font-size:16px}
+.card ul{list-style:none;margin:22px 0 0;padding:20px 0 0;border-top:1px solid var(--line);display:grid;gap:10px;font-size:15px;color:var(--ink2)}
+.card li{display:flex;gap:10px;align-items:baseline}
+.card li::before{content:"";width:6px;height:6px;border-radius:2px;background:var(--blue);transform:rotate(45deg) translateY(-2px);flex:none}
+
+/* Für wen */
+.who{display:flex;flex-wrap:wrap;gap:10px;margin-top:40px}
+.who span{display:inline-flex;align-items:center;gap:10px;padding:13px 20px;border-radius:999px;background:#fff;border:1px solid var(--line);font-weight:500;font-size:16px}
+.who span svg{width:18px;height:18px;color:var(--blue)}
+
+/* Dunkler Abschnitt: Ablauf */
+.dark{background:radial-gradient(60% 80% at 85% 0%,rgba(0,176,255,.22),transparent 60%),radial-gradient(50% 60% at 0% 100%,rgba(10,108,240,.2),transparent 60%),var(--navy);color:#eaf2ff;position:relative;overflow:hidden}
+.dark::before{content:"";position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px) 0 0/40px 40px,linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px) 0 0/40px 40px;mask:radial-gradient(70% 70% at 50% 40%,#000,transparent);-webkit-mask:radial-gradient(70% 70% at 50% 40%,#000,transparent)}
+.dark .wrap{position:relative}
+.dark .k{color:#6fd0ff}
+.dark .lead{color:#a9bad6}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:64px;position:relative}
+.steps::before{content:"";position:absolute;left:0;right:0;top:27px;height:2px;background:linear-gradient(90deg,rgba(111,208,255,.6),rgba(111,208,255,.08))}
+.step{padding-right:28px;position:relative}
+.step__d{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--navy2);border:1px solid rgba(111,208,255,.45);font:400 15px/1 var(--mono);color:#6fd0ff;position:relative;box-shadow:0 0 0 8px var(--navy)}
+.step h3{font-size:24px;margin-top:28px;color:#fff}
+.step p{color:#a9bad6;margin-top:10px;font-size:16px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:90px;border:1px solid rgba(255,255,255,.1);border-radius:24px;overflow:hidden;background:rgba(255,255,255,.03)}
+.stats div{padding:30px 28px;border-right:1px solid rgba(255,255,255,.1)}
+.stats div:last-child{border:0}
+.stats b{display:block;font:600 clamp(30px,3vw,42px)/1 var(--head);letter-spacing:-.03em;color:#fff}
+.stats span{display:block;margin-top:10px;font:400 12px/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#8aa0c2}
+
+/* Karriere */
+.job{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:stretch}
+.job__main{background:#fff;border:1px solid var(--line);border-radius:28px;padding:clamp(32px,4vw,56px)}
+.job__list{display:grid;gap:12px}
+.job__item{display:flex;align-items:center;justify-content:space-between;gap:16px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px 24px;text-decoration:none;transition:border-color .25s,transform .25s}
+.job__item:hover{border-color:var(--blue);transform:translateX(4px)}
+.job__item b{display:block;font:600 19px/1.2 var(--head);letter-spacing:-.01em}
+.job__item small{display:block;color:var(--mut);font-size:14px;margin-top:4px}
+.job__item svg{width:22px;height:22px;color:var(--blue);flex:none}
+.tagx{display:inline-block;font:400 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:6px 9px;border-radius:999px;background:rgba(10,108,240,.08);color:var(--blue);margin-left:8px;vertical-align:2px}
+
+/* Team */
+.team{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:52px}
+.person{display:flex;gap:22px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:24px;padding:24px}
+.avatar{width:96px;height:96px;border-radius:22px;flex:none;display:grid;place-items:center;background:var(--grad);color:#fff;font:600 30px/1 var(--head);letter-spacing:-.02em;position:relative}
+.avatar::after{content:"Foto";position:absolute;bottom:6px;font:400 9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;opacity:.7}
+.person b{display:block;font:600 22px/1.2 var(--head);letter-spacing:-.02em}
+.person span{display:block;color:var(--blue);font-size:14px;font-weight:600;margin-top:4px}
+.person p{color:var(--mut);font-size:15px;margin-top:8px}
+
+/* Kontakt */
+.contact{display:grid;grid-template-columns:.9fr 1.1fr;gap:22px;margin-top:56px}
+.cbox{border-radius:28px;padding:clamp(30px,3.6vw,48px)}
+.cbox--d{background:var(--navy);color:#eaf2ff;position:relative;overflow:hidden}
+.cbox--d::after{content:"";position:absolute;width:420px;height:420px;right:-160px;bottom:-200px;border-radius:50%;background:radial-gradient(rgba(0,176,255,.35),transparent 65%)}
+.cbox--d h3{font-size:30px;color:#fff}
+.cbox--d{display:flex;flex-direction:column}
+.rwy{margin-top:auto;padding-top:36px;position:relative;z-index:1}
+.rwy svg{width:100%;max-width:420px;height:auto}
+.rwy small{display:block;font:400 11px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#6c83a8;margin-top:10px}
+.cline{display:flex;gap:16px;align-items:flex-start;margin-top:28px;position:relative;z-index:1}
+.cline svg{width:22px;height:22px;color:#6fd0ff;flex:none;margin-top:3px}
+.cline small{display:block;font:400 11px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#8aa0c2}
+.cline b{font-weight:500;font-size:17px}
+.cbox--f{background:#fff;border:1px solid var(--line)}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form label{display:grid;gap:8px;font-size:14px;font-weight:500;color:var(--ink2)}
+.form .full{grid-column:1/-1}
+.form input,.form select,.form textarea{font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line2);border-radius:14px;padding:14px 16px;width:100%;transition:border-color .2s,box-shadow .2s;appearance:none}
+.form textarea{min-height:120px;resize:vertical}
+.form input:focus,.form select:focus,.form textarea:focus{outline:0;border-color:var(--blue);box-shadow:0 0 0 4px rgba(10,108,240,.12);background:#fff}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg button{font:500 15px/1 var(--sans);padding:12px 16px;border-radius:999px;border:1px solid var(--line2);background:#fff;color:var(--ink2);cursor:pointer;transition:all .2s}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.form .btn{justify-self:start}
+.note{font-size:13px;color:var(--mut)}
+
+/* Fuß */
+.foot{background:var(--navy);color:#a9bad6;padding:70px 0 34px;margin-top:clamp(80px,10vw,136px)}
+.foot__top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.1)}
+.foot img{height:50px;width:auto}
+.foot__top p{max-width:36ch;margin-top:18px;font-size:15px}
+.foot__nav{display:flex;gap:56px;flex-wrap:wrap}
+.foot__nav div{display:grid;gap:10px;font-size:15px;align-content:start}
+.foot__nav small{font:400 11px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#6c83a8;margin-bottom:4px}
+.foot a{text-decoration:none}
+.foot a:hover{color:#fff}
+.foot__bot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-top:26px;font-size:13px}
+
+/* Hinweis Entwurf */
+.draft{position:fixed;left:16px;bottom:16px;z-index:60;display:flex;align-items:center;gap:10px;padding:9px 14px 9px 10px;border-radius:999px;background:#0b0b0b;color:#f4f4f0;font:500 12.5px/1 var(--sans);box-shadow:0 12px 30px -12px rgba(0,0,0,.6);text-decoration:none}
+.draft img{height:15px;width:auto}
+
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+@media (max-width:1100px){
+  .nav__links,.nav .lang,.nav .btn{display:none}
+  .burger{display:grid}
+}
+@media (max-width:960px){
+  .hero{align-items:flex-start;min-height:0;padding-top:calc(var(--navh) + 26px);padding-bottom:20px}
+  .hero .wrap{grid-template-columns:1fr;gap:10px}
+  .plan{max-width:520px;justify-self:center;margin:-10px auto -40px;order:2}
+  .cards,.team,.contact,.job{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr 1fr;row-gap:44px}
+  .steps::before{display:none}
+  .stats{grid-template-columns:1fr 1fr}
+  .stats div:nth-child(2){border-right:0}
+  .stats div:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.1)}
+}
+@media (max-width:600px){
+  :root{--navh:68px}
+  body{font-size:16px}
+  .wrap{width:calc(100% - 32px)}
+  .logo img{height:38px}
+  .hero h1{font-size:clamp(40px,11.4vw,54px);margin-top:22px}
+  .hero__facts{display:none}
+  .hero .lead{font-size:17px}
+  .draft span{display:none}
+  .draft{padding:10px 12px}
+  .hero__cta .btn{flex:1 1 100%}
+  .chip{font-size:12.5px;padding:8px 11px;border-radius:12px}
+  .chip .ok{width:22px;height:22px}
+  .steps{grid-template-columns:1fr;row-gap:34px}
+  .step{padding-right:0;display:grid;grid-template-columns:56px 1fr;column-gap:20px;align-content:start}
+  .step__d{grid-row:span 2}
+  .step h3{margin-top:12px}
+  .step p{grid-column:2;margin-top:6px}
+  .plan{width:calc(100% + 24px);max-width:none;margin:0 -12px -30px}
+  .form{grid-template-columns:1fr}
+  .person{padding:18px;gap:16px}
+  .avatar{width:76px;height:76px;font-size:24px;border-radius:18px}
+  .card{padding:28px 24px}
+  .foot__nav{gap:36px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}
+  .scan{display:none}
+  .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="XBASE Aero – zum Seitenanfang"><img src="assets/img/xbase-logo.webp" width="600" height="167" alt="XBASE Aero"></a>
+    <nav class="nav__links" aria-label="Hauptmenü">
+      <a href="#leistungen">Leistungen</a><a href="#ablauf">Ablauf</a><a href="#karriere">Karriere</a><a href="#team">Über uns</a><a href="#kontakt">Kontakt</a>
+    </nav>
+    <div class="lang" aria-label="Sprache"><span class="on">DE</span><span>EN</span></div>
+    <a class="btn btn--p" href="#kontakt">Anfrage stellen</a>
+    <button class="burger" id="burger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mpanel"><span></span></button>
+  </div>
+</header>
+<div class="mpanel" id="mpanel">
+  <a href="#leistungen">Leistungen</a><a href="#ablauf">Ablauf</a><a href="#karriere">Karriere</a><a href="#team">Über uns</a><a href="#kontakt">Kontakt</a>
+  <a class="btn btn--p" href="#kontakt">Anfrage stellen</a>
+</div>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="hero__tag"><i></i>Direkt am Flughafen Wien-Schwechat</span>
+      <h1>Technik, Personal und Know-how <span class="g">für die Luftfahrt.</span></h1>
+      <p class="lead">XBASE Aero unterstützt Airlines, Wartungsbetriebe und Operator mit Luftfahrttechnik, qualifiziertem Fachpersonal und Beratung. Schnell, verlässlich und aus einer Hand.</p>
+      <div class="hero__cta">
+        <a class="btn btn--p" href="#kontakt">Personal anfragen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn--l" href="#leistungen">Unsere Leistungen</a>
+      </div>
+      <div class="hero__facts">
+        <div>Standort<b>Vienna Airport</b></div>
+        <div>Bereiche<b>Technik · Personal · Beratung</b></div>
+      </div>
+    </div>
+
+    <div class="plan" id="plan" aria-hidden="true">
+      <div class="plan__in">
+        <svg viewBox="0 0 1000 1000">
+          <defs>
+            <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00b8ff" stop-opacity="0"/><stop offset=".85" stop-color="#00b8ff" stop-opacity=".22"/><stop offset="1" stop-color="#00b8ff" stop-opacity=".9"/></linearGradient>
+            <clipPath id="acclip"><use href="#acshape"/></clipPath>
+          </defs>
+          <!-- Maßlinien -->
+          <g class="dimg" opacity=".9">
+            <circle cx="500" cy="500" r="430" class="dim-l" stroke-dasharray="2 8"/>
+            <circle cx="500" cy="500" r="330" class="dim-l" stroke-dasharray="1 10" opacity=".7"/>
+            <path class="dim-l" d="M500 40v30M500 930v30M40 500h30M930 500h30"/>
+            <text class="dim" x="512" y="58">N 48°06′</text>
+            <text class="dim" x="868" y="488">E 16°34′</text>
+            <text class="dim" x="60" y="960">VIE · LOWW · RWY 11/29</text>
+          </g>
+          <g class="ac">
+            <g id="acshape">
+              <!-- Flügel -->
+              <path class="o draw" pathLength="1" d="M466 436 L150 612 C138 619 132 630 134 640 L142 648 L466 566 Z"/>
+              <path class="o draw" pathLength="1" d="M534 436 L850 612 C862 619 868 630 866 640 L858 648 L534 566 Z"/>
+              <!-- Höhenleitwerk -->
+              <path class="o draw" pathLength="1" d="M468 806 L340 870 C334 874 333 884 338 888 L468 862 Z"/>
+              <path class="o draw" pathLength="1" d="M532 806 L660 870 C666 874 667 884 662 888 L532 862 Z"/>
+              <!-- Rumpf -->
+              <path class="o draw" pathLength="1" d="M500 78 C524 80 535 130 535 196 L535 820 C535 868 518 906 500 920 C482 906 465 868 465 820 L465 196 C465 130 476 80 500 78 Z"/>
+            </g>
+            <!-- Triebwerke -->
+            <rect class="e draw" pathLength="1" x="311" y="468" width="38" height="108" rx="17"/>
+            <rect class="e draw" pathLength="1" x="651" y="468" width="38" height="108" rx="17"/>
+            <!-- Details -->
+            <path class="d draw" pathLength="1" d="M478 132 Q500 118 522 132 M474 150 Q500 138 526 150"/>
+            <path class="d draw" pathLength="1" d="M465 240h70M465 300h70M465 380h70M465 620h70M465 700h70M465 760h70"/>
+            <path class="d draw" pathLength="1" d="M500 790 L500 918"/>
+            <path class="d draw" pathLength="1" d="M300 545 L190 598 M300 545 L330 538 M700 545 L810 598 M700 545 L670 538"/>
+            <path class="d draw" pathLength="1" d="M466 520 L230 606 M534 520 L770 606"/>
+            <path class="d draw" pathLength="1" d="M470 200 v14 M530 200 v14 M470 840 v12 M530 840 v12"/>
+            <!-- Scan -->
+            <g clip-path="url(#acclip)"><rect class="scan" x="0" y="-120" width="1000" height="120" fill="url(#sg)"/></g>
+            <!-- Prüfpunkte -->
+            <g class="hs" style="animation-delay:2.6s"><circle class="r" cx="500" cy="138" r="10"/><circle cx="500" cy="138" r="6" fill="#0a6cf0"/></g>
+            <g class="hs" style="animation-delay:3.1s"><circle class="r" cx="330" cy="522" r="10"/><circle cx="330" cy="522" r="6" fill="#0a6cf0"/></g>
+            <g class="hs" style="animation-delay:3.6s"><circle class="r" cx="500" cy="540" r="10"/><circle cx="500" cy="540" r="6" fill="#0a6cf0"/></g>
+            <g class="hs" style="animation-delay:4.1s"><circle class="r" cx="600" cy="840" r="10"/><circle cx="600" cy="840" r="6" fill="#0a6cf0"/></g>
+          </g>
+        </svg>
+        <div class="chip" style="left:56%;top:7%;animation-delay:2.9s"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L19 7"/></svg></span><span><small>Avionik</small>Systemcheck</span></div>
+        <div class="chip" style="left:2%;top:30%;animation-delay:3.4s"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L19 7"/></svg></span><span><small>Triebwerk</small>Inspektion</span></div>
+        <div class="chip" style="left:60%;top:56%;animation-delay:3.9s"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L19 7"/></svg></span><span><small>Fachpersonal</small>Einsatzbereit</span></div>
+        <div class="chip" style="left:10%;top:80%;animation-delay:4.4s"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L19 7"/></svg></span><span><small>Struktur</small>Freigegeben</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="leistungen">
+  <div class="wrap">
+    <span class="k rv">Leistungen</span>
+    <h2 class="h2 rv">Drei Bereiche. <span class="g">Ein Ansprechpartner.</span></h2>
+    <p class="lead rv">Ob kurzfristig fehlendes Personal, ein technisches Projekt oder eine zweite Meinung: Wir kennen den Alltag in Hangar und Büro und finden die passende Lösung.</p>
+    <div class="cards">
+      <article class="card rv">
+        <span class="card__n">01</span>
+        <div class="card__i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg></div>
+        <h3>Luftfahrttechnik</h3>
+        <p>Technische Unterstützung rund um Wartung, Instandhaltung und Projekte an Flugzeug und Komponenten.</p>
+        <ul><li>Unterstützung bei Wartung und Instandhaltung</li><li>Technische Projekte und Dokumentation</li><li>Begleitung von Prüfungen und Audits</li></ul>
+      </article>
+      <article class="card rv">
+        <span class="card__n">02</span>
+        <div class="card__i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.5A6.5 6.5 0 0 1 21.5 20"/></svg></div>
+        <h3>Fachpersonal</h3>
+        <p>Qualifizierte Fachkräfte für Ihren Betrieb, für Spitzen, Projekte oder auf Dauer. Kurzfristig und unkompliziert.</p>
+        <ul><li>Mechaniker und Techniker</li><li>Personal für Planung und Technik-Büro</li><li>Kurzfristige und längere Einsätze</li></ul>
+      </article>
+      <article class="card rv">
+        <span class="card__n">03</span>
+        <div class="card__i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16M6 15l4-4 3 3 6-7"/><path d="M15 7h4v4"/></svg></div>
+        <h3>Beratung</h3>
+        <p>Erfahrung aus der Praxis für Ihre Fragen: von Abläufen und Organisation bis zu Vorschriften und Zulassung.</p>
+        <ul><li>Abläufe und Organisation</li><li>Vorschriften und Compliance</li><li>Projektbegleitung</li></ul>
+      </article>
+    </div>
+    <div class="who rv" aria-label="Unsere Kunden">
+      <span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>Airlines</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V9l9-6 9 6v12"/><path d="M7 21v-7h10v7"/></svg>Wartungsbetriebe</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6 6 .9-4.5 4.3 1 6.3L12 16.6 6.5 19.5l1-6.3L3 8.9 9 8z"/></svg>Business Aviation</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/></svg>Operator</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>Flughafen-Dienstleister</span>
+    </div>
+  </div>
+</section>
+
+<section class="sec dark" id="ablauf">
+  <div class="wrap">
+    <span class="k rv">Ablauf</span>
+    <h2 class="h2 rv" style="color:#fff">Von der Anfrage <span class="g" style="background-image:linear-gradient(120deg,#6fd0ff,#3d8bff)">bis zum Einsatz.</span></h2>
+    <p class="lead rv">Klare Wege, kurze Entscheidungen. Sie wissen jederzeit, wer Ihr Ansprechpartner ist und wann es losgeht.</p>
+    <div class="steps">
+      <div class="step rv"><span class="step__d">01</span><h3>Anfrage</h3><p>Sie schildern kurz, was Sie brauchen. Per Formular, Mail oder Telefon.</p></div>
+      <div class="step rv"><span class="step__d">02</span><h3>Bedarf klären</h3><p>Wir besprechen Umfang, Qualifikation, Zeitraum und Ort.</p></div>
+      <div class="step rv"><span class="step__d">03</span><h3>Lösung</h3><p>Sie bekommen ein klares Angebot und die passenden Leute.</p></div>
+      <div class="step rv"><span class="step__d">04</span><h3>Einsatz</h3><p>Wir bleiben dran und betreuen den Einsatz bis zum Schluss.</p></div>
+    </div>
+    <div class="stats rv">
+      <div><b>VIE</b><span>Sitz am Flughafen Wien</span></div>
+      <div><b>3</b><span>Bereiche aus einer Hand</span></div>
+      <div><b>DE · EN</b><span>Wir sprechen Ihre Sprache</span></div>
+      <div><b>2026</b><span>Gegründet in Schwechat</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="karriere">
+  <div class="wrap job">
+    <div class="job__main rv">
+      <span class="k">Karriere</span>
+      <h2 class="h2">Abheben mit <span class="g">XBASE Aero.</span></h2>
+      <p class="lead">Sie arbeiten in der Luftfahrt und suchen spannende Einsätze, faire Bedingungen und ein Team, das Sie kennt? Dann melden Sie sich bei uns, auch ohne passende Ausschreibung.</p>
+      <div class="hero__cta"><a class="btn btn--p" href="#kontakt">Jetzt bewerben <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+    </div>
+    <div class="job__list">
+      <a class="job__item rv" href="#kontakt"><span><b>Flugzeugmechaniker (m/w/d)<span class="tagx">Beispiel</span></b><small>Vienna Airport · Vollzeit</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="job__item rv" href="#kontakt"><span><b>Techniker Avionik (m/w/d)<span class="tagx">Beispiel</span></b><small>Projekteinsatz</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="job__item rv" href="#kontakt"><span><b>Technische Planung (m/w/d)<span class="tagx">Beispiel</span></b><small>Büro · Teilzeit möglich</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="job__item rv" href="#kontakt"><span><b>Initiativbewerbung</b><small>Wir melden uns in wenigen Tagen</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="team" style="padding-top:0">
+  <div class="wrap">
+    <span class="k rv">Über uns</span>
+    <h2 class="h2 rv">Aus der Luftfahrt. <span class="g">Für die Luftfahrt.</span></h2>
+    <p class="lead rv">XBASE Aero wurde 2026 am Flughafen Wien gegründet. Hinter uns steht ein Team mit Erfahrung aus Technik und Betrieb, das weiß, worauf es im Hangar ankommt: Sicherheit, Tempo und Verlässlichkeit.</p>
+    <div class="team">
+      <div class="person rv"><div class="avatar">NG</div><div><b>Nikolaos Gialuris</b><span>Geschäftsführer</span><p>Ihr Ansprechpartner für Technik und Personal.</p></div></div>
+      <div class="person rv"><div class="avatar">CR</div><div><b>Christoph Ritschl</b><span>Geschäftsführer</span><p>Ihr Ansprechpartner für Beratung und Projekte.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="kontakt" style="padding-top:0">
+  <div class="wrap">
+    <span class="k rv">Kontakt</span>
+    <h2 class="h2 rv">Wie können wir <span class="g">helfen?</span></h2>
+    <div class="contact">
+      <div class="cbox cbox--d rv">
+        <h3>XBASE Aero AM GmbH</h3>
+        <div class="cline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><div><small>Adresse</small><b>Tower Straße 3/VAC 8<br>1300 Wien-Flughafen</b></div></div>
+        <div class="cline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><div><small>E-Mail</small><b>office@xbase.aero</b></div></div>
+        <div class="cline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg><div><small>Telefon</small><b>+43 … (folgt)</b></div></div>
+        <div class="cline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><small>Erreichbar</small><b>Mo–Fr, 8–17 Uhr</b></div></div>
+        <div class="rwy" aria-hidden="true"><svg viewBox="0 0 420 150" fill="none"><g stroke="rgba(111,208,255,.55)" stroke-width="10" stroke-linecap="round"><path d="M30 40 L390 96"/><path d="M250 12 L300 140"/></g><g stroke="#061632" stroke-width="1.6" stroke-dasharray="8 8"><path d="M30 40 L390 96"/><path d="M250 12 L300 140"/></g><circle cx="262" cy="74" r="7" fill="#00b8ff"/><circle cx="262" cy="74" r="16" stroke="#00b8ff" stroke-opacity=".4"/><text x="282" y="70" fill="#eaf2ff" font-family="Space Mono,monospace" font-size="12">XBASE Aero</text><text x="30" y="30" fill="#6c83a8" font-family="Space Mono,monospace" font-size="10">RWY 11</text><text x="330" y="140" fill="#6c83a8" font-family="Space Mono,monospace" font-size="10">RWY 34</text></svg><small>Flughafen Wien · LOWW</small></div>
+      </div>
+      <form class="cbox cbox--f rv" id="kform">
+        <div class="form">
+          <div class="full"><span style="display:block;font-size:14px;font-weight:500;color:var(--ink2);margin-bottom:10px">Worum geht es?</span>
+            <div class="seg" role="group" aria-label="Anliegen"><button type="button" aria-pressed="true">Personal</button><button type="button" aria-pressed="false">Technik</button><button type="button" aria-pressed="false">Beratung</button><button type="button" aria-pressed="false">Bewerbung</button></div></div>
+          <label>Name<input name="name" autocomplete="name" placeholder="Vor- und Nachname"></label>
+          <label>Firma<input name="firma" autocomplete="organization" placeholder="optional"></label>
+          <label>E-Mail<input name="email" type="email" autocomplete="email" placeholder="name@firma.at"></label>
+          <label>Telefon<input name="tel" type="tel" autocomplete="tel" placeholder="optional"></label>
+          <label class="full">Nachricht<textarea name="msg" placeholder="Was brauchen Sie, ab wann und wo?"></textarea></label>
+          <button class="btn btn--p" type="submit">Anfrage senden <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <p class="note full">Wir melden uns in der Regel innerhalb eines Werktags.</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__top">
+      <div><img src="assets/img/xbase-logo-weiss.webp" width="600" height="167" alt="XBASE Aero"><p>Luftfahrttechnik, Fachpersonal und Beratung. Direkt am Flughafen Wien-Schwechat.</p></div>
+      <div class="foot__nav">
+        <div><small>Seite</small><a href="#leistungen">Leistungen</a><a href="#ablauf">Ablauf</a><a href="#karriere">Karriere</a><a href="#team">Über uns</a></div>
+        <div><small>Rechtliches</small><a href="#">Impressum</a><a href="#">Datenschutz</a><a href="#">Barrierefreiheit</a></div>
+      </div>
+    </div>
+    <div class="foot__bot"><span>© 2026 XBASE Aero AM GmbH · FN 682819x · Sitz Schwechat</span><span>Webdesign: Tim Kofler</span></div>
+  </div>
+</footer>
+
+<a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener"><img src="assets/img/tk-logo-2.svg" width="702" height="358" alt=""><span>Entwurf von Tim Kofler</span></a>
+
+<script src="assets/app.js?v=1" defer></script>
+</body></html>
