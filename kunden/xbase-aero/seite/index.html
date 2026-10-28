@@ -308,9 +308,9 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
 /* About */
 .about{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,72px);align-items:center}
 .about__pics{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;align-items:end}
-.about__pics img{width:100%;border-radius:22px;object-fit:cover;box-shadow:0 30px 60px -36px rgba(10,26,51,.55)}
-.about__pics img:first-child{aspect-ratio:4/5;object-position:50% 50%}
-.about__pics img:last-child{aspect-ratio:1;margin-bottom:-36px}
+.about__pics .pscan{width:100%;border-radius:22px;object-fit:cover;box-shadow:0 30px 60px -36px rgba(10,26,51,.55)}
+.about__pics .pscan:first-child{aspect-ratio:4/5;object-position:50% 50%}
+.about__pics .pscan:last-child{aspect-ratio:1;margin-bottom:-36px}
 .vals{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:30px}
 .vals div{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px 18px 16px}
 .vals b{display:block;font:600 18px/1.2 var(--head);letter-spacing:-.01em}
@@ -333,7 +333,7 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
 .seg--aog button[aria-pressed="true"][data-v="AOG"]{background:#e5484d;border-color:#e5484d}
 @media (min-width:961px){.band .wrap{display:flex;flex-direction:column;align-items:flex-end;text-align:right}}
 @media (max-width:1100px){.cards--7{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:960px){.about,.refs{grid-template-columns:1fr}.about__pics img:last-child{margin-bottom:0}.about__pics{grid-template-columns:1fr 1fr}.about__pics img:first-child,.about__pics img:last-child{aspect-ratio:4/5}.band img{object-position:28% 50%}}
+@media (max-width:960px){.about,.refs{grid-template-columns:1fr}.about__pics .pscan:last-child{margin-bottom:0}.about__pics{grid-template-columns:1fr 1fr}.about__pics .pscan:first-child,.about__pics .pscan:last-child{aspect-ratio:4/5}.band img{object-position:28% 50%}}
 @media (max-width:600px){.cards--7{grid-template-columns:1fr}.cards--7 .card{display:grid;grid-template-columns:48px 1fr;column-gap:16px;align-items:center;padding:22px 20px}.cards--7 .card__n{display:none}.cards--7 .card__i{width:48px;height:48px;border-radius:14px;margin:0}.cards--7 .card__i svg{width:24px;height:24px}.cards--7 .card h3{font-size:19px}.cards--7 .card p{grid-column:1/-1;margin-top:12px;font-size:15px}.card--cta .more{grid-column:1/-1;padding-top:16px}.hero h1{font-size:clamp(36px,10.4vw,46px)}.band p{font-size:30px}.vals{grid-template-columns:1fr}.tabs{display:flex}.tabs button{flex:1;padding:12px 10px}}
 @media (prefers-reduced-motion:reduce){.sky img{animation:none!important;transform:translateX(8vw)}.sky .c2{transform:translateX(55vw)}.sky .c5{transform:translateX(35vw)}.xp>svg path{stroke-dashoffset:0}}
 
@@ -353,8 +353,8 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
 .foot__cta .btn--w:hover{transform:translateY(-2px);box-shadow:0 14px 30px -14px rgba(0,0,0,.6)}
 @media (max-width:960px){
   .about__pics{grid-template-columns:1fr;gap:14px}
-  .about__pics img{height:auto}
-  .about__pics img:first-child,.about__pics img:last-child{aspect-ratio:4/3;object-position:50% 50%;margin:0}
+  .about__pics .pscan{height:auto}
+  .about__pics .pscan:first-child,.about__pics .pscan:last-child{aspect-ratio:4/3;object-position:50% 50%;margin:0}
 }
 @media (max-width:600px){
   .hero h1{font-size:calc((100vw - 32px) * .106);line-height:1.06}
@@ -424,9 +424,9 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
   .band .wrap{width:auto;margin:0;padding:0 clamp(28px,3.4vw,56px) clamp(26px,3vw,48px);display:block;text-align:left}
   .band p{font-size:clamp(28px,2.6vw,44px);max-width:15ch}
   .about__pics{display:block;position:relative;padding-bottom:22%}
-  .about__pics img{height:auto}
-  .about__pics img:first-child{width:86%;aspect-ratio:4/3;object-position:50% 50%}
-  .about__pics img:last-child{position:absolute;right:0;bottom:0;width:56%;aspect-ratio:4/3;margin:0;border:6px solid var(--bg);border-radius:26px;box-shadow:0 40px 70px -30px rgba(10,26,51,.6)}
+  .about__pics .pscan{height:auto}
+  .about__pics .pscan:first-child{width:86%;aspect-ratio:4/3;object-position:50% 50%}
+  .about__pics .pscan:last-child{position:absolute;right:0;bottom:0;width:56%;aspect-ratio:4/3;margin:0;border:6px solid var(--bg);border-radius:26px;box-shadow:0 40px 70px -30px rgba(10,26,51,.6)}
   .hero{min-height:0;padding-bottom:40px}
   .sky{-webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,.4),rgba(0,0,0,.4) 42%,#000 62%),linear-gradient(180deg,#000 72%,transparent 98%);mask-image:linear-gradient(90deg,rgba(0,0,0,.4),rgba(0,0,0,.4) 42%,#000 62%),linear-gradient(180deg,#000 72%,transparent 98%);-webkit-mask-composite:source-in;mask-composite:intersect}
 }
@@ -708,6 +708,81 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 .pass{overflow:hidden}.pass__stub::before,.pass__stub::after{background:#e9f1fb;box-shadow:inset 0 2px 4px rgba(10,26,51,.1),inset 0 0 0 1px rgba(10,26,51,.06)}
 @media (max-width:760px){.pass .route{gap:12px;align-items:flex-start}.pass .route b{font-size:clamp(30px,9vw,40px)}.pass .route b:last-child{text-align:right}.pass .route i{max-width:none;white-space:nowrap;letter-spacing:.02em;font-size:10px}.pass .route__l{align-self:flex-start;margin-top:calc(clamp(30px,9vw,40px) * .5)}}
 @media (min-width:961px){.hero h1{margin-top:54px}.plan{translate:9% 0;scale:.88}}
+
+/* Bilder im Über-uns: Prüf-Scan färbt das Bild ein, danach langsamer Zoom und leichte Parallaxe */
+.about__pics .pscan{position:relative;margin:0;overflow:hidden;isolation:isolate;height:auto}
+.scan__z{position:absolute;inset:-6% 0}
+.scan__z img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%;transform:scale(1.14)}
+.scan__pre{filter:grayscale(1) contrast(.7) brightness(1.3);clip-path:inset(0 0 0 0)}
+.scan__line{position:absolute;top:0;bottom:0;left:0;width:2px;background:#7fd8ff;box-shadow:0 0 12px 3px rgba(0,184,255,.75),0 0 40px 10px rgba(10,108,240,.35);opacity:0;z-index:2;pointer-events:none}
+.scan__tag{position:absolute;left:14px;bottom:14px;z-index:3;display:flex;align-items:center;gap:10px;padding:9px 13px;border-radius:14px;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);box-shadow:0 18px 40px -24px rgba(10,26,51,.55);font:500 14px/1.2 var(--sans);color:var(--ink);white-space:nowrap;opacity:0;transform:translateY(10px) scale(.96)}
+.scan__tag small{display:block;font:400 11px/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.scan__tag .ok{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:rgba(24,195,126,.14);color:#0f9a62;flex:none}
+.scan__tag .ok svg{width:13px;height:13px}
+
+.about__pics.in .scan__line{animation:scanline 1.8s cubic-bezier(.55,0,.35,1) .35s forwards}
+.about__pics.in .scan__z img{animation:scanzoom 9s cubic-bezier(.2,.7,.2,1) .35s forwards}
+.about__pics.in .scan__tag{animation:scantag .55s cubic-bezier(.3,1.5,.5,1) 2.15s forwards}
+.about__pics.in .scan__z .scan__pre{animation:scanpre 1.8s cubic-bezier(.55,0,.35,1) .35s forwards,scanzoom 9s cubic-bezier(.2,.7,.2,1) .35s forwards}
+.about__pics.in .pscan:last-child .scan__z .scan__pre{animation-delay:1.1s,1.1s}
+.about__pics.in .pscan:last-child .scan__pre,.about__pics.in .pscan:last-child .scan__line{animation-delay:1.1s}
+.about__pics.in .pscan:last-child .scan__z img{animation-delay:1.1s}
+.about__pics.in .pscan:last-child .scan__tag{animation-delay:2.9s}
+@keyframes scanpre{to{clip-path:inset(0 0 0 100%)}}
+@keyframes scanline{0%{left:0;opacity:0}8%{opacity:1}92%{opacity:1}100%{left:calc(100% - 2px);opacity:0}}
+@keyframes scanzoom{to{transform:scale(1.02)}}
+@keyframes scantag{to{opacity:1;transform:none}}
+@supports (animation-timeline:view()){
+  .scan__z{animation:scanpar linear both;animation-timeline:view();animation-range:cover}
+  @keyframes scanpar{from{transform:translateY(-4%)}to{transform:translateY(4%)}}
+}
+@media (max-width:600px){.scan__tag{left:10px;bottom:10px;font-size:12.5px;padding:7px 10px;border-radius:12px}.scan__tag .ok{width:20px;height:20px}.about__pics .pscan:last-child .scan__tag{left:auto;right:10px}}
+@media (prefers-reduced-motion:reduce){.scan__pre,.scan__line{display:none}.scan__z img{transform:none;animation:none!important}.scan__tag{opacity:1;transform:none;animation:none!important}.scan__z{animation:none!important}}
+
+/* Laufband unter dem Startbild */
+.marq{position:relative;z-index:2;padding:10px 0;margin:-6px 0;transform:rotate(-2deg) scale(1.04);background:var(--grad);box-shadow:0 30px 60px -30px rgba(10,63,168,.6);overflow:hidden}
+.marq__row{display:flex;width:max-content;animation:marq 38s linear infinite}
+.marq__row>div{display:flex;align-items:center;flex:none}
+.marq__row span{font:700 clamp(26px,3.6vw,46px)/1.15 var(--head);letter-spacing:-.02em;color:#fff;white-space:nowrap;padding:0 22px;text-transform:uppercase}
+.marq__row svg{width:clamp(18px,2vw,26px);height:clamp(18px,2vw,26px);color:rgba(255,255,255,.55);transform:rotate(90deg);flex:none}
+.marq__row--r{animation-direction:reverse;animation-duration:46s}
+.marq__row--r span{color:transparent;-webkit-text-stroke:1.2px rgba(255,255,255,.85)}
+@keyframes marq{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.marq__row{animation:none}}
+/* Services dunkel: Glas-Karten mit Licht unter der Maus, Details zum Aufklappen */
+.svc{padding-top:clamp(110px,12vw,170px)}
+.dark.svc .card:not(.card--cta){background:linear-gradient(160deg,rgba(255,255,255,.08),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.12);box-shadow:0 30px 60px -40px rgba(0,0,0,.6);color:#eaf2ff}
+.dark.svc .card:not(.card--cta)::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(320px circle at var(--mx,50%) var(--my,-40%),rgba(0,184,255,.16),transparent 60%);opacity:0;transition:opacity .35s}
+.dark.svc .card:hover::after{opacity:1}
+.dark.svc .card:hover{border-color:rgba(111,208,255,.4);box-shadow:0 30px 70px -30px rgba(0,120,255,.45)}
+.dark.svc .card h3{color:#fff}
+.dark.svc .card p{color:#a9bad6}
+.dark.svc .card__n{color:#6fd0ff}
+.dark.svc .card__i{background:rgba(111,208,255,.12);color:#6fd0ff;box-shadow:inset 0 0 0 1px rgba(111,208,255,.18)}
+.dark.svc .card--cta{background:var(--grad);box-shadow:0 30px 70px -30px rgba(0,140,255,.6)}
+.dark.svc .card--cta p{color:rgba(255,255,255,.85)}
+.dark.svc .card--cta .card__n,.dark.svc .card--cta .card__i{color:#fff}
+.dark.svc .card--cta .card__i{background:rgba(255,255,255,.16)}
+.dark.svc .who span{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12);color:#eaf2ff;box-shadow:none}
+.dark.svc .who span svg{color:#6fd0ff}
+.card__more{position:relative;z-index:1;display:inline-flex;align-items:center;gap:10px;margin-top:18px;padding:0;background:none;border:0;font:600 14px/1 var(--sans);letter-spacing:.02em;color:#6fd0ff;cursor:pointer}
+.card__more i{position:relative;width:18px;height:18px;border-radius:50%;box-shadow:inset 0 0 0 1.5px currentColor}
+.card__more i::before,.card__more i::after{content:"";position:absolute;left:50%;top:50%;width:8px;height:1.5px;background:currentColor;transform:translate(-50%,-50%);transition:transform .3s}
+.card__more i::after{transform:translate(-50%,-50%) rotate(90deg)}
+.card.open .card__more i::after{transform:translate(-50%,-50%) rotate(0)}
+.card__x{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.2,.7,.2,1)}
+.card__x>ul{overflow:hidden;min-height:0;margin:0;padding:0;border:0}
+.card.open .card__x{grid-template-rows:1fr}
+.card .card__x>ul{display:grid;gap:9px;font-size:14.5px;color:#cfe0f7}
+.card.open .card__x>ul{padding-top:16px;margin-top:16px;border-top:1px solid rgba(255,255,255,.12)}
+.card .card__x li::before{background:#6fd0ff}
+@media (max-width:600px){.cards--7 .card__more,.cards--7 .card__x{grid-column:1/-1}.marq__row span{padding:0 16px}}
+/* Material request: AOG schaltet auf Alarm */
+.pane[data-prio="AOG"] .btn--p{background:linear-gradient(110deg,#ff5a5f,#d92d33);box-shadow:0 18px 40px -18px rgba(229,72,77,.8)}
+.aog-alert{display:none;align-items:center;gap:12px;padding:13px 16px;border-radius:14px;background:rgba(229,72,77,.1);border:1px solid rgba(229,72,77,.35);color:#b4232a;font-weight:600;font-size:14.5px}
+.aog-alert i{width:10px;height:10px;border-radius:50%;background:#e5484d;flex:none;animation:aogp 1.4s ease-out infinite}
+.pane[data-prio="AOG"] .aog-alert{display:flex}
+@keyframes aogp{0%{box-shadow:0 0 0 0 rgba(229,72,77,.55)}100%{box-shadow:0 0 0 12px rgba(229,72,77,0)}}
 </style>
 </head>
 <body>
@@ -808,8 +883,13 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
     </div>
   </div>
 </section>
+<div class="marq" aria-hidden="true">
+  <div class="marq__row"><div><span>CAMO</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Flight Ops Engineering</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Compliance</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Safety Management</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Documentation</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>CAMO</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Flight Ops Engineering</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Compliance</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Safety Management</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Documentation</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></div><div><span>CAMO</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Flight Ops Engineering</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Compliance</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Safety Management</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Documentation</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>CAMO</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Flight Ops Engineering</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Compliance</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Safety Management</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Documentation</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></div></div>
+  <div class="marq__row marq__row--r"><div><span>Materials &amp; Logistics</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>AOG Support</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Workforce</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Consulting</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Project Management</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Materials &amp; Logistics</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>AOG Support</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Workforce</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Consulting</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Project Management</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></div><div><span>Materials &amp; Logistics</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>AOG Support</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Workforce</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Consulting</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Project Management</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Materials &amp; Logistics</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>AOG Support</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Workforce</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Consulting</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg><span>Project Management</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></div></div>
+</div>
 
-<section class="sec" id="services">
+
+<section class="sec dark svc" id="services">
   <div class="wrap">
     <span class="k rv">Services</span>
     <h2 class="h2 rv">Everything your operation needs. <span class="g">From one partner.</span></h2>
@@ -820,42 +900,56 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
         <div class="card__i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/></svg></div>
         <h3>CAMO Technical Support &amp; Engineering</h3>
         <p>Support for continuing airworthiness: maintenance programmes, AD and SB evaluation, reliability and technical records.</p>
+        <button class="card__more" type="button" aria-expanded="false">Details<i aria-hidden="true"></i></button>
+        <div class="card__x"><ul><li>Maintenance programme development and revisions</li><li>AD and SB assessment and tracking</li><li>Reliability monitoring</li><li>Technical records and lease transitions</li></ul></div>
       </article>
       <article class="card rv">
         <span class="card__n">02</span>
         <div class="card__i"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></div>
         <h3>Flight Operations Engineering</h3>
         <p>Engineering support for your flight operations, from performance and weight and balance to operational procedures.</p>
+        <button class="card__more" type="button" aria-expanded="false">Details<i aria-hidden="true"></i></button>
+        <div class="card__x"><ul><li>Aircraft performance and take-off analysis</li><li>Weight and balance</li><li>Operational procedures and EFB support</li><li>Route and airport assessments</li></ul></div>
       </article>
       <article class="card rv">
         <span class="card__n">03</span>
         <div class="card__i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></div>
         <h3>Compliance Monitoring &amp; Safety Management</h3>
         <p>Audits, compliance monitoring and SMS support that keep your organisation safe and ready for the next inspection.</p>
+        <button class="card__more" type="button" aria-expanded="false">Details<i aria-hidden="true"></i></button>
+        <div class="card__x"><ul><li>Internal audits and compliance monitoring</li><li>SMS set-up and support</li><li>Preparation for authority audits</li><li>Follow-up of findings and corrective actions</li></ul></div>
       </article>
       <article class="card rv">
         <span class="card__n">04</span>
         <div class="card__i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg></div>
         <h3>Aviation Documentation &amp; Publication</h3>
         <p>Manuals, procedures and technical publications, written, revised and kept up to date with current requirements.</p>
+        <button class="card__more" type="button" aria-expanded="false">Details<i aria-hidden="true"></i></button>
+        <div class="card__x"><ul><li>CAME, MOE and operations manuals</li><li>Procedures and work instructions</li><li>Revisions to current regulations</li><li>Technical publications</li></ul></div>
       </article>
       <article class="card rv">
         <span class="card__n">05</span>
         <div class="card__i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg></div>
         <h3>Aircraft Materials &amp; Logistics</h3>
         <p>Sourcing of parts and materials, from routine orders to AOG situations. Fast, traceable and with the right paperwork.</p>
+        <button class="card__more" type="button" aria-expanded="false">Details<i aria-hidden="true"></i></button>
+        <div class="card__x"><ul><li>Worldwide parts sourcing</li><li>AOG support</li><li>Repairs and exchange units</li><li>Certificates such as EASA Form 1 and FAA 8130-3</li></ul></div>
       </article>
       <article class="card rv">
         <span class="card__n">06</span>
         <div class="card__i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.5A6.5 6.5 0 0 1 21.5 20"/></svg></div>
         <h3>Aviation Workforce Solutions</h3>
         <p>Qualified engineers, technicians and specialists for short-term peaks, projects or long-term support.</p>
+        <button class="card__more" type="button" aria-expanded="false">Details<i aria-hidden="true"></i></button>
+        <div class="card__x"><ul><li>Licensed engineers and technicians</li><li>CAMO and quality staff</li><li>Short-term and project support</li><li>Long-term placements</li></ul></div>
       </article>
       <article class="card rv">
         <span class="card__n">07</span>
         <div class="card__i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16M6 15l4-4 3 3 6-7"/><path d="M15 7h4v4"/></svg></div>
         <h3>Technical Consulting &amp; Project Management</h3>
         <p>Hands-on experience for your projects, from first planning to handover, including fleet and entry-into-service projects.</p>
+        <button class="card__more" type="button" aria-expanded="false">Details<i aria-hidden="true"></i></button>
+        <div class="card__x"><ul><li>Fleet and entry-into-service projects</li><li>Organisation set-up and approvals</li><li>Project management from planning to handover</li><li>Independent technical advice</li></ul></div>
       </article>
       <a class="card card--cta rv" href="#contact" data-tab="material">
         <span class="card__n">AOG?</span>
@@ -895,8 +989,8 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
         </div>
       </div>
       <div class="about__pics rv">
-        <img src="assets/img/triebwerk-800.webp" srcset="assets/img/triebwerk-800.webp 800w, assets/img/triebwerk.webp 1600w" sizes="(max-width:960px) 100vw, 40vw" width="800" height="600" alt="Aircraft engine on the apron" loading="lazy">
-        <img src="assets/img/cockpit-800.webp" srcset="assets/img/cockpit-800.webp 800w, assets/img/cockpit.webp 1600w" sizes="(max-width:960px) 100vw, 22vw" width="800" height="600" alt="Cockpit overhead panel" loading="lazy">
+        <figure class="pscan"><span class="scan__z"><img src="assets/img/triebwerk-800.webp" srcset="assets/img/triebwerk-800.webp 800w, assets/img/triebwerk.webp 1600w" sizes="(max-width:960px) 100vw, 40vw" width="800" height="600" alt="Aircraft engine on the apron" loading="lazy"><img class="scan__pre" aria-hidden="true" src="assets/img/triebwerk-800.webp" srcset="assets/img/triebwerk-800.webp 800w, assets/img/triebwerk.webp 1600w" sizes="(max-width:960px) 100vw, 40vw" width="800" height="600" alt="" loading="lazy"></span><i class="scan__line" aria-hidden="true"></i><span class="scan__tag"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L19 7"/></svg></span><span><small>Engine</small>Inspected</span></span></figure>
+        <figure class="pscan"><span class="scan__z"><img src="assets/img/cockpit-800.webp" srcset="assets/img/cockpit-800.webp 800w, assets/img/cockpit.webp 1600w" sizes="(max-width:960px) 100vw, 22vw" width="800" height="600" alt="Cockpit overhead panel" loading="lazy"><img class="scan__pre" aria-hidden="true" src="assets/img/cockpit-800.webp" srcset="assets/img/cockpit-800.webp 800w, assets/img/cockpit.webp 1600w" sizes="(max-width:960px) 100vw, 22vw" width="800" height="600" alt="" loading="lazy"></span><i class="scan__line" aria-hidden="true"></i><span class="scan__tag"><span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L19 7"/></svg></span><span><small>Avionics</small>Checked</span></span></figure>
       </div>
     </div>
 
@@ -1012,6 +1106,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
           <div class="form">
             <div class="full"><span style="display:block;font-size:14px;font-weight:500;color:var(--ink2);margin-bottom:10px">Priority</span>
               <div class="seg seg--aog" role="group" aria-label="Priority"><button type="button" aria-pressed="true" data-v="Routine">Routine</button><button type="button" aria-pressed="false" data-v="Urgent">Urgent</button><button type="button" aria-pressed="false" data-v="AOG">AOG</button></div></div>
+            <div class="aog-alert full" role="status"><i aria-hidden="true"></i>AOG: Aircraft on Ground. Your request goes straight to the top of our list.</div>
             <label>Part number<input name="pn" placeholder="e.g. 3214552-1" autocapitalize="characters"></label>
             <label>Quantity<input name="qty" type="number" min="1" value="1" inputmode="numeric"></label>
             <label class="full">Description<input name="desc" placeholder="e.g. Brake assembly"></label>
@@ -1052,7 +1147,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 
 <a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener" aria-label="Draft by Tim Kofler"><img src="assets/img/tk-logo-2.svg" width="702" height="358" alt=""><span>Draft by Tim Kofler</span></a>
 
-<script src="assets/app.js?v=9" defer></script>
+<script src="assets/app.js?v=10" defer></script>
 <script src="assets/himmel.js?v=7" defer></script>
 <script type="module" src="assets/flug3d.js?v=11"></script>
 </body></html>
