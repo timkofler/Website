@@ -99,6 +99,10 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
 .chip .ok{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:rgba(24,195,126,.14);color:#0f9a62;flex:none}
 .chip .ok svg{width:14px;height:14px}
 @keyframes chip{to{opacity:1;transform:translateY(0) translateZ(60px)}}
+.hero__gl{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.gl-on .plan__in{visibility:hidden}
+.hero__chips{position:absolute;inset:0;z-index:3;pointer-events:none}
+.hero__chips .chip{opacity:0;will-change:transform,opacity}
 
 /* Leistungen */
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:56px}
@@ -129,6 +133,10 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
 .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:64px;position:relative}
 .steps::before{content:"";position:absolute;left:0;right:0;top:27px;height:2px;background:linear-gradient(90deg,rgba(111,208,255,.6),rgba(111,208,255,.08))}
 .step{padding-right:28px;position:relative}
+.steps::after{content:"";position:absolute;left:0;top:27px;height:2px;width:calc(var(--p,0) * 100%);background:linear-gradient(90deg,#00b8ff,#6fd0ff);box-shadow:0 0 12px rgba(0,184,255,.8)}
+.steps__fly{position:absolute;top:28px;left:calc(var(--p,0) * 100%);width:30px;height:30px;transform:translate(-50%,-50%) rotate(90deg);color:#fff;filter:drop-shadow(0 0 10px rgba(0,184,255,.9));z-index:2;pointer-events:none}
+.step .step__d{transition:background .4s,border-color .4s,color .4s,box-shadow .4s}
+.step.on .step__d{background:linear-gradient(140deg,#00b8ff,#0a6cf0);border-color:transparent;color:#fff;box-shadow:0 0 0 8px var(--navy),0 0 30px rgba(0,184,255,.55)}
 .step__d{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--navy2);border:1px solid rgba(111,208,255,.45);font:400 15px/1 var(--mono);color:#6fd0ff;position:relative;box-shadow:0 0 0 8px var(--navy)}
 .step h3{font-size:24px;margin-top:28px;color:#fff}
 .step p{color:#a9bad6;margin-top:10px;font-size:16px}
@@ -214,7 +222,7 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
   .plan{max-width:520px;justify-self:center;margin:-10px auto -40px;order:2}
   .cards,.team,.contact,.job{grid-template-columns:1fr}
   .steps{grid-template-columns:1fr 1fr;row-gap:44px}
-  .steps::before{display:none}
+  .steps::before,.steps::after,.steps__fly{display:none}
   .stats{grid-template-columns:1fr 1fr}
   .stats div:nth-child(2){border-right:0}
   .stats div:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.1)}
@@ -474,5 +482,6 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
 
 <a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener"><img src="assets/img/tk-logo-2.svg" width="702" height="358" alt=""><span>Entwurf von Tim Kofler</span></a>
 
-<script src="assets/app.js?v=1" defer></script>
+<script src="assets/app.js?v=2" defer></script>
+<script type="module" src="assets/flug3d.js?v=2"></script>
 </body></html>

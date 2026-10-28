@@ -12,4 +12,13 @@
   if(matchMedia('(hover:hover) and (pointer:fine)').matches&&!matchMedia('(prefers-reduced-motion:reduce)').matches){
     addEventListener('pointermove',e=>{const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;plan.style.setProperty('--ry',(-8+x*14)+'deg');plan.style.setProperty('--rx',(10-y*12)+'deg')},{passive:true});
   }
+  // Ablauf: Linie füllt sich beim Scrollen, ein Flugzeug fliegt mit
+  const steps=document.querySelector('.steps');
+  if(steps){
+    const fly=document.createElement('span');fly.className='steps__fly';fly.setAttribute('aria-hidden','true');
+    fly.innerHTML='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>';
+    steps.appendChild(fly);
+    const upd=()=>{const r=steps.getBoundingClientRect();const p=Math.min(1,Math.max(0,(innerHeight*0.78-r.top)/(r.height+innerHeight*0.25)));steps.style.setProperty('--p',p.toFixed(3));steps.querySelectorAll('.step').forEach((el,i)=>el.classList.toggle('on',p>=i/4+0.02))};
+    upd();addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);
+  }
 })();
