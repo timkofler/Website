@@ -940,6 +940,6 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 <a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener"><img src="assets/img/tk-logo-2.svg" width="702" height="358" alt=""><span>Draft by Tim Kofler</span></a>
 
 <script src="assets/app.js?v=5" defer></script>
-<script src="assets/himmel.js?v=2" defer></script>
+<script src="assets/himmel.js?v=3" defer></script>
 <script type="module" src="assets/flug3d.js?v=7"></script>
 </body></html>
