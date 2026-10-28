@@ -245,7 +245,7 @@
   box-shadow: 0 0 70px rgba(255,90,31,.10); }
 .ew-end__box::before { content: ""; position: absolute; left: 20%; right: 20%; top: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,178,63,.8), transparent); }
 /* Zweizeilige Schluss-Überschrift: Unterlängen (g) stoßen sonst an Umlaute der nächsten Zeile (Ü) */
-html.tk-black .ew-end__box h2 { line-height: 1.16; }
+html.tk-black .ew-end__box h2 { line-height: 1.32; }
 /* Link unter dem Knopf nie mitten im Satz umbrechen: lieber als Ganzes in die nächste Zeile */
 .ew-end .gr-end-alt a { display: inline-block; }
 .ew-end__chips { list-style: none; margin: 0 0 26px; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 10px; }
