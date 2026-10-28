@@ -22,6 +22,10 @@
   const plan=document.querySelector('.plan__in');
   if(matchMedia('(hover:hover) and (pointer:fine)').matches&&!matchMedia('(prefers-reduced-motion:reduce)').matches){
     addEventListener('pointermove',e=>{const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;plan.style.setProperty('--ry',(-8+x*14)+'deg');plan.style.setProperty('--rx',(10-y*12)+'deg')},{passive:true});
+    // Glas-Banner im Footer: Lichtschein folgt der Maus, Banner neigt sich leicht
+    const cta=document.querySelector('.foot__cta');
+    if(cta){cta.addEventListener('pointermove',e=>{const r=cta.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;cta.classList.add('is-m');cta.style.setProperty('--mx',(x*100).toFixed(1)+'%');cta.style.setProperty('--my',(y*100).toFixed(1)+'%');cta.style.setProperty('--ry',((x-.5)*5).toFixed(2)+'deg');cta.style.setProperty('--rx',((.5-y)*5).toFixed(2)+'deg')});
+      cta.addEventListener('pointerleave',()=>{cta.classList.remove('is-m');cta.style.setProperty('--rx','0deg');cta.style.setProperty('--ry','0deg')})}
   }
   // Ablauf: Linie füllt sich beim Scrollen, ein Flugzeug fliegt mit
   const steps=document.querySelector('.steps');

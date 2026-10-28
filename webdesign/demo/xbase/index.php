@@ -576,13 +576,14 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 
 /* Handy-Menüknopf mit kleinem Flieger */
 .burger{position:relative;transition:background .3s,border-color .3s,box-shadow .3s,color .3s}
-.burger span{background:linear-gradient(90deg,transparent 0,currentColor 7px 10px,transparent 10px)}
-.burger__fly{position:absolute;left:50%;top:50%;width:12px;height:12px;color:var(--blue);transform:translate(1px,-50%) rotate(90deg);transition:transform .5s cubic-bezier(.5,0,.2,1),opacity .35s}
+.burger--fly span{background:linear-gradient(90deg,transparent 0,currentColor 7px 10px,transparent 10px)}
+.burger__fly{display:none}
+.burger--fly .burger__fly{display:block;position:absolute;left:50%;top:50%;width:12px;height:12px;color:var(--blue);transform:translate(1px,-50%) rotate(90deg);transition:transform .5s cubic-bezier(.5,0,.2,1),opacity .35s}
 .burger__fly svg{display:block;width:100%;height:100%}
 .burger[aria-expanded="true"]{background:var(--grad);border-color:transparent;color:#fff;box-shadow:0 12px 26px -10px rgba(10,108,240,.7)}
 .burger[aria-expanded="true"] span{background:transparent}
 .burger[aria-expanded="true"] .burger__fly{opacity:0;transform:translate(22px,-26px) rotate(45deg) scale(.6)}
-@media (hover:hover){.burger:hover .burger__fly{transform:translate(4px,-50%) rotate(90deg)}}
+@media (hover:hover){.burger--fly:hover .burger__fly{transform:translate(4px,-50%) rotate(90deg)}}
 
 /* Live-Himmel (himmel.js) ersetzt die Wolkenbilder im Hero */
 .hero__sky{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
@@ -661,7 +662,8 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 @media(max-width:960px){.job__row{flex-direction:column;align-items:stretch;gap:30px}}
 .btn--l:hover,.btn--l:focus{box-shadow:inset 0 0 0 1px rgba(10,26,51,.14);background:#fff;border-color:transparent}
 .foot__cta .btn--l:hover,.foot__cta .btn--l:focus{box-shadow:inset 0 0 0 1px rgba(255,255,255,.28);background:rgba(255,255,255,.16)}
-.xp b{padding:.12em .06em .02em .1em;margin:-.12em 0 -.02em -.1em}
+/* Schräge per skew statt künstlichem Kursiv: Outfit hat keine Kursive, das unechte Kursiv schnitt den Verlauf je nach System ab */
+.xp b{display:inline-block;font-style:normal;transform:skewX(-12deg);padding:.16em .16em .08em .16em;margin:-.16em -.18em -.08em -.16em}
 @media(min-width:961px){.cards--7 .card h3{min-height:2.24em}}
 .card.is-seen::before{transform:scaleX(1)}
 .route::before,.route::after{display:none}
@@ -669,6 +671,15 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 .route li:hover .route__pt{background:linear-gradient(140deg,rgba(0,184,255,.18),rgba(11,63,168,.14));color:var(--blue)}
 .hero__sky{opacity:0;transition:opacity .7s;animation:none}
 .hero__sky.on{opacity:1}
+
+/* Glas-Banner im Footer: durchsichtiger, Lichtschein folgt der Maus, leichte Neigung */
+.foot__cta{--mx:70%;--my:20%;--rx:0deg;--ry:0deg;background:linear-gradient(150deg,rgba(255,255,255,.05),rgba(255,255,255,.012));border-color:rgba(255,255,255,.11);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transform:perspective(1200px) rotateX(var(--rx)) rotateY(var(--ry));transition:transform .5s cubic-bezier(.2,.8,.2,1);isolation:isolate}
+.foot__cta::before,.foot__cta::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1}
+.foot__cta::before{background:radial-gradient(420px circle at var(--mx) var(--my),rgba(0,184,255,.22),transparent 65%);transition:background-position .3s}
+.foot__cta::after{background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.07) 48%,transparent 60%) no-repeat;background-size:250% 100%;animation:ctasheen 7s 1s ease-in-out infinite}
+.foot__cta.is-m{transition:transform .15s ease-out}
+@keyframes ctasheen{0%,60%{background-position:130% 0}100%{background-position:-30% 0}}
+@media (prefers-reduced-motion:reduce){.foot__cta::after{animation:none;opacity:0}.foot__cta{transform:none}}
 </style>
 </head>
 <body>
@@ -1013,7 +1024,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 
 <a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener"><img src="assets/img/tk-logo-2.svg" width="702" height="358" alt=""><span>Draft by Tim Kofler</span></a>
 
-<script src="assets/app.js?v=7" defer></script>
+<script src="assets/app.js?v=8" defer></script>
 <script src="assets/himmel.js?v=6" defer></script>
 <script type="module" src="assets/flug3d.js?v=10"></script>
 </body></html>
