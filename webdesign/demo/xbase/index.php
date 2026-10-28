@@ -662,7 +662,8 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 @media(max-width:960px){.job__row{flex-direction:column;align-items:stretch;gap:30px}}
 .btn--l:hover,.btn--l:focus{box-shadow:inset 0 0 0 1px rgba(10,26,51,.14);background:#fff;border-color:transparent}
 .foot__cta .btn--l:hover,.foot__cta .btn--l:focus{box-shadow:inset 0 0 0 1px rgba(255,255,255,.28);background:rgba(255,255,255,.16)}
-.xp b{display:inline-block;padding:.16em .14em .08em .14em;margin:-.16em -.1em -.08em -.14em;-webkit-box-decoration-break:clone}
+/* Schräge per skew statt künstlichem Kursiv: Outfit hat keine Kursive, das unechte Kursiv schnitt den Verlauf je nach System ab */
+.xp b{display:inline-block;font-style:normal;transform:skewX(-12deg);padding:.16em .16em .08em .16em;margin:-.16em -.18em -.08em -.16em}
 @media(min-width:961px){.cards--7 .card h3{min-height:2.24em}}
 .card.is-seen::before{transform:scaleX(1)}
 .route::before,.route::after{display:none}
