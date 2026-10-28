@@ -17,6 +17,7 @@ Steckbrief. Nur Angaben, die ohnehin öffentlich sind (das Repo ist öffentlich)
 
 - So bald wie möglich. Logo vorhanden (als Datei angekündigt).
 - Offen: Sprache (DE/EN), genaue Leistungen, Fotos.
+- Achtung Livegang: Unter xbase.aero/cloud/ läuft ein Login (Nextcloud) des Kunden. Muss erreichbar bleiben, nicht überschreiben.
 
 ## Notizen
 
