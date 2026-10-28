@@ -788,13 +788,15 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 /* About: Werte als Flugroute mit Wegpunkten, der Flieger folgt dem Scrollen */
 .vals.vals--path{grid-template-columns:1fr;gap:14px;position:relative;padding-left:46px}
 .vals--path::before{content:"";position:absolute;left:16px;top:26px;bottom:26px;width:2px;background:repeating-linear-gradient(180deg,var(--blue) 0 6px,transparent 6px 12px);opacity:.4}
-.vals--path::after{content:"";position:absolute;left:5px;top:14px;width:24px;height:24px;background:var(--blue);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z'/%3E%3C/svg%3E") center/contain no-repeat;transform:rotate(180deg);filter:drop-shadow(0 4px 8px rgba(10,108,240,.5));z-index:2}
+.vals--path::after{content:"";position:absolute;left:16px;top:26px;bottom:26px;width:2px;border-radius:2px;background:linear-gradient(180deg,#00b8ff,var(--blue));box-shadow:0 0 10px rgba(0,184,255,.55);transform-origin:top;z-index:0}
 .vals--path>div{position:relative}
-.vals--path>div::before{content:"";position:absolute;left:-36px;top:22px;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px var(--blue),0 0 0 8px rgba(10,108,240,.14)}
+.vals--path>div::before{content:"";position:absolute;left:-36px;top:22px;width:12px;height:12px;border-radius:50%;background:#fff;z-index:1;box-shadow:0 0 0 3px var(--blue),0 0 0 8px rgba(10,108,240,.14)}
 .vals--path .wp{display:block;font:400 11px/1 var(--mono);font-style:normal;letter-spacing:.08em;color:var(--blue);margin-bottom:8px}
 @supports (animation-timeline:view()){
-  .vals--path::after{animation:wpfly linear both;animation-timeline:view();animation-range:entry 60% exit 40%}
-  @keyframes wpfly{from{top:14px}to{top:calc(100% - 38px)}}
+  .vals--path::after{animation:wpline linear both;animation-timeline:view();animation-range:entry 70% cover 65%}
+  @keyframes wpline{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+  .vals--path>div::before{animation:wpon linear both;animation-timeline:view();animation-range:entry 90% cover 45%}
+  @keyframes wpon{0%,70%{background:#fff;box-shadow:0 0 0 3px var(--blue),0 0 0 8px rgba(10,108,240,.14)}100%{background:var(--blue);box-shadow:0 0 0 3px var(--blue),0 0 0 9px rgba(0,184,255,.3),0 0 18px rgba(0,184,255,.7)}}
 }
 /* Karriere: Jobs wie eine Abflugtafel */
 .job__list .job__item.rv{transform:perspective(900px) rotateX(-60deg) translateY(10px);transform-origin:50% 0}
@@ -814,7 +816,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 .foot__cta.in .foot__trail{animation:trail 3.2s cubic-bezier(.45,.05,.4,1) .4s forwards}
 @keyframes takeoff{0%{opacity:0;left:-60px;bottom:-40px}10%{opacity:1}85%{opacity:1}100%{opacity:0;left:calc(100% + 60px);bottom:calc(30% + 120px)}}
 @keyframes trail{0%{opacity:0;transform:rotate(-14deg) scaleX(0)}15%{opacity:1}70%{opacity:.8}100%{opacity:0;transform:rotate(-14deg) scaleX(1)}}
-@media (prefers-reduced-motion:reduce){.vals--path::after{animation:none}.job__list .job__item.rv{transform:none}.foot__fly,.foot__trail{display:none}.job__item .st i{animation:none}}
+@media (prefers-reduced-motion:reduce){.vals--path::after,.vals--path>div::before{animation:none}.job__list .job__item.rv{transform:none}.foot__fly,.foot__trail{display:none}.job__item .st i{animation:none}}
 </style>
 </head>
 <body>
