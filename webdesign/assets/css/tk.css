@@ -501,7 +501,7 @@ html.js .tk-apps:not(.is-visible) .tk-feat li { opacity: 0; transform: translate
 .tk-float__s { display: none; }
 .tk-float__x { flex: none; width: 26px; height: 26px; margin-left: 2px; border-radius: 50%; border: 1px solid #3a3a3a; background: transparent; color: var(--muted); font-size: .9rem; line-height: 1; cursor: pointer; }
 .tk-float__x:hover { color: var(--text); border-color: #777; }
-@media (max-width: 680px) { .tk-float { left: 10px; bottom: 14px; max-width: calc(100vw - 150px); padding-right: 8px; gap: 9px; } .tk-float__pics { width: 40px; height: 40px; } .tk-float__txt span { display: none; } .tk-float__txt b { font-size: .86rem; } .tk-float__l { display: none; } .tk-float__s { display: inline; } }
+@media (max-width: 680px) { .tk-float { left: 10px; bottom: 14px; max-width: calc(100vw - 180px); padding-right: 6px; gap: 7px; } .tk-float__pics { width: 36px; height: 36px; } .tk-float__x { width: 24px; height: 24px; margin-left: 0; } .tk-float__txt span { display: none; } .tk-float__txt b { font-size: .84rem; } .tk-float__l { display: none; } .tk-float__s { display: inline; } }
 @media (max-width: 360px) { .tk-float__txt { display: none; } }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1260,7 +1260,6 @@ html:not(.anf-js) .anf__panel--rr { padding-bottom: 0; }
 .mf-more { width: 100%; align-items: center; justify-content: center; gap: 8px; margin-top: 14px; padding: 13px 16px; border: 1px dashed var(--line-2); border-radius: 12px; background: none; color: var(--text); font: inherit; font-size: .92rem; cursor: pointer; }
 .mf-more .mf-chev { width: 18px; height: 18px; margin: 0; }
 @media (max-width: 680px) {
-  .mf-home .tk-float { display: none !important; }
   .mf-home .tk-marquee { display: none; }
   .mf-home #leistungen .rules { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; background: none; border: 0; border-radius: 0; overflow: visible; }
   .mf-home #leistungen .rule { padding: 14px 14px 16px; border: 1px solid var(--line); border-radius: 14px; }
