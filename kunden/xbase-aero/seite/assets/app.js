@@ -58,3 +58,5 @@ function sent(f){
   const r=f.getBoundingClientRect(),top=document.getElementById('nav')?.offsetHeight||0;
   if(r.top<top||r.top>innerHeight*.5)scrollTo({top:scrollY+r.top-top-20,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
 }
+// Ortszeit Wien in der Flughafen-Leiste
+(()=>{const t=document.getElementById('livet');if(!t)return;const f=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Vienna',hour:'2-digit',minute:'2-digit'});const u=()=>{t.textContent=f.format(new Date())};u();setInterval(u,15000)})();

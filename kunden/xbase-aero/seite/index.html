@@ -640,6 +640,22 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 @keyframes sentdraw{to{stroke-dashoffset:0}}
 @keyframes sentorbit{0%{offset-distance:0;opacity:0}12%{opacity:1}85%{opacity:1}100%{offset-distance:100%;opacity:0}}
 @media (prefers-reduced-motion:reduce){.sent__ring,.sent__chk{stroke-dashoffset:0}.sent__fly{display:none}}
+/* Handy-Start: ferner Jet + Flughafen-Leiste */
+.jet,.live{display:none}
+@media (max-width:600px){
+  .jet{display:block;position:absolute;z-index:1;top:calc(var(--navh) + 3svh);left:0;width:22px;height:22px;color:#fff;opacity:0;pointer-events:none;filter:drop-shadow(0 2px 4px rgba(10,60,140,.35));animation:jet 16s linear 1.5s infinite}
+  .jet svg{width:100%;height:100%;display:block;transform:rotate(80deg)}
+  .jet::before{content:"";position:absolute;right:13px;top:50%;width:52vw;height:3px;margin-top:-2px;border-radius:3px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.95));transform-origin:100% 50%;rotate:-10deg}
+  @keyframes jet{0%{transform:translate(-10vw,3svh);opacity:0}6%{opacity:1}70%{opacity:1}88%,100%{transform:translate(112vw,-3svh);opacity:0}}
+  .live{display:flex;align-items:center;justify-content:space-between;gap:8px;align-self:stretch;margin-top:22px;padding:11px 14px;border-radius:14px;background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.75);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);font:500 12px/1 var(--mono);letter-spacing:.06em;color:var(--ink2);box-shadow:0 12px 28px -22px rgba(10,40,100,.6)}
+  .live b{font-weight:600;color:var(--ink)}
+  .live__dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 0 rgba(34,197,94,.5);animation:livep 2s ease-out infinite}
+  .live__sep{width:1px;height:12px;background:rgba(10,40,100,.2)}
+  .live__c{color:var(--mut)}
+  @keyframes livep{70%{box-shadow:0 0 0 8px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+}
+@media (max-width:370px){.live__c,.live>.live__sep:nth-last-child(2){display:none}}
+@media (prefers-reduced-motion:reduce){.jet{display:none}.live__dot{animation:none}}
 .route{list-style:none;margin:30px 0 0;padding:0;position:relative;display:grid;gap:24px}
 .route::before{content:"";position:absolute;left:21px;top:22px;bottom:22px;width:2px;background:repeating-linear-gradient(180deg,var(--blue) 0 6px,transparent 6px 12px);opacity:.45;transform:scaleY(0);transform-origin:top;transition:transform 1.5s cubic-bezier(.3,.7,.2,1) .25s}
 .route::after{content:"";position:absolute;left:12px;top:12px;width:20px;height:20px;background:var(--blue);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z'/%3E%3C/svg%3E") center/contain no-repeat;transform:rotate(180deg);opacity:0;z-index:2}
@@ -711,7 +727,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 @media (prefers-reduced-motion:reduce){.xl__h{display:none}}
 @media (min-width:961px){.xp__fly--logo{width:.5em;height:.27em;right:-.82em;bottom:.08em}}
 /* Handy: Text füllt den ersten Bildschirm, gleichmäßig verteilt, der Flieger kommt danach */
-@media (max-width:600px){.hero{padding-top:var(--navh)}.hero .wrap>div:first-child{display:flex;flex-direction:column;align-items:flex-start;padding:clamp(34px,6svh,64px) 0 0}.plan{margin-top:-6vw;margin-bottom:0}.hero h1{margin-top:clamp(22px,4svh,40px)}.hero .lead{margin-top:clamp(18px,2.6svh,28px)}.hero__cta{margin-top:clamp(26px,4svh,40px);align-self:stretch}
+@media (max-width:600px){.hero{padding-top:var(--navh)}.hero .wrap>div:first-child{display:flex;flex-direction:column;align-items:flex-start;padding:clamp(34px,6svh,64px) 0 0}.plan{margin-top:1vw;margin-bottom:0}.hero h1{margin-top:clamp(22px,4svh,40px)}.hero .lead{margin-top:clamp(18px,2.6svh,28px)}.hero__cta{margin-top:clamp(26px,4svh,40px);align-self:stretch}
 .xp b.xl{margin-left:-.16em}.xl .xl__w{width:.98em}.xp__fly--logo{right:-.62em;width:.44em;height:.24em}.hero h1{font-size:calc((100vw - 32px) * .101)}}
 /* Bordkarte: VIE und ACH nebeneinander (Karriere-Route hatte .route mitgestylt), am Handy ohne Halbkreise */
 .pass .route{display:flex;align-items:center;gap:18px;list-style:none;padding:0;position:static;-webkit-user-select:auto;user-select:auto}
@@ -861,6 +877,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
     <img class="c6" data-src="assets/img/wolke-3.webp?v=3" width="1600" height="420" alt="" loading="lazy">
     <img class="c7" data-src="assets/img/wolke-2.webp?v=3" width="1000" height="460" alt="" loading="lazy">
   </div>
+  <i class="jet" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></i>
   <div class="wrap">
     <div>
       <span class="hero__tag"><i></i>Based at Vienna International Airport</span>
@@ -870,6 +887,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
         <a class="btn btn--p" href="#contact">Get in touch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <a class="btn btn--l" href="#services">Our services</a>
       </div>
+      <div class="live" aria-label="Vienna International Airport"><span class="live__dot"></span><b>LOWW</b><span class="live__sep"></span><span>VIE</span><span class="live__sep"></span><span>Local <b class="live__t" id="livet">--:--</b></span><span class="live__sep"></span><span class="live__c">Vienna Airport</span></div>
       <div class="hero__facts">
         <div>Location<b>Vienna Airport · VIE</b></div>
         <div>Services<b>7 areas, one partner</b></div>
@@ -1193,7 +1211,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 
 <a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener" aria-label="Draft by Tim Kofler"><img src="assets/img/tk-logo-2.svg" width="702" height="358" alt=""><span>Draft by Tim Kofler</span></a>
 
-<script src="assets/app.js?v=11" defer></script>
+<script src="assets/app.js?v=12" defer></script>
 <script src="assets/himmel.js?v=7" defer></script>
 <script type="module" src="assets/flug3d.js?v=12"></script>
 </body></html>
