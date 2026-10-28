@@ -15,7 +15,9 @@ precision highp float;
 precision mediump float;
 #endif
 uniform vec2 R;uniform float T;uniform float M;uniform float N;uniform float S;
-float h(vec3 p){p=fract(p*.3183099+.1);p*=17.;return fract(p.x*p.y*p.z*(p.x+p.y+p.z));}
+// Hash nur mit ganzen Zahlen unter 289² (exakt auf jeder Grafikkarte), sonst entstehen auf manchen GPUs harte Kanten
+float pm(float x){return mod((x*34.+1.)*x,289.);}
+float h(vec3 i){i=mod(i,289.);return pm(pm(pm(i.x)+i.y)+i.z)/289.;}
 float n(vec3 x){vec3 i=floor(x),f=fract(x);f=f*f*(3.-2.*f);
 return mix(mix(mix(h(i),h(i+vec3(1,0,0)),f.x),mix(h(i+vec3(0,1,0)),h(i+vec3(1,1,0)),f.x),f.y),
 mix(mix(h(i+vec3(0,0,1)),h(i+vec3(1,0,1)),f.x),mix(h(i+vec3(0,1,1)),h(i+vec3(1,1,1)),f.x),f.y),f.z);}
@@ -35,7 +37,7 @@ void main(){
   float sd=length(pq-sun);sky+=vec3(1.,.96,.88)*(.22*exp(-sd*2.6)+.08*exp(-sd*.9));
   float t=T;
   // Abdeckung: hinter dem Text (links) dünner, rechts und unten dichter
-  float cov=.40+.12*smoothstep(.62,.22,uv.x)*M-.04*smoothstep(.55,.1,y)+N*.06;
+  float cov=.46+.12*smoothstep(.62,.22,uv.x)*M-.04*smoothstep(.55,.1,y)+N*.06;
   vec2 c=gl_FragCoord.xy/S;
   vec2 q1=vec2(c.x/860.+t*.024,c.y/510.);
   float d1=dens(q1,t,cov);
@@ -84,6 +86,8 @@ void main(){
   }
   size();
   addEventListener("resize", size);
+  new ResizeObserver(size).observe(hero);
+  let drawn = 0;
   let vis = true, last = 0;
   new IntersectionObserver(e => { vis = e[0].isIntersecting; }).observe(hero);
   const t0 = performance.now() - (night ? 90000 : 40000);
@@ -95,10 +99,17 @@ void main(){
     // Handy schneller, sonst sieht man die Bewegung auf dem kleinen Bild kaum
     gl.uniform1f(uT, window.__skyT != null ? window.__skyT : (now - t0) / 1000 * (innerWidth > 960 ? 1.35 : 2.4));
     gl.drawArrays(gl.TRIANGLES, 0, 3);
+    if (++drawn === 3) cv.classList.add("on");
   }
   requestAnimationFrame(frame);
+}
+// Ersatz-Wolkenbilder nur laden, wo kein Live-Himmel läuft (spart Ladezeit)
+function bilder(el) {
+  if (el && !el.classList.contains("has-sky")) el.querySelectorAll(".sky img[data-src]").forEach(i => { i.src = i.dataset.src; });
 }
 if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
   himmel(document.querySelector(".hero"), false);
   himmel(document.querySelector("#process"), true);
 }
+bilder(document.querySelector(".hero"));
+bilder(document.querySelector("#process"));

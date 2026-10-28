@@ -7,6 +7,8 @@
   document.querySelectorAll('.seg button').forEach(x=>x.addEventListener('click',()=>{x.parentNode.querySelectorAll('button').forEach(y=>y.setAttribute('aria-pressed',String(y===x)))}));
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px'});
   document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=(el.parentNode.children.length>2?(Array.prototype.indexOf.call(el.parentNode.children,el)%4)*70:0)+'ms';io.observe(el)});
+  // Leistungs-Kästen: Linie oben bleibt, wenn man einmal drüber war
+  document.querySelectorAll('.card').forEach(c=>c.addEventListener('pointerenter',()=>c.classList.add('is-seen'),{once:true}));
   // Kontakt: Reiter "Contact us" / "Material request"
   const tabs=[...document.querySelectorAll('.tabs [role=tab]')];
   const show=id=>tabs.forEach(t=>{const on=t.id==='t-'+id;t.setAttribute('aria-selected',String(on));document.getElementById(t.getAttribute('aria-controls')).hidden=!on});
