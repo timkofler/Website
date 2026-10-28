@@ -321,24 +321,8 @@ function start() {
   new IntersectionObserver((es, io) => {
     if (!es[0].isIntersecting) return;
     io.disconnect();
-    if (small && window.__flugT == null) hold(); else t0 = performance.now();
-  }, { threshold: small ? 0.95 : 0.8 }).observe(plan);
-  // Handy: Flugzeug in die Bildmitte holen und kurz festhalten, damit man den Bau ganz sieht
-  function hold() {
-    const de = document.documentElement, stop = e => e.preventDefault();
-    addEventListener("touchmove", stop, { passive: false });
-    addEventListener("wheel", stop, { passive: false });
-    const p = plan.getBoundingClientRect(), nav = document.getElementById("nav");
-    const top = nav ? nav.offsetHeight : 0;
-    scrollTo({ top: scrollY + p.top + p.height / 2 - (top + (innerHeight - top) / 2), behavior: "smooth" });
-    t0 = performance.now() + 450;
-    setTimeout(() => { de.style.overflow = document.body.style.overflow = "hidden"; }, 500);
-    setTimeout(() => {
-      de.style.overflow = document.body.style.overflow = "";
-      removeEventListener("touchmove", stop);
-      removeEventListener("wheel", stop);
-    }, 4800);
-  }
+    t0 = performance.now();
+  }, { threshold: small ? 0.3 : 0.8 }).observe(plan);
   const tmpV = new THREE.Vector3();
   const nose = new THREE.Vector3();
   let visible = true;
