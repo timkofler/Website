@@ -7,7 +7,13 @@
   document.querySelectorAll('.seg button').forEach(x=>x.addEventListener('click',()=>{x.parentNode.querySelectorAll('button').forEach(y=>y.setAttribute('aria-pressed',String(y===x)))}));
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px'});
   document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=(el.parentNode.children.length>2?(Array.prototype.indexOf.call(el.parentNode.children,el)%4)*70:0)+'ms';io.observe(el)});
-  const f=document.getElementById('kform');f.addEventListener('submit',e=>{e.preventDefault();f.querySelector('.note').textContent='Danke! Das ist ein Entwurf, im echten Betrieb kommt die Anfrage per Mail an.'});
+  // Kontakt: Reiter "Contact us" / "Material request"
+  const tabs=[...document.querySelectorAll('.tabs [role=tab]')];
+  const show=id=>tabs.forEach(t=>{const on=t.id==='t-'+id;t.setAttribute('aria-selected',String(on));document.getElementById(t.getAttribute('aria-controls')).hidden=!on});
+  tabs.forEach(t=>t.addEventListener('click',()=>show(t.id.slice(2))));
+  document.querySelectorAll('[data-tab]').forEach(a=>a.addEventListener('click',()=>show(a.dataset.tab)));
+  document.querySelectorAll('[data-topic]').forEach(a=>a.addEventListener('click',()=>{show('contact');document.querySelectorAll('#topic button').forEach(y=>y.setAttribute('aria-pressed',String(y.textContent===a.dataset.topic)))}));
+  document.querySelectorAll('.pane').forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();f.querySelector('.note').textContent='Thank you! This is a draft. On the live site your request will be sent by e-mail.'}));
   const plan=document.querySelector('.plan__in');
   if(matchMedia('(hover:hover) and (pointer:fine)').matches&&!matchMedia('(prefers-reduced-motion:reduce)').matches){
     addEventListener('pointermove',e=>{const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;plan.style.setProperty('--ry',(-8+x*14)+'deg');plan.style.setProperty('--rx',(10-y*12)+'deg')},{passive:true});

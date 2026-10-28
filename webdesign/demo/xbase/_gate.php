@@ -37,7 +37,7 @@ if (empty($_SESSION['xbase_ok'])) {
 </head>
 <body>
 <main class="gate">
-  <img class="gate__logo" src="<?= $basis ?>assets/img/xbase-logo.webp" width="600" height="167" alt="XBASE Aero">
+  <img class="gate__logo" src="<?= $basis ?>assets/img/xbase-logo.webp" width="600" height="164" alt="XBASE Aero">
   <p>Entwurf Ihrer neuen Webseite. Bitte geben Sie das Passwort ein, das Sie erhalten haben.</p>
   <form method="post" action="">
     <label for="pw">Passwort</label>
