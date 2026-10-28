@@ -662,6 +662,24 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 }
 @media (max-width:370px){.live__c,.live>.live__sep:nth-last-child(2){display:none}}
 @media (prefers-reduced-motion:reduce){.live__dot{animation:none}}
+/* Handy: Ablauf-Kreise kleiner, kein Flieger auf der Linie */
+@media (max-width:600px){
+  .step{grid-template-columns:40px 1fr;column-gap:18px}
+  .step__d{width:40px;height:40px;font-size:13px;box-shadow:0 0 0 5px var(--navy)}
+  .step.on .step__d{box-shadow:0 0 0 5px var(--navy),0 0 18px rgba(0,184,255,.5)}
+  .steps::before,.steps::after{left:19px;top:20px}
+  .steps__fly{display:none!important}
+  .step h3{margin-top:7px}
+}
+/* Karriere-Kasten dunkel wie das Cockpit-Panel */
+.job__main.job--dark{background:radial-gradient(90% 70% at 100% 0,rgba(0,184,255,.16),transparent 60%),linear-gradient(160deg,#0b2550,#06142e);border:1px solid #1d4580;box-shadow:0 34px 70px -34px rgba(5,20,50,.75);-webkit-backdrop-filter:none;backdrop-filter:none;color:#fff}
+.job--dark .k{color:#6fd0ff}
+.job--dark .k::before{background:#6fd0ff}
+.job--dark .h2{color:#fff}
+.job--dark .lead{color:#a9bad6}
+.job--dark .route__pt,.job--dark .route li:hover .route__pt{background:rgba(0,184,255,.1);color:#6fd0ff;box-shadow:inset 0 0 0 1px rgba(111,208,255,.35),0 0 18px -6px rgba(0,184,255,.6);border-radius:14px}
+.job--dark .route b{color:#fff}
+.job--dark .route small{color:#a9bad6}
 .route{list-style:none;margin:30px 0 0;padding:0;position:relative;display:grid;gap:24px}
 .route::before{content:"";position:absolute;left:21px;top:22px;bottom:22px;width:2px;background:repeating-linear-gradient(180deg,var(--blue) 0 6px,transparent 6px 12px);opacity:.45;transform:scaleY(0);transform-origin:top;transition:transform 1.5s cubic-bezier(.3,.7,.2,1) .25s}
 .route::after{content:"";position:absolute;left:12px;top:12px;width:20px;height:20px;background:var(--blue);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z'/%3E%3C/svg%3E") center/contain no-repeat;transform:rotate(180deg);opacity:0;z-index:2}
@@ -1124,9 +1142,9 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 
 <section class="sec" id="careers">
   <div class="wrap job">
-    <div class="job__main rv">
+    <div class="job__main job--dark rv">
       <span class="k">Careers</span>
-      <h2 class="h2 job__h">Take off with <img class="job__logo" src="assets/img/xbase-logo-450.webp" srcset="assets/img/xbase-logo-450.webp 450w, assets/img/xbase-logo.webp 900w" sizes="(max-width:600px) 123px, 206px" width="600" height="164" alt="XBASE Aero" loading="lazy"></h2>
+      <h2 class="h2 job__h">Take off with <img class="job__logo" src="assets/img/xbase-logo-weiss-450.webp" srcset="assets/img/xbase-logo-weiss-450.webp 450w, assets/img/xbase-logo-weiss.webp 900w" sizes="(max-width:600px) 123px, 206px" width="600" height="164" alt="XBASE Aero" loading="lazy"></h2>
       <p class="lead">You work in aviation and are looking for interesting assignments, fair conditions and a team that knows you? Get in touch, even if there is no matching vacancy.</p>
       <div class="job__row"><ol class="route rv"><li style="--i:0"><span class="route__pt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg></span><div><b>Interesting assignments</b><small>Across airlines, CAMOs and MROs</small></div></li><li style="--i:1"><span class="route__pt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15.5l2 2 4-4"/></svg></span><div><b>Fair and reliable</b><small>Fair conditions and planning you can count on</small></div></li><li style="--i:2"><span class="route__pt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span><div><b>One personal contact</b><small>A real person instead of a hotline</small></div></li></ol>
       <div class="hero__cta"><a class="btn btn--p" href="#contact" data-topic="Careers">Apply now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></div>
