@@ -357,13 +357,19 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
 @media (max-width:600px){
   .hero h1{font-size:calc((100vw - 32px) * .106);line-height:1.06}
   .hero h1 .l2{white-space:nowrap;margin-top:.04em}
-  .plan{margin-bottom:-70px}
+  .plan{margin-bottom:0}
+  .hero{padding-bottom:24px}
+  .band{min-height:0;aspect-ratio:3/2}
+  .band img{object-position:50% 50%}
+  .band p{font-size:26px}
+  .band small{margin-top:8px}
+  .band .wrap{padding-bottom:18px}
   #services{padding-top:44px}
   .steps{row-gap:30px;padding-left:0}
-  .steps::before,.steps::after{display:block;left:27px;right:auto;top:28px;bottom:28px;width:2px;height:auto}
+  .steps::before,.steps::after{display:block;left:27px;right:auto;top:28px;bottom:auto;width:2px;height:var(--len,0px)}
   .steps::before{background:linear-gradient(180deg,rgba(111,208,255,.6),rgba(111,208,255,.08))}
-  .steps::after{bottom:auto;height:calc(var(--p,0) * (100% - 56px));background:linear-gradient(180deg,#00b8ff,#6fd0ff)}
-  .steps__fly{display:block;left:28px;top:calc(28px + var(--p,0) * (100% - 56px));transform:translate(-50%,-50%) rotate(180deg);width:26px;height:26px;z-index:1}
+  .steps::after{bottom:auto;height:calc(var(--p,0) * var(--len,0px));background:linear-gradient(180deg,#00b8ff,#6fd0ff)}
+  .steps__fly{display:block;left:28px;top:calc(28px + var(--p,0) * var(--len,0px));transform:translate(-50%,-50%) rotate(180deg);width:26px;height:26px;z-index:1}
   .stats{margin-top:64px}
   .stats div{padding:24px 20px}
   .job__main{padding:30px 24px}
@@ -698,6 +704,6 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
 
 <a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener"><img src="assets/img/tk-logo-2.svg" width="702" height="358" alt=""><span>Draft by Tim Kofler</span></a>
 
-<script src="assets/app.js?v=4" defer></script>
-<script type="module" src="assets/flug3d.js?v=5"></script>
+<script src="assets/app.js?v=5" defer></script>
+<script type="module" src="assets/flug3d.js?v=6"></script>
 </body></html>

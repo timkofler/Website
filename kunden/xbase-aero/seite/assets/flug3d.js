@@ -243,7 +243,7 @@ function start() {
     const r = hero.getBoundingClientRect(), p = plan.getBoundingClientRect();
     W = Math.max(1, r.width); H = Math.max(1, r.height);
     cx = p.left - r.left + p.width / 2; cy = p.top - r.top + p.height / 2;
-    size = Math.min(p.width, p.height);
+    size = Math.min(p.width, p.height) * (W < 600 ? 0.82 : 1);
     // Abheben erst, wenn das Flugzeug ganz zu sehen war (Handy: unter dem Text)
     sOff = Math.max(0, p.bottom + scrollY - innerHeight);
     sLen = sOff > 0 ? p.height * 1.1 : r.height * 0.85;

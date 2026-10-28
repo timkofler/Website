@@ -27,7 +27,7 @@
     const fly=document.createElement('span');fly.className='steps__fly';fly.setAttribute('aria-hidden','true');
     fly.innerHTML='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>';
     steps.appendChild(fly);
-    const upd=()=>{const r=steps.getBoundingClientRect();const p=Math.min(1,Math.max(0,(innerHeight*0.78-r.top)/(r.height+innerHeight*0.25)));steps.style.setProperty('--p',p.toFixed(3));steps.querySelectorAll('.step').forEach((el,i)=>el.classList.toggle('on',p>=i/4+0.02))};
+    const ds=steps.querySelectorAll('.step__d');const upd=()=>{const r=steps.getBoundingClientRect();const a=ds[0].getBoundingClientRect(),z=ds[ds.length-1].getBoundingClientRect();steps.style.setProperty('--len',(z.top-a.top)+'px');const p=Math.min(1,Math.max(0,(innerHeight*0.78-r.top)/(r.height+innerHeight*0.25)));steps.style.setProperty('--p',p.toFixed(3));steps.querySelectorAll('.step').forEach((el,i)=>el.classList.toggle('on',p>=i/4+0.02))};
     upd();addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);
   }
 })();
