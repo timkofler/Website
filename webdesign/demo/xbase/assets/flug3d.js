@@ -103,6 +103,19 @@ function start() {
     wins.setMatrixAt(wi++, tmp.matrix);
   }
   ac.add(wins);
+  // Einstiegstür hinter dem Cockpit (Umriss auf der Rumpfwölbung)
+  const doorMat = new THREE.LineBasicMaterial({ color: 0x8796ad, clippingPlanes: [clipSolid] });
+  for (const s of [-1, 1]) {
+    const pts = [];
+    const r = 0.516, cz = 3.62, hw = 0.11, y0 = -0.16, y1 = 0.3, rr = 0.05;
+    const corner = (cy, czz, a0) => { for (let k = 0; k <= 6; k++) { const a = a0 + k / 6 * Math.PI / 2; pts.push([cy + Math.sin(a) * rr, czz + Math.cos(a) * rr]); } };
+    corner(y1 - rr, cz + hw - rr, 0);
+    corner(y0 + rr, cz + hw - rr, Math.PI / 2);
+    corner(y0 + rr, cz - hw + rr, Math.PI);
+    corner(y1 - rr, cz - hw + rr, Math.PI * 1.5);
+    const v = pts.map(([y, z]) => new THREE.Vector3(s * Math.sqrt(r * r - y * y) * 1.006, y, z));
+    ac.add(new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(v), doorMat));
+  }
 
   // Flügel, Leitwerk: Umriss als Shape, ausgezogen. shape.x = Spannweite, shape.y = -z
   function flat(pts, depth, bevel) {
