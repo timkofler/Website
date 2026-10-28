@@ -596,6 +596,27 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 .foot__cta{background:linear-gradient(150deg,rgba(255,255,255,.09),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.14);border-radius:28px;box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 30px 60px -40px rgba(0,0,0,.7);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);padding:38px clamp(24px,4vw,52px);margin-bottom:56px}
 @media (max-width:600px){.foot__cta{padding:28px 22px;margin-bottom:44px}}
 .foot__cta .btn--l{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22)}
+
+/* Karriere-Kasten ohne Leerraum: Vorteile + großes X im Hintergrund, Knopf unten */
+.job__main{position:relative;overflow:hidden;display:flex;flex-direction:column}
+.job__main>.hero__cta{margin-top:auto;padding-top:30px}
+.job__perks{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:12px}
+.job__perks li{position:relative;padding-left:30px;color:var(--ink2);font-size:16px}
+.job__perks li::before{content:"";position:absolute;left:0;top:.15em;width:18px;height:18px;border-radius:5px;background:var(--grad);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7'/%3E%3C/svg%3E") center/14px no-repeat,linear-gradient(#000,#000);-webkit-mask-composite:xor;mask-composite:exclude}
+.job__h{display:flex;flex-wrap:wrap;align-items:center;column-gap:.32em;row-gap:6px}
+.job__logo{height:1.5em;width:auto;margin:-.12em 0 -.18em}
+.job__main>*{position:relative}
+
+/* Knöpfe: eckiger, mit schrägen Kanten wie das kursive X im Logo */
+.btn{border-radius:6px;clip-path:polygon(14px 0,100% 0,calc(100% - 14px) 100%,0 100%);padding:0 34px}
+.btn--p{box-shadow:none;filter:drop-shadow(0 12px 18px rgba(10,108,240,.35))}
+.btn--p:hover{box-shadow:none;filter:drop-shadow(0 16px 22px rgba(10,108,240,.5))}
+.btn--l{box-shadow:inset 0 0 0 1px rgba(10,26,51,.14);border:0;background:rgba(255,255,255,.75)}
+.btn--l:hover{box-shadow:inset 0 0 0 1px var(--blue);background:#fff}
+.foot__cta .btn--l{box-shadow:inset 0 0 0 1px rgba(255,255,255,.28)}
+.foot__cta .btn--w:hover{box-shadow:none;filter:drop-shadow(0 12px 18px rgba(0,0,0,.45))}
+.nav .btn{padding:0 26px;clip-path:polygon(11px 0,100% 0,calc(100% - 11px) 100%,0 100%)}
+@media(min-width:961px){.lead--one{max-width:none}}
 </style>
 </head>
 <body>
@@ -701,7 +722,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
   <div class="wrap">
     <span class="k rv">Services</span>
     <h2 class="h2 rv">Everything your operation needs. <span class="g">From one partner.</span></h2>
-    <p class="lead rv">From continuing airworthiness to parts and people: we support you where you need it, for a single task or as a long-term partner.</p>
+    <p class="lead lead--one rv">From continuing airworthiness to parts and people: we support you where you need it, for a single task or as a long-term partner.</p>
     <div class="cards cards--7">
       <article class="card rv">
         <span class="card__n">01</span>
@@ -847,8 +868,9 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
   <div class="wrap job">
     <div class="job__main rv">
       <span class="k">Careers</span>
-      <h2 class="h2">Take off with <span class="g">XBASE Aero.</span></h2>
+      <h2 class="h2 job__h">Take off with <img class="job__logo" src="assets/img/xbase-logo.webp" width="600" height="164" alt="XBASE Aero" loading="lazy"></h2>
       <p class="lead">You work in aviation and are looking for interesting assignments, fair conditions and a team that knows you? Get in touch, even if there is no matching vacancy.</p>
+      <ul class="job__perks"><li>Interesting assignments across airlines, CAMOs and MROs</li><li>Fair conditions and reliable planning</li><li>One personal contact instead of a hotline</li></ul>
       <div class="hero__cta"><a class="btn btn--p" href="#contact" data-topic="Careers">Apply now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
     </div>
     <div class="job__list">
@@ -940,6 +962,6 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 <a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener"><img src="assets/img/tk-logo-2.svg" width="702" height="358" alt=""><span>Draft by Tim Kofler</span></a>
 
 <script src="assets/app.js?v=5" defer></script>
-<script src="assets/himmel.js?v=3" defer></script>
-<script type="module" src="assets/flug3d.js?v=7"></script>
+<script src="assets/himmel.js?v=4" defer></script>
+<script type="module" src="assets/flug3d.js?v=8"></script>
 </body></html>

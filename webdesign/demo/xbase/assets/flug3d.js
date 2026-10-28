@@ -93,12 +93,16 @@ function start() {
   wind.position.z = 4.32;
   wind.scale.z = 1.8;
   ac.add(wind);
-  const winGeo = new THREE.SphereGeometry(0.032, 8, 6);
-  const wins = new THREE.InstancedMesh(winGeo, dark, 2 * 15);
+  // Fenster bündig in der Rumpfwand: flache, hochkante Ovale statt aufgesetzter Punkte
+  const winGeo = new THREE.SphereGeometry(0.034, 12, 8);
+  const wins = new THREE.InstancedMesh(winGeo, glass, 2 * 15);
   const tmp = new THREE.Object3D();
   let wi = 0;
+  const wy = 0.14, wr = Math.sqrt(0.52 * 0.52 - wy * wy);
   for (const s of [-1, 1]) for (let i = 0; i < 15; i++) {
-    tmp.position.set(s * 0.515, 0.14, 2.5 - i * 0.3);
+    tmp.position.set(s * (wr - 0.004), wy, 2.5 - i * 0.3);
+    tmp.rotation.set(0, 0, s * Math.asin(wy / 0.52));
+    tmp.scale.set(0.32, 1.25, 0.8);
     tmp.updateMatrix();
     wins.setMatrixAt(wi++, tmp.matrix);
   }
@@ -305,8 +309,22 @@ function start() {
   // Bau startet erst, wenn das Flugzeug im Bild ist
   let t0 = null, sCur = 0, yBuilt = null;
   new IntersectionObserver((es, io) => {
-    if (es[0].isIntersecting) { t0 = performance.now(); io.disconnect(); }
+    if (!es[0].isIntersecting) return;
+    t0 = performance.now(); io.disconnect();
+    if (small && window.__flugT == null) hold();
   }, { threshold: 0.8 }).observe(plan);
+  // Handy: Bild kurz festhalten, damit man den Bau sieht und nicht vorbeiscrollt
+  function hold() {
+    const de = document.documentElement, stop = e => e.preventDefault();
+    de.style.overflow = document.body.style.overflow = "hidden";
+    addEventListener("touchmove", stop, { passive: false });
+    addEventListener("wheel", stop, { passive: false });
+    setTimeout(() => {
+      de.style.overflow = document.body.style.overflow = "";
+      removeEventListener("touchmove", stop);
+      removeEventListener("wheel", stop);
+    }, 4300);
+  }
   const tmpV = new THREE.Vector3();
   const nose = new THREE.Vector3();
   let visible = true;
@@ -335,9 +353,9 @@ function start() {
   function frame(now) {
     if (!visible) return;
     const t = window.__flugT ?? (t0 === null ? 0 : Math.max(0, now - t0) / 1000);
-    // Abheben erst, wenn der Bau fertig ist (5 s) und danach weiter gescrollt wird
+    // Abheben erst, wenn der Bau fertig ist (5 s) und danach ein Stück weiter gescrollt wird
     if (t >= 5 && yBuilt === null) yBuilt = window.__flugT == null ? scrollY : 0;
-    const sT = yBuilt === null ? 0 : Math.min(1, Math.max(0, (scrollY - Math.max(sOff, yBuilt)) / sLen));
+    const sT = yBuilt === null ? 0 : Math.min(1, Math.max(0, (scrollY - Math.max(sOff, yBuilt) - innerHeight * 0.3) / sLen));
     sCur += (sT - sCur) * (window.__flugT == null ? 0.08 : 1);
     const s = sCur < 0.0005 ? 0 : sCur;
 
@@ -347,7 +365,8 @@ function start() {
     const scanZ = a < 1 ? zA : zB;
     band.position.set(0, 0, scanZ);
     bandMat.opacity = (a > 0 && a < 1) || (b > 0 && b < 1) ? 0.75 : Math.max(0, bandMat.opacity - 0.05);
-    for (const w of wires) w.material.opacity = (w.material === wire ? 0.85 : 0.35) * (1 - b * 0.82) * (1 - s);
+    // Bauplan-Linien verschwinden mit der fertigen Hülle ganz (sonst flackern sie auf dem Rumpf)
+    for (const w of wires) { w.material.opacity = (w.material === wire ? 0.85 : 0.35) * (1 - b) * (1 - s); w.visible = b < 1; }
 
     // Haltung
     mx += (tmx - mx) * 0.05; my += (tmy - my) * 0.05;
