@@ -600,9 +600,6 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 /* Karriere-Kasten ohne Leerraum: Vorteile + großes X im Hintergrund, Knopf unten */
 .job__main{position:relative;overflow:hidden;display:flex;flex-direction:column}
 .job__main>.hero__cta{margin-top:auto;padding-top:30px}
-.job__perks{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:12px}
-.job__perks li{position:relative;padding-left:30px;color:var(--ink2);font-size:16px}
-.job__perks li::before{content:"";position:absolute;left:0;top:.15em;width:18px;height:18px;border-radius:5px;background:var(--grad);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7'/%3E%3C/svg%3E") center/14px no-repeat,linear-gradient(#000,#000);-webkit-mask-composite:xor;mask-composite:exclude}
 .job__h{display:flex;flex-wrap:wrap;align-items:center;column-gap:.32em;row-gap:6px}
 .job__logo{height:1.5em;width:auto;margin:-.12em 0 -.18em}
 .job__main>*{position:relative}
@@ -617,6 +614,35 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 .foot__cta .btn--w:hover{box-shadow:none;filter:drop-shadow(0 12px 18px rgba(0,0,0,.45))}
 .nav .btn{padding:0 26px;clip-path:polygon(11px 0,100% 0,calc(100% - 11px) 100%,0 100%)}
 @media(min-width:961px){.lead--one{max-width:none}}
+.job__h + .lead{margin-top:30px}
+.job__logo{height:1.15em;margin:0;flex:none}
+@media(min-width:961px){.job__h{flex-wrap:nowrap;white-space:nowrap;font-size:clamp(34px,3.4vw,64px)}}
+.job__main>.hero__cta{justify-content:flex-end}
+.btn--l,.foot__cta .btn--l{-webkit-backdrop-filter:none;backdrop-filter:none}
+.foot__top p{margin-top:26px}
+.btn.is-sent{animation:btnfold .35s ease-in forwards;pointer-events:none}
+@keyframes btnfold{to{transform:scale(.15);opacity:0}}
+.fly-plane{position:fixed;z-index:90;width:34px;height:34px;margin:-17px 0 0 -17px;color:var(--blue);pointer-events:none;animation:flyoff 1.5s cubic-bezier(.5,0,.75,.2) .2s both}
+.fly-plane svg{width:100%;height:100%;transform:rotate(45deg);filter:drop-shadow(0 6px 10px rgba(10,108,240,.4))}
+.fly-plane::after{content:"";position:absolute;left:50%;top:50%;width:120px;height:3px;border-radius:3px;transform-origin:0 50%;transform:rotate(135deg);background:linear-gradient(90deg,rgba(10,108,240,.5),transparent)}
+@keyframes flyoff{0%{transform:scale(.3);opacity:0}15%{transform:scale(1.1);opacity:1}100%{transform:translate(70vw,-90vh) scale(.5);opacity:.9}}
+.route{list-style:none;margin:30px 0 0;padding:0;position:relative;display:grid;gap:24px}
+.route::before{content:"";position:absolute;left:21px;top:22px;bottom:22px;width:2px;background:repeating-linear-gradient(180deg,var(--blue) 0 6px,transparent 6px 12px);opacity:.45;transform:scaleY(0);transform-origin:top;transition:transform 1.5s cubic-bezier(.3,.7,.2,1) .25s}
+.route::after{content:"";position:absolute;left:12px;top:12px;width:20px;height:20px;background:var(--blue);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z'/%3E%3C/svg%3E") center/contain no-repeat;transform:rotate(180deg);opacity:0;z-index:2}
+.route.in::before{transform:none}
+.route.in::after{animation:routefly 1.7s cubic-bezier(.45,0,.25,1) .25s forwards}
+@keyframes routefly{0%{opacity:0;top:12px}12%{opacity:1}85%{opacity:1}100%{opacity:0;top:calc(100% - 32px)}}
+.route li{display:grid;grid-template-columns:44px 1fr;column-gap:16px;align-items:center;opacity:0;transform:translateX(-12px);transition:opacity .5s ease,transform .5s ease;transition-delay:calc(var(--i) * .5s + .35s)}
+.route.in li{opacity:1;transform:none}
+.route__pt{position:relative;z-index:1;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:var(--blue);background:#fff;box-shadow:0 0 0 1px rgba(10,108,240,.18),0 10px 22px -12px rgba(10,108,240,.7);transform:scale(.3);transition:transform .55s cubic-bezier(.3,1.6,.5,1),background .4s,color .4s;transition-delay:calc(var(--i) * .5s + .35s)}
+.route.in .route__pt{transform:none}
+.route__pt svg{width:21px;height:21px}
+.route li:hover .route__pt{background:var(--grad);color:#fff}
+.route b{display:block;font-weight:600;font-size:16.5px;color:var(--ink)}
+.route small{display:block;margin-top:2px;font-size:14.5px;color:var(--mut)}
+@media (prefers-reduced-motion:reduce){.route::before,.route li,.route__pt{transform:none;opacity:1;transition:none}.route::before{opacity:.45}.route::after{display:none}}
+.xp{isolation:isolate}.xp>svg{z-index:-1}
+@media(max-width:960px){.job__h{flex-wrap:nowrap;white-space:nowrap;font-size:min(7.7vw,40px);column-gap:.26em}.job__logo{height:1.12em}}
 </style>
 </head>
 <body>
@@ -870,7 +896,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
       <span class="k">Careers</span>
       <h2 class="h2 job__h">Take off with <img class="job__logo" src="assets/img/xbase-logo.webp" width="600" height="164" alt="XBASE Aero" loading="lazy"></h2>
       <p class="lead">You work in aviation and are looking for interesting assignments, fair conditions and a team that knows you? Get in touch, even if there is no matching vacancy.</p>
-      <ul class="job__perks"><li>Interesting assignments across airlines, CAMOs and MROs</li><li>Fair conditions and reliable planning</li><li>One personal contact instead of a hotline</li></ul>
+      <ol class="route rv"><li style="--i:0"><span class="route__pt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></svg></span><div><b>Interesting assignments</b><small>Across airlines, CAMOs and MROs</small></div></li><li style="--i:1"><span class="route__pt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15.5l2 2 4-4"/></svg></span><div><b>Fair and reliable</b><small>Fair conditions and planning you can count on</small></div></li><li style="--i:2"><span class="route__pt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span><div><b>One personal contact</b><small>A real person instead of a hotline</small></div></li></ol>
       <div class="hero__cta"><a class="btn btn--p" href="#contact" data-topic="Careers">Apply now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
     </div>
     <div class="job__list">
@@ -961,7 +987,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 
 <a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener"><img src="assets/img/tk-logo-2.svg" width="702" height="358" alt=""><span>Draft by Tim Kofler</span></a>
 
-<script src="assets/app.js?v=5" defer></script>
-<script src="assets/himmel.js?v=4" defer></script>
-<script type="module" src="assets/flug3d.js?v=8"></script>
+<script src="assets/app.js?v=6" defer></script>
+<script src="assets/himmel.js?v=5" defer></script>
+<script type="module" src="assets/flug3d.js?v=9"></script>
 </body></html>

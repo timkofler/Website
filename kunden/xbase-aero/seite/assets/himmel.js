@@ -37,7 +37,7 @@ void main(){
   // Abdeckung: hinter dem Text (links) dünner, rechts und unten dichter
   float cov=.40+.12*smoothstep(.62,.22,uv.x)*M-.04*smoothstep(.55,.1,y)+N*.06;
   vec2 c=gl_FragCoord.xy/S;
-  vec2 q1=vec2(c.x/860.+t*.018,c.y/510.);
+  vec2 q1=vec2(c.x/860.+t*.024,c.y/510.);
   float d1=dens(q1,t,cov);
   // Licht von oben rechts: Probe Richtung Sonne für Schattenseiten
   float d1s=dens(q1+vec2(.05,.09),t,cov);
@@ -92,7 +92,8 @@ void main(){
     if (!vis || document.hidden || now - last < 33) return;
     last = now;
     gl.uniform2f(uR, cv.width, cv.height);
-    gl.uniform1f(uT, window.__skyT != null ? window.__skyT : (now - t0) / 1000);
+    // Handy schneller, sonst sieht man die Bewegung auf dem kleinen Bild kaum
+    gl.uniform1f(uT, window.__skyT != null ? window.__skyT : (now - t0) / 1000 * (innerWidth > 960 ? 1.35 : 2.4));
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   }
   requestAnimationFrame(frame);

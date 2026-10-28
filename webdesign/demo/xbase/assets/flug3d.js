@@ -310,20 +310,24 @@ function start() {
   let t0 = null, sCur = 0, yBuilt = null;
   new IntersectionObserver((es, io) => {
     if (!es[0].isIntersecting) return;
-    t0 = performance.now(); io.disconnect();
-    if (small && window.__flugT == null) hold();
-  }, { threshold: 0.8 }).observe(plan);
-  // Handy: Bild kurz festhalten, damit man den Bau sieht und nicht vorbeiscrollt
+    io.disconnect();
+    if (small && window.__flugT == null) hold(); else t0 = performance.now();
+  }, { threshold: small ? 0.95 : 0.8 }).observe(plan);
+  // Handy: Flugzeug in die Bildmitte holen und kurz festhalten, damit man den Bau ganz sieht
   function hold() {
     const de = document.documentElement, stop = e => e.preventDefault();
-    de.style.overflow = document.body.style.overflow = "hidden";
     addEventListener("touchmove", stop, { passive: false });
     addEventListener("wheel", stop, { passive: false });
+    const p = plan.getBoundingClientRect(), nav = document.getElementById("nav");
+    const top = nav ? nav.offsetHeight : 0;
+    scrollTo({ top: scrollY + p.top + p.height / 2 - (top + (innerHeight - top) / 2), behavior: "smooth" });
+    t0 = performance.now() + 450;
+    setTimeout(() => { de.style.overflow = document.body.style.overflow = "hidden"; }, 500);
     setTimeout(() => {
       de.style.overflow = document.body.style.overflow = "";
       removeEventListener("touchmove", stop);
       removeEventListener("wheel", stop);
-    }, 4300);
+    }, 4800);
   }
   const tmpV = new THREE.Vector3();
   const nose = new THREE.Vector3();
@@ -414,6 +418,7 @@ function start() {
 
     // Schilder an die Ankerpunkte hängen
     const show = Math.max(0, 1 - s * 3);
+    let lastY = -1e9;
     anchors.forEach((v, i) => {
       const c = chips[i];
       if (!c) return;
@@ -422,10 +427,16 @@ function start() {
       if (small && i === 3) { c.style.opacity = "0"; return; }
       const appear = ease((t - 3.4 - i * 0.35) / 0.5);
       const cw = c.offsetWidth, left = i % 2 === 1;
-      let px = left ? x - 26 - cw : x + 26;
+      let px = left ? x - 26 - cw : x + 26, py = y;
       if (px + cw > W - 10) px = x - 26 - cw;
       if (px < 10) px = Math.min(W - 10 - cw, x + 26);
-      c.style.transform = `translate(${px}px, ${y}px) translateY(-50%) translateY(${(1 - appear) * 10}px)`;
+      // Handy: Schilder abwechselnd an den Rand und mit Abstand untereinander, sonst kleben sie zusammen
+      if (small) {
+        px = i === 1 ? 12 : W - 12 - cw;
+        if (i > 0 && py < lastY + c.offsetHeight + 18) py = lastY + c.offsetHeight + 18;
+        lastY = py;
+      }
+      c.style.transform = `translate(${px}px, ${py}px) translateY(-50%) translateY(${(1 - appear) * 10}px)`;
       c.style.opacity = String(appear * show);
     });
     hero.style.setProperty("--fly", s.toFixed(3));
