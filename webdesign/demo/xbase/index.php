@@ -156,7 +156,7 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
 .job__item b{display:block;font:600 19px/1.2 var(--head);letter-spacing:-.01em}
 .job__item small{display:block;color:var(--mut);font-size:14px;margin-top:4px}
 .job__item svg{width:22px;height:22px;color:var(--blue);flex:none}
-.tagx{display:inline-block;font:400 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:6px 9px;border-radius:999px;background:rgba(10,108,240,.08);color:var(--blue);margin-left:8px;vertical-align:2px}
+.tagx{display:inline-block;font:400 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:6px 9px;border-radius:999px;background:rgba(10,108,240,.08);color:var(--blue);margin:0 0 8px}
 
 /* Team */
 .team{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:52px}
@@ -417,9 +417,9 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
       <div class="hero__cta"><a class="btn btn--p" href="#kontakt">Jetzt bewerben <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
     </div>
     <div class="job__list">
-      <a class="job__item rv" href="#kontakt"><span><b>Flugzeugmechaniker (m/w/d)<span class="tagx">Beispiel</span></b><small>Vienna Airport · Vollzeit</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <a class="job__item rv" href="#kontakt"><span><b>Techniker Avionik (m/w/d)<span class="tagx">Beispiel</span></b><small>Projekteinsatz</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <a class="job__item rv" href="#kontakt"><span><b>Technische Planung (m/w/d)<span class="tagx">Beispiel</span></b><small>Büro · Teilzeit möglich</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="job__item rv" href="#kontakt"><span><span class="tagx">Beispiel</span><b>Flugzeugmechaniker (m/w/d)</b><small>Vienna Airport · Vollzeit</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="job__item rv" href="#kontakt"><span><span class="tagx">Beispiel</span><b>Techniker Avionik (m/w/d)</b><small>Projekteinsatz</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="job__item rv" href="#kontakt"><span><span class="tagx">Beispiel</span><b>Technische Planung (m/w/d)</b><small>Büro · Teilzeit möglich</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       <a class="job__item rv" href="#kontakt"><span><b>Initiativbewerbung</b><small>Wir melden uns in wenigen Tagen</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
   </div>
