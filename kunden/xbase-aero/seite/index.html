@@ -931,6 +931,16 @@ html.mp-open .draft{opacity:0;pointer-events:none}
 .mpanel.open .mp__nav a,.mpanel.open>.btn,.mpanel.open .mp__card{opacity:1;transform:none;transition-delay:calc(var(--i,0) * 45ms + 60ms)}
 html.mp-open{overflow:hidden}
 @media (prefers-reduced-motion:reduce){.mpanel .mp__nav a,.mpanel>.btn,.mp__card{transition:none;opacity:1;transform:none}}
+
+/* PC: Bildband überlappt den dunklen Leistungsbereich (halb dunkel, halb hell) */
+@media (min-width:961px){
+  .svc{--ov:calc(min(1240px,100vw - 40px) * .2);padding-bottom:calc(clamp(80px,10vw,136px) + var(--ov))}
+  .svc+.band{position:relative;z-index:2;margin-top:calc(var(--ovb) * -1);--ovb:calc(min(1240px,100vw - 40px) * .2);box-shadow:0 40px 80px -40px rgba(6,22,50,.75),0 0 0 1px rgba(111,208,255,.16)}
+}
+@media (min-width:1400px){
+  .svc{--ov:calc(min(1600px,100vw - 120px) * .2)}
+  .svc+.band{--ovb:calc(min(1600px,100vw - 120px) * .2)}
+}
 </style>
 </head>
 <body>
