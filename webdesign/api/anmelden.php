@@ -150,6 +150,11 @@ function cx_webseite(array $c, string $email, string $name, string $fallback): v
             $f[$k] = $v;
         }
     }
+    // Gründer-Seite: Domain-Adresse, nur eingeblendet bei „Hast du schon eine Domain?“ = Ja
+    $domainname = cx_field('domainname', 120);
+    if ($domainname !== '' && $f['Domain vorhanden'] === 'Ja') {
+        $f['Domain-Adresse'] = $domainname;
+    }
     if ($name === '') {
         cx_respond(false, 'Bitte gib deinen Namen an.');
     }
