@@ -321,13 +321,11 @@
             </select></label>
           <label class="form__field"><span>Deine Funktion <em>(optional)</em></span><input type="text" name="funktion" maxlength="40" placeholder="z. B. Obfrau, Schriftführer"></label>
         </div>
-        <div class="form__row">
-          <label class="form__field"><span>Habt ihr schon eine Webseite? <em>(optional)</em></span><input type="text" name="url" maxlength="200" placeholder="www.euer-verein.at" inputmode="url"></label>
-          <label class="form__field"><span>Habt ihr schon eine Domain?</span>
-            <select name="domain">
-              <option value="">Bitte wählen</option><option>Ja</option><option>Nein</option><option>Weiß nicht</option>
-            </select></label>
-        </div>
+        <label class="form__field"><span>Habt ihr schon eine Domain?</span>
+          <select name="domain">
+            <option value="">Bitte wählen</option><option value="Ja">Ja</option><option>Nein</option><option>Weiß nicht</option>
+          </select></label>
+        <label class="form__field gr-domainname"><span>Eure Webadresse <em>(optional)</em></span><input type="text" name="url" maxlength="200" placeholder="www.euer-verein.at" inputmode="url"></label>
         <label class="form__field"><span>Was soll auf die Seite? <em>(optional)</em></span><textarea name="nachricht" rows="4" maxlength="3000" placeholder="z. B. Termine, Fotos vom Sommerfest, Mitglied werden, Vereinsheim mieten"></textarea></label>
         <label class="form__check vr-up__check"><input type="checkbox" name="upgrade" value="Ja, bitte mit anbieten"><span><b>Vereins-App als Upgrade interessiert uns auch.</b> Einmal bezahlt, kein Abo. Den Fixpreis bekommt ihr mit meiner Antwort.</span></label>
         <label class="form__check"><input type="checkbox" name="datenschutz" value="ja" required><span>Ich habe die <a href="/datenschutz/">Datenschutzerklärung</a> gelesen. Meine Angaben werden zur Bearbeitung der Anfrage gespeichert und bei Brevo verarbeitet.</span></label>
