@@ -130,7 +130,7 @@ echo <<<HTML
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/style.css?v=5d1d811a">
   <link rel="stylesheet" href="/assets/css/tk.css?v=ba836a62">
-  <link rel="stylesheet" href="/assets/css/black.css?v=709eeccc">
+  <link rel="stylesheet" href="/assets/css/black.css?v=fd7c95bc">
   <meta name="tk-white-css" content="/assets/css/white.css?v=0be82886">
   <script src="/assets/js/tk-black.js?v=add20d6a"></script>
   <link rel="stylesheet" href="/assets/css/ansicht.css?v=1">

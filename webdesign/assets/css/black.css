@@ -513,3 +513,14 @@ html.tk-black .xf > .ew-form { padding: 34px 40px 40px; gap: 0 48px; }
 .tk-xf .bw-feld > span { font: 400 11px/1.2 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: #8a8a93; }
 html.tk-white .tk-xf .bw-feld > span { color: #7a7168; }
 html.tk-black .tk-xf label.form__field { margin: 0; }
+/* Rückruf im Cockpit-Stil: oben bündig und so breit wie „Anfrage schreiben“ */
+html.tk-black .tk-xf .anf__panel--rr:not([hidden]) { justify-content: flex-start; padding-bottom: 0; }
+html.tk-black .tk-xf .anf__rr { max-width: none; }
+html.tk-black .tk-xf .anf__ptitle { margin-top: 2px; }
+/* Checkliste am PC: Knopf rutscht nach unten, letzte Zeile links und rechts auf einer Linie */
+@media (min-width: 901px) {
+  html.tk-black .nl.xf .nl__form { display: flex; flex-direction: column; padding-bottom: 24px; }
+  html.tk-black .nl.xf .nl__form .btn[type=submit] { margin-top: auto; }
+  html.tk-black .nl.xf .nl__form .form__check { margin-bottom: 8px; }
+  html.tk-black .nl.xf .nl__form .xf__note { line-height: 1.45; }
+}
