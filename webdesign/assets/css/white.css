@@ -227,3 +227,17 @@ html.tk-white .btn--line:hover { border-color: rgba(255,90,31,.7); background: #
 html.tk-white .ew-prev p { color: inherit; }
 html.tk-white .tk-top-end{color:#4a4038;border-color:rgba(70,40,15,.18);background:rgba(255,255,255,.75)}
 html.tk-white .tk-top-end:hover{color:#16130f;border-color:#ff5a1f}
+
+/* Anfrage im Cockpit-Stil: Kopfzeile bleibt dunkel, Felder und Kacheln weiß */
+html.tk-white .xf { background: linear-gradient(180deg, #fffdfb, #faf6f1); border-color: rgba(28,20,12,.1); box-shadow: 0 30px 60px -34px rgba(60,35,15,.35); }
+html.tk-white .xf__hd { background: linear-gradient(180deg, #1d1d21, #141416); color: #d6d6dc; }
+html.tk-white .tk-xf .anf__tabs { background: rgba(28,20,12,.05); border-color: rgba(28,20,12,.08); }
+html.tk-white .tk-xf .anf__tabs button { color: #5a534b; }
+html.tk-white .tk-xf .anf__tabs button[aria-selected="true"] { background: #fff; color: #e8480f; box-shadow: 0 0 0 1px rgba(255,90,31,.3), 0 6px 16px -8px rgba(60,35,15,.35); }
+html.tk-white .tk-xf .form__chips-row button, html.tk-white .tk-xf .anf .form__chips-row button:not([aria-pressed=true]), html.tk-white .tk-xf .anf__when span { background: #fff; border-color: rgba(28,20,12,.14); color: #2a251f; }
+html.tk-white .tk-xf .form__chips-row button[aria-pressed="true"], html.tk-white .tk-xf .anf__when input:checked + span { background: rgba(255,90,31,.08); border-color: #ff5a1f; color: #e8480f; }
+html.tk-white .tk-xf .form__field { background: #fff; border-color: rgba(28,20,12,.14); }
+html.tk-white .tk-xf .form__field:focus-within { background: #fff; }
+html.tk-white .tk-xf .form__field > span, html.tk-white .tk-xf .form__chips-k, html.tk-white .tk-xf .anf__when legend, html.tk-white .xf__note { color: #7a7168; }
+html.tk-white .tk-xf .form__field:focus-within > span { color: #e8480f; }
+html.tk-white .tk-xf .form .form__field > :is(input, select, textarea) { background-color: transparent !important; border: 0 !important; box-shadow: none !important; color: #1c140c; }
