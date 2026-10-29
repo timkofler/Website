@@ -50,6 +50,9 @@ return [
     // ---------------- Handy-Benachrichtigung (Telegram) ----------------
     // Schlüssel des eigenen Bots von @BotFather (z. B. 123456789:AA…). Danach im Admin unter Werbung → Benachrichtigungen „Chat suchen“.
     // 'telegram_token'  => '',
+    // Meldungen von Claude über denselben Bot (api/melden.php). Nur der SHA-256-Hash des Schlüssels, der Schlüssel selbst
+    // liegt im Project-Memory. Leer = Endpunkt aus.
+    // 'claude_melde_hash' => '',
 
     // ---------------- KI-Antworten im Chat ("Fragen?"-Knopf) ----------------
     // API-Schlüssel von Anthropic: platform.claude.com → Settings → API Keys → "Create Key" (Name z. B. "tim-kofler.at Chat").
