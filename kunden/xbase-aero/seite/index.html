@@ -48,12 +48,6 @@ h1,h2,h3{margin:0;font-family:var(--head);font-weight:600;line-height:1.04;lette
 .lang .on{background:var(--ink);color:#fff}
 .nav .btn{min-height:46px;padding:0 20px;font-size:15px}
 .burger{display:none;width:48px;height:48px;border-radius:999px;border:1px solid var(--line2);background:rgba(255,255,255,.7);cursor:pointer;place-items:center;color:var(--ink)}
-.burger span,.burger span::before,.burger span::after{display:block;width:18px;height:2px;background:currentColor;position:relative;transition:transform .3s,background .3s}
-.burger span::before,.burger span::after{content:"";position:absolute;left:0}
-.burger span::before{top:-6px}.burger span::after{top:6px}
-.burger[aria-expanded="true"] span{background:transparent}
-.burger[aria-expanded="true"] span::before{transform:translateY(6px) rotate(45deg)}
-.burger[aria-expanded="true"] span::after{transform:translateY(-6px) rotate(-45deg)}
 .mpanel{position:fixed;inset:var(--navh) 0 auto 0;z-index:49;background:var(--bg);border-bottom:1px solid var(--line);padding:4px 20px 24px;opacity:0;visibility:hidden;transform:translateY(-10px);transition:opacity .3s,transform .3s,visibility 0s .3s;box-shadow:0 30px 40px -30px rgba(10,26,51,.35)}
 .mpanel.open{opacity:1;visibility:visible;transform:none;transition:opacity .3s,transform .3s}
 .mpanel a:not(.btn){display:flex;align-items:center;justify-content:space-between;min-height:58px;border-bottom:1px solid var(--line);text-decoration:none;font:600 24px/1 var(--head);letter-spacing:-.02em}
@@ -575,14 +569,16 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 
 /* Handy-Menüknopf mit kleinem Flieger */
 .burger{position:relative;transition:background .3s,border-color .3s,box-shadow .3s,color .3s}
-.burger--fly span{background:linear-gradient(90deg,transparent 0,currentColor 7px 10px,transparent 10px)}
-.burger__fly{display:none}
-.burger--fly .burger__fly{display:block;position:absolute;left:50%;top:50%;width:12px;height:12px;color:var(--blue);transform:translate(1px,-50%) rotate(90deg);transition:transform .5s cubic-bezier(.5,0,.2,1),opacity .35s}
-.burger__fly svg{display:block;width:100%;height:100%}
-.burger[aria-expanded="true"]{background:var(--grad);border-color:transparent;color:#fff;box-shadow:0 12px 26px -10px rgba(10,108,240,.7)}
-.burger[aria-expanded="true"] span{background:transparent}
-.burger[aria-expanded="true"] .burger__fly{opacity:0;transform:translate(22px,-26px) rotate(45deg) scale(.6)}
-@media (hover:hover){.burger--fly:hover .burger__fly{transform:translate(4px,-50%) rotate(90deg)}}
+.burger i{position:absolute;right:14px;top:50%;height:2px;margin-top:-1px;border-radius:2px;background:currentColor;transition:transform .4s cubic-bezier(.5,0,.2,1),width .4s cubic-bezier(.5,0,.2,1),opacity .25s,background .3s}
+.burger .b1{width:11px;transform:translateY(-6px)}.burger .b2{width:15px;background:var(--blue)}.burger .b3{width:20px;transform:translateY(6px)}
+.burger::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid transparent;border-top-color:#00b8ff;border-right-color:rgba(0,184,255,.35);opacity:0;transform:rotate(-90deg);transition:opacity .3s,transform .5s;pointer-events:none}
+.burger[aria-expanded="true"]{background:var(--navy);border-color:transparent;color:#fff;box-shadow:0 0 0 4px rgba(10,108,240,.18),0 12px 26px -10px rgba(6,22,50,.8)}
+.burger[aria-expanded="true"]::after{opacity:1;transform:none;animation:radar 2.4s linear .5s infinite}
+.burger[aria-expanded="true"] .b1{opacity:0;transform:translateY(-6px) scaleX(0)}
+.burger[aria-expanded="true"] .b2{width:20px;background:#00b8ff;transform:rotate(-45deg)}
+.burger[aria-expanded="true"] .b3{transform:rotate(45deg)}
+@keyframes radar{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.burger[aria-expanded="true"]::after{animation:none}.burger i{transition:none}}
 
 /* Live-Himmel (himmel.js) ersetzt die Wolkenbilder im Hero */
 .hero__sky{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
@@ -962,7 +958,7 @@ html.mp-open{overflow:hidden}
       <a href="#services">Services</a><a href="#about">About us</a><a href="#references">References</a><a href="#careers">Careers</a><a href="#contact">Contact</a>
     </nav>
     <a class="btn btn--p" href="#contact" data-tab="material">Material request</a>
-    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mpanel"><span></span><i class="burger__fly" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></i></button>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mpanel"><i class="b1"></i><i class="b2"></i><i class="b3"></i></button>
   </div>
 </header>
 <div class="mpanel" id="mpanel">
