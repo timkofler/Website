@@ -236,8 +236,11 @@ html.tk-white .tk-xf .anf__tabs button { color: #5a534b; }
 html.tk-white .tk-xf .anf__tabs button[aria-selected="true"] { background: #fff; color: #e8480f; box-shadow: 0 0 0 1px rgba(255,90,31,.3), 0 6px 16px -8px rgba(60,35,15,.35); }
 html.tk-white .tk-xf .form__chips-row button, html.tk-white .tk-xf .anf .form__chips-row button:not([aria-pressed=true]), html.tk-white .tk-xf .anf__when span { background: #fff; border-color: rgba(28,20,12,.14); color: #2a251f; }
 html.tk-white .tk-xf .form__chips-row button[aria-pressed="true"], html.tk-white .tk-xf .anf__when input:checked + span { background: rgba(255,90,31,.08); border-color: #ff5a1f; color: #e8480f; }
-html.tk-white .tk-xf .form__field { background: #fff; border-color: rgba(28,20,12,.14); }
-html.tk-white .tk-xf .form__field:focus-within { background: #fff; }
+html.tk-white .tk-xf label.form__field { background: #fff; border-color: rgba(28,20,12,.14); }
+html.tk-white .tk-xf label.form__field:focus-within { background: #fff; }
 html.tk-white .tk-xf .form__field > span, html.tk-white .tk-xf .form__chips-k, html.tk-white .tk-xf .anf__when legend, html.tk-white .xf__note { color: #7a7168; }
-html.tk-white .tk-xf .form__field:focus-within > span { color: #e8480f; }
-html.tk-white .tk-xf .form .form__field > :is(input, select, textarea) { background-color: transparent !important; border: 0 !important; box-shadow: none !important; color: #1c140c; }
+html.tk-white .tk-xf label.form__field:focus-within > span { color: #e8480f; }
+html.tk-white .tk-xf .form label.form__field > :is(input, select, textarea) { background-color: transparent !important; border: 0 !important; box-shadow: none !important; color: #1c140c; }
+html.tk-white .nl.xf .nl__card { background: linear-gradient(155deg, rgba(255,90,31,.08), transparent 62%); border: 0; box-shadow: none; }
+html.tk-white .nl.xf .nl__form { background: none; border: 0; border-left: 1px solid rgba(28,20,12,.08); box-shadow: none; }
+@media (max-width: 900px) { html.tk-white .nl.xf .nl__card { background: none; } html.tk-white .nl.xf .nl__form { border-left: 0; } }

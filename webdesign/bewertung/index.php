@@ -73,6 +73,8 @@ if ($u === '') {
 <span class="label"><b>●</b> Bewertung</span>
 <h1>Wie war's mit mir?</h1>
 <p class="lead an-text">{$hallo}ie zufrieden bist du mit deiner Webseite und der Zusammenarbeit? Ein paar ehrliche Sätze reichen.</p>
+<div class="tk-xf xf">
+<div class="xf__hd" aria-hidden="true"><span>Tim Kofler · Bewertung</span><b>Online</b></div>
 <form class="form bw-form" method="post" action="/bewertung/">
   <input type="hidden" name="t" value="{$h($t)}">
   {$err}
@@ -82,6 +84,7 @@ if ($u === '') {
   <label class="form__check"><input type="checkbox" name="oeffentlich" value="ja"{$h($checked ? ' checked' : '')}><span>Tim darf meine Bewertung mit diesem Namen auf tim-kofler.at zeigen. Ich kann das jederzeit per E-Mail an office@tim-kofler.at widerrufen.</span></label>
   <button class="btn" type="submit">Bewertung abschicken</button>
 </form>
+</div>
 {$review}
 HTML;
 }
@@ -102,8 +105,8 @@ echo <<<HTML
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/style.css?v=5d1d811a">
   <link rel="stylesheet" href="/assets/css/tk.css?v=ba836a62">
-  <link rel="stylesheet" href="/assets/css/black.css?v=18b7a8d4">
-  <meta name="tk-white-css" content="/assets/css/white.css?v=9a024c24">
+  <link rel="stylesheet" href="/assets/css/black.css?v=709eeccc">
+  <meta name="tk-white-css" content="/assets/css/white.css?v=0be82886">
   <script src="/assets/js/tk-black.js?v=add20d6a"></script>
   <link rel="stylesheet" href="/assets/css/ansicht.css?v=1">
 </head>
