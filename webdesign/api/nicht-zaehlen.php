@@ -1,6 +1,6 @@
 <?php
 // Tim Kofler – „Dieses Gerät nicht mitzählen“ ohne Anmeldung, z. B. per QR-Code für den Kamera-Browser am Handy.
-// Setzt dasselbe Cookie wie der Schalter im Admin (nur für den Zähler-Endpunkt und den Admin, ein Jahr gültig).
+// Setzt dasselbe Cookie wie der Schalter im Admin (nur für den Zähler-Endpunkt, den Admin und die Kunden-Demos, ein Jahr gültig).
 // ?wieder=1 zählt das Gerät wieder mit. Betrifft nur den Browser, der die Seite öffnet.
 
 declare(strict_types=1);
@@ -12,7 +12,7 @@ header('Cache-Control: no-store');
 header('Content-Type: text/html; charset=utf-8');
 
 $wieder = isset($_GET['wieder']);
-foreach (['/api/zaehler.php', '/kunden/admin/'] as $path) {
+foreach (['/api/zaehler.php', '/kunden/admin/', '/demo/'] as $path) {
     setcookie(ZL_NOCOUNT, '1', ['expires' => $wieder ? 1 : time() + 365 * 86400, 'path' => $path, 'secure' => true, 'httponly' => true, 'samesite' => 'Lax']);
 }
 $titel = $wieder ? 'Dieses Gerät wird wieder mitgezählt' : 'Dieses Gerät wird nicht mehr mitgezählt';

@@ -221,7 +221,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     // und an den Admin (damit er den Stand anzeigen kann), ein Jahr gültig.
     if ($action === 'zaehlen') {
         $aus = cx_field('wert', 5) === 'aus';
-        foreach (['/api/zaehler.php', KP_ADMIN] as $path) {
+        foreach (['/api/zaehler.php', KP_ADMIN, '/demo/'] as $path) {
             setcookie(ZL_NOCOUNT, '1', ['expires' => $aus ? time() + 365 * 86400 : 1, 'path' => $path, 'secure' => true, 'httponly' => true, 'samesite' => 'Strict']);
         }
         kp_flash(true, $aus ? 'Dieses Gerät wird ab jetzt nicht mehr mitgezählt.' : 'Dieses Gerät wird wieder mitgezählt.');
