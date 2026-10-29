@@ -941,6 +941,15 @@ html.mp-open{overflow:hidden}
   .svc{--ov:calc(min(1600px,100vw - 120px) * .2)}
   .svc+.band{--ovb:calc(min(1600px,100vw - 120px) * .2)}
 }
+
+/* Über uns: Bilder tiefer (PC), Scan oben läuft nach links, Hinweis unten rechts */
+@media (min-width:961px){.about__pics{margin-top:72px}}
+.about__pics.in .pscan:first-child .scan__z .scan__pre{animation-name:scanpreL,scanzoom}
+.about__pics.in .pscan:first-child .scan__line{animation-name:scanlineL}
+@keyframes scanpreL{to{clip-path:inset(0 100% 0 0)}}
+@keyframes scanlineL{0%{left:calc(100% - 2px);opacity:0}8%{opacity:1}92%{opacity:1}100%{left:0;opacity:0}}
+.about__pics .pscan:last-child .scan__tag{left:auto;right:14px}
+@media (max-width:600px){.about__pics .pscan:last-child .scan__tag{right:10px}}
 </style>
 </head>
 <body>
