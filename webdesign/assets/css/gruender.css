@@ -80,3 +80,8 @@
   .vr-up__shot:hover { transform: none; }
 }
 @media (prefers-reduced-motion: reduce) { .vr-up__shot { transition: none; } }
+
+/* Gründer-Formular: Feld „Deine Domain“ nur, wenn „Hast du schon eine Domain?“ = Ja */
+.form label.form__field.gr-domainname { display: none; }
+.form:has(select[name="domain"] option[value="Ja"]:checked) label.form__field.gr-domainname { display: grid; }
+.tk-xf .form:has(select[name="domain"] option[value="Ja"]:checked) label.form__field.gr-domainname { display: block; }
