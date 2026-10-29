@@ -445,3 +445,48 @@ html.tk-ed-anim body, html.tk-ed-anim body * { transition: background-color .4s 
 .tk-top-end:focus-visible { outline: 2px solid #ff5a1f; outline-offset: 3px; } }
 @media (max-width: 680px) { html.tk-black .tk-sign .footer__big { font-size: 13.4vw; } .tk-top-end { margin-top: 10px; margin-bottom: 8px; } }
 @media print { .tk-top-end { display: none; } }
+
+/* Anfrage im Cockpit-Stil (29.10.2026, nach dem XBASE-Formular): Kopfzeile, Reiter als Umschalter, Kärtchen als Kacheln mit Häkchen, Beschriftung im Feld */
+.xf__hd { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 15px 26px; background: linear-gradient(180deg, #1d1d21, #151518); border-bottom: 1px solid rgba(255,90,31,.25); color: #bdbdc4; font: 400 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+.xf__hd b { font-weight: 500; color: #3ddc97; display: inline-flex; align-items: center; gap: 8px; }
+.xf__hd b::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #3ddc97; box-shadow: 0 0 10px #3ddc97; }
+.xf__gratis { font-style: normal; color: #fff; background: #ff5a1f; padding: 7px 11px 6px; border-radius: 999px; font-weight: 600; letter-spacing: .12em; box-shadow: 0 6px 18px -6px rgba(255,90,31,.7); }
+.anf.tk-xf .xf__hd { grid-column: 1 / -1; }
+.xf { border-radius: 22px; overflow: hidden; border: 1px solid rgba(255,255,255,.1); background: linear-gradient(180deg, #141416, #0e0e10); box-shadow: 0 30px 60px -30px rgba(0,0,0,.8); }
+html.tk-black .xf > .form { border: 0; border-radius: 0; background: none; padding: 26px; gap: 12px; }
+html.tk-black .tk-xf .form { gap: 12px; }
+html.tk-black .tk-xf .form__row { gap: 12px; }
+html.tk-black .tk-xf .anf__tabs { display: grid; grid-template-columns: 1fr 1fr; width: 100%; margin: 0 0 22px; padding: 5px; border-radius: 14px; background: rgba(0,0,0,.35); border: 1px solid rgba(255,255,255,.07); }
+html.tk-black .tk-xf .anf__tabs[hidden] { display: none; }
+html.tk-black .tk-xf .anf__tabs button { justify-content: center; border-radius: 10px; padding: 13px 8px; font-size: 15px; }
+html.tk-black .tk-xf .anf__tabs button[aria-selected="true"] { background: #232327; color: #ff5a1f; box-shadow: 0 0 0 1px rgba(255,90,31,.35), 0 8px 18px -10px rgba(0,0,0,.9); }
+html.tk-black .tk-xf .form__chips { margin: 0 0 4px; }
+.tk-xf .form__chips-k, .tk-xf .form__field > span, .tk-xf .anf__when legend { display: block; margin: 0; font: 400 10.5px/1.2 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: #8a8a93; }
+.tk-xf .form__chips-k, .tk-xf .anf__when legend { font-size: 11px; margin-bottom: 10px; }
+.tk-xf .form__chips-k em, .tk-xf .form__field > span em { text-transform: none; letter-spacing: 0; opacity: .75; }
+html.tk-black .tk-xf .form__chips-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+html.tk-black .tk-xf .form__chips-row button, html.tk-black .tk-xf .anf__when span { position: relative; display: flex; justify-content: center; align-items: center; text-align: center; min-height: 52px; padding: 10px 8px; border-radius: 12px; font-size: 14.5px; line-height: 1.2; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.1); color: #e6e6ea; box-shadow: none; }
+html.tk-black .tk-xf .form__chips-row button[aria-pressed="true"], html.tk-black .tk-xf .anf__when input:checked + span { background: rgba(255,90,31,.1); border-color: #ff5a1f; color: #ff7a45; box-shadow: 0 0 0 3px rgba(255,90,31,.12); }
+.tk-xf .form__chips-row button[aria-pressed="true"]::before { content: none; }
+.tk-xf .form__chips-row button[aria-pressed="true"]::after, .tk-xf .anf__when input:checked + span::after { content: ""; position: absolute; top: -6px; right: -6px; width: 18px; height: 18px; border-radius: 50%; background: #ff5a1f url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/11px no-repeat; }
+html.tk-black .tk-xf .anf__when-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+html.tk-black .tk-xf .anf__when label { display: grid; }
+.tk-xf .form__field { position: relative; display: block; padding: 11px 16px 9px; border-radius: 14px; background: rgba(255,255,255,.035); border: 1px solid rgba(255,255,255,.1); cursor: text; transition: border-color .2s, box-shadow .2s, background .2s; }
+.tk-xf .form__field::before { content: ""; position: absolute; left: -1px; top: 12px; bottom: 12px; width: 3px; border-radius: 0 3px 3px 0; background: #ff5a1f; transform: scaleY(0); transition: transform .25s; }
+.tk-xf .form__field:hover { border-color: rgba(255,90,31,.35); }
+.tk-xf .form__field:focus-within { border-color: #ff5a1f; box-shadow: 0 0 0 4px rgba(255,90,31,.12); background: rgba(255,255,255,.05); }
+.tk-xf .form__field:focus-within::before { transform: none; }
+.tk-xf .form__field:focus-within > span { color: #ff7a45; }
+html.tk-black .tk-xf .form .form__field > :is(input, select, textarea) { display: block; width: 100%; margin-top: 5px; padding: 0 !important; min-height: 24px; border: 0 !important; border-radius: 0; background-color: transparent !important; box-shadow: none !important; font-size: 16px; line-height: 1.45; color: #f2f2f4; }
+html.tk-black .tk-xf .form .form__field > select { padding-right: 26px !important; }
+html.tk-black .tk-xf .form .form__field > textarea { min-height: 72px; }
+html.tk-black .tk-xf .form .btn[type=submit] { justify-self: stretch; justify-content: space-between; width: 100%; min-height: 58px; padding: 0 8px 0 24px; border-radius: 14px; }
+html.tk-black .tk-xf .form .btn[type=submit] > svg:last-child:not(.tk-fill__ok) { width: 42px; height: 42px; padding: 11px; border-radius: 10px; background: rgba(0,0,0,.18); }
+html.tk-black .tk-xf .form .btn.is-sending, html.tk-black .tk-xf .form .btn.is-sent { justify-content: center; }
+.xf__note { margin: 0; text-align: center; font-size: 14px; color: #8a8a93; }
+.xf__note::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 8px; vertical-align: 2px; border-radius: 50%; background: #3ddc97; }
+@media (max-width: 680px) {
+  .xf__hd { padding: 14px 18px; font-size: 10.5px; letter-spacing: .1em; }
+  html.tk-black .xf > .form { padding: 20px 18px 22px; }
+  html.tk-black .tk-xf .anf__when-row { grid-template-columns: 1fr 1fr; }
+}
