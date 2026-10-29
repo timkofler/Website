@@ -182,6 +182,8 @@ def formular(b, num):
       <span class="label"><b>[{num:02d}]</b> Anfrage</span>
       <h2 style="margin:14px 0 18px">Erzähl mir von deinem <span class="lime">Betrieb</span>.</h2>
       <p class="muted" style="margin-bottom:24px">Zwei Minuten reichen. Ich melde mich innerhalb von zwei Werktagen persönlich bei dir. Unverbindlich, du gehst damit keinen Vertrag ein.</p>
+      <div class="tk-xf xf">
+      <div class="xf__hd" aria-hidden="true"><span>Tim Kofler · Neue Anfrage</span><b>Online</b></div>
       <form class="form" action="/api/anmelden.php" method="post" data-cx-form>
         <input type="hidden" name="form" value="webseite"><input type="hidden" name="quelle" value="">
         <div class="form__hp" aria-hidden="true"><label>Webseite<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
@@ -205,6 +207,7 @@ def formular(b, num):
         <p class="form__status" role="status" aria-live="polite" hidden></p>
         <p class="form__alt">Lieber direkt? <a href="{wa}" rel="noopener">WhatsApp</a>, <a href="https://t.me/TimKofler" rel="noopener">Telegram</a> oder <a href="mailto:office@tim-kofler.at">office@tim-kofler.at</a></p>
       </form>
+      </div>
     </div>
     <aside class="form-aside">
       <h2>Das brauchst du</h2>
