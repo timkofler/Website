@@ -239,3 +239,45 @@ main > .section > .container { position: relative; z-index: 1; }
   .header { background: rgba(11,11,11,.97); }
   .step, .post, .faq__item, .glance, .form, .callout, .beta__lists > div, .figure, .rule, .module, .xcell { background: var(--bg-2); }
 }
+
+/* ===== Glas 30.10.: flüssige Lichtkugeln im Hero, schwebende Glas-Kärtchen am Dashboard, Glasrand-Lauflicht ===== */
+.hero__orbs { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.hero__orbs i { position: absolute; border-radius: 50%; filter: blur(60px); opacity: .55; }
+.hero__orbs i:nth-child(1) { width: 520px; height: 520px; left: -140px; top: 220px; background: radial-gradient(circle, rgba(220,247,99,.22), transparent 65%); animation: fx-orb1 22s ease-in-out infinite alternate; }
+.hero__orbs i:nth-child(2) { width: 460px; height: 460px; right: -120px; top: 80px; background: radial-gradient(circle, rgba(255,255,255,.08), transparent 65%); animation: fx-orb2 26s ease-in-out infinite alternate; }
+.hero__orbs i:nth-child(3) { width: 900px; height: 420px; left: 50%; margin-left: -450px; bottom: -120px; background: radial-gradient(ellipse, rgba(220,247,99,.16), transparent 66%); animation: fx-orb3 18s ease-in-out infinite alternate; }
+@keyframes fx-orb1 { to { transform: translate(120px, -80px) scale(1.15); } }
+@keyframes fx-orb2 { to { transform: translate(-90px, 120px) scale(.9); } }
+@keyframes fx-orb3 { to { transform: translate(60px, -30px) scale(1.1); } }
+
+/* Glas-Kärtchen: klares Glas mit heller Oberkante, schweben versetzt um das Dashboard */
+.hchip { position: absolute; z-index: 4; display: flex; align-items: center; gap: 12px; padding: 12px 18px 12px 14px; border-radius: 18px; text-align: left;
+  background: linear-gradient(160deg, rgba(255,255,255,.14), rgba(255,255,255,.04) 45%, rgba(220,247,99,.06)), rgba(16,16,16,.42);
+  border: 1px solid rgba(255,255,255,.14); box-shadow: inset 0 1px 0 rgba(255,255,255,.22), inset 0 -1px 0 rgba(0,0,0,.3), 0 24px 50px -18px rgba(0,0,0,.85), 0 0 40px -18px rgba(220,247,99,.45);
+  -webkit-backdrop-filter: blur(18px) saturate(180%); backdrop-filter: blur(18px) saturate(180%);
+  font-family: var(--mono); font-size: .74rem; color: var(--muted, #a1a1a1); animation: fx-chip 8s ease-in-out infinite; }
+.hchip span { display: grid; gap: 2px; line-height: 1.2; }
+.hchip b { font-family: var(--display); font-weight: 600; font-size: 1.05rem; letter-spacing: -.01em; color: #f4f4f0; }
+.hchip small { align-self: end; font-size: .68rem; opacity: .7; }
+.hchip--a { left: -5%; top: 34%; }
+.hchip--a b { color: var(--lime); text-shadow: 0 0 18px rgba(220,247,99,.5); }
+.hchip--b { right: 12%; top: -34px; animation-delay: -2.5s; }
+.hchip--c { left: 7%; bottom: -26px; animation-delay: -5s; }
+.hchip__dot { width: 10px; height: 10px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 4px rgba(220,247,99,.15), 0 0 14px rgba(220,247,99,.8); }
+.hchip svg { width: 36px; height: 36px; transform: rotate(-90deg); flex: none; }
+.hchip svg circle { fill: none; stroke: rgba(255,255,255,.12); stroke-width: 4; }
+.hchip svg .hchip__arc { stroke: var(--lime); stroke-linecap: round; stroke-dasharray: 75 100; filter: drop-shadow(0 0 4px rgba(220,247,99,.6)); }
+.hchip__ok { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 10px; font-style: normal; font-weight: 800; color: #0b0b0b; background: linear-gradient(180deg, #f1ffb8, #dcf763); box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 6px 16px -6px rgba(220,247,99,.7); }
+@keyframes fx-chip { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@media (max-width: 1100px) { .hchip--a { left: 1%; } .hchip--b { right: 4%; } }
+@media (max-width: 680px) { .hchip { padding: 8px 14px 8px 10px; gap: 9px; border-radius: 14px; font-size: .62rem; } .hchip b { font-size: .86rem; }
+  .hchip--a { left: 3%; top: auto; bottom: -22px; } .hchip--b, .hchip--c { display: none; } }
+
+/* Dashboard-Fenster: Glasrahmen mit wanderndem Lichtsaum */
+@property --fx-a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+.hero__shot .window.glass::after { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none; z-index: 5;
+  background: conic-gradient(from var(--fx-a), transparent 0 60%, rgba(220,247,99,.9) 72%, rgba(255,255,255,.7) 76%, transparent 86%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  animation: fx-rim 7s linear infinite; }
+@keyframes fx-rim { to { --fx-a: 360deg; } }
+@media (prefers-reduced-motion: reduce) { .hero__orbs i, .hchip, .hero__shot .window.glass::after { animation: none; } }
