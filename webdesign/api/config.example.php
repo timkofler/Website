@@ -25,6 +25,10 @@ return [
     'sender_name'      => 'Tim Kofler – Webdesign',
     // Hierhin gehen neue Anfragen
     'notify_email'     => 'office@tim-kofler.at',
+    // Optional: Mails an die eigene Domain (Anfragen, Wochenbericht an Tim) direkt übers ALL-INKL-Postfach statt über Brevo,
+    // damit sie nicht im Spam landen, wenn Brevos Server auf einer Sperrliste stehen. Nur das Passwort des Postfachs
+    // office@tim-kofler.at fehlt (KAS → E-Mail). Leer = alles wie bisher über Brevo.
+    // 'eigen_smtp'     => ['server' => 'w0183bf9.kasserver.com', 'port' => 465, 'sicherheit' => 'ssl', 'benutzer' => 'm055899d', 'passwort' => ''],
     // Auftritt in Seiten-Mails: Name, Logo und Adresse
     'site'             => 'https://tim-kofler.at',
     'name'             => 'Tim Kofler – Webdesign',
