@@ -910,6 +910,11 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 .post__img{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--grad)}
 .post__img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
 .post:hover .post__img img{transform:scale(1.05)}
+.post:hover .post__img.fit .bg{transform:none}
+/* Hochformat-Fotos: ganzes Bild sichtbar, dahinter dieselbe Aufnahme weichgezeichnet */
+.post__img.fit .bg{position:absolute;inset:-24px;width:calc(100% + 48px);height:calc(100% + 48px);object-fit:cover;filter:blur(22px) saturate(1.1) brightness(.92);transform:none}
+.post__img.fit .fg{position:relative;object-fit:contain}
+.post__date,.post__new{z-index:2}
 .post__date{position:absolute;left:14px;top:14px;padding:8px 11px;border-radius:10px;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font:400 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
 .post__b{display:flex;flex-direction:column;gap:10px;padding:22px 24px 24px;flex:1}
 .post__b .tagx{align-self:flex-start;margin:0}
@@ -1402,7 +1407,7 @@ html.mp-open{overflow:hidden}
 
 <a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener" aria-label="Draft by Tim Kofler"><img src="assets/img/tk-logo-2.svg" width="702" height="358" alt=""><span>Draft by Tim Kofler</span></a>
 
-<script src="assets/app.js?v=16" defer></script>
+<script src="assets/app.js?v=17" defer></script>
 <script src="assets/himmel.js?v=7" defer></script>
 <script type="module" src="assets/flug3d.js?v=12"></script>
 </body></html>

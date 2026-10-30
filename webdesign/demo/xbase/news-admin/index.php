@@ -4,7 +4,7 @@
 <meta name="theme-color" content="#f3f7fc">
 <link rel="preload" href="../assets/fonts/outfit.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../assets/news-admin.css?v=1">
+<link rel="stylesheet" href="../assets/news-admin.css?v=2">
 </head>
 <body>
 <div class="demo-bar"><span class="tagd">Demo</span>Nothing is saved online. Your test posts stay in this browser only.</div>
@@ -68,5 +68,5 @@
     <div class="done__row"><a class="btn btn--l" href="../#news">View on website</a><button class="btn btn--l" type="button" id="again">Write another</button></div>
   </div>
 </div>
-<script src="../assets/news-admin.js?v=1" defer></script>
+<script src="../assets/news-admin.js?v=2" defer></script>
 </body></html>

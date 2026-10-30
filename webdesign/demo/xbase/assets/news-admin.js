@@ -24,7 +24,7 @@
     $('prevTitle').textContent=f.title.value.trim()||'Your title';
     $('prevText').textContent=f.text.value.trim()||'Your text appears here while you type.';
     $('prevDate').textContent=fmt(f.date.value);
-    $('prevImg').src=img||DEF_IMG;
+    const pi=$('prevImg'),src=img||DEF_IMG;if(pi.getAttribute('src')!==src){const box=pi.parentNode;box.classList.remove('fit');box.querySelector('.bg')?.remove();pi.classList.remove('fg');pi.src=src;fitPostImg(pi)}
     $('prevLi').hidden=!/^https:\/\/(www\.)?linkedin\.com\//.test(f.li.value.trim());
     $('count').textContent=f.text.value.length+' / 600';
   };
@@ -70,7 +70,18 @@
   });
   const reset=()=>{$('done').hidden=true;f.reset();f.date.value=today();img='';setIco();picT.querySelector('small').textContent='JPG or PNG, it gets resized automatically';prev();f.title.focus()};
   $('again').addEventListener('click',reset);
+  // Nach "Share on LinkedIn": wer zurückkommt (auch nach Abbrechen), landet wieder im leeren Formular
+  let shared=false;
+  $('share').addEventListener('click',()=>{shared=true;setTimeout(()=>{if(shared){shared=false;reset()}},800)});
+  addEventListener('pageshow',e=>{if(e.persisted&&!$('done').hidden)reset()});
   $('done').addEventListener('click',e=>{if(e.target.id==='done')$('done').hidden=true});
   addEventListener('keydown',e=>{if(e.key==='Escape')$('done').hidden=true});
   show();
 })();
+
+// Hochformat-Fotos nicht abschneiden: ganzes Bild zeigen, weichgezeichnete Kopie füllt den Rest
+function fitPostImg(img){
+  const go=()=>{const box=img.parentNode;if(!img.naturalWidth||img.naturalWidth/img.naturalHeight>1.3||box.classList.contains('fit'))return;
+    const bg=new Image();bg.src=img.src;bg.alt='';bg.className='bg';bg.setAttribute('aria-hidden','true');img.classList.add('fg');box.classList.add('fit');box.prepend(bg)};
+  img.complete?go():img.addEventListener('load',go,{once:true});
+}
