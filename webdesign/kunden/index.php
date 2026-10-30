@@ -243,6 +243,28 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         kp_redirect('/kunden/#nachrichten');
     }
 
+    if ($action === 'freigeben') {
+        if (!kp_freigabe_moeglich($acc)) {
+            kp_flash(false, 'Diese Vorschau ist schon freigegeben oder gerade nicht zur Freigabe bereit.');
+        } elseif (cx_field('sicher', 5) !== 'ja') {
+            kp_flash(false, 'Bitte setz zur Bestätigung das Häkchen.');
+        } else {
+            $all = kp_accounts();
+            $all[$user]['freigabe'] = ['zeit' => date('c'), 'url' => kp_clean_url((string) ($acc['vorschau'] ?? ''))];
+            if (kp_save_accounts($all)) {
+                // Im Verlauf festhalten, damit die Freigabe auch schriftlich bei den Nachrichten steht
+                [$ok, $res] = kp_add_message($user, 'kunde', 'gefaellt', 'Ich gebe den Entwurf frei: Die Vorschau passt so und darf online gehen. (' . $all[$user]['freigabe']['url'] . ')');
+                if ($ok) {
+                    kp_notify_message($user, $all[$user], $res, "✅ <b>Entwurf freigegeben</b>\nim Kundenportal");
+                }
+                kp_flash(true, 'Danke! Der Entwurf ist freigegeben, ich mache mich an die letzten Schritte.');
+            } else {
+                kp_flash(false, 'Das hat nicht geklappt. Bitte versuche es noch einmal oder schreib mir.');
+            }
+        }
+        kp_redirect('/kunden/');
+    }
+
     if ($action === 'passwort') {
         $old = (string) ($_POST['alt'] ?? '');
         $new = (string) ($_POST['neu'] ?? '');
@@ -505,7 +527,8 @@ $default = $unread > 0 || $nUploads > 0 || $msgs['liste'] ? 'nachrichten' : 'dat
 $icoChat = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.2 3.6c-.5.4-1.3.1-1.3-.6V16A2.5 2.5 0 0 1 4 13.5z"/></svg>';
 $icoUp = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4m0 0L7.5 8.5M12 4l4.5 4.5M4.5 15v2.5A2.5 2.5 0 0 0 7 20h10a2.5 2.5 0 0 0 2.5-2.5V15"/></svg>';
 
-$project = kp_project_card($acc, true);
+$project = kp_project_card($acc, true, '', $csrf);
+$zahlen = kp_zahlen_card(kp_zahlen($user, $acc));
 // Kunde verwendet noch das Passwort, das Tim im Admin erzeugt hat: freundlich ans eigene Passwort erinnern.
 $pwHint = ($acc['pw_eigen'] ?? null) === false
     ? '<p class="form__status kp-pw-hint" role="status">Du verwendest noch das Passwort, das ich dir gegeben habe. Bitte leg dir ein eigenes fest: <a href="#passwort">Passwort ändern</a></p>'
@@ -607,6 +630,7 @@ kp_page('Kundenportal', <<<HTML
 {$flash}
 {$pwHint}
 {$project}
+{$zahlen}
 <nav class="kp-tiles" data-kp-tabs data-default="{$default}" aria-label="Bereiche">
   <a class="kp-tile" href="#nachrichten" data-kp-tab="nachrichten">
     <span class="kp-tile__ico">{$icoChat}</span>

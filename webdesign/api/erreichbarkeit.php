@@ -10,25 +10,7 @@
 declare(strict_types=1);
 
 require __DIR__ . '/push-lib.php';
-
-const ER_FILE = CX_DATA . '/erreichbarkeit.json';
-
-header('X-Robots-Tag: noindex, nofollow');
-header('Cache-Control: no-store');
-header('Content-Type: application/json; charset=utf-8');
-
-function er_host(string $h): string
-{
-    $h = strtolower(trim($h));
-    $h = (string) preg_replace('/^www\./', '', $h);
-    return preg_match('/^[a-z0-9.-]{3,100}$/', $h) ? $h : '';
-}
-
-function er_laden(): array
-{
-    $d = is_file(ER_FILE) ? json_decode((string) file_get_contents(ER_FILE), true) : [];
-    return is_array($d) ? $d + ['seiten' => [], 'ausfaelle' => []] : ['seiten' => [], 'ausfaelle' => []];
-}
+require __DIR__ . '/erreichbarkeit-lib.php';
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     $aktion = (string) ($_POST['aktion'] ?? '');
@@ -83,20 +65,4 @@ if ($h === '' || !preg_match('/^20\d\d-(0[1-9]|1[0-2])$/', $monat) || !cx_rate_h
     echo '{"ueberwacht":false}';
     exit;
 }
-$tz = new DateTimeZone('Europe/Vienna');
-$anfang = (new DateTimeImmutable($monat . '-01 00:00:00', $tz))->getTimestamp();
-$ende = (new DateTimeImmutable($monat . '-01 00:00:00', $tz))->modify('+1 month')->getTimestamp();
-$d = er_laden();
-$s = $d['seiten'][$h] ?? null;
-// Überwacht = vor Monatsende in die Liste gekommen und in diesem Monat noch gemeldet
-$ueberwacht = $s !== null && $s['seit'] < $ende && $s['zuletzt'] >= $anfang;
-$sekunden = 0;
-$anzahl = 0;
-foreach ($d['ausfaelle'][$h] ?? [] as [$von, $bis]) {
-    $teil = min($bis, $ende) - max($von, $anfang);
-    if ($teil > 0) {
-        $sekunden += $teil;
-        $anzahl++;
-    }
-}
-echo json_encode(['ueberwacht' => $ueberwacht, 'minuten' => (int) round($sekunden / 60), 'ausfaelle' => $anzahl]);
+echo json_encode(er_monat($h, $monat));
