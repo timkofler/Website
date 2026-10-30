@@ -289,12 +289,32 @@ function cx_mail(string $to, string $toName, string $subject, string $html, stri
         'to' => [array_filter(['email' => $to, 'name' => $toName])],
         'subject' => $subject,
         'htmlContent' => $html,
+        // Reine Text-Fassung dazu: Mails nur mit HTML werten Spamfilter (z. B. bei ALL-INKL) schlechter.
+        'textContent' => cx_mail_text($html),
         'tags' => ['website'],
     ];
     if ($replyTo !== '') {
         $body['replyTo'] = ['email' => $replyTo];
     }
     return cx_ok(cx_brevo('POST', '/smtp/email', $body));
+}
+
+// Text-Fassung aus dem HTML einer Mail: Zeilenumbrüche bleiben, Links als „Text (Adresse)“.
+function cx_mail_text(string $html): string
+{
+    $t = (string) preg_replace('#<(head|style|script)\b.*?</\1>#is', '', $html);
+    $t = (string) preg_replace_callback('#<a\b[^>]*href="([^"]+)"[^>]*>(.*?)</a>#is', static function (array $m): string {
+        $label = trim(strip_tags($m[2]));
+        $url = html_entity_decode($m[1], ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        return $label === '' || $label === $url ? $url : $label . ' (' . $url . ')';
+    }, $t);
+    $t = (string) preg_replace('#<br\s*/?>#i', "\n", $t);
+    $t = (string) preg_replace('#</(p|h[1-6]|tr|li|div|table)>#i', "\n\n", $t);
+    $t = (string) preg_replace('#</td>#i', ' ', $t);
+    $t = html_entity_decode(strip_tags($t), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $t = (string) preg_replace('/[ \t\x{00A0}]+/u', ' ', $t);
+    $t = (string) preg_replace('/ *\n */', "\n", $t);
+    return trim((string) preg_replace('/\n{3,}/', "\n\n", $t));
 }
 
 // Einheitliches Mail-Layout im Auftritt von tim-kofler.at: dunkel, TK-Logo, orange Linie und Knöpfe.
