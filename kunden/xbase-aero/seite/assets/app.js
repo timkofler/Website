@@ -110,8 +110,16 @@ document.querySelectorAll('.att').forEach(a=>{
     const t=el.querySelector('time');t.dateTime=n.date;t.textContent=fmt(n.date);
     el.querySelector('h3').textContent=n.title;el.querySelector('p').textContent=n.text;
     if(n.li&&/^https:\/\/(www\.)?linkedin\.com\//.test(n.li)){const a=document.createElement('a');a.className='post__more';a.href=n.li;a.target='_blank';a.rel='noopener';a.innerHTML='Read on LinkedIn '+arrow;el.querySelector('.post__b').appendChild(a)}
+    fitPostImg(img);
     g.prepend(el);
   });
   // Wisch-Leiste am Handy bleibt sonst beim alten ersten Kärtchen stehen
   requestAnimationFrame(()=>{g.scrollLeft=0});
 })();
+
+// Hochformat-Fotos nicht abschneiden: ganzes Bild zeigen, weichgezeichnete Kopie füllt den Rest
+function fitPostImg(img){
+  const go=()=>{const box=img.parentNode;if(!img.naturalWidth||img.naturalWidth/img.naturalHeight>1.3||box.classList.contains('fit'))return;
+    const bg=new Image();bg.src=img.src;bg.alt='';bg.className='bg';bg.setAttribute('aria-hidden','true');img.classList.add('fg');box.classList.add('fit');box.prepend(bg)};
+  img.complete?go():img.addEventListener('load',go,{once:true});
+}
