@@ -932,7 +932,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 .news__demo-t .tagx{background:rgba(111,208,255,.16);color:#6fd0ff;margin:0 0 8px}
 .news__demo .btn--w,.news__demo .btn--w:hover{background:#fff;color:var(--ink)}
 @media (max-width:960px){
-  .news__grid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:min(84%,360px);overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:20px;margin-inline:-20px;padding:4px 20px 18px;scrollbar-width:none;margin-top:36px}
+  .news__grid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:min(84%,360px);overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:20px;margin-inline:-20px;padding:6px 20px 46px;scrollbar-width:none;margin-top:34px;margin-bottom:-28px}
   .news__grid::-webkit-scrollbar{display:none}
   .post{scroll-snap-align:start}
   .news__demo .btn{width:100%}
@@ -1410,5 +1410,5 @@ html.mp-open{overflow:hidden}
 
 <script src="assets/app.js?v=17" defer></script>
 <script src="assets/himmel.js?v=7" defer></script>
-<script type="module" src="assets/flug3d.js?v=12"></script>
+<script type="module" src="assets/flug3d.js?v=13"></script>
 </body></html>

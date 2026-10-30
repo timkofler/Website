@@ -21,10 +21,24 @@ function webglOk() {
   } catch (e) { return false; }
 }
 
+// Erst laden, wenn das Startbild (fast) im Bild ist. Wer mitten in die Seite springt (z. B. zurück vom
+// News-Editor auf #news), soll nicht ein paar Sekunden lang nicht scrollen können, weil das 3D-Modell aufgebaut wird.
 if (hero && plan && !reduce && webglOk()) {
-  Promise.all([import("./vendor/three.module.min.js"), import("./vendor/RoomEnvironment.js")])
-    .then(([t, r]) => { THREE = t; RoomEnvironment = r.RoomEnvironment; start(); })
-    .catch(() => {});
+  const watch = () => new IntersectionObserver((es, io) => {
+    if (!es[0].isIntersecting) return;
+    io.disconnect();
+    Promise.all([import("./vendor/three.module.min.js"), import("./vendor/RoomEnvironment.js")])
+      .then(([t, r]) => { THREE = t; RoomEnvironment = r.RoomEnvironment; start(); })
+      .catch(() => {});
+  }, { rootMargin: "200px 0px" }).observe(hero);
+  // Mit #Anker oder über "Zurück" geöffnet: warten, bis der Browser hingesprungen ist (Scroll oder 1,5 s)
+  const nav = (performance.getEntriesByType("navigation")[0] || {}).type;
+  if (location.hash.length > 1 || nav === "back_forward") {
+    let on = false;
+    const go = () => { if (on) return; on = true; removeEventListener("scroll", go); setTimeout(watch, 300); };
+    addEventListener("scroll", go, { passive: true });
+    setTimeout(go, 1500);
+  } else watch();
 }
 
 function start() {
