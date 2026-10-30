@@ -292,6 +292,64 @@
 @media (prefers-reduced-motion: reduce) { .kp-phasen .is-now .kp-phasen__dot { animation: none; } }
 .kp-next { display: flex; gap: 12px; align-items: baseline; margin: 22px 0 0; padding: 14px 16px; border-radius: 14px; background: rgba(255,90,31,.08); border: 1px solid rgba(255,90,31,.3); font-size: .95rem; }
 .kp-next b { flex: none; font: 600 .72rem/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: #ffb27a; }
+/* Termine in der Projektkarte */
+.kp-termine { margin: 14px 0 0; }
+.kp-termine__titel { display: block; margin: 0 0 8px; font: 600 .72rem/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.kp-termine ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.kp-termin { display: flex; align-items: center; gap: 14px; padding: 8px 14px 8px 8px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255,255,255,.02); font-size: .95rem; }
+.kp-termin__datum { flex: none; display: grid; place-items: center; width: 64px; padding: 6px 0; border-radius: 10px; background: var(--surface); border: 1px solid var(--line-2); font: 600 .84rem/1.25 var(--mono); color: var(--text); }
+.kp-termin__datum small { font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.kp-termin__text { flex: 1; min-width: 0; line-height: 1.35; }
+.kp-termin__bis { flex: none; font-size: .82rem; color: var(--muted); }
+.kp-termin--bald { border-color: rgba(255,90,31,.35); }
+.kp-termin--bald .kp-termin__datum { border-color: rgba(255,90,31,.55); box-shadow: 0 0 14px rgba(255,90,31,.25); }
+.kp-termin--bald .kp-termin__datum small, .kp-termin--bald .kp-termin__bis { color: #ffb27a; }
+.kp-termin--vorbei { opacity: .5; }
+.kp-termin__weg { margin: 0 -6px 0 0; }
+.kp-termin__weg button { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--line-2); background: none; color: var(--muted); font-size: 1.05rem; line-height: 1; cursor: pointer; }
+.kp-termin__weg button:hover { color: var(--text); border-color: var(--muted); }
+.kp-termin-neu { margin-top: 16px !important; padding-top: 16px !important; border-top: 1px dashed var(--line-2) !important; }
+.kp-termin-neu input[type=date] { color-scheme: dark; }
+
+/* Entwurf freigeben */
+.kp-freigabe { margin: 14px 0 0; border: 1px solid rgba(76,195,138,.35); border-radius: 14px; background: rgba(76,195,138,.06); }
+.kp-freigabe > summary { list-style: none; display: flex; align-items: center; gap: 14px; padding: 12px 12px 12px 14px; cursor: pointer; }
+.kp-freigabe > summary::-webkit-details-marker { display: none; }
+.kp-freigabe > summary > span:nth-child(2) { flex: 1; display: grid; gap: 1px; font-size: .95rem; }
+.kp-freigabe > summary small { color: var(--muted); font-size: .86rem; }
+.kp-freigabe__ico { flex: none; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: rgba(76,195,138,.14); color: #4cc38a; }
+.kp-freigabe__ico svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.kp-freigabe__btn { flex: none; pointer-events: none; }
+.kp-freigabe[open] .kp-freigabe__btn { visibility: hidden; }
+.kp-freigabe__form { display: grid; gap: 14px; padding: 4px 16px 16px; }
+.kp-freigabe__form .kp-hint { margin: -6px 0 0; }
+.kp-freigabe__form .btn { justify-self: start; }
+.kp-freigabe__ok { margin: 14px 0 0; }
+.kp-freigabe__wartet { margin: 14px 0 0; }
+
+/* Deine Webseite in Zahlen (ab „Online“) */
+.kp-zahlen { margin: 0 0 14px; }
+.kp-zahlen__kopf { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 0 0 16px; }
+.kp-zahlen__kopf h2, .kp-main .kp-zahlen__kopf h2 { margin: 0; font-size: 1.15rem; }
+.kp-zahlen__stand { flex: none; white-space: nowrap; font: .78rem var(--mono); color: var(--muted); }
+.kp-zahlen__liste { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.kp-zahl { display: grid; gap: 2px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255,255,255,.02); }
+.kp-zahl__label { font: 600 .7rem/1.4 var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+.kp-zahl__wert { font-size: 1.85rem; line-height: 1.15; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
+.kp-zahl small { font-size: .82rem; color: var(--muted); line-height: 1.35; }
+.kp-zahlen__fuss { margin: 14px 0 0; font-size: .92rem; color: var(--muted); }
+.kp-zahlen__fuss b { color: var(--text); font-weight: 600; }
+.kp-zahlen__info { margin: 8px 0 0; font-size: .8rem; }
+@media (max-width: 680px) {
+  .kp-zahlen__liste { grid-template-columns: 1fr 1fr; }
+  .kp-zahl { padding: 12px 14px; }
+  .kp-zahl__wert { font-size: 1.55rem; }
+  .kp-termin { gap: 12px; }
+  .kp-freigabe > summary { flex-wrap: wrap; }
+  .kp-freigabe__btn { width: 100%; justify-content: center; }
+  .kp-freigabe[open] .kp-freigabe__btn { display: none; }
+  .kp-freigabe__form .btn { justify-self: stretch; justify-content: center; }
+}
 .kp-projekt__edit { margin: 18px 0 0; padding: 14px 0 0; border-top: 1px solid var(--line); }
 .kp-projekt__edit .form--small { padding: 0; background: none; border: 0; box-shadow: none; max-width: none; }
 .kp-projekt__edit select { width: 100%; font: inherit; font-size: 16px; color: var(--text); border: 1px solid var(--line-2); border-radius: 12px; padding: 12px 40px 12px 14px; appearance: none; cursor: pointer; background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23a1a1a1%27 stroke-width=%272%27 stroke-linecap=%27round%27%3E%3Cpath d=%27M6 9l6 6 6-6%27/%3E%3C/svg%3E") no-repeat right 14px center / 18px; }
@@ -774,7 +832,9 @@ body:has(.kp-auth) .kp-foot .footer__bottom { flex-direction: column; align-item
 .kp-bw small { color: var(--muted); }
 .kp-bw .kp-actions { margin-top: 10px; }
 .kp-sterne { color: var(--hot); letter-spacing: .08em; }
-.kp-bw-kunde { margin-top: 14px; }
+.kp-bw-kunde, .kp-zahlen-admin { margin-top: 14px; }
+.kp-zahlen-admin .kp-actions { margin-top: 0; }
+.kp-zahlen-admin code { font: .8rem var(--mono); word-break: break-all; }
 .kp-bw-kunde .kp-actions { margin-top: 0; }
 .kp-unb { margin: 0 0 12px; }
 @media (max-width: 680px) {

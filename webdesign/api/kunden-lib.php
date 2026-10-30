@@ -932,8 +932,9 @@ function kp_clean_url(string $u): string
     return filter_var($u, FILTER_VALIDATE_URL) && preg_match('~^https?://[^\s/$.?#][^\s]*$~i', $u) ? $u : '';
 }
 
-// Karte „Stand deiner Webseite“. $edit ist im Admin das Formular zum Ändern (leer für die Kundenseite).
-function kp_project_card(array $acc, bool $forKunde, string $edit = ''): string
+// Karte „Stand deiner Webseite“. $edit ist im Admin das Formular zum Ändern (leer für die Kundenseite),
+// $csrf braucht die Kundenseite für die Freigabe, $termDel der Admin zum Löschen von Terminen.
+function kp_project_card(array $acc, bool $forKunde, string $edit = '', string $csrf = '', ?callable $termDel = null): string
 {
     $phase = kp_phase($acc);
     $keys = array_keys(KP_PHASEN);
@@ -957,10 +958,205 @@ function kp_project_card(array $acc, bool $forKunde, string $edit = ''): string
     if (!$forKunde) {
         $text = 'So sieht ' . cx_h((string) ($acc['name'] ?? 'der Kunde')) . ' den Stand oben im Portal.';
     }
+    $termine = kp_termine_html($acc, $termDel);
+    $freigabe = kp_freigabe_html($acc, $forKunde ? $csrf : '');
     return '<section class="kp-card kp-projekt" aria-label="Stand der Webseite">'
         . '<div class="kp-projekt__kopf"><div><span class="kp-eyebrow">Stand deiner Webseite · Schritt ' . ($pos + 1) . ' von ' . count($keys) . '</span>'
         . '<h2>' . cx_h($title) . '</h2><p>' . ($forKunde ? cx_h($text) : $text) . '</p></div>' . $btn . '</div>'
-        . '<ol class="kp-phasen" style="--fill:' . $fill . '%">' . $steps . '</ol>' . $nextHtml . $review . $edit . '</section>';
+        . '<ol class="kp-phasen" style="--fill:' . $fill . '%">' . $steps . '</ol>' . $nextHtml . $termine . $freigabe . $review . $edit . '</section>';
+}
+
+// ---------------- Termine ----------------
+// Termine stehen im Konto (Feld „termine“): [['id' => …, 'datum' => 'JJJJ-MM-TT', 'text' => …], …]. Tim trägt sie im Admin ein.
+// Der Kunde sieht sie in der Projektkarte, bis der Tag vorbei ist.
+
+const KP_TERMINE_MAX = 12;
+const KP_WOCHENTAGE = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+
+function kp_termine(array $acc, bool $auchVorbei = false): array
+{
+    $heute = date('Y-m-d');
+    $liste = array_values(array_filter((array) ($acc['termine'] ?? []), static fn($t) => is_array($t)
+        && preg_match('/^\d{4}-\d\d-\d\d$/', (string) ($t['datum'] ?? '')) && ($auchVorbei || (string) $t['datum'] >= $heute)));
+    usort($liste, static fn($a, $b) => strcmp((string) $a['datum'], (string) $b['datum']));
+    return $liste;
+}
+
+// „heute“, „morgen“, „in 5 Tagen“, „in 3 Wochen“
+function kp_termin_bis(string $datum): string
+{
+    $tage = (int) round((strtotime($datum . ' 12:00') - strtotime(date('Y-m-d') . ' 12:00')) / 86400);
+    return match (true) {
+        $tage < 0 => 'vorbei',
+        $tage === 0 => 'heute',
+        $tage === 1 => 'morgen',
+        $tage < 14 => 'in ' . $tage . ' Tagen',
+        default => 'in ' . (int) round($tage / 7) . ' Wochen',
+    };
+}
+
+// $delForm (nur Admin) liefert zu einer Termin-ID das Formular zum Löschen.
+function kp_termine_html(array $acc, ?callable $delForm = null): string
+{
+    $liste = kp_termine($acc, $delForm !== null);
+    if (!$liste) {
+        return '';
+    }
+    $li = '';
+    foreach ($liste as $t) {
+        $ts = strtotime((string) $t['datum']) ?: 0;
+        $bis = kp_termin_bis((string) $t['datum']);
+        $cls = $bis === 'heute' || $bis === 'morgen' ? ' kp-termin--bald' : ($bis === 'vorbei' ? ' kp-termin--vorbei' : '');
+        $li .= '<li class="kp-termin' . $cls . '"><time class="kp-termin__datum" datetime="' . cx_h((string) $t['datum']) . '"><small>' . KP_WOCHENTAGE[(int) date('w', $ts)] . '</small>' . date('d.m.', $ts) . '</time>'
+            . '<span class="kp-termin__text">' . cx_h((string) ($t['text'] ?? '')) . '</span><span class="kp-termin__bis">' . $bis . '</span>'
+            . ($delForm ? $delForm((string) ($t['id'] ?? '')) : '') . '</li>';
+    }
+    return '<div class="kp-termine"><b class="kp-termine__titel">Termine</b><ol>' . $li . '</ol></div>';
+}
+
+// ---------------- Freigabe des Entwurfs ----------------
+// Steht der Entwurf (Vorschau-Link) im Schritt Entwurf oder Feinschliff, kann der Kunde ihn mit einem Klick freigeben.
+// Gespeichert wird Zeitpunkt und Vorschau-Link (Feld „freigabe“). Bekommt die Vorschau einen neuen Link, ist wieder eine Freigabe möglich.
+
+function kp_freigabe(array $acc): ?array
+{
+    $f = $acc['freigabe'] ?? null;
+    return is_array($f) && ($f['url'] ?? '') === kp_clean_url((string) ($acc['vorschau'] ?? '')) ? $f : null;
+}
+
+function kp_freigabe_moeglich(array $acc): bool
+{
+    return in_array(kp_phase($acc), ['entwurf', 'feinschliff'], true) && kp_clean_url((string) ($acc['vorschau'] ?? '')) !== '' && kp_freigabe($acc) === null;
+}
+
+// $csrf leer = Ansicht für Tim (nur der Stand, kein Formular).
+function kp_freigabe_html(array $acc, string $csrf): string
+{
+    $f = kp_freigabe($acc);
+    if ($f !== null) {
+        $t = strtotime((string) ($f['zeit'] ?? '')) ?: time();
+        return '<p class="kp-on kp-freigabe__ok"><span class="kp-on__dot" aria-hidden="true"></span><span><b>Entwurf freigegeben</b> am ' . date('d.m.Y', $t) . ' um ' . date('H:i', $t) . ' Uhr'
+            . ($csrf !== '' ? '. Danke!' : '') . '</span></p>';
+    }
+    if (!kp_freigabe_moeglich($acc)) {
+        return '';
+    }
+    if ($csrf === '') {
+        return '<p class="kp-hint kp-freigabe__wartet">Noch nicht freigegeben. ' . cx_h((string) ($acc['name'] ?? 'Der Kunde')) . ' sieht dafür einen Knopf in der Karte.</p>';
+    }
+    return <<<HTML
+<details class="kp-freigabe" id="freigabe">
+  <summary><span class="kp-freigabe__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span><b>Gefällt dir die Vorschau?</b><small>Dann gib den Entwurf hier frei.</small></span><span class="btn btn--sm kp-freigabe__btn">Freigeben</span></summary>
+  <form class="kp-freigabe__form" method="post" action="/kunden/#freigabe">
+    {$csrf}
+    <input type="hidden" name="aktion" value="freigeben">
+    <label class="form__check"><input type="checkbox" name="sicher" value="ja" required><span>Ich habe mir die Vorschau angesehen. Sie passt so und darf online gehen.</span></label>
+    <p class="kp-hint">Kleine Änderungen sind danach trotzdem jederzeit möglich, schreib mir einfach.</p>
+    <button class="btn" type="submit">Entwurf freigeben</button>
+  </form>
+</details>
+HTML;
+}
+
+// ---------------- Zahlen der Kundenseite ----------------
+// Kommen signiert von der Kundenseite (kundenseite-vorlage, statistik/portal.php), Schlüssel im Konto („zahlen_schluessel“).
+// Zwischengespeichert in _data/kunden/<benutzer>/zahlen.json (3 Stunden), die Erreichbarkeit kommt vom Seiten-Wächter hier.
+
+const KP_ZAHLEN_TTL = 10800;
+const KP_MONATE = ['', 'Jänner', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+
+function kp_zahlen_host(array $acc): string
+{
+    $h = strtolower(trim((string) ($acc['webseite'] ?? '')));
+    $h = (string) preg_replace('~^https?://~', '', $h);
+    $h = (string) preg_replace('~^www\.|[/?#].*$~', '', $h);
+    return preg_match('/^[a-z0-9.-]{3,100}(:\d+)?$/', $h) ? $h : '';
+}
+
+function kp_zahlen_holen(string $host, string $key, string $monat): ?array
+{
+    // Nur zum Testen: config 'zahlen_test' => ['host' => 'http://localhost:8081'] statt https://host
+    $test = (array) (cx_config()['zahlen_test'] ?? []);
+    $basis = (string) ($test[$host] ?? '');
+    $basis = $basis !== '' ? rtrim($basis, '/') : 'https://' . $host;
+    $zeit = time();
+    $url = $basis . '/statistik/portal.php?' . http_build_query(['monat' => $monat, 'zeit' => $zeit, 'sig' => hash_hmac('sha256', $monat . '|' . $zeit, $key)]);
+    $ctx = stream_context_create(['http' => ['timeout' => 4, 'ignore_errors' => true, 'header' => "User-Agent: TK-Kundenportal\r\n"]]);
+    $d = json_decode((string) @file_get_contents($url, false, $ctx), true);
+    return is_array($d) && !empty($d['ok']) && ($d['monat'] ?? '') === $monat ? $d : null;
+}
+
+// Zahlen des laufenden Monats oder null (noch nicht online, kein Schlüssel, Seite nie erreicht).
+function kp_zahlen(string $u, array $acc): ?array
+{
+    $key = (string) ($acc['zahlen_schluessel'] ?? '');
+    $host = kp_zahlen_host($acc);
+    if (kp_phase($acc) !== 'online' || strlen($key) < 32 || $host === '') {
+        return null;
+    }
+    $monat = date('Y-m');
+    $file = kp_user_dir($u) . '/zahlen.json';
+    $cache = kp_read_json($file);
+    $frisch = ($cache['monat'] ?? '') === $monat && ($cache['host'] ?? '') === $host && (int) ($cache['abgerufen'] ?? 0) > time() - KP_ZAHLEN_TTL;
+    if (!$frisch) {
+        $neu = kp_zahlen_holen($host, $key, $monat);
+        if ($neu !== null) {
+            $cache = $neu + ['host' => $host, 'abgerufen' => time()];
+            kp_write_json($file, $cache);
+        } elseif (($cache['monat'] ?? '') === $monat && ($cache['host'] ?? '') === $host) {
+            // Kundenseite gerade nicht erreichbar: alten Stand zeigen und erst in 15 Minuten wieder fragen
+            $cache['abgerufen'] = time() - KP_ZAHLEN_TTL + 900;
+            kp_write_json($file, $cache);
+        } else {
+            return null;
+        }
+    }
+    require_once __DIR__ . '/erreichbarkeit-lib.php';
+    $er = er_monat((string) preg_replace('/:\d+$/', '', $host), $monat);
+    $cache['erreichbarkeit'] = $er['ueberwacht'] ? $er : null;
+    return $cache;
+}
+
+function kp_zahl(int $n): string
+{
+    return number_format($n, 0, ',', '.');
+}
+
+function kp_zahlen_card(?array $z): string
+{
+    if ($z === null) {
+        return '';
+    }
+    $monat = KP_MONATE[(int) substr((string) $z['monat'], 5, 2)];
+    $kachel = static fn(string $label, string $wert, string $info): string => '<li class="kp-zahl"><span class="kp-zahl__label">' . cx_h($label) . '</span><b class="kp-zahl__wert">' . cx_h($wert) . '</b><small>' . cx_h($info) . '</small></li>';
+    $besuche = (int) ($z['besuche'] ?? 0);
+    $aufrufe = (int) ($z['aufrufe'] ?? 0);
+    $anfragen = (int) ($z['anfragen'] ?? 0);
+    $klicks = (int) ($z['klicks'] ?? 0);
+    $html = $kachel('Besuche', kp_zahl($besuche), $besuche > 0 ? kp_zahl($aufrufe) . ' Seitenaufrufe' : 'noch keine in diesem Monat')
+        . $kachel('Anfragen', kp_zahl($anfragen), 'über das Formular')
+        . $kachel('Kontakt-Klicks', kp_zahl($klicks), 'Telefon, E-Mail, WhatsApp');
+    $er = $z['erreichbarkeit'] ?? null;
+    if (is_array($er)) {
+        $tage = max(1, (int) date('j'));
+        $prozent = max(0, 100 - $er['minuten'] / ($tage * 1440) * 100);
+        $html .= $kachel('Erreichbar', ($prozent >= 99.995 ? '100' : number_format($prozent, 2, ',', '')) . ' %', $er['ausfaelle'] === 0 ? 'keine Ausfälle' : $er['ausfaelle'] . ($er['ausfaelle'] === 1 ? ' Ausfall' : ' Ausfälle') . ', zusammen ' . $er['minuten'] . ' Min.');
+    }
+    $fuss = [];
+    $quellen = array_map(static fn($q) => (string) ($q[0] ?? ''), (array) ($z['quellen'] ?? []));
+    if ($quellen) {
+        $quellen = array_map(static fn($q) => str_starts_with($q, 'Direkt') ? 'direkt' : $q, $quellen);
+        $b = array_map(static fn($q) => '<b>' . cx_h($q) . '</b>', $quellen);
+        $fuss[] = 'Die meisten kamen über ' . (count($b) > 1 ? implode(', ', array_slice($b, 0, -1)) . ' und ' . end($b) : $b[0]);
+    }
+    if ((int) ($z['vormonat']['tage'] ?? 0) > 0) {
+        $vm = KP_MONATE[(int) date('n', strtotime(substr((string) $z['monat'], 0, 7) . '-01 -1 month'))];
+        $fuss[] = 'Im ' . $vm . ': ' . kp_zahl((int) $z['vormonat']['besuche']) . ' Besuche';
+    }
+    $stand = date('H:i', (int) ($z['abgerufen'] ?? time()));
+    return '<section class="kp-card kp-zahlen" aria-label="Deine Webseite in Zahlen"><div class="kp-zahlen__kopf"><h2>Deine Webseite im ' . $monat . '</h2><span class="kp-zahlen__stand">Stand ' . $stand . ' Uhr</span></div>'
+        . '<ul class="kp-zahlen__liste">' . $html . '</ul>' . ($fuss ? '<p class="kp-zahlen__fuss">' . implode(' · ', $fuss) . '</p>' : '')
+        . '<p class="kp-hint kp-zahlen__info">Gezählt wird anonym, ohne Cookies und ohne IP‑Adressen.</p></section>';
 }
 
 // Eingabefeld unter dem Verlauf.
@@ -984,7 +1180,7 @@ HTML;
 }
 
 // E-Mail an die Gegenseite. Tim bekommt jede Kundennachricht, der Kunde nur, wenn eine E-Mail hinterlegt ist.
-function kp_notify_message(string $u, array $acc, array $msg): void
+function kp_notify_message(string $u, array $acc, array $msg, string $push = ''): void
 {
     $c = cx_config();
     if (empty($c['brevo_api_key'])) {
@@ -998,7 +1194,7 @@ function kp_notify_message(string $u, array $acc, array $msg): void
     $email = (string) ($acc['email'] ?? '');
     if ($msg['von'] === 'kunde') {
         require_once __DIR__ . '/push-lib.php';
-        pu_send("💬 <b>Neue Nachricht im Kundenportal</b>\n" . cx_h((string) $art), '/kunden/admin/?k=' . rawurlencode($u) . '#nachrichten', false, true);
+        pu_send($push !== '' ? $push : "💬 <b>Neue Nachricht im Kundenportal</b>\n" . cx_h((string) $art), '/kunden/admin/?k=' . rawurlencode($u) . '#nachrichten', false, true);
         $who = trim((string) ($acc['firma'] ?? '')) !== '' ? $acc['firma'] . ' (' . ($acc['name'] ?? $u) . ')' : (string) ($acc['name'] ?? $u);
         $inner = '<p style="margin:0 0 14px">' . cx_h($who) . ' hat dir im Kundenportal geschrieben:</p>' . $text
             . cx_button(kp_portal_url('/kunden/admin/?k=' . rawurlencode($u) . '#nachrichten'), 'Antworten');
@@ -1046,7 +1242,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <link rel="stylesheet" href="/assets/css/tk.css?v=ba836a62">
   <link rel="stylesheet" href="/assets/css/black.css?v=c69d15d4">
   <script src="/assets/js/tk-black.js?v=add20d6a"></script>
-  <link rel="stylesheet" href="/assets/css/portal.css?v=4e7387af">
+  <link rel="stylesheet" href="/assets/css/portal.css?v=f6d5f89e">
 </head>
 <body class="kp">
 <header class="header">

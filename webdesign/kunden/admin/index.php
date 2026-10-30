@@ -589,6 +589,54 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         kp_redirect($back . '#zugang');
     }
 
+    if ($action === 'kunde_termin_neu') {
+        $datum = cx_field('datum', 10);
+        $text = kp_text('text', 120);
+        $liste = (array) ($all[$k]['termine'] ?? []);
+        $ts = preg_match('/^\d{4}-\d\d-\d\d$/', $datum) ? strtotime($datum) : false;
+        if ($ts === false || date('Y-m-d', $ts) !== $datum) {
+            kp_flash(false, 'Bitte ein gültiges Datum wählen.');
+        } elseif ($text === '') {
+            kp_flash(false, 'Bitte kurz dazuschreiben, worum es geht (z. B. Fotos bis dahin hochladen).');
+        } elseif (count($liste) >= KP_TERMINE_MAX) {
+            kp_flash(false, 'Höchstens ' . KP_TERMINE_MAX . ' Termine. Bitte zuerst alte löschen.');
+        } else {
+            $liste[] = ['id' => bin2hex(random_bytes(4)), 'datum' => $datum, 'text' => $text];
+            $all[$k]['termine'] = $liste;
+            kp_save_accounts($all);
+            kp_flash(true, 'Termin eingetragen. ' . ($all[$k]['name'] ?? $k) . ' sieht ihn ab sofort im Portal.');
+        }
+        kp_redirect($back);
+    }
+
+    if ($action === 'kunde_termin_weg') {
+        $id = cx_field('id', 20);
+        $all[$k]['termine'] = array_values(array_filter((array) ($all[$k]['termine'] ?? []), static fn($t) => ($t['id'] ?? '') !== $id));
+        kp_save_accounts($all);
+        kp_flash(true, 'Termin gelöscht.');
+        kp_redirect($back);
+    }
+
+    if ($action === 'zahlen_schluessel') {
+        $all[$k]['zahlen_schluessel'] = bin2hex(random_bytes(24));
+        kp_save_accounts($all);
+        @unlink(kp_user_dir($k) . '/zahlen.json');
+        kp_flash(true, 'Neuer Schlüssel erzeugt. Jetzt die Zeile unten in die config.php der Kundenseite eintragen.');
+        kp_redirect($back . '#zugang');
+    }
+
+    if ($action === 'zahlen_test') {
+        $host = kp_zahlen_host($all[$k]);
+        $z = $host !== '' ? kp_zahlen_holen($host, (string) ($all[$k]['zahlen_schluessel'] ?? ''), date('Y-m')) : null;
+        kp_flash($z !== null, $z !== null
+            ? 'Verbindung klappt: ' . kp_zahl((int) $z['besuche']) . ' Besuche und ' . kp_zahl((int) $z['anfragen']) . ' Anfragen in diesem Monat.' . (kp_phase($all[$k]) !== 'online' ? ' Der Kunde sieht die Zahlen, sobald der Schritt auf „Online“ steht.' : '')
+            : 'Keine Antwort von ' . ($host ?: 'der Webseite') . '. Steht die Webseite im Feld „Webseite“, ist die Vorlage mit statistik/portal.php hochgeladen und der Schlüssel in _formular/config.php eingetragen?');
+        if ($z !== null) {
+            @unlink(kp_user_dir($k) . '/zahlen.json');
+        }
+        kp_redirect($back . '#zugang');
+    }
+
     if ($action === 'projekt') {
         $phase = cx_field('phase', 20);
         $url = cx_field('vorschau', 300);
@@ -600,6 +648,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
             $all[$k]['phase'] = $phase;
             $all[$k]['vorschau'] = kp_clean_url($url);
             $all[$k]['naechstes'] = kp_text('naechstes', 400);
+            if (cx_field('freigabe_weg', 5) === 'ja') {
+                unset($all[$k]['freigabe']);
+            }
             kp_save_accounts($all);
             kp_flash(true, 'Projektstand gespeichert. ' . ($all[$k]['name'] ?? $k) . ' sieht ihn ab sofort im Portal.');
         }
@@ -1192,8 +1243,29 @@ if ($k !== '' && isset($all[$k])) {
         . '<div class="form__row"><label class="form__field"><span>Schritt</span><select name="phase">' . $phOpts . '</select></label>'
         . '<label class="form__field"><span>Link zur Vorschau <em>(optional)</em></span><input type="text" name="vorschau" maxlength="300" value="' . $h('vorschau') . '" placeholder="https://neu.' . ($h('webseite') ?: 'betrieb.at') . '" autocapitalize="none" spellcheck="false"></label></div>'
         . '<label class="form__field"><span>Als Nächstes <em>(sieht der Kunde, optional)</em></span><textarea name="naechstes" rows="2" maxlength="400" placeholder="z. B. Bitte noch das Logo als Datei und 3–5 Fotos vom Geschäft hochladen.">' . $h('naechstes') . '</textarea></label>'
-        . '<button class="btn" type="submit">Speichern</button></form></details>';
-    $project = kp_project_card($a, false, $phEdit);
+        . (kp_freigabe($a) !== null ? '<label class="form__check"><input type="checkbox" name="freigabe_weg" value="ja"><span>Freigabe zurücksetzen (neue Runde, der Kunde sieht wieder den Knopf)</span></label>' : '')
+        . '<button class="btn" type="submit">Speichern</button></form>'
+        . '<form class="form form--small kp-termin-neu" method="post" action="' . $form . '">' . $csrf . '<input type="hidden" name="aktion" value="kunde_termin_neu">'
+        . '<div class="form__row"><label class="form__field"><span>Termin für den Kunden</span><input type="date" name="datum" required min="' . date('Y-m-d') . '"></label>'
+        . '<label class="form__field"><span>Worum geht es?</span><input type="text" name="text" required maxlength="120" placeholder="z. B. Fotos bis dahin hochladen"></label></div>'
+        . '<button class="btn btn--line" type="submit">Termin eintragen</button></form></details>';
+    $termDel = static fn(string $id): string => '<form class="kp-termin__weg" method="post" action="' . $form . '" data-kp-confirm="Termin löschen?">' . $csrf
+        . '<input type="hidden" name="aktion" value="kunde_termin_weg"><input type="hidden" name="id" value="' . cx_h($id) . '"><button type="submit" aria-label="Termin löschen" title="Löschen">×</button></form>';
+    $project = kp_project_card($a, false, $phEdit, '', $termDel);
+
+    // Zahlen der Kundenseite: Schlüssel für _formular/config.php der Kundenseite
+    $zKey = (string) ($a['zahlen_schluessel'] ?? '');
+    $zHost = kp_zahlen_host($a);
+    $zLine = "'portal_schluessel' => '" . $zKey . "',";
+    $zahlenBox = '<div class="form form--small kp-zahlen-admin"><h2>Zahlen der Webseite</h2>'
+        . '<p class="kp-hint kp-hint--top">Besuche, Anfragen und Erreichbarkeit der Kundenseite' . ($zHost !== '' ? ' (' . cx_h($zHost) . ')' : '') . ' im Portal, sobald der Schritt auf „Online“ steht. Braucht die Kundenseiten-Vorlage mit Besucherzähler.</p>'
+        . ($zKey !== ''
+            ? '<p class="kp-hint">In <code>_formular/config.php</code> der Kundenseite eintragen:</p><div class="kp-an-link"><code>' . cx_h($zLine) . '</code></div>'
+              . '<div class="kp-actions"><button class="btn btn--line" type="button" data-kp-copy-text="' . cx_h($zLine) . '">Zeile kopieren</button>'
+              . '<form method="post" action="' . $form . '">' . $csrf . '<input type="hidden" name="aktion" value="zahlen_test"><button class="btn btn--line" type="submit">Verbindung testen</button></form>'
+              . '<form method="post" action="' . $form . '" data-kp-confirm="Neuen Schlüssel erzeugen? Der alte gilt dann nicht mehr, die Zeile muss neu in die config.php.">' . $csrf . '<input type="hidden" name="aktion" value="zahlen_schluessel"><button class="btn btn--line" type="submit">Neuer Schlüssel</button></form></div>'
+            : '<form method="post" action="' . $form . '">' . $csrf . '<input type="hidden" name="aktion" value="zahlen_schluessel"><button class="btn" type="submit">Schlüssel erzeugen</button></form>')
+        . '</div>';
 
     // Auftrag: Paket, Betrag, Rechnungsstand (nur für Tim). Die Rechnung selbst entsteht im Büro-Dashboard.
     $pkOpts = '';
@@ -1281,6 +1353,7 @@ if ($k !== '' && isset($all[$k])) {
     </div>
     <button class="btn btn--line" type="submit">Speichern</button>
   </form>
+  {$zahlenBox}
   <div class="form form--small kp-bw-kunde">
     <h2>Bewertung</h2>
     {$bwStand}
@@ -1327,6 +1400,7 @@ foreach ($list as $r) {
         . (kp_is_verein($a) ? '<span class="kp-pill kp-pill--verein">Verein</span>' : '')
         . ad_auftrag_pills($a)
         . '<span class="kp-pill kp-pill--phase' . (kp_phase($a) === 'online' ? ' kp-pill--ok' : '') . '">' . cx_h(KP_PHASEN[kp_phase($a)][0]) . '</span>'
+        . (kp_freigabe($a) !== null && kp_phase($a) !== 'online' ? '<span class="kp-pill kp-pill--ok">freigegeben</span>' : '')
         . '<span class="kp-pill">' . ($r['uploads'] === 1 ? '1 Upload' : $r['uploads'] . ' Uploads') . '</span>'
         . (!$aktiv ? '<span class="kp-pill kp-pill--aus">gesperrt</span>' : '');
     $when = $r['akt'] ? date('d.m.Y', $r['akt']) : '–';
