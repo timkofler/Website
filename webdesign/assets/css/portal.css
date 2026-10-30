@@ -714,6 +714,15 @@ body:has(.kp-auth) .kp-foot .footer__bottom { flex-direction: column; align-item
 .kp-inline { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px; padding: 0; border: 0; background: none; margin-top: 8px; }
 .kp-inline .form__field { flex: 1 1 200px; margin: 0; }
 .kp-mini { margin: 6px 0 0; }
+/* Termine und Fristen (Morgen-Nachricht) */
+.kp-konto > .kp-tm { border-top: 1px solid var(--line); padding: 18px 24px 4px; }
+.kp-tm .kp-hint--top { margin: 0 0 12px; }
+.kp-tm .kp-table { margin: 0 0 14px; }
+.kp-tm td { padding: 9px 10px; vertical-align: middle; white-space: normal; }
+.kp-tm td:first-child { white-space: nowrap; color: var(--muted); font-variant-numeric: tabular-nums; }
+.kp-tm td:last-child { width: 1%; text-align: right; }
+.kp-tm td em { color: var(--muted); font-size: .85em; }
+@media (max-width: 640px) { .kp-konto > .kp-tm { padding: 16px 18px 4px; } .kp-tm td { padding: 9px 6px; } .kp-tm td:first-child { white-space: normal; width: 5.5em; } }
 .kp-tr { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .kp-tr li { display: grid; grid-template-columns: minmax(120px, 190px) minmax(0, 1fr); gap: 2px 14px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); font-size: .9rem; }
 .kp-tr__name { font-weight: 600; }
@@ -778,7 +787,7 @@ body:has(.kp-auth) .kp-foot .footer__bottom { flex-direction: column; align-item
 .kp-heute__go { font-size: 1.5rem; line-height: 1; color: var(--muted); }
 .kp-heute a:hover .kp-heute__go { color: var(--hot); }
 .kp-main .kp-ansicht h2, .kp-main .kp-vorlagen h2, .kp-main .kp-heute h2 { font-size: 1.2rem; line-height: 1.3; letter-spacing: 0; }
-.form input[type=date] { width: 100%; font: inherit; font-size: 16px; color: var(--text); background: var(--surface); border: 1px solid var(--line-2); border-radius: 12px; padding: 11px 14px; color-scheme: dark; min-height: 48px; }
+.form input[type=date], .form input[type=time] { width: 100%; font: inherit; font-size: 16px; color: var(--text); background: var(--surface); border: 1px solid var(--line-2); border-radius: 12px; padding: 11px 14px; color-scheme: dark; min-height: 48px; }
 
 /* Auswahllisten dunkel aufklappen, sonst weiße Liste mit heller Schrift (Tim 27.10.) */
 select { color-scheme: dark; }

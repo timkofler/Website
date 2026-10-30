@@ -13,6 +13,7 @@ require __DIR__ . '/../../api/zaehler-lib.php';
 require __DIR__ . '/../../api/chat-lib.php';
 require __DIR__ . '/../../api/bericht-lib.php';
 require __DIR__ . '/../../api/push-lib.php';
+require __DIR__ . '/../../api/zeitplan-lib.php';
 require __DIR__ . '/../../api/ansicht-lib.php';
 require __DIR__ . '/../../api/bewertung-lib.php';
 
@@ -382,6 +383,30 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         } else {
             kp_flash(wb_send(true), 'Testbericht für die letzte Woche an ' . (string) (cx_config()['notify_email'] ?? 'office@tim-kofler.at') . ' geschickt.');
         }
+        kp_redirect(KP_ADMIN . '#werbung');
+    }
+
+    // Telegram am Morgen (Termine, Fristen) und am Abend (Tagesbericht): ein/aus und Test
+    if (in_array($action, ['tp_morgen', 'tp_abend', 'tp_morgen_test', 'tp_abend_test'], true)) {
+        if ($action === 'tp_morgen' || $action === 'tp_abend') {
+            $an = empty(ad_settings()[$action]);
+            ad_settings_save([$action => $an]);
+            kp_flash(true, ($action === 'tp_morgen' ? 'Morgen-Nachricht' : 'Tagesbericht') . ($an ? ' ist an.' : ' ist aus.'));
+        } else {
+            $ok = $action === 'tp_morgen_test' ? tp_morgen_send(true) : tp_bericht_send(true);
+            kp_flash($ok, $ok ? 'Test an Telegram geschickt.' : 'Nicht geschickt: Ist Telegram oben verbunden?');
+        }
+        kp_redirect(KP_ADMIN . '#werbung');
+    }
+
+    // Termine und Fristen für die Morgen-Nachricht
+    if ($action === 'termin_neu') {
+        $fehler = tp_termin_neu(cx_field('art', 10), cx_field('datum', 10), cx_field('zeit', 5), cx_field('text', 160), cx_field('wdh', 10));
+        kp_flash($fehler === '', $fehler === '' ? 'Eingetragen.' : $fehler);
+        kp_redirect(KP_ADMIN . '#werbung');
+    }
+    if ($action === 'termin_weg') {
+        kp_flash(tp_termin_weg(cx_field('id', 12)), 'Gelöscht.');
         kp_redirect(KP_ADMIN . '#werbung');
     }
 
@@ -1763,6 +1788,15 @@ if (pu_token() === '') {
 $adS = ad_settings();
 $wbAn = !empty($adS['bericht']);
 $wbZuletzt = $adS['bericht_woche'] !== '' ? ' · zuletzt für ' . cx_h(str_replace('-W', '. Woche ', (string) $adS['bericht_woche'])) : '';
+$tpZeile = static function (string $key, string $titel, string $was) use ($adS, $csrf): string {
+    $an = !empty($adS[$key]);
+    return '<h4 class="kp-chat-h">' . $titel . '</h4>'
+        . '<p class="kp-on"><span class="kp-on__dot' . ($an ? '' : ' is-aus') . '" aria-hidden="true"></span><span><b>' . ($an ? 'An' : 'Aus') . '</b> · ' . $was . '</span></p>'
+        . '<div class="kp-actions"><form method="post" action="/kunden/admin/">' . $csrf . '<input type="hidden" name="aktion" value="' . $key . '_test"><button class="btn btn--sm btn--line" type="submit">Test schicken</button></form>'
+        . '<form method="post" action="/kunden/admin/">' . $csrf . '<input type="hidden" name="aktion" value="' . $key . '"><button class="btn btn--sm btn--line" type="submit">' . ($an ? 'Ausschalten' : 'Einschalten') . '</button></form></div>';
+};
+$tpKarten = $tpZeile('tp_morgen', 'Morgen-Nachricht <em>(ab 7 Uhr per Telegram)</em>', 'deine Termine von heute und morgen, Fristen 30, 14, 7, 3 und 1 Tag vor Ablauf. Ohne Termine keine Nachricht.')
+    . $tpZeile('tp_abend', 'Tagesbericht <em>(ab 20 Uhr per Telegram)</em>', 'Besuche, woher, meistgesehene Seiten, Kontakte und neue Anfragen von heute');
 $benKarte = <<<HTML
 <div class="kp-card kp-ben">
   <h3>Benachrichtigungen</h3>
@@ -1774,7 +1808,43 @@ $benKarte = <<<HTML
     <form method="post" action="/kunden/admin/">{$csrf}<input type="hidden" name="aktion" value="bericht_test"><button class="btn btn--sm btn--line" type="submit">Testbericht schicken</button></form>
     <form method="post" action="/kunden/admin/">{$csrf}<input type="hidden" name="aktion" value="bericht"><button class="btn btn--sm btn--line" type="submit">{$h($wbAn ? 'Ausschalten' : 'Einschalten')}</button></form>
   </div>
+  {$tpKarten}
 </div>
+HTML;
+
+// Termine und Fristen (Morgen-Nachricht): kommende Einträge, neuer Eintrag
+$tmRows = '';
+foreach (tp_termine() as $t) {
+    $n = tp_naechster($t);
+    if ($n < date('Y-m-d') && ($t['wdh'] ?? '') === '') {
+        continue;
+    }
+    $frist = ($t['art'] ?? '') === 'frist';
+    $tmRows .= '<tr><td>' . cx_h(tp_datum_kurz($n)) . (($t['zeit'] ?? '') !== '' ? ' ' . cx_h((string) $t['zeit']) : '') . '</td>'
+        . '<td>' . ($frist ? '⏳ ' : '') . cx_h((string) $t['text']) . (($t['wdh'] ?? '') !== '' ? ' <em>(' . cx_h(TP_WDH[$t['wdh']] ?? '') . ')</em>' : '') . '</td>'
+        . '<td><form method="post" action="/kunden/admin/">' . $csrf . '<input type="hidden" name="aktion" value="termin_weg"><input type="hidden" name="id" value="' . cx_h((string) $t['id']) . '"><button class="btn btn--sm btn--line" type="submit" aria-label="Löschen">✕</button></form></td></tr>';
+}
+$tmTabelle = $tmRows !== '' ? '<div class="kp-table"><table><tbody>' . $tmRows . '</tbody></table></div>' : '<p class="kp-hint">Noch nichts eingetragen.</p>';
+$tmHeute = date('Y-m-d');
+$tmKarte = <<<HTML
+<details class="kp-card kp-konto" id="termine">
+  <summary><h2>Termine und Fristen</h2></summary>
+  <div class="kp-tm">
+    <p class="kp-hint kp-hint--top">Kommen in die Morgen-Nachricht per Telegram: Termine am Tag davor und am Tag selbst, Fristen (Abos, Domains, Verträge) 30, 14, 7, 3 und 1 Tag vorher und am Tag selbst.</p>
+    {$tmTabelle}
+  </div>
+  <form method="post" action="/kunden/admin/" class="form form--small">
+    {$csrf}<input type="hidden" name="aktion" value="termin_neu">
+    <label class="form__field"><span>Was</span><input type="text" name="text" maxlength="160" required placeholder="z. B. LinkedIn-Post oder Metricool-Abo"></label>
+    <div class="kp-kosten-felder">
+      <label class="form__field"><span>Datum</span><input type="date" name="datum" value="{$tmHeute}" required></label>
+      <label class="form__field"><span>Uhrzeit <em>(optional)</em></span><input type="time" name="zeit"></label>
+      <label class="form__field"><span>Art</span><select name="art"><option value="termin">Termin</option><option value="frist">Frist / Ablauf</option></select></label>
+      <label class="form__field"><span>Wiederholen</span><select name="wdh"><option value="">einmal</option><option value="monat">jeden Monat</option><option value="jahr">jedes Jahr</option></select></label>
+    </div>
+    <button class="btn" type="submit">Eintragen</button>
+  </form>
+</details>
 HTML;
 
 // Vorlagen bearbeiten (unten im Reiter Anfragen)
@@ -1856,8 +1926,9 @@ $heuteKarte = $todoHtml !== '' ? '<div class="kp-card kp-heute"><h2>Heute zu tun
 $wbSub = 'Briefe ' . $br['scans'] . ' Scans' . ($nl['bestaetigt'] !== null ? ' · Newsletter ' . $nl['bestaetigt'] : '');
 $wBadge = $bwNeu > 0 ? '<span class="kp-badge">' . $bwNeu . '</span>' : '';
 
-// Wochenbericht: falls diese Woche noch keiner rausging (ohne Besucher am Montag), jetzt.
+// Wochenbericht: falls diese Woche noch keiner rausging (ohne Besucher am Montag), jetzt. Ebenso die Telegram-Nachrichten.
 wb_maybe();
+tp_maybe();
 
 kp_page('Übersicht', <<<HTML
 <span class="label"><b>●</b> Kundenportal · Admin</span>
@@ -1913,6 +1984,7 @@ kp_page('Übersicht', <<<HTML
     {$nlKarte}
     {$benKarte}
   </div>
+  {$tmKarte}
   {$bwKarte}
 </section>
 

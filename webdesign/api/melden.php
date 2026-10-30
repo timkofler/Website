@@ -4,6 +4,8 @@
 //
 // Aufruf: POST /api/melden.php  mit  key=<Schlüssel>  text=<Nachricht>  [link=https://claude.ai/… oder https://tim-kofler.at/…]
 // In der config.php steht nur der SHA-256-Hash des Schlüssels ('claude_melde_hash'), nie der Schlüssel selbst.
+// Termin oder Frist eintragen (kommt dann in die Morgen-Nachricht, siehe zeitplan-lib.php):
+//   POST key=<Schlüssel> aktion=termin datum=JJJJ-MM-TT text=<kurz> [zeit=HH:MM] [art=termin|frist] [wdh=monat|jahr]
 // Grenzen: 30 Aufrufe je Stunde und Anschluss, 20 Meldungen je Stunde, 80 je Tag.
 
 declare(strict_types=1);
@@ -35,6 +37,11 @@ if (!cx_rate_hit('melden-ip:' . cx_client_id(), 30, 3600)) {
 $key = (string) ($_POST['key'] ?? '');
 if (strlen($key) < 32 || !hash_equals($hash, hash('sha256', $key))) {
     me_out(403, 'Falscher Schlüssel.');
+}
+if (($_POST['aktion'] ?? '') === 'termin') {
+    require __DIR__ . '/zeitplan-lib.php';
+    $fehler = tp_termin_neu((string) ($_POST['art'] ?? 'termin'), trim((string) ($_POST['datum'] ?? '')), (string) ($_POST['zeit'] ?? ''), (string) ($_POST['text'] ?? ''), trim((string) ($_POST['wdh'] ?? '')));
+    me_out($fehler === '' ? 200 : 400, $fehler === '' ? 'Eingetragen.' : $fehler);
 }
 $text = trim(str_replace("\r", '', (string) ($_POST['text'] ?? '')));
 if ($text === '' || mb_strlen($text) > 900) {

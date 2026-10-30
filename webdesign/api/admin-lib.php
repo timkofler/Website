@@ -17,7 +17,7 @@ const AD_BRIEF_AB = '2026-10-01';
 function ad_settings(): array
 {
     $d = is_file(AD_FILE) ? json_decode((string) file_get_contents(AD_FILE), true) : [];
-    return (is_array($d) ? $d : []) + ['briefe' => 0, 'bericht' => true, 'bericht_woche' => ''];
+    return (is_array($d) ? $d : []) + ['briefe' => 0, 'bericht' => true, 'bericht_woche' => '', 'tp_morgen' => true, 'tp_abend' => true];
 }
 
 function ad_settings_save(array $patch): bool

@@ -1,6 +1,8 @@
 # Seiten-Wächter: prüft alle 5 Minuten, ob die Webseiten erreichbar sind, und schickt
 # bei einem Ausfall (und wenn sie wieder gehen) eine Telegram-Nachricht an Tims Handy.
 # Läuft bei GitHub, also auch dann, wenn der ALL-INKL-Server selbst weg ist.
+# Außerdem: einmal am Tag SSL-Zertifikate und Domain-Ablauf prüfen, und bei jedem Lauf auf tim-kofler.at
+# die geplanten Telegram-Nachrichten anstoßen (Morgen-Nachricht ab 7 Uhr, Tagesbericht ab 20 Uhr, api/zeitplan.php).
 #
 # Benötigte Secrets (GitHub → Settings → Secrets and variables → Actions):
 #   TELEGRAM_TOKEN  Schlüssel des Bots (Telegram → @BotFather → /mybots → Bot → API Token)
@@ -8,7 +10,7 @@
 # Fehlen sie, prüft der Wächter trotzdem, schickt aber nichts.
 #
 # Testnachricht: Actions → "Seiten-Wächter" → "Run workflow" → Häkchen "Testnachricht".
-# Welche Seiten geprüft werden: .github/scripts/seiten-waechter.py (SEITEN).
+# Welche Seiten geprüft werden: .github/scripts/seiten-waechter.py (SEITEN, Kundenseiten unter KUNDEN).
 
 name: Seiten-Wächter
 
