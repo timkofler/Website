@@ -722,6 +722,11 @@ body:has(.kp-auth) .kp-foot .footer__bottom { flex-direction: column; align-item
 .kp-tm td:first-child { white-space: nowrap; color: var(--muted); font-variant-numeric: tabular-nums; }
 .kp-tm td:last-child { width: 1%; text-align: right; }
 .kp-tm td em { color: var(--muted); font-size: .85em; }
+.kp-wl { margin: 0 0 10px; }
+.kp-wl td { white-space: normal; vertical-align: middle; padding: 9px 10px; }
+.kp-wl td small { color: var(--muted); }
+.kp-wl td:nth-child(2) { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.kp-wl td:last-child { width: 1%; text-align: right; }
 @media (max-width: 640px) { .kp-konto > .kp-tm { padding: 16px 18px 4px; } .kp-tm td { padding: 9px 6px; } .kp-tm td:first-child { white-space: normal; width: 5.5em; } }
 .kp-tr { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .kp-tr li { display: grid; grid-template-columns: minmax(120px, 190px) minmax(0, 1fr); gap: 2px 14px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); font-size: .9rem; }

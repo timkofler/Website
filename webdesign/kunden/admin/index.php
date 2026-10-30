@@ -387,15 +387,49 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     }
 
     // Telegram am Morgen (Termine, Fristen) und am Abend (Tagesbericht): ein/aus und Test
-    if (in_array($action, ['tp_morgen', 'tp_abend', 'tp_morgen_test', 'tp_abend_test'], true)) {
-        if ($action === 'tp_morgen' || $action === 'tp_abend') {
+    $tpNamen = ['tp_morgen' => 'Morgen-Nachricht', 'tp_abend' => 'Tagesbericht', 'tp_woche' => 'Wochenbericht', 'tp_rekord' => 'Rekord-Meldung'];
+    if (isset($tpNamen[preg_replace('/_test$/', '', $action)])) {
+        if (isset($tpNamen[$action])) {
             $an = empty(ad_settings()[$action]);
             ad_settings_save([$action => $an]);
-            kp_flash(true, ($action === 'tp_morgen' ? 'Morgen-Nachricht' : 'Tagesbericht') . ($an ? ' ist an.' : ' ist aus.'));
+            kp_flash(true, $tpNamen[$action] . ($an ? ' ist an.' : ' ist aus.'));
         } else {
-            $ok = $action === 'tp_morgen_test' ? tp_morgen_send(true) : tp_bericht_send(true);
+            $ok = match ($action) {
+                'tp_morgen_test' => tp_morgen_send(true),
+                'tp_abend_test' => tp_bericht_send(true),
+                'tp_woche_test' => tp_woche_send(true),
+                default => pu_send('<i>(Test)</i> ' . tp_rekord_text('besuche', 52, 41, date('Y-m-d', strtotime('-3 days'))), '/kunden/admin/#besucher', true, true),
+            };
             kp_flash($ok, $ok ? 'Test an Telegram geschickt.' : 'Nicht geschickt: Ist Telegram oben verbunden?');
         }
+        kp_redirect(KP_ADMIN . '#werbung');
+    }
+
+    // Laufende Werbung (Werbe-Rechner): eintragen und entfernen
+    if ($action === 'werbung_neu') {
+        $cent = af_cent(cx_field('betrag', 12));
+        $von = cx_field('von', 10);
+        $bis = cx_field('bis', 10);
+        $quelle = af_quelle(cx_field('quelle', 40));
+        $ok = $cent !== null && $cent > 0 && preg_match('/^\d{4}-\d{2}-\d{2}$/', $von) && ($bis === '' || (preg_match('/^\d{4}-\d{2}-\d{2}$/', $bis) && $bis >= $von))
+            && cx_field('name', 60) !== '' && $quelle !== 'direkt';
+        $w = af_werbung();
+        if ($ok && count($w) < 50) {
+            $w[] = ['name' => cx_field('name', 60), 'quelle' => $quelle, 'cent_tag' => $cent, 'von' => $von, 'bis' => $bis];
+            $ok = af_werbung_save($w);
+        }
+        kp_flash((bool) $ok, $ok ? 'Eingetragen. Die Kosten zählen ab jetzt jeden Tag dazu.' : 'Bitte Name, Quelle, Betrag und Datum prüfen.');
+        kp_redirect(KP_ADMIN . '#werbung');
+    }
+    if ($action === 'werbung_weg') {
+        $w = af_werbung();
+        $i = (int) cx_field('i', 4);
+        $ok = isset($w[$i]);
+        if ($ok) {
+            array_splice($w, $i, 1);
+            $ok = af_werbung_save($w);
+        }
+        kp_flash($ok, 'Entfernt.');
         kp_redirect(KP_ADMIN . '#werbung');
     }
 
@@ -1380,7 +1414,8 @@ if ($afSt === 'unbestaetigt') {
 }
 
 // Kosten pro Anfrage: Anfragen und Kunden je Quelle, geteilt durch die Werbekosten, die du einträgst.
-$afKosten = af_kosten();
+$afKosten = af_kosten_alle();
+$afKostenHand = af_kosten();
 $afQ = [];
 foreach ($afAlle as $d) {
     if (af_versteckt($d)) {
@@ -1408,11 +1443,11 @@ foreach ($afQ as $q => $z) {
 }
 $kGesamt = $kSumme > 0 ? '<p class="kp-hint">Werbung gesamt ' . af_euro($kSumme) . ' für ' . $kSummeN . ($kSummeN === 1 ? ' Anfrage' : ' Anfragen') . ($kSummeN > 0 ? ', im Schnitt <b>' . af_euro((int) round($kSumme / $kSummeN)) . '</b> pro Anfrage' : '') . '.</p>' : '';
 $kInputs = '';
-foreach (array_unique(array_merge(array_keys($afKosten), AF_QUELLEN_VORSCHLAG, array_keys($afQ))) as $q) {
+foreach (array_unique(array_merge(array_keys($afKostenHand), AF_QUELLEN_VORSCHLAG, array_keys($afQ))) as $q) {
     if ($q === 'direkt') {
         continue;
     }
-    $val = isset($afKosten[$q]) ? number_format($afKosten[$q] / 100, 2, ',', '.') : '';
+    $val = isset($afKostenHand[$q]) ? number_format($afKostenHand[$q] / 100, 2, ',', '.') : '';
     $kInputs .= '<label class="form__field"><span>' . cx_h(af_quelle_name($q)) . '</span><input type="text" name="kosten[' . cx_h($q) . ']" value="' . $val . '" inputmode="decimal" maxlength="20" placeholder="0,00"></label>';
 }
 // Laufende Kosten im letzten Monat (Claude-Abo usw. plus KI-Chat), geteilt durch die Anfragen der letzten 30 Tage.
@@ -1434,12 +1469,41 @@ foreach ($lauf as $name => $cent) {
 }
 $lTabelle = '<h4 class="kp-chat-h">Laufende Kosten <em>(keine Werbung, pro Monat)</em></h4><div class="kp-table kp-kosten"><table><tbody>' . $lRows
     . '<tr><th>Summe pro Monat</th><th>' . af_euro($lSumme) . '</th></tr></tbody></table></div><p class="kp-hint">' . $lPro . '</p>';
+// Laufende Werbung mit Tagesbudget (Werbe-Rechner): zählt automatisch zu den Kosten oben dazu.
+$wlRows = '';
+foreach (af_werbung() as $i => $w) {
+    $laeuft = ($w['bis'] ?? '') === '' || $w['bis'] >= date('Y-m-d');
+    $wlRows .= '<tr><td>' . cx_h((string) ($w['name'] ?? '')) . ' <em>(' . cx_h(af_quelle_name((string) ($w['quelle'] ?? ''))) . ')</em><br><small>' . af_euro((int) ($w['cent_tag'] ?? 0)) . ' pro Tag · ab ' . cx_h(date('d.m.', strtotime((string) $w['von']) ?: 0)) . (($w['bis'] ?? '') !== '' ? ' bis ' . cx_h(date('d.m.', strtotime((string) $w['bis']) ?: 0)) : '') . ($laeuft ? ' · <b>läuft</b>' : '') . '</small></td>'
+        . '<td>' . af_euro(af_werbung_cent($w)) . '</td>'
+        . '<td><form method="post" action="/kunden/admin/">' . $csrf . '<input type="hidden" name="aktion" value="werbung_weg"><input type="hidden" name="i" value="' . $i . '"><button class="btn btn--sm btn--line" type="submit" aria-label="Entfernen">✕</button></form></td></tr>';
+}
+$wlTabelle = '<h4 class="kp-chat-h">Laufende Werbung <em>(Tagesbudget, zählt automatisch dazu)</em></h4>'
+    . ($wlRows !== '' ? '<div class="kp-table kp-wl"><table><tbody>' . $wlRows . '</tbody></table></div>' : '<p class="kp-hint">Keine eingetragen.</p>');
+$wlHeute = date('Y-m-d');
+$wlForm = <<<HTML
+  <details class="kp-info"><summary>Laufende Werbung eintragen</summary>
+    <form class="form form--small" method="post" action="/kunden/admin/">
+      {$csrf}<input type="hidden" name="aktion" value="werbung_neu">
+      <p class="kp-hint">Für Werbung mit festem Tagesbudget (Instagram, Google Ads). Die Kosten werden jeden Tag dazugezählt, geschätzt nach Budget. Die Quelle muss zum Link passen (utm_source, z. B. instagram-ads; Google Ads = google-anzeige).</p>
+      <label class="form__field"><span>Name</span><input type="text" name="name" maxlength="60" required placeholder="z. B. Instagram: 290-€-Reel"></label>
+      <div class="kp-kosten-felder">
+        <label class="form__field"><span>Quelle</span><input type="text" name="quelle" maxlength="40" required placeholder="instagram-ads" autocapitalize="none" spellcheck="false"></label>
+        <label class="form__field"><span>€ pro Tag</span><input type="text" name="betrag" maxlength="12" inputmode="decimal" required placeholder="5,00"></label>
+        <label class="form__field"><span>Ab</span><input type="date" name="von" value="{$wlHeute}" required></label>
+        <label class="form__field"><span>Bis <em>(leer = läuft)</em></span><input type="date" name="bis"></label>
+      </div>
+      <button class="btn btn--line" type="submit">Eintragen</button>
+    </form>
+  </details>
+HTML;
 $kTabelle = $afQ ? '<div class="kp-table kp-kosten"><table><thead><tr><th>Quelle</th><th>Anfragen</th><th>Kunden</th><th>Kosten</th><th>€/Anfrage</th><th>€/Kunde</th></tr></thead><tbody>' . $kRows . '</tbody></table></div>' : '<p class="kp-hint">Noch keine Anfragen mit Quelle.</p>';
 $kostenCard = <<<HTML
 <div class="kp-card kp-kosten-card" id="kosten">
   <h3>Kosten pro Anfrage</h3>
   {$kTabelle}
   {$kGesamt}
+  {$wlTabelle}
+  {$wlForm}
   {$lTabelle}
   <details class="kp-info"><summary>Kosten eintragen</summary>
     <form class="form form--small" method="post" action="/kunden/admin/">
@@ -1796,7 +1860,9 @@ $tpZeile = static function (string $key, string $titel, string $was) use ($adS, 
         . '<form method="post" action="/kunden/admin/">' . $csrf . '<input type="hidden" name="aktion" value="' . $key . '"><button class="btn btn--sm btn--line" type="submit">' . ($an ? 'Ausschalten' : 'Einschalten') . '</button></form></div>';
 };
 $tpKarten = $tpZeile('tp_morgen', 'Morgen-Nachricht <em>(ab 7 Uhr per Telegram)</em>', 'deine Termine von heute und morgen, Fristen 30, 14, 7, 3 und 1 Tag vor Ablauf. Ohne Termine keine Nachricht.')
-    . $tpZeile('tp_abend', 'Tagesbericht <em>(ab 20 Uhr per Telegram)</em>', 'Besuche, woher, meistgesehene Seiten, Kontakte und neue Anfragen von heute');
+    . $tpZeile('tp_abend', 'Tagesbericht <em>(ab 20 Uhr per Telegram)</em>', 'Besuche, woher, meistgesehene Seiten, Kontakte und neue Anfragen von heute')
+    . $tpZeile('tp_woche', 'Wochenbericht <em>(Sonntag ab 20 Uhr per Telegram)</em>', 'Woche gegen Vorwoche, was jede Anfrage aus der Werbung gekostet hat und welche Werbung am besten lief')
+    . $tpZeile('tp_rekord', 'Rekord-Meldung <em>(sofort per Telegram)</em>', '🎉 wenn du an einem Tag so viele Besuche oder Anfragen hast wie noch nie');
 $benKarte = <<<HTML
 <div class="kp-card kp-ben">
   <h3>Benachrichtigungen</h3>

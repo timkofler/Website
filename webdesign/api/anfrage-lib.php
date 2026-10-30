@@ -14,6 +14,13 @@ const AF_BETRIEB = CX_DATA . '/laufende-kosten.json';
 // Erste Werte, solange im Admin noch nichts gespeichert wurde (Stand Oktober 2026, in Cent).
 const AF_KOSTEN_START = ['brief' => 5700, 'flyer' => 7582, 'google-anzeige' => 1674, 'willhaben' => 2399];
 const AF_BETRIEB_START = ['Claude-Abo' => null];
+// Laufende Werbung mit Tagesbudget: zählt die Kosten jeden Tag automatisch dazu (Werbe-Rechner), zusätzlich zu den Summen von Hand.
+// Eintrag: name, quelle (wie utm_source), cent_tag, von (JJJJ-MM-TT), bis (leer = läuft noch). Geschätzt nach Budget, nicht nach Abrechnung.
+const AF_WERBUNG = CX_DATA . '/werbung-laufend.json';
+const AF_WERBUNG_START = [
+    ['name' => 'Instagram: 290-€-Reel', 'quelle' => 'instagram-ads', 'cent_tag' => 500, 'von' => '2026-10-30', 'bis' => '2026-11-05'],
+    ['name' => 'Google Ads', 'quelle' => 'google-anzeige', 'cent_tag' => 1000, 'von' => '2026-10-31', 'bis' => ''],
+];
 // Ungefährer Kurs für die KI-Chat-Kosten, die in US-Dollar gerechnet werden.
 const AF_USD_EUR = 0.92;
 // Ein Status für alle Arten von Anfragen (auch die Gratis-Entwürfe, deren „erledigt“ von früher bleibt lesbar).
@@ -160,6 +167,44 @@ function af_betrieb_save(array $b): bool
 {
     $json = json_encode($b, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     return @file_put_contents(AF_BETRIEB, $json, LOCK_EX) !== false;
+}
+
+function af_werbung(): array
+{
+    $d = is_file(AF_WERBUNG) ? json_decode((string) file_get_contents(AF_WERBUNG), true) : AF_WERBUNG_START;
+    return is_array($d) ? array_values(array_filter($d, 'is_array')) : [];
+}
+
+function af_werbung_save(array $w): bool
+{
+    $json = json_encode(array_values($w), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+    return @file_put_contents(AF_WERBUNG, $json, LOCK_EX) !== false;
+}
+
+// Kosten einer laufenden Werbung zwischen $von und $bis (je einschließlich, höchstens bis heute).
+function af_werbung_cent(array $w, string $von = '0000-00-00', string $bis = ''): int
+{
+    $bis = min($bis !== '' ? $bis : date('Y-m-d'), date('Y-m-d'), (string) ($w['bis'] ?? '') !== '' ? (string) $w['bis'] : '9999-12-31');
+    $von = max($von, (string) ($w['von'] ?? ''));
+    if ($von > $bis) {
+        return 0;
+    }
+    $tage = (int) round((strtotime($bis . ' 12:00') - strtotime($von . ' 12:00')) / 86400) + 1;
+    return $tage * (int) ($w['cent_tag'] ?? 0);
+}
+
+// Werbekosten je Quelle: Summen von Hand plus laufende Werbung bis heute.
+function af_kosten_alle(): array
+{
+    $k = af_kosten();
+    foreach (af_werbung() as $w) {
+        $q = (string) ($w['quelle'] ?? '');
+        $c = af_werbung_cent($w);
+        if ($q !== '' && $c > 0) {
+            $k[$q] = (int) ($k[$q] ?? 0) + $c;
+        }
+    }
+    return $k;
 }
 
 function af_kosten_save(array $k): bool

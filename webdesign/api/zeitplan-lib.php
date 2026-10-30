@@ -2,6 +2,8 @@
 // Tim Kofler – geplante Telegram-Nachrichten an Tims Handy (gleicher Bot wie push-lib.php):
 //   Morgen-Nachricht ab 7 Uhr: Termine von heute und morgen, Fristen (Abos, Domains …) rechtzeitig vor Ablauf.
 //   Tagesbericht ab 20 Uhr: Besuche von heute, woher, meistgesehene Seiten, Kontakte, neue Anfragen.
+//   Wochenbericht Sonntag ab 20 Uhr: Woche gegen Vorwoche, Werbe-Rechner (Kosten pro Anfrage je bezahlter Werbung), beste Werbung.
+//   Rekord-Meldung sofort: meiste Besuche bzw. Anfragen an einem Tag.
 // Kein Cronjob nötig: ausgelöst von Seitenaufrufen (Besucherzähler), vom Admin und alle 5 Minuten vom Seiten-Wächter
 // bei GitHub (api/zeitplan.php). Jede Nachricht höchstens einmal pro Tag. Nur Zahlen, keine Namen von Besuchern oder Interessenten.
 // Termine und Fristen: im Admin unter Werbung → Termine und Fristen, oder von Claude über api/melden.php (aktion=termin).
@@ -245,6 +247,225 @@ function tp_bericht_text(): string
     return implode("\n", $zeilen);
 }
 
+// ---------------- Wochenbericht (Sonntagabend) ----------------
+
+// Alle gezählten Tage: Tag => Summen (ohne Tests), über alle Monatsdateien.
+function tp_alle_tage(): array
+{
+    static $cache = null;
+    if ($cache !== null) {
+        return $cache;
+    }
+    $cache = [];
+    foreach (glob(ZL_DIR . '/[0-9][0-9][0-9][0-9]-[0-9][0-9].json') ?: [] as $f) {
+        foreach ((array) json_decode((string) file_get_contents($f), true) as $day => $d) {
+            if (is_array($d) && preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) $day)) {
+                $cache[(string) $day] = zl_ohne_tests((string) $day, $d);
+            }
+        }
+    }
+    ksort($cache);
+    return $cache;
+}
+
+// Summen für die Tage $von bis $bis (einschließlich).
+function tp_summe(string $von, string $bis): array
+{
+    $sum = ['besuche' => 0, 'aufrufe' => 0, 'seiten' => [], 'quellen' => [], 'kampagnen' => [], 'kontakte' => []];
+    foreach (tp_alle_tage() as $day => $d) {
+        if ($day < $von || $day > $bis) {
+            continue;
+        }
+        $sum['besuche'] += (int) ($d['besuche'] ?? 0);
+        $sum['aufrufe'] += (int) ($d['aufrufe'] ?? 0);
+        foreach (['seiten', 'quellen', 'kampagnen', 'kontakte'] as $k) {
+            foreach ((array) ($d[$k] ?? []) as $key => $n) {
+                $sum[$k][(string) $key] = ($sum[$k][(string) $key] ?? 0) + (int) $n;
+            }
+        }
+    }
+    foreach (['seiten', 'quellen', 'kampagnen', 'kontakte'] as $k) {
+        arsort($sum[$k]);
+    }
+    return $sum;
+}
+
+// Anfragen (alle Arten, ohne unbestätigte alte) zwischen $von und $bis, mit Quelle.
+function tp_anfragen(string $von, string $bis): array
+{
+    $out = ['n' => 0, 'arten' => [], 'quellen' => []];
+    foreach (af_all() as $d) {
+        $t = substr((string) ($d['zeit'] ?? ''), 0, 10);
+        if ($t < $von || $t > $bis || af_versteckt($d)) {
+            continue;
+        }
+        $out['n']++;
+        $art = AF_ARTEN[$d['art'] ?? 'anfrage'] ?? 'Anfrage';
+        $out['arten'][$art] = ($out['arten'][$art] ?? 0) + 1;
+        $q = af_quelle((string) ($d['quelle'] ?? ''));
+        $out['quellen'][$q] = ($out['quellen'][$q] ?? 0) + 1;
+    }
+    return $out;
+}
+
+function tp_prozent(int $jetzt, int $vorher): string
+{
+    if ($vorher <= 0) {
+        return '';
+    }
+    $p = (int) round(($jetzt - $vorher) / $vorher * 100);
+    return ' ' . ($p >= 0 ? '↗️ +' : '↘️ ') . $p . ' %';
+}
+
+// Werbe-Rechner: bezahlte Werbung (laufende Werbung mit Tagesbudget) im Zeitraum, je Quelle Besuche, Anfragen, Kosten.
+function tp_werbung(string $von, string $bis, array $summe, array $anfragen): array
+{
+    $out = [];
+    foreach (af_werbung() as $w) {
+        $c = af_werbung_cent($w, $von, $bis);
+        $q = (string) ($w['quelle'] ?? '');
+        if ($c <= 0 || $q === '') {
+            continue;
+        }
+        $out[$q] ??= ['cent' => 0, 'besuche' => (int) ($summe['quellen'][$q] ?? 0), 'anfragen' => (int) ($anfragen['quellen'][$q] ?? 0)];
+        $out[$q]['cent'] += $c;
+    }
+    return $out;
+}
+
+function tp_woche_text(string $bis = ''): string
+{
+    $bis = $bis !== '' ? $bis : date('Y-m-d');
+    $von = date('Y-m-d', strtotime($bis . ' -6 days'));
+    $vBis = date('Y-m-d', strtotime($bis . ' -7 days'));
+    $vVon = date('Y-m-d', strtotime($bis . ' -13 days'));
+    $w = tp_summe($von, $bis);
+    $v = tp_summe($vVon, $vBis);
+    $a = tp_anfragen($von, $bis);
+    $va = tp_anfragen($vVon, $vBis);
+    $kontakte = array_sum($w['kontakte']);
+    $vKontakte = array_sum($v['kontakte']);
+
+    // Rekordwoche? Alle früheren 7-Tage-Wochen mit gleichem Wochentag als Ende vergleichen.
+    $rekord = $w['besuche'] > 0;
+    $tage = tp_alle_tage();
+    $erster = (string) (array_key_first($tage) ?? $von);
+    for ($ende = $vBis; $ende >= $erster && $rekord; $ende = date('Y-m-d', strtotime($ende . ' -7 days'))) {
+        $rekord = tp_summe(date('Y-m-d', strtotime($ende . ' -6 days')), $ende)['besuche'] < $w['besuche'];
+    }
+
+    $zeilen = [
+        '📈 <b>Deine Woche</b> · ' . date('d.m.', strtotime($von)) . '–' . date('d.m.', strtotime($bis)) . ($rekord && $v['besuche'] > 0 ? "\n🏆 <b>Rekordwoche!</b>" : ''),
+        '',
+        '👥 <b>' . $w['besuche'] . ' Besuche</b> <i>(Vorwoche ' . $v['besuche'] . ')</i>' . tp_prozent($w['besuche'], $v['besuche']),
+        '📥 <b>' . $a['n'] . ($a['n'] === 1 ? ' Anfrage' : ' Anfragen') . '</b> <i>(Vorwoche ' . $va['n'] . ')</i>',
+    ];
+    if ($a['arten']) {
+        $arten = [];
+        foreach ($a['arten'] as $art => $n) {
+            $arten[] = ($n > 1 ? $n . '× ' : '') . $art;
+        }
+        $zeilen[] = '      ' . cx_h(implode(', ', $arten));
+    }
+    $zeilen[] = '💬 <b>' . $kontakte . ' Kontakte</b> <i>(Vorwoche ' . $vKontakte . ')</i>';
+
+    // Werbe-Rechner: was hat jede Anfrage aus bezahlter Werbung gekostet?
+    $werbung = tp_werbung($von, $bis, $w, $a);
+    if ($werbung) {
+        $zeilen[] = "\n💶 <b>Werbung diese Woche</b>";
+        $beste = '';
+        $besteWert = PHP_INT_MAX;
+        foreach ($werbung as $q => $x) {
+            $pro = $x['anfragen'] > 0 ? (int) round($x['cent'] / $x['anfragen']) : null;
+            $zeilen[] = '• ' . cx_h(tp_quelle_name($q)) . ' · ' . af_euro($x['cent']) . "\n   " . $x['besuche'] . ' Besuche · ' . $x['anfragen'] . ($x['anfragen'] === 1 ? ' Anfrage' : ' Anfragen')
+                . "\n   → " . ($pro !== null ? '<b>' . af_euro($pro) . ' pro Anfrage</b>' : ($x['besuche'] > 0 ? af_euro((int) round($x['cent'] / $x['besuche'])) . ' pro Besuch, noch keine Anfrage' : 'noch keine Besuche'));
+            // Beste Werbung: günstigste Anfrage, sonst günstigster Besuch (Anfragen zählen immer vor Besuchen)
+            $wert = $pro !== null ? $pro : ($x['besuche'] > 0 ? 1_000_000 + (int) round($x['cent'] / $x['besuche']) : PHP_INT_MAX);
+            if ($wert < $besteWert) {
+                [$beste, $besteWert] = [$q, $wert];
+            }
+        }
+        if ($beste !== '' && count($werbung) > 1) {
+            $zeilen[] = '🏅 Am besten lief: <b>' . cx_h(tp_quelle_name($beste)) . '</b>';
+        }
+    }
+    if ($w['besuche'] > 0) {
+        $kampagne = [];
+        foreach ($w['kampagnen'] as $k => $n) {
+            [$q, $c] = array_pad(explode(' / ', (string) $k, 2), 2, '');
+            if ($c !== '' && !isset($kampagne[$q])) {
+                $kampagne[$q] = '„' . $c . '“';
+            }
+        }
+        $zeilen[] = "\n📍 <b>Woher</b>\n" . tp_liste($w['quellen'], 5, 'tp_quelle_name', $kampagne);
+        $zeilen[] = "\n📄 <b>Meistgesehen</b>\n" . tp_liste($w['seiten'], 3, 'tp_seite_name');
+    }
+    return implode("\n", $zeilen);
+}
+
+// ---------------- Rekorde ----------------
+// Meiste Besuche und meiste Anfragen an einem Tag. Sobald heute der bisherige Rekord fällt: eine 🎉-Nachricht (je Rekord einmal am Tag).
+const TP_REKORD_AB = ['besuche' => 5, 'anfragen' => 1];
+
+function tp_rekord_text(string $was, int $neu, int $alt, string $altTag): string
+{
+    $wort = $was === 'besuche' ? 'Besuche' : 'Anfragen';
+    return '🎉 <b>Neuer Rekord!</b>' . "\n" . 'Heute schon <b>' . $neu . ' ' . $wort . '</b> an einem Tag.' . "\n" . '<i>Bisher: ' . $alt . ($altTag !== '' ? ' am ' . date('d.m.', strtotime($altTag)) : '') . '</i>';
+}
+
+function tp_rekord_check(): void
+{
+    $heute = date('Y-m-d');
+    $nachrichten = cx_locked(AD_FILE . '.rekord.lock', static function () use ($heute) {
+        $s = ad_settings();
+        if (time() - (int) ($s['tp_rekord_zeit'] ?? 0) < 240) {
+            return [];
+        }
+        $jetzt = ['besuche' => (int) (tp_alle_tage()[$heute]['besuche'] ?? 0), 'anfragen' => tp_anfragen($heute, $heute)['n']];
+        $rek = is_array($s['rekord'] ?? null) ? $s['rekord'] : [];
+        $raus = [];
+        foreach ($jetzt as $was => $n) {
+            if (!isset($rek[$was])) {
+                // Erster Lauf: bisherigen Rekord aus den alten Tagen holen (ohne heute)
+                $best = ['n' => 0, 'tag' => ''];
+                if ($was === 'besuche') {
+                    foreach (tp_alle_tage() as $day => $d) {
+                        if ($day < $heute && (int) ($d['besuche'] ?? 0) > $best['n']) {
+                            $best = ['n' => (int) $d['besuche'], 'tag' => $day];
+                        }
+                    }
+                } else {
+                    $proTag = [];
+                    foreach (af_all() as $d) {
+                        $t = substr((string) ($d['zeit'] ?? ''), 0, 10);
+                        if ($t !== '' && $t < $heute && !af_versteckt($d)) {
+                            $proTag[$t] = ($proTag[$t] ?? 0) + 1;
+                        }
+                    }
+                    arsort($proTag);
+                    $best = ['n' => (int) (reset($proTag) ?: 0), 'tag' => (string) (array_key_first($proTag) ?? '')];
+                }
+                $rek[$was] = $best + ['gemeldet' => ''];
+            }
+            if ($n > (int) $rek[$was]['n']) {
+                if ($rek[$was]['tag'] !== $heute && $rek[$was]['gemeldet'] !== $heute && (int) $rek[$was]['n'] >= TP_REKORD_AB[$was]) {
+                    $raus[] = tp_rekord_text($was, $n, (int) $rek[$was]['n'], (string) $rek[$was]['tag']);
+                    $rek[$was]['gemeldet'] = $heute;
+                }
+                $rek[$was]['n'] = $n;
+                $rek[$was]['tag'] = $heute;
+            }
+        }
+        $s['rekord'] = $rek;
+        $s['tp_rekord_zeit'] = time();
+        @file_put_contents(AD_FILE, json_encode($s, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT), LOCK_EX);
+        return $raus;
+    });
+    foreach ((array) $nachrichten as $text) {
+        pu_send($text, '/kunden/admin/#besucher', false, true);
+    }
+}
+
 // ---------------- Versand ----------------
 
 function tp_morgen_send(bool $test = false): bool
@@ -254,6 +475,11 @@ function tp_morgen_send(bool $test = false): bool
         $text = '☀️ Test: Heute stehen keine Termine an und keine Frist läuft bald ab. Dann kommt morgens auch keine Nachricht.';
     }
     return $text !== '' && pu_send(($test ? '<i>(Test)</i> ' : '') . $text, '/kunden/admin/#werbung', $test, true);
+}
+
+function tp_woche_send(bool $test = false): bool
+{
+    return pu_send(($test ? '<i>(Test)</i> ' : '') . tp_woche_text(), '/kunden/admin/#werbung', $test, true);
 }
 
 function tp_bericht_send(bool $test = false): bool
@@ -277,6 +503,10 @@ function tp_maybe(): void
     if (!empty($s['tp_abend']) && $stunde >= TP_ABEND_AB && ($s['tp_abend_tag'] ?? '') !== $heute) {
         $faellig[] = 'tp_abend_tag';
     }
+    // Wochenbericht am Sonntag, gleich nach dem Tagesbericht
+    if (!empty($s['tp_woche']) && (int) date('N') === 7 && $stunde >= TP_ABEND_AB && ($s['tp_woche_tag'] ?? '') !== $heute) {
+        $faellig[] = 'tp_woche_tag';
+    }
     foreach ($faellig as $key) {
         $go = cx_locked(AD_FILE . '.lock', static function () use ($key, $heute) {
             $d = ad_settings();
@@ -288,7 +518,14 @@ function tp_maybe(): void
             return true;
         });
         if ($go) {
-            $key === 'tp_morgen_tag' ? tp_morgen_send() : tp_bericht_send();
+            match ($key) {
+                'tp_morgen_tag' => tp_morgen_send(),
+                'tp_abend_tag' => tp_bericht_send(),
+                default => tp_woche_send(),
+            };
         }
+    }
+    if (!empty($s['tp_rekord'])) {
+        tp_rekord_check();
     }
 }

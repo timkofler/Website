@@ -1046,7 +1046,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <link rel="stylesheet" href="/assets/css/tk.css?v=ba836a62">
   <link rel="stylesheet" href="/assets/css/black.css?v=c69d15d4">
   <script src="/assets/js/tk-black.js?v=add20d6a"></script>
-  <link rel="stylesheet" href="/assets/css/portal.css?v=66fbd965">
+  <link rel="stylesheet" href="/assets/css/portal.css?v=4e7387af">
 </head>
 <body class="kp">
 <header class="header">
