@@ -131,38 +131,67 @@ function tp_morgen_text(string $heute = ''): string
         if (($t['art'] ?? '') === 'frist') {
             $tage = tp_tage_bis($n, $heute);
             if (in_array($tage, TP_FRIST_TAGE, true)) {
-                $zeilen['frist'][] = '• ' . $text . ': ' . ($tage === 0 ? 'heute' : ($tage === 1 ? 'morgen' : 'in ' . $tage . ' Tagen')) . ' (' . tp_datum_kurz($n) . ')';
+                $zeilen['frist'][] = '• ' . cx_h($text) . ': <b>' . ($tage === 0 ? 'heute' : ($tage === 1 ? 'morgen' : 'in ' . $tage . ' Tagen')) . '</b> <i>(' . tp_datum_kurz($n) . ')</i>';
             }
         } elseif ($n === $heute || $n === $morgen) {
-            $zeilen[$n === $heute ? 'heute' : 'morgen'][] = '• ' . ($zeit !== '' ? $zeit . ' ' : '') . $text;
+            $zeilen[$n === $heute ? 'heute' : 'morgen'][] = '• ' . ($zeit !== '' ? '<b>' . $zeit . '</b>  ' : '') . cx_h($text);
         }
     }
     if (!$zeilen['heute'] && !$zeilen['frist']) {
         return '';
     }
-    $out = '☀️ Guten Morgen! ' . tp_datum_kurz($heute);
-    $out .= $zeilen['heute'] ? "\n\n📅 Heute:\n" . implode("\n", $zeilen['heute']) : "\n\n📅 Heute keine Termine.";
-    $out .= $zeilen['morgen'] ? "\n\nMorgen:\n" . implode("\n", $zeilen['morgen']) : '';
-    $out .= $zeilen['frist'] ? "\n\n⏳ Läuft ab:\n" . implode("\n", $zeilen['frist']) : '';
+    $out = '☀️ <b>Guten Morgen!</b> · ' . tp_datum_kurz($heute);
+    $out .= $zeilen['heute'] ? "\n\n📅 <b>Heute</b>\n" . implode("\n", $zeilen['heute']) : "\n\n📅 Heute keine Termine.";
+    $out .= $zeilen['morgen'] ? "\n\n🗓️ <b>Morgen</b>\n" . implode("\n", $zeilen['morgen']) : '';
+    $out .= $zeilen['frist'] ? "\n\n⏳ <b>Läuft ab</b>\n" . implode("\n", $zeilen['frist']) : '';
     return $out;
 }
 
 // ---------------- Tagesbericht ----------------
 
-function tp_seite_name(string $p): string
+// Schöne Namen für Seiten und Herkunft im Tagesbericht; Unbekanntes wird aus dem Pfad bzw. der Kennung gebaut.
+const TP_SEITEN = ['/' => 'Startseite', '/entwurf/' => 'Gratis-Entwurf', '/check/' => 'Webseiten-Check', '/verein/' => 'Vereine',
+    '/gruender/' => 'Gründer', '/beispiele/' => 'Beispiele', '/ablauf/' => 'Ablauf', '/web-apps/' => 'Web-Apps', '/webseite/' => 'Webseite',
+    '/webseite-erneuern/' => 'Webseite erneuern', '/webseite-erstellen-lassen/' => 'Webseite erstellen lassen', '/sicherheit/' => 'Sicherheit',
+    '/newsletter/' => 'Newsletter', '/impressum/' => 'Impressum', '/datenschutz/' => 'Datenschutz'];
+const TP_QUELLEN = ['instagram-ads' => 'Instagram-Werbung', 'instagram-story' => 'Instagram-Story', 'instagram' => 'Instagram', 'whatsapp' => 'WhatsApp',
+    'telegram' => 'Telegram', 'linkedin' => 'LinkedIn', 'youtube' => 'YouTube', 'facebook' => 'Facebook', 'tiktok' => 'TikTok', 'chatgpt' => 'ChatGPT',
+    'google-anzeige' => 'Google-Anzeige', 'google (suche)' => 'Google-Suche', 'direkt' => 'Direkt', 'brief' => 'Brief-QR', 'flyer' => 'Flyer', 'auto' => 'Autowerbung'];
+
+function tp_wort(string $s): string
 {
-    return $p === '/' ? 'Startseite' : trim($p, '/');
+    return mb_strtoupper(mb_substr($s, 0, 1)) . mb_substr(str_replace('-', ' ', $s), 1);
 }
 
-function tp_top(array $m, int $n, callable $name): string
+function tp_seite_name(string $p): string
+{
+    if (isset(TP_SEITEN[$p])) {
+        return TP_SEITEN[$p];
+    }
+    $teile = explode('/', trim($p, '/'));
+    $letzt = tp_wort((string) end($teile));
+    return match ($teile[0]) {
+        'beispiele' => 'Beispiel ' . $letzt,
+        'webseite' => 'Webseite ' . $letzt,
+        default => $letzt,
+    };
+}
+
+function tp_quelle_name(string $q): string
+{
+    return TP_QUELLEN[$q] ?? (strpos($q, '.') !== false ? $q : tp_wort(af_quelle_name($q)));
+}
+
+// Liste als Zeilen „• Name  Zahl“ (HTML, für Telegram mit parse_mode HTML).
+function tp_liste(array $m, int $n, callable $name, array $extra = []): string
 {
     $out = [];
     foreach (array_slice($m, 0, $n, true) as $k => $v) {
         if ((int) $v > 0) {
-            $out[] = $name((string) $k) . ' ' . (int) $v;
+            $out[] = '• ' . cx_h($name((string) $k)) . '  <b>' . (int) $v . '</b>' . (isset($extra[$k]) ? ' <i>(' . cx_h($extra[$k]) . ')</i>' : '');
         }
     }
-    return implode(' · ', $out);
+    return implode("\n", $out);
 }
 
 function tp_bericht_text(): string
@@ -178,27 +207,41 @@ function tp_bericht_text(): string
             $neu[$art] = ($neu[$art] ?? 0) + 1;
         }
     }
+    // Stärkste Kampagne je Herkunft (utm_campaign), kommt in Klammern hinter die Quelle
+    $kampagne = [];
+    foreach ($tag['kampagnen'] as $k => $n) {
+        [$q, $c] = array_pad(explode(' / ', (string) $k, 2), 2, '');
+        if ($c !== '' && !isset($kampagne[$q])) {
+            $kampagne[$q] = '„' . $c . '“';
+        }
+    }
+    $kontaktNamen = ['whatsapp' => 'WhatsApp', 'telegram' => 'Telegram', 'telefon' => 'Anruf', 'email' => 'E-Mail', 'formular' => 'Formular', 'rueckruf' => 'Rückruf'];
+    $wt = TP_WOCHENTAGE[(int) date('N')];
+    $vergleich = $vorwoche > 0
+        ? ($tag['besuche'] >= $vorwoche ? '↗️ ' : '↘️ ') . abs((int) round(($tag['besuche'] - $vorwoche) / $vorwoche * 100)) . ' % ' . ($tag['besuche'] >= $vorwoche ? 'mehr' : 'weniger') . ' als ' . $wt . ' letzte Woche (' . $vorwoche . ')'
+        : $wt . ' letzte Woche: keine Besuche';
+    $zeilen = [
+        '📊 <b>Dein Tag</b> · ' . tp_datum_kurz($heute),
+        '',
+        '👥 <b>' . $tag['besuche'] . ' Besuche</b> · ' . $tag['aufrufe'] . ' Seitenaufrufe',
+        $vergleich,
+    ];
+    if ($tag['besuche'] > 0) {
+        $zeilen[] = "\n📍 <b>Woher</b>\n" . tp_liste($tag['quellen'], 5, 'tp_quelle_name', $kampagne);
+        $zeilen[] = "\n📄 <b>Meistgesehen</b>\n" . tp_liste($tag['seiten'], 3, 'tp_seite_name');
+    }
+    $kontakte = array_sum($tag['kontakte']);
+    $kNamen = [];
+    foreach ($tag['kontakte'] as $k => $n) {
+        $kNamen[] = ((int) $n > 1 ? (int) $n . '× ' : '') . ($kontaktNamen[$k] ?? $k);
+    }
     $arten = [];
     foreach ($neu as $a => $n) {
         $arten[] = ($n > 1 ? $n . '× ' : '') . $a;
     }
-    $kontaktNamen = ['whatsapp' => 'WhatsApp', 'telegram' => 'Telegram', 'telefon' => 'Anruf', 'email' => 'E-Mail', 'formular' => 'Formular', 'rueckruf' => 'Rückruf'];
-    $quelle = static fn(string $q): string => $q === 'direkt' ? 'Direkt' : af_quelle_name($q);
-    $zeilen = [
-        '📊 Dein Tag, ' . tp_datum_kurz($heute),
-        '',
-        '👥 ' . $tag['besuche'] . ' Besuche (' . TP_WOCHENTAGE[(int) date('N')] . ' letzte Woche: ' . $vorwoche . ') · ' . $tag['aufrufe'] . ' Seitenaufrufe',
-    ];
-    if ($tag['besuche'] > 0) {
-        $zeilen[] = '📍 Woher: ' . tp_top($tag['quellen'], 4, $quelle);
-        $zeilen[] = '📄 Meistgesehen: ' . tp_top($tag['seiten'], 3, 'tp_seite_name');
-    }
-    if ($tag['kampagnen']) {
-        $zeilen[] = '📣 Werbung: ' . tp_top($tag['kampagnen'], 3, static fn(string $k): string => str_replace(' / ', ': ', $k));
-    }
-    $kontakte = array_sum($tag['kontakte']);
-    $zeilen[] = '💬 Kontakte: ' . $kontakte . ($kontakte > 0 ? ' (' . tp_top($tag['kontakte'], 6, static fn(string $k): string => $kontaktNamen[$k] ?? $k) . ')' : '');
-    $zeilen[] = '📥 Neue Anfragen: ' . array_sum($neu) . ($arten ? ' (' . implode(', ', $arten) . ')' : '');
+    $zeilen[] = '';
+    $zeilen[] = '💬 <b>Kontakte</b>  ' . $kontakte . ($kNamen ? ' <i>(' . cx_h(implode(', ', $kNamen)) . ')</i>' : '');
+    $zeilen[] = '📥 <b>Neue Anfragen</b>  ' . array_sum($neu) . ($arten ? ' <i>(' . cx_h(implode(', ', $arten)) . ')</i>' : '');
     return implode("\n", $zeilen);
 }
 
@@ -210,12 +253,12 @@ function tp_morgen_send(bool $test = false): bool
     if ($text === '' && $test) {
         $text = '☀️ Test: Heute stehen keine Termine an und keine Frist läuft bald ab. Dann kommt morgens auch keine Nachricht.';
     }
-    return $text !== '' && pu_send(($test ? '(Test) ' : '') . $text, '/kunden/admin/#werbung', $test);
+    return $text !== '' && pu_send(($test ? '<i>(Test)</i> ' : '') . $text, '/kunden/admin/#werbung', $test, true);
 }
 
 function tp_bericht_send(bool $test = false): bool
 {
-    return pu_send(($test ? '(Test) ' : '') . tp_bericht_text(), '/kunden/admin/#besucher', $test);
+    return pu_send(($test ? '<i>(Test)</i> ' : '') . tp_bericht_text(), '/kunden/admin/#besucher', $test, true);
 }
 
 // Fällige Nachrichten schicken, jede höchstens einmal pro Tag (unter Sperre, damit zwei gleichzeitige Aufrufe nicht doppelt schicken).

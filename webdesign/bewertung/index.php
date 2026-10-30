@@ -39,7 +39,7 @@ if ($u !== '' && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
             'zeit' => date('c'), 'status' => 'neu', 'firma' => (string) ($acc['firma'] ?? ''),
         ]);
         if (!$alt || ($alt['text'] ?? '') !== $text) {
-            pu_send('⭐ Neue Bewertung: ' . str_repeat('★', $sterne) . ($oeff ? ' (darf auf die Seite)' : ' (nur für dich)'), '/kunden/admin/#werbung');
+            pu_send("⭐ <b>Neue Bewertung</b>\n" . str_repeat('★', $sterne) . str_repeat('☆', max(0, 5 - $sterne)) . ($oeff ? ' · <i>darf auf die Seite</i>' : ' · <i>nur für dich</i>'), '/kunden/admin/#werbung', false, true);
         }
         header('Location: /bewertung/?t=' . $t . '&danke=1', true, 303);
         exit;

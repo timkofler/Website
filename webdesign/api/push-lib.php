@@ -62,7 +62,8 @@ function pu_api(string $method, array $body): array
 }
 
 // Nachricht an Tims Handy. $link ist ein Pfad im Admin (z. B. /kunden/admin/?anfrage=…) und wird als Knopf angehängt.
-function pu_send(string $text, string $link = '', bool $test = false): bool
+// $html: Text enthält <b>/<i> (alles andere muss mit cx_h() maskiert sein).
+function pu_send(string $text, string $link = '', bool $test = false, bool $html = false): bool
 {
     if (!$test && !pu_ready()) {
         return false;
@@ -71,7 +72,10 @@ function pu_send(string $text, string $link = '', bool $test = false): bool
     if ($chat === '') {
         return false;
     }
-    $body = ['chat_id' => $chat, 'text' => mb_substr($text, 0, 900), 'disable_web_page_preview' => true];
+    $body = ['chat_id' => $chat, 'text' => $html ? $text : mb_substr($text, 0, 900), 'disable_web_page_preview' => true];
+    if ($html) {
+        $body['parse_mode'] = 'HTML';
+    }
     if ($link !== '') {
         $body['reply_markup'] = ['inline_keyboard' => [[['text' => 'Im Admin öffnen', 'url' => rtrim(cx_brand()['site'], '/') . $link]]]];
     }

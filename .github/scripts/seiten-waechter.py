@@ -6,6 +6,7 @@ Bei jedem Lauf stößt er auf tim-kofler.at die geplanten Telegram-Nachrichten a
 """
 
 import datetime
+import html
 import json
 import os
 import socket
@@ -58,7 +59,7 @@ def senden(text: str) -> None:
     if not token or not chat:
         print("Telegram nicht eingerichtet, nicht gesendet:", text)
         return
-    daten = urllib.parse.urlencode({"chat_id": chat, "text": text, "disable_web_page_preview": "true"}).encode()
+    daten = urllib.parse.urlencode({"chat_id": chat, "text": text, "parse_mode": "HTML", "disable_web_page_preview": "true"}).encode()
     try:
         urllib.request.urlopen(f"https://api.telegram.org/bot{token}/sendMessage", daten, timeout=20).read()
         print("Gesendet:", text)
@@ -98,7 +99,7 @@ def ablauf_pruefen(seiten: list) -> None:
             tage = ssl_tage(host)
             print(host, "SSL noch", tage, "Tage")
             if tage < SSL_WARNEN:
-                senden(f"🔒 Das SSL-Zertifikat von {host} läuft in {tage} Tagen ab und wurde nicht erneuert. Bitte im KAS (SSL) prüfen.")
+                senden(f"🔒 <b>SSL-Zertifikat läuft ab</b>\n{host}: noch {tage} Tage, wurde nicht erneuert.\n<i>Bitte im KAS unter SSL prüfen.</i>")
         except Exception as e:  # nicht erreichbar: meldet schon die Ausfall-Prüfung
             print(host, "SSL nicht prüfbar:", type(e).__name__)
         ablauf = domain_ablauf(host)
@@ -106,7 +107,7 @@ def ablauf_pruefen(seiten: list) -> None:
             tage = (datetime.date.fromisoformat(ablauf) - heute).days
             print(host, "Domain bis", ablauf)
             if tage in DOMAIN_WARNEN:
-                senden(f"🌐 Die Domain {host} läuft {'heute' if tage == 0 else f'in {tage} Tagen'} ab ({ablauf}). Verlängerung prüfen.")
+                senden(f"🌐 <b>Domain läuft ab</b>\n{host}: {'heute' if tage == 0 else f'in {tage} Tagen'} ({ablauf})\n<i>Verlängerung prüfen.</i>")
 
 
 def zeitplan_anstossen() -> None:
@@ -129,7 +130,7 @@ def main() -> None:
         stand = {}
 
     if os.environ.get("TEST") == "true":
-        senden("🛡️ Seiten-Wächter: Test. Ab jetzt meldet sich der Wächter, wenn eine Seite nicht erreichbar ist.")
+        senden("🛡️ <b>Seiten-Wächter: Test</b>\nAb jetzt meldet sich der Wächter, wenn eine Seite nicht erreichbar ist.")
 
     zeitplan_anstossen()
 
@@ -138,10 +139,10 @@ def main() -> None:
         weg = stand.get(name)
         if grund and not weg:
             stand[name] = time.time()
-            senden(f"🔴 {name} ist nicht erreichbar ({grund}).\n{url}")
+            senden(f"🔴 <b>{html.escape(name)} ist nicht erreichbar</b>\n{html.escape(grund)}\n{url}")
         elif not grund and weg:
             del stand[name]
-            senden(f"🟢 {name} geht wieder (war ca. {minuten(weg)} weg).")
+            senden(f"🟢 <b>{html.escape(name)} geht wieder</b>\nwar ca. {minuten(weg)} weg")
         print(name, "OK" if not grund else f"AUSGEFALLEN: {grund}")
 
     # Zertifikate und Domains einmal am Tag (ab 8 Uhr UTC), Merker unter einem Schlüssel, der kein Seitenname ist

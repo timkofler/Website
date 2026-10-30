@@ -362,10 +362,10 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
                 $p['aus'] = false;
                 pu_save($p);
                 unset($_SESSION['push_chats']);
-                kp_flash(pu_send('✅ Verbunden. Ab jetzt bekommst du hier neue Anfragen von tim-kofler.at.', '/kunden/admin/', true), 'Verbunden. Du solltest gerade eine Nachricht in Telegram bekommen haben.');
+                kp_flash(pu_send("✅ <b>Verbunden</b>\nAb jetzt bekommst du hier neue Anfragen von tim-kofler.at.", '/kunden/admin/', true, true), 'Verbunden. Du solltest gerade eine Nachricht in Telegram bekommen haben.');
             }
         } elseif ($action === 'push_test') {
-            kp_flash(pu_send('🔔 Test von tim-kofler.at: So sieht eine Benachrichtigung aus.', '/kunden/admin/', true), 'Test geschickt.');
+            kp_flash(pu_send("🔔 <b>Test von tim-kofler.at</b>\nSo sieht eine Benachrichtigung aus.", '/kunden/admin/', true, true), 'Test geschickt.');
         } else {
             $p['aus'] = empty($p['aus']);
             pu_save($p);

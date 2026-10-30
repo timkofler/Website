@@ -42,10 +42,10 @@ if (($data['s'] ?? '') === 'webseite') {
     if (ew_valid_id($afId) && ($af = af_mark_optin('anfrage', $afId))) {
         $pk = (string) ($af['felder']['Paket'] ?? '');
         if (($af['art'] ?? '') === 'check') {
-            pu_send('🔎 Webseiten-Check bestätigt: ' . (string) ($af['firma'] ?? '') . ' · bitte innerhalb von 24 Stunden (Werktage) antworten', '/kunden/admin/?anfrage=' . $afId);
+            pu_send("🔎 <b>Neuer Webseiten-Check</b>\n" . cx_h((string) ($af['firma'] ?? '')) . "\n⏱️ <i>Antwort innerhalb von 24 Stunden (Werktage)</i>", '/kunden/admin/?anfrage=' . $afId, false, true);
         } else {
-            pu_send('✅ Neue Anfrage bestätigt: ' . (AF_ARTEN[$af['art'] ?? ''] ?? 'Anfrage') . ($pk !== '' ? ' · ' . $pk : '') . ' · über ' . af_quelle_name(af_quelle((string) ($af['quelle'] ?? ''))),
-                '/kunden/admin/?anfrage=' . $afId);
+            pu_send('✅ <b>Neue Anfrage' . (($af['art'] ?? 'anfrage') !== 'anfrage' ? ': ' . cx_h(AF_ARTEN[$af['art']] ?? '') : '') . '</b>' . ($pk !== '' ? "\n📦 " . cx_h($pk) : '') . "\n📍 über " . cx_h(af_quelle_name(af_quelle((string) ($af['quelle'] ?? '')))),
+                '/kunden/admin/?anfrage=' . $afId, false, true);
         }
     }
 
@@ -102,7 +102,7 @@ if (($data['s'] ?? '') === 'gratisentwurf') {
     $ewId = (string) ($data['id'] ?? '');
     if ($stored !== [] && ($ew = af_mark_optin('entwurf', $ewId))) {
         $wo = implode(', ', array_filter([(string) ($ew['branche'] ?? ''), (string) ($ew['ort'] ?? '')]));
-        pu_send('🎨 Gratis-Entwurf bestätigt' . ($wo !== '' ? ': ' . $wo : '') . ' · bitte innerhalb von 48 Stunden schicken', '/kunden/admin/?entwurf=' . $ewId);
+        pu_send("🎨 <b>Neuer Gratis-Entwurf</b>" . ($wo !== '' ? "\n" . cx_h($wo) : '') . "\n⏱️ <i>Entwurf innerhalb von 48 Stunden schicken</i>", '/kunden/admin/?entwurf=' . $ewId, false, true);
     }
 
     // Eingangsbestätigung „ich lege los" an die Person. Tim wurde bereits bei der Anfrage informiert.

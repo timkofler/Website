@@ -617,7 +617,7 @@ function kp_store_upload(string $u, array $acc, string $site, string $msg, array
 function kp_notify(string $u, array $acc, array $batch): void
 {
     require_once __DIR__ . '/push-lib.php';
-    pu_send('📎 Neue Dateien im Kundenportal (' . count($batch['dateien']) . ')', '/kunden/admin/?k=' . rawurlencode($u) . '#uploads');
+    pu_send("📎 <b>Neue Dateien im Kundenportal</b>\n" . count($batch['dateien']) . (count($batch['dateien']) === 1 ? ' Datei' : ' Dateien') . ' hochgeladen', '/kunden/admin/?k=' . rawurlencode($u) . '#uploads', false, true);
     $c = cx_config();
     if (empty($c['brevo_api_key'])) {
         cx_log('Kundenportal: Upload von ' . $u . ' ohne Benachrichtigung (kein Brevo-Schlüssel)');
@@ -998,7 +998,7 @@ function kp_notify_message(string $u, array $acc, array $msg): void
     $email = (string) ($acc['email'] ?? '');
     if ($msg['von'] === 'kunde') {
         require_once __DIR__ . '/push-lib.php';
-        pu_send('💬 Neue Nachricht im Kundenportal (' . $art . ')', '/kunden/admin/?k=' . rawurlencode($u) . '#nachrichten');
+        pu_send("💬 <b>Neue Nachricht im Kundenportal</b>\n" . cx_h((string) $art), '/kunden/admin/?k=' . rawurlencode($u) . '#nachrichten', false, true);
         $who = trim((string) ($acc['firma'] ?? '')) !== '' ? $acc['firma'] . ' (' . ($acc['name'] ?? $u) . ')' : (string) ($acc['name'] ?? $u);
         $inner = '<p style="margin:0 0 14px">' . cx_h($who) . ' hat dir im Kundenportal geschrieben:</p>' . $text
             . cx_button(kp_portal_url('/kunden/admin/?k=' . rawurlencode($u) . '#nachrichten'), 'Antworten');
