@@ -94,3 +94,24 @@ document.querySelectorAll('.att').forEach(a=>{
   ['dragleave','drop'].forEach(t=>drop.addEventListener(t,()=>drop.classList.remove('is-over')));
   a.closest('form').addEventListener('reset',()=>setTimeout(()=>{files=[];say('');sync()}));
 });
+
+// News: im Demo-Editor veröffentlichte Beiträge (nur in diesem Browser gespeichert) kommen vor die Beispiele
+(()=>{
+  const g=document.getElementById('newsGrid');if(!g)return;
+  document.querySelectorAll('a[aria-disabled="true"]').forEach(a=>a.addEventListener('click',e=>e.preventDefault()));
+  let list=[];try{list=JSON.parse(localStorage.getItem('xbaseNews')||'[]')}catch(e){}
+  if(!Array.isArray(list)||!list.length)return;
+  const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],fmt=d=>{const m=/^(\d{4})-(\d\d)-(\d\d)$/.exec(d||'');return m?(+m[3])+' '+MON[m[2]-1]+' '+m[1]:''};
+  const arrow='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+  list.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).reverse().forEach(n=>{
+    const el=document.createElement('article');el.className='post';
+    el.innerHTML='<div class="post__img"><img alt=""><time class="post__date"></time><span class="post__new">New</span></div><div class="post__b"><h3></h3><p></p></div>';
+    const img=el.querySelector('img');if(n.img&&/^data:image\//.test(n.img))img.src=n.img;else img.src='assets/img/xbase-flugzeug-1000.webp';
+    const t=el.querySelector('time');t.dateTime=n.date;t.textContent=fmt(n.date);
+    el.querySelector('h3').textContent=n.title;el.querySelector('p').textContent=n.text;
+    if(n.li&&/^https:\/\/(www\.)?linkedin\.com\//.test(n.li)){const a=document.createElement('a');a.className='post__more';a.href=n.li;a.target='_blank';a.rel='noopener';a.innerHTML='Read on LinkedIn '+arrow;el.querySelector('.post__b').appendChild(a)}
+    g.prepend(el);
+  });
+  // Wisch-Leiste am Handy bleibt sonst beim alten ersten Kärtchen stehen
+  requestAnimationFrame(()=>{g.scrollLeft=0});
+})();
