@@ -211,7 +211,7 @@ main > .section > .container { position: relative; z-index: 1; }
 /* Funktions-Tour: Reiter als Glas, aktiver Reiter als Lime-Kapsel */
 .tour__tab { background: rgba(255,255,255,.04); border-color: var(--g-line-2); box-shadow: var(--g-hi); }
 .tour__tab:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.22); }
-.tour__tab[aria-selected="true"] { background-image: linear-gradient(180deg, rgba(255,255,255,.3), rgba(255,255,255,0) 55%); box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 8px 22px -8px rgba(220,247,99,.55); }
+.tour__tab[aria-selected="true"] { background-color: var(--lime); border-color: var(--lime); color: var(--ink); background-image: linear-gradient(180deg, rgba(255,255,255,.3), rgba(255,255,255,0) 55%); box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 8px 22px -8px rgba(220,247,99,.55); }
 
 /* Zahlenleiste und Footer: leichte Glasfläche */
 .figures { background: var(--g-sheen); border-color: var(--g-line); }
