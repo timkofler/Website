@@ -60,3 +60,37 @@ function sent(f){
 }
 // Ortszeit Wien in der Flughafen-Leiste
 (()=>{const t=document.getElementById('livet');if(!t)return;const f=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Vienna',hour:'2-digit',minute:'2-digit'});const u=()=>{t.textContent=f.format(new Date())};u();setInterval(u,15000)})();
+
+// Dateianhänge: Dateien sammeln (auch per Ziehen), als Kärtchen zeigen, einzeln entfernen; max. 5 Dateien à 10 MB
+document.querySelectorAll('.att').forEach(a=>{
+  const inp=a.querySelector('input'),drop=a.querySelector('.att__drop'),list=a.querySelector('.att__list'),err=a.querySelector('.att__err');
+  const MAX=5,LIMIT=10*1048576;let files=[];
+  const size=b=>b<1048576?Math.max(1,Math.round(b/1024))+' KB':(b/1048576).toFixed(1).replace('.0','')+' MB';
+  const say=t=>{err.textContent=t;err.hidden=!t};
+  const sync=()=>{
+    try{const dt=new DataTransfer();files.forEach(f=>dt.items.add(f));inp.files=dt.files}catch(e){}
+    list.textContent='';
+    files.forEach((f,i)=>{
+      const li=document.createElement('li'),ft=document.createElement('span'),n=document.createElement('span'),s=document.createElement('small'),x=document.createElement('button');
+      ft.className='att__ft';ft.textContent=(f.name.split('.').pop()||'file').slice(0,4).toUpperCase();
+      n.className='att__n';n.textContent=f.name;s.textContent=size(f.size);n.appendChild(s);
+      x.type='button';x.className='att__x';x.setAttribute('aria-label','Remove '+f.name);
+      x.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+      x.addEventListener('click',()=>{files.splice(i,1);say('');sync();inp.focus()});
+      li.append(ft,n,x);list.appendChild(li);
+    });
+  };
+  inp.addEventListener('change',()=>{
+    let msg='';
+    [...inp.files].forEach(f=>{
+      if(files.some(o=>o.name===f.name&&o.size===f.size))return;
+      if(f.size>LIMIT){msg='"'+f.name+'" is larger than 10 MB.';return}
+      if(files.length>=MAX){msg='You can attach up to 5 files.';return}
+      files.push(f);
+    });
+    say(msg);sync();
+  });
+  ['dragenter','dragover'].forEach(t=>drop.addEventListener(t,()=>drop.classList.add('is-over')));
+  ['dragleave','drop'].forEach(t=>drop.addEventListener(t,()=>drop.classList.remove('is-over')));
+  a.closest('form').addEventListener('reset',()=>setTimeout(()=>{files=[];say('');sync()}));
+});

@@ -898,6 +898,32 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 .cbox--f .form label select{padding-right:26px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230a6cf0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") right center/16px no-repeat}
 .cbox--f .form .btn{justify-self:stretch;min-height:58px;margin-top:6px}
 .cbox--f .note{text-align:center}
+/* Dateianhänge: Ablagefläche mit Büroklammer, gewählte Dateien als Kärtchen */
+.att .fq i{font-style:normal;text-transform:none;letter-spacing:0;color:#9aa8bd;margin-left:6px}
+.att__drop{position:relative;display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:14px;border:1.5px dashed rgba(10,108,240,.35);background:rgba(255,255,255,.55);transition:border-color .2s,background .2s,box-shadow .2s}
+.att__drop:hover,.att__drop.is-over{border-color:var(--blue);background:rgba(10,108,240,.06)}
+.att__drop.is-over{box-shadow:0 0 0 4px rgba(10,108,240,.12)}
+.att__drop:focus-within{border-style:solid;border-color:var(--blue);background:#fff;box-shadow:0 0 0 4px rgba(10,108,240,.12)}
+.form .att__drop input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;padding:0;border:0;box-shadow:none}
+.att__ico{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--grad);color:#fff;box-shadow:0 10px 22px -12px rgba(10,108,240,.9);transition:transform .3s}
+.att__drop:hover .att__ico,.att__drop.is-over .att__ico{transform:translateY(-2px) rotate(-8deg)}
+.att__ico svg{width:22px;height:22px}
+.att__t{display:block;font-size:15px;color:var(--ink2);line-height:1.35}
+.att__t b{color:var(--blue);font-weight:600}
+@media (hover:none){.att__dr{display:none}}
+.att__t small{display:block;margin-top:3px;font-size:12.5px;color:var(--mut)}
+.att__list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.att__list:not(:empty){margin-top:10px}
+.att__list li{display:flex;align-items:center;gap:12px;padding:10px 10px 10px 12px;border-radius:12px;background:#fff;border:1px solid var(--line);box-shadow:0 8px 18px -16px rgba(10,26,51,.5);animation:attin .3s cubic-bezier(.2,.7,.2,1) both}
+.att__ft{flex:none;min-width:42px;padding:7px 6px;border-radius:8px;background:rgba(10,108,240,.08);color:var(--blue);font:500 10.5px/1 var(--mono);letter-spacing:.06em;text-align:center}
+.att__n{flex:1;min-width:0;font-size:14px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.att__n small{display:block;font-size:12px;color:var(--mut)}
+.att__x{flex:none;width:34px;height:34px;border-radius:50%;border:0;background:none;color:var(--mut);cursor:pointer;display:grid;place-items:center;transition:background .2s,color .2s}
+.att__x:hover{background:rgba(229,72,77,.1);color:#d92d33}
+.att__x svg{width:16px;height:16px}
+.att__err{margin-top:8px;font-size:13px;color:#d92d33}
+@keyframes attin{from{opacity:0;transform:translateY(6px)}}
+@media (prefers-reduced-motion:reduce){.att__list li{animation:none}}
 .cbox--f .note::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#4ade80;margin-right:8px;vertical-align:2px}
 @media (max-width:600px){.cbox--f .tabs button{white-space:nowrap;font-size:14.5px;padding:13px 6px}.cbox--f .tabs button svg{display:none}.cbox--f .seg{grid-template-columns:1fr 1fr}.cbox--f .seg--aog{grid-template-columns:repeat(3,1fr)}.fhd{font-size:10.5px;letter-spacing:.1em}}
 
@@ -1265,6 +1291,9 @@ html.mp-open{overflow:hidden}
             <label>E-mail<input name="email" type="email" autocomplete="email" placeholder="name@company.com"></label>
             <label>Phone<input name="tel" type="tel" autocomplete="tel" placeholder="optional"></label>
             <label class="full">Message<textarea name="msg" placeholder="What do you need, when and where?"></textarea></label>
+            <div class="att full"><span class="fq">Attachments<i>optional</i></span>
+              <div class="att__drop"><input type="file" name="files[]" multiple accept=".pdf,.jpg,.jpeg,.png,.heic,.webp,.doc,.docx,.xls,.xlsx,.csv,.txt,.zip" aria-label="Attach files"><span class="att__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.4 11.1l-8.9 8.9a5.5 5.5 0 0 1-7.8-7.8l8.9-8.9a3.7 3.7 0 0 1 5.2 5.2l-8.9 8.9a1.8 1.8 0 0 1-2.6-2.6l8.2-8.2"/></svg></span><span class="att__t"><b>Add files</b><span class="att__dr"> or drag them here</span><small>Documents, drawings, photos · up to 5 files, 10 MB each</small></span></div>
+              <ul class="att__list"></ul><p class="att__err" role="alert" hidden></p></div>
             <button class="btn btn--p" type="submit">Send request <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
             <p class="note full">We usually reply within one working day.</p>
           </div>
@@ -1284,6 +1313,9 @@ html.mp-open{overflow:hidden}
             <label>E-mail<input name="email" type="email" autocomplete="email" placeholder="name@company.com"></label>
             <label>Required by<input name="date" type="date"></label>
             <label class="full">Notes<textarea name="msg" placeholder="Delivery address, certificate (EASA Form 1, FAA 8130-3), alternate part numbers …"></textarea></label>
+            <div class="att full"><span class="fq">Attachments<i>optional</i></span>
+              <div class="att__drop"><input type="file" name="files[]" multiple accept=".pdf,.jpg,.jpeg,.png,.heic,.webp,.doc,.docx,.xls,.xlsx,.csv,.txt,.zip" aria-label="Attach files"><span class="att__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.4 11.1l-8.9 8.9a5.5 5.5 0 0 1-7.8-7.8l8.9-8.9a3.7 3.7 0 0 1 5.2 5.2l-8.9 8.9a1.8 1.8 0 0 1-2.6-2.6l8.2-8.2"/></svg></span><span class="att__t"><b>Add files</b><span class="att__dr"> or drag them here</span><small>Photos of the part or data plate, certificates · up to 5 files, 10 MB each</small></span></div>
+              <ul class="att__list"></ul><p class="att__err" role="alert" hidden></p></div>
             <button class="btn btn--p" type="submit">Send material request <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
             <p class="note full">AOG requests are handled with top priority.</p>
           </div>
@@ -1315,7 +1347,7 @@ html.mp-open{overflow:hidden}
 
 <a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener" aria-label="Draft by Tim Kofler"><img src="assets/img/tk-logo-2.svg" width="702" height="358" alt=""><span>Draft by Tim Kofler</span></a>
 
-<script src="assets/app.js?v=14" defer></script>
+<script src="assets/app.js?v=15" defer></script>
 <script src="assets/himmel.js?v=7" defer></script>
 <script type="module" src="assets/flug3d.js?v=12"></script>
 </body></html>
