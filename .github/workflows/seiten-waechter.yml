@@ -1,0 +1,52 @@
+# Seiten-Wächter: prüft alle 5 Minuten, ob die Webseiten erreichbar sind, und schickt
+# bei einem Ausfall (und wenn sie wieder gehen) eine Telegram-Nachricht an Tims Handy.
+# Läuft bei GitHub, also auch dann, wenn der ALL-INKL-Server selbst weg ist.
+#
+# Benötigte Secrets (GitHub → Settings → Secrets and variables → Actions):
+#   TELEGRAM_TOKEN  Schlüssel des Bots (Telegram → @BotFather → /mybots → Bot → API Token)
+#   TELEGRAM_CHAT   eigene Chat-ID (Telegram → @userinfobot → „Id“)
+# Fehlen sie, prüft der Wächter trotzdem, schickt aber nichts.
+#
+# Testnachricht: Actions → "Seiten-Wächter" → "Run workflow" → Häkchen "Testnachricht".
+# Welche Seiten geprüft werden: .github/scripts/seiten-waechter.py (SEITEN).
+
+name: Seiten-Wächter
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+    inputs:
+      test:
+        description: "Testnachricht schicken"
+        type: boolean
+        default: false
+
+concurrency:
+  group: seiten-waechter
+  cancel-in-progress: false
+
+jobs:
+  pruefen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/scripts
+      # Merkt sich zwischen den Läufen, welche Seite gerade ausgefallen ist (sonst käme alle 5 Minuten eine Nachricht)
+      - uses: actions/cache/restore@v4
+        with:
+          path: .waechter
+          key: waechter-${{ github.run_id }}
+          restore-keys: waechter-
+      - run: python3 .github/scripts/seiten-waechter.py
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT: ${{ secrets.TELEGRAM_CHAT }}
+          TEST: ${{ inputs.test }}
+      - uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: .waechter
+          key: waechter-${{ github.run_id }}
