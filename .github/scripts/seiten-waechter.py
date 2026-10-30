@@ -3,9 +3,12 @@
 
 Einmal am Tag prüft er außerdem SSL-Zertifikate und, wo die Domain-Verwaltung es verrät, das Ablaufdatum der Domain.
 Bei jedem Lauf stößt er auf tim-kofler.at die geplanten Telegram-Nachrichten an (Morgen-Nachricht, Tagesbericht).
+Ausfälle meldet er zusätzlich an tim-kofler.at (api/erreichbarkeit.php), damit sie im Monatsbericht der Kunden stehen.
 """
 
 import datetime
+import hashlib
+import hmac
 import html
 import json
 import os
@@ -27,6 +30,7 @@ SEITEN = [
 KUNDEN = [
 ]
 ZEITPLAN = "https://tim-kofler.at/api/zeitplan.php"
+ERREICHBARKEIT = "https://tim-kofler.at/api/erreichbarkeit.php"
 SSL_WARNEN = 14  # Let's Encrypt erneuert 30 Tage vorher; unter 14 Tagen hat das Erneuern nicht geklappt
 DOMAIN_WARNEN = [30, 14, 7, 3, 1, 0]
 VERSUCHE = 3  # erst nach 3 Fehlversuchen (ca. 1 Minute) gilt eine Seite als ausgefallen
@@ -117,6 +121,29 @@ def zeitplan_anstossen() -> None:
         print("Zeitplan nicht erreichbar:", type(e).__name__)
 
 
+def host(url: str) -> str:
+    h = urllib.parse.urlsplit(url).hostname or ""
+    return h[4:] if h.startswith("www.") else h
+
+
+def erreichbarkeit_melden(felder: dict) -> bool:
+    """Signiert (HMAC mit dem Bot-Schlüssel) an tim-kofler.at schicken. True = angekommen."""
+    token = os.environ.get("TELEGRAM_TOKEN", "")
+    if not token:
+        return True  # ohne Schlüssel nicht möglich, nicht ewig aufheben
+    felder = {"von": 0, "bis": 0, **felder, "zeit": int(time.time())}
+    seite = felder.get("seiten", felder.get("seite", ""))
+    text = f"{felder['aktion']}|{seite}|{felder['von']}|{felder['bis']}|{felder['zeit']}"
+    felder["sig"] = hmac.new(token.encode(), text.encode(), hashlib.sha256).hexdigest()
+    try:
+        req = urllib.request.Request(ERREICHBARKEIT, urllib.parse.urlencode(felder).encode(), headers={"User-Agent": "TK-Seiten-Waechter/1.0"})
+        urllib.request.urlopen(req, timeout=20).read()
+        return True
+    except Exception as e:
+        print("Erreichbarkeit nicht gemeldet:", type(e).__name__)
+        return False
+
+
 def minuten(seit: float) -> str:
     m = max(1, round((time.time() - seit) / 60))
     return f"{m} Min." if m < 90 else f"{m / 60:.1f} Std.".replace(".", ",", 1)
@@ -143,13 +170,18 @@ def main() -> None:
         elif not grund and weg:
             del stand[name]
             senden(f"🟢 <b>{html.escape(name)} geht wieder</b>\nwar ca. {minuten(weg)} weg")
+            # Für den Monatsbericht; klappt das Melden nicht, beim nächsten Lauf nochmal
+            stand.setdefault("_offen", []).append({"aktion": "ausfall", "seite": host(url), "von": int(weg), "bis": int(time.time())})
         print(name, "OK" if not grund else f"AUSGEFALLEN: {grund}")
+
+    stand["_offen"] = [a for a in stand.get("_offen", []) if not erreichbarkeit_melden(a)][-50:]
 
     # Zertifikate und Domains einmal am Tag (ab 8 Uhr UTC), Merker unter einem Schlüssel, der kein Seitenname ist
     heute = time.strftime("%Y-%m-%d", time.gmtime())
     if (stand.get("_ablauf_tag") != heute and time.gmtime().tm_hour >= 8) or os.environ.get("TEST") == "true":
         stand["_ablauf_tag"] = heute
         ablauf_pruefen(SEITEN + KUNDEN)
+        erreichbarkeit_melden({"aktion": "liste", "seiten": ",".join(sorted({host(url) for _, url, _ in SEITEN + KUNDEN}))})
 
     os.makedirs(os.path.dirname(STAND), exist_ok=True)
     with open(STAND, "w", encoding="utf-8") as f:
