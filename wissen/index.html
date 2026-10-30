@@ -22,7 +22,7 @@
   <link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/style.css?v=31da12d4">
-  <link rel="stylesheet" href="/assets/css/fx.css?v=b04efa6f">
+  <link rel="stylesheet" href="/assets/css/fx.css?v=d7a3d68c">
 </head>
 <body>
 
@@ -102,16 +102,20 @@
       <h2>Neues vom Dashboard, <span class="lime">direkt ins Postfach.</span></h2>
       <p class="muted">Updates zum CryptoX Dashboard, Tipps zur Trading-Software und neue Artikel. Selten, kurz und jederzeit abbestellbar.</p>
     </div>
+    <div class="xf">
+    <div class="xf__hd" aria-hidden="true"><span>Newsletter · Selten &amp; kurz</span><i class="xf__gratis">Gratis</i></div>
     <form class="form form--inline" action="/api/anmelden.php" method="post" data-cx-form>
   <input type="hidden" name="form" value="newsletter"><div class="form__hp" aria-hidden="true"><label>Webseite<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div><input type="hidden" name="ts" value="">
   <div class="form__row">
     <label class="form__field"><span>Vorname <em>(optional)</em></span><input type="text" name="name" maxlength="80" autocomplete="given-name"></label>
     <label class="form__field"><span>E-Mail</span><input type="email" name="email" required maxlength="254" autocomplete="email" inputmode="email"></label>
   </div>
-  <label class="form__check"><input type="checkbox" name="zustimmung" value="ja" required><span>Ja, ich möchte den CryptoX Newsletter per E-Mail erhalten. Ich kann mich jederzeit über den Link in jeder E-Mail abmelden. Infos in der <a href="/datenschutz/#ds-11">Datenschutzerklärung</a>.</span></label>
+  <label class="form__check"><input type="checkbox" name="zustimmung" value="ja" required><span>Ja, ich möchte den CryptoX Newsletter per E-Mail. Abmelden jederzeit über den Link in jeder E-Mail. <a href="/datenschutz/#ds-11">Datenschutz</a></span></label>
   <button class="btn" type="submit">Newsletter abonnieren <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
   <p class="form__status" role="status" aria-live="polite" hidden></p>
+  <p class="xf__note">Erst nach dem Klick im Bestätigungslink bist du eingetragen</p>
 </form>
+    </div>
   </div>
 </section>
 

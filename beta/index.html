@@ -22,7 +22,7 @@
   <link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/style.css?v=31da12d4">
-  <link rel="stylesheet" href="/assets/css/fx.css?v=b04efa6f">
+  <link rel="stylesheet" href="/assets/css/fx.css?v=d7a3d68c">
 </head>
 <body>
 
@@ -73,30 +73,32 @@
 
 <section class="section" style="padding-top:56px">
   <div class="container form-wrap">
+    <div class="xf">
+    <div class="xf__hd" aria-hidden="true"><span>CryptoX · Beta-Bewerbung</span><b>Online</b></div>
     <form class="form" action="/api/anmelden.php" method="post" data-cx-form>
       <input type="hidden" name="form" value="beta"><div class="form__hp" aria-hidden="true"><label>Webseite<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div><input type="hidden" name="ts" value="">
       <div class="form__row">
         <label class="form__field"><span>Vorname</span><input type="text" name="name" required maxlength="80" autocomplete="given-name"></label>
         <label class="form__field"><span>E-Mail</span><input type="email" name="email" required maxlength="254" autocomplete="email" inputmode="email"></label>
       </div>
-      <div class="form__row">
-        <label class="form__field"><span>Wie viele Prop-Konten hast du?</span>
-          <select name="konten" required>
-            <option value="">Bitte wählen</option><option>1</option><option>2–3</option><option>4–10</option><option>mehr als 10</option><option>noch keines</option>
-          </select></label>
-        <label class="form__field"><span>Erfahrung</span>
-          <select name="erfahrung" required>
-            <option value="">Bitte wählen</option><option>Einsteiger</option><option>1–2 Jahre</option><option>mehr als 2 Jahre</option>
-          </select></label>
-      </div>
+      <fieldset class="xf__tiles xf__tiles--5">
+        <legend>Wie viele Prop-Konten hast du?</legend>
+        <div class="xf__tiles-row"><label><input type="radio" name="konten" value="1" required><span>1</span></label><label><input type="radio" name="konten" value="2–3"><span>2–3</span></label><label><input type="radio" name="konten" value="4–10"><span>4–10</span></label><label><input type="radio" name="konten" value="mehr als 10"><span>mehr als 10</span></label><label><input type="radio" name="konten" value="noch keines"><span>noch keines</span></label></div>
+      </fieldset>
+      <fieldset class="xf__tiles xf__tiles--3">
+        <legend>Erfahrung</legend>
+        <div class="xf__tiles-row"><label><input type="radio" name="erfahrung" value="Einsteiger" required><span>Einsteiger</span></label><label><input type="radio" name="erfahrung" value="1–2 Jahre"><span>1–2 Jahre</span></label><label><input type="radio" name="erfahrung" value="mehr als 2 Jahre"><span>mehr als 2 Jahre</span></label></div>
+      </fieldset>
       <label class="form__field"><span>Plattform / Software <em>(optional)</em></span><input type="text" name="plattform" maxlength="120" placeholder="z. B. NinjaTrader, Tradovate, Rithmic, TradingView"></label>
       <label class="form__field"><span>Was erhoffst du dir vom Dashboard? <em>(optional)</em></span><textarea name="nachricht" rows="4" maxlength="2000"></textarea></label>
       <label class="form__check"><input type="checkbox" name="datenschutz" value="ja" required><span>Ich habe die <a href="/datenschutz/#ds-11">Datenschutzerklärung</a> gelesen. Meine Angaben werden zur Bearbeitung der Bewerbung gespeichert und bei Brevo verarbeitet.</span></label>
       <label class="form__check"><input type="checkbox" name="newsletter" value="ja"><span><strong>Optional:</strong> Ich möchte zusätzlich den CryptoX Newsletter erhalten (neue Funktionen, Software-Tipps, Artikel). Abmeldung jederzeit möglich.</span></label>
       <button class="btn" type="submit">Bewerbung absenden <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       <p class="form__status" role="status" aria-live="polite" hidden></p>
+      <p class="xf__note">Bestätigung kommt sofort per E-Mail</p>
       <p class="form__alt">Lieber anders? Schreib mir an <a href="mailto:tk@crypto-x.at">tk@crypto-x.at</a> oder auf <a href="https://t.me/Crypto_X_Solutions" target="_blank" rel="noopener">Telegram</a>.</p>
     </form>
+    </div>
     <aside class="form-aside">
       <h2>So läuft's ab</h2>
       <ol class="form-steps">
