@@ -336,3 +336,73 @@ body .cockpit button.win { background: linear-gradient(180deg, rgba(255,255,255,
 body .cockpit button.loss { background: rgba(255,122,122,.06); box-shadow: inset 0 1px 0 rgba(255,255,255,.06); }
 @media (prefers-reduced-motion: reduce) { .form::after { animation: none; } }
 @media (prefers-reduced-transparency: reduce) { .form { background: var(--bg-2); -webkit-backdrop-filter: none; backdrop-filter: none; } }
+
+/* ===== Formulare wie tim-kofler.at (Cockpit-Stil 29.10.), in CryptoX-Lime 30.10.:
+   Glaskarte .xf mit Kopfzeile, Beschriftung im Feld, Auswahl als Kacheln mit Häkchen, Knopf volle Breite ===== */
+.xf { position: relative; isolation: isolate; overflow: hidden; border-radius: 26px; border: 1px solid rgba(255,255,255,.12);
+  background: linear-gradient(160deg, rgba(255,255,255,.09), rgba(255,255,255,.02) 40%, rgba(220,247,99,.04)), rgba(14,14,14,.6);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.16), 0 40px 80px -40px rgba(0,0,0,.9), 0 0 60px -30px rgba(220,247,99,.35);
+  -webkit-backdrop-filter: blur(22px) saturate(170%); backdrop-filter: blur(22px) saturate(170%); }
+.xf::before { content: ""; position: absolute; z-index: -1; width: 420px; height: 420px; right: -160px; top: -200px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, rgba(220,247,99,.14), transparent 65%); filter: blur(10px); }
+.xf::after { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none;
+  background: conic-gradient(from var(--fx-a), transparent 0 62%, rgba(220,247,99,.75) 73%, rgba(255,255,255,.55) 76%, transparent 86%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: .5; animation: fx-rim 9s linear infinite; }
+.xf__hd { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 15px 26px;
+  background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,0,0,.18)); border-bottom: 1px solid rgba(220,247,99,.22);
+  color: #bdbdbd; font: 400 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+.xf__hd b { font-weight: 500; color: var(--lime); display: inline-flex; align-items: center; gap: 8px; }
+.xf__hd b::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 10px var(--lime); animation: xf-pulse 2.4s ease-in-out infinite; }
+@keyframes xf-pulse { 50% { opacity: .45; } }
+.xf__gratis { font-style: normal; color: #0b0b0b; background: var(--lime); padding: 7px 11px 6px; border-radius: 999px; font-weight: 600; letter-spacing: .12em; box-shadow: 0 6px 18px -6px rgba(220,247,99,.7); }
+.xf > .form { border: 0; border-radius: 0; background: none; box-shadow: none; padding: 26px; gap: 12px; -webkit-backdrop-filter: none; backdrop-filter: none; overflow: visible; }
+.xf > .form::before, .xf > .form::after { content: none; }
+.newsletter-box .xf > .form { background: none; }
+.xf .form__row { gap: 12px; }
+/* Beschriftung im Feld */
+.xf label.form__field { position: relative; display: block; padding: 11px 16px 9px; border-radius: 14px; cursor: text;
+  background: rgba(255,255,255,.035); border: 1px solid rgba(255,255,255,.1); box-shadow: inset 0 2px 6px rgba(0,0,0,.35);
+  transition: border-color .2s, box-shadow .2s, background .2s; }
+.xf label.form__field::before { content: ""; position: absolute; left: -1px; top: 12px; bottom: 12px; width: 3px; border-radius: 0 3px 3px 0; background: var(--lime); transform: scaleY(0); transition: transform .25s; }
+.xf label.form__field:hover { border-color: rgba(220,247,99,.35); }
+.xf label.form__field:focus-within { border-color: var(--lime); background: rgba(220,247,99,.04); box-shadow: 0 0 0 4px rgba(220,247,99,.12), 0 0 26px -8px rgba(220,247,99,.45); }
+.xf label.form__field:focus-within::before { transform: none; }
+.xf .form__field > span, .xf__tiles legend { display: block; margin: 0; font: 400 10.5px/1.2 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: #8f8f8f; }
+.xf .form__field > span em, .xf__tiles legend em { text-transform: none; letter-spacing: 0; opacity: .75; }
+.xf label.form__field:focus-within > span { color: var(--lime); }
+.xf .form label.form__field > :is(input, select, textarea) { display: block; width: 100%; margin-top: 5px; padding: 0; min-height: 24px; border: 0; border-radius: 0;
+  background: transparent; box-shadow: none; font-size: 16px; line-height: 1.45; color: #f2f2f2; }
+.xf .form label.form__field > :is(input, select, textarea):focus { box-shadow: none; background: transparent; }
+.xf .form label.form__field > textarea { min-height: 72px; }
+/* Auswahl als Kacheln */
+.xf__tiles { margin: 2px 0 0; padding: 0; border: 0; min-width: 0; }
+.xf__tiles legend { font-size: 11px; margin-bottom: 10px; padding: 0; }
+.xf__tiles-row { display: grid; grid-template-columns: repeat(var(--n, 3), 1fr); gap: 8px; }
+.xf__tiles--5 { --n: 5; }
+.xf__tiles label { position: relative; display: grid; }
+.xf__tiles input { position: absolute; opacity: 0; inset: 0; margin: 0; pointer-events: none; }
+.xf__tiles span { position: relative; display: flex; justify-content: center; align-items: center; text-align: center; min-height: 52px; padding: 10px 8px; border-radius: 12px; cursor: pointer;
+  font-size: 14.5px; line-height: 1.2; color: #e6e6e6; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.1); transition: border-color .2s, background .2s, color .2s, box-shadow .2s; }
+.xf__tiles span:hover { border-color: rgba(220,247,99,.35); }
+.xf__tiles input:checked + span { background: rgba(220,247,99,.09); border-color: var(--lime); color: var(--lime); box-shadow: 0 0 0 3px rgba(220,247,99,.12); }
+.xf__tiles input:checked + span::after { content: ""; position: absolute; top: -6px; right: -6px; width: 18px; height: 18px; border-radius: 50%;
+  background: var(--lime) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230b0b0b' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/11px no-repeat; box-shadow: 0 0 12px -2px rgba(220,247,99,.8); }
+.xf__tiles input:focus-visible + span { outline: 2px solid var(--lime); outline-offset: 2px; }
+/* Knopf volle Breite, Pfeil in eigener Kachel */
+.xf .form .btn[type=submit] { justify-self: stretch; justify-content: space-between; width: 100%; min-height: 58px; margin-top: 4px; padding: 0 8px 0 24px; border-radius: 14px; }
+.xf .form .btn[type=submit] > svg { width: 42px; height: 42px; padding: 11px; border-radius: 10px; background: rgba(0,0,0,.14); }
+.xf__note { margin: 0; text-align: center; font-size: 14px; color: #8f8f8f; }
+.xf__note::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 8px; vertical-align: 2px; border-radius: 50%; background: var(--lime); }
+.xf .form__alt { text-align: center; }
+@media (max-width: 680px) {
+  .xf { border-radius: 20px; }
+  .xf__hd { padding: 14px 18px; font-size: 10.5px; letter-spacing: .1em; }
+  .xf > .form { padding: 20px 18px 22px; }
+  .xf__tiles--5 .xf__tiles-row { grid-template-columns: repeat(6, 1fr); }
+  .xf__tiles--5 label { grid-column: span 2; }
+  .xf__tiles--5 label:nth-child(n+4) { grid-column: span 3; }
+  .xf__tiles span { font-size: 14px; padding: 10px 6px; }
+}
+@media (prefers-reduced-motion: reduce) { .xf::after, .xf__hd b::before { animation: none; } }
+@media (prefers-reduced-transparency: reduce) { .xf { background: var(--bg-2); -webkit-backdrop-filter: none; backdrop-filter: none; } }
