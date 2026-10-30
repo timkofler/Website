@@ -138,7 +138,8 @@ function af_quelle(string $q): string
 
 function af_quelle_name(string $q): string
 {
-    $fest = ['google-anzeige' => 'Google-Anzeige', 'google (suche)' => 'Google-Suche', 'direkt' => 'Direkt / ohne Kennung', 'willhaben' => 'willhaben', 'brief' => 'Briefe (Porto)', 'flyer' => 'Flyer + Visitenkarten', 'auto' => 'Autobeschriftung'];
+    $fest = ['google-anzeige' => 'Google-Anzeige', 'google (suche)' => 'Google-Suche', 'direkt' => 'Direkt / ohne Kennung', 'willhaben' => 'willhaben', 'brief' => 'Briefe (Porto)', 'flyer' => 'Flyer + Visitenkarten', 'auto' => 'Autobeschriftung',
+        'instagram-ads' => 'Instagram-Werbung', 'instagram-story' => 'Instagram-Story', 'whatsapp' => 'WhatsApp', 'linkedin' => 'LinkedIn', 'youtube' => 'YouTube', 'tiktok' => 'TikTok', 'chatgpt' => 'ChatGPT'];
     return $fest[$q] ?? (strpos($q, '.') !== false ? $q : ucfirst($q));
 }
 

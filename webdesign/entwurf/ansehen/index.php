@@ -47,7 +47,7 @@ if ($d && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         $d['antwort_zeit'] = date('c');
         an_write($t, $d);
         if ($vorher !== $a) {
-            pu_send($a === 'ja' ? '🎉 Entwurf: Der Interessent will weitermachen!' : '✏️ Entwurf: Der Interessent hat Änderungswünsche und meldet sich.', $admin($d));
+            pu_send($a === 'ja' ? "🎉 <b>Gratis-Entwurf: Passt!</b>\nDer Interessent will weitermachen." : "✏️ <b>Gratis-Entwurf: Änderungswünsche</b>\nDer Interessent meldet sich mit seinen Wünschen.", $admin($d), false, true);
         }
     }
     header('Location: /entwurf/ansehen/?t=' . $t . '&danke=' . ($a === 'ja' ? 'ja' : 'aendern'), true, 303);
@@ -68,7 +68,7 @@ if ($d && !isset($_GET['vorschau']) && !isset($_GET['danke']) && !$bot && ($_SER
     }
     an_write($t, $d);
     if ($erst) {
-        pu_send('👀 Dein Entwurf-Link wurde gerade zum ersten Mal geöffnet.', $admin($d));
+        pu_send("👀 <b>Gratis-Entwurf geöffnet</b>\nDein Entwurf-Link wurde gerade zum ersten Mal angesehen.", $admin($d), false, true);
     }
 }
 

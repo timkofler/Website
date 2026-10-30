@@ -20,7 +20,7 @@ function demo_ansicht(string $key, string $name): void
         $ua = (string) ($_SERVER['HTTP_USER_AGENT'] ?? '');
         $geraet = preg_match('/iPad|Tablet/i', $ua) ? 'Tablet' : (preg_match('/iPhone|Android|Mobile/i', $ua) ? 'Handy' : 'PC');
         $zeit = (new DateTime('now', new DateTimeZone('Europe/Vienna')))->format('H:i');
-        pu_send('👀 ' . $name . ' wird gerade angesehen (' . $z[$key] . '. Mal, ' . $geraet . ', ' . $zeit . ' Uhr).');
+        pu_send('👀 <b>' . cx_h($name) . " wird angesehen</b>\n" . ($geraet === 'PC' ? '💻' : '📱') . ' ' . $geraet . ' · ' . $zeit . ' Uhr · <i>' . $z[$key] . '. Mal</i>', '', false, true);
     } catch (Throwable $e) {
     }
 }

@@ -289,8 +289,8 @@ function cx_rueckruf(array $c, string $name, string $fallback): void
     $stored = $afId !== '';
     // Rückruf hat keine Bestätigung per Mail, deshalb gleich aufs Handy (ohne Name und Nummer).
     require_once __DIR__ . '/push-lib.php';
-    pu_send('📞 Neuer Rückruf-Wunsch' . ($wann !== '' ? ', erreichbar: ' . $wann : '') . ' · über ' . af_quelle_name(af_quelle($f['Gefunden über'])),
-        $stored ? '/kunden/admin/?anfrage=' . $afId : '/kunden/admin/#anfragen');
+    pu_send("📞 <b>Neuer Rückruf-Wunsch</b>" . ($wann !== '' ? "\n🕐 erreichbar: " . cx_h($wann) : '') . "\n📍 über " . cx_h(af_quelle_name(af_quelle($f['Gefunden über']))),
+        $stored ? '/kunden/admin/?anfrage=' . $afId : '/kunden/admin/#anfragen', false, true);
     $ok = cx_mail($notify, 'Tim', 'Rückruf-Wunsch: ' . $name . ' (' . $tel . ')',
         cx_mail_layout('Bitte zurückrufen', cx_mail_table($rows)
             . '<p style="margin:18px 0 0;font-size:14px;color:#a1a1a1">Die Person hat keine E-Mail-Adresse angegeben, nur die Telefonnummer.</p>'));

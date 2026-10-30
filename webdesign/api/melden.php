@@ -58,7 +58,10 @@ if (!pu_ready()) {
     me_out(503, 'Telegram ist im Admin nicht verbunden oder ausgeschaltet.');
 }
 
-$body = ['chat_id' => (string) pu_state()['chat'], 'text' => '🤖 ' . $text, 'disable_web_page_preview' => true];
+// Erste Zeile fett als Überschrift, der Rest normal (Text wird maskiert, HTML von außen geht nicht durch).
+$teile = explode("\n", $text, 2);
+$body = ['chat_id' => (string) pu_state()['chat'], 'text' => '🤖 <b>' . cx_h($teile[0]) . '</b>' . (isset($teile[1]) ? "\n" . cx_h($teile[1]) : ''),
+    'parse_mode' => 'HTML', 'disable_web_page_preview' => true];
 if ($link !== '') {
     $body['reply_markup'] = ['inline_keyboard' => [[['text' => 'Öffnen', 'url' => $link]]]];
 }
