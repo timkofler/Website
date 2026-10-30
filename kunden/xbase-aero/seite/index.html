@@ -898,6 +898,40 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 .cbox--f .form label select{padding-right:26px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230a6cf0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") right center/16px no-repeat}
 .cbox--f .form .btn{justify-self:stretch;min-height:58px;margin-top:6px}
 .cbox--f .note{text-align:center}
+/* News: Kärtchen mit Bild und Datum, am Handy zum Wischen; Demo-Hinweis auf den News-Editor */
+.news__hd{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.news__li{color:var(--ink)}
+.news__li svg:first-child{width:18px;height:18px;color:#0a66c2}
+.news__li small{font:400 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mut);padding:5px 8px;border-radius:999px;background:rgba(10,26,51,.06)}
+.news__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:48px}
+.news__grid>:nth-child(n+4){display:none}
+.post{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:0 24px 50px -40px rgba(10,26,51,.55);transition:transform .35s,box-shadow .35s,border-color .35s}
+.post:hover{transform:translateY(-4px);border-color:rgba(10,108,240,.3);box-shadow:0 30px 60px -36px rgba(10,108,240,.5)}
+.post__img{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--grad)}
+.post__img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.post:hover .post__img img{transform:scale(1.05)}
+.post__date{position:absolute;left:14px;top:14px;padding:8px 11px;border-radius:10px;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font:400 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
+.post__b{display:flex;flex-direction:column;gap:10px;padding:22px 24px 24px;flex:1}
+.post__b .tagx{align-self:flex-start;margin:0}
+.post h3{font-size:21px;line-height:1.25;letter-spacing:-.02em}
+.post p{margin:0;color:var(--mut);font-size:15.5px;line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.post__more{margin-top:auto;padding-top:8px;display:inline-flex;align-items:center;gap:8px;font:600 14px/1 var(--sans);color:var(--blue);text-decoration:none}
+.post__more svg{width:16px;height:16px}
+.post__new{position:absolute;right:14px;top:14px;padding:7px 10px;border-radius:999px;background:var(--grad);color:#fff;font:400 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;box-shadow:0 8px 18px -8px rgba(10,108,240,.9)}
+.news__demo{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:28px;padding:20px 22px;border-radius:22px;background:linear-gradient(120deg,#061632,#0b2147 60%,#0b3fa8);color:#cfe0f7;box-shadow:0 30px 60px -40px rgba(6,22,50,.9)}
+.news__demo-i{flex:none;width:50px;height:50px;border-radius:14px;display:grid;place-items:center;background:rgba(255,255,255,.1);color:#6fd0ff}
+.news__demo-i svg{width:24px;height:24px}
+.news__demo-t{flex:1;min-width:220px;font-size:15.5px;line-height:1.5}
+.news__demo-t b{display:block;color:#fff;font:600 18px/1.3 var(--head);margin-bottom:2px}
+.news__demo-t .tagx{background:rgba(111,208,255,.16);color:#6fd0ff;margin:0 0 8px}
+.news__demo .btn{background:#fff;color:var(--ink)}
+@media (max-width:960px){
+  .news__grid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:min(84%,360px);overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:20px;margin-inline:-20px;padding:4px 20px 18px;scrollbar-width:none;margin-top:36px}
+  .news__grid::-webkit-scrollbar{display:none}
+  .post{scroll-snap-align:start}
+  .news__demo .btn{width:100%}
+}
+@media (max-width:600px){.news__grid{margin-inline:-16px;padding-inline:16px;scroll-padding-inline:16px}}
 /* Dateianhänge: Ablagefläche mit Büroklammer, gewählte Dateien als Kärtchen */
 .att .fq i{font-style:normal;text-transform:none;letter-spacing:0;color:#9aa8bd;margin-left:6px}
 .att__drop{position:relative;display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:14px;border:1.5px dashed rgba(10,108,240,.35);background:rgba(255,255,255,.55);transition:border-color .2s,background .2s,box-shadow .2s}
@@ -981,16 +1015,16 @@ html.mp-open{overflow:hidden}
   <div class="wrap">
     <a class="logo" href="#top" aria-label="XBASE Aero – back to top"><img src="assets/img/xbase-logo-450.webp" srcset="assets/img/xbase-logo-450.webp 450w, assets/img/xbase-logo.webp 900w" sizes="(max-width:600px) 139px, 168px" width="600" height="164" alt="XBASE Aero"></a>
     <nav class="nav__links" aria-label="Main menu">
-      <a href="#services">Services</a><a href="#about">About us</a><a href="#references">References</a><a href="#careers">Careers</a><a href="#contact">Contact</a>
+      <a href="#services">Services</a><a href="#about">About us</a><a href="#references">References</a><a href="#careers">Careers</a><a href="#news">News</a><a href="#contact">Contact</a>
     </nav>
     <a class="btn btn--p" href="#contact" data-tab="material">Material request</a>
     <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mpanel"><i class="b1"></i><i class="b2"></i><i class="b3"></i></button>
   </div>
 </header>
 <div class="mpanel" id="mpanel">
-  <nav class="mp__nav" aria-label="Menu"><a href="#services" style="--i:0"><i>01</i>Services</a><a href="#about" style="--i:1"><i>02</i>About us</a><a href="#references" style="--i:2"><i>03</i>References</a><a href="#careers" style="--i:3"><i>04</i>Careers</a><a href="#contact" style="--i:4"><i>05</i>Contact</a></nav>
-  <a class="btn btn--p" href="#contact" data-tab="material" style="--i:5">Material request <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-  <div class="mp__card" style="--i:6"><div class="mp__hd"><span>XBASE · Contact</span><b>Online</b></div><a href="mailto:office@xbase.aero">office@xbase.aero</a><small>Tower Straße 3 · Vienna Airport</small></div>
+  <nav class="mp__nav" aria-label="Menu"><a href="#services" style="--i:0"><i>01</i>Services</a><a href="#about" style="--i:1"><i>02</i>About us</a><a href="#references" style="--i:2"><i>03</i>References</a><a href="#careers" style="--i:3"><i>04</i>Careers</a><a href="#news" style="--i:4"><i>05</i>News</a><a href="#contact" style="--i:5"><i>06</i>Contact</a></nav>
+  <a class="btn btn--p" href="#contact" data-tab="material" style="--i:6">Material request <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+  <div class="mp__card" style="--i:7"><div class="mp__hd"><span>XBASE · Contact</span><b>Online</b></div><a href="mailto:office@xbase.aero">office@xbase.aero</a><small>Tower Straße 3 · Vienna Airport</small></div>
 </div>
 
 <main id="top">
@@ -1258,6 +1292,26 @@ html.mp-open{overflow:hidden}
   </div>
 </section>
 
+<section class="sec" id="news" style="padding-top:0">
+  <div class="wrap">
+    <div class="news__hd">
+      <div><span class="k rv">News</span>
+      <h2 class="h2 rv">Latest from <span class="g">the hangar.</span></h2></div>
+      <a class="btn btn--l news__li rv" href="#news" aria-disabled="true" title="The LinkedIn page is being set up"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.1c0-1.22-.02-2.78-1.7-2.78-1.7 0-1.96 1.33-1.96 2.7V21h-4z"/></svg>Follow us on LinkedIn<small>Soon</small></a>
+    </div>
+    <div class="news__grid" id="newsGrid">
+      <article class="post rv"><div class="post__img"><img src="assets/img/xbase-flugzeug-1000.webp" width="1000" height="667" alt="" loading="lazy"><time class="post__date" datetime="2026-07-17">17 Jul 2026</time></div><div class="post__b"><span class="tagx">Example</span><h3>XBASE Aero is cleared for take-off</h3><p>Our company is officially founded. From Vienna International Airport we support airlines, CAMOs and maintenance organisations.</p><a class="post__more" href="#news">Read on LinkedIn <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></article>
+      <article class="post rv"><div class="post__img"><img src="assets/img/cockpit-800.webp" width="800" height="600" alt="" loading="lazy"><time class="post__date" datetime="2026-09-02">2 Sep 2026</time></div><div class="post__b"><span class="tagx">Example</span><h3>Working with People's on the Vienna route</h3><p>We are proud to support People's, the airline connecting Vienna and St. Gallen-Altenrhein.</p><a class="post__more" href="#news">Read on LinkedIn <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></article>
+      <article class="post rv"><div class="post__img"><img src="assets/img/triebwerk-800.webp" width="800" height="600" alt="" loading="lazy"><time class="post__date" datetime="2026-10-20">20 Oct 2026</time></div><div class="post__b"><span class="tagx">Example</span><h3>We are hiring aircraft technicians</h3><p>Our team is growing. B1/B2 technicians who want interesting assignments are welcome to apply.</p><a class="post__more" href="#careers">See open positions <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></article>
+    </div>
+    <div class="news__demo rv">
+      <span class="news__demo-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span>
+      <div class="news__demo-t"><span class="tagx">Demo</span><b>Post news yourself</b>Sign in, write a few lines, add a photo, publish. Takes about a minute.</div>
+      <a class="btn" href="news-admin/">Try the news editor <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </div>
+</section>
+
 <section id="contact" style="padding-top:0">
   <div class="wrap">
     <span class="k rv">Contact</span>
@@ -1337,7 +1391,8 @@ html.mp-open{overflow:hidden}
     <div class="foot__top">
       <div><img src="assets/img/xbase-logo-weiss-450.webp" srcset="assets/img/xbase-logo-weiss-450.webp 450w, assets/img/xbase-logo-weiss.webp 900w" sizes="183px" width="600" height="164" alt="XBASE Aero" loading="lazy"><p>Best Aviation Services. Delivered by Xperts. Based at Vienna International Airport.</p></div>
       <div class="foot__nav">
-        <div><small>Company</small><a href="#services">Services</a><a href="#about">About us</a><a href="#references">References</a><a href="#careers">Careers</a></div>
+        <div><small>Company</small><a href="#services">Services</a><a href="#about">About us</a><a href="#references">References</a><a href="#careers">Careers</a><a href="#news">News</a></div>
+        <div><small>Follow us</small><a href="#news" aria-disabled="true">LinkedIn (soon)</a><a href="news-admin/">News editor (demo)</a></div>
         <div><small>Legal</small><a href="#">Legal notice</a><a href="#">Privacy policy</a><a href="#">Accessibility</a></div>
       </div>
     </div>
@@ -1347,7 +1402,7 @@ html.mp-open{overflow:hidden}
 
 <a class="draft" href="https://tim-kofler.at" target="_blank" rel="noopener" aria-label="Draft by Tim Kofler"><img src="assets/img/tk-logo-2.svg" width="702" height="358" alt=""><span>Draft by Tim Kofler</span></a>
 
-<script src="assets/app.js?v=15" defer></script>
+<script src="assets/app.js?v=16" defer></script>
 <script src="assets/himmel.js?v=7" defer></script>
 <script type="module" src="assets/flug3d.js?v=12"></script>
 </body></html>
