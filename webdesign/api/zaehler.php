@@ -45,11 +45,14 @@ $entry = ($_POST['e'] ?? '') === '1';
 $source = $entry ? zl_source(($_POST['g'] ?? '') === '1', (string) ($_POST['u'] ?? ''), (string) ($_POST['r'] ?? '')) : '';
 $campaign = $source !== '' ? zl_clean((string) ($_POST['c'] ?? ''), 40) : '';
 zl_count($page, $entry, $source, $campaign);
-// Antwort sofort schicken, danach (ohne dass der Besucher wartet) einmal pro Woche den Wochenbericht an Tim.
+// Antwort sofort schicken, danach (ohne dass der Besucher wartet) einmal pro Woche den Wochenbericht an Tim
+// und, wenn fällig, die Telegram-Nachrichten am Morgen und am Abend.
 http_response_code(204);
 if (function_exists('fastcgi_finish_request')) {
     fastcgi_finish_request();
     require __DIR__ . '/bericht-lib.php';
     wb_maybe();
+    require __DIR__ . '/zeitplan-lib.php';
+    tp_maybe();
 }
 exit;
