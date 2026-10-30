@@ -52,20 +52,6 @@ if (empty($_SESSION['xbase_ok'])) {
     exit;
 }
 
-// Nachricht an Tims Handy, wenn jemand den Entwurf ansieht (nach dem Passwort, dann höchstens alle 30 Minuten pro Besuch).
-// Geräte mit dem Cookie „nicht mitzählen“ (Tim, Familie) lösen nichts aus. Fehler hier dürfen die Seite nie aufhalten.
-if (!isset($_COOKIE['tk_nicht_zaehlen']) && time() - (int) ($_SESSION['xbase_ping'] ?? 0) > 1800) {
-    $_SESSION['xbase_ping'] = time();
-    try {
-        require_once __DIR__ . '/../../api/push-lib.php';
-        $zFile = CX_DATA . '/demo-aufrufe.json';
-        $z = is_file($zFile) ? (array) json_decode((string) file_get_contents($zFile), true) : [];
-        $z['xbase'] = (int) ($z['xbase'] ?? 0) + 1;
-        @file_put_contents($zFile, json_encode($z), LOCK_EX);
-        $ua = (string) ($_SERVER['HTTP_USER_AGENT'] ?? '');
-        $geraet = preg_match('/iPad|Tablet/i', $ua) ? 'Tablet' : (preg_match('/iPhone|Android|Mobile/i', $ua) ? 'Handy' : 'PC');
-        $zeit = (new DateTime('now', new DateTimeZone('Europe/Vienna')))->format('H:i');
-        pu_send('👀 XBASE-Entwurf wird gerade angesehen (' . $z['xbase'] . '. Mal, ' . $geraet . ', ' . $zeit . ' Uhr).');
-    } catch (Throwable $e) {
-    }
-}
+// Telegram-Nachricht an Tim, wenn jemand den Entwurf ansieht (siehe ../_ansicht.php).
+require_once __DIR__ . '/../_ansicht.php';
+demo_ansicht('xbase', 'XBASE-Entwurf');
