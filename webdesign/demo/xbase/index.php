@@ -901,7 +901,8 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 /* News: Kärtchen mit Bild und Datum, am Handy zum Wischen; Demo-Hinweis auf den News-Editor */
 .news__hd{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
 .news__li{color:var(--ink)}
-.news__li svg:first-child{width:18px;height:18px;color:#0a66c2}
+.news__li-i{display:grid;place-items:center;width:34px;height:34px;margin-left:-12px;border-radius:7px;background:rgba(10,102,194,.1);color:#0a66c2}
+.news__li-i svg{width:18px;height:18px}
 .news__li small{font:400 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mut);padding:5px 8px;border-radius:999px;background:rgba(10,26,51,.06)}
 .news__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:48px}
 .news__grid>:nth-child(n+4){display:none}
@@ -929,7 +930,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 .news__demo-t{flex:1;min-width:220px;font-size:15.5px;line-height:1.5}
 .news__demo-t b{display:block;color:#fff;font:600 18px/1.3 var(--head);margin-bottom:2px}
 .news__demo-t .tagx{background:rgba(111,208,255,.16);color:#6fd0ff;margin:0 0 8px}
-.news__demo .btn{background:#fff;color:var(--ink)}
+.news__demo .btn--w,.news__demo .btn--w:hover{background:#fff;color:var(--ink)}
 @media (max-width:960px){
   .news__grid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:min(84%,360px);overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:20px;margin-inline:-20px;padding:4px 20px 18px;scrollbar-width:none;margin-top:36px}
   .news__grid::-webkit-scrollbar{display:none}
@@ -1302,7 +1303,7 @@ html.mp-open{overflow:hidden}
     <div class="news__hd">
       <div><span class="k rv">News</span>
       <h2 class="h2 rv">Latest from <span class="g">the hangar.</span></h2></div>
-      <a class="btn btn--l news__li rv" href="#news" aria-disabled="true" title="The LinkedIn page is being set up"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.1c0-1.22-.02-2.78-1.7-2.78-1.7 0-1.96 1.33-1.96 2.7V21h-4z"/></svg>Follow us on LinkedIn<small>Soon</small></a>
+      <a class="btn btn--l news__li rv" href="#news" aria-disabled="true" title="The LinkedIn page is being set up"><span class="news__li-i"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.1c0-1.22-.02-2.78-1.7-2.78-1.7 0-1.96 1.33-1.96 2.7V21h-4z"/></svg></span>Follow us on LinkedIn<small>Soon</small></a>
     </div>
     <div class="news__grid" id="newsGrid">
       <article class="post rv"><div class="post__img"><img src="assets/img/xbase-flugzeug-1000.webp" width="1000" height="667" alt="" loading="lazy"><time class="post__date" datetime="2026-07-17">17 Jul 2026</time></div><div class="post__b"><span class="tagx">Example</span><h3>XBASE Aero is cleared for take-off</h3><p>Our company is officially founded. From Vienna International Airport we support airlines, CAMOs and maintenance organisations.</p><a class="post__more" href="#news">Read on LinkedIn <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></article>
@@ -1312,7 +1313,7 @@ html.mp-open{overflow:hidden}
     <div class="news__demo rv">
       <span class="news__demo-i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span>
       <div class="news__demo-t"><span class="tagx">Demo</span><b>Post news yourself</b>Sign in, write a few lines, add a photo, publish. Takes about a minute.</div>
-      <a class="btn" href="news-admin/">Try the news editor <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn btn--w" href="news-admin/">Try the news editor <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
   </div>
 </section>
