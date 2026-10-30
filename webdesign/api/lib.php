@@ -284,8 +284,21 @@ function cx_mail(string $to, string $toName, string $subject, string $html, stri
     // oder Kopfzeilen-Trick in die Mail rutscht (auch wenn der Versand über die Brevo-JSON-API läuft).
     $subject = cx_oneline($subject);
     $toName = cx_oneline($toName);
+    $from = (string) ($c['sender_email'] ?? 'tk@crypto-x.at');
+    $fromName = (string) ($c['sender_name'] ?? 'CryptoX');
+    // Mails an die eigene Domain direkt übers eigene Postfach (siehe smtp-lib.php). Klappt das nicht, geht es wie bisher über Brevo.
+    $smtp = $c['eigen_smtp'] ?? null;
+    if (is_array($smtp) && ($smtp['passwort'] ?? '') !== '' && strcasecmp((string) substr(strrchr($to, '@') ?: '', 1), (string) substr(strrchr($from, '@') ?: '', 1)) === 0) {
+        require_once __DIR__ . '/smtp-lib.php';
+        try {
+            cx_smtp_send($smtp, $from, $fromName, $to, $toName, $subject, $html, cx_mail_text($html), $replyTo);
+            return true;
+        } catch (Throwable $e) {
+            error_log('Eigener Mailversand: ' . $e->getMessage());
+        }
+    }
     $body = [
-        'sender' => ['email' => (string) ($c['sender_email'] ?? 'tk@crypto-x.at'), 'name' => (string) ($c['sender_name'] ?? 'CryptoX')],
+        'sender' => ['email' => $from, 'name' => $fromName],
         'to' => [array_filter(['email' => $to, 'name' => $toName])],
         'subject' => $subject,
         'htmlContent' => $html,
