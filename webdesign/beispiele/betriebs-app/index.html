@@ -217,6 +217,7 @@ button{cursor:pointer}
 .app__tabs button{position:relative;z-index:1}
 .tabs__blob{position:absolute;left:0;top:8px;width:54px;height:28px;border-radius:999px;background:var(--al);pointer-events:none;z-index:0;opacity:0}
 .tabs__blob.on{opacity:1}
+.switch button,.app__tabs button,.app button{-webkit-tap-highlight-color:transparent}
 .v{display:none;animation:vin .35s cubic-bezier(.2,.7,.2,1)}
 .v.on{display:block}
 @keyframes vin{from{opacity:0;transform:translateY(8px)}}
@@ -472,11 +473,12 @@ button{cursor:pointer}
   .hint{display:none}
 }
 /* ================= Glas-Optik (wie Vereins-App und Luma Drive) ================= */
-/* Branchenfarbe: app.js setzt --vc/--vc2 am Abschnitt, @property lässt sie beim Wechsel weich überblenden */
+/* Branchenfarbe: app.js setzt --vc/--vc2 am Abschnitt. Bewusst ohne Überblenden: das Einfärben über 0,7 s ließ am Handy
+   die vielen Glas-Flächen (backdrop-filter) jedes Bild neu rechnen und kurz verschwinden (Flackern beim Branchenwechsel). */
 @property --vc{syntax:"<color>";inherits:true;initial-value:#ff5a1f}
 @property --vc2{syntax:"<color>";inherits:true;initial-value:#ffb23f}
 .hero{--vc:#ff5a1f;--vc2:#ffb23f}
-.demo{--vc:#ef5a92;--vc2:#f9a8d4;transition:--vc .7s ease,--vc2 .7s ease;position:relative;overflow:hidden;
+.demo{--vc:#ef5a92;--vc2:#f9a8d4;position:relative;overflow:hidden;
   background:radial-gradient(48% 38% at 12% 34%,color-mix(in srgb,var(--vc) 20%,transparent),transparent 72%),
     radial-gradient(42% 36% at 92% 64%,color-mix(in srgb,var(--vc2) 14%,transparent),transparent 72%),var(--bg2)}
 .play__phone::before{background:radial-gradient(closest-side,color-mix(in srgb,var(--vc) 42%,transparent),transparent);filter:blur(24px)}
@@ -659,7 +661,7 @@ button{cursor:pointer}
   .sw__knob{width:22px;height:22px}
   .sw[aria-checked="true"] .sw__knob{transform:translateX(24px) rotate(180deg)}
 }
-@media (prefers-reduced-motion:reduce){.aurora i{animation:none}.demo{transition:none}.app__tabs button svg,.sw__knob,.sw__rays,.sw__sky i{transition:none}}
+@media (prefers-reduced-motion:reduce){.aurora i{animation:none}.app__tabs button svg,.sw__knob,.sw__rays,.sw__sky i{transition:none}}
 
 /* ================= Black-Look wie tim-kofler.at (Tim 27.10.): Manrope, Glas-Kacheln, Leuchtkanten, Orange ohne Verlauf. Nur im dunklen Modus ================= */
 @font-face{font-family:"Manrope";src:url(/assets/fonts/manrope.woff2) format("woff2");font-weight:200 800;font-display:swap}
