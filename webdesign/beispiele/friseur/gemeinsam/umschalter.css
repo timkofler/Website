@@ -12,4 +12,4 @@
 html.bk-open .tkv{display:none}
 @media print{.tkv{display:none}}
 /* Platz am Seitenende, damit die Pille unten links am Handy nicht die letzte Fußzeile (Impressum/Datenschutz) verdeckt */
-@media (max-width:760px){footer.foot::after{content:"";display:block;height:58px}}
+@media (max-width:760px){footer.foot::after,footer.tkv-pad::after{content:"";display:block;height:58px}}
