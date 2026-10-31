@@ -47,20 +47,20 @@
   ];
   var ORTE = [{ id: "st", n: "Station Musterort", p: 0 }, { id: "bf", n: "Bahnhof Musterort", p: 15 }, { id: "li", n: "Lieferung nach Hause", p: 39 }];
   var KUNDEN = [
-    { n: "Familie Huber", ort: "Musterort", tel: "+43 664 123 45 67", seit: 2019, f: 6, u: 3240, s: 5 },
+    { n: "Familie Huber", ort: "Musterort", tel: "+43 000 123 45 67", seit: 2019, f: 6, u: 3240, s: 5 },
     { n: "Hofer Bau GmbH", ort: "Musterdorf", tel: "+43 7472 555 10", seit: 2021, f: 14, u: 9870, s: 5 },
-    { n: "Elif Yilmaz", ort: "Musterort", tel: "+43 676 222 31 08", seit: 2024, f: 2, u: 410, s: 5 },
-    { n: "Markus Leitner", ort: "Neustadt", tel: "+43 660 908 77 12", seit: 2022, f: 4, u: 1290, s: 4 },
-    { n: "Sandra Pichler", ort: "Musterort", tel: "+43 699 145 26 30", seit: 2025, f: 1, u: 180, s: 5 },
-    { n: "Christina Fuchs", ort: "Waldhausen", tel: "+43 664 381 90 44", seit: 2023, f: 3, u: 1460, s: 5 },
-    { n: "Julia Wagner", ort: "Neustadt", tel: "+43 676 552 10 87", seit: 2020, f: 7, u: 2380, s: 5 },
-    { n: "Stefan Brandstetter", ort: "Musterdorf", tel: "+43 650 771 23 11", seit: 2024, f: 2, u: 760, s: 4 },
-    { n: "Thomas Gruber", ort: "Bergheim", tel: "+43 664 909 34 56", seit: 2018, f: 11, u: 5120, s: 5 },
-    { n: "Lukas Eder", ort: "Musterort", tel: "+43 681 103 47 20", seit: 2025, f: 0, u: 0, s: 0 },
-    { n: "Mehmet Aydın", ort: "Neustadt", tel: "+43 670 404 18 90", seit: 2023, f: 3, u: 980, s: 5 },
+    { n: "Elif Yilmaz", ort: "Musterort", tel: "+43 000 222 31 08", seit: 2024, f: 2, u: 410, s: 5 },
+    { n: "Markus Leitner", ort: "Neustadt", tel: "+43 000 908 77 12", seit: 2022, f: 4, u: 1290, s: 4 },
+    { n: "Sandra Pichler", ort: "Musterort", tel: "+43 000 145 26 30", seit: 2025, f: 1, u: 180, s: 5 },
+    { n: "Christina Fuchs", ort: "Waldhausen", tel: "+43 000 381 90 44", seit: 2023, f: 3, u: 1460, s: 5 },
+    { n: "Julia Wagner", ort: "Neustadt", tel: "+43 000 552 10 87", seit: 2020, f: 7, u: 2380, s: 5 },
+    { n: "Stefan Brandstetter", ort: "Musterdorf", tel: "+43 000 771 23 11", seit: 2024, f: 2, u: 760, s: 4 },
+    { n: "Thomas Gruber", ort: "Bergheim", tel: "+43 000 909 34 56", seit: 2018, f: 11, u: 5120, s: 5 },
+    { n: "Lukas Eder", ort: "Musterort", tel: "+43 000 103 47 20", seit: 2025, f: 0, u: 0, s: 0 },
+    { n: "Mehmet Aydın", ort: "Neustadt", tel: "+43 000 404 18 90", seit: 2023, f: 3, u: 980, s: 5 },
     { n: "Musikverein Musterort", ort: "Musterort", tel: "+43 7472 600 20", seit: 2017, f: 9, u: 4310, s: 5 },
-    { n: "Berger & Lang", ort: "Waldhausen", tel: "+43 664 777 12 12", seit: 2026, f: 0, u: 0, s: 0 },
-    { n: "Peter Haas", ort: "Bergheim", tel: "+43 676 330 55 41", seit: 2026, f: 0, u: 0, s: 0 },
+    { n: "Berger & Lang", ort: "Waldhausen", tel: "+43 000 777 12 12", seit: 2026, f: 0, u: 0, s: 0 },
+    { n: "Peter Haas", ort: "Bergheim", tel: "+43 000 330 55 41", seit: 2026, f: 0, u: 0, s: 0 },
     { n: "FC Musterort", ort: "Musterort", tel: "+43 7472 610 80", seit: 2022, f: 5, u: 1890, s: 4 }
   ];
   var carById = function (id) { for (var i = 0; i < S.cars.length; i++) if (S.cars[i].id === id) return S.cars[i]; return null; };

@@ -154,7 +154,7 @@ FUSS = """
 <script src="/assets/js/main.js?v=b9d9c64d"></script>
 <script src="/assets/js/forms.js?v=e27fc2c5"></script>
 <script src="/assets/js/tk-fx.js?v=d255dc7d"></script>
-<script src="/assets/js/tk-ui.js?v=396f7c61"></script>
+<script src="/assets/js/tk-ui.js?v=9ead9ead"></script>
 </body>
 </html>
 """

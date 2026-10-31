@@ -42,7 +42,7 @@
     h_2d: "Overview", h_hint: "Drag to turn · tap a building", h_demo: "Send a test order",
     i1: "Post shipping labels", i2: "Till in the farm shop", i3: "Accounting (CSV, BMD)", i4: "Newsletter", i5: "Google Shopping", i6: "Stock synced with the till",
     f_addr: "Eder family · Hofweg 7 · 3251 Musterdorf · Mostviertel", f_demo: "Fictional farm shop, all data are examples. No orders are accepted and no payments are made.",
-    f_ship: "Shipping & payment", f_agb: "Terms", f_wr: "Withdrawal", f_imp: "Imprint", f_tk: "Shop by Tim Kofler – Webdesign",
+    f_ship: "Shipping & payment", f_agb: "Terms", f_wr: "Withdrawal", f_imp: "Imprint", f_ds: "Privacy", f_tk: "Shop by Tim Kofler – Webdesign",
     cart_h: "Your basket", vc_l: "Gift card or discount code", vc_p: "Discount code", vc_btn: "Apply", vc_try: "Try:", to_co: "Checkout",
     add: "Add to basket", fits: "Goes well with", co_h: "Checkout", st1: "Address", st2: "Shipping", st3: "Payment", st4: "Review",
     st1_h: "Where should we send it?", fill: "Fill in sample data", f_first: "First name", f_last: "Last name", f_mail: "E-mail", f_street: "Street and number", f_zip: "Postcode", f_city: "Town", f_land: "Country",
@@ -97,7 +97,7 @@
       legal: {
         agb: ["AGB (Muster)", "<p><b>Beispieltext.</b> Im echten Shop stehen hier die Allgemeinen Geschäftsbedingungen des Hofs: Vertragspartner, Preise inkl. MwSt., Lieferung, Zahlung, Eigentumsvorbehalt, Gewährleistung und Streitbeilegung.</p><p>Den Text stimmt der Betrieb mit seiner Rechtsberatung oder der Wirtschaftskammer ab. Wir bauen ihn sauber ein und verlinken ihn an allen Stellen, an denen das Gesetz es verlangt.</p>"],
         wr: ["Widerrufsbelehrung (Muster)", "<p><b>Beispieltext.</b> Verbraucher können Bestellungen innerhalb von 14 Tagen ohne Angabe von Gründen widerrufen. Ausgenommen sind schnell verderbliche Waren und versiegelte Getränke nach dem Öffnen.</p><p>Bei Downloads erlischt das Widerrufsrecht, wenn der Kunde zustimmt, dass der Download sofort beginnt. Deshalb fragt die Kasse das extra ab.</p>"],
-        imp: ["Impressum (Muster)", "<p><b>Birnkammer</b> · Familie Eder · Hofweg 7 · 3251 Musterdorf · Österreich</p><p>Erfundener Betrieb für ein Beispiel von tim-kofler.at. Im echten Shop stehen hier Firmenwortlaut, UID-Nummer, Kammer, Aufsichtsbehörde und Kontakt.</p>"] }
+        imp: ["Impressum (Muster)", "<p><b>Birnkammer</b> · Familie Eder · Hofweg 7 · 3251 Musterdorf · Österreich</p><p>Erfundener Betrieb für ein Beispiel von tim-kofler.at. Im echten Shop stehen hier Firmenwortlaut, UID-Nummer, Kammer, Aufsichtsbehörde und Kontakt.</p><p>Anbieter dieser Beispielseite: Tim Kofler – Webdesign, <a href=\"/impressum/\">Impressum</a></p>"] }
     },
     en: { all: "All", items: function (n) { return n === 1 ? "1 product" : n + " products"; }, add: "Add to basket", added: "is in your basket", out: "Sold out", notify: "Notify me",
       notified: "We’ll let you know as soon as it’s back.", only: function (n) { return "Only " + n + " left"; }, instock: "In stock, with you in 2–3 days", low: function (n) { return "Only " + n + " left in stock"; },
@@ -136,7 +136,7 @@
       legal: {
         agb: ["Terms (sample)", "<p><b>Sample text.</b> A real shop shows the farm’s terms and conditions here: contracting party, prices incl. VAT, delivery, payment, retention of title, warranty and dispute resolution.</p>"],
         wr: ["Cancellation policy (sample)", "<p><b>Sample text.</b> Consumers can cancel orders within 14 days without giving reasons. Perishable goods and opened sealed drinks are excluded.</p><p>For downloads the right of withdrawal ends once the customer agrees that the download starts immediately, which is why the checkout asks separately.</p>"],
-        imp: ["Imprint (sample)", "<p><b>Birnkammer</b> · Eder family · Hofweg 7 · 3251 Musterdorf · Austria</p><p>Fictional business for a sample by tim-kofler.at.</p>"] }
+        imp: ["Imprint (sample)", "<p><b>Birnkammer</b> · Eder family · Hofweg 7 · 3251 Musterdorf · Austria</p><p>Fictional business for a sample by tim-kofler.at.</p><p>Provider of this sample page: Tim Kofler – Webdesign, <a href=\"/impressum/\">Imprint</a></p>"] }
     }
   };
   function X(k) { var v = S[lang][k]; return v != null ? v : S.de[k]; }

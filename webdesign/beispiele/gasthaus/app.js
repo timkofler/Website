@@ -252,7 +252,7 @@
       if (!S.logged) {
         ed.innerHTML = '<div class="lg"><div class="lg__top">' + ICON.crest + '<b>Hollerhof</b></div>' +
           '<div class="lg__card"><h3>Willkommen zurück</h3><p>Melden Sie sich an, um Ihre Karte zu bearbeiten.</p>' +
-          '<label class="fld"><span>E-Mail</span><input type="email" value="maria@hollerhof.at" readonly autocomplete="off"></label>' +
+          '<label class="fld"><span>E-Mail</span><input type="email" value="maria@hollerhof.example" readonly autocomplete="off"></label>' +
           '<label class="fld"><span>Passwort</span><input type="password" value="hollerhof" readonly autocomplete="off"></label>' +
           '<button type="button" class="abtn" id="dy-login">Anmelden ' + ICON.arrow + '</button></div>' +
           '<p class="lg__hint">Für die Demo ist alles schon ausgefüllt –<br>einfach auf „Anmelden“ tippen.</p></div>';

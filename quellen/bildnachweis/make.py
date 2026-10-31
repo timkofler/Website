@@ -55,15 +55,16 @@ inhalt = """<section class="page-head">
 
 <section class="section" style="padding-top:64px">
   <div class="container prose">
-    <p>Woher die Fotos und Videos auf tim-kofler.at stammen. Jede Quelle wurde einzeln geprüft (Stand: 20. Oktober 2026). Die Beispielseiten zeigen erfundene Betriebe; abgebildete Personen sind Fotomodelle und stehen in keiner Verbindung zu den erfundenen Namen.</p>
+    <p>Woher die Fotos und Videos auf tim-kofler.at stammen. Jede Quelle wurde einzeln geprüft (zuletzt am 31. Oktober 2026). Die Beispielseiten zeigen erfundene Betriebe; abgebildete Personen sind Fotomodelle und stehen in keiner Verbindung zu den erfundenen Namen. Wo auf Fotos Fahrzeuge oder Produkte bekannter Hersteller zu sehen sind, dienen sie nur der Veranschaulichung; es besteht keine Verbindung zu diesen Herstellern.</p>
 
     <h2 id="eigene">Eigene Inhalte</h2>
     <ul>
-      <li>Porträtfoto von Tim Kofler, Logo, Grafiken, Bildschirmfotos und Bildschirmaufnahmen der eigenen Webseiten: Tim Kofler.</li>
+      <li>Logo, Grafiken, Bildschirmfotos und Bildschirmaufnahmen der eigenen Webseiten und Beispielseiten: Tim Kofler. Darin sichtbare Fotos stammen aus den unten genannten Quellen.</li>
+      <li>Fotos von Tim Kofler auf „Über mich“: private Aufnahmen, abgebildet ist nur Tim Kofler.</li>
       <li>3D-Darstellungen (Auto, Möbel, Haus, Kaffeebecher, Cider-Dose, Haar, Wohnzimmer) sind im Browser berechnet und selbst programmiert.</li>
       <li>Die Logo-Animation im Abschnitt „Logo &amp; Animation“ der Startseite (erfundener Betrieb „kubo holzbau“) ist selbst gezeichnet und im Browser berechnet (Three.js, MIT-Lizenz), ohne fremde Bilder. Schrift: Manrope (SIL Open Font License 1.1).</li>
       <li>Die Produktbilder im Beispiel-Onlineshop Birnkammer (Flaschen, Gläser, Sackerl, Kistl, Gutschein) sind selbst gezeichnete Grafiken ohne fremde Bilder; auch der 3D-Hof in der Shop-Verwaltung ist aus einfachen Grundformen selbst gebaut (Darstellung mit Three.js, MIT-Lizenz).</li>
-      <li>Die Scroll-Filme im Café Mühlbach und im Landgasthof Hollerhof hat Tim Kofler mit KI erzeugt (Google Flow). Sie zeigen keine echten Orte oder Personen.</li>
+      <li>Die Scroll-Filme im Café Mühlbach und im Landgasthof Hollerhof hat Tim Kofler mit KI erzeugt (Google Flow). Sie sind KI-generiert und zeigen keine echten Orte, Produkte oder Personen.</li>
       <li>Schriften: Unbounded, Manrope, JetBrains Mono und die Schriften der Beispielseiten stammen von Google Fonts (SIL Open Font License bzw. Apache License 2.0) und liegen auf diesem Server.</li>
     </ul>
 
@@ -71,7 +72,6 @@ inhalt = """<section class="page-head">
     <ul>
       <li><strong>Pexels-Lizenz:</strong> kostenlose Nutzung, auch geschäftlich, ohne Namensnennung. Wir nennen die Fotografinnen und Fotografen trotzdem.</li>
       <li><strong>CC0:</strong> gemeinfrei, keine Bedingungen.</li>
-      <li><strong>Mixkit Stock Video Free License:</strong> kostenlose Nutzung, auch geschäftlich.</li>
     </ul>
     <p>Die runden Vorschaubilder im schwebenden Hinweis „Beispielseiten ansehen“ sind Ausschnitte aus den unten genannten Videos und Fotos der jeweiligen Beispielseite.</p>
     <p>Der Vorher-Nachher-Vergleich auf <a href="/entwurf/#vorher-nachher">/entwurf/</a> zeigt Bildschirmfotos der Beispielseiten. Die erfundenen „alten“ Webseiten daneben verwenden kleine Ausschnitte aus den unten genannten Fotos und Videos der Beispielseiten.</p>
