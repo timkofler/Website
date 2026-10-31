@@ -643,49 +643,74 @@
 <section class="section section--line" id="ueber">
   <style>
     #ueber .about { align-items: center; }
-    .about__pics { display: grid; gap: 16px; }
-    .about__pics figure { margin: 0; }
-    .about__pics figcaption { margin-top: 8px; color: var(--muted); font-size: .82rem; }
-    .about__weg { list-style: none; margin: 26px 0 26px; padding: 0; display: grid; gap: 14px; border-left: 2px solid rgba(255,90,31,.35); }
+    .about__kopf { max-width: 900px; margin-bottom: 36px; }
+    .about__weg { list-style: none; margin: 26px 0 0; padding: 0; display: grid; gap: 14px; border-left: 2px solid rgba(255,90,31,.35); }
     .about__weg li { position: relative; padding-left: 22px; color: var(--muted); font-size: .95rem; line-height: 1.5; }
     .about__weg li::before { content: ""; position: absolute; left: -6px; top: 7px; width: 10px; height: 10px; border-radius: 50%; background: var(--hot); box-shadow: 0 0 10px rgba(255,90,31,.6); }
-    @media (max-width: 860px) { .about__pics figure { display: none; } }
+    .about__weg b { display: block; color: var(--text); font-family: var(--mono); font-size: .8rem; font-weight: 500; letter-spacing: .04em; margin-bottom: 2px; }
     #ueber .muted strong, #ueber .muted b { color: var(--text); font-weight: 600; }
     #ueber .muted .hl { color: #ff7a45; font-weight: 600; }
     #ueber .muted b.tk-w-k { color: #ff7a45; }
-    .about__werte { list-style: none; margin: 14px 0 22px; padding: 0; display: grid; gap: 10px; }
-    .about__werte li { position: relative; padding-left: 24px; color: var(--muted); font-size: .95rem; line-height: 1.5; }
-    .about__werte li::before { content: ""; position: absolute; left: 2px; top: 6px; width: 7px; height: 12px; border: solid var(--hot); border-width: 0 2px 2px 0; transform: rotate(45deg); }
-    #ueber .about__werte strong { color: var(--text); font-weight: 600; }
-    .about__cta { margin-top: 22px; }
-    .about__weg b { display: block; color: var(--text); font-family: var(--mono); font-size: .8rem; font-weight: 500; letter-spacing: .04em; margin-bottom: 2px; }
+    .about__karten { list-style: none; margin: 48px 0 28px; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .about__karten li { border: 1px solid var(--line-2); border-radius: 16px; padding: 18px 18px 20px; background: var(--bg-2); }
+    .about__karten b { display: flex; align-items: center; gap: 8px; color: var(--text); font-family: var(--display); font-weight: 600; font-size: 1rem; margin-bottom: 6px; }
+    .about__karten svg { width: 16px; height: 16px; color: var(--hot); flex: none; }
+    .about__karten span { display: block; color: var(--muted); font-size: .9rem; line-height: 1.5; }
+    .about__mehr { max-width: 900px; }
+    #ueber .about__mehr .tk-worte { display: block; }
+    .about__box { position: relative; overflow: hidden; margin-top: 44px; padding: 56px 40px 52px; text-align: center; border: 1px solid rgba(255,90,31,.45); border-radius: 28px;
+      background: radial-gradient(ellipse 65% 85% at 50% 125%, rgba(255,90,31,.30), transparent 70%), radial-gradient(ellipse 40% 50% at 50% -20%, rgba(255,178,63,.10), transparent 70%), var(--bg-2);
+      box-shadow: 0 0 70px rgba(255,90,31,.10); }
+    .about__box::before { content: ""; position: absolute; left: 20%; right: 20%; top: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,178,63,.8), transparent); }
+    .about__box h3 { max-width: 20ch; margin: 0 auto 14px; font-family: var(--display); font-size: clamp(1.8rem, 3.6vw, 2.9rem); line-height: 1.2; letter-spacing: -.02em; font-weight: 600; }
+    .about__box p { max-width: 46ch; margin: 0 auto 26px; color: var(--muted); }
+    .about__chips { list-style: none; margin: 0 0 24px; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 10px; }
+    .about__chips li { display: inline-flex; align-items: center; gap: 7px; padding: 6px 13px 6px 9px; border-radius: 999px; border: 1px solid rgba(255,90,31,.35); background: rgba(255,90,31,.08); font: 500 .8rem var(--mono); color: var(--text); }
+    .about__chips svg { width: 15px; height: 15px; color: var(--hot); }
+    .about__box .about__alt { margin: 20px auto 0; font-size: .95rem; }
+    .about__alt a { display: inline-block; color: var(--text); font-weight: 600; text-underline-offset: 4px; }
+    @media (max-width: 860px) {
+      .about__kopf { margin-bottom: 24px; }
+      .about__karten { grid-template-columns: 1fr; margin: 32px 0 22px; }
+      .about__box { padding: 40px 20px 36px; border-radius: 22px; }
+      .about__box .btn { width: 100%; justify-content: center; }
+    }
   </style>
-  <div class="container about">
-    <div class="about__pics">
-      <img src="/assets/img/team/tim-portrait.webp?v=3" alt="Tim Kofler" width="576" height="720" loading="lazy">
-      <figure><img src="/assets/img/team/tim-unterwegs.webp?v=1" alt="Tim Kofler an einem Schreibtisch vor einer Hochhaus-Skyline" width="576" height="432" loading="lazy" style="aspect-ratio:4/3;object-position:center"></figure>
-    </div>
-    <div>
+  <div class="container">
+    <div class="about__kopf">
       <span class="label"><b>[08]</b> Über mich</span>
       <h2>Vom Schaltschrank <span class="lime">zur maßgeschneiderten Webseite.</span></h2>
-      <p class="muted">Hallo, ich bin Tim Kofler, Webentwickler aus Oberndorf an der Melk. Als gelernter <strong>Elektroinstallateur</strong> habe ich <strong>über 20 Jahre lang</strong> Industrieanlagen konstruiert, programmiert und weltweit in Betrieb genommen, unter anderem in Europa, Indien, den USA, Abu Dhabi und Südafrika. Das prägt meine Arbeit bis heute: Fertig ist etwas erst, wenn es <span class="hl">zuverlässig, schnell und fehlerfrei läuft</span>.</p>
-      <ol class="about__weg">
+    </div>
+    <div class="about">
+      <div class="about__pics">
+        <img src="/assets/img/team/tim-portrait.webp?v=3" alt="Tim Kofler" width="576" height="720" loading="lazy">
+      </div>
+      <div>
+        <p class="muted">Hallo, ich bin Tim Kofler, Webentwickler aus Oberndorf an der Melk. Als gelernter <strong>Elektroinstallateur</strong> habe ich <strong>über 20 Jahre lang</strong> Industrieanlagen konstruiert, programmiert und weltweit in Betrieb genommen, unter anderem in Europa, Indien, den USA, Abu Dhabi und Südafrika. Das prägt meine Arbeit bis heute: Fertig ist etwas erst, wenn es <span class="hl">zuverlässig, schnell und fehlerfrei läuft</span>.</p>
+        <ol class="about__weg">
         <li><b>2000</b>Lehrabschluss als Elektroinstallateur. Im selben Jahr meine erste eigene Webseite, für meinen Paintball-Verein, damals noch mit Dreamweaver.</li>
         <li><b>2001 – 2011</b>Bauleiter und Inbetriebnehmer für elektrische Großprojekte, weltweit im Einsatz.</li>
         <li><b>ab 2011</b>Automatisierungstechnik: komplexe Steuerungen und Industrieanlagen programmieren (B&amp;R, Siemens). Nebenbei jahrelang Webseiten mit WordPress, Jimdo und anderen Baukästen. Dabei habe ich schnell gemerkt, wo die an ihre Grenzen stoßen: oft langsam, überladen und durch viele Plugins anfällig.</li>
         <li><b>2019</b>B&amp;R-Diplom für Bedienoberflächen, die im Browser laufen. Ab da war klar, wohin die Reise geht.</li>
         <li><b>seit Februar 2025</b>Selbstständig mit maßgeschneiderten Webseiten und Web-Apps, heute komplett ohne Baukasten, sauber selbst programmiert. Dazu mein eigenes Projekt <a href="https://crypto-x.at" target="_blank" rel="noopener">crypto-x.at</a>.</li>
       </ol>
-      <p class="muted">Mir ist wichtig, dass deine Seite nicht nur <strong>richtig gut aussieht</strong>, sondern deinem Betrieb auch <span class="hl">wirklich etwas bringt</span>:</p>
-      <ul class="about__werte">
-        <li><strong>Kein Baukasten:</strong> kurze Ladezeiten, sauberer Code, DSGVO-gerecht und ganz ohne Tracking.</li>
-        <li><strong>Klare Preise:</strong> Nach deiner Anfrage bekommst du einen fixen Preis. Einmal zahlen, kein Abo, keine versteckten Zusatzkosten.</li>
-        <li><strong>Direkter Kontakt:</strong> Du sprichst von Anfang an mit dem, der deine Seite gestaltet und programmiert.</li>
+      </div>
+    </div>
+    <ul class="about__karten">
+        <li><b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Kein Baukasten</b><span>Kurze Ladezeiten, sauberer Code, DSGVO-gerecht und ganz ohne Tracking.</span></li>
+        <li><b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Klare Preise</b><span>Nach deiner Anfrage bekommst du einen fixen Preis. Einmal zahlen, kein Abo, keine versteckten Zusatzkosten.</span></li>
+        <li><b><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Direkter Kontakt</b><span>Du sprichst von Anfang an mit dem, der deine Seite gestaltet und programmiert.</span></li>
       </ul>
+    <div class="about__mehr">
       <p class="muted tk-worte"><b class="tk-w-k">Perfektionist</b> war ich schon immer. Ich schiebe <b class="tk-w-k">Abstände, Farben und Schriften</b> so lange hin und her, bis wirklich alles stimmt, und schaue mir <b class="tk-w-k">jede Seite am Handy</b> an, bevor du sie zu sehen bekommst. <b class="tk-w-k">„Passt eh“</b> gibt’s bei mir nicht.</p>
       <p class="muted">Und wenn am Feierabend noch Zeit bleibt, gibt’s eine Runde <strong>Call of Duty</strong> oder schon das nächste Code-Projekt.</p>
-      <p class="muted about__cta"><strong>Bereit für eine Webseite, die einfach läuft?</strong> Ich mache dir gratis und unverbindlich einen ersten Entwurf.</p>
+    </div>
+    <div class="about__box">
+      <ul class="about__chips"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Gratis</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Entwurf in 48 h</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Unverbindlich</li></ul>
+      <h3>Bereit für eine Webseite, <span class="lime">die einfach läuft?</span></h3>
+      <p>Erzähl mir kurz von deinem Betrieb, und ich baue dir gratis einen ersten Entwurf. Gefällt er dir, bekommst du ein fixes Angebot.</p>
       <a href="/entwurf/" class="btn">Gratis-Entwurf holen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <p class="about__alt">Lieber gleich ein Angebot? <a href="#anfrage">Anfrage schicken</a></p>
     </div>
   </div>
 </section>
