@@ -555,11 +555,11 @@
         ],
         [
           "/beispiele/kaffeebar/",
-          "kaffee-v2.webp",
+          "kaffee-v2.webp?v=2",
           1185,
           "Kaffeehaus",
-          "röstzeit",
-          "Beispiel Kaffeehaus mit Rösterei röstzeit mit Karte und Online-Vorbestellung"
+          "röstklang",
+          "Beispiel Kaffeehaus mit Rösterei röstklang mit Karte und Online-Vorbestellung"
         ]
       ],
       "paket": "start",

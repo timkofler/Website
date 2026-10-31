@@ -1,4 +1,4 @@
-/* röstzeit Kaffeehaus: Beispiel-Entwurf im Editorial-Stil. Dunkles Braun, helles Grau, fette Grotesk, Schreibschrift, Mono-Details. */
+/* röstklang Kaffeehaus: Beispiel-Entwurf im Editorial-Stil. Dunkles Braun, helles Grau, fette Grotesk, Schreibschrift, Mono-Details. */
 @font-face{font-family:"Inter";src:url(/beispiele/_shared/fonts/inter.woff2) format("woff2");font-weight:100 900;font-display:swap}
 @font-face{font-family:"Delafield";src:url(/beispiele/_shared/fonts/delafield.woff2) format("woff2");font-display:swap}
 @font-face{font-family:"SpaceMono";src:url(/beispiele/_shared/fonts/spacemono-400.woff2) format("woff2");font-weight:400;font-display:swap}
@@ -292,7 +292,7 @@ ul{list-style:none;padding:0}
 .foot__cols b{opacity:.5;margin-bottom:4px}
 .foot__cols a{text-decoration:none}
 .foot__cols a:hover{text-decoration:underline}
-.foot__mark{display:block;font-size:clamp(84px,23vw,380px);line-height:1.08;letter-spacing:-.065em;margin:clamp(40px,6vw,80px) 0 0 -.03em;padding:.1em 0 .04em;color:var(--cream);overflow:hidden}
+.foot__mark{display:block;font-size:clamp(70px,21vw,340px);line-height:1.08;letter-spacing:-.065em;margin:clamp(40px,6vw,80px) 0 0 -.03em;padding:.1em 0 .04em;color:var(--cream);overflow:hidden}
 .foot__mark .ch{display:inline-block;transition:transform 1s var(--ease),color .3s;transition-delay:calc(var(--i) * 45ms)}
 .tk-js .foot__mark:not(.is-in) .ch{transform:translateY(105%)}
 .foot__mark.is-in .ch:hover{transform:translateY(-8%);color:#ff9a5a;transition-delay:0s;transition-duration:.35s}

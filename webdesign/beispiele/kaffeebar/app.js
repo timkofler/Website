@@ -1,4 +1,4 @@
-// röstzeit: weiches Scrollen, ein gemeinsamer Takt für alle Scroll-Effekte, 3D im Hero und bei den Bohnen,
+// röstklang: weiches Scrollen, ein gemeinsamer Takt für alle Scroll-Effekte, 3D im Hero und bei den Bohnen,
 // Karte mit Reitern, waagrechte Rösterei-Strecke, Gästestimmen, Standorte mit Live-Status und ein Bestellfenster.
 // Alles, was am Scrollen hängt, gleitet seinem Ziel nach (statt bei jedem Mausrad-Ruck zu springen).
 import { reduce, mobile, webglOk, whenNear, loadThree, stage } from "/beispiele/_shared/stage3d.js";
@@ -266,7 +266,7 @@ $("#orderform").addEventListener("submit", function (e) {
   var when = new Date(Date.now() + (+f.when.value) * 60000), hh = String(when.getHours()).padStart(2, "0") + ":" + String(when.getMinutes()).padStart(2, "0");
   var nr = String(100 + Math.floor(Math.random() * 900));
   $("#donename").textContent = name; $("#donenr").textContent = nr;
-  $("#donetxt").textContent = "Dein Becher ist um " + hh + " bei röstzeit, " + f.shop.value + ", fertig. Einfach vorbeigehen und die Nummer sagen.";
+  $("#donetxt").textContent = "Dein Becher ist um " + hh + " bei röstklang, " + f.shop.value + ", fertig. Einfach vorbeigehen und die Nummer sagen.";
   // Der Bon im Abschnitt "Bestellen" zeigt ab jetzt die eigene Bestellung.
   var bl = $("#bonlines"); bl.innerHTML = "";
   Object.keys(cart).forEach(function (id) { var p = document.createElement("p"); p.className = "bon__l"; p.innerHTML = "<span></span><span></span>"; p.firstChild.textContent = cart[id] + " × " + ITEMS[id].name; p.lastChild.textContent = (cart[id] * ITEMS[id].price).toFixed(2).replace(".", ","); bl.appendChild(p); });
@@ -422,8 +422,8 @@ requestAnimationFrame(tick);
 // ---------- 3D ----------
 var stageEl = $("#stage"), beansEl = $("#beans");
 if (!reduce && webglOk()) {
-  whenNear(stageEl, function () { Promise.all([loadThree(), import("/beispiele/kaffeebar/produkte.js?v=2")]).then(function (m) { hero(m[0], m[1]); }); }, "200px");
-  var beansOn = false, startBeans = function () { if (beansOn) return; beansOn = true; Promise.all([loadThree(), import("/beispiele/kaffeebar/produkte.js?v=2")]).then(function (m) { beans(m[0], m[1]); }); };
+  whenNear(stageEl, function () { Promise.all([loadThree(), import("/beispiele/kaffeebar/produkte.js?v=3")]).then(function (m) { hero(m[0], m[1]); }); }, "200px");
+  var beansOn = false, startBeans = function () { if (beansOn) return; beansOn = true; Promise.all([loadThree(), import("/beispiele/kaffeebar/produkte.js?v=3")]).then(function (m) { beans(m[0], m[1]); }); };
   // Die Bohnen-Bühne wird im Leerlauf aufgebaut, damit das Aufbauen nicht mitten im Scrollen hakt.
   addEventListener("load", function () { if (window.requestIdleCallback) requestIdleCallback(startBeans, { timeout: 2500 }); else setTimeout(startBeans, 2500); });
   whenNear(beansEl, startBeans, "1500px");

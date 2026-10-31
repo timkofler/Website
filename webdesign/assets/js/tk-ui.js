@@ -424,7 +424,7 @@
     [/(pizz|italien)/, "Pizzeria", "Proibito Steinofen-Pizzeria mit Online-Bestellung", "/beispiele/pizzeria/"],
     [/(pension|hotel|zimmer|gaestehaus|ferienwohn|urlaub|unterkunft|gasthof)/, "Pension", "Gasthof & Pension Zirbenhof mit Belegungskalender", "/beispiele/pension/"],
     [/(gasthaus|wirt|restaurant|beisl|heuriger|kueche|grill|lokal|gastro)/, "Gasthaus", "Landgasthof Hollerhof und Glut Feuerküche", "/beispiele/gasthaus/"],
-    [/(kaffeehaus|roester|roestzeit|kaffeebar)/, "Kaffeehaus", "röstzeit Kaffeehaus", "/beispiele/kaffeebar/"],
+    [/(kaffeehaus|roester|roestklang|roestzeit|kaffeebar)/, "Kaffeehaus", "röstklang Kaffeehaus", "/beispiele/kaffeebar/"],
     [/(cafe|kaffee|konditor)/, "Café", "Café Mühlbach", "/beispiele/cafe/"],
     [/(baumeister|hausbau|massivhaus|rohbau|bauunternehm|baufirma)/, "Baumeister", "Lot & Linie Baumeister mit 3D-Hausplaner", "/beispiele/baumeister/"],
     [/(dachdeck|spengler|\bdach)/, "Dachdecker", "Dachdeckerei First & Falz mit Dachrechner", "/beispiele/dachdecker/"],

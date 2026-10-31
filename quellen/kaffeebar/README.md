@@ -1,4 +1,4 @@
-# röstzeit – Produktbilder neu rendern
+# röstklang – Produktbilder neu rendern
 
 Die Bilder in `webdesign/beispiele/kaffeebar/bilder/` (Espresso, Melange, Matcha, Kaffeesack, Becher, Eiskaffee) sind Standbilder aus `produkte.js`, derselben 3D-Datei, die die Seite live nutzt.
 

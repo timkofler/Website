@@ -1,4 +1,4 @@
-// 3D-Produkte der Kaffeebar "röstzeit": Pappbecher, Eiskaffee im Klarbecher, Kaffeesack und Bohnen.
+// 3D-Produkte der Kaffeebar "röstklang": Pappbecher, Eiskaffee im Klarbecher, Kaffeesack und Bohnen.
 // Alles wird aus Formen und Canvas-Etiketten gebaut, es gibt keine Modelldateien zum Nachladen.
 // Die Seite nutzt dieselben Bausteine live (Hero, Bohnen) und für die vorgerenderten Produktbilder.
 
@@ -25,8 +25,8 @@ function mark(g, x, y, size, color, align) {
   g.save(); g.fillStyle = color; g.textAlign = align || "center"; g.textBaseline = "alphabetic";
   g.font = '800 ' + size + 'px "Inter"';
   if ("letterSpacing" in g) g.letterSpacing = (-size * .045) + "px";
-  g.fillText("röstzeit", x, y);
-  var w = g.measureText("röstzeit").width, ex = align === "left" ? x + w : x + w / 2;
+  g.fillText("röstklang", x, y);
+  var w = g.measureText("röstklang").width, ex = align === "left" ? x + w : x + w / 2;
   g.font = '700 ' + Math.round(size * .34) + 'px "Inter"'; g.textAlign = "left";
   g.fillText("°", ex + size * .02, y - size * .48);
   g.restore();
