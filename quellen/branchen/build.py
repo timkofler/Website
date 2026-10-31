@@ -90,7 +90,7 @@ def head(title, desc, url, og_title, og_desc, ld, extra_css=""):
   <link rel="apple-touch-icon" href="/assets/img/tk-badge-2-256.png">
   <link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/style.css?v=c1fcff4c">
+  <link rel="stylesheet" href="/assets/css/style.css?v=696c890d">
   <link rel="stylesheet" href="/assets/css/tk.css?v=4f0353c3">
   <link rel="stylesheet" href="/assets/css/entwurf.css?v=8537253d">
   <link rel="stylesheet" href="/assets/css/gruender.css?v=b13c5ff3">

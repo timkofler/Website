@@ -521,7 +521,7 @@ main p a:not(.btn), main li a:not(.btn), .faq__item p a, .glance dd a { text-dec
   .form-wrap--split > div:first-child > .label { grid-area: lab; }
   .form-wrap--split > div:first-child > h2 { grid-area: hd; }
   .form-wrap--split > div:first-child > p { grid-area: tx; margin-bottom: 36px !important; }
-  .form-wrap--split > div:first-child > .tk-xf { grid-area: fm; align-self: start; }
+  .form-wrap--split > div:first-child > .tk-xf { grid-area: fm; align-self: center; }
   .form-wrap--split > .form-aside { grid-area: as; }
   .form-wrap--split .form-aside > h2 { display: none; }
   .form-wrap--split .form-steps { gap: 0; margin: 0; position: relative; }
