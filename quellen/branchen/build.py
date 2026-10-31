@@ -90,7 +90,7 @@ def head(title, desc, url, og_title, og_desc, ld, extra_css=""):
   <link rel="apple-touch-icon" href="/assets/img/tk-badge-2-256.png">
   <link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/style.css?v=70c64693">
+  <link rel="stylesheet" href="/assets/css/style.css?v=696c890d">
   <link rel="stylesheet" href="/assets/css/tk.css?v=4f0353c3">
   <link rel="stylesheet" href="/assets/css/entwurf.css?v=8537253d">
   <link rel="stylesheet" href="/assets/css/gruender.css?v=b13c5ff3">
@@ -204,7 +204,7 @@ def formular(b, num):
     wa = wa_link(b["wa"])
     return f"""
 <section class="section section--line" id="anfrage" data-anf>
-  <div class="container form-wrap">
+  <div class="container form-wrap form-wrap--split">
     <div>
       <span class="label"><b>[{num:02d}]</b> Anfrage</span>
       <h2 style="margin:14px 0 18px">Erzähl mir von deinem <span class="lime">Betrieb</span>.</h2>
@@ -237,11 +237,11 @@ def formular(b, num):
       </div>
     </div>
     <aside class="form-aside">
-      <h2>Das brauchst du</h2>
+      <h2>So geht's weiter</h2>
       <ol class="form-steps">
-        <li><b>Infos zum Betrieb</b><span>Was du anbietest, wo du bist, wie man dich erreicht. Stichworte reichen.</span></li>
-        <li><b>Ein paar Fotos</b><span>Von dir, deinem Betrieb oder deinen Arbeiten. Handyfotos sind okay, ich sage dir, worauf du achten sollst.</span></li>
-        <li><b>Deine Firmendaten</b><span>Für das Impressum, zum Beispiel Firmenbuch- oder GISA-Nummer und Gewerbe.</span></li>
+        <li><b>Anfrage schicken</b><span>Was du anbietest und wo du bist. Stichworte reichen, den Rest klären wir danach.</span></li>
+        <li><b>Fotos übers Kundenportal</b><span>Du bekommst einen eigenen Zugang und lädst dort Fotos, Logo und Texte hoch, wann es dir passt. Handyfotos sind okay.</span></li>
+        <li><b>Entwurf ansehen</b><span>Du siehst deine Seite am Handy und am PC und sagst mir, was ich ändern soll. Die Angaben fürs Impressum brauche ich erst zum Schluss.</span></li>
       </ol>
       <div class="wa-box">
         <p><b>Lieber erst sehen?</b> Ich gestalte dir einen <a href="/entwurf/">kostenlosen Entwurf</a> für Handy und PC, unverbindlich.</p>
