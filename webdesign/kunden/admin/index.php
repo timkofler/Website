@@ -386,6 +386,31 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         kp_redirect(KP_ADMIN . '#werbung');
     }
 
+    // Google-Suche (Search Console): Schlüssel-Datei des Dienstkontos hochladen, Verbindung testen, trennen
+    if (in_array($action, ['gs_hochladen', 'gs_test', 'gs_weg'], true)) {
+        if ($action === 'gs_weg') {
+            gs_key_delete();
+            kp_flash(true, 'Google-Suche getrennt. Der Schlüssel ist vom Server gelöscht (in Google Cloud kannst du ihn zusätzlich löschen).');
+        } elseif ($action === 'gs_test') {
+            [$ok, $msg] = gs_test();
+            kp_flash($ok, $msg);
+        } else {
+            $f = kp_uploaded('schluessel')[0] ?? null;
+            if (!$f || $f['error'] !== UPLOAD_ERR_OK || $f['size'] < 100 || $f['size'] > 10000 || !is_uploaded_file($f['tmp'])) {
+                kp_flash(false, 'Bitte die JSON-Datei des Dienstkontos auswählen.');
+            } else {
+                [$ok, $msg] = gs_key_save((string) file_get_contents($f['tmp']));
+                @unlink($f['tmp']);
+                if ($ok) {
+                    [$ok, $msg] = gs_test();
+                    $msg = 'Schlüssel gespeichert. ' . $msg;
+                }
+                kp_flash($ok, $msg);
+            }
+        }
+        kp_redirect(KP_ADMIN . '#werbung');
+    }
+
     // Telegram am Morgen (Termine, Fristen) und am Abend (Tagesbericht): ein/aus und Test
     $tpNamen = ['tp_morgen' => 'Morgen-Nachricht', 'tp_abend' => 'Tagesbericht', 'tp_woche' => 'Wochenbericht', 'tp_rekord' => 'Rekord-Meldung'];
     if (isset($tpNamen[preg_replace('/_test$/', '', $action)])) {
@@ -1937,6 +1962,25 @@ $tpKarten = $tpZeile('tp_morgen', 'Morgen-Nachricht <em>(ab 7 Uhr per Telegram)<
     . $tpZeile('tp_abend', 'Tagesbericht <em>(ab 20 Uhr per Telegram)</em>', 'Besuche, woher, meistgesehene Seiten, Kontakte und neue Anfragen von heute')
     . $tpZeile('tp_woche', 'Wochenbericht <em>(Sonntag ab 20 Uhr per Telegram)</em>', 'Woche gegen Vorwoche, was jede Anfrage aus der Werbung gekostet hat und welche Werbung am besten lief')
     . $tpZeile('tp_rekord', 'Rekord-Meldung <em>(sofort per Telegram)</em>', '🎉 wenn du an einem Tag so viele Besuche oder Anfragen hast wie noch nie');
+// Google-Suche (Search Console) für Tages- und Wochenbericht
+$gsKey = gs_key();
+if ($gsKey === []) {
+    $gsInhalt = '<p class="kp-on"><span class="kp-on__dot is-aus" aria-hidden="true"></span><span><b>Nicht verbunden</b> · dann kommen Klicks, Ø Platz und Suchbegriffe aus der Google-Suche in den Tages- und Wochenbericht. Kein Google-Tag auf der Seite.</span></p>'
+        . '<ol class="kp-schritte"><li>In Google Cloud ein Projekt anlegen, die <b>Google Search Console API</b> aktivieren.</li>'
+        . '<li>Unter IAM → Dienstkonten ein Dienstkonto erstellen, Schlüssel → Neuer Schlüssel → <b>JSON</b>.</li>'
+        . '<li>In Search Console unter Einstellungen → Nutzer und Berechtigungen die E-Mail des Dienstkontos hinzufügen (<b>Eingeschränkt</b>).</li>'
+        . '<li>Die JSON-Datei hier hochladen. Sie bleibt nur am Server.</li></ol>'
+        . '<form method="post" action="/kunden/admin/" enctype="multipart/form-data" class="form form--small kp-inline">' . $csrf . '<input type="hidden" name="aktion" value="gs_hochladen">'
+        . '<label class="form__field"><span>Schlüssel-Datei (.json)</span><input type="file" name="schluessel" accept=".json,application/json" required></label><button class="btn btn--sm" type="submit">Verbinden</button></form>';
+} else {
+    $gsFehler = (string) (gs_cache_get('fehler', 2 * 86400) ?? '');
+    $gsOk = (string) (gs_cache_get('ok', 2 * 86400) ?? '');
+    $gsInhalt = '<p class="kp-on"><span class="kp-on__dot' . ($gsFehler !== '' ? ' is-aus' : '') . '" aria-hidden="true"></span><span><b>' . ($gsFehler !== '' ? 'Problem' : 'Verbunden') . '</b> · '
+        . ($gsFehler !== '' ? cx_h($gsFehler) : 'Klicks, Ø Platz und Suchbegriffe kommen in den Tages- und Wochenbericht' . ($gsOk !== '' ? ' (zuletzt abgerufen ' . cx_h(date('d.m. H:i', (int) strtotime($gsOk))) . ')' : '') . '.')
+        . ' <em>Dienstkonto ' . cx_h((string) $gsKey['client_email']) . '</em></span></p>'
+        . '<div class="kp-actions"><form method="post" action="/kunden/admin/">' . $csrf . '<input type="hidden" name="aktion" value="gs_test"><button class="btn btn--sm btn--line" type="submit">Verbindung testen</button></form>'
+        . '<form method="post" action="/kunden/admin/" data-kp-confirm="Google-Suche trennen? Der Schlüssel wird vom Server gelöscht.">' . $csrf . '<input type="hidden" name="aktion" value="gs_weg"><button class="btn btn--sm btn--line" type="submit">Trennen</button></form></div>';
+}
 $benKarte = <<<HTML
 <div class="kp-card kp-ben">
   <h3>Benachrichtigungen</h3>
@@ -1949,6 +1993,8 @@ $benKarte = <<<HTML
     <form method="post" action="/kunden/admin/">{$csrf}<input type="hidden" name="aktion" value="bericht"><button class="btn btn--sm btn--line" type="submit">{$h($wbAn ? 'Ausschalten' : 'Einschalten')}</button></form>
   </div>
   {$tpKarten}
+  <h4 class="kp-chat-h">Google-Suche <em>(für Tages- und Wochenbericht)</em></h4>
+  {$gsInhalt}
 </div>
 HTML;
 
