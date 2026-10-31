@@ -519,8 +519,8 @@ main p a:not(.btn), main li a:not(.btn), .faq__item p a, .glance dd a { text-dec
   @view-transition { navigation: auto; }
   .header { view-transition-name: tk-kopf; }
   ::view-transition-old(root) { animation: tk-vt-aus .2s ease-out both; }
-  ::view-transition-new(root) { animation: tk-vt-ein .34s cubic-bezier(.2,.7,.3,1) both; }
-  ::view-transition-group(tk-kopf) { animation-duration: .3s; }
+  ::view-transition-new(root) { animation: tk-vt-ein .25s cubic-bezier(.23,1,.32,1) both; }
+  ::view-transition-group(tk-kopf) { animation-duration: .25s; }
 }
 @keyframes tk-vt-aus { to { opacity: 0; } }
 @keyframes tk-vt-ein { from { opacity: 0; transform: translateY(10px); } }

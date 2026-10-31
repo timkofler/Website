@@ -1238,8 +1238,8 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <link rel="icon" href="/assets/img/tk-badge-2-192.png" type="image/png" sizes="192x192">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
-  <link rel="stylesheet" href="/assets/css/style.css?v=531b2b67">
-  <link rel="stylesheet" href="/assets/css/tk.css?v=ba836a62">
+  <link rel="stylesheet" href="/assets/css/style.css?v=70c64693">
+  <link rel="stylesheet" href="/assets/css/tk.css?v=4f0353c3">
   <link rel="stylesheet" href="/assets/css/black.css?v=f153d819">
   <script src="/assets/js/tk-black.js?v=add20d6a"></script>
   <link rel="stylesheet" href="/assets/css/portal.css?v=f6d5f89e">

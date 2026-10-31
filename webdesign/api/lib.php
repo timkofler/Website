@@ -90,7 +90,7 @@ function cx_page(string $title, string $message, int $code = 400): void
     $name = cx_h(cx_brand()['name']);
     echo <<<HTML
 <!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex"><title>{$t} | {$name}</title><link rel="stylesheet" href="/assets/css/style.css?v=531b2b67"></head>
+<meta name="robots" content="noindex"><title>{$t} | {$name}</title><link rel="stylesheet" href="/assets/css/style.css?v=70c64693"></head>
 <body><main><section class="section"><div class="container prose" style="max-width:640px">
 <h1>{$t}</h1><p>{$m}</p><p><a class="btn" href="/">Zur Startseite</a></p></div></section></main></body></html>
 HTML;
