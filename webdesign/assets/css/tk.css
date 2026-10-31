@@ -1132,11 +1132,11 @@ html:not(.anf-js) .anf__panel--rr { padding-bottom: 0; }
 /* Handy: schlichter Menüknopf (mit Sonne/Mond in black.css zu einer Kapsel verbunden). Offen: X in kleinem orangem Punkt (Tim 27.10.) */
 .nav-toggle { position: relative; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; border-radius: 999px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.02); color: var(--text); cursor: pointer; transition: border-color .3s; }
 .nav-toggle:hover { border-color: rgba(255,90,31,.6); }
-.nav-toggle::after { content: ""; position: absolute; left: 50%; top: 50%; width: 32px; height: 32px; margin: -16px 0 0 -16px; border-radius: 50%; background: var(--hot); transform: scale(0); transition: transform .35s cubic-bezier(.2,.7,.2,1); }
+.nav-toggle::after { content: ""; position: absolute; left: 50%; top: 50%; width: 32px; height: 32px; margin: -16px 0 0 -16px; border-radius: 50%; background: var(--hot); opacity: 0; transform: scale(.9); transition: transform .16s cubic-bezier(.23,1,.32,1), opacity .16s ease-out; }
 .nav-toggle svg { position: relative; z-index: 1; flex: none; width: 22px; height: 20px; }
 .nav-toggle path { transform-box: fill-box; transform-origin: center; transition: transform .4s cubic-bezier(.2,.7,.2,1), stroke .3s; }
 .nav-toggle .nt-3 { stroke: var(--hot); }
-.nav-toggle[aria-expanded="true"]::after { transform: scale(1); }
+.nav-toggle[aria-expanded="true"]::after { opacity: 1; transform: scale(1); transition-duration: .22s; } /* nicht aus scale(0), auf schneller als zu (Emil-Regeln, Tim 31.10.) */
 .nav-toggle[aria-expanded="true"] path { stroke: #0b0b0c; }
 .nav-toggle[aria-expanded="true"] .nt-1 { transform: translateY(3px) rotate(45deg); }
 .nav-toggle[aria-expanded="true"] .nt-3 { transform: translate(-2px, -3px) rotate(-45deg) scaleX(1.4); }
