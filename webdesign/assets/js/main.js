@@ -130,25 +130,49 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // 3) Zähler in den Kennzahlen
-  var counters = Array.prototype.slice.call(document.querySelectorAll("[data-count]"));
-  if (!calm && hasIO && counters.length) {
-    var cio = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        var el = e.target, end = +el.getAttribute("data-count"), suf = el.getAttribute("data-suffix") || "", t0 = null;
-        cio.unobserve(el);
-        function step(ts) {
-          if (!t0) t0 = ts;
-          var p = Math.min(1, (ts - t0) / 1100);
-          el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3))) + (p === 1 ? suf : "");
-          if (p < 1) requestAnimationFrame(step);
-        }
-        requestAnimationFrame(step);
+  // 3) Zähler: Zahlen mit data-count (Preise, Kennzahlen) zählen beim Hinscrollen von 0 hoch, Tausender mit Punkt (1.190).
+  //    Im HTML steht immer der Endwert (Google, ohne JavaScript). Nur Zahlen, die beim Laden unter dem Bildschirm liegen,
+  //    werden vorher auf 0 gesetzt; die Breite bleibt fix, damit nichts daneben verrutscht.
+  function setupCount() {
+    var counters = Array.prototype.slice.call(document.querySelectorAll("[data-count]"));
+    if (calm || !counters.length) return;
+    var vh = window.innerHeight || 800;
+    var fmt = function (n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, "."); };
+    var pending = counters.filter(function (el) { return el.getBoundingClientRect().top >= vh * 0.9; });
+    if (!pending.length) return;
+    pending.forEach(function (el) { el.classList.add("tk-count"); });
+    var widths = pending.map(function (el) { return el.getBoundingClientRect().width; });
+    pending.forEach(function (el, i) {
+      el.style.minWidth = Math.ceil(widths[i]) + "px";
+      el.textContent = "0" + (el.getAttribute("data-suffix") || "");
+    });
+    var run = function (el) {
+      var end = +el.getAttribute("data-count"), suf = el.getAttribute("data-suffix") || "", t0 = null;
+      function step(ts) {
+        if (!t0) t0 = ts;
+        var p = Math.min(1, (ts - t0) / 1200);
+        el.textContent = fmt(Math.round(end * (1 - Math.pow(1 - p, 3)))) + suf;
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    };
+    // Per Scroll statt IntersectionObserver: so zählt auch eine Zahl, über die ein Sprung (z. B. zu #ablauf) hinwegscrollt
+    var tick = false;
+    var check = function () {
+      tick = false;
+      var mark = (window.innerHeight || 800) * 0.85;
+      pending = pending.filter(function (el) {
+        if (el.getBoundingClientRect().top > mark) return true;
+        run(el);
+        return false;
       });
-    }, { threshold: 0.6 });
-    counters.forEach(function (c) { cio.observe(c); });
+      if (!pending.length) window.removeEventListener("scroll", ask);
+    };
+    var ask = function () { if (!tick) { tick = true; requestAnimationFrame(check); } };
+    window.addEventListener("scroll", ask, { passive: true });
   }
+  if (document.readyState === "complete") requestAnimationFrame(setupCount);
+  else window.addEventListener("load", function () { requestAnimationFrame(setupCount); });
 
   // 4) Beispiel-Band: beim Antippen kurz anhalten
   Array.prototype.forEach.call(document.querySelectorAll("[data-band]"), function (band) {
@@ -156,6 +180,45 @@ document.addEventListener("DOMContentLoaded", () => {
     band.addEventListener("touchstart", function () { clearTimeout(tid); band.classList.add("is-hold"); }, { passive: true });
     band.addEventListener("touchend", function () { clearTimeout(tid); tid = setTimeout(function () { band.classList.remove("is-hold"); }, 2500); }, { passive: true });
   });
+
+  // 5) Ablauf-Schritte (.steps, nur Black/White): die orange Linie zwischen den Nummern füllt sich beim Scrollen,
+  //    erreichte Nummern leuchten auf. Am PC läuft sie in jeder Reihe von links nach rechts, am Handy senkrecht.
+  //    Ohne JavaScript oder bei "Bewegung reduzieren" ist alles von Anfang an gefüllt (CSS-Standard --tkf: 1).
+  var stepLists = Array.prototype.slice.call(document.querySelectorAll(".steps"));
+  if (stepLists.length && !calm && root.classList.contains("tk-black")) {
+    var vertical = window.matchMedia("(max-width: 680px)"), stepTick = false;
+    var paintSteps = function () {
+      stepTick = false;
+      var mark = (window.innerHeight || 800) * 0.8;
+      stepLists.forEach(function (list) {
+        var steps = Array.prototype.filter.call(list.children, function (c) { return c.classList.contains("step"); });
+        var rects = steps.map(function (s) { return s.getBoundingClientRect(); });
+        var col = 0, prevOn = true;
+        steps.forEach(function (s, i) {
+          var r = rects[i], f;
+          if (vertical.matches) {
+            // Nummer oben links (40 px), Linie von 52 px unter der Oberkante bis zur nächsten Karte (black.css)
+            f = (mark - (r.top + 52)) / Math.max(1, r.height - 24);
+            s.classList.toggle("is-on", mark >= r.top + 20);
+          } else {
+            col = i > 0 && Math.abs(r.top - rects[i - 1].top) < 4 ? col + 1 : 0;
+            // Nummern-Mitte liegt 38 px über der Karte; jede Linie braucht 70 px Scrollweg, dann die nächste
+            var start = mark - (r.top - 38) - col * 70;
+            f = start / 70;
+            s.classList.toggle("is-on", col === 0 ? start >= 0 : prevOn);
+          }
+          f = Math.max(0, Math.min(1, f));
+          s.style.setProperty("--tkf", f.toFixed(3));
+          prevOn = f >= 1;
+        });
+        list.classList.add("tk-live");
+      });
+    };
+    var askSteps = function () { if (!stepTick) { stepTick = true; requestAnimationFrame(paintSteps); } };
+    window.addEventListener("scroll", askSteps, { passive: true });
+    window.addEventListener("resize", askSteps);
+    paintSteps();
+  }
 })();
 
 // Anonymer Besucherzähler: meldet nur Seite und Herkunft (utm_source/-campaign, Google-Anzeige oder verweisende Seite)
