@@ -244,3 +244,6 @@ html.tk-white .tk-xf .form label.form__field > :is(input, select, textarea) { ba
 html.tk-white .nl.xf .nl__card { background: linear-gradient(155deg, rgba(255,90,31,.08), transparent 62%); border: 0; box-shadow: none; }
 html.tk-white .nl.xf .nl__form { background: none; border: 0; border-left: 1px solid rgba(28,20,12,.08); box-shadow: none; }
 @media (max-width: 900px) { html.tk-white .nl.xf .nl__card { background: none; } html.tk-white .nl.xf .nl__form { border-left: 0; } }
+
+/* Empfehlungsbonus-Kasten (Startseite): bleibt auch in White dunkel, darum helle Schrift (Tim 31.10.2026) */
+html.tk-white .tk-host__box { --text: #f4f1ec; --muted: #c4bcb2; color: var(--text); }
