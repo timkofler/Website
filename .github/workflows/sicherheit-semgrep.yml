@@ -1,0 +1,32 @@
+# Sicherheits-Check bei jedem PR (Semgrep, gratis): sucht in PHP und JavaScript nach offenen Schlüsseln,
+# unsicheren Datenbank-Abfragen, ungeprüften Dateinamen usw. Gemeldet wird nur, was der PR NEU hinzufügt
+# (Vergleich mit main), alte Fehlalarme stören also nicht. Ausgenommen: bcrypt-Hashes (Demo-Passwörter in
+# demo/*/_gate.php sind gewollt) und React-Regeln (die Seite nutzt kein React). Tim 31.10.2026.
+
+name: Sicherheit prüfen
+
+on:
+  pull_request:
+    paths:
+      - "webdesign/**"
+      - ".github/workflows/sicherheit-semgrep.yml"
+
+jobs:
+  semgrep:
+    runs-on: ubuntu-latest
+    container: semgrep/semgrep:1.183.0
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Semgrep (nur neue Funde)
+        env:
+          SEMGREP_SEND_METRICS: "off"
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          semgrep scan \
+            --config p/php --config p/secrets --config p/javascript \
+            --exclude-rule generic.secrets.security.detected-bcrypt-hash.detected-bcrypt-hash \
+            --exclude-rule typescript.react.security.audit.react-unsanitized-method.react-unsanitized-method \
+            --baseline-commit "origin/${{ github.base_ref }}" \
+            --error webdesign
