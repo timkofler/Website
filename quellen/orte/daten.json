@@ -238,11 +238,11 @@
    "slug": "webdesign-st-poelten",
    "ort": "St. Pölten",
    "kurz": "St. Pölten",
-   "title": "Webdesign St. Pölten: Webseite erstellen lassen ab 590 € | Tim Kofler",
-   "description": "Webdesign für St. Pölten und Umgebung: Webseiten für Praxen, Salons, Lokale und Handwerk. Fixpreis ab 590 €, kein Abo, Gratis-Entwurf in 48 Stunden.",
+   "title": "Webdesign St. Pölten: Homepage erstellen lassen | Tim Kofler",
+   "description": "Webdesigner für St. Pölten und Umgebung: Homepage oder Webseite erstellen lassen für Praxen, Salons, Lokale und Handwerk. Fixpreis ab 590 €, kein Abo.",
    "h1": "Webdesign in St. Pölten.",
    "h1b": "Für kleine Betriebe in der Landeshauptstadt.",
-   "lead": "In St. Pölten sucht man Friseur, Physiotherapeut oder Mittagstisch fast immer am Handy. Ich baue dir eine Seite, die dort sofort überzeugt: schnell, klar und mit Online-Termin oder Anfrage, ohne monatliche Gebühren.",
+   "lead": "In St. Pölten sucht man Friseur, Physiotherapeut oder Mittagstisch fast immer am Handy. Als Webdesigner baue ich dir eine Homepage, die dort sofort überzeugt: schnell, klar und mit Online-Termin oder Anfrage, ohne monatliche Gebühren.",
    "warum_h2": "Was in der <span class=\"lime\">Stadt</span> den Unterschied macht.",
    "warum_p": "In der Landeshauptstadt gibt es für fast alles mehrere Anbieter in Gehweite. Wer online klar und vertrauenswürdig auftritt und den Termin leicht macht, wird gewählt.",
    "features": [
@@ -306,7 +306,14 @@
     "webdesign-amstetten",
     "webdesign-mostviertel"
    ],
-   "in_ort": "in St. Pölten"
+   "in_ort": "in St. Pölten",
+   "lokal": {
+    "h3": "Homepage erstellen lassen in St. Pölten",
+    "p": [
+     "Du willst für deinen Betrieb in St. Pölten eine Homepage erstellen lassen, aber ohne große Agentur und ohne Abo? Ich bin Webdesigner aus Oberndorf an der Melk, rund 40 Minuten von der Landeshauptstadt entfernt. Ich baue Seiten für kleine Betriebe, vom Salon in der Innenstadt über die Praxis in Wagram oder Spratzern bis zum Handwerksbetrieb in Viehofen, St. Georgen oder Harland.",
+     "Zuerst bekommst du einen kostenlosen Entwurf, danach einen Fixpreis. Auf Wunsch richte ich auch dein Google-Unternehmensprofil ein, damit man deinen Betrieb bei der Suche in St. Pölten gleich findet."
+    ]
+   }
   },
   {
    "slug": "webdesign-mostviertel",

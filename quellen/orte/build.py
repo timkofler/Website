@@ -21,7 +21,7 @@ BASIS = br.BASIS
 
 # Kopf wie die live Branchenseiten (inkl. Black-Edition-Schalter), nur Titel/Meta/JSON-LD tauschen
 VORLAGE = os.path.join(WEB, "webseite", "handwerk", "index.html")
-BLACK = ('  <link rel="stylesheet" href="/assets/css/black.css?v=42ffeaed">\n  <meta name="tk-white-css" content="/assets/css/white.css?v=0be82886">\n'
+BLACK = ('  <link rel="stylesheet" href="/assets/css/black.css?v=42ffeaed">\n  <meta name="tk-white-css" content="/assets/css/white.css?v=64d884cd">\n'
          '  <script src="/assets/js/tk-black.js?v=e12aebec"></script>\n')
 
 
@@ -81,6 +81,12 @@ def seite(o, alle, branchen):
         for ic, h, t in o["features"])
     demos = demos_aus(branchen, o["demos"])
     orte = "".join(f"<li>{escape(g)}</li>" for g in o["gemeinden"])
+    lokal = ""
+    if o.get("lokal"):  # optionaler Text mit echtem Ortsbezug (z. B. Stadtteile), steht über der Gemeinde-Liste
+        lokal = ('\n    <div class="br-lokal" style="max-width:68ch;margin:0 0 28px">\n      <h3 style="margin:0 0 10px">'
+                 + escape(o["lokal"]["h3"]) + "</h3>\n"
+                 + "".join(f'      <p class="muted" style="margin:0 0 10px">{escape(x)}</p>\n' for x in o["lokal"]["p"])
+                 + "    </div>")
     branchen_links = "".join(f'<li><a href="/webseite/{x["slug"]}/">{escape(x["kurz"])}</a></li>' for x in branchen)
     nach_slug = {x["slug"]: x for x in alle}
     nachbarn = "".join(f'<li><a href="/{s}/">Webdesign {escape(nach_slug[s]["ort"])}</a></li>' for s in o["nachbarn"])
@@ -160,7 +166,7 @@ def seite(o, alle, branchen):
         <h2>Für Betriebe {escape(o['in_ort'].split(' ',1)[0])} <span class="lime">{escape(o['in_ort'].split(' ',1)[1])}</span> und rundherum.</h2>
       </div>
       <p>Die Zusammenarbeit läuft per WhatsApp, Telegram, E-Mail und über dein eigenes Kundenportal. Deshalb ist es egal, ob dein Betrieb im Ortszentrum oder im letzten Graben liegt.</p>
-    </div>
+    </div>{lokal}
     <ul class="br-extras br-orte">{orte}</ul>
     <nav class="br-other" aria-label="Webseiten nach Branche">
       <p>Webseiten nach Branche</p>

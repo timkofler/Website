@@ -2,6 +2,7 @@
 // Tim Kofler – geplante Telegram-Nachrichten an Tims Handy (gleicher Bot wie push-lib.php):
 //   Morgen-Nachricht ab 7 Uhr: Termine von heute und morgen, Fristen (Abos, Domains …) rechtzeitig vor Ablauf.
 //   Tagesbericht ab 20 Uhr: Besuche von heute, woher, meistgesehene Seiten, Kontakte, neue Anfragen.
+//   Tagesbericht und Wochenbericht enthalten, wenn verbunden, auch Klicks und Suchbegriffe aus der Google-Suche (google-suche-lib.php).
 //   Wochenbericht Sonntag ab 20 Uhr: Woche gegen Vorwoche, Werbe-Rechner (Kosten pro Anfrage je bezahlter Werbung), beste Werbung.
 //   Rekord-Meldung sofort: meiste Besuche bzw. Anfragen an einem Tag.
 // Kein Cronjob nötig: ausgelöst von Seitenaufrufen (Besucherzähler), vom Admin und alle 5 Minuten vom Seiten-Wächter
@@ -13,6 +14,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/admin-lib.php';
 require_once __DIR__ . '/push-lib.php';
+require_once __DIR__ . '/google-suche-lib.php';
 
 const TP_FILE = CX_DATA . '/termine.json';
 const TP_MORGEN_AB = 7;
@@ -244,6 +246,11 @@ function tp_bericht_text(): string
     $zeilen[] = '';
     $zeilen[] = '💬 <b>Kontakte</b>  ' . $kontakte . ($kNamen ? ' <i>(' . cx_h(implode(', ', $kNamen)) . ')</i>' : '');
     $zeilen[] = '📥 <b>Neue Anfragen</b>  ' . array_sum($neu) . ($arten ? ' <i>(' . cx_h(implode(', ', $arten)) . ')</i>' : '');
+    // Google-Suche (nur wenn im Admin verbunden; Zahlen kommen von Google mit ca. 2 Tagen Verspätung)
+    $google = gs_tag_text($heute);
+    if ($google !== '') {
+        $zeilen[] = $google;
+    }
     return implode("\n", $zeilen);
 }
 
@@ -399,6 +406,10 @@ function tp_woche_text(string $bis = ''): string
         }
         $zeilen[] = "\n📍 <b>Woher</b>\n" . tp_liste($w['quellen'], 5, 'tp_quelle_name', $kampagne);
         $zeilen[] = "\n📄 <b>Meistgesehen</b>\n" . tp_liste($w['seiten'], 3, 'tp_seite_name');
+    }
+    $google = gs_woche_text($bis);
+    if ($google !== '') {
+        $zeilen[] = $google;
     }
     return implode("\n", $zeilen);
 }
