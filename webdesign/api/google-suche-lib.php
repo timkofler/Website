@@ -271,18 +271,36 @@ function gs_letzter_tag(string $heute = ''): ?string
 }
 
 // ---------------- Texte für Telegram ----------------
+// Aufbau wie der Rest des Berichts: Überschrift mit Symbol, je Zahl eine Zeile mit Symbol, Liste mit „•“.
 
 function gs_zahl(int $n): string
 {
     return number_format($n, 0, ',', '.');
 }
 
+// Platz ganzzahlig (Google rechnet mit Kommastellen, fürs Handy reicht „Platz 25“).
 function gs_platz(float $p): string
 {
-    return number_format($p, 1, ',', '');
+    return (string) max(1, (int) round($p));
 }
 
-// Top-Suchbegriffe als kurze Zeilen (Google zeigt sehr seltene Suchen aus Datenschutzgründen nicht).
+// Platz 1–10 = Seite 1, 11–20 = Seite 2 …
+function gs_seite(float $p): int
+{
+    return max(1, (int) ceil(round($p) / 10));
+}
+
+function gs_wt(string $tag): string
+{
+    return ['', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'][(int) date('N', strtotime($tag))] . ' ' . date('d.m.', strtotime($tag));
+}
+
+function gs_klicks(int $n): string
+{
+    return '<b>' . gs_zahl($n) . '</b> ' . ($n === 1 ? 'Klick' : 'Klicks');
+}
+
+// Top-Suchbegriffe (Google zeigt sehr seltene Suchen aus Datenschutzgründen nicht).
 function gs_begriffe(string $von, string $bis, int $n): string
 {
     $r = gs_abfrage($von, $bis, ['query'], 25) ?? [];
@@ -290,8 +308,8 @@ function gs_begriffe(string $von, string $bis, int $n): string
     $out = [];
     foreach (array_slice($r, 0, $n) as $z) {
         $q = (string) ($z['keys'][0] ?? '');
-        $q = mb_strlen($q) > 42 ? rtrim(mb_substr($q, 0, 40)) . '…' : $q;
-        $out[] = '• „' . cx_h($q) . '“ ' . ($z['klicks'] > 0 ? $z['klicks'] . ' ' . ($z['klicks'] === 1 ? 'Klick' : 'Klicks') : gs_zahl($z['gezeigt']) . '× gezeigt') . ' · Platz ' . gs_platz($z['platz']);
+        $q = mb_strlen($q) > 38 ? rtrim(mb_substr($q, 0, 36)) . '…' : $q;
+        $out[] = '• ' . cx_h($q) . '  <i>Platz ' . gs_platz($z['platz']) . ($z['klicks'] > 0 ? ' · ' . $z['klicks'] . ($z['klicks'] === 1 ? ' Klick' : ' Klicks') : '') . '</i>';
     }
     return implode("\n", $out);
 }
@@ -313,16 +331,19 @@ function gs_tag_text(string $heute = ''): string
     if ($s === null) {
         return '';
     }
-    $wt = ['', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'][(int) date('N', strtotime($tag))];
     $zeilen = [
         '',
-        '🔎 <b>Google-Suche</b> <i>(' . $wt . ' ' . date('d.m.', strtotime($tag)) . ', neuester Stand von Google)</i>',
-        '<b>' . gs_zahl($s['klicks']) . ' ' . ($s['klicks'] === 1 ? 'Klick' : 'Klicks') . '</b> · ' . gs_zahl($s['gezeigt']) . '× gezeigt' . ($s['gezeigt'] > 0 ? ' · Ø Platz ' . gs_platz($s['platz']) : ''),
+        '🔎 <b>Google-Suche</b> · ' . gs_wt($tag),
+        '👀 <b>' . gs_zahl($s['gezeigt']) . '×</b> gezeigt · 👆 ' . gs_klicks($s['klicks']),
     ];
+    if ($s['gezeigt'] > 0) {
+        $zeilen[] = '🏁 Ø Platz <b>' . gs_platz($s['platz']) . '</b> <i>(Seite ' . gs_seite($s['platz']) . ')</i>';
+    }
     $b = gs_begriffe($tag, $tag, 3);
     if ($b !== '') {
-        $zeilen[] = $b;
+        $zeilen[] = "\n🔤 <b>Gesucht wurde</b>\n" . $b;
     }
+    $zeilen[] = "\n<i>Google meldet die Zahlen 2 Tage später.</i>";
     return implode("\n", $zeilen);
 }
 
@@ -347,25 +368,27 @@ function gs_woche_text(string $heute = ''): string
             return '';
         }
         $p = (int) round(($jetzt - $vorher) / $vorher * 100);
-        return $p === 0 ? ' →' : ($p > 0 ? ' ↗️ +' : ' ↘️ ') . $p . ' %';
+        return $p === 0 ? '' : ($p > 0 ? ' ↗️ +' : ' ↘️ ') . $p . ' %';
     };
-    $platz = '';
-    if ($w['gezeigt'] > 0) {
-        $platz = "\nØ Platz " . gs_platz($w['platz']);
-        if ($v['gezeigt'] > 0) {
-            $diff = round($v['platz'] - $w['platz'], 1);
-            $platz .= ' <i>(Vorwoche ' . gs_platz($v['platz']) . ')</i>' . ($diff >= 0.5 ? ' ↗️ besser' : ($diff <= -0.5 ? ' ↘️ schlechter' : ''));
-        }
-    }
     $zeilen = [
         '',
-        '🔎 <b>Google-Suche</b> <i>(' . date('d.m.', strtotime($von)) . '–' . date('d.m.', strtotime($bis)) . ')</i>',
-        '<b>' . gs_zahl($w['klicks']) . ' ' . ($w['klicks'] === 1 ? 'Klick' : 'Klicks') . '</b> <i>(Vorwoche ' . gs_zahl($v['klicks']) . ')</i>' . $pfeil($w['klicks'], $v['klicks']),
-        gs_zahl($w['gezeigt']) . '× gezeigt <i>(Vorwoche ' . gs_zahl($v['gezeigt']) . ')</i>' . $pfeil($w['gezeigt'], $v['gezeigt']) . $platz,
+        '🔎 <b>Google-Suche</b> · ' . date('d.m.', strtotime($von)) . '–' . date('d.m.', strtotime($bis)),
+        '👀 <b>' . gs_zahl($w['gezeigt']) . '×</b> gezeigt <i>(Vorwoche ' . gs_zahl($v['gezeigt']) . ')</i>' . $pfeil($w['gezeigt'], $v['gezeigt']),
+        '👆 ' . gs_klicks($w['klicks']) . ' <i>(Vorwoche ' . gs_zahl($v['klicks']) . ')</i>' . $pfeil($w['klicks'], $v['klicks']),
     ];
+    if ($w['gezeigt'] > 0) {
+        $platz = '🏁 Ø Platz <b>' . gs_platz($w['platz']) . '</b> <i>(Seite ' . gs_seite($w['platz']);
+        if ($v['gezeigt'] > 0) {
+            $diff = (int) round($v['platz']) - (int) round($w['platz']);
+            $platz .= ', Vorwoche ' . gs_platz($v['platz']) . ')</i>' . ($diff > 0 ? ' ↗️ ' . $diff . ($diff === 1 ? ' Platz' : ' Plätze') . ' besser' : ($diff < 0 ? ' ↘️ ' . -$diff . ($diff === -1 ? ' Platz' : ' Plätze') . ' schlechter' : ''));
+        } else {
+            $platz .= ')</i>';
+        }
+        $zeilen[] = $platz;
+    }
     $b = gs_begriffe($von, $bis, 5);
     if ($b !== '') {
-        $zeilen[] = "<b>Gesucht wurde</b>\n" . $b;
+        $zeilen[] = "\n🔤 <b>Gesucht wurde</b>\n" . $b;
     }
     return implode("\n", $zeilen);
 }
