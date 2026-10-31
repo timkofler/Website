@@ -513,6 +513,23 @@ main p a:not(.btn), main li a:not(.btn), .faq__item p a, .glance dd a { text-dec
 .price .ticks { align-content: start; }
 @media (max-width: 900px) { #anfrage .form-aside { order: -1; } }
 
+/* Anfrage-Block am PC: links Überschrift, Text und Schritte, rechts das Formular (Tim 31.10., Vorschlag C).
+   Handy bleibt wie bisher. Nur mit .form-wrap--split, die Kinder des ersten div werden direkt ins Raster gelegt. */
+@media (min-width: 901px) {
+  .form-wrap--split { grid-template-columns: 1fr 1.15fr; column-gap: 72px; row-gap: 0; grid-template-areas: "lab fm" "hd fm" "tx fm" "as fm"; grid-template-rows: auto auto auto 1fr; }
+  .form-wrap--split > div:first-child { display: contents; }
+  .form-wrap--split > div:first-child > .label { grid-area: lab; }
+  .form-wrap--split > div:first-child > h2 { grid-area: hd; }
+  .form-wrap--split > div:first-child > p { grid-area: tx; margin-bottom: 36px !important; }
+  .form-wrap--split > div:first-child > .tk-xf { grid-area: fm; align-self: start; }
+  .form-wrap--split > .form-aside { grid-area: as; }
+  .form-wrap--split .form-aside > h2 { display: none; }
+  .form-wrap--split .form-steps { gap: 0; margin: 0; position: relative; }
+  .form-wrap--split .form-steps li { position: relative; padding-bottom: 22px; }
+  .form-wrap--split .form-steps li:not(:last-child)::after { content: ""; position: absolute; left: 19px; top: 40px; bottom: 4px; width: 2px; border-radius: 2px; background: linear-gradient(rgba(255,90,31,.5), rgba(255,90,31,.06)); }
+  .form-wrap--split .wa-box { margin: 18px 0 0; }
+}
+
 /* Weicher Seitenwechsel zwischen den eigenen Seiten: kurz überblenden statt hart springen, der Kopf bleibt stehen.
    Chrome, Edge und Safari ab 18.2; andere Browser wechseln wie bisher. Nicht bei "Bewegung reduzieren" (Tim 31.10.) */
 @media (prefers-reduced-motion: no-preference) {
