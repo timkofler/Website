@@ -147,7 +147,7 @@
       seed: [["termin", "Termin: Damenhaarschnitt", "Sabine K. · morgen 10:30", "08:12"], ["gutschein", "Gutschein verkauft: 50 €", "Für Oma, von Jakob", "07:45"], ["angebot", "Angebot angenommen", "Hochsteckfrisur · Familie Berger", "gestern"]]
     },
     gastro: {
-      name: "Gasthaus Lindenhof", logo: "L", a: "#ea8a2e", a2: "#fbbf24", a3: "#a4520c", url: "app.gasthaus-lindenhof.at/buero",
+      name: "Gasthaus Lindenhof", logo: "L", a: "#ea8a2e", a2: "#fbbf24", a3: "#a4520c", url: "app.lindenhof-beispiel.at/buero",
       open: "Heute Küche bis 21 Uhr", closed: [1, 2], times: ["11:30", "12:00", "12:30", "13:00", "13:30", "17:30", "18:00", "18:30", "19:00", "19:30", "20:00", "20:30"],
       tTitle: "Tisch reservieren", tWhat: "Personen", tTab: "Tisch", tTile: "Reservierungen", tUnit: "Tisch",
       svcs: [["2 Personen", "", null], ["4 Personen", "", null], ["6 Personen", "", null], ["Gruppe", "bis 20 Personen, Extrastüberl", null]],
@@ -159,7 +159,7 @@
       seed: [["termin", "Reservierung: 4 Personen", "Fam. Wagner · heute 18:30", "09:02"], ["gutschein", "Gutschein verkauft: 80 €", "Für Peter, von den Kollegen", "08:20"], ["treue", "Stempel vergeben", "Mittagsmenü · Herbert L. (9/10)", "gestern"]]
     },
     hand: {
-      name: "Elektro Brunner", logo: "B", a: "#2563eb", a2: "#38bdf8", a3: "#1e3a8a", url: "app.elektro-brunner.at/buero",
+      name: "Elektro Brunner", logo: "B", a: "#2563eb", a2: "#38bdf8", a3: "#1e3a8a", url: "app.brunner-beispiel.at/buero",
       open: "Heute erreichbar bis 17 Uhr", closed: [0, 6], times: ["08:00", "09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"],
       tTitle: "Termin vereinbaren", tWhat: "Worum geht es?", tTab: "Termin", tTile: "Termine", tUnit: "Termin",
       svcs: [["Besichtigung vor Ort", "für ein Angebot", 0], ["E-Check Wohnung", "ca. 1,5 Std.", 149], ["Störung / Reparatur", "Anfahrt + 1. Stunde", 89], ["Beratung Wallbox & PV", "ca. 1 Std.", 0]],
