@@ -97,6 +97,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         $pass = (string) ($_POST['passwort'] ?? '');
         $keys = ['ip:' . kp_ip_hash(), 'kunde:' . $name];
         if (!kp_try($keys)) {
+            cx_alarm('kunden-sperre', "🚫 <b>Kundenportal: Anmeldung gesperrt</b>\nZu viele falsche Passwörter oder Codes in 15 Minuten. Jemand probiert sich am Kundenportal.");
             kp_flash(false, 'Zu viele Fehlversuche. Bitte warte 15 Minuten und versuche es dann noch einmal.');
             kp_redirect('/kunden/');
         }
@@ -136,6 +137,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         }
         $keys = ['ip:' . kp_ip_hash(), 'kunde:' . $pendUser];
         if (!kp_try($keys)) {
+            cx_alarm('kunden-sperre', "🚫 <b>Kundenportal: Anmeldung gesperrt</b>\nZu viele falsche Passwörter oder Codes in 15 Minuten. Jemand probiert sich am Kundenportal.");
             kp_flash(false, 'Zu viele Fehlversuche. Bitte warte 15 Minuten und versuche es dann noch einmal.');
             kp_redirect('/kunden/');
         }

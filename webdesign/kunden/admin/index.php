@@ -26,6 +26,47 @@ const AD_PAKETE = ['' => '– noch offen –', 'referenz' => 'Referenzkunde (290
     'verein' => 'Vereinsseite (gratis)', 'app' => 'Web-App (nach Aufwand)', 'shop' => 'Shop (nach Aufwand)', 'sonstiges' => 'Sonstiges'];
 const AD_RECHNUNG = ['keine' => 'Noch keine Rechnung', 'offen' => 'Rechnung offen', 'bezahlt' => 'Bezahlt'];
 
+// Bekannte Geräte: Nach einer vollständigen Anmeldung merkt sich der Browser ein signiertes Cookie (400 Tage).
+// Wird das Admin-Passwort auf einem Gerät ohne dieses Cookie richtig eingegeben, kommt sofort eine Warnung aufs Handy.
+const AD_GERAET = 'tk_admin_geraet';
+
+function ad_geraet_bekannt(): bool
+{
+    $c = (string) ($_COOKIE[AD_GERAET] ?? '');
+    $teile = explode('.', $c, 2);
+    return count($teile) === 2 && preg_match('/^[a-f0-9]{32}$/D', $teile[0])
+        && hash_equals(hash_hmac('sha256', 'geraet|' . $teile[0], (string) (cx_config()['secret'] ?? 'tk')), $teile[1]);
+}
+
+function ad_geraet_merken(): void
+{
+    if (ad_geraet_bekannt()) {
+        return;
+    }
+    $id = bin2hex(random_bytes(16));
+    setcookie(AD_GERAET, $id . '.' . hash_hmac('sha256', 'geraet|' . $id, (string) (cx_config()['secret'] ?? 'tk')),
+        ['expires' => time() + 400 * 86400, 'path' => KP_ADMIN, 'secure' => true, 'httponly' => true, 'samesite' => 'Strict']);
+}
+
+function ad_geraet_warnung(bool $fertig): void
+{
+    if (ad_geraet_bekannt()) {
+        return;
+    }
+    $ua = (string) ($_SERVER['HTTP_USER_AGENT'] ?? '');
+    $geraet = preg_match('/iPad|Tablet/i', $ua) ? 'Tablet' : (preg_match('/iPhone|Android|Mobile/i', $ua) ? 'Handy' : 'PC');
+    $zeit = (new DateTime('now', new DateTimeZone('Europe/Vienna')))->format('d.m. H:i');
+    cx_alarm('admin-geraet', '🔐 <b>Admin: ' . ($fertig ? 'Anmeldung' : 'Passwort richtig eingegeben') . ' auf einem neuen Gerät</b>' . "\n"
+        . $geraet . ' · ' . $zeit . ' Uhr' . ($fertig ? '' : ' · Code aus der App fehlt noch') . "\n"
+        . '<i>Warst du das nicht? Sofort ein neues Admin-Passwort in die config.php eintragen.</i>');
+}
+
+function ad_sperre_warnung(): void
+{
+    cx_alarm('admin-sperre', "🚫 <b>Admin-Anmeldung gesperrt</b>\nZu viele falsche Passwörter oder Codes in 15 Minuten. Jemand probiert sich am Admin-Bereich. "
+        . 'Solange die Zwei-Faktor-Anmeldung an ist, reicht ein erratenes Passwort allein nicht.');
+}
+
 $hash = (string) (cx_config()['admin_password_hash'] ?? '');
 // Die Anmeldung gilt nur für den Admin-Hash, mit dem sie gemacht wurde (neues Passwort in der config.php meldet alle ab).
 $isAdmin = $hash !== '' && is_string($_SESSION['admin'] ?? null) && hash_equals(kp_pw_tag($hash), $_SESSION['admin']);
@@ -112,6 +153,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     if ($action === 'anmelden' && $hash !== '') {
         $keys = ['ip:' . kp_ip_hash(), 'admin'];
         if (!kp_try($keys)) {
+            ad_sperre_warnung();
             kp_flash(false, 'Zu viele Fehlversuche. Bitte 15 Minuten warten.');
         } elseif (!password_verify((string) ($_POST['passwort'] ?? ''), $hash)) {
             kp_fail_wait();
@@ -119,10 +161,13 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         } elseif (tf_active()) {
             // Der Code-Schritt zählt seine Versuche selbst mit.
             kp_untry($keys);
+            ad_geraet_warnung(false);
             session_regenerate_id(true);
             $_SESSION['admin_pw'] = time();
         } else {
             kp_untry($keys);
+            ad_geraet_warnung(true);
+            ad_geraet_merken();
             session_regenerate_id(true);
             $_SESSION['admin'] = kp_pw_tag($hash);
         }
@@ -135,6 +180,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
             unset($_SESSION['admin_pw']);
             kp_flash(false, 'Das hat zu lange gedauert. Bitte melde dich noch einmal mit dem Passwort an.');
         } elseif (!kp_try($keys)) {
+            ad_sperre_warnung();
             kp_flash(false, 'Zu viele Fehlversuche. Bitte 15 Minuten warten.');
         } else {
             $input = trim((string) ($_POST['code'] ?? ''));
@@ -145,6 +191,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
             } else {
                 kp_untry($keys);
                 unset($_SESSION['admin_pw']);
+                ad_geraet_merken();
                 session_regenerate_id(true);
                 $_SESSION['admin'] = kp_pw_tag($hash);
                 if ($art === 'notfall') {
