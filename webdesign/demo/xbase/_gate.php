@@ -12,16 +12,20 @@ session_name('xbase_demo');
 session_set_cookie_params(['lifetime' => 0, 'path' => '/demo/xbase/', 'secure' => true, 'httponly' => true, 'samesite' => 'Lax']);
 session_start();
 
-$xbaseFehler = false;
+$xbaseFehler = '';
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && isset($_POST['xbase_pw'])) {
-    if (password_verify((string) $_POST['xbase_pw'], XBASE_HASH)) {
+    require_once __DIR__ . '/../_ansicht.php';
+    if (!demo_versuch_ok('xbase', 'XBASE-Entwurf')) {
+        $xbaseFehler = 'Zu viele Versuche. Bitte in 15 Minuten noch einmal probieren.';
+    } elseif (password_verify((string) $_POST['xbase_pw'], demo_hash('xbase', XBASE_HASH))) {
         session_regenerate_id(true);
         $_SESSION['xbase_ok'] = true;
         header('Location: /demo/xbase/', true, 303);
         exit;
+    } else {
+        usleep(800000); // bremst Rateversuche
+        $xbaseFehler = 'Das Passwort stimmt leider nicht.';
     }
-    usleep(800000); // bremst Rateversuche
-    $xbaseFehler = true;
 }
 
 if (empty($_SESSION['xbase_ok'])) {
@@ -42,7 +46,7 @@ if (empty($_SESSION['xbase_ok'])) {
   <form method="post" action="">
     <label for="pw">Passwort</label>
     <input id="pw" name="xbase_pw" type="password" autocomplete="current-password" required autofocus>
-    <?php if ($xbaseFehler): ?><p class="gate__err" role="alert">Das Passwort stimmt leider nicht.</p><?php endif; ?>
+    <?php if ($xbaseFehler !== ''): ?><p class="gate__err" role="alert"><?= htmlspecialchars($xbaseFehler, ENT_QUOTES, 'UTF-8') ?></p><?php endif; ?>
     <button type="submit">Entwurf ansehen</button>
   </form>
   <a class="gate__tk" href="https://tim-kofler.at" target="_blank" rel="noopener"><img src="<?= $basis ?>assets/img/tk-logo-2.svg" alt="" width="34" height="17">Entwurf von Tim Kofler</a>

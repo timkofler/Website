@@ -58,6 +58,11 @@ return [
     // liegt im Project-Memory. Leer = Endpunkt aus.
     // 'claude_melde_hash' => '',
 
+    // ---------------- Passwörter der Kunden-Entwürfe (/demo/…) ----------------
+    // Neues Passwort nur als Hash hier eintragen, nie in die _gate.php (das Repo ist öffentlich).
+    // Hash erzeugen z. B. mit: php -r 'echo password_hash("NEUES-PASSWORT", PASSWORD_DEFAULT);'
+    // 'demo_passwoerter' => ['xbase' => '$2y$10$…', 'bunker' => '$2y$10$…'],
+
     // ---------------- KI-Antworten im Chat ("Fragen?"-Knopf) ----------------
     // API-Schlüssel von Anthropic: platform.claude.com → Settings → API Keys → "Create Key" (Name z. B. "tim-kofler.at Chat").
     // Nur hier eintragen, nie im Repo oder in einer Mail. Leer = der Chat antwortet wie bisher nur mit festen Antworten.

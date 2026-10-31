@@ -12,18 +12,22 @@ session_name('bunker_demo');
 session_set_cookie_params(['lifetime' => 0, 'path' => '/demo/bunker/', 'secure' => true, 'httponly' => true, 'samesite' => 'Lax']);
 session_start();
 
-$bunkerFehler = false;
+$bunkerFehler = '';
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && isset($_POST['bunker_pw'])) {
-    if (password_verify((string) $_POST['bunker_pw'], BUNKER_HASH)) {
+    require_once __DIR__ . '/../_ansicht.php';
+    if (!demo_versuch_ok('bunker', 'bunker.kollektiv-Entwurf')) {
+        $bunkerFehler = 'Zu viele Versuche. Bitte in 15 Minuten noch einmal probieren.';
+    } elseif (password_verify((string) $_POST['bunker_pw'], demo_hash('bunker', BUNKER_HASH))) {
         session_regenerate_id(true);
         $_SESSION['bunker_ok'] = true;
         $ziel = strtok($_SERVER['REQUEST_URI'] ?? '/demo/bunker/', '?');
         if (!is_string($ziel) || strpos($ziel, '/demo/bunker/') !== 0) $ziel = '/demo/bunker/';
         header('Location: ' . $ziel, true, 303);
         exit;
+    } else {
+        usleep(800000); // bremst Rateversuche
+        $bunkerFehler = 'Das Passwort stimmt leider nicht.';
     }
-    usleep(800000); // bremst Rateversuche
-    $bunkerFehler = true;
 }
 
 if (empty($_SESSION['bunker_ok'])) {
@@ -48,7 +52,7 @@ if (empty($_SESSION['bunker_ok'])) {
   <form method="post" action="">
     <label for="pw">Passwort</label>
     <input id="pw" name="bunker_pw" type="password" autocomplete="current-password" required autofocus>
-    <?php if ($bunkerFehler): ?><p class="gate__err" role="alert">Das Passwort stimmt leider nicht.</p><?php endif; ?>
+    <?php if ($bunkerFehler !== ''): ?><p class="gate__err" role="alert"><?= htmlspecialchars($bunkerFehler, ENT_QUOTES, 'UTF-8') ?></p><?php endif; ?>
     <button type="submit">Reingehen</button>
   </form>
   <a class="gate__tk" href="https://tim-kofler.at" target="_blank" rel="noopener"><span class="tk"><img src="<?= $basis ?>assets/img/tk-logo.svg" alt="" width="34" height="17"></span>Entwurf von Tim Kofler</a>

@@ -24,3 +24,24 @@ function demo_ansicht(string $key, string $name): void
     } catch (Throwable $e) {
     }
 }
+
+// Passwort-Hash eines Entwurfs. Steht in der config.php am Server ein eigener ('demo_passwoerter' => ['xbase' => '$2y$…']),
+// gilt der: So landet ein neues Passwort nie im öffentlichen Repo. Sonst gilt der Hash aus der _gate.php.
+function demo_hash(string $key, string $standard): string
+{
+    require_once __DIR__ . '/../api/lib.php';
+    $h = cx_config()['demo_passwoerter'][$key] ?? '';
+    return is_string($h) && str_starts_with($h, '$2y$') ? $h : $standard;
+}
+
+// Bremse gegen Passwort-Raten: höchstens 10 Versuche in 15 Minuten je Anschluss und 100 pro Stunde für alle zusammen.
+// Wird gebremst, kommt (höchstens einmal pro Stunde) eine Warnung auf Tims Handy.
+function demo_versuch_ok(string $key, string $name): bool
+{
+    require_once __DIR__ . '/../api/lib.php';
+    if (cx_rate_hit('demo:' . $key . ':' . cx_client_id(), 10, 900) && cx_rate_hit('demo:' . $key, 100, 3600)) {
+        return true;
+    }
+    cx_alarm('demo-' . $key, '🚫 <b>' . cx_h($name) . ": viele falsche Passwörter</b>\nJemand probiert Passwörter am Entwurf durch. Die Anmeldung ist für diesen Anschluss 15 Minuten gesperrt.", '');
+    return false;
+}

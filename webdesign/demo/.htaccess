@@ -1,0 +1,4 @@
+# Passwort-Schutz und Meldung der Entwürfe: werden nur per require geladen, nie direkt aufgerufen.
+<FilesMatch "^_(gate|ansicht)\.php$">
+  Require all denied
+</FilesMatch>

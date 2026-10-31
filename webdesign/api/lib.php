@@ -149,7 +149,7 @@ function cx_guard(): void
         cx_respond(false, 'Das ging etwas zu schnell. Bitte versuche es in ein paar Sekunden noch einmal.');
     }
     if (!cx_rate_ok()) {
-        cx_respond(false, 'Zu viele Anfragen in kurzer Zeit. Bitte versuche es später noch einmal.');
+        cx_respond(false, 'Gerade kommen sehr viele Anfragen auf einmal an. Bitte schreib mir direkt auf WhatsApp oder Telegram unter +43 677 61773118, dann geht nichts verloren.');
     }
 }
 
@@ -168,10 +168,33 @@ function cx_client_id(): string
 
 // Höchstens 6 Absendungen pro Stunde je Anschluss und 30 pro Stunde insgesamt (falls jemand ständig die IP wechselt).
 // Gespeichert wird nur ein Hash der IP-Adresse.
+// Greift die Gesamtgrenze, schickt Tim (höchstens einmal pro Stunde) eine Warnung aufs Handy: Dann schickt jemand
+// über viele Anschlüsse Formulare, und echte Anfragen werden für bis zu eine Stunde abgewiesen.
 function cx_rate_ok(): bool
 {
-    return cx_rate_hit('ip:' . cx_client_id(), 6, 3600)
-        && cx_rate_hit('alle', 30, 3600);
+    if (!cx_rate_hit('ip:' . cx_client_id(), 6, 3600)) {
+        return false;
+    }
+    if (cx_rate_hit('alle', 30, 3600)) {
+        return true;
+    }
+    cx_alarm('formulare', "⚠️ <b>Formulare vorübergehend gesperrt</b>\nIn der letzten Stunde kamen über 30 Formulare von verschiedenen Anschlüssen. "
+        . "Bis zu einer Stunde sehen Besucher statt des Formulars den Hinweis auf WhatsApp und Telegram. Bitte im Admin unter Anfragen nachsehen, ob das echte Anfragen oder Spam sind.");
+    return false;
+}
+
+// Sicherheits-Warnung an Tims Handy (Telegram), je Anlass höchstens einmal pro Stunde. Fehler halten nie etwas auf.
+function cx_alarm(string $anlass, string $html, string $link = '/kunden/admin/'): void
+{
+    if (!cx_rate_hit('alarm:' . $anlass, 1, 3600)) {
+        return;
+    }
+    try {
+        require_once __DIR__ . '/push-lib.php';
+        pu_send($html, $link, false, true);
+    } catch (Throwable $e) {
+        cx_log('Alarm ' . $anlass . ' nicht gesendet: ' . $e->getMessage());
+    }
 }
 
 // Zählt einen Versuch für $key und sagt, ob noch höchstens $limit in den letzten $window Sekunden liegen.
