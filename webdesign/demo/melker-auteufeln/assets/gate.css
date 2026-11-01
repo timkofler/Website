@@ -3,11 +3,12 @@
 @font-face{font-family:"Alegreya Sans";src:url(fonts/alegreya-400.woff2) format("woff2");font-weight:400;font-display:swap}
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%}
-body{background:#0c0806 linear-gradient(180deg,rgba(12,8,6,.86),rgba(12,8,6,.97)),url(img/holz.webp) center/cover;color:#f1e6d6;font:400 17px/1.6 "Alegreya Sans",system-ui,sans-serif;display:grid;place-items:center;min-height:100vh;min-height:100svh;padding:24px 16px}
+body{background-color:#0c0806;background-image:linear-gradient(180deg,rgba(12,8,6,.8),rgba(12,8,6,.95)),url(img/holz.webp);background-position:center;background-size:cover;color-scheme:dark;color:#f1e6d6;font:400 17px/1.6 "Alegreya Sans",system-ui,sans-serif;display:grid;place-items:center;min-height:100vh;min-height:100svh;padding:24px 16px}
 body::after{content:"";position:fixed;inset:auto 0 0;height:40vh;background:radial-gradient(70% 100% at 50% 100%,rgba(214,40,24,.38),transparent 70%);pointer-events:none}
 .gate{position:relative;z-index:1;width:100%;max-width:370px;text-align:center}
 .gate__mark{display:grid;justify-items:center;gap:10px;margin:0 auto 24px}
-.gate__mark span{font:900 40px/1.05 "Cinzel",serif;background:linear-gradient(180deg,#fff3dc 10%,#f0a35a 55%,#c2301c);-webkit-background-clip:text;background-clip:text;color:transparent}
+.gate__mark span{font:900 40px/1.05 "Cinzel",serif;color:#fff3dc;text-shadow:0 3px 0 rgba(0,0,0,.6),0 0 24px rgba(216,48,30,.55)}
+.gate__mark span i{font-style:normal;color:#f0a35a;white-space:nowrap}
 .gate__mark small{font:800 13px/1 "Big Shoulders",sans-serif;letter-spacing:.42em;padding-left:.42em;color:#e0341f;text-transform:uppercase}
 p{color:#b9a58e;margin:0 0 24px}
 form{display:grid;gap:10px;text-align:left}
