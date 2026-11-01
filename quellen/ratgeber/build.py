@@ -16,12 +16,14 @@ import artikel_kosten, artikel_impressum, artikel_bafg, artikel_baukasten  # noq
 import artikel_google, artikel_domain, artikel_cookie, artikel_verein, artikel_handwerker  # noqa: E402,E401
 import artikel_wartung, artikel_veraltet, artikel_datenschutz, artikel_gruendung  # noqa: E402,E401
 import artikel_seo, artikel_bilder, artikel_social  # noqa: E402,E401
+import artikel_gastro, artikel_webapp, artikel_shop, artikel_friseur, artikel_pension  # noqa: E402,E401
 
 # Reihenfolge = Reihenfolge in der Übersicht /ratgeber/
 ARTIKEL = [artikel_kosten, artikel_baukasten, artikel_impressum, artikel_google,
            artikel_bafg, artikel_domain, artikel_cookie, artikel_verein, artikel_handwerker,
            artikel_veraltet, artikel_gruendung, artikel_seo, artikel_wartung,
-           artikel_datenschutz, artikel_bilder, artikel_social]
+           artikel_datenschutz, artikel_bilder, artikel_social,
+           artikel_gastro, artikel_pension, artikel_friseur, artikel_webapp, artikel_shop]
 
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 VORLAGE = os.path.join(REPO, "webdesign", "webseite-erneuern", "index.html")
