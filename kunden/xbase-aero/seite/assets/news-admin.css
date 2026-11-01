@@ -86,7 +86,7 @@ input::placeholder,textarea::placeholder{color:#9aa8bd}
 .post__more{font-weight:600;font-size:14px;color:var(--blue)}
 
 .list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
-.list li{display:flex;align-items:center;gap:12px;padding:10px 10px 10px 10px;border-radius:14px;background:rgba(255,255,255,.85);border:1px solid var(--line)}
+.list li{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:10px 10px 10px 10px;border-radius:14px;background:rgba(255,255,255,.85);border:1px solid var(--line)}
 .list img{flex:none;width:52px;height:38px;border-radius:8px;object-fit:cover}
 .list span{flex:1;min-width:0}
 .list b{display:block;font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -96,6 +96,14 @@ input::placeholder,textarea::placeholder{color:#9aa8bd}
 .list button{flex:none;width:34px;height:34px;border-radius:50%;border:0;background:none;color:var(--mut);cursor:pointer;display:grid;place-items:center}
 .list button:hover{background:rgba(229,72,77,.1);color:#d92d33}
 .list button svg{width:16px;height:16px}
+.list .lk:hover{background:rgba(10,108,240,.1);color:var(--blue)}
+.list .lk.on{color:#0a66c2}
+.lkf{flex:0 0 100%;display:flex;flex-wrap:wrap;gap:8px;padding-top:2px}
+.lkf[hidden]{display:none}
+.lkf input{flex:1 1 180px;min-width:0;height:42px;font-size:14px}
+.list .lkf .btn--s{width:auto;height:42px;min-height:42px;border-radius:10px;padding:0 18px;font-size:14px;color:#fff;background:var(--grad)}
+.list .lkf .btn--s:hover{background:var(--grad);color:#fff}
+.lkf__e{flex:0 0 100%;font:500 12.5px/1.4 var(--sans)!important;letter-spacing:0!important;color:#d92d33!important}
 
 /* Fertig-Fenster */
 .done{position:fixed;inset:0;z-index:30;display:grid;place-items:center;padding:16px;background:rgba(6,22,50,.45);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:fade .25s both}
