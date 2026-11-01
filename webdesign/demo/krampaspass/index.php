@@ -12,9 +12,10 @@
 <link rel="preload" href="assets/fonts/alegreya-sans-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/img/hero-800.webp" as="image" media="(max-width: 800px)">
 <link rel="preload" href="assets/img/hero.webp" as="image" media="(min-width: 801px)">
-<link rel="stylesheet" href="assets/style.css?v=1">
-<script>document.documentElement.classList.add("js");</script>
+<link rel="stylesheet" href="assets/style.css?v=2">
+<script src="assets/js-an.js?v=1"></script>
 <script src="assets/app.js?v=1" defer></script>
+<script src="assets/glut.js?v=1" defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -163,6 +164,16 @@
         <a class="btn btn--feuer reveal" href="https://www.google.com/maps/search/?api=1&amp;query=Kulturschmiede%20Gresten%20Sp%C3%B6rken%201%203264%20Gresten" target="_blank" rel="noopener">Route zur Kulturschmiede</a>
       </div>
     </div>
+  </section>
+
+  <section class="glut perg" aria-label="Schriftzug Krampaspass">
+    <div class="glut__buehne" id="glut">
+      <picture class="glut__bild">
+        <source media="(max-width: 700px)" srcset="assets/img/glut-handy.webp">
+        <img src="assets/img/glut.webp" alt="Schriftzug Krampaspass, die Buchstaben glühen wie Lava" width="1600" height="470" loading="lazy" decoding="async">
+      </picture>
+    </div>
+    <p class="glut__hinweis" id="glut-hinweis" hidden></p>
   </section>
 
   <section class="tour" id="tour" aria-labelledby="tour-titel">
