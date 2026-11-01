@@ -1,7 +1,8 @@
 // Kundenportal und Admin: zwei Glas-Effekte (eigener Nachbau, Idee nach luminaracraft.de).
 // 1. Glasleiste: Die Reiter-Kacheln ([data-kp-tabs]) liegen in einer Glasleiste. Eine Glaslinse gleitet zum gewählten Reiter
 //    und bricht dabei das Punkteraster der Leiste wie echtes Glas (Chromium: SVG-Verschiebung, sonst weiches Milchglas).
-// 2. Eis-Anmeldung: Jeder Fehlversuch dieses Anschlusses zeigt einen Sprung mehr im Passwortfeld. Bei der Sperre fällt das
+// 2. Zahlen-Karte als Glas-Dashboard: Kacheln aus Glas über warmem Lichtschein, kippen leicht zur Maus.
+// 3. Eis-Anmeldung: Jeder Fehlversuch dieses Anschlusses zeigt einen Sprung mehr im Passwortfeld. Bei der Sperre fällt das
 //    Feld heraus, das Formular friert ein und taut nach Ablauf der Wartezeit wieder auf. Die Zahlen kommen vom Server
 //    (data-fails, data-max, data-rest), die Sperre selbst prüft weiterhin der Server.
 // Ohne JavaScript bleibt alles wie bisher.
@@ -142,6 +143,26 @@
     }
   }
   Array.prototype.forEach.call(document.querySelectorAll('[data-kp-tabs]'), glassBar);
+
+  // ---------------- Zahlen-Karte: Glaskacheln kippen leicht zur Maus, ein Lichtfleck folgt dem Zeiger ----------------
+  if (!reduce && window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    Array.prototype.forEach.call(document.querySelectorAll('.kp-zahlen .kp-zahl'), function (k) {
+      var raf = 0, ev = null;
+      function upd() {
+        raf = 0;
+        var r = k.getBoundingClientRect(), x = (ev.clientX - r.left) / r.width, y = (ev.clientY - r.top) / r.height;
+        k.style.setProperty('--mx', (x * 100).toFixed(1) + '%');
+        k.style.setProperty('--my', (y * 100).toFixed(1) + '%');
+        k.style.setProperty('--ry', ((x - .5) * 7).toFixed(2) + 'deg');
+        k.style.setProperty('--rx', ((.5 - y) * 7).toFixed(2) + 'deg');
+      }
+      k.addEventListener('pointermove', function (e) { ev = e; k.classList.add('is-lit'); if (!raf) raf = requestAnimationFrame(upd); });
+      k.addEventListener('pointerleave', function () {
+        k.classList.remove('is-lit');
+        k.style.setProperty('--rx', '0deg'); k.style.setProperty('--ry', '0deg');
+      });
+    });
+  }
 
   // ---------------- 2. Eis-Anmeldung ----------------
   var form = document.querySelector('[data-kp-frost]');
