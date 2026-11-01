@@ -47,11 +47,11 @@ if (empty($_SESSION['auteufeln_ok'])) {
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="<?= $basis ?>assets/gate.css?v=1">
+<link rel="stylesheet" href="<?= $basis ?>assets/gate.css?v=2">
 </head>
 <body>
 <main class="gate">
-  <div class="gate__mark" aria-hidden="true"><small>Krampusverein Melk</small><span>Melker Au-Teufel’n</span></div>
+  <div class="gate__mark" aria-hidden="true"><small>Krampusverein Melk</small><span>Melker <i>Au-Teufel’n</i></span></div>
   <p>Entwurf eurer neuen Webseite. Bitte gebt das Passwort ein, das ihr bekommen habt.</p>
   <form method="post" action="">
     <label for="pw">Passwort</label>
