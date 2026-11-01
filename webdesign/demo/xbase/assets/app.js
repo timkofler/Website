@@ -109,7 +109,7 @@ document.querySelectorAll('.att').forEach(a=>{
     const img=el.querySelector('img');if(n.img&&/^data:image\//.test(n.img))img.src=n.img;else img.src='assets/img/xbase-flugzeug-1000.webp';
     const t=el.querySelector('time');t.dateTime=n.date;t.textContent=fmt(n.date);
     el.querySelector('h3').textContent=n.title;el.querySelector('p').textContent=n.text;
-    if(n.li&&/^https:\/\/(www\.)?linkedin\.com\//.test(n.li)){const a=document.createElement('a');a.className='post__more';a.href=n.li;a.target='_blank';a.rel='noopener';a.innerHTML='Read on LinkedIn '+arrow;el.querySelector('.post__b').appendChild(a)}
+    if(n.li&&/^https:\/\/([a-z0-9-]+\.)?linkedin\.com\/|^https:\/\/lnkd\.in\//i.test(n.li)){const a=document.createElement('a');a.className='post__more';a.href=n.li;a.target='_blank';a.rel='noopener';a.innerHTML='Read on LinkedIn '+arrow;el.querySelector('.post__b').appendChild(a)}
     fitPostImg(img);
     g.prepend(el);
   });

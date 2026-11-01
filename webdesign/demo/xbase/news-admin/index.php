@@ -4,7 +4,7 @@
 <meta name="theme-color" content="#f3f7fc">
 <link rel="preload" href="../assets/fonts/outfit.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../assets/news-admin.css?v=3">
+<link rel="stylesheet" href="../assets/news-admin.css?v=5">
 </head>
 <body>
 <div class="demo-bar"><span class="tagd">Demo</span>Nothing is saved online. Your test posts stay in this browser only.</div>
@@ -62,11 +62,11 @@
   <div class="card done__card">
     <span class="done__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
     <h2 id="doneT">Published!</h2>
-    <p class="mut">Your news is now on the website.</p>
+    <p class="mut">Your news is now live on your website. Sharing it on LinkedIn is optional.</p>
     <a class="btn btn--li" id="share" href="#" target="_blank" rel="noopener"><span class="btn__i"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zM9.5 9.5h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.1c0-1.22-.02-2.78-1.7-2.78-1.7 0-1.96 1.33-1.96 2.7V21h-4z"/></svg>Share on LinkedIn</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-    <small class="mut">Opens LinkedIn with the link to your news, ready to post.</small>
+    <small class="mut">Optional: opens LinkedIn with a link to your news, ready to post. Afterwards you can add the link of your LinkedIn post under “Your posts”, then the news shows “Read on LinkedIn”.</small>
     <div class="done__row"><a class="btn btn--l" href="../#news">View on website</a><button class="btn btn--l" type="button" id="again">Write another</button></div>
   </div>
 </div>
-<script src="../assets/news-admin.js?v=2" defer></script>
+<script src="../assets/news-admin.js?v=3" defer></script>
 </body></html>
