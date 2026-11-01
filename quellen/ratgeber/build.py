@@ -12,7 +12,12 @@ import sys
 from html import escape
 
 sys.path.insert(0, os.path.dirname(__file__))
-import artikel_kosten  # noqa: E402
+import artikel_kosten, artikel_impressum, artikel_bafg, artikel_baukasten  # noqa: E402,E401
+import artikel_google, artikel_domain, artikel_cookie, artikel_verein  # noqa: E402,E401
+
+# Reihenfolge = Reihenfolge in der Übersicht /ratgeber/
+ARTIKEL = [artikel_kosten, artikel_baukasten, artikel_impressum, artikel_google,
+           artikel_bafg, artikel_domain, artikel_cookie, artikel_verein]
 
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 VORLAGE = os.path.join(REPO, "webdesign", "webseite-erneuern", "index.html")
@@ -39,7 +44,38 @@ def ld(a, url):
     ]}
 
 
+def karten(liste):
+    out = []
+    for x in liste:
+        out.append(f'''      <li><a class="rg-karte" href="/ratgeber/{x.SLUG}/">
+        <span class="rg-karte__l">{escape(x.LABEL)} · {x.LESEZEIT} Min.</span>
+        <h3>{escape(x.H1_TEXT)}</h3>
+        <p>{escape(x.KARTE)}</p>
+        <span class="rg-karte__mehr">Lesen {P}</span>
+      </a></li>''')
+    return "\n".join(out)
+
+
+def ende(a):
+    chips = "".join(f"<li>{H}{escape(c)}</li>" for c in getattr(a, "END_CHIPS", ["Fixer Preis", "Kein Abo", "Gehört dir"]))
+    href = getattr(a, "CTA_HREF", "/entwurf/")
+    text = getattr(a, "CTA_TEXT", "Gratis-Entwurf in 48 Stunden")
+    alt = getattr(a, "CTA_ALT", 'Oder direkt die <a href="/webseite-guenstig-erstellen/#preise">Preise ansehen</a>')
+    return f'''<section class="section section--line ew-end">
+  <div class="container">
+    <div class="ew-end__box">
+      <ul class="ew-end__chips">{chips}</ul>
+      <h2>{a.END_H2}</h2>
+      <div class="btn-row"><a href="{href}" class="btn">{text} {P}</a></div>
+      <p class="gr-end-alt">{alt}</p>
+    </div>
+  </div>
+</section>'''
+
+
 def main_html(a):
+    i = ARTIKEL.index(a)
+    weitere = (ARTIKEL[i + 1:] + ARTIKEL[:i])[:3]
     toc = "".join(f'<li><a href="#{i}">{escape(t)}</a></li>' for i, t, _ in a.ABSCHNITTE)
     body = "\n".join(f'    <h2 id="{i}">{escape(t)}</h2>\n{h}' for i, t, h in a.ABSCHNITTE)
     faq = "\n".join(f'''      <details class="faq__item">
@@ -85,46 +121,101 @@ def main_html(a):
   </div>
 </section>
 
-<section class="section section--line ew-end">
+<section class="section section--line rg-mehr">
   <div class="container">
-    <div class="ew-end__box">
-      <ul class="ew-end__chips"><li>{H}Fixer Preis</li><li>{H}Kein Abo</li><li>{H}Gehört dir</li></ul>
-      <h2>{a.END_H2}</h2>
-      <div class="btn-row"><a href="/entwurf/" class="btn">Gratis-Entwurf in 48 Stunden {P}</a></div>
-      <p class="gr-end-alt">Oder direkt die <a href="/webseite-guenstig-erstellen/#preise">Preise ansehen</a></p>
-    </div>
+    <div class="head"><div><span class="label"><b>[+]</b> Weiterlesen</span><h2>Mehr aus dem Ratgeber.</h2></div></div>
+    <ul class="rg-karten">
+{karten(weitere)}
+    </ul>
   </div>
 </section>
+
+{ende(a)}
 
 </main>'''
 
 
-def bauen(a):
-    url = f"{BASIS}/ratgeber/{a.SLUG}/"
-    ziel = os.path.join(REPO, "webdesign", "ratgeber", a.SLUG, "index.html")
+def kopf_fuss(title, desc, url, ldjson, og_type):
     v = open(VORLAGE, encoding="utf-8").read()
     kopf, rest = v.split("<main>", 1)
     fuss = rest.split("</main>", 1)[1]
     ersetzen = [
-        (r"<title>.*?</title>", f"<title>{escape(a.TITLE)}</title>"),
-        (r'<meta name="description" content="[^"]*">', f'<meta name="description" content="{escape(a.DESC)}">'),
+        (r"<title>.*?</title>", f"<title>{escape(title)}</title>"),
+        (r'<meta name="description" content="[^"]*">', f'<meta name="description" content="{escape(desc)}">'),
         (r'<link rel="canonical" href="[^"]*">', f'<link rel="canonical" href="{url}">'),
-        (r'<meta property="og:type" content="[^"]*">', '<meta property="og:type" content="article">'),
-        (r'<meta property="og:title" content="[^"]*">', f'<meta property="og:title" content="{escape(a.TITLE)}">'),
-        (r'<meta property="og:description" content="[^"]*">', f'<meta property="og:description" content="{escape(a.DESC)}">'),
+        (r'<meta property="og:type" content="[^"]*">', f'<meta property="og:type" content="{og_type}">'),
+        (r'<meta property="og:title" content="[^"]*">', f'<meta property="og:title" content="{escape(title)}">'),
+        (r'<meta property="og:description" content="[^"]*">', f'<meta property="og:description" content="{escape(desc)}">'),
         (r'<meta property="og:url" content="[^"]*">', f'<meta property="og:url" content="{url}">'),
         (r'<script type="application/ld\+json">.*?</script>',
-         '<script type="application/ld+json">' + json.dumps(ld(a, url), ensure_ascii=False).replace("</", "<\\/") + "</script>"),
+         '<script type="application/ld+json">' + json.dumps(ldjson, ensure_ascii=False).replace("</", "<\\/") + "</script>"),
     ]
     for muster, neu in ersetzen:
         kopf, n = re.subn(muster, lambda m: neu, kopf, count=1, flags=re.S)
-        assert n <= 1, muster
+        assert n == 1 or muster.startswith('<meta property="og:type'), muster
     kopf = kopf.replace("</head>", f'  <link rel="stylesheet" href="/assets/css/ratgeber.css?v={CSS_V}">\n</head>', 1)
+    return kopf, fuss
+
+
+def schreiben(slug, html):
+    ziel = os.path.join(REPO, "webdesign", "ratgeber", *( [slug] if slug else [] ), "index.html")
     os.makedirs(os.path.dirname(ziel), exist_ok=True)
     with open(ziel, "w", encoding="utf-8") as f:
-        f.write(kopf + main_html(a) + fuss)
+        f.write(html)
     print("geschrieben:", ziel)
 
 
+def bauen(a):
+    url = f"{BASIS}/ratgeber/{a.SLUG}/"
+    kopf, fuss = kopf_fuss(a.TITLE, a.DESC, url, ld(a, url), "article")
+    schreiben(a.SLUG, kopf + main_html(a) + fuss)
+
+
+UE_TITLE = "Ratgeber Webseite: Kosten, Impressum, Google & mehr | Tim Kofler"
+UE_DESC = ("Ehrliche Antworten rund um die eigene Webseite: Was sie kostet, was ins Impressum gehört, "
+           "wie man bei Google gefunden wird und ob man einen Cookie-Banner braucht. Für Betriebe und Vereine in Österreich.")
+
+
+def uebersicht():
+    url = BASIS + "/ratgeber/"
+    ldjson = {"@context": "https://schema.org", "@graph": [
+        {"@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Start", "item": BASIS + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Ratgeber", "item": url}]},
+        {"@type": "CollectionPage", "@id": url, "name": "Ratgeber Webseite", "description": UE_DESC, "url": url,
+         "inLanguage": "de-AT", "publisher": {"@id": BASIS + "/#unternehmen"},
+         "mainEntity": {"@type": "ItemList", "itemListElement": [
+             {"@type": "ListItem", "position": n + 1, "url": f"{BASIS}/ratgeber/{x.SLUG}/", "name": x.H1_TEXT}
+             for n, x in enumerate(ARTIKEL)]}},
+    ]}
+    kopf, fuss = kopf_fuss(UE_TITLE, UE_DESC, url, ldjson, "website")
+    main = f'''<main>
+
+<section class="section tk-hero ew-hero gr-hero br-hero rg-hero">
+  <canvas class="tk-field" aria-hidden="true"></canvas>
+  <div class="container" style="position:relative">
+    <nav class="br-crumbs" aria-label="Brotkrümel"><a href="/">Start</a> <span aria-hidden="true">/</span> <span>Ratgeber</span></nav>
+    <span class="label"><b>[Ratgeber]</b> Wissen rund um deine Webseite</span>
+    <h1>Ehrliche Antworten <span class="lime">rund um deine Webseite.</span></h1>
+    <p class="lead">Was kostet eine Webseite, was muss ins Impressum, wie kommst du auf Google Maps? Kurz erklärt, ohne Fachchinesisch, für Betriebe und Vereine in Österreich.</p>
+  </div>
+</section>
+
+<section class="section section--line rg-section">
+  <div class="container">
+    <ul class="rg-karten rg-karten--alle">
+{karten(ARTIKEL)}
+    </ul>
+  </div>
+</section>
+
+{ende(artikel_kosten)}
+
+</main>'''
+    schreiben("", kopf + main + fuss)
+
+
 if __name__ == "__main__":
-    bauen(artikel_kosten)
+    for a in ARTIKEL:
+        bauen(a)
+    uebersicht()

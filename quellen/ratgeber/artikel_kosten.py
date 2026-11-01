@@ -2,6 +2,7 @@
 SLUG = "was-kostet-eine-webseite"
 KURZ = "Was kostet eine Webseite?"
 LABEL = "Preise 2026"
+KARTE = "Baukasten, Webdesigner oder Agentur: Preise, laufende Kosten und versteckte Kosten."
 TITLE = "Was kostet eine Webseite in Österreich? Preise 2026 | Tim Kofler"
 DESC = ("Baukasten, Webdesigner oder Agentur: was eine Webseite in Österreich wirklich kostet, "
         "welche laufenden Kosten dazukommen und wo versteckte Kosten lauern. Ehrlich erklärt.")
