@@ -152,6 +152,6 @@
 </main>
 
 <div class="toast" data-toast role="status" aria-live="polite"></div>
-<script src="assets/eintragen.js?v=1" defer></script>
+<script src="assets/eintragen.js?v=2" defer></script>
 </body>
 </html>
