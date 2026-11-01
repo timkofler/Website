@@ -105,9 +105,9 @@ echo <<<HTML
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/style.css?v=70c64693">
   <link rel="stylesheet" href="/assets/css/tk.css?v=4f0353c3">
-  <link rel="stylesheet" href="/assets/css/black.css?v=f153d819">
-  <meta name="tk-white-css" content="/assets/css/white.css?v=0be82886">
-  <script src="/assets/js/tk-black.js?v=add20d6a"></script>
+  <link rel="stylesheet" href="/assets/css/black.css?v=51777d41">
+  <meta name="tk-white-css" content="/assets/css/white.css?v=f77f3e6d">
+  <script src="/assets/js/tk-black.js?v=7d1a4488"></script>
   <link rel="stylesheet" href="/assets/css/ansicht.css?v=1">
 </head>
 <body class="an-page">

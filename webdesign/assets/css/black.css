@@ -403,27 +403,30 @@ html.tk-black select option:disabled { color: #8a8a8e; }
 html.tk-black ol.steps { list-style: none; }
 html.tk-black main a:not(.btn):not([class]):hover { color: var(--hot); }
 
-/* ---------- Umschalter Black/White (aus white.css, damit white.css nur bei White geladen werden muss) ---------- */
-.tk-ed { display: inline-flex; align-items: center; gap: 2px; padding: 3px; min-height: 42px; box-sizing: border-box; border-radius: 999px; cursor: pointer;
-  border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.02); color: #9b9b9f; font: 600 .72rem/1 var(--mono, monospace); letter-spacing: .08em; text-transform: uppercase; }
-.tk-ed__o { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: 999px; transition: background .3s, color .3s; white-space: nowrap; }
-.tk-ed__o em { font-style: normal; }
-.tk-ed svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
-.tk-ed__b svg { fill: currentColor; stroke: none; }
-.tk-ed[aria-pressed="false"] .tk-ed__b, .tk-ed[aria-pressed="true"] .tk-ed__w { background: #ff5a1f; color: #0b0b0c; }
-.tk-ed:hover { border-color: rgba(255,90,31,.6); }
+/* ---------- Umschalter Black/White als Lichtschalter (Kippschalter, Idee nach luminaracraft.de, eigener Nachbau) ----------
+   Black = Licht aus (Wippe unten, kleines oranges Orientierungslicht glimmt), White = Licht an (Wippe oben).
+   Steht hier statt in white.css, damit white.css nur bei White geladen werden muss. */
+.tk-ed { display: inline-flex; align-items: center; justify-content: center; width: 46px; min-height: 42px; padding: 0; box-sizing: border-box; border-radius: 999px; cursor: pointer;
+  border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.02); color: #9b9b9f; -webkit-tap-highlight-color: transparent; }
+.tk-ed__plate { position: relative; display: block; width: 22px; height: 30px; border-radius: 6px; perspective: 60px;
+  background: linear-gradient(180deg, #2a2a2e, #161618); box-shadow: inset 0 1px 0 rgba(255,255,255,.12), inset 0 0 0 1px rgba(255,255,255,.06), 0 2px 6px rgba(0,0,0,.5); }
+.tk-ed__lever { position: absolute; left: 4px; right: 4px; top: 5px; bottom: 5px; border-radius: 4px; transform-origin: 50% 50%;
+  background: linear-gradient(180deg, #4a4a50 0%, #2b2b30 48%, #1d1d21 52%, #26262b 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 3px 4px -1px rgba(0,0,0,.7);
+  transform: rotateX(-26deg) translateY(1.5px); transition: transform .18s cubic-bezier(.3,1.5,.5,1); }
+.tk-ed__led { position: absolute; left: 50%; bottom: 2px; width: 3px; height: 3px; margin-left: -1.5px; border-radius: 50%; background: #ff5a1f;
+  box-shadow: 0 0 6px 1px rgba(255,90,31,.8); transition: opacity .3s ease; }
+.tk-ed[aria-pressed="true"] .tk-ed__lever { transform: rotateX(26deg) translateY(-1.5px);
+  background: linear-gradient(180deg, #26262b 0%, #1d1d21 48%, #2b2b30 52%, #4a4a50 100%); box-shadow: inset 0 -1px 0 rgba(255,255,255,.18), 0 -2px 4px -1px rgba(0,0,0,.5); }
+.tk-ed[aria-pressed="true"] .tk-ed__led { opacity: .15; }
+.tk-ed:active .tk-ed__plate { transform: scale(.97); }
+@media (hover: hover) and (pointer: fine) { .tk-ed:hover { border-color: rgba(255,90,31,.6); } }
 .tk-ed:focus-visible { outline: 2px solid #ff5a1f; outline-offset: 3px; }
 .header__end .tk-ed, .ew-head .tk-ed { margin-right: 4px; }
 .header.is-pill .tk-ed { min-height: 40px; }
-/* Tim: nur Mond und Sonne, ohne Text */
-.tk-ed__o em { display: none; }
-.tk-ed__o { padding: 0 11px; }
 @media (max-width: 1100px) {
-  .tk-ed { width: 44px; height: 44px; min-height: 44px; padding: 0; justify-content: center; }
-  .tk-ed[aria-pressed="false"] .tk-ed__b, .tk-ed[aria-pressed="true"] .tk-ed__w { display: none; }
-  .tk-ed .tk-ed__o { background: none !important; color: #ff7a45 !important; height: auto; padding: 0; }
-  .tk-ed svg { width: 19px; height: 19px; }
-  /* Sonne/Mond und Menü sitzen zusammen in einer Kapsel, getrennt durch einen feinen Strich (Tim 27.10.) */
+  .tk-ed { width: 44px; height: 44px; min-height: 44px; }
+  /* Schalter und Menü sitzen zusammen in einer Kapsel, getrennt durch einen feinen Strich (Tim 27.10.) */
   .header__end .tk-ed:has(~ .nav-toggle) { width: 46px; margin-right: -10px; padding-left: 3px; border-right: 0; border-radius: 999px 0 0 999px; }
   .header__end .tk-ed ~ .nav-toggle { width: 48px; border-left: 0; border-radius: 0 999px 999px 0; }
   .header__end .tk-ed ~ .nav-toggle::before { content: ""; position: absolute; left: 0; top: 11px; bottom: 11px; width: 1px; background: rgba(255,255,255,.14); }
@@ -431,6 +434,7 @@ html.tk-black main a:not(.btn):not([class]):hover { color: var(--hot); }
   .header__end .tk-ed:has(~ .nav-toggle):hover, .header__end .tk-ed ~ .nav-toggle:hover { border-color: rgba(255,255,255,.14); }
 }
 @media (max-width: 359px) { .ew-head .tk-ed { display: none; } }
+@media (prefers-reduced-motion: reduce) { .tk-ed__lever { transition: none; } }
 html.tk-ed-anim body, html.tk-ed-anim body * { transition: background-color .4s ease, border-color .4s ease, color .4s ease !important; }
 /* Footer-Ende am Handy aufgeräumt (Tim 27.10.): Schriftzug mit Luft zum Rand, schwebende Knöpfe ab dem Schlusssatz weg,
    „Nach oben" steht dort ruhig unter dem Schriftzug (tk-black.js). Am PC bleibt der schwebende Pfeil, dort hat er Platz. */

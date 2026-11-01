@@ -34,8 +34,8 @@ html.tk-white .tk-logo img { content: url("/assets/img/tk-logo-2-hell.svg"); }
 html.tk-white .header__free { color: #16130f; border-color: rgba(28,20,12,.16); background: #fff; }
 html.tk-white .header__free:hover { color: #16130f; background: #fff7f2; }
 html.tk-white .tk-ed { border-color: rgba(28,20,12,.14); background: #fff; color: #6b645b; }
-html.tk-white .tk-ed[aria-pressed="true"] .tk-ed__w { color: #fff; }
-@media (max-width: 1100px) { html.tk-white .tk-ed .tk-ed__o { color: #e0531c !important; } }
+html.tk-white .tk-ed__plate { background: linear-gradient(180deg, #fbf8f3, #e9e3d9); box-shadow: inset 0 1px 0 #fff, inset 0 0 0 1px rgba(28,20,12,.1), 0 2px 5px rgba(28,20,12,.18); }
+html.tk-white .tk-ed[aria-pressed] .tk-ed__lever { background: linear-gradient(180deg, #e2dccf 0%, #f3efe7 48%, #fffdf9 52%, #fbf8f2 100%); box-shadow: inset 0 -1px 0 #fff, 0 -2px 4px -1px rgba(28,20,12,.25); }
 html.tk-white .nav-toggle { background: #fff; color: #16130f; border-color: rgba(28,20,12,.14); }
 html.tk-white .nav-toggle[aria-expanded="true"] path { stroke: #fff; }
 html.tk-white .header__end .tk-ed ~ .nav-toggle::before { background: rgba(28,20,12,.14); }
