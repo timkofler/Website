@@ -156,7 +156,7 @@ function tp_morgen_text(string $heute = ''): string
 // Schöne Namen für Seiten und Herkunft im Tagesbericht; Unbekanntes wird aus dem Pfad bzw. der Kennung gebaut.
 const TP_SEITEN = ['/' => 'Startseite', '/entwurf/' => 'Gratis-Entwurf', '/check/' => 'Webseiten-Check', '/verein/' => 'Vereine',
     '/gruender/' => 'Gründer', '/beispiele/' => 'Beispiele', '/ablauf/' => 'Ablauf', '/web-apps/' => 'Web-Apps', '/webseite/' => 'Webseite',
-    '/webseite-erneuern/' => 'Webseite erneuern', '/webseite-guenstig-erstellen/' => 'Günstige Webseite', '/webseite-erstellen-lassen/' => 'Webseite erstellen lassen', '/sicherheit/' => 'Sicherheit',
+    '/webseite-erneuern/' => 'Webseite erneuern', '/webseite-guenstig-erstellen/' => 'Günstige Webseite', '/ratgeber/' => 'Ratgeber', '/webseite-erstellen-lassen/' => 'Webseite erstellen lassen', '/sicherheit/' => 'Sicherheit',
     '/newsletter/' => 'Newsletter', '/impressum/' => 'Impressum', '/datenschutz/' => 'Datenschutz'];
 const TP_QUELLEN = ['instagram-ads' => 'Instagram-Werbung', 'instagram-story' => 'Instagram-Story', 'instagram' => 'Instagram', 'whatsapp' => 'WhatsApp',
     'telegram' => 'Telegram', 'linkedin' => 'LinkedIn', 'youtube' => 'YouTube', 'facebook' => 'Facebook', 'tiktok' => 'TikTok', 'chatgpt' => 'ChatGPT',

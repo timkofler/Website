@@ -1,0 +1,94 @@
+/* Ratgeber-Artikel (/ratgeber/…) – Black ist Standard, White über html.tk-white */
+.rg-hero h1 { max-width: 16ch; }
+.rg-meta { margin: 22px 0 0; font-size: .92rem; color: var(--muted); }
+.rg-meta a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.rg-section { padding-top: 56px; }
+.rg-wrap { display: flex; justify-content: center; }
+.rg.prose { width: 100%; max-width: 720px; }
+.rg.prose h2 { scroll-margin-top: 96px; margin-top: 52px; }
+.rg.prose a { color: var(--hot); text-decoration: underline; text-underline-offset: 3px; }
+
+.rg-kurz { position: relative; border: 1px solid rgba(255,90,31,.35); border-radius: 18px; padding: 22px 24px 8px;
+  background: linear-gradient(180deg, rgba(255,90,31,.08), rgba(255,90,31,.02)); box-shadow: inset 0 1px 0 rgba(255,255,255,.06); }
+.rg-kurz__t, .rg-toc__t { margin: 0 0 12px; font-size: .78rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--hot); }
+.rg-kurz ul { margin-bottom: 12px; }
+.rg-hinweis { font-size: .85rem; color: var(--muted) !important; }
+
+.rg-toc { margin: 28px 0 0; padding: 18px 22px; border: 1px solid var(--line-2); border-radius: 16px; background: var(--bk-glass, rgba(255,255,255,.03)); }
+.rg-toc__t { color: var(--muted); }
+.rg-toc ol { margin: 0; padding-left: 20px; }
+.rg-toc li { margin-bottom: 6px; }
+.rg.prose .rg-toc a { color: var(--text); text-decoration: none; }
+.rg.prose .rg-toc a:hover { color: var(--hot); }
+
+.rg-tabelle { overflow-x: auto; margin: 0 0 28px; border: 1px solid var(--line-2); border-radius: 16px; }
+.rg-tabelle table { width: 100%; min-width: 520px; border-collapse: collapse; font-size: .95rem; }
+.rg-tabelle th, .rg-tabelle td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+.rg-tabelle thead th { font-weight: 800; color: var(--text); background: rgba(255,255,255,.035); }
+.rg-tabelle tbody th { font-weight: 700; color: var(--muted); white-space: nowrap; }
+.rg-tabelle td { color: #cfcfca; }
+.rg-tabelle tr:last-child th, .rg-tabelle tr:last-child td { border-bottom: 0; }
+.rg-tabelle thead th:nth-child(3), .rg-tabelle td:nth-child(3) { background: rgba(255,90,31,.06); }
+
+.rg-tipp { margin: 8px 0 24px; padding: 16px 20px; border-left: 3px solid var(--hot); border-radius: 0 14px 14px 0; background: rgba(255,90,31,.06); }
+.rg-tipp p { margin: 0; }
+
+.rg.prose ul.rg-check { list-style: none; padding-left: 0; }
+.rg-check li { position: relative; padding-left: 32px; }
+.rg-check li::before { content: ""; position: absolute; left: 0; top: .2em; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--hot) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / 13px no-repeat; }
+
+.rg.prose ul.rg-preise { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 0 0 22px; }
+.rg-preise li { margin: 0; padding: 16px; border: 1px solid var(--line-2); border-radius: 14px; text-align: center; background: var(--bk-glass, rgba(255,255,255,.03)); }
+.rg-preise span { display: block; font-size: .85rem; color: var(--muted); }
+.rg-preise b { display: block; margin-top: 4px; font-size: 1.25rem; color: var(--text); white-space: nowrap; }
+
+.rg-autor { display: flex; gap: 16px; align-items: center; margin: 48px 0 0; padding: 18px 20px; border: 1px solid var(--line-2); border-radius: 16px; }
+.rg.prose .rg-autor img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; margin: 0; flex: none; }
+.rg-autor p { margin: 0; font-size: .95rem; }
+
+@media (max-width: 600px) {
+  .rg-kurz { padding: 18px 18px 4px; }
+  .rg.prose ul.rg-preise { grid-template-columns: 1fr; }
+  .rg-preise li { display: flex; justify-content: space-between; align-items: baseline; text-align: left; padding: 12px 16px; }
+  .rg-preise b { margin: 0; font-size: 1.1rem; }
+}
+
+/* White */
+html.tk-white .rg-tabelle td { color: #3d3832; }
+html.tk-white .rg-tabelle thead th { background: rgba(0,0,0,.035); }
+html.tk-white .rg-kurz { box-shadow: none; }
+
+/* Vergleich: am Handy Karten statt Tabelle */
+.rg.prose ul.rg-wege { display: none; list-style: none; padding: 0; margin: 0 0 28px; }
+.rg-wege li { margin: 0 0 10px; padding: 16px 18px; border: 1px solid var(--line-2); border-radius: 14px; background: var(--bk-glass, rgba(255,255,255,.03)); }
+.rg-wege li.is-hi { border-color: rgba(255,90,31,.4); background: rgba(255,90,31,.06); }
+.rg-wege b { display: block; font-size: 1.05rem; color: var(--text); }
+.rg-wege span { display: block; margin-top: 4px; }
+.rg-wege span:nth-of-type(1) { color: var(--hot); font-weight: 700; }
+@media (max-width: 600px) {
+  .rg-tabelle { display: none; }
+  .rg.prose ul.rg-wege { display: block; }
+  .rg-section { padding-top: 24px; }
+}
+
+/* Artikel-Karten (Übersicht und Weiterlesen) */
+.rg-karten { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.rg-karten > li { margin: 0; }
+.rg-karte { display: flex; flex-direction: column; height: 100%; padding: 22px 22px 20px; border: 1px solid var(--line-2); border-radius: 18px;
+  background: var(--bk-glass, rgba(255,255,255,.03)); box-shadow: var(--bk-edge, none); color: var(--text); text-decoration: none;
+  transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease; }
+.rg-karte:hover { border-color: rgba(255,90,31,.55); transform: translateY(-2px); box-shadow: 0 0 28px -10px rgba(255,90,31,.5); }
+.rg-karte:focus-visible { outline: 2px solid var(--hot); outline-offset: 3px; }
+.rg-karte__l { font-size: .74rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--hot); }
+.rg-karte h3 { margin: 10px 0 8px; font-size: 1.18rem; line-height: 1.3; color: var(--text); }
+.rg-karte p { margin: 0 0 16px; color: var(--muted); font-size: .95rem; line-height: 1.55; }
+.rg-karte__mehr { margin-top: auto; display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: .92rem; color: var(--text); }
+.rg-karte__mehr svg { width: 16px; height: 16px; color: var(--hot); transition: transform .2s ease; }
+.rg-karte:hover .rg-karte__mehr svg { transform: translateX(3px); }
+@media (prefers-reduced-motion: reduce) { .rg-karte, .rg-karte__mehr svg { transition: none; } .rg-karte:hover { transform: none; } }
+@media (max-width: 960px) { .rg-karten { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .rg-karten { grid-template-columns: 1fr; gap: 12px; } .rg-karte { padding: 18px; } }
+html.tk-white .rg-karte { background: #fff; }
+.rg-karte, .rg-karte:hover, .rg-karte * { text-decoration: none !important; }
+@media (min-width: 1100px) { .rg-karten--alle { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
