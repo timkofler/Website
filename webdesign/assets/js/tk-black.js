@@ -165,7 +165,25 @@
     if (!ok3d) root.classList.add("tk-3d-still");
   }
 
-  function mount() { switcher(); footLogo(); topBtn(); }
+  // Lesebalken (1.11.2026): dünne orange Linie ganz oben zeigt, wie weit man auf der Seite ist. Nicht im Kundenportal,
+  // nur auf Seiten, die deutlich länger als ein Bildschirm sind. Bewegt wird nur transform (scaleX).
+  function readBar() {
+    if (document.body.classList.contains("kp") || document.querySelector(".tk-prog")) return;
+    var bar = document.createElement("div"), ticking = false;
+    bar.className = "tk-prog"; bar.setAttribute("aria-hidden", "true");
+    document.body.appendChild(bar);
+    function upd() {
+      ticking = false;
+      var h = document.documentElement.scrollHeight - innerHeight;
+      bar.classList.toggle("is-on", h > innerHeight * 1.5);
+      bar.style.transform = "scaleX(" + (h > 0 ? Math.min(1, Math.max(0, scrollY / h)) : 0).toFixed(4) + ")";
+    }
+    addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(upd); } }, { passive: true });
+    addEventListener("resize", upd, { passive: true });
+    upd();
+  }
+
+  function mount() { switcher(); footLogo(); topBtn(); readBar(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount);
   else mount();
 })();
