@@ -11,7 +11,7 @@
 <link rel="preload" href="assets/fonts/anton.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/img/hero-800.webp" as="image" media="(max-width: 800px)">
 <link rel="preload" href="assets/img/hero.webp" as="image" media="(min-width: 801px)">
-<link rel="stylesheet" href="assets/style.css?v=1">
+<link rel="stylesheet" href="assets/style.css?v=2">
 <script src="assets/early.js?v=1"></script>
 <script src="assets/app.js?v=1" defer></script>
 <script type="application/ld+json">
@@ -104,10 +104,10 @@
         <li class="ev reveal">
           <div class="ev__date"><span>Sa</span><b>05</b><span>Dez</span></div>
           <div class="ev__body">
+            <span class="ev__chip">Opening</span>
             <h3>Pueblo Christmas Floor</h3>
             <p>90er · 2000er · Charts · ab 21 Uhr</p>
           </div>
-          <span class="ev__chip">Opening</span>
         </li>
         <li class="ev reveal">
           <div class="ev__date"><span>Sa</span><b>12</b><span>Dez</span></div>
@@ -119,10 +119,10 @@
         <li class="ev reveal">
           <div class="ev__date"><span>Sa</span><b>19</b><span>Dez</span></div>
           <div class="ev__body">
+            <span class="ev__chip ev__chip--hot">Finale</span>
             <h3>Pueblo Christmas Floor</h3>
             <p>Der letzte Floor vor Weihnachten · ab 21 Uhr</p>
           </div>
-          <span class="ev__chip ev__chip--hot">Finale</span>
         </li>
         <li class="ev ev--soon reveal">
           <div class="ev__date"><span>&nbsp;</span><b>?</b><span>bald</span></div>
