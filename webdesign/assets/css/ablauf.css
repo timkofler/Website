@@ -131,17 +131,25 @@ section[id], .ab-step { scroll-margin-top: 80px; }
 .ab-more a, .ab-run__note a { color: var(--text); font-weight: 600; text-decoration: underline; text-decoration-color: var(--hot); text-underline-offset: 4px; }
 .ab-run { margin-top: 44px; border: 1px solid var(--line-2); border-radius: 22px; background: var(--bg-2); padding: 30px 32px; }
 .ab-run h3 { font-family: var(--display); font-weight: 500; font-size: 1.2rem; margin: 0 0 14px; }
-.ab-table { width: 100%; border-collapse: collapse; }
-.ab-table th, .ab-table td { padding: 16px 0; border-top: 1px solid var(--line); vertical-align: top; }
-.ab-table tr:first-child th, .ab-table tr:first-child td { border-top: 0; }
-.ab-table th { text-align: left; font-weight: 700; padding-right: 24px; }
-.ab-table th small { display: block; font-weight: 400; color: var(--muted); font-size: .9rem; margin-top: 2px; }
-.ab-table__link { display: flex; width: max-content; margin-left: auto; align-items: center; gap: 6px; margin-top: 10px; font-family: var(--body); padding: 7px 14px; border-radius: 999px; border: 1px solid rgba(255,90,31,.45); background: var(--hot-dim); color: var(--hot); font-size: .88rem; font-weight: 600; text-decoration: none; transition: border-color .2s, background .2s; }
-.ab-table__link:hover { border-color: var(--hot); color: var(--hot); }
-.ab-table__link svg { width: 14px; height: 14px; }
-.ab-table td { text-align: right; white-space: nowrap; font: 600 1.05rem var(--display); }
+.ab-cost { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.ab-cost__item { border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; background: rgba(255,255,255,.02); }
+.ab-cost__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.ab-cost__head h4 { margin: 0; font-size: 1.02rem; font-weight: 700; line-height: 1.35; }
+.ab-cost__price { flex: none; text-align: right; font: 600 1.15rem var(--display); white-space: nowrap; }
+.ab-cost__item p { margin: 6px 0 0; color: var(--muted); font-size: .92rem; line-height: 1.55; }
+.ab-cost__btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; padding: 8px 16px; border-radius: 999px; border: 1px solid rgba(255,90,31,.45); background: var(--hot-dim); color: var(--hot); font: 600 .9rem var(--body); text-decoration: none; transition: border-color .2s; }
+.ab-run .ab-cost__btn { text-decoration: none; }
+html.tk-white .ab-zero { color: #12884a; }
+.ab-cost__btn:hover { border-color: var(--hot); }
+.ab-cost__btn svg { width: 14px; height: 14px; }
+.ab-cost__btn--ghost { background: transparent; border-color: var(--line-2); color: var(--text); }
+.ab-cost__btn--ghost:hover { border-color: var(--hot); }
+.ab-run__ad { margin-left: 10px; font-size: .75rem; color: var(--muted); }
 .ab-zero { color: #7fe0a3; }
-.ab-run__note { margin: 14px 0 0; color: var(--muted); font-size: .9rem; }
+.ab-run__note { margin: 16px 0 0; padding: 18px 20px; border-radius: 16px; border: 1px dashed var(--line-2); }
+.ab-run__note p { margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.55; }
+.ab-run__note strong { color: var(--text); }
+.ab-run__note .ab-cost__btn { margin-top: 12px; }
 
 /* ---------- Kundenportal ---------- */
 .ab-portal { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 64px; align-items: center; }
@@ -183,16 +191,8 @@ section[id], .ab-step { scroll-margin-top: 80px; }
   .ab-total b { font-size: 1.25rem; }
   .ab-col { padding: 24px 20px; border-radius: 20px; }
   .ab-run { padding: 24px 20px; }
-  .ab-table td { font-size: .95rem; }
-  .ab-table th { padding-right: 14px; }
+  .ab-cost__item, .ab-run__note { padding: 16px; }
 }
-@media (max-width: 600px) {
-  .ab-table tr { display: grid; gap: 8px; padding: 16px 0; border-top: 1px solid var(--line); }
-  .ab-table tr:first-child { border-top: 0; padding-top: 0; }
-  .ab-table th, .ab-table td { padding: 0; border-top: 0; }
-  .ab-table th { padding-right: 0; }
-  .ab-table td { text-align: left; }
-  .ab-table__link { margin-left: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   .ab-step .ab-msg { opacity: 1; transform: none; transition: none; }
