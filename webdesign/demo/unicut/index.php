@@ -13,8 +13,10 @@
 <link rel="preload" href="assets/img/hero-800.webp" as="image" media="(max-width: 800px)">
 <link rel="preload" href="assets/img/hero.webp" as="image" media="(min-width: 801px)">
 <link rel="stylesheet" href="assets/style.css?v=1">
+<link rel="stylesheet" href="assets/buchung.css?v=1">
 <script src="assets/early.js?v=1"></script>
 <script src="assets/app.js?v=1" defer></script>
+<script type="module" src="assets/termin.js?v=1"></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -45,7 +47,7 @@
     <a href="#looks">Looks</a>
     <a href="#kontakt">Kontakt</a>
   </nav>
-  <a class="btn btn--dark nav__cta" href="#termin">Termin</a>
+  <a class="btn btn--dark nav__cta" href="#termin" data-book>Termin buchen</a>
   <button class="nav__burger" id="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Menü öffnen"><span></span><span></span></button>
 </header>
 
@@ -55,7 +57,7 @@
     <a href="#studio">Studio</a>
     <a href="#looks">Looks</a>
     <a href="#kontakt">Kontakt</a>
-    <a class="btn btn--light" href="#termin">Termin anfragen</a>
+    <a class="btn btn--light" href="#termin" data-book>Termin buchen</a>
   </nav>
   <p class="menu__tel"><a href="tel:+436640000000" data-demo-tel>0664 / 000 00 00</a></p>
 </div>
@@ -69,7 +71,7 @@
       <h1 class="hero__title">Jede Frisur<br><em>ein Unikat.</em></h1>
       <p class="hero__lead">Schnitt, Farbe und Styling, dazu Wimpern und Nägel. Alles an einem Ort, von einem Team, das sein Handwerk liebt.</p>
       <div class="hero__btns">
-        <a class="btn btn--dark" href="#termin">Termin anfragen</a>
+        <a class="btn btn--dark" href="#termin" data-book>Termin buchen</a>
         <a class="btn btn--line" href="tel:+436640000000" data-demo-tel>0664 / 000 00 00</a>
       </div>
     </div>
@@ -122,6 +124,7 @@
               <li><span>Pflege</span><em>Treatments für gesundes Haar</em></li>
               <li><span>Hochsteckfrisuren</span><em>Hochzeit, Ball, Firmung</em></li>
             </ul>
+            <button class="btn btn--dark svc__book" type="button" data-book data-svc="d-schnitt">Haare-Termin buchen</button>
           </div>
         </div>
         <div class="svc__pane" id="p-wimpern" role="tabpanel" aria-labelledby="t-wimpern" hidden>
@@ -134,6 +137,7 @@
               <li><span>Auffüllen</span><em>Damit es lange schön bleibt</em></li>
               <li><span>Lifting</span><em>Für deine eigenen Wimpern</em></li>
             </ul>
+            <button class="btn btn--dark svc__book" type="button" data-book data-svc="w-auff">Wimpern-Termin buchen</button>
           </div>
         </div>
         <div class="svc__pane" id="p-naegel" role="tabpanel" aria-labelledby="t-naegel" hidden>
@@ -146,10 +150,11 @@
               <li><span>Nail Art</span><em>Dezent bis auffällig</em></li>
               <li><span>Maniküre</span><em>Pflege für die Hände</em></li>
             </ul>
+            <button class="btn btn--dark svc__book" type="button" data-book data-svc="n-auff">Nägel-Termin buchen</button>
           </div>
         </div>
       </div>
-      <p class="svc__note reveal">Preise und freie Termine gerne telefonisch oder per Nachricht.</p>
+      <p class="svc__note reveal">Preise gerne telefonisch oder direkt bei der Online-Buchung nachfragen.</p>
     </div>
   </section>
 
@@ -219,30 +224,21 @@
           <p class="eyebrow">Termin</p>
           <h2>Zeit für <em>etwas Neues?</em></h2>
         </div>
-        <p class="reveal">Am schnellsten geht es telefonisch. Oder du hinterlässt hier deinen Wunsch und wir rufen dich zurück.</p>
+        <p class="reveal">Such dir deinen Termin direkt online aus, ganz ohne Warteschleife. Lieber persönlich? Dann ruf einfach an.</p>
         <a class="bigtel reveal" href="tel:+436640000000" data-demo-tel><small>Anrufen</small>0664 / 000 00 00</a>
       </div>
 
-      <form class="form reveal" id="form" novalidate>
-        <fieldset class="chips">
-          <legend>Worum geht es?</legend>
-          <label><input type="radio" name="art" value="Haare" checked><span>Haare</span></label>
-          <label><input type="radio" name="art" value="Wimpern"><span>Wimpern</span></label>
-          <label><input type="radio" name="art" value="Nägel"><span>Nägel</span></label>
-          <label><input type="radio" name="art" value="Anlass"><span>Hochzeit &amp; Anlass</span></label>
-        </fieldset>
-        <fieldset class="chips chips--days">
-          <legend>Wann passt es dir?</legend>
-          <label><input type="radio" name="zeit" value="Vormittag" checked><span>Vormittag</span></label>
-          <label><input type="radio" name="zeit" value="Nachmittag"><span>Nachmittag</span></label>
-          <label><input type="radio" name="zeit" value="Samstag"><span>Samstag</span></label>
-        </fieldset>
-        <label class="fld"><span>Name</span><input type="text" name="name" autocomplete="name" required></label>
-        <label class="fld"><span>Telefon</span><input type="tel" name="tel" autocomplete="tel" inputmode="tel" required></label>
-        <button class="btn btn--dark btn--full" type="submit">Rückruf anfragen</button>
-        <p class="form__ok" id="form-ok" role="status" hidden>Danke! Das ist nur der Entwurf, deshalb wird noch nichts verschickt. Auf der fertigen Seite landet die Anfrage direkt bei euch.</p>
-        <p class="form__err" id="form-err" role="alert" hidden>Bitte Name und Telefon ausfüllen.</p>
-      </form>
+      <div class="book reveal">
+        <p class="book__kick">Online buchen · rund um die Uhr</p>
+        <h3 class="book__t">Freie Termine <em>auf einen Blick</em></h3>
+        <ul class="book__rows">
+          <li><button type="button" data-book data-svc="d-schnitt"><span class="book__n">Haare</span><span class="book__f" data-next="anna">Freie Zeiten laden …</span><span class="book__go" aria-hidden="true">→</span></button></li>
+          <li><button type="button" data-book data-svc="w-auff"><span class="book__n">Wimpern</span><span class="book__f" data-next="sarah">Freie Zeiten laden …</span><span class="book__go" aria-hidden="true">→</span></button></li>
+          <li><button type="button" data-book data-svc="n-auff"><span class="book__n">Nägel</span><span class="book__f" data-next="lisa">Freie Zeiten laden …</span><span class="book__go" aria-hidden="true">→</span></button></li>
+        </ul>
+        <button class="btn btn--dark btn--full" type="button" data-book>Termin buchen</button>
+        <p class="book__note">Leistung wählen, Uhrzeit antippen, fertig. Mit Erinnerung am Vortag und Eintrag im Handy-Kalender.</p>
+      </div>
     </div>
   </section>
 
