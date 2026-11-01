@@ -456,3 +456,4 @@ dialog::backdrop{background:rgba(46,27,41,.55);backdrop-filter:blur(4px);-webkit
 .auto b{display:block;color:var(--ink);font-size:15px;margin-bottom:2px}
 .auto__schalter{flex:none;position:relative;width:44px;height:26px;border-radius:99px;background:#e5d6dc;margin-top:2px}
 .auto__schalter::after{content:"";position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.zaehler{font-variant-numeric:tabular-nums;display:inline-block;min-width:2.6ch;text-align:right}

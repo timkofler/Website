@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#fdf3ee">
 <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=2">
+<link rel="stylesheet" href="assets/style.css?v=3">
 </head>
 <body class="ein">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
