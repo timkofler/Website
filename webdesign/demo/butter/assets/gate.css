@@ -1,0 +1,20 @@
+@font-face{font-family:"Fraunces";src:url(fonts/fraunces.woff2) format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Inter";src:url(fonts/inter.woff2) format("woff2");font-weight:100 900;font-display:swap}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:#fbf5e6 radial-gradient(circle at 50% 0,#fde9a6 0,rgba(253,233,166,0) 60%);color:#2a2119;font:400 16px/1.6 "Inter",system-ui,sans-serif;display:grid;place-items:center;min-height:100vh;min-height:100svh;padding:24px 16px}
+.gate{width:100%;max-width:360px;text-align:center}
+.gate__stamp{width:132px;height:132px;margin:0 auto 18px;border-radius:50%;box-shadow:0 18px 40px -22px rgba(42,33,25,.55)}
+.gate__name{font:500 30px/1.1 "Fraunces",Georgia,serif;margin:0 0 10px}
+.gate__name em{color:#a8700f}
+.gate__txt{color:#6b5f52;margin:0 0 24px}
+form{display:grid;gap:10px;text-align:left}
+label{font:700 11px/1 "Inter",sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#6b5f52}
+input{width:100%;min-height:52px;border-radius:14px;border:1.5px solid rgba(42,33,25,.18);background:#fff;color:#2a2119;font:500 17px "Inter",sans-serif;padding:0 16px}
+input:focus{outline:2.5px solid #e9b949;outline-offset:2px}
+button{min-height:54px;border:0;border-radius:999px;background:#2a2119;color:#fbf5e6;font:650 16px "Inter",sans-serif;cursor:pointer;margin-top:8px;transition:background .2s,transform .15s}
+button:hover{background:#43342a}
+button:active{transform:scale(.98)}
+.gate__err{color:#a3402a;margin:2px 0 0;font-size:14px}
+.gate__tk{display:inline-flex;align-items:center;gap:10px;margin-top:34px;color:#6b5f52;font-size:13px;text-decoration:none}
+.gate__tk img{height:14px;width:auto}
