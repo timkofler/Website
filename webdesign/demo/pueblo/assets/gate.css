@@ -1,0 +1,19 @@
+@font-face{font-family:"Anton";src:url(fonts/anton.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Manrope";src:url(fonts/manrope.woff2) format("woff2");font-weight:200 800;font-display:swap}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:radial-gradient(60% 45% at 50% 28%,rgba(168,52,255,.28),transparent 70%),radial-gradient(50% 40% at 70% 80%,rgba(255,106,26,.16),transparent 70%),#07060b;color:#f5f1ff;font:400 16px/1.6 "Manrope",system-ui,sans-serif;display:grid;place-items:center;min-height:100vh;min-height:100svh;padding:24px 16px}
+.gate{width:100%;max-width:380px;text-align:center}
+.gate__mark{display:inline-grid;place-items:center;width:150px;height:150px;border-radius:50%;margin:0 auto 22px;background:radial-gradient(circle,#120d1c 58%,transparent 60%),conic-gradient(from 200deg,#7b2cff,#ff2bd6,#ff6a1a,#ffb21a,#7b2cff);box-shadow:0 0 50px rgba(255,43,214,.35);align-content:center}
+.gate__mark span{font:400 34px/1 "Anton",Impact,sans-serif;letter-spacing:.02em;background:linear-gradient(90deg,#fff,#e9d7ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.gate__mark small{font:700 9px/1 "Manrope",sans-serif;letter-spacing:.42em;color:#c8b6e6;margin-top:6px;padding-left:.42em}
+p{color:#b3a9c7;margin:0 0 24px}
+form{display:grid;gap:10px;text-align:left}
+label{font:700 12px/1 "Manrope",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#ff7ae6}
+input{width:100%;min-height:52px;border-radius:14px;border:0;background:#141020;color:#fff;font:500 17px "Manrope",sans-serif;padding:0 16px;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.14)}
+input:focus{outline:none;box-shadow:inset 0 0 0 2px #ff2bd6,0 0 24px rgba(255,43,214,.3)}
+button{min-height:52px;border-radius:999px;border:0;background:linear-gradient(100deg,#7b2cff,#ff2bd6 55%,#ff6a1a);color:#fff;font:800 16px "Manrope",sans-serif;cursor:pointer;margin-top:6px;box-shadow:0 14px 40px -14px rgba(255,43,214,.8);transition:transform .14s ease-out}
+button:active{transform:scale(.97)}
+.gate__err{color:#ff8fb1;margin:2px 0 0;font-size:14px}
+.gate__tk{display:inline-flex;align-items:center;gap:10px;margin-top:34px;color:#b3a9c7;font-size:13px;text-decoration:none}
+.gate__tk img{height:14px;width:auto}

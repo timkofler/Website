@@ -960,6 +960,11 @@ function kp_project_card(array $acc, bool $forKunde, string $edit = '', string $
     }
     $termine = kp_termine_html($acc, $termDel);
     $freigabe = kp_freigabe_html($acc, $forKunde ? $csrf : '');
+    if (!$forKunde) {
+        $bt = kp_betreuung($acc);
+        $freigabe .= '<p class="kp-hint kp-freigabe__wartet">Betreuung nach dem Livegang: ' . ($bt === '' ? 'noch nicht gewählt (der Kunde sieht dafür eine Karte im Portal)'
+            : '<b>' . cx_h(kp_betreuung_label($bt)) . '</b>, ' . (($acc['betreuung']['von'] ?? '') === 'tim' ? 'von dir eingetragen' : 'vom Kunden gewählt') . ' am ' . date('d.m.Y', strtotime((string) ($acc['betreuung']['zeit'] ?? '')) ?: time())) . '</p>';
+    }
     return '<section class="kp-card kp-projekt" aria-label="Stand der Webseite">'
         . '<div class="kp-projekt__kopf"><div><span class="kp-eyebrow">Stand deiner Webseite · Schritt ' . ($pos + 1) . ' von ' . count($keys) . '</span>'
         . '<h2>' . cx_h($title) . '</h2><p>' . ($forKunde ? cx_h($text) : $text) . '</p></div>' . $btn . '</div>'
@@ -1053,6 +1058,77 @@ function kp_freigabe_html(array $acc, string $csrf): string
     <label class="form__check"><input type="checkbox" name="sicher" value="ja" required><span>Ich habe mir die Vorschau angesehen. Sie passt so und darf online gehen.</span></label>
     <p class="kp-hint">Kleine Änderungen sind danach trotzdem jederzeit möglich, schreib mir einfach.</p>
     <button class="btn" type="submit">Entwurf freigeben</button>
+  </form>
+</details>
+HTML;
+}
+
+// ---------------- Betreuung nach dem Livegang ----------------
+// Der Kunde wählt bis zum Livegang ein Betreuungs-Paket oder keines (Feld „betreuung“: ['paket' => …, 'zeit' => …, 'von' => 'kunde'|'tim']).
+// Freiwillig, monatlich kündbar, zu zahlen erst ab dem Livegang. Preise wie auf /betreuung/ (quellen/betreuung/build.py).
+
+const KP_BETREUUNG = [
+    'keine' => ['Keine Betreuung', 0, 'Passt auch. Änderungen mache ich dann nach Aufwand.'],
+    'sicher' => ['Sicher', 19, 'Updates, monatliche Sicherung, Ausfall-Wächter, Hilfe bei Domain und E-Mail'],
+    'sorglos' => ['Sorglos', 29, 'Alles aus Sicher, dazu bis 30 Minuten Änderungen im Monat'],
+    'plus' => ['Plus', 49, 'Alles aus Sorglos, bis 1 Stunde Änderungen, Google-Beitrag und Monatsbericht'],
+];
+
+function kp_betreuung(array $acc): string
+{
+    $p = (string) ($acc['betreuung']['paket'] ?? '');
+    return isset(KP_BETREUUNG[$p]) ? $p : '';
+}
+
+// „Sorglos · 29 € im Monat“ bzw. „Keine Betreuung“
+function kp_betreuung_label(string $p): string
+{
+    if (!isset(KP_BETREUUNG[$p])) {
+        return '';
+    }
+    [$name, $preis] = KP_BETREUUNG[$p];
+    return $preis > 0 ? $name . ' · ' . $preis . ' € im Monat' : $name;
+}
+
+function kp_betreuung_offen(array $acc): bool
+{
+    return kp_phase($acc) !== 'online';
+}
+
+// Karte im Portal: zugeklappt eine Zeile mit dem Stand, aufgeklappt die vier Möglichkeiten.
+// Nach dem Livegang nur noch der Stand (Wechseln oder Kündigen per Nachricht).
+function kp_betreuung_card(array $acc, string $csrf): string
+{
+    $wahl = kp_betreuung($acc);
+    $online = !kp_betreuung_offen($acc);
+    if ($online && $wahl === '') {
+        return '';
+    }
+    $ico = '<span class="kp-betreuung__ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5.5c0 4.3-2.9 8.1-7 9.5-4.1-1.4-7-5.2-7-9.5V6z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg></span>';
+    $sub = $wahl === '' ? 'Freiwillig und monatlich kündbar. Wähle ein Paket oder keines.'
+        : ($wahl === 'keine' ? 'Du hast <b>keine Betreuung</b> gewählt' : 'Gewählt: <b>' . cx_h(kp_betreuung_label($wahl)) . '</b>' . ($online ? '' : ', ab dem Livegang'));
+    if ($online) {
+        return '<section class="kp-card kp-betreuung kp-betreuung--fix" aria-label="Betreuung"><div class="kp-betreuung__zeile">' . $ico
+            . '<span class="kp-betreuung__txt"><b>Betreuung</b><small>' . $sub . '. Wechseln oder kündigen? Schreib mir einfach eine Nachricht.</small></span></div></section>';
+    }
+    $opts = '';
+    foreach (KP_BETREUUNG as $key => [$name, $preis, $was]) {
+        $tag = $key === 'sorglos' ? '<em class="kp-paket__tag">Empfohlen</em>' : '';
+        $opts .= '<label class="kp-paket' . ($key === 'keine' ? ' kp-paket--keine' : '') . '"><input type="radio" name="paket" value="' . $key . '" required' . ($key === $wahl ? ' checked' : '') . '>'
+            . '<span class="kp-paket__kopf"><b>' . cx_h($name) . '</b>' . $tag . '</span>'
+            . ($preis > 0 ? '<span class="kp-paket__preis">' . $preis . ' €<small> / Monat</small></span>' : '<span class="kp-paket__preis kp-paket__preis--null">0 €</span>')
+            . '<span class="kp-paket__was">' . cx_h($was) . '</span></label>';
+    }
+    $btn = $wahl === '' ? 'Auswählen' : 'Ändern';
+    return <<<HTML
+<details class="kp-card kp-betreuung" id="betreuung">
+  <summary class="kp-betreuung__zeile">{$ico}<span class="kp-betreuung__txt"><b>Betreuung nach dem Livegang</b><small>{$sub}</small></span><span class="btn btn--sm btn--line kp-betreuung__btn">{$btn}</span></summary>
+  <form class="kp-betreuung__form" method="post" action="/kunden/#betreuung">
+    {$csrf}
+    <input type="hidden" name="aktion" value="betreuung">
+    <fieldset class="kp-pakete"><legend class="sr-only">Betreuungs-Paket</legend>{$opts}</fieldset>
+    <p class="kp-betreuung__info"><b>Jetzt zahlst du dafür nichts.</b> Die Betreuung beginnt erst mit dem Livegang und steht das erste Mal auf der Endrechnung, danach monatlich. Monatlich kündbar. <a href="/betreuung/" target="_blank" rel="noopener">Alle Leistungen ansehen</a></p>
+    <div class="kp-betreuung__senden"><button class="btn" type="submit">Auswahl speichern</button><span class="kp-hint">Bis zum Livegang kannst du die Auswahl jederzeit ändern.</span></div>
   </form>
 </details>
 HTML;
@@ -1242,7 +1318,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <link rel="stylesheet" href="/assets/css/tk.css?v=4f0353c3">
   <link rel="stylesheet" href="/assets/css/black.css?v=f153d819">
   <script src="/assets/js/tk-black.js?v=add20d6a"></script>
-  <link rel="stylesheet" href="/assets/css/portal.css?v=f6d5f89e">
+  <link rel="stylesheet" href="/assets/css/portal.css?v=a2221748">
 </head>
 <body class="kp">
 <header class="header">
