@@ -7,7 +7,7 @@ DESC = ("Seit 28. Juni 2025 gilt in Österreich das Barrierefreiheitsgesetz (BaF
         "wer ausgenommen ist und was eine barrierearme Webseite ausmacht, einfach erklärt.")
 KARTE = "Seit Juni 2025 in Kraft: wer betroffen ist, wer nicht und was trotzdem sinnvoll ist."
 H1_TEXT = "Barrierefreiheitsgesetz: Betrifft es meine Webseite?"
-H1 = 'Barrierefreiheitsgesetz: <span class="lime">Betrifft es meine Webseite?</span>'
+H1 = 'Barriere&shy;freiheits&shy;gesetz: <span class="lime">Betrifft es meine Webseite?</span>'
 LEAD = ("Seit Sommer 2025 gilt das Barrierefreiheitsgesetz. Viele kleine Betriebe sind unsicher, ob sie "
         "jetzt ihre Webseite umbauen müssen. Meistens nicht, aber es lohnt sich trotzdem.")
 DATUM = "2026-11-01"
