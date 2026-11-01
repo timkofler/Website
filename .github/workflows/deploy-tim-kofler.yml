@@ -8,6 +8,12 @@
 #   FTP_USERNAME_TK     FTP-Benutzer für tim-kofler.at (eigener Zugang im KAS)
 #   FTP_PASSWORD_TK     Passwort dieses FTP-Benutzers
 #
+# SCHNELL-MODUS: Hochgeladen werden nur die Dateien, die sich seit dem letzten erfolgreichen Veröffentlichen
+# geändert haben (Vergleich per git mit dem Commit des letzten grünen Laufs dieses Workflows auf main).
+# Früher hat lftp jedes Mal alle ~1.070 Dateien (~100 MB, 14–20 Min.) neu hochgeladen, weil der Checkout jeder
+# Datei eine neue Uhrzeit gibt. Ist kein früherer Stand bekannt (oder "Alles hochladen" beim manuellen Start
+# angehakt), wird wie früher die ganze Seite hochgeladen.
+#
 # Der FTP-Zugang zeigt bereits auf den Ordner von tim-kofler.at, deshalb wird in das Stammverzeichnis dieses Zugangs hochgeladen.
 # Es werden nur Dateien hochgeladen bzw. überschrieben, auf dem Webspace wird NICHTS gelöscht.
 # api/_data/config.php (mit den Zugangsdaten) liegt NICHT im Repo und wird nie überschrieben.
@@ -22,10 +28,19 @@ on:
       - ".github/workflows/deploy-tim-kofler.yml"
       - ".github/scripts/beispiele-zaehler.py"
   workflow_dispatch:
+    inputs:
+      alles:
+        description: "Alles hochladen (statt nur geänderte Dateien)"
+        type: boolean
+        default: false
 
 concurrency:
   group: deploy-tim-kofler
   cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: read
 
 jobs:
   deploy:
@@ -48,6 +63,8 @@ jobs:
       - name: Code holen
         if: steps.check.outputs.ready == 'true'
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # ganze Geschichte, damit der Vergleich mit dem zuletzt veröffentlichten Stand klappt
 
       - name: Zahl der Beispiele automatisch angleichen
         if: steps.check.outputs.ready == 'true'
@@ -56,17 +73,76 @@ jobs:
         continue-on-error: true
         run: python3 .github/scripts/beispiele-zaehler.py --schreiben
 
-      - name: lftp installieren
+      - name: Geänderte Dateien bestimmen
         if: steps.check.outputs.ready == 'true'
+        id: plan
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ALLES: ${{ inputs.alles }}
+        run: |
+          set -euo pipefail
+          # Commit des letzten erfolgreichen Laufs dieses Workflows auf main = zuletzt veröffentlichter Stand
+          BASIS=""
+          if [ "${ALLES:-false}" != "true" ]; then
+            BASIS=$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/deploy-tim-kofler.yml/runs?branch=main&status=success&per_page=1" \
+              --jq '.workflow_runs[0].head_sha // ""' 2>/dev/null || true)
+          fi
+          if [ -z "$BASIS" ] || ! git cat-file -e "${BASIS}^{commit}" 2>/dev/null; then
+            echo "Kein früherer Stand bekannt (oder 'Alles hochladen' gewählt) – es wird die ganze Seite hochgeladen."
+            echo "modus=alles" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "Zuletzt veröffentlicht: $BASIS – jetzt: $GITHUB_SHA"
+
+          # a) seit damals neue/geänderte Dateien (gelöschte zählen nicht, auf dem Server wird nichts gelöscht)
+          # b) Dateien, die der Beispiel-Zähler gerade eben geändert hat (nicht committet, müssen trotzdem hoch)
+          { git diff -z --name-only --no-renames --diff-filter=ACMRT "$BASIS" HEAD -- webdesign/
+            git diff -z --name-only --no-renames --diff-filter=ACMRT HEAD -- webdesign/
+          } | sort -zu > "$RUNNER_TEMP/liste"
+
+          # In zwei Bereitstellungs-Ordner kopieren: zuerst assets/, dann der Rest (siehe unten)
+          mkdir -p "$RUNNER_TEMP/zuerst" "$RUNNER_TEMP/danach"
+          ANZAHL=0
+          while IFS= read -r -d '' DATEI; do
+            REL="${DATEI#webdesign/}"
+            [ -f "$DATEI" ] || continue
+            case "$REL" in
+              assets/*) ZIEL="$RUNNER_TEMP/zuerst" ;;
+              *)        ZIEL="$RUNNER_TEMP/danach" ;;
+            esac
+            mkdir -p "$ZIEL/$(dirname "$REL")"
+            cp -p "$DATEI" "$ZIEL/$REL"
+            echo "  $REL"
+            ANZAHL=$((ANZAHL + 1))
+          done < "$RUNNER_TEMP/liste"
+          echo "$ANZAHL geänderte Datei(en) werden hochgeladen."
+          echo "### $ANZAHL geänderte Datei(en) hochgeladen (seit ${BASIS:0:7})" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$ANZAHL" -eq 0 ]; then
+            echo "modus=nichts" >> "$GITHUB_OUTPUT"
+          else
+            echo "modus=geaendert" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: lftp installieren
+        if: steps.check.outputs.ready == 'true' && steps.plan.outputs.modus != 'nichts'
         run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
 
       - name: Per FTPS hochladen
-        if: steps.check.outputs.ready == 'true'
+        if: steps.check.outputs.ready == 'true' && steps.plan.outputs.modus != 'nichts'
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME_TK }}
           LFTP_PASSWORD: ${{ secrets.FTP_PASSWORD_TK }}
+          MODUS: ${{ steps.plan.outputs.modus }}
         run: |
+          # Zuerst CSS/JS/Bilder, dann die Seiten: sonst holt ein Besucher während des Uploads die neue Seite mit
+          # neuem ?v= aber noch die alte Datei und behält diese 7 Tage im Cache (so am 2026-10-23 beim Handy-Menü passiert).
+          # mirror ohne --delete: auf dem Webspace wird nie etwas gelöscht.
+          if [ "$MODUS" = "alles" ]; then
+            ZUERST="./webdesign/assets/"; ZUERST_ZIEL="/assets"; DANACH="./webdesign/"
+          else
+            ZUERST="$RUNNER_TEMP/zuerst/"; ZUERST_ZIEL="/"; DANACH="$RUNNER_TEMP/danach/"
+          fi
           lftp -u "$FTP_USERNAME" --env-password "$FTP_SERVER" <<EOF
           set ftp:ssl-force true
           set ftp:ssl-protect-data true
@@ -74,9 +150,9 @@ jobs:
           set net:max-retries 3
           set net:reconnect-interval-base 5
           set net:timeout 30
-          # Zuerst CSS/JS/Bilder, dann die Seiten: sonst holt ein Besucher während des Uploads die neue Seite mit
-          # neuem ?v= aber noch die alte Datei und behält diese 7 Tage im Cache (so am 2026-10-23 beim Handy-Menü passiert).
-          mirror --reverse --verbose --no-perms --parallel=2 ./webdesign/assets/ /assets
-          mirror --reverse --verbose --no-perms --parallel=2 ./webdesign/ /
+          # bei einem Fehler abbrechen, damit der Lauf rot wird und der nächste Lauf diese Dateien noch einmal hochlädt
+          set cmd:fail-exit true
+          mirror --reverse --verbose --no-perms --parallel=2 "$ZUERST" "$ZUERST_ZIEL"
+          mirror --reverse --verbose --no-perms --parallel=2 "$DANACH" /
           bye
           EOF
