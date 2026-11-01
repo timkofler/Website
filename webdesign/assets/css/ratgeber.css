@@ -44,7 +44,7 @@
 .rg-preise b { display: block; margin-top: 4px; font-size: 1.25rem; color: var(--text); white-space: nowrap; }
 
 .rg-autor { display: flex; gap: 16px; align-items: center; margin: 48px 0 0; padding: 18px 20px; border: 1px solid var(--line-2); border-radius: 16px; }
-.rg.prose .rg-autor img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; margin: 0; flex: none; }
+.rg.prose .rg-autor img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; margin: 0; flex: none; box-shadow: 0 0 0 2px rgba(255,90,31,.55), 0 0 18px -4px rgba(255,90,31,.45); }
 .rg-autor p { margin: 0; font-size: .95rem; }
 
 @media (max-width: 600px) {
