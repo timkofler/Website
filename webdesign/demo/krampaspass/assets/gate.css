@@ -1,0 +1,21 @@
+@font-face{font-family:"Grenze Gotisch";src:url(fonts/grenze-gotisch.woff2) format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"IM Fell English";src:url(fonts/im-fell-english-400-i.woff2) format("woff2");font-style:italic;font-display:swap}
+@font-face{font-family:"Alegreya Sans";src:url(fonts/alegreya-sans-700.woff2) format("woff2");font-weight:700;font-display:swap}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:#140c07 radial-gradient(90% 60% at 50% 110%,rgba(255,106,28,.3) 0%,rgba(155,28,16,.12) 45%,transparent 70%);color:#33200f;font:italic 400 17px/1.5 "IM Fell English",Georgia,serif;display:grid;place-items:center;min-height:100vh;min-height:100svh;padding:24px 16px}
+.gate{width:100%;max-width:380px;text-align:center;padding:34px 26px 28px;border-radius:3px;background:radial-gradient(90% 60% at 50% 50%,transparent 50%,rgba(110,70,25,.35)),#ecdcb8;box-shadow:0 30px 60px rgba(0,0,0,.6)}
+.gate__mark{display:grid;justify-items:center;gap:4px;margin:0 auto 18px}
+.gate__mark span{font:400 58px/1 "Grenze Gotisch",serif;color:#9b1c10}
+.gate__mark small{font:italic 400 18px/1 "IM Fell English",serif;color:#5b3c22}
+p{color:#5b3c22;margin:0 0 20px}
+form{display:grid;gap:10px;text-align:left}
+label{font:700 13px/1 "Alegreya Sans",sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#33200f}
+input{width:100%;min-height:52px;border:0;border-bottom:2px solid #5b3c22;border-radius:2px 2px 0 0;background:rgba(255,248,230,.55);color:#33200f;font:400 18px "IM Fell English",serif;padding:0 14px}
+input:focus{outline:2px solid #9b1c10;outline-offset:2px}
+button{min-height:54px;border:0;border-radius:4px;background:linear-gradient(180deg,#ff8a3a,#ff6a1c 45%,#d8420f);color:#1a0a03;font:700 16px "Alegreya Sans",sans-serif;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;margin-top:8px;box-shadow:0 10px 26px -10px rgba(255,106,28,.8)}
+button:hover{filter:brightness(1.08)}
+button:active{transform:scale(.98)}
+.gate__err{color:#9b1c10;margin:2px 0 0;font-size:15px}
+.gate__tk{display:inline-flex;align-items:center;gap:10px;margin-top:26px;color:#5b3c22;font:700 13px "Alegreya Sans",sans-serif;text-decoration:none}
+.gate__tk img{height:14px;width:auto}
