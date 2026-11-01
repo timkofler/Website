@@ -17,7 +17,7 @@
     document.body.classList.toggle("menu-open", open);
   }
   burger.addEventListener("click", function () { setMenu(menu.hidden); });
-  $$("#menu a").forEach(function (a) { a.addEventListener("click", function () { setMenu(false); }); });
+  $$("#menu a, .brand").forEach(function (a) { a.addEventListener("click", function () { setMenu(false); }); });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !menu.hidden) setMenu(false); });
 
   /* ---------- Einblenden ---------- */
@@ -147,7 +147,7 @@
     var iw = labImg.naturalWidth, ih = labImg.naturalHeight, sc = Math.max(W / iw, H / ih);
     var dw = iw * sc, dh = ih * sc, ox = (W - dw) / 2, oy = (H - dh) / 2;
     var off = document.createElement("canvas"); off.width = W; off.height = H;
-    var o = off.getContext("2d");
+    var o = off.getContext("2d", { willReadFrequently: true });
     o.fillStyle = "#000"; o.fillRect(0, 0, W, H);
     o.drawImage(labImg, ox, oy, dw, dh);
     var src = o.getImageData(0, 0, W, H), d = src.data;
@@ -262,12 +262,23 @@
   if (own) {
     own.addEventListener("change", function () {
       var f = own.files && own.files[0];
-      if (!f || !/^image\//.test(f.type)) return;
-      var url = URL.createObjectURL(f);
-      setPressed("[data-animal], .chip--file", own.parentNode);
-      labImg.onload = function () { URL.revokeObjectURL(url); labImg.onload = null; };
-      labImg.src = url; labImg.alt = "Dein eigenes Foto";
-      scheduleRender();
+      if (!f) return;
+      // Manche Handys liefern keinen Dateityp (Galerie, Cloud), daher erst beim Laden prüfen
+      var url = URL.createObjectURL(f), prev = labImg.src, prevAlt = labImg.alt;
+      compare.classList.add("is-busy");
+      var test = new Image();
+      test.onload = function () {
+        setPressed("[data-animal], .chip--file", own.parentNode);
+        labImg.onload = function () { labImg.onload = null; render(); };
+        labImg.src = url; labImg.alt = "Dein eigenes Foto";
+        own.value = "";
+      };
+      test.onerror = function () {
+        URL.revokeObjectURL(url); compare.classList.remove("is-busy"); own.value = "";
+        labImg.src = prev; labImg.alt = prevAlt;
+        showToast("Dieses Foto kann der Browser nicht öffnen. Bitte ein JPG oder PNG wählen.");
+      };
+      test.src = url;
     });
   }
 
