@@ -1068,10 +1068,10 @@ HTML;
 // Freiwillig, monatlich kündbar, zu zahlen erst ab dem Livegang. Preise wie auf /betreuung/ (quellen/betreuung/build.py).
 
 const KP_BETREUUNG = [
+    'keine' => ['Keine Betreuung', 0, 'Passt auch. Änderungen mache ich dann nach Aufwand.'],
     'sicher' => ['Sicher', 19, 'Updates, monatliche Sicherung, Ausfall-Wächter, Hilfe bei Domain und E-Mail'],
     'sorglos' => ['Sorglos', 29, 'Alles aus Sicher, dazu bis 30 Minuten Änderungen im Monat'],
     'plus' => ['Plus', 49, 'Alles aus Sorglos, bis 1 Stunde Änderungen, Google-Beitrag und Monatsbericht'],
-    'keine' => ['Keine Betreuung', 0, 'Passt auch. Änderungen mache ich dann nach Aufwand.'],
 ];
 
 function kp_betreuung(array $acc): string
