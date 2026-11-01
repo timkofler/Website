@@ -1,0 +1,20 @@
+@font-face{font-family:"Instrument Serif";src:url(fonts/instrument-italic.woff2) format("woff2");font-style:italic;font-display:swap}
+@font-face{font-family:"Hanken Grotesk";src:url(fonts/hanken.woff2) format("woff2");font-weight:300 700;font-display:swap}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:#f5efe6 radial-gradient(120% 70% at 50% 0%,#fbf7f1 0%,#f5efe6 55%,#ecdfcd 100%);color:#2b1f18;font:400 16px/1.6 "Hanken Grotesk",system-ui,sans-serif;display:grid;place-items:center;min-height:100vh;min-height:100svh;padding:24px 16px}
+.gate{width:100%;max-width:360px;text-align:center}
+.gate__mark{display:grid;justify-items:center;gap:10px;margin:0 auto 26px;padding:6px 0 4px}
+.gate__mark span{font:italic 400 50px/1 "Instrument Serif",Georgia,serif;letter-spacing:-.01em}
+.gate__mark small{font:600 10px/1 "Hanken Grotesk",sans-serif;letter-spacing:.42em;padding-left:.42em;color:#9a7650}
+p{color:#6b5848;margin:0 0 24px}
+form{display:grid;gap:10px;text-align:left}
+label{font:600 11px/1 "Hanken Grotesk",sans-serif;letter-spacing:.22em;text-transform:uppercase;color:#9a7650}
+input{width:100%;min-height:52px;border-radius:999px;border:1px solid #d9c8b2;background:#fffdf9;color:#2b1f18;font:500 17px "Hanken Grotesk",sans-serif;padding:0 20px}
+input:focus{outline:2px solid #b48a5a;outline-offset:2px}
+button{min-height:54px;border:0;border-radius:999px;background:#2b1f18;color:#f5efe6;font:600 15px "Hanken Grotesk",sans-serif;letter-spacing:.04em;cursor:pointer;margin-top:8px;transition:background .2s}
+button:hover{background:#4a372b}
+button:active{transform:scale(.98)}
+.gate__err{color:#a3402a;margin:2px 0 0;font-size:14px}
+.gate__tk{display:inline-flex;align-items:center;gap:10px;margin-top:34px;color:#6b5848;font-size:13px;text-decoration:none}
+.gate__tk img{height:14px;width:auto}
