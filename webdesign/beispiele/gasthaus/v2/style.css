@@ -404,3 +404,8 @@ html.dlg-open .tkv{display:none}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
+
+/* Teller-Spur (Baustein aus /beispiele/_shared/teller-spur.css) */
+.tz--glut{--tz-ink:var(--ink);--tz-mu:var(--mu);--tz-accent:var(--e1);--tz-rim:#161519;--tz-rim2:#38363d;background:radial-gradient(ellipse 60% 40% at 50% 50%,rgba(255,106,43,.06),transparent 70%)}
+.tz--glut .kick{justify-content:center}
+.tz--glut .tz__h{font-weight:600;letter-spacing:-.01em}

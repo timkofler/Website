@@ -106,6 +106,10 @@ SEITEN = [
  ("Bäckerei Kornfeld", "/beispiele/baeckerei/", [
   ("PV", "5261345", "", "Carlos Buitrago", "Video Brot geht im Ofen auf (Zeitraffer)", "_shared/media/brot-ofen.mp4"),
   ("PV", "3195294", "", "Pressmaster", "Video Teig formen in der Backstube", "_shared/media/baeckerei-backstube.mp4"),
+  ("P", "7807489", "a-bread-knife-beside-breads-on-a-wooden-chopping-board-7807489", "Saveurs Secretes", "Teller-Spur: Bauernbrot", "baeckerei/bilder/teller-laib-7807489.webp"),
+  ("P", "34229387", "delicious-dessert-croissants-with-powdered-sugar-top-34229387", "The_a DoTe", "Teller-Spur: Butterkipferl", "baeckerei/bilder/teller-kipferl-34229387.webp"),
+  ("P", "4915600", "delicious-bun-with-sugar-sprinkles-on-plate-4915600", "Maria Orlova", "Teller-Spur: Zimtknoten", "baeckerei/bilder/teller-knoten-4915600.webp"),
+  ("P", "5373220", "close-up-of-pastries-5373220", "Inti Tupac Liberman", "Teller-Spur: Mandel-Croissant", "baeckerei/bilder/teller-plunder-5373220.webp"),
   ("P", "11461397", "bread-with-baked-crust-sprinkled-with-sesame-seeds-11461397", "Dina Nasyrova", "Vollkornbrot", "_shared/media/brot-hero.webp"),
   ("P", "30826792", "artisan-sourdough-bread-display-in-bakery-30826792", "Magda Ehlers", "Brotlaibe", "_shared/media/laib.jpg"),
   ("P", "6202224", "close-up-shot-of-croissants-6202224", "Claudio Segovia", "Croissants", "_shared/media/croissant.webp"),

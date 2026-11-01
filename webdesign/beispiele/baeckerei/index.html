@@ -8,6 +8,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="stylesheet" href="/beispiele/_shared/demo.css">
+<link rel="stylesheet" href="/beispiele/_shared/teller-spur.css?v=1">
 <style>
 @font-face{font-family:"Libre Caslon";src:url(/beispiele/_shared/fonts/caslon-400.woff2) format("woff2");font-weight:400;font-display:swap}
 @font-face{font-family:"Libre Caslon";src:url(/beispiele/_shared/fonts/caslon-700.woff2) format("woff2");font-weight:700;font-display:swap}
@@ -301,6 +302,10 @@ footer h3{font:600 12px/1 var(--sans);letter-spacing:.22em;text-transform:upperc
 .mehl__board.is-touched .mehl__hint{opacity:0}
 @media (max-width:900px){.mehl__in{grid-template-columns:1fr}.mehl__board{aspect-ratio:4/3}}
 @media (prefers-reduced-motion:reduce){.hero h1 .ln > span{transform:none;transition:none}html{scroll-behavior:auto}}
+/* Teller-Spur (Baustein aus /beispiele/_shared/teller-spur.css) */
+.tz--back{--tz-mu:var(--muted);--tz-accent:var(--gold);--tz-rim:#2a221a;--tz-rim2:#4d3f33}
+.tz--back .eyebrow{justify-content:center}
+.tz--back .tz__h{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.8vw,36px)}
 </style></head><body>
 <div class="tk-demo-bar"><a href="/#beispiele"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
 <span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musteradresse</span>
@@ -517,6 +522,22 @@ footer h3{font:600 12px/1 var(--sans);letter-spacing:.22em;text-transform:upperc
   </div>
 </section>
 
+<!-- Teller-Spur: Gebäck im Zickzack, dazwischen eine Mehlspur, die beim Scrollen wächst -->
+<section class="tz tz--back" data-tz data-tz-farben="#ffffff,#fffaf0,#f5ecdf,#f5ecdf,#e9dcc6" aria-labelledby="teller-title">
+  <div class="tz__wrap">
+    <header class="tz__head" data-reveal>
+      <p class="eyebrow">Frisch vom Blech <b>— jeden Tag</b></p>
+      <h2 class="h2" id="teller-title">Für jeden <i>Gusto</i> etwas.</h2>
+    </header>
+    <ol class="tz__list">
+      <li class="tz__row"><figure class="tz__plate"><img src="/beispiele/baeckerei/bilder/teller-laib-7807489.webp" alt="Rundes Bauernbrot auf Backpapier" width="560" height="560" loading="lazy"></figure><div class="tz__txt" data-reveal><h3 class="tz__h">Bauernbrot</h3><p>Roggen-Sauerteig mit 48 Stunden Teigruhe. Bleibt eine Woche saftig, wenn es so lange hält.</p></div></li>
+      <li class="tz__row"><figure class="tz__plate"><img src="/beispiele/baeckerei/bilder/teller-kipferl-34229387.webp" alt="Kipferl mit Staubzucker in einer Schale" width="560" height="560" loading="lazy"></figure><div class="tz__txt" data-reveal><h3 class="tz__h">Butterkipferl</h3><p>Mit Staubzucker bestreut. Samstags ab 6 Uhr noch warm aus dem Ofen.</p></div></li>
+      <li class="tz__row"><figure class="tz__plate"><img src="/beispiele/baeckerei/bilder/teller-knoten-4915600.webp" alt="Zimtknoten mit Hagelzucker auf einem Teller" width="560" height="560" loading="lazy"></figure><div class="tz__txt" data-reveal><h3 class="tz__h">Zimtknoten</h3><p>Hefeteig, Zimtbutter und Hagelzucker. Nur solange der Vorrat reicht.</p></div></li>
+      <li class="tz__row"><figure class="tz__plate"><img src="/beispiele/baeckerei/bilder/teller-plunder-5373220.webp" alt="Mandel-Croissant auf einem Holzbrett" width="560" height="560" loading="lazy"></figure><div class="tz__txt" data-reveal><h3 class="tz__h">Mandel-Croissant</h3><p>Zweimal gebacken und mit Mandelcreme gefüllt. Passt zum Kaffee an der Theke.</p></div></li>
+    </ol>
+  </div>
+</section>
+
 <section class="sec order" id="vorbestellen" aria-labelledby="order-title">
   <div class="wrap order__grid">
     <div>
@@ -596,4 +617,4 @@ footer h3{font:600 12px/1 var(--sans);letter-spacing:.22em;text-transform:upperc
   </div>
 </footer>
 
-<script src="/beispiele/_shared/demo.js?v=29766291" defer></script><script src="/beispiele/baeckerei/app.js?v=20261024" defer></script></body></html>
+<script src="/beispiele/_shared/demo.js?v=29766291" defer></script><script src="/beispiele/baeckerei/app.js?v=20261024" defer></script><script src="/beispiele/_shared/teller-spur.js?v=1" defer></script></body></html>
