@@ -458,3 +458,84 @@ html.lock{overflow:hidden}
   .vc{position:relative;left:auto;top:auto;transform:none;margin:0 auto 14px}
   .voices__fan{height:auto}
 }
+
+/* Stempelkarte: dunkle Karte zum Anmelden; beim Wechsel zur Registrierung läuft Milch darüber (Leinwand in stempel.js).
+   Per CSS bewegen sich hier nur transform und opacity. */
+.loyal{position:relative;padding:clamp(90px,11vw,150px) var(--pad) clamp(110px,12vw,170px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,440px);gap:clamp(36px,6vw,110px);align-items:center;background:radial-gradient(50% 60% at 72% 45%,#2b1a10,var(--dark) 72%);border-top:1px solid rgba(239,232,220,.08)}
+.loyal__text{display:grid;gap:24px;align-content:center;max-width:560px}
+.loyal__text .script{color:#ff9a5a}
+.loyal__p{opacity:.85;max-width:40ch}
+.loyal__steps{display:grid;gap:10px;padding:0;margin:0;list-style:none;counter-reset:s}
+.loyal__steps li{counter-increment:s;display:flex;gap:12px;align-items:center}
+.loyal__steps li::before{content:counter(s);display:grid;place-items:center;width:26px;height:26px;border-radius:50%;border:1px solid rgba(239,232,220,.4);font-size:10px}
+.loyal__side{display:grid;gap:16px;justify-items:center}
+.sk{--milk:#f3eee5;position:relative;width:100%;border-radius:6px;isolation:isolate}
+.sk__face{position:relative;display:grid;border-radius:6px;border:1px solid rgba(239,232,220,.16);background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.015) 55%),rgba(31,20,14,.82);box-shadow:0 40px 80px rgba(0,0,0,.45);overflow:hidden}
+.sk__bg{position:absolute;inset:0;z-index:1;border-radius:6px;background:var(--milk);opacity:0;pointer-events:none;transition:opacity .3s ease-out}
+.sk.is-milk .sk__bg{opacity:1}
+.sk.is-milk .sk__face{border-color:transparent}
+.sk__face>.sk-view{grid-area:1/1;position:relative;z-index:2}
+.sk__milk{position:absolute;left:0;top:0;z-index:4;pointer-events:none;width:100%}
+.sk__live{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;margin:0}
+.sk__demo{opacity:.55;font-size:9.5px;text-align:center}
+
+.sk-view{display:grid;gap:16px;align-content:center;padding:clamp(26px,3vw,36px) clamp(22px,2.6vw,32px);opacity:0;pointer-events:none;transition:opacity .3s ease-out}
+.sk-view.is-on{opacity:1;pointer-events:auto}
+.sk.is-pouring .sk-view,.sk.is-pouring .sk__bg{transition:none}
+.sk-view--reg,.sk-view--ok{color:var(--ink)}
+.sk-view.is-rise>*{animation:sk-rise .6s cubic-bezier(.23,1,.32,1) both}
+.sk-view.is-rise>:nth-child(2){animation-delay:.03s}.sk-view.is-rise>:nth-child(3){animation-delay:.06s}.sk-view.is-rise>:nth-child(4){animation-delay:.09s}.sk-view.is-rise>:nth-child(n+5){animation-delay:.12s}
+@keyframes sk-rise{from{transform:translateY(10px)}}
+.sk__k{font-size:10px;opacity:.6}
+.sk__h{margin:-8px 0 4px;font:800 clamp(30px,3vw,40px)/1 var(--sans);text-transform:uppercase;letter-spacing:-.04em}
+.sk-field{display:grid;gap:7px}
+.sk-field>span{font-size:10px;opacity:.7}
+.sk-field em{font-style:normal;opacity:.65;text-transform:none;font-weight:400}
+.sk-field input,.sk-field select{width:100%;font:600 16px var(--sans);padding:12px 14px;border-radius:4px;border:1px solid rgba(239,232,220,.26);background:rgba(20,13,9,.55);color:var(--cream);appearance:none;-webkit-appearance:none}
+.sk-field input::placeholder{color:currentColor;opacity:.4}
+.sk-view--reg .sk-field input,.sk-view--reg .sk-field select{border-color:rgba(20,17,16,.22);background:#fffdf9;color:var(--ink)}
+.sk-field select{padding-right:40px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23151110' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 15px center;background-size:12px 8px}
+.sk-field input:focus,.sk-field select:focus{outline:2px solid #ff9a5a;outline-offset:0;border-color:transparent}
+.sk-view--reg .sk-field input:focus,.sk-view--reg .sk-field select:focus{outline-color:#c2410c}
+.sk-field.is-bad input{border-color:#e0563b;animation:sk-shake .36s cubic-bezier(.36,.07,.19,.97)}
+@keyframes sk-shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.sk-err{min-height:1.45em;margin:-6px 0 -6px;font-size:10px;color:#ff9a5a}
+.sk-view--reg .sk-err{color:#b23a0b}
+.sk-btn{display:inline-flex;justify-content:center;align-items:center;gap:10px;width:100%;padding:16px 22px;border:0;border-radius:999px;background:#c2410c;color:#fff;font:700 12px/1 var(--mono);text-transform:uppercase;cursor:pointer;box-shadow:0 10px 30px rgba(194,65,12,.35);transition:transform .16s cubic-bezier(.23,1,.32,1)}
+.sk-btn span{display:inline-block;transition:transform .3s cubic-bezier(.23,1,.32,1)}
+.sk-btn:active{transform:scale(.97)}
+.sk-link{display:inline-flex;gap:6px;align-items:center;padding:6px 0 3px;border:0;border-bottom:1.5px solid currentColor;background:none;color:inherit;font:inherit;text-transform:inherit;cursor:pointer;transition:transform .16s cubic-bezier(.23,1,.32,1)}
+.sk-link:active{transform:scale(.97)}
+.sk__alt{display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:6px 10px;margin-top:4px;padding-top:16px;border-top:1px solid rgba(239,232,220,.14)}
+.sk__alt>span{opacity:.65}
+.sk-view--reg .sk__alt,.sk-view--ok .sk__alt{border-color:rgba(20,17,16,.14)}
+@media (hover:hover) and (pointer:fine){
+  .sk-btn:hover span{transform:translateX(4px)}
+  .sk-link span{display:inline-block;transition:transform .3s cubic-bezier(.23,1,.32,1)}
+  .sk-link[data-sk="reg"]:hover span{transform:translateY(3px)}
+  .sk-link[data-sk="login"]:hover span{transform:translateY(-3px)}
+}
+
+/* Erfolg: zehn Felder, der neue Stempel wird aufgedrückt */
+.sk-dots{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:2px 0 0;padding:0;list-style:none}
+.sk-dot{position:relative;aspect-ratio:1;display:grid;place-items:center;border-radius:50%;border:1.5px dashed rgba(20,17,16,.28);font:700 10px/1 var(--mono);color:rgba(20,17,16,.45)}
+.sk-dot--free{border-style:solid;border-color:#c2410c;color:#c2410c;font-size:8.5px;text-transform:uppercase;letter-spacing:.02em}
+.sk-dot svg{position:absolute;inset:-4%;width:108%;height:108%;opacity:0}
+.sk-dot.is-on{border-color:transparent;color:transparent}
+.sk-dot.is-on svg{opacity:1;transform:rotate(var(--r,-8deg))}
+.sk-dot.is-new svg{animation:sk-stamp .5s cubic-bezier(.23,1,.32,1) .45s both}
+.sk-dot.is-new::after{content:"";position:absolute;inset:-8%;border-radius:50%;border:2px solid #c2410c;opacity:0;animation:sk-ink .6s cubic-bezier(.23,1,.32,1) .6s}
+@keyframes sk-stamp{0%{opacity:0;transform:scale(1.9) rotate(-24deg)}55%{opacity:1;transform:scale(.9) rotate(var(--r,-8deg))}100%{opacity:1;transform:scale(1) rotate(var(--r,-8deg))}}
+@keyframes sk-ink{0%{opacity:.5;transform:scale(.8)}100%{opacity:0;transform:scale(1.5)}}
+.sk-ok__t{font-size:11px;opacity:.8}
+.sk-ok__code{font-size:10px;opacity:.65;margin-top:-8px}
+.sk-ok__code b{font-size:12px;letter-spacing:.12em;opacity:1;color:var(--ink)}
+
+@media (max-width:860px){
+  .loyal{grid-template-columns:1fr;gap:40px;padding-bottom:120px}
+  .loyal__side{justify-self:stretch}
+  .sk{max-width:440px;justify-self:center}
+}
+@media (prefers-reduced-motion:reduce){
+  .sk-view.is-rise>*,.sk-dot.is-new svg,.sk-dot.is-new::after,.sk-field.is-bad input{animation:none}
+}

@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="/beispiele/friseur/gemeinsam/umschalter.css?v=3">
 <link rel="stylesheet" href="/beispiele/_shared/demo.css">
 <link rel="preload" href="/beispiele/_shared/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/beispiele/kaffeebar/style.css?v=1793fcdd">
+<link rel="stylesheet" href="/beispiele/kaffeebar/style.css?v=5e7a1c20">
 </head><body>
 <div class="tk-demo-bar"><a href="/#beispiele"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
 <span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musteradresse</span>
@@ -294,6 +294,53 @@
     </ul>
   </div>
 </section>
+
+<!-- Stempelkarte: Anmelden auf dunkler Karte; "Karte holen" lässt Milch über die Karte laufen, darunter wartet die Registrierung -->
+<section class="loyal dark" id="stempel">
+  <div class="loyal__text">
+    <p class="mono kick">// Digitale Stempelkarte</p>
+    <h2 class="display display--m" data-lines><span class="ln"><span>Jeder zehnte</span></span><span class="ln"><span>geht auf <span class="script">uns</span>.</span></span></h2>
+    <p class="mono loyal__p" data-reveal>Kein Kärtchen, das in der Hosentasche zerknittert. Deine Stempel sammeln sich am Handy, in allen drei Häusern. Beim zehnten Becher zahlst du nichts.</p>
+    <ol class="loyal__steps mono" data-reveal style="--d:.08s"><li>Karte holen, dauert 20 Sekunden</li><li>An der Kassa Code sagen</li><li>Zehnter Kaffee gratis</li></ol>
+  </div>
+  <div class="loyal__side">
+    <div class="sk" id="sk">
+      <i class="sk__bg" aria-hidden="true"></i>
+      <div class="sk__face">
+        <form class="sk-view sk-view--login is-on" id="sk-login" novalidate aria-labelledby="sk-login-h">
+          <p class="mono sk__k">röstklang° Stempelkarte</p>
+          <h3 class="sk__h" id="sk-login-h">Anmelden</h3>
+          <label class="sk-field"><span class="mono">E-Mail</span><input type="email" name="email" autocomplete="email" inputmode="email" placeholder="du@beispiel.at" required></label>
+          <label class="sk-field"><span class="mono">Kartencode</span><input type="text" name="code" inputmode="numeric" autocomplete="off" maxlength="4" pattern="[0-9]{4}" placeholder="4 Ziffern" required></label>
+          <p class="mono sk-err" aria-live="polite"></p>
+          <button class="sk-btn" type="submit">Karte öffnen <span aria-hidden="true">→</span></button>
+          <p class="sk__alt mono"><span>Neu hier?</span> <button class="sk-link" type="button" data-sk="reg">Karte holen <span aria-hidden="true">↓</span></button></p>
+        </form>
+        <form class="sk-view sk-view--reg" id="sk-reg" novalidate aria-labelledby="sk-reg-h">
+          <p class="mono sk__k">// Neue Karte</p>
+          <h3 class="sk__h" id="sk-reg-h">Karte holen</h3>
+          <label class="sk-field"><span class="mono">Vorname</span><input type="text" name="name" autocomplete="given-name" placeholder="z. B. Lena" required></label>
+          <label class="sk-field"><span class="mono">E-Mail</span><input type="email" name="email" autocomplete="email" inputmode="email" placeholder="du@beispiel.at" required></label>
+          <label class="sk-field"><span class="mono">Lieblingsgetränk <em>optional</em></span><select name="fav"><option value="">Lass mich überraschen</option><option>Espresso</option><option>Melange</option><option>Cappuccino</option><option>Flat White</option><option>Filter des Tages</option><option>Iced Matcha</option><option>Chai Latte</option></select></label>
+          <p class="mono sk-err" aria-live="polite"></p>
+          <button class="sk-btn" type="submit">Karte holen <span aria-hidden="true">→</span></button>
+          <p class="sk__alt mono"><span>Schon eine Karte?</span> <button class="sk-link" type="button" data-sk="login">Anmelden <span aria-hidden="true">↑</span></button></p>
+        </form>
+        <div class="sk-view sk-view--ok" id="sk-ok" tabindex="-1" aria-labelledby="sk-ok-h">
+          <p class="mono sk__k" id="sk-ok-k">// Deine Karte</p>
+          <h3 class="sk__h" id="sk-ok-h">Willkommen!</h3>
+          <ol class="sk-dots" id="sk-dots" aria-label="Stempel"></ol>
+          <p class="mono sk-ok__t" id="sk-ok-t">1 von 10 Stempeln.</p>
+          <p class="mono sk-ok__code">Kartencode <b id="sk-code">0000</b></p>
+          <p class="sk__alt mono"><button class="sk-link" type="button" data-sk="login">Zur Anmeldung <span aria-hidden="true">↑</span></button></p>
+        </div>
+      </div>
+      <canvas class="sk__milk" aria-hidden="true"></canvas>
+      <p class="sk__live" id="sk-live" aria-live="polite"></p>
+    </div>
+    <p class="mono sk__demo">Beispiel – es werden keine Daten gespeichert oder gesendet.</p>
+  </div>
+</section>
 </main>
 
 <footer class="foot dark">
@@ -353,4 +400,5 @@
 
 <script src="/beispiele/_shared/demo.js?v=29766291" defer></script>
 <script type="module" src="/beispiele/kaffeebar/app.js?v=9399fac8"></script>
+<script src="/beispiele/kaffeebar/stempel.js?v=1" defer></script>
 <script src="/beispiele/_shared/kaffee-umschalter.js?v=1" defer></script></body></html>
