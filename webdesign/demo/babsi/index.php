@@ -11,7 +11,7 @@
 <link rel="preload" href="assets/fonts/cormorant-600.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/img/wellen-700.webp" as="image" media="(max-width: 800px)">
 <link rel="preload" href="assets/img/wellen.webp" as="image" media="(min-width: 801px)">
-<link rel="stylesheet" href="assets/style.css?v=1">
+<link rel="stylesheet" href="assets/style.css?v=2">
 <script src="assets/app.js?v=1" defer></script>
 <script type="application/ld+json">
 {
