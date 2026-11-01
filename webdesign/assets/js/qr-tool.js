@@ -38,21 +38,21 @@
     var t = "", w = "", note = "";
     if (typ === "link") {
       t = url(val("url"));
-      if (t && !looksUrl(t) && !/^[a-z]+:/i.test(val("url"))) { note = "Bitte prüfen Sie die Adresse, sie sieht unvollständig aus."; }
+      if (t && !looksUrl(t) && !/^[a-z]+:/i.test(val("url"))) { note = "Bitte prüf die Adresse, sie sieht unvollständig aus."; }
       w = t;
     } else if (typ === "google") {
       var r = val("review").replace(/\s+/g, "");
       if (/^ChIJ[\w-]{10,}$/.test(r)) t = "https://search.google.com/local/writereview?placeid=" + r;
       else t = url(r);
       if (t && !/(^https?:\/\/)?([a-z0-9-]+\.)*(g\.page|google\.[a-z.]+|goo\.gl|g\.co)(\/|$)/i.test(t.replace(/^https?:\/\//, "")))
-        note = "Das sieht nicht wie ein Google-Bewertungslink aus. Wie Sie den richtigen Link finden, steht unter „Wo finde ich diesen Link?“.";
+        note = "Das sieht nicht wie ein Google-Bewertungslink aus. Wie du den richtigen Link findest, steht unter „Wo finde ich diesen Link?“.";
       w = t;
     } else if (typ === "wifi") {
       var ssid = val("ssid"), pass = K("pass").value, enc = val("enc"), hid = K("hidden").checked;
       if (ssid) {
         t = "WIFI:T:" + enc + ";S:" + wifiEsc(ssid) + ";" + (enc !== "nopass" ? "P:" + wifiEsc(pass) + ";" : "") + (hid ? "H:true;" : "") + ";";
         w = "WLAN „" + ssid + "“" + (enc === "nopass" ? ", ohne Passwort" : "");
-        if (enc === "WPA" && pass.length > 0 && pass.length < 8) note = "WPA-Passwörter haben mindestens 8 Zeichen. Bitte prüfen Sie das Passwort.";
+        if (enc === "WPA" && pass.length > 0 && pass.length < 8) note = "WPA-Passwörter haben mindestens 8 Zeichen. Bitte prüf das Passwort.";
         if (enc !== "nopass" && !pass) { t = ""; w = ""; }
       }
     } else if (typ === "tel") {
