@@ -13,8 +13,8 @@
 <link rel="preload" href="assets/img/hero-640.webp" as="image" media="(max-width: 800px)">
 <link rel="preload" href="assets/img/hero.webp" as="image" media="(min-width: 801px)">
 <link rel="stylesheet" href="assets/style.css?v=2">
-<script>document.documentElement.classList.add("js");</script>
-<script src="assets/app.js?v=2" defer></script>
+<script src="assets/js-an.js"></script>
+<script src="assets/app.js?v=3" defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
