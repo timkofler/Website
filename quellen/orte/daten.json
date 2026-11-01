@@ -4,11 +4,11 @@
    "slug": "webdesign-scheibbs",
    "ort": "Scheibbs",
    "kurz": "Bezirk Scheibbs",
-   "title": "Webdesign Scheibbs: Webseite erstellen lassen ab 590 € | Tim Kofler",
-   "description": "Webdesign im Bezirk Scheibbs: Webseiten für Betriebe in Scheibbs, Wieselburg, Purgstall, Gaming und Lunz. Fixpreis ab 590 €, kein Abo, Gratis-Entwurf in 48 Stunden.",
+   "title": "Webdesign Scheibbs: Homepage erstellen lassen | Tim Kofler",
+   "description": "Webdesigner aus dem Bezirk Scheibbs: Homepage oder Webseite erstellen lassen in Scheibbs, Purgstall, Gaming und Lunz am See. Fixpreis ab 590 €, kein Abo.",
    "h1": "Webdesign in Scheibbs.",
    "h1b": "Aus dem eigenen Bezirk.",
-   "lead": "Ich wohne in Oberndorf an der Melk, also mitten im Bezirk Scheibbs. Ich baue Webseiten für Betriebe zwischen Wieselburg und Lunz am See: vom Wirtshaus im Erlauftal über den Handwerker in Purgstall bis zur Pension am Ötscher.",
+   "lead": "Ich wohne in Oberndorf an der Melk, also mitten im Bezirk Scheibbs. Als Webdesigner baue ich Homepages für Betriebe zwischen Wieselburg und Lunz am See: vom Wirtshaus im Erlauftal über den Handwerker in Purgstall bis zur Pension am Ötscher.",
    "warum_h2": "Was Betriebe im <span class=\"lime\">Bezirk Scheibbs</span> brauchen.",
    "warum_p": "Hier suchen Einheimische genauso wie Ausflügler aus Wien und St. Pölten. Eine gute Seite spricht beide an: kurz und klar für die Stammkunden, mit Anfahrt und Öffnungszeiten für die Gäste.",
    "features": [
@@ -72,21 +72,111 @@
     ]
    ],
    "nachbarn": [
+    "webdesign-wieselburg",
     "webdesign-melk",
     "webdesign-amstetten",
     "webdesign-mostviertel"
    ],
-   "in_ort": "in Scheibbs"
+   "in_ort": "in Scheibbs",
+   "lokal": {
+    "h3": "Homepage erstellen lassen in Scheibbs",
+    "p": [
+     "Du willst für deinen Betrieb in Scheibbs eine Homepage erstellen lassen und suchst jemanden aus der Gegend? Ich bin Webdesigner in Oberndorf an der Melk, rund eine Viertelstunde von der Bezirkshauptstadt entfernt. Ich kenne das Erlauftal und weiß, dass ein Gasthaus in Gaming andere Fragen bekommt als ein Elektriker in Purgstall oder eine Frühstückspension in Lunz am See.",
+     "Du bekommst zuerst einen kostenlosen Entwurf und danach einen Fixpreis, ohne Abo. Für Betriebe im Norden des Bezirks gibt es eine eigene Seite: Webdesign Wieselburg."
+    ]
+   }
+  },
+  {
+   "slug": "webdesign-wieselburg",
+   "ort": "Wieselburg",
+   "kurz": "Wieselburg",
+   "title": "Webdesign Wieselburg: Homepage erstellen lassen | Tim Kofler",
+   "description": "Webdesigner nahe Wieselburg: Homepage oder Webseite erstellen lassen in Wieselburg, Wieselburg-Land, Petzenkirchen und Purgstall. Ab 590 €, kein Abo.",
+   "h1": "Webdesign in Wieselburg.",
+   "h1b": "Gleich ums Eck.",
+   "lead": "Ich bin Webdesigner in Oberndorf an der Melk, gleich hinter Wieselburg-Land. Ich baue Homepages für Betriebe in der Messestadt und rundherum: für die Werkstatt an der Durchzugsstraße, das Café im Zentrum oder die Tischlerei in Petzenkirchen.",
+   "warum_h2": "Was Betriebe in <span class=\"lime\">Wieselburg</span> brauchen.",
+   "warum_p": "Wieselburg ist Messestadt und Schulstadt. Zur Messe, zu Veranstaltungen und mit den Schülern und Studierenden kommen viele Leute, die sich nicht auskennen und am Handy suchen. Gleichzeitig leben die Betriebe von Stammkunden aus Wieselburg-Land und den Nachbarorten.",
+   "features": [
+    [
+     "pin",
+     "Gefunden in Wieselburg und Wieselburg-Land",
+     "Viele suchen nach dem Ort, nicht nach dem Bezirk. Ortsnamen, Einzugsgebiet und Google-Profil sind so abgestimmt, dass dein Betrieb bei beidem auftaucht."
+    ],
+    [
+     "kalender",
+     "Messe- und Veranstaltungstage",
+     "Längere Öffnungszeiten zur Messe, ein Mittagsmenü für Besucher oder eine Aktion: Solche Hinweise trägst du selbst ein und nimmst sie danach wieder heraus."
+    ],
+    [
+     "karte",
+     "Klar für Neue in der Stadt",
+     "Anfahrt mit Karte, Parkplatz und Preise ohne Rätselraten. Wer zum ersten Mal in Wieselburg ist, findet sich auf deiner Seite sofort zurecht."
+    ],
+    [
+     "telefon",
+     "Erreichbar mit einem Tipp",
+     "Anrufen, WhatsApp oder Anfrageformular: Kunden erreichen dich vom Handy aus mit einem Tipp, die Anfrage landet direkt in deinem Postfach."
+    ]
+   ],
+   "demos": [
+    "cafe",
+    "fleischerei",
+    "tischlerei",
+    "pizzeria"
+   ],
+   "gemeinden": [
+    "Wieselburg",
+    "Wieselburg-Land",
+    "Petzenkirchen",
+    "Bergland",
+    "Purgstall an der Erlauf",
+    "Steinakirchen am Forst",
+    "Wolfpassing",
+    "Oberndorf an der Melk",
+    "Ybbs an der Donau",
+    "Neumarkt an der Ybbs",
+    "Golling an der Erlauf",
+    "Pöchlarn"
+   ],
+   "faq": [
+    [
+     "Bist du wirklich aus der Nähe von Wieselburg?",
+     "Ja. Ich wohne in Oberndorf an der Melk, rund eine Viertelstunde von Wieselburg entfernt. Die Zusammenarbeit läuft trotzdem bequem per WhatsApp, Telegram, E-Mail und über dein Kundenportal, ein Termin vor Ort ist nicht nötig."
+    ],
+    [
+     "Kann ich Öffnungszeiten und Aktionen selbst ändern?",
+     "Ja. Für Öffnungszeiten, Hinweise und kleine Aktionen bekommst du auf Wunsch eine einfache Eingabe, die auch am Handy funktioniert. Größere Änderungen schickst du mir einfach per WhatsApp."
+    ],
+    [
+     "Was kostet eine Homepage für meinen Betrieb?",
+     "Das Paket Start mit bis zu 3 Unterseiten kostet 590 €, Business mit bis zu 8 Unterseiten 1.190 €. Du zahlst einmal, ohne Abo. Laufend kommen nur Webspace, Domain und E-Mail beim Anbieter dazu, ca. 5 bis 10 € im Monat."
+    ]
+   ],
+   "nachbarn": [
+    "webdesign-scheibbs",
+    "webdesign-melk",
+    "webdesign-amstetten",
+    "webdesign-mostviertel"
+   ],
+   "in_ort": "in Wieselburg",
+   "lokal": {
+    "h3": "Homepage erstellen lassen in Wieselburg",
+    "p": [
+     "Du willst für deinen Betrieb in Wieselburg eine Homepage erstellen lassen, ohne Agentur in Wien oder St. Pölten? Ich arbeite von Oberndorf an der Melk aus und kenne die Gegend zwischen Erlauf und Kleiner Erlauf. Ich baue Seiten für Geschäfte im Zentrum genauso wie für Handwerksbetriebe und Direktvermarkter in Wieselburg-Land, Petzenkirchen, Bergland oder Wolfpassing.",
+     "Zuerst bekommst du einen kostenlosen Entwurf, danach einen Fixpreis ohne Abo. Für den Süden des Bezirks mit Scheibbs, Gaming und Lunz am See gibt es eine eigene Seite: Webdesign Scheibbs."
+    ]
+   }
   },
   {
    "slug": "webdesign-melk",
    "ort": "Melk",
    "kurz": "Bezirk Melk",
-   "title": "Webdesign Melk: Webseite erstellen lassen ab 590 € | Tim Kofler",
-   "description": "Webdesign im Bezirk Melk: Webseiten für Betriebe in Melk, Ybbs, Pöchlarn, Loosdorf und Mank. Fixpreis ab 590 €, kein Abo, Gratis-Entwurf in 48 Stunden.",
+   "title": "Webdesign Melk: Homepage erstellen lassen | Tim Kofler",
+   "description": "Webdesigner für den Bezirk Melk: Homepage oder Webseite erstellen lassen in Melk, Ybbs, Pöchlarn, Loosdorf und Mank. Fixpreis ab 590 €, kein Abo.",
    "h1": "Webdesign in Melk.",
    "h1b": "Für Betriebe zwischen Donau und Mank.",
-   "lead": "Ob Gästehaus an der Donau, Heuriger in der Wachau oder Installateur in Loosdorf: Ich baue dir eine Seite, die am Handy schnell lädt, deinen Betrieb ehrlich zeigt und Anfragen bringt. Aus Oberndorf an der Melk, gleich nebenan.",
+   "lead": "Ob Gästehaus an der Donau, Heuriger in der Wachau oder Installateur in Loosdorf: Als Webdesigner baue ich dir eine Homepage, die am Handy schnell lädt, deinen Betrieb ehrlich zeigt und Anfragen bringt. Aus Oberndorf an der Melk, gleich nebenan.",
    "warum_h2": "Was eine Seite im <span class=\"lime\">Bezirk Melk</span> können sollte.",
    "warum_p": "Rund um Stift Melk und die Wachau sind viele Gäste unterwegs, die am Handy spontan nach Essen, Zimmer oder Ausflug suchen. Die Betriebe abseits der Donau leben dagegen von Stammkunden und Empfehlungen. Beides braucht eine andere Ansprache.",
    "features": [
@@ -151,20 +241,28 @@
    ],
    "nachbarn": [
     "webdesign-scheibbs",
+    "webdesign-wieselburg",
     "webdesign-st-poelten",
     "webdesign-mostviertel"
    ],
-   "in_ort": "in Melk"
+   "in_ort": "in Melk",
+   "lokal": {
+    "h3": "Homepage erstellen lassen in Melk",
+    "p": [
+     "Du suchst einen Webdesigner für deinen Betrieb in Melk oder entlang der Donau? Ich arbeite in Oberndorf an der Melk, knapp eine halbe Stunde vom Stift entfernt. Ich baue Homepages für Gästehäuser und Heurige in der Wachau genauso wie für Handwerker in Loosdorf, Praxen in Ybbs oder Geschäfte in Pöchlarn und Mank.",
+     "Nach Melk kommen viele Gäste aus dem Ausland, deshalb plane ich eine englische Version auf Wunsch gleich mit. Zuerst bekommst du einen kostenlosen Entwurf, danach einen Fixpreis ohne Abo."
+    ]
+   }
   },
   {
    "slug": "webdesign-amstetten",
    "ort": "Amstetten",
    "kurz": "Bezirk Amstetten",
-   "title": "Webdesign Amstetten: Webseite erstellen lassen ab 590 € | Tim Kofler",
-   "description": "Webdesign im Bezirk Amstetten: Webseiten für Betriebe in Amstetten, Haag, St. Valentin, Ybbsitz und Waidhofen. Fixpreis ab 590 €, kein Abo, Gratis-Entwurf in 48 Stunden.",
+   "title": "Webdesign Amstetten: Homepage erstellen lassen | Tim Kofler",
+   "description": "Webdesigner für den Bezirk Amstetten: Homepage oder Webseite erstellen lassen in Amstetten, Haag, St. Valentin und Waidhofen. Fixpreis ab 590 €, kein Abo.",
    "h1": "Webdesign in Amstetten.",
    "h1b": "Fixer Preis statt Agentur-Angebot.",
-   "lead": "Amstetten ist der größte Bezirk im Mostviertel, und hier gibt es viele Webdesigner. Mein Unterschied: Du siehst den Preis vorher, zahlst einmal und bekommst innerhalb von 48 Stunden einen kostenlosen Entwurf, bevor du dich entscheidest.",
+   "lead": "Amstetten ist der größte Bezirk im Mostviertel, und hier gibt es viele Webdesigner. Mein Unterschied: Du siehst den Preis vorher, zahlst einmal und bekommst innerhalb von 48 Stunden einen kostenlosen Entwurf deiner Homepage, bevor du dich entscheidest.",
    "warum_h2": "Worauf es in <span class=\"lime\">Amstetten</span> ankommt.",
    "warum_p": "Wo viele Betriebe um dieselben Kunden werben, entscheidet der erste Eindruck am Handy. Wer in drei Sekunden sieht, was du machst, wo du bist und wie er dich erreicht, meldet sich eher bei dir als bei der Konkurrenz.",
    "features": [
@@ -232,7 +330,14 @@
     "webdesign-st-poelten",
     "webdesign-mostviertel"
    ],
-   "in_ort": "in Amstetten"
+   "in_ort": "in Amstetten",
+   "lokal": {
+    "h3": "Homepage erstellen lassen in Amstetten",
+    "p": [
+     "Du suchst einen Webdesigner für deinen Betrieb in Amstetten, der dir vorher sagt, was es kostet? Ich arbeite von Oberndorf an der Melk aus, rund 40 Minuten entfernt, und baue Homepages für kleine Betriebe: vom Geschäft in der Innenstadt über die Werkstatt in Mauer oder Hausmening bis zum Installateur in Ulmerfeld oder Preinsbach.",
+     "In Haag, St. Valentin und Waidhofen an der Ybbs läuft es genauso: Zuerst siehst du einen kostenlosen Entwurf, dann bekommst du einen Fixpreis. Auf Wunsch richte ich dein Google-Unternehmensprofil ein, damit man dich bei der Suche rund um Amstetten findet."
+    ]
+   }
   },
   {
    "slug": "webdesign-st-poelten",
@@ -319,11 +424,11 @@
    "slug": "webdesign-mostviertel",
    "ort": "Mostviertel",
    "kurz": "Mostviertel",
-   "title": "Webdesign Mostviertel: Webseiten ab 590 € aus der Region | Tim Kofler",
-   "description": "Webdesign aus dem Mostviertel: Webseiten für Betriebe in den Bezirken Scheibbs, Melk, Amstetten und St. Pölten. Fixpreis ab 590 €, kein Abo, Gratis-Entwurf in 48 Stunden.",
+   "title": "Webdesign Mostviertel: Homepage erstellen lassen | Tim Kofler",
+   "description": "Webdesigner aus dem Mostviertel: Homepage oder Webseite erstellen lassen für Betriebe in den Bezirken Scheibbs, Melk, Amstetten und St. Pölten. Ab 590 €.",
    "h1": "Webdesign aus dem Mostviertel.",
    "h1b": "Einmal zahlen, die Seite gehört dir.",
-   "lead": "Ich bin Tim Kofler aus Oberndorf an der Melk und programmiere Webseiten für kleine Betriebe in der Region: vom Hofladen an der Moststraße über das Gasthaus im Erlauftal bis zum Handwerksbetrieb im Ybbstal.",
+   "lead": "Ich bin Tim Kofler aus Oberndorf an der Melk und programmiere als Webdesigner Homepages für kleine Betriebe in der Region: vom Hofladen an der Moststraße über das Gasthaus im Erlauftal bis zum Handwerksbetrieb im Ybbstal.",
    "warum_h2": "Webseiten mit <span class=\"lime\">Mostviertler</span> Bodenhaftung.",
    "warum_p": "Die meisten Betriebe hier sind klein, bodenständig und haben keine Zeit für Agentur-Termine. Darum halte ich es einfach: fixer Preis, ein Ansprechpartner, Abstimmung per WhatsApp und ein kostenloser Entwurf, bevor du dich entscheidest.",
    "features": [
@@ -378,11 +483,19 @@
    ],
    "nachbarn": [
     "webdesign-scheibbs",
+    "webdesign-wieselburg",
     "webdesign-melk",
     "webdesign-amstetten",
     "webdesign-st-poelten"
    ],
-   "in_ort": "im Mostviertel"
+   "in_ort": "im Mostviertel",
+   "lokal": {
+    "h3": "Homepage erstellen lassen im Mostviertel",
+    "p": [
+     "Du suchst einen Webdesigner im Mostviertel, der selbst hier lebt? Ich wohne in Oberndorf an der Melk, zwischen Erlauftal und Melktal. Ich baue Homepages für Betriebe, die man vom Kirtag oder vom Bauernmarkt kennt: Mostheurige an der Moststraße, Direktvermarkter mit Most und Birnensaft, Handwerker an der Eisenstraße oder Gasthäuser im Ybbstal.",
+     "Zuerst bekommst du einen kostenlosen Entwurf, danach einen Fixpreis. Die Seite gehört dir, ein Abo gibt es nicht, und auf Wunsch kümmere ich mich auch um dein Google-Unternehmensprofil."
+    ]
+   }
   }
  ]
 }
