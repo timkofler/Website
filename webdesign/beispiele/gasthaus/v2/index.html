@@ -9,7 +9,8 @@
 <link rel="preload" href="/beispiele/gasthaus/v2/bilder/hero-ripperl-900.webp" as="image" media="(max-width:899px)" fetchpriority="high">
 <link rel="preload" href="/beispiele/gasthaus/v2/bilder/hero-ripperl-1600.webp" as="image" media="(min-width:900px)" fetchpriority="high">
 <link rel="stylesheet" href="/beispiele/friseur/gemeinsam/umschalter.css?v=3">
-<link rel="stylesheet" href="/beispiele/gasthaus/v2/style.css?v=17ee6a2e">
+<link rel="stylesheet" href="/beispiele/gasthaus/v2/style.css?v=20261101">
+<link rel="stylesheet" href="/beispiele/_shared/teller-spur.css?v=1">
 </head><body>
 <div class="tk-demo-bar"><a href="/beispiele/#gasthaus"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
 <span class="tk-demo-bar__note">Beispiel-Entwurf 1 von tim-kofler.at · erfundener Betrieb, Musteradresse</span>
@@ -208,6 +209,22 @@
   </div>
 </section>
 
+<!-- Teller-Spur: Teller im Zickzack, dazwischen eine Spur aus Salz und Paprika, die beim Scrollen wächst -->
+<section class="tz tz--glut" data-tz data-tz-farben="#ffffff,#f4f1ec,#f4f1ec,#ffc56b,#ff8a3d,#ff5a24" aria-labelledby="teller-h">
+  <div class="tz__wrap">
+    <header class="tz__head" data-reveal>
+      <p class="kick">Auf den Teller</p>
+      <h2 class="h2" id="teller-h">Was bei uns <em>auf den Tisch</em> kommt</h2>
+    </header>
+    <ol class="tz__list">
+      <li class="tz__row"><figure class="tz__plate"><img src="/beispiele/gasthaus/v2/bilder/t-pfandl.webp" alt="Rindfleisch mit Gemüse in der heißen Pfanne" width="440" height="440" loading="lazy"></figure><div class="tz__txt" data-reveal><h3 class="tz__h">Aus der Nachbarschaft</h3><p>Rind und Schwein kommen von drei Höfen im Ybbstal. Keiner liegt weiter als 30 Kilometer weg.</p></div></li>
+      <li class="tz__row"><figure class="tz__plate"><img src="/beispiele/gasthaus/v2/bilder/t-spiess.webp" alt="Hendl-Spieße mit Reis und Salsa" width="440" height="440" loading="lazy"></figure><div class="tz__txt" data-reveal><h3 class="tz__h">Über echter Glut</h3><p>Buchenholz statt Gasflamme. Den Rauch schmeckt man bei jedem Bissen.</p></div></li>
+      <li class="tz__row"><figure class="tz__plate"><img src="/beispiele/gasthaus/v2/bilder/t-bowl.webp" alt="Gemüse-Bowl in dunkler Schüssel" width="440" height="440" loading="lazy"></figure><div class="tz__txt" data-reveal><h3 class="tz__h">Auch ohne Fleisch</h3><p>Feuer-Bowl, Grillgemüse und hausgemachte Dips. Am Tisch wird niemand vergessen.</p></div></li>
+      <li class="tz__row"><figure class="tz__plate"><img src="/beispiele/gasthaus/v2/bilder/t-salat.webp" alt="Salat mit Reis und Ei" width="440" height="440" loading="lazy"></figure><div class="tz__txt" data-reveal><h3 class="tz__h">Leicht und frisch</h3><p>Gartensalat mit Kernöl, Ei und Kräutern. Passt zu jedem Steak und schmeckt auch allein.</p></div></li>
+    </ol>
+  </div>
+</section>
+
 <section class="voices" aria-label="Stimmen unserer Gäste">
   <div class="wrap voices__in">
     <figure class="voice glass" data-reveal><p class="voice__s" aria-label="5 von 5 Sternen">★★★★★</p><blockquote>„Die Ripperl fallen wirklich vom Knochen. Haben gleich fürs nächste Wochenende reserviert.“</blockquote><figcaption>Sabine K. · Google</figcaption></figure>
@@ -287,4 +304,5 @@
 <script src="/beispiele/_shared/demo.js?v=29766291" defer></script>
 <script src="/beispiele/gasthaus/umschalter.js?v=2" defer></script>
 <script src="/beispiele/gasthaus/v2/app.js?v=2" defer></script>
+<script src="/beispiele/_shared/teller-spur.js?v=1" defer></script>
 </body></html>

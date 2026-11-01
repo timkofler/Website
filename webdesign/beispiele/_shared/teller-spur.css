@@ -1,0 +1,33 @@
+/* Teller-Spur: runde Teller im Zickzack, dazwischen eine Streuspur (Salz, Gewürz, Mehl),
+   die sich beim Scrollen ausbreitet. Teller drehen sich dabei leicht.
+   Farben pro Seite über --tz-ink, --tz-mu, --tz-accent, --tz-rim und data-tz-farben am Abschnitt. */
+.tz{position:relative;padding:80px 0 90px;overflow:hidden}
+.tz__wrap{max-width:1080px;margin:0 auto;padding:0 20px;position:relative}
+.tz__head{text-align:center;margin:0 auto 34px;max-width:720px}
+.tz__list{position:relative;list-style:none;margin:0;padding:0}
+.tz__canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.tz__row{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:56px;margin:0}
+.tz__row + .tz__row{margin-top:clamp(40px,7vw,90px)}
+.tz__row:nth-child(even) .tz__plate{order:2}
+.tz__plate{position:relative;justify-self:center;width:clamp(220px,30vw,340px);aspect-ratio:1;border-radius:50%;margin:0;
+  padding:5.5%;background:radial-gradient(circle at 34% 28%,var(--tz-rim2,#3a3940) 0%,var(--tz-rim,#18171b) 62%,#0b0b0d 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 34px 60px -24px rgba(0,0,0,.85),0 10px 20px -10px rgba(0,0,0,.6)}
+.tz__plate::after{content:"";position:absolute;inset:5.5%;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.1),inset 0 -14px 30px rgba(0,0,0,.35);pointer-events:none}
+.tz__plate img{width:100%;height:100%;object-fit:cover;border-radius:50%;transform:rotate(var(--tz-rot,0deg));will-change:transform}
+.tz__txt{max-width:400px}
+.tz__row:nth-child(odd) .tz__txt{justify-self:start}
+.tz__row:nth-child(even) .tz__txt{justify-self:end}
+.tz__h{margin:0;font-size:clamp(22px,2.4vw,30px);line-height:1.15;color:var(--tz-accent,#ffc56b)}
+.tz__txt p{margin:10px 0 0;color:var(--tz-mu,#a9a59e);font-size:16px;line-height:1.6}
+
+/* Handy: Teller und Text nebeneinander, abwechselnd links und rechts. So läuft die Spur zwischen den Zeilen und nie durch den Text. */
+@media (max-width:720px){
+  .tz{padding:60px 0 70px}
+  .tz__row{gap:16px}
+  .tz__plate{width:100%;max-width:220px;padding:6%}
+  .tz__plate::after{inset:6%}
+  .tz__row:nth-child(even) .tz__txt{text-align:right}
+  .tz__h{font-size:21px}
+  .tz__txt p{font-size:14.5px;line-height:1.5;margin-top:6px}
+  .tz__row + .tz__row{margin-top:56px}
+}
