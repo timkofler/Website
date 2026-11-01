@@ -263,9 +263,15 @@
     own.addEventListener("change", function () {
       var f = own.files && own.files[0];
       if (!f) return;
-      // Manche Handys liefern keinen Dateityp (Galerie, Cloud), daher erst beim Laden prüfen
-      var url = URL.createObjectURL(f), prev = labImg.src, prevAlt = labImg.alt;
+      // Manche Handys liefern keinen Dateityp (Galerie, Cloud), daher erst beim Laden prüfen.
+      // Als data:-Adresse lesen, denn die Sicherheitsregeln der Seite (CSP) erlauben keine blob:-Bilder.
+      var prev = labImg.src, prevAlt = labImg.alt;
       compare.classList.add("is-busy");
+      var reader = new FileReader();
+      reader.onerror = function () { compare.classList.remove("is-busy"); own.value = ""; showToast("Das Foto konnte nicht gelesen werden."); };
+      reader.onload = function () { loadOwn(String(reader.result)); };
+      reader.readAsDataURL(f);
+      function loadOwn(url) {
       var test = new Image();
       test.onload = function () {
         setPressed("[data-animal], .chip--file", own.parentNode);
@@ -274,11 +280,12 @@
         own.value = "";
       };
       test.onerror = function () {
-        URL.revokeObjectURL(url); compare.classList.remove("is-busy"); own.value = "";
+        compare.classList.remove("is-busy"); own.value = "";
         labImg.src = prev; labImg.alt = prevAlt;
         showToast("Dieses Foto kann der Browser nicht öffnen. Bitte ein JPG oder PNG wählen.");
       };
       test.src = url;
+      }
     });
   }
 
