@@ -12,9 +12,9 @@
 <link rel="preload" href="assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/img/hero-640.webp" as="image" media="(max-width: 800px)">
 <link rel="preload" href="assets/img/hero.webp" as="image" media="(min-width: 801px)">
-<link rel="stylesheet" href="assets/style.css?v=1">
+<link rel="stylesheet" href="assets/style.css?v=2">
 <script>document.documentElement.classList.add("js");</script>
-<script src="assets/app.js?v=1" defer></script>
+<script src="assets/app.js?v=2" defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -151,7 +151,7 @@
           <button type="button" class="chip is-on" data-animal="pferd" aria-pressed="true">Pferd</button>
           <button type="button" class="chip" data-animal="hund" aria-pressed="false">Hund</button>
           <button type="button" class="chip" data-animal="katze" aria-pressed="false">Katze</button>
-          <label class="chip chip--file">Eigenes Foto<input type="file" id="ownPhoto" accept="image/*"></label>
+          <label class="chip chip--file">Eigenes Foto<input type="file" id="ownPhoto" accept="image/jpeg,image/png,image/webp,image/*"></label>
         </fieldset>
         <fieldset class="chips" aria-label="Stil wählen">
           <legend>2 · Stil</legend>
