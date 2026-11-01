@@ -24,7 +24,7 @@ VORLAGE = os.path.join(REPO, "webdesign", "webseite-erneuern", "index.html")
 BASIS = "https://tim-kofler.at"
 P = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
 H = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
-CSS_V = "1"
+CSS_V = "2"
 
 
 def ld(a, url):
@@ -105,7 +105,7 @@ def main_html(a):
     <nav class="rg-toc" aria-label="Inhalt"><p class="rg-toc__t">Inhalt</p><ol>{toc}</ol></nav>
 {body}
     <div class="rg-autor">
-      <img src="/assets/img/team/tim-portrait.webp?v=3" alt="" width="56" height="56">
+      <img src="/assets/img/team/tim-avatar.webp?v=1" alt="" width="64" height="64">
       <p><strong>Tim Kofler</strong> programmiert seit 2025 Webseiten für Selbstständige, kleine Betriebe und Vereine in ganz Österreich, von Oberndorf an der Melk aus. <a href="/#ueber">Mehr über mich</a></p>
     </div>
   </article>
