@@ -24,7 +24,8 @@ VORLAGE = os.path.join(REPO, "webdesign", "webseite-erneuern", "index.html")
 BASIS = "https://tim-kofler.at"
 P = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
 H = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
-CSS_V = "2"
+import hashlib
+CSS_V = hashlib.md5(open(os.path.join(REPO, "webdesign", "assets", "css", "ratgeber.css"), "rb").read()).hexdigest()[:8]
 
 
 def ld(a, url):
@@ -172,8 +173,8 @@ def bauen(a):
 
 
 UE_TITLE = "Ratgeber Webseite: Kosten, Impressum, Google & mehr | Tim Kofler"
-UE_DESC = ("Ehrliche Antworten rund um die eigene Webseite: Was sie kostet, was ins Impressum gehört, "
-           "wie man bei Google gefunden wird und ob man einen Cookie-Banner braucht. Für Betriebe und Vereine in Österreich.")
+UE_DESC = ("Ehrliche Antworten rund um die eigene Webseite: Kosten, Impressum, Google-Profil, Cookie-Banner "
+           "und mehr. Für Betriebe und Vereine in Österreich.")
 
 
 def uebersicht():

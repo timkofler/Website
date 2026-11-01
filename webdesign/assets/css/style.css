@@ -540,8 +540,9 @@ main p a:not(.btn), main li a:not(.btn), .faq__item p a, .glance dd a { text-dec
 }
 
 /* Weicher Seitenwechsel zwischen den eigenen Seiten: kurz überblenden statt hart springen, der Kopf bleibt stehen.
-   Chrome, Edge und Safari ab 18.2; andere Browser wechseln wie bisher. Nicht bei "Bewegung reduzieren" (Tim 31.10.) */
-@media (prefers-reduced-motion: no-preference) {
+   Chrome, Edge und Safari ab 18.2; andere Browser wechseln wie bisher. Nicht bei "Bewegung reduzieren" (Tim 31.10.)
+   Nur am PC mit Maus: am Handy sperrt der Übergang kurz das Wischen, die neue Seite "bleibt hängen" (Tim 1.11.) */
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
   @view-transition { navigation: auto; }
   .header { view-transition-name: tk-kopf; }
   ::view-transition-old(root) { animation: tk-vt-aus .2s ease-out both; }

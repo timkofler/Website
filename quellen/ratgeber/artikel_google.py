@@ -2,7 +2,7 @@
 SLUG = "google-unternehmensprofil-einrichten"
 KURZ = "Google-Unternehmensprofil"
 LABEL = "Schritt für Schritt"
-TITLE = "Google-Unternehmensprofil einrichten: Anleitung für Betriebe | Tim Kofler"
+TITLE = "Google-Unternehmensprofil einrichten: Anleitung | Tim Kofler"
 DESC = ("So kommst du mit deinem Betrieb auf Google Maps: Google-Unternehmensprofil gratis einrichten, "
         "bestätigen und richtig ausfüllen. Schritt für Schritt mit Tipps aus der Praxis.")
 KARTE = "Gratis auf Google Maps: Profil einrichten, bestätigen und richtig ausfüllen."

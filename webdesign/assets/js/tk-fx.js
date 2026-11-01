@@ -20,11 +20,11 @@
   var W = 0, H = 0, GAP = 26, dpr = 1;
   var cols = new Float32Array(0), rows = new Float32Array(0), sx = cols, cy = rows;
   var px = 0, py = 0, tx = 0, ty = 0, pw = 0, active = false;
-  var running = false, visible = true, ready = false, last = 0;
+  var running = false, visible = true, ready = false, last = 0, scrollUntil = 0, bw = -1, bh = -1;
 
   function build() {
     var r = host.getBoundingClientRect();
-    W = r.width; H = r.height;
+    W = r.width; H = r.height; bw = Math.round(W); bh = Math.round(H);
     var small = W < 600;
     dpr = Math.min(window.devicePixelRatio || 1, small ? 1.5 : 2);
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
@@ -80,7 +80,8 @@
   function loop(t) {
     if (!running) return;
     // ohne Interaktion reichen 30 Bilder pro Sekunde
-    if (active || pw > 0.02 || t - last > 32) { last = t; draw(t); }
+    // Während gescrollt wird, steht das Feld kurz still: so bleibt das Wischen am Handy flüssig
+    if (t >= scrollUntil && (active || pw > 0.02 || t - last > 32)) { last = t; draw(t); }
     window.requestAnimationFrame(loop);
   }
   function start() { if (ready && !running && visible && !reduce && !document.hidden) { running = true; window.requestAnimationFrame(loop); } }
@@ -95,8 +96,10 @@
   host.addEventListener("pointermove", function (e) { point(e.clientX, e.clientY); }, { passive: true });
   host.addEventListener("pointerdown", function (e) { point(e.clientX, e.clientY); }, { passive: true });
   host.addEventListener("pointerleave", function () { active = false; });
-  host.addEventListener("touchmove", function (e) { var p = e.touches[0]; if (p) point(p.clientX, p.clientY); }, { passive: true });
-  host.addEventListener("touchend", function () { active = false; });
+  // Finger: Antippen leuchtet auf; sobald daraus Scrollen wird (pointercancel), endet der Effekt
+  host.addEventListener("pointercancel", function () { active = false; });
+  host.addEventListener("pointerup", function (e) { if (e.pointerType !== "mouse") active = false; });
+  window.addEventListener("scroll", function () { scrollUntil = performance.now() + 140; }, { passive: true });
 
   // Erst nach dem Laden der Seite starten, damit der Seitenaufbau nicht gebremst wird
   function begin() {
@@ -112,7 +115,12 @@
   window.addEventListener("resize", function () {
     if (!ready) return;
     clearTimeout(rt);
-    rt = setTimeout(function () { build(); if (reduce) draw(0); }, 150);
+    rt = setTimeout(function () {
+      // Am Handy löst das Ein- und Ausblenden der Adressleiste "resize" aus; nur neu aufbauen, wenn sich das Feld wirklich ändert
+      var r = host.getBoundingClientRect();
+      if (Math.round(r.width) === bw && Math.round(r.height) === bh) return;
+      build(); if (reduce) draw(0);
+    }, 150);
   });
   if ("IntersectionObserver" in window) {
     new IntersectionObserver(function (es) { visible = es[0].isIntersecting; if (visible) start(); else stop(); }).observe(host);
