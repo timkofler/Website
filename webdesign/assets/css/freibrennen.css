@@ -1,0 +1,54 @@
+/* ================= Startseite: „Unter der Haube“ – Freibrennen (tk-freibrennen.js) =================
+   Fenster mit der fertigen Beispielseite, darunter ihr Bauplan. Black Edition ist Standard, White unten.
+   Bewegung nur über transform/opacity, Hover nur bei Maus. */
+.tk-burn__win { margin: 0; border-radius: 18px; overflow: hidden; position: relative;
+  border: 1px solid rgba(255,255,255,.09); background: #0e0e0f;
+  box-shadow: 0 1px 0 rgba(255,255,255,.05) inset, 0 50px 110px -40px rgba(0,0,0,.85), 0 0 0 1px rgba(0,0,0,.4); }
+.tk-burn__win::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; z-index: 2; pointer-events: none;
+  background: linear-gradient(90deg, transparent 8%, rgba(255,140,90,.7) 50%, transparent 92%); }
+.tk-burn__bar { display: flex; align-items: center; gap: 7px; height: 40px; padding: 0 16px; border-bottom: 1px solid rgba(255,255,255,.07);
+  font: 500 .74rem/1 var(--mono); letter-spacing: .02em; color: var(--muted); background: linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.01)); }
+.tk-burn__bar i { flex: none; width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,.14); }
+.tk-burn__bar i:first-child { background: #ff5a1f; box-shadow: 0 0 10px rgba(255,90,31,.55); }
+.tk-burn__bar span { margin-left: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.tk-burn__bar .tk-burn__file { margin-left: auto; color: #ff7a45; }
+
+.tk-burn__stage { position: relative; aspect-ratio: 1600 / 1000; background: #140d09; touch-action: pan-y pinch-zoom; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+.tk-burn__stage img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.tk-burn__cv { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: 0; transition: opacity .6s cubic-bezier(.23,1,.32,1); }
+.tk-burn.is-live .tk-burn__cv { opacity: 1; }
+.tk-burn.is-still .tk-burn__cv { display: none; }
+@media (hover: hover) and (pointer: fine) { .tk-burn.is-live .tk-burn__stage { cursor: crosshair; } }
+
+.tk-burn__cap { display: flex; align-items: center; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; margin-top: 18px;
+  font: 500 .8rem/1.5 var(--mono); color: var(--muted); }
+.tk-burn__hint { display: inline-flex; align-items: center; gap: 10px; }
+.tk-burn__hint::before { content: ""; flex: none; width: 7px; height: 7px; border-radius: 50%; background: #ff5a1f; box-shadow: 0 0 0 4px rgba(255,90,31,.14), 0 0 12px rgba(255,90,31,.7); }
+.tk-burn__hint--touch, .tk-burn__hint--still { display: none; }
+@media not all and (hover: hover) and (pointer: fine) { .tk-burn__hint--mouse { display: none; } .tk-burn__hint--touch { display: inline-flex; } }
+.tk-burn.is-still .tk-burn__hint--mouse, .tk-burn.is-still .tk-burn__hint--touch { display: none; }
+.tk-burn.is-still .tk-burn__hint--still { display: inline-flex; }
+.tk-burn__live { display: inline-flex; align-items: center; gap: 8px; color: var(--text); text-decoration: none; }
+.tk-burn__live svg { width: 16px; height: 16px; transition: transform .3s cubic-bezier(.23,1,.32,1); }
+@media (hover: hover) and (pointer: fine) {
+  .tk-burn__live:hover { color: #ff7a45; }
+  .tk-burn__live:hover svg { transform: translateX(3px); }
+}
+
+@media (max-width: 640px) {
+  .tk-burn__stage { aspect-ratio: 780 / 1120; }
+  .tk-burn__win { border-radius: 16px; }
+  .tk-burn__bar { height: 34px; padding: 0 12px; font-size: .68rem; }
+  .tk-burn__bar .tk-burn__file { display: none; }
+  .tk-burn__cap { flex-direction: column; align-items: flex-start; font-size: .76rem; }
+}
+
+/* White Edition: helles Fensterglas, das Bild selbst bleibt dunkel wie ein Screenshot */
+html.tk-white .tk-burn__win { background: #fff; border-color: rgba(28,20,12,.12);
+  box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 40px 80px -40px rgba(70,40,15,.35), 0 2px 6px rgba(70,40,15,.06); }
+html.tk-white .tk-burn__win::before { background: linear-gradient(90deg, transparent 8%, rgba(255,90,31,.55) 50%, transparent 92%); }
+html.tk-white .tk-burn__bar { background: linear-gradient(180deg, #fff, #faf8f4); border-bottom-color: rgba(28,20,12,.09); }
+html.tk-white .tk-burn__bar i { background: rgba(28,20,12,.14); }
+html.tk-white .tk-burn__bar i:first-child { background: #ff5a1f; box-shadow: none; }
+html.tk-white .tk-burn__bar .tk-burn__file { color: #d9481a; }
+@media (hover: hover) and (pointer: fine) { html.tk-white .tk-burn__live:hover { color: #d9481a; } }
