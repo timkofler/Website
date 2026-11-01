@@ -1,0 +1,8 @@
+# Entwurf für Babsis Hoarstüberl: nicht in Suchmaschinen, nur mit Passwort (siehe _gate.php)
+<IfModule mod_headers.c>
+  Header set X-Robots-Tag "noindex, nofollow"
+</IfModule>
+DirectoryIndex index.php
+<Files "_gate.php">
+  Require all denied
+</Files>
