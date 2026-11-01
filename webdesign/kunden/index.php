@@ -267,6 +267,40 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
         kp_redirect('/kunden/');
     }
 
+    if ($action === 'betreuung') {
+        $paket = cx_field('paket', 20);
+        if (!kp_betreuung_offen($acc)) {
+            kp_flash(false, 'Deine Webseite ist schon online. Für einen Wechsel oder eine Kündigung schreib mir bitte kurz eine Nachricht.');
+        } elseif (!isset(KP_BETREUUNG[$paket])) {
+            kp_flash(false, 'Bitte wähle eines der Pakete oder „Keine Betreuung“.');
+        } elseif ($paket === kp_betreuung($acc)) {
+            kp_flash(true, 'Passt, das hattest du schon so ausgewählt.');
+        } else {
+            $vorher = kp_betreuung($acc);
+            $all = kp_accounts();
+            $all[$user]['betreuung'] = ['paket' => $paket, 'zeit' => date('c'), 'von' => 'kunde'];
+            if (kp_save_accounts($all)) {
+                [$name, $preis] = KP_BETREUUNG[$paket];
+                $text = $paket === 'keine'
+                    ? 'Betreuung: Ich möchte nach dem Livegang keine Betreuung.'
+                    : 'Betreuung: Ich wähle das Paket ' . $name . ' (' . $preis . ' € im Monat, ab dem Livegang).';
+                if ($vorher !== '') {
+                    $text .= ' Vorher: ' . kp_betreuung_label($vorher) . '.';
+                }
+                [$ok, $res] = kp_add_message($user, 'kunde', 'nachricht', $text);
+                if ($ok) {
+                    kp_notify_message($user, $all[$user], $res, '🛟 <b>Betreuung ' . ($vorher !== '' ? 'geändert' : 'gewählt') . ': ' . cx_h(kp_betreuung_label($paket)) . "</b>\nim Kundenportal");
+                }
+                kp_flash(true, $paket === 'keine'
+                    ? 'Gespeichert: keine Betreuung. Falls du es dir anders überlegst, kannst du es bis zum Livegang hier ändern.'
+                    : 'Danke! Gespeichert: ' . kp_betreuung_label($paket) . '. Zu zahlen erst ab dem Livegang.');
+            } else {
+                kp_flash(false, 'Das hat nicht geklappt. Bitte versuche es noch einmal oder schreib mir.');
+            }
+        }
+        kp_redirect('/kunden/');
+    }
+
     if ($action === 'passwort') {
         $old = (string) ($_POST['alt'] ?? '');
         $new = (string) ($_POST['neu'] ?? '');
@@ -531,6 +565,7 @@ $icoUp = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4m0 0L7.5 
 
 $project = kp_project_card($acc, true, '', $csrf);
 $zahlen = kp_zahlen_card(kp_zahlen($user, $acc));
+$betreuung = kp_betreuung_card($acc, $csrf);
 // Kunde verwendet noch das Passwort, das Tim im Admin erzeugt hat: freundlich ans eigene Passwort erinnern.
 $pwHint = ($acc['pw_eigen'] ?? null) === false
     ? '<p class="form__status kp-pw-hint" role="status">Du verwendest noch das Passwort, das ich dir gegeben habe. Bitte leg dir ein eigenes fest: <a href="#passwort">Passwort ändern</a></p>'
@@ -632,6 +667,7 @@ kp_page('Kundenportal', <<<HTML
 {$flash}
 {$pwHint}
 {$project}
+{$betreuung}
 {$zahlen}
 <nav class="kp-tiles" data-kp-tabs data-default="{$default}" aria-label="Bereiche">
   <a class="kp-tile" href="#nachrichten" data-kp-tab="nachrichten">

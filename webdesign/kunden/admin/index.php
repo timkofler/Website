@@ -723,6 +723,13 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
             if (cx_field('freigabe_weg', 5) === 'ja') {
                 unset($all[$k]['freigabe']);
             }
+            // Betreuung: Tim trägt sie ein, wenn der Kunde per E-Mail oder Telefon gewählt hat.
+            $bt = cx_field('betreuung', 20);
+            if ($bt === '') {
+                unset($all[$k]['betreuung']);
+            } elseif (isset(KP_BETREUUNG[$bt]) && $bt !== kp_betreuung($all[$k])) {
+                $all[$k]['betreuung'] = ['paket' => $bt, 'zeit' => date('c'), 'von' => 'tim'];
+            }
             kp_save_accounts($all);
             kp_flash(true, 'Projektstand gespeichert. ' . ($all[$k]['name'] ?? $k) . ' sieht ihn ab sofort im Portal.');
         }
@@ -1217,6 +1224,16 @@ function ad_auftrag_pills(array $a): string
     return $out;
 }
 
+// Gewähltes Betreuungs-Paket (für Tims Dauerrechnung ab dem Livegang).
+function ad_betreuung_pill(array $a): string
+{
+    $p = kp_betreuung($a);
+    if ($p === '') {
+        return '';
+    }
+    return '<span class="kp-pill' . ($p === 'keine' ? '' : ' kp-pill--ok') . '" title="Betreuung nach dem Livegang">' . ($p === 'keine' ? 'keine Betreuung' : 'Betreuung ' . cx_h(KP_BETREUUNG[$p][0]) . ' · ' . KP_BETREUUNG[$p][1] . ' €') . '</span>';
+}
+
 // Zwei Anfangsbuchstaben für den runden Kreis vor dem Namen.
 $initials = static fn(string $n): string => kp_initials($n);
 
@@ -1295,7 +1312,7 @@ if ($k !== '' && isset($all[$k])) {
         ? '<a href="' . cx_h(preg_match('~^https?://~i', (string) $a['webseite']) ? (string) $a['webseite'] : 'https://' . $a['webseite']) . '" target="_blank" rel="noopener noreferrer">' . $h('webseite') . '</a>' : '';
     $sub = implode(' · ', array_filter([$h('firma'), $webLink]));
     $statusChip = '<span class="kp-chip-st kp-chip-st--' . $status . '">' . $status . '</span>' . (kp_is_verein($a) ? '<span class="kp-pill kp-pill--verein">Verein · gratis</span>' : '')
-        . (tf_active(tf_kunde_file($k)) ? '<span class="kp-pill kp-pill--ok">2FA</span>' : '');
+        . (tf_active(tf_kunde_file($k)) ? '<span class="kp-pill kp-pill--ok">2FA</span>' : '') . ad_betreuung_pill($a);
     $artOpts = kp_art_options(kp_is_verein($a) ? 'verein' : 'betrieb');
     $msgSub = $unread > 0 ? '<b>' . $unread . ' neu</b>' . ($open ? ' · ' . count($open) . ' offen' : '')
         : ($open ? count($open) . (count($open) === 1 ? ' Wunsch offen' : ' Wünsche offen') : ($msgs['liste'] ? count($msgs['liste']) . ' im Verlauf' : 'noch keine'));
@@ -1310,11 +1327,16 @@ if ($k !== '' && isset($all[$k])) {
     foreach (KP_PHASEN as $key => $ph) {
         $phOpts .= '<option value="' . $key . '"' . (kp_phase($a) === $key ? ' selected' : '') . '>' . cx_h($ph[0] . ' – ' . $ph[1]) . '</option>';
     }
+    $btOpts = '<option value="">noch offen</option>';
+    foreach (KP_BETREUUNG as $key => $bt) {
+        $btOpts .= '<option value="' . $key . '"' . (kp_betreuung($a) === $key ? ' selected' : '') . '>' . cx_h(kp_betreuung_label($key)) . '</option>';
+    }
     $phEdit = '<details class="kp-more kp-projekt__edit"><summary>Projektstand ändern</summary>'
         . '<form class="form form--small" method="post" action="' . $form . '">' . $csrf . '<input type="hidden" name="aktion" value="projekt">'
         . '<div class="form__row"><label class="form__field"><span>Schritt</span><select name="phase">' . $phOpts . '</select></label>'
         . '<label class="form__field"><span>Link zur Vorschau <em>(optional)</em></span><input type="text" name="vorschau" maxlength="300" value="' . $h('vorschau') . '" placeholder="https://neu.' . ($h('webseite') ?: 'betrieb.at') . '" autocapitalize="none" spellcheck="false"></label></div>'
         . '<label class="form__field"><span>Als Nächstes <em>(sieht der Kunde, optional)</em></span><textarea name="naechstes" rows="2" maxlength="400" placeholder="z. B. Bitte noch das Logo als Datei und 3–5 Fotos vom Geschäft hochladen.">' . $h('naechstes') . '</textarea></label>'
+        . '<label class="form__field"><span>Betreuung nach dem Livegang <em>(wählt der Kunde im Portal, hier nur bei Wahl per E-Mail oder Telefon)</em></span><select name="betreuung">' . $btOpts . '</select></label>'
         . (kp_freigabe($a) !== null ? '<label class="form__check"><input type="checkbox" name="freigabe_weg" value="ja"><span>Freigabe zurücksetzen (neue Runde, der Kunde sieht wieder den Knopf)</span></label>' : '')
         . '<button class="btn" type="submit">Speichern</button></form>'
         . '<form class="form form--small kp-termin-neu" method="post" action="' . $form . '">' . $csrf . '<input type="hidden" name="aktion" value="kunde_termin_neu">'
@@ -1473,6 +1495,7 @@ foreach ($list as $r) {
         . ad_auftrag_pills($a)
         . '<span class="kp-pill kp-pill--phase' . (kp_phase($a) === 'online' ? ' kp-pill--ok' : '') . '">' . cx_h(KP_PHASEN[kp_phase($a)][0]) . '</span>'
         . (kp_freigabe($a) !== null && kp_phase($a) !== 'online' ? '<span class="kp-pill kp-pill--ok">freigegeben</span>' : '')
+        . ad_betreuung_pill($a)
         . '<span class="kp-pill">' . ($r['uploads'] === 1 ? '1 Upload' : $r['uploads'] . ' Uploads') . '</span>'
         . (!$aktiv ? '<span class="kp-pill kp-pill--aus">gesperrt</span>' : '');
     $when = $r['akt'] ? date('d.m.Y', $r['akt']) : '–';
