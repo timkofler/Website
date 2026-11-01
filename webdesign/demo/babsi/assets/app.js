@@ -65,6 +65,24 @@
   status();
   setInterval(status, 60000);
 
+  // Im Entwurf steht eine Platzhalter-Nummer: Tippen ruft nicht an, sondern zeigt einen Hinweis
+  var tip = null;
+  d.addEventListener("click", function (e) {
+    var a = e.target.closest("[data-demo-tel]");
+    if (!a) return;
+    e.preventDefault();
+    if (!tip) {
+      tip = d.createElement("p");
+      tip.className = "demo-tip";
+      tip.setAttribute("role", "status");
+      tip.textContent = "Im Entwurf steht eine Platzhalter-Nummer. Auf der fertigen Seite ruft dieser Knopf direkt bei Ihnen an.";
+      d.body.appendChild(tip);
+    }
+    tip.classList.add("is-on");
+    clearTimeout(tip._t);
+    tip._t = setTimeout(function () { tip.classList.remove("is-on"); }, 3200);
+  });
+
   // Vorher/Nachher-Regler
   var ba = d.getElementById("ba");
   if (ba) {

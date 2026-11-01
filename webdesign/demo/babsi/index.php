@@ -5,20 +5,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Babsis Hoarstüberl · Friseursalon in Aspang-Markt</title>
-<meta name="description" content="Babsis Hoarstüberl in Aspang-Markt: Schneiden, Färben, Strähnen, Balayage und Hochsteckfrisuren für Damen und Herren. Dienstag bis Freitag 8 bis 18 Uhr, Termin unter 0664 4635362.">
+<meta name="description" content="Babsis Hoarstüberl in Aspang-Markt: Schneiden, Färben, Strähnen, Balayage und Hochsteckfrisuren für Damen und Herren. Dienstag bis Freitag 8 bis 18 Uhr.">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#f4efe4">
 <link rel="preload" href="assets/fonts/cormorant-600.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/img/wellen-700.webp" as="image" media="(max-width: 800px)">
 <link rel="preload" href="assets/img/wellen.webp" as="image" media="(min-width: 801px)">
-<link rel="stylesheet" href="assets/style.css?v=2">
-<script src="assets/app.js?v=1" defer></script>
+<link rel="stylesheet" href="assets/style.css?v=3">
+<script src="assets/app.js?v=2" defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "HairSalon",
   "name": "Babsis Hoarstüberl",
-  "telephone": "+43 664 4635362",
   "address": {"@type": "PostalAddress", "streetAddress": "Andreas-Hofer-Straße 30", "postalCode": "2870", "addressLocality": "Aspang-Markt", "addressCountry": "AT"},
   "openingHoursSpecification": [{"@type": "OpeningHoursSpecification", "dayOfWeek": ["Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "08:00", "closes": "18:00"}],
   "sameAs": ["https://www.instagram.com/babsis_hoarstueberl/"]
@@ -45,7 +44,7 @@
     <a href="#salon">Salon</a>
     <a href="#zeiten">Öffnungszeiten</a>
   </nav>
-  <a class="btn btn--dark nav__cta" href="tel:+436644635362">Termin anrufen</a>
+  <a class="btn btn--dark nav__cta" href="tel:+436640000000" data-demo-tel>Termin anrufen</a>
   <button class="nav__burger" id="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Menü öffnen"><span></span><span></span></button>
 </header>
 
@@ -55,7 +54,7 @@
     <a href="#vorher-nachher">Vorher &amp; Nachher</a>
     <a href="#salon">Salon</a>
     <a href="#zeiten">Öffnungszeiten</a>
-    <a class="btn btn--dark" href="tel:+436644635362">0664 463 53 62 anrufen</a>
+    <a class="btn btn--dark" href="tel:+436640000000" data-demo-tel>0664 000 00 00 anrufen</a>
   </nav>
 </div>
 
@@ -72,7 +71,7 @@
         <h1 class="hero__title">Schöne Haare,<br><em>mit Zeit und Gefühl.</em></h1>
         <p class="hero__lead">Ihr Friseursalon in Aspang-Markt. Schneiden, Farbe, Balayage und Hochsteckfrisuren für Damen und Herren.</p>
         <div class="hero__btns">
-          <a class="btn btn--dark" href="tel:+436644635362">Termin anrufen</a>
+          <a class="btn btn--dark" href="tel:+436640000000" data-demo-tel>Termin anrufen</a>
           <a class="btn btn--line" href="#leistungen">Leistungen ansehen</a>
         </div>
       </div>
@@ -174,7 +173,7 @@
         <p class="eyebrow">Besuchen Sie uns</p>
         <h2>Wir freuen uns<br><em>auf Sie.</em></h2>
         <p class="status status--dark" data-status><span class="status__dot"></span><span data-status-text>Dienstag bis Freitag geöffnet</span></p>
-        <a class="phone" href="tel:+436644635362"><small>Termin unter</small>0664 463 53 62</a>
+        <a class="phone" href="tel:+436640000000" data-demo-tel><small>Termin unter</small>0664 000 00 00</a>
         <div class="visit__btns">
           <a class="btn btn--light" href="https://www.google.com/maps/search/?api=1&amp;query=Andreas-Hofer-Stra%C3%9Fe+30+2870+Aspang-Markt" target="_blank" rel="noopener">Route planen</a>
           <a class="btn btn--ghost" href="https://www.instagram.com/babsis_hoarstueberl/" target="_blank" rel="noopener">Instagram</a>
@@ -200,14 +199,14 @@
       <svg class="brand__mark" aria-hidden="true"><use href="#zweig"/></svg>
       <span class="brand__txt"><em>Babsis</em><span>Hoarstüberl</span></span>
     </a>
-    <p class="foot__addr">Andreas-Hofer-Straße 30, 2870 Aspang-Markt · <a href="tel:+436644635362">0664 463 53 62</a></p>
+    <p class="foot__addr">Andreas-Hofer-Straße 30, 2870 Aspang-Markt · <a href="tel:+436640000000" data-demo-tel>0664 000 00 00</a></p>
     <p class="foot__links"><span>Impressum</span><span>Datenschutz</span></p>
     <p class="foot__fine">Fotos im Entwurf: Pexels (Adrianna CA, Kampus Production, Nataliya Vaitkevich, Daniil Kondrashin, Engin Akyurt). Auf der fertigen Seite kommen Ihre eigenen Bilder und Ihr Logo hinein.</p>
     <a class="foot__tk" href="https://tim-kofler.at" target="_blank" rel="noopener"><img src="assets/img/tk-logo.svg" alt="" width="34" height="17">Entwurf von Tim Kofler</a>
   </div>
 </footer>
 
-<a class="callbar" id="callbar" href="tel:+436644635362"><span class="status__dot"></span><span>Termin anrufen</span><b>0664 463 53 62</b></a>
+<a class="callbar" id="callbar" href="tel:+436640000000" data-demo-tel><span class="status__dot"></span><span>Termin anrufen</span><b>0664 000 00 00</b></a>
 
 </body>
 </html>
