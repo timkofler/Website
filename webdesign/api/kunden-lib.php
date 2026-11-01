@@ -1318,7 +1318,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <link rel="stylesheet" href="/assets/css/tk.css?v=4f0353c3">
   <link rel="stylesheet" href="/assets/css/black.css?v=f153d819">
   <script src="/assets/js/tk-black.js?v=add20d6a"></script>
-  <link rel="stylesheet" href="/assets/css/portal.css?v=a2221748">
+  <link rel="stylesheet" href="/assets/css/portal.css?v=0d8dca60">
 </head>
 <body class="kp">
 <header class="header">
@@ -1344,6 +1344,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
   </div>
 </footer>
 <script src="/assets/js/portal.js?v=ad271026"></script>
+<script src="/assets/js/kp-glas.js?v=85139a12"></script>
 </body>
 </html>
 HTML;

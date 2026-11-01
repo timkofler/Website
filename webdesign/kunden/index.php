@@ -452,6 +452,12 @@ HTML);
 // ---------------- Anmeldung ----------------
 if ($acc === null) {
     $lock = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
+    // Glas-Anmeldung: Jeder Fehlversuch dieses Anschlusses zeigt einen Sprung mehr im Passwortfeld,
+    // bei der Sperre friert die Karte ein und taut nach Ablauf der Wartezeit wieder auf (assets/js/kp-glas.js).
+    $ipFails = kp_fails('ip:' . kp_ip_hash());
+    $failN = min(count($ipFails), KP_FAILS);
+    $failRest = $failN >= KP_FAILS ? max(1, min($ipFails) + KP_FAIL_WINDOW - time()) : 0;
+    $frost = 'data-kp-frost data-fails="' . $failN . '" data-max="' . KP_FAILS . '" data-rest="' . $failRest . '"';
     kp_page('Anmelden', <<<HTML
 <div class="kp-login">
   <div class="kp-login__form kp-auth">
@@ -459,7 +465,7 @@ if ($acc === null) {
     <span class="label"><b>●</b> Kundenportal</span>
     <h1>Anmelden</h1>
     <p class="lead">Dein persönlicher Bereich für die neue Webseite deines Betriebs oder Vereins. Deinen Zugang bekommst du von mir per E-Mail oder persönlich.</p>
-    <form class="form" method="post" action="/kunden/">
+    <form class="form" method="post" action="/kunden/" {$frost}>
       {$csrf}
       <input type="hidden" name="aktion" value="anmelden">
       {$flash}
