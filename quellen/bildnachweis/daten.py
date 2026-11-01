@@ -174,6 +174,22 @@ SEITEN = [
  ("Praxis Sonnfeld (Massage)", "/beispiele/massage/", [
   ("PV", "9335881", "", "olia danilevich", "Video Massage", "_shared/media/massage-hell.mp4"),
  ]),
+ ("Johanna Wallner (Fotografin & Coach)", "/beispiele/fotografin/", [
+  ("P", "2444232", "", "Abhishek Basu", "Frau hält Kamera (Startbild, Link-Vorschaubild, Videos)", "fotografin/img/hero*.webp, og.jpg, _shared/media/fotografin*, /assets/img/demos/fotografin.webp, /assets/img/float/fotografin.webp"),
+  ("P", "11928220", "", "Victoria Strelka_ph", "Frau zwischen hellen Stoffen", "fotografin/img/falten-600.webp"),
+  ("P", "19222076", "", "Guto Macedo", "Fotoshooting im Studio", "fotografin/img/shooting*.webp"),
+  ("P", "4906289", "", "Maria Orlova", "Lachende Frau", "fotografin/img/kombi*.webp"),
+  ("P", "6643397", "", "Alena Darmel", "Frau am Fenster mit Kerzen", "fotografin/img/energie*.webp"),
+  ("P", "30008024", "", "Maximilian Orlowsky", "Kerze", "fotografin/img/kerze.webp"),
+  ("P", "34613195", "", "Steph Quernemoen", "Kamera im Abendlicht", "fotografin/img/kamera*.webp"),
+  ("P", "10209460", "", "cottonbro studio", "Porträt Frau (Galerie)", "fotografin/img/g1.webp"),
+  ("P", "30479371", "", "Augusto Carneiro Junior", "Frau im Blazer (Galerie)", "fotografin/img/g2.webp"),
+  ("P", "9691440", "", "Trarete", "Schwarz-Weiß-Porträt (Galerie)", "fotografin/img/g3.webp"),
+  ("P", "19456445", "", "Jonathan Borba", "Frau vor beigem Hintergrund (Galerie, Porträt der erfundenen Person)", "fotografin/img/g4.webp"),
+  ("P", "7760243", "", "cottonbro studio", "Frau im Strickpullover (Galerie)", "fotografin/img/g5.webp"),
+  ("P", "1487080", "", "Stanley Morales", "Lachende Frau im Gegenlicht (Galerie)", "fotografin/img/g6.webp"),
+  ("P", "13908738", "", "RedWolf", "Frau im weißen Blazer (Galerie)", "fotografin/img/g7.webp"),
+ ]),
  ("Studio Mila (Nagelstudio)", "/beispiele/nagelstudio/", [
   ("P", "939835", "person-s-hand-with-pink-manicure-939835", "Valeria Boltneva", "Hand mit rosé Mandelnägeln (Titelbild)", "nagelstudio/bilder/hero-rosa.webp"),
   ("P", "34373403", "elegant-manicured-hands-with-gold-jewelry-34373403", "Moo Lens", "Nude-Nägel mit Goldringen", "nagelstudio/bilder/nude-gold.webp"),
