@@ -80,6 +80,8 @@ html.tk-white .tk-abo, html.tk-white .tk-calc__sum, html.tk-white .price-extra__
 html.tk-white .step:hover, html.tk-white .price:hover, html.tk-white .faq__item:hover, html.tk-white .tk-bx__card:hover,
 html.tk-white .tk-feat li:hover, html.tk-white .mf-card:hover, html.tk-white .tk-try:hover, html.tk-white .price-extra__item:hover, html.tk-white .rule:hover {
   background: var(--bk-beam-hot), var(--bk-glass); border-color: rgba(255,90,31,.5); box-shadow: var(--bk-glow); }
+html.tk-white .tk-pill { background: #fff; border-color: rgba(28,20,12,.12); box-shadow: 0 1px 2px rgba(28,20,12,.05); }
+@media (hover: hover) { html.tk-white .tk-pill:hover { background: #fff8f3; border-color: rgba(255,90,31,.5); } }
 html.tk-white .faq__item[open] { background: var(--bk-beam-hot), var(--bk-glass); }
 html.tk-white .price--hi { background: linear-gradient(180deg, #fff, #fff8f3); border-color: rgba(255,90,31,.5); box-shadow: 0 0 0 1px rgba(255,90,31,.15), 0 30px 60px -30px rgba(255,90,31,.45); }
 html.tk-white .price__amount { color: #16130f; }
