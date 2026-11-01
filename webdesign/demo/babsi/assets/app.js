@@ -83,6 +83,58 @@
     tip._t = setTimeout(function () { tip.classList.remove("is-on"); }, 3200);
   });
 
+  // Online-Termin (Entwurf): freie Zeiten sind fest erfunden, es wird nichts verschickt
+  var bk = d.getElementById("bk");
+  if (bk) {
+    var KURZ = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"], MON = ["Jän.", "Feb.", "März", "Apr.", "Mai", "Juni", "Juli", "Aug.", "Sep.", "Okt.", "Nov.", "Dez."];
+    var dayBox = d.getElementById("bk-days"), timeBox = d.getElementById("bk-times");
+    var err = d.getElementById("bk-err"), ok = d.getElementById("bk-ok");
+    var hm = function (m) { return Math.floor(m / 60) + ":" + String(m % 60).padStart(2, "0"); };
+    var belegt = function (tag, m) { var x = Math.sin(tag * 12.9898 + m * 0.37719) * 43758.5453; return x - Math.floor(x) < (m < 720 ? 0.4 : 0.3); };
+    var tage = [], heute = new Date(), w0 = wien();
+    for (var i = 0; tage.length < 12 && i < 30; i++) {
+      var dt = new Date(heute.getFullYear(), heute.getMonth(), heute.getDate() + i);
+      if (offenTag(dt.getDay()) && !(i === 0 && w0.min > 1020)) tage.push(dt);
+    }
+    dayBox.innerHTML = tage.map(function (dt, n) {
+      return '<label><input type="radio" name="tag" value="' + n + '"' + (n === 0 ? " checked" : "") + '><span><small>' + KURZ[dt.getDay()] + '</small><b>' + dt.getDate() + '</b><em>' + MON[dt.getMonth()] + '</em></span></label>';
+    }).join("");
+    var dauer = function () { return +bk.querySelector('input[name="svc"]:checked').getAttribute("data-min"); };
+    var zeiten = function () {
+      var n = +bk.querySelector('input[name="tag"]:checked').value, dt = tage[n], key = Math.round(dt.getTime() / 864e5);
+      var need = Math.ceil(dauer() / 30), out = [], frueh = n === 0 && dt.getDate() === heute.getDate() ? w0.min + 60 : 0;
+      for (var m = 480; m + dauer() <= 1080; m += 30) {
+        if (m < frueh) continue;
+        var frei = true;
+        for (var k = 0; k < need; k++) if (belegt(key, m + k * 30)) { frei = false; break; }
+        if (frei) out.push(m);
+      }
+      timeBox.innerHTML = out.length ? out.map(function (m) {
+        return '<label><input type="radio" name="zeit" value="' + m + '"><span>' + hm(m) + '</span></label>';
+      }).join("") : "<p>An diesem Tag ist leider schon alles voll. Bitte einen anderen Tag wählen.</p>";
+    };
+    zeiten();
+    bk.addEventListener("change", function (e) { if (e.target.name === "svc" || e.target.name === "tag") zeiten(); err.hidden = true; });
+    bk.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var z = bk.querySelector('input[name="zeit"]:checked'), name = bk.elements.name.value.trim(), tel = bk.elements.tel.value.trim();
+      var fehlt = !z ? "Bitte eine Uhrzeit wählen." : !name ? "Bitte Ihren Namen eingeben." : tel.replace(/\D/g, "").length < 6 ? "Bitte eine Telefonnummer eingeben." : "";
+      if (fehlt) { err.textContent = fehlt; err.hidden = false; return; }
+      var dt = tage[+bk.querySelector('input[name="tag"]:checked').value];
+      d.getElementById("bk-ok-name").textContent = name.split(" ")[0];
+      d.getElementById("bk-ok-was").textContent = bk.querySelector('input[name="svc"]:checked').value + " · " + TAGE[dt.getDay()] + ", " + dt.getDate() + ". " + MON[dt.getMonth()] + " um " + hm(+z.value) + " Uhr";
+      ok.hidden = false;
+      bk.scrollIntoView({ block: "start", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    });
+    d.getElementById("bk-neu").addEventListener("click", function () { ok.hidden = true; bk.reset(); zeiten(); });
+  }
+
+  // Anruf-Leiste ausblenden, solange das Termin-Formular selbst zu sehen ist
+  var termin = d.getElementById("termin");
+  if (callbar && termin && "IntersectionObserver" in window) {
+    new IntersectionObserver(function (es) { callbar.classList.toggle("is-weg", es[0].isIntersecting); }, { threshold: 0.15 }).observe(termin);
+  }
+
   // Vorher/Nachher-Regler
   var ba = d.getElementById("ba");
   if (ba) {

@@ -11,8 +11,8 @@
 <link rel="preload" href="assets/fonts/cormorant-600.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/img/wellen-700.webp" as="image" media="(max-width: 800px)">
 <link rel="preload" href="assets/img/wellen.webp" as="image" media="(min-width: 801px)">
-<link rel="stylesheet" href="assets/style.css?v=3">
-<script src="assets/app.js?v=2" defer></script>
+<link rel="stylesheet" href="assets/style.css?v=4">
+<script src="assets/app.js?v=3" defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -41,10 +41,10 @@
   <nav class="nav__links" aria-label="Hauptmenü">
     <a href="#leistungen">Leistungen</a>
     <a href="#vorher-nachher">Vorher &amp; Nachher</a>
-    <a href="#salon">Salon</a>
+    <a href="#termin">Termin</a>
     <a href="#zeiten">Öffnungszeiten</a>
   </nav>
-  <a class="btn btn--dark nav__cta" href="tel:+436640000000" data-demo-tel>Termin anrufen</a>
+  <a class="btn btn--dark nav__cta" href="#termin">Termin buchen</a>
   <button class="nav__burger" id="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Menü öffnen"><span></span><span></span></button>
 </header>
 
@@ -54,7 +54,7 @@
     <a href="#vorher-nachher">Vorher &amp; Nachher</a>
     <a href="#salon">Salon</a>
     <a href="#zeiten">Öffnungszeiten</a>
-    <a class="btn btn--dark" href="tel:+436640000000" data-demo-tel>0664 000 00 00 anrufen</a>
+    <a class="btn btn--dark" href="#termin">Termin buchen</a>
   </nav>
 </div>
 
@@ -71,7 +71,7 @@
         <h1 class="hero__title">Schöne Haare,<br><em>mit Zeit und Gefühl.</em></h1>
         <p class="hero__lead">Ihr Friseursalon in Aspang-Markt. Schneiden, Farbe, Balayage und Hochsteckfrisuren für Damen und Herren.</p>
         <div class="hero__btns">
-          <a class="btn btn--dark" href="tel:+436640000000" data-demo-tel>Termin anrufen</a>
+          <a class="btn btn--dark" href="#termin">Online-Termin buchen</a>
           <a class="btn btn--line" href="#leistungen">Leistungen ansehen</a>
         </div>
       </div>
@@ -166,6 +166,52 @@
     </div>
   </section>
 
+  <!-- TERMIN -->
+  <section class="sec" id="termin">
+    <div class="wrap book">
+      <div class="head reveal">
+        <p class="eyebrow">Online-Termin</p>
+        <h2>Ihr Termin <em>in einer Minute</em></h2>
+        <p class="head__lead">Leistung wählen, Tag und Uhrzeit antippen, Name dazu. Sie bekommen eine Bestätigung, sobald der Termin fix ist.</p>
+        <p class="note"><span>Entwurf</span> Die freien Zeiten sind Beispiele. Auf Ihrer Seite landet jede Anfrage sofort auf Ihrem Handy und Sie bestätigen mit einem Tipp.</p>
+      </div>
+      <form class="bk reveal" id="bk" novalidate>
+        <fieldset class="bk__step">
+          <legend><b>1</b> Was dürfen wir machen?</legend>
+          <div class="bk__chips" id="bk-svc">
+            <label><input type="radio" name="svc" value="Schneiden &amp; Föhnen" data-min="60" checked><span>Schneiden &amp; Föhnen</span></label>
+            <label><input type="radio" name="svc" value="Herrenschnitt" data-min="30"><span>Herrenschnitt</span></label>
+            <label><input type="radio" name="svc" value="Farbe" data-min="90"><span>Farbe</span></label>
+            <label><input type="radio" name="svc" value="Strähnen" data-min="120"><span>Strähnen</span></label>
+            <label><input type="radio" name="svc" value="Balayage" data-min="150"><span>Balayage</span></label>
+            <label><input type="radio" name="svc" value="Hochsteckfrisur" data-min="60"><span>Hochsteckfrisur</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="bk__step">
+          <legend><b>2</b> Wann passt es Ihnen?</legend>
+          <div class="bk__days" id="bk-days" role="radiogroup" aria-label="Tag wählen"></div>
+          <div class="bk__times" id="bk-times" role="radiogroup" aria-label="Uhrzeit wählen"></div>
+        </fieldset>
+        <fieldset class="bk__step">
+          <legend><b>3</b> Wer kommt?</legend>
+          <div class="bk__row">
+            <label class="fld"><span>Name</span><input type="text" name="name" autocomplete="name" required></label>
+            <label class="fld"><span>Telefon</span><input type="tel" name="tel" autocomplete="tel" inputmode="tel" required></label>
+          </div>
+        </fieldset>
+        <p class="bk__err" id="bk-err" role="alert" hidden></p>
+        <button class="btn btn--dark bk__go" type="submit" id="bk-go">Termin anfragen</button>
+        <div class="bk__ok" id="bk-ok" role="status" hidden>
+          <svg aria-hidden="true"><use href="#zweig"/></svg>
+          <p class="bk__ok-t">Danke, <span id="bk-ok-name"></span>!</p>
+          <p class="bk__ok-w" id="bk-ok-was"></p>
+          <p class="bk__ok-n">Das ist nur der Entwurf, deshalb wird noch nichts verschickt. Auf der fertigen Seite bekommt Babsi Ihre Anfrage sofort aufs Handy.</p>
+          <button class="btn btn--line" type="button" id="bk-neu">Noch einen Termin</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
   <!-- ZEITEN UND KONTAKT -->
   <section class="sec sec--dark" id="zeiten">
     <div class="wrap visit">
@@ -206,7 +252,7 @@
   </div>
 </footer>
 
-<a class="callbar" id="callbar" href="tel:+436640000000" data-demo-tel><span class="status__dot"></span><span>Termin anrufen</span><b>0664 000 00 00</b></a>
+<a class="callbar" id="callbar" href="#termin"><span class="status__dot"></span><span>Termin buchen</span><b>online</b></a>
 
 </body>
 </html>
