@@ -1172,6 +1172,11 @@ html:not(.anf-js) .anf__panel--rr { padding-bottom: 0; }
   /* „Vereine“ mit kleinem „gratis“-Kennzeichen direkt hinter dem Wort */
   .mnav__grid .mnav__verein { display: flex; align-items: center; gap: 8px; }
   .mnav__grid a:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .mnav__grid .mnav__verein--breit { justify-content: space-between; gap: 12px; padding: 14px 16px; border-color: rgba(255,90,31,.4); background: linear-gradient(135deg, rgba(255,90,31,.14), rgba(255,90,31,.02) 70%), var(--surface); }
+  .mnav__vt { display: grid; gap: 4px; min-width: 0; }
+  .mnav__vt b { display: flex; align-items: center; gap: 8px; font-weight: 700; }
+  .mnav__vt > span { font-size: .82rem; font-weight: 500; color: var(--muted); }
+  .mnav__verein--breit svg { flex: none; width: 20px; height: 20px; color: var(--hot); }
   .mnav__verein small { font-size: .74rem; font-weight: 700; color: var(--hot-2); padding: 2px 8px; border-radius: 999px; background: var(--hot-dim); border: 1px solid rgba(255,90,31,.35); }
   .mnav__row { display: grid; grid-template-columns: auto 1fr; gap: 10px; margin-top: 18px; }
   .mnav__wa { display: inline-flex; align-items: center; gap: 8px; min-height: 52px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line-2); color: var(--text); font-weight: 700; text-decoration: none; }
