@@ -21,8 +21,8 @@ BASIS = br.BASIS
 
 # Kopf wie die live Branchenseiten (inkl. Black-Edition-Schalter), nur Titel/Meta/JSON-LD tauschen
 VORLAGE = os.path.join(WEB, "webseite", "handwerk", "index.html")
-BLACK = ('  <link rel="stylesheet" href="/assets/css/black.css?v=42ffeaed">\n  <meta name="tk-white-css" content="/assets/css/white.css?v=64d884cd">\n'
-         '  <script src="/assets/js/tk-black.js?v=e12aebec"></script>\n')
+BLACK = ('  <link rel="stylesheet" href="/assets/css/black.css?v=66a8acb0">\n  <meta name="tk-white-css" content="/assets/css/white.css?v=8896b4fb">\n'
+         '  <script src="/assets/js/tk-black.js?v=256b9ac7"></script>\n')
 
 
 def kopf(title, desc, url, og_title, ld):
