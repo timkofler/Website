@@ -67,7 +67,7 @@ FAQ = [
     ("Muss ich eine Betreuung nehmen?",
      "Nein, die Betreuung ist freiwillig. Die Webseite zahlst du einmal, danach gehört sie dir. Ohne Betreuung mache ich Änderungen einzeln nach Aufwand."),
     ("Ist Webspace oder Hosting dabei?",
-     "Nein, bewusst nicht. Webspace und Domain laufen auf deinen Namen, damit die Seite wirklich dir gehört und du nie von mir abhängig bist. Ich empfehle ALL-INKL.COM ab 4,95 € im Monat und richte alles für dich ein."),
+     "Nein, bewusst nicht. Webspace und Domain laufen auf deinen Namen, damit die Seite wirklich dir gehört und du nie von mir abhängig bist. Ich empfehle ALL-INKL.COM: Schon im Tarif Privat um 4,95 € im Monat sind 3 Domains, 500 E-Mail-Postfächer und 50 GB Speicher dabei. Ich richte alles für dich ein."),
     ("Was zählt als kleine Änderung?",
      "Zum Beispiel neue Texte, Fotos tauschen, Öffnungszeiten, Preise, eine neue Aktion oder ein Urlaubshinweis. Neue Unterseiten oder Funktionen bekommst du vorher als Angebot zum Fixpreis."),
     ("Was passiert mit Zeit, die ich nicht brauche?",
@@ -211,7 +211,8 @@ def main_html(vorlage):
     <div class="pricing">
 {pakete()}
     </div>
-    <p class="muted" style="margin:18px 0 0;text-align:center;font-size:.95rem">Monatlich kündbar, Wechsel jederzeit zum Monatsende. <a href="/ablauf/#kosten">Alle laufenden Kosten</a></p>
+    <div class="tk-abo__once tk-once--prices gr-once" id="webspace"><span class="tk-abo__once-ic" aria-hidden="true">{H}</span><p><strong>Webspace extra, aber ohne Sparversion.</strong> Bei <a href="https://all-inkl.com/PA56CC1CF457650" rel="sponsored noopener" target="_blank">ALL-INKL.COM</a> sind schon im Tarif Privat um 4,95&nbsp;€ im Monat 3 Domains, 500 E-Mail-Postfächer und 50&nbsp;GB Speicher dabei, alles auf deinen Namen. Ich richte es dir ein.</p></div>
+    <p class="muted" style="margin:14px 0 0;text-align:center;font-size:.85rem">Monatlich kündbar, Wechsel jederzeit zum Monatsende. <a href="/ablauf/#kosten">Alle laufenden Kosten</a> · ALL-INKL-Link ist ein Partnerlink, für dich ändert sich am Preis nichts. Angaben laut ALL-INKL.COM, Stand November 2026.</p>
   </div>
 </section>
 
