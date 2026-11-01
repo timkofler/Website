@@ -7,7 +7,7 @@ DESC = ("Wann deine Webseite eine Datenschutzerklärung braucht, was nach der DS
         "du erwähnen musst. Mit Checkliste für Betriebe in Österreich.")
 KARTE = "Wann du eine brauchst, was nach der DSGVO hinein muss und typische Fehler."
 H1_TEXT = "Datenschutzerklärung für die Webseite: Was muss rein?"
-H1 = 'Datenschutzerklärung: <span class="lime">Was muss rein?</span>'
+H1 = 'Datenschutz&shy;erklärung: <span class="lime">Was muss rein?</span>'
 LEAD = ("Kaum eine Webseite kommt ohne Datenschutzerklärung aus. Klingt kompliziert, ist aber mit einer "
         "klaren Checkliste gut zu schaffen.")
 DATUM = "2026-11-01"

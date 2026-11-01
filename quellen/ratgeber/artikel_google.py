@@ -7,7 +7,7 @@ DESC = ("So kommst du mit deinem Betrieb auf Google Maps: Google-Unternehmenspro
         "bestätigen und richtig ausfüllen. Schritt für Schritt mit Tipps aus der Praxis.")
 KARTE = "Gratis auf Google Maps: Profil einrichten, bestätigen und richtig ausfüllen."
 H1_TEXT = "Google-Unternehmensprofil einrichten: Schritt für Schritt"
-H1 = 'Google-Unternehmensprofil <span class="lime">einrichten.</span>'
+H1 = 'Google-Unternehmens&shy;profil <span class="lime">einrichten.</span>'
 LEAD = ("Wer „Friseur in der Nähe“ sucht, sieht zuerst die Karte. Mit einem kostenlosen "
         "Google-Unternehmensprofil steht dein Betrieb dort. So richtest du es ein.")
 DATUM = "2026-11-01"
