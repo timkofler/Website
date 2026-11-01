@@ -5,6 +5,8 @@
   var $ = function (s, el) { return (el || document).querySelector(s); };
   var $$ = function (s, el) { return Array.prototype.slice.call((el || document).querySelectorAll(s)); };
   var REZEPTE = JSON.parse($('#rezeptDaten').textContent);
+  /* Selbst eingetragene Rezepte (Entwurf: nur auf diesem Gerät) kommen nach vorne */
+  try { var eig = JSON.parse(localStorage.getItem('mw_eigene') || '[]'); if (Array.isArray(eig)) REZEPTE = eig.filter(function (r) { return r && r.id && r.titel && Array.isArray(r.zutaten) && Array.isArray(r.schritte) && r.form; }).concat(REZEPTE); } catch (e) { /* egal */ }
   var BY_ID = {};
   REZEPTE.forEach(function (r) { BY_ID[r.id] = r; });
 
@@ -86,15 +88,20 @@
     if (state.kat === 'merk') return state.merk.indexOf(r.id) !== -1;
     return r.kat.indexOf(state.kat) !== -1;
   }
+  function bildTag(r) {
+    if (r.eigen) return r.foto && /^data:image\/(webp|jpeg|png);base64,/.test(r.foto) ? '<img src="' + r.foto + '" alt="" width="640" height="480">' : '<span class="karte__platz" aria-hidden="true"></span>';
+    return '<img src="assets/img/' + r.bild + '-640.webp" srcset="assets/img/' + r.bild + '-360.webp 360w, assets/img/' + r.bild + '-640.webp 640w, assets/img/' + r.bild + '-1200.webp 1200w" sizes="(max-width:559px) 118px, (max-width:959px) 50vw, 370px" alt="" width="640" height="480" loading="lazy" decoding="async">';
+  }
   function karte(r, treffer, i) {
     var gemerkt = state.merk.indexOf(r.id) !== -1;
     var tags = r.kat.map(function (k) { return '<span class="tag ' + KAT_FARBE[k] + '">' + esc(KAT_NAME[k]) + '</span>'; }).join('');
     if (r.schnell) tags = '<span class="tag k-himmel">Schnell</span>' + tags;
+    if (r.eigen) tags = '<span class="tag tag--neu">Neu</span>' + tags;
     if (treffer && treffer.length) tags = treffer.map(function (t) { return '<span class="tag tag--passt">✓ ' + esc(t) + '</span>'; }).join('') + tags;
     return '<article class="karte" style="animation-delay:' + Math.min(i, 8) * 40 + 'ms">' +
       '<button class="herzbtn" type="button" data-herz="' + r.id + '" aria-pressed="' + gemerkt + '" aria-label="' + esc(r.titel) + (gemerkt ? ' nicht mehr merken' : ' merken') + '"><svg><use href="#' + (gemerkt ? 'i-herz' : 'i-herz-o') + '"/></svg></button>' +
       '<button class="karte__knopf" type="button" data-rezept="' + r.id + '">' +
-      '<div class="karte__bild"><img src="assets/img/' + r.bild + '-640.webp" srcset="assets/img/' + r.bild + '-360.webp 360w, assets/img/' + r.bild + '-640.webp 640w, assets/img/' + r.bild + '-1200.webp 1200w" sizes="(max-width:559px) 118px, (max-width:959px) 50vw, 370px" alt="" width="640" height="480" loading="lazy" decoding="async">' +
+      '<div class="karte__bild">' + bildTag(r) +
       '<span class="karte__zeit"><svg><use href="#i-uhr"/></svg>' + zeitTxt(r.zeit) + ' · ' + STUFE[r.stufe] + '</span></div>' +
       '<div class="karte__txt"><h3>' + esc(r.titel) + '</h3><span class="karte__meta"><svg><use href="#i-uhr"/></svg>' + zeitTxt(r.zeit) + ' · ' + STUFE[r.stufe] + '</span><p>' + esc(r.kurz) + '</p><div class="karte__tags">' + tags + '</div></div>' +
       '</button></article>';
@@ -260,7 +267,9 @@
     var r = BY_ID[id]; if (!r) return;
     aktuell = r; wahl = r.form.wert; faktor = 1;
     var img = $('[data-b-bild]');
-    img.src = 'assets/img/' + r.bild + '-1200.webp'; img.alt = r.titel;
+    if (r.eigen) { img.hidden = !r.foto; if (r.foto && /^data:image\/(webp|jpeg|png);base64,/.test(r.foto)) img.src = r.foto; }
+    else { img.hidden = false; img.src = 'assets/img/' + r.bild + '-1200.webp'; }
+    img.alt = r.titel;
     $('[data-b-titel]').textContent = r.titel;
     $('[data-b-kurz]').textContent = r.kurz;
     $('[data-b-meta]').innerHTML = '<span class="k-himmel"><svg><use href="#i-uhr"/></svg>' + zeitTxt(r.zeit) + '</span><span class="k-mint">' + STUFE[r.stufe] + '</span>' + r.kat.map(function (k) { return '<span class="' + KAT_FARBE[k] + '">' + esc(KAT_NAME[k]) + '</span>'; }).join('');
@@ -506,6 +515,7 @@
 
   /* Start */
   zaehler(); chipsZeichnen(); render();
-  var m0 = /^#rezept-(.+)$/.exec(location.hash);
+  var m0 = /^#rezept-(.+)$/.exec(location.hash), istNeu = /[?&]neu=1/.test(location.search);
   if (m0 && BY_ID[m0[1]]) { history.replaceState(null, '', location.pathname); oeffne(m0[1], true); }
+  if (istNeu && m0) setTimeout(function () { toast('Dein Rezept ist online und steht ganz vorne in der Rezept-Dose.'); }, 400);
 })();
