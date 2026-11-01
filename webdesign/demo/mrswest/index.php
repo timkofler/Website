@@ -29,7 +29,7 @@ $ld = [
 <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/img/nakedcake-hoch.webp" as="image">
-<link rel="stylesheet" href="assets/style.css?v=2">
+<link rel="stylesheet" href="assets/style.css?v=3">
 <script type="application/ld+json"><?= json_encode($ld, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
@@ -229,7 +229,7 @@ $ld = [
   <div class="wrap insta__in">
     <div>
       <p class="kicker">Neue Rezepte zuerst auf Instagram</p>
-      <h2><span class="zaehler" data-zaehler="40.2">40,2</span> Tsd. backen schon mit.</h2>
+      <h2><span class="zaehler" data-zaehler="40.2">40,2</span> Tsd.<br>backen schon mit.</h2>
     </div>
     <a class="btn btn--insta" href="https://www.instagram.com/mrswest_is_baking/" target="_blank" rel="noopener"><svg><use href="#i-insta"/></svg>@mrswest_is_baking</a>
   </div>
