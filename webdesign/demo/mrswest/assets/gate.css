@@ -1,0 +1,21 @@
+@font-face{font-family:"Fraunces";src:url(fonts/fraunces.woff2) format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Nunito";src:url(fonts/nunito.woff2) format("woff2");font-weight:200 1000;font-display:swap}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:#fdf3ee;background-image:radial-gradient(circle at 15% 10%,#f9d5dc 0,rgba(249,213,220,0) 40%),radial-gradient(circle at 90% 85%,#cdebdc 0,rgba(205,235,220,0) 40%),radial-gradient(circle at 85% 10%,#d7e6f6 0,rgba(215,230,246,0) 35%);color:#3d2635;font:400 16px/1.6 "Nunito",system-ui,sans-serif;display:grid;place-items:center;min-height:100vh;min-height:100svh;padding:24px 16px}
+.gate{width:100%;max-width:360px;text-align:center}
+.gate__logo{width:120px;height:120px;margin:0 auto 14px;display:block;filter:drop-shadow(0 14px 22px rgba(214,69,107,.25))}
+.gate__kicker{font:800 11px/1 "Nunito",sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#c2416a;margin:0 0 10px}
+.gate__name{font:600 34px/1.05 "Fraunces",Georgia,serif;margin:0 0 10px}
+.gate__name em{color:#d6456b}
+.gate__txt{color:#77606d;margin:0 0 24px}
+form{display:grid;gap:10px;text-align:left}
+label{font:800 11px/1 "Nunito",sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#77606d}
+input{width:100%;min-height:52px;border-radius:16px;border:2px solid #f2cfd8;background:#fff;color:#3d2635;font:600 17px "Nunito",sans-serif;padding:0 16px}
+input:focus{outline:3px solid #f6a9bd;outline-offset:2px}
+button{min-height:54px;border:0;border-radius:999px;background:#d6456b;color:#fff;font:800 16px "Nunito",sans-serif;cursor:pointer;margin-top:8px;box-shadow:0 10px 24px -10px rgba(214,69,107,.7);transition:background .2s,transform .15s}
+button:hover{background:#c2365c}
+button:active{transform:scale(.98)}
+.gate__err{color:#b0283f;margin:2px 0 0;font-size:14px;font-weight:700}
+.gate__tk{display:inline-flex;align-items:center;gap:10px;margin-top:34px;color:#77606d;font-size:13px;text-decoration:none}
+.gate__tk img{height:14px;width:auto}

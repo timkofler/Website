@@ -1,0 +1,429 @@
+[
+  {
+    "id": "kaiserschmarrn",
+    "titel": "Flaumiger Kaiserschmarrn",
+    "kurz": "Außen karamellig, innen flaumig. Der Klassiker für Sonntag, fertig in 25 Minuten.",
+    "kat": ["fruehstueck"],
+    "schnell": true,
+    "zeit": 25,
+    "stufe": 1,
+    "form": {"typ": "portion", "wert": 2},
+    "bild": "kaiserschmarrn",
+    "zutaten": [
+      [4, "", "Eier"],
+      [250, "ml", "Milch"],
+      [150, "g", "Mehl (glatt)"],
+      [1, "EL", "Zucker"],
+      [1, "Pkg", "Vanillezucker"],
+      [1, "Prise", "Salz"],
+      [30, "g", "Butter"],
+      [2, "EL", "Rosinen (wer mag)"],
+      [2, "EL", "Staubzucker zum Bestreuen"]
+    ],
+    "schritte": [
+      {"t": "Eier trennen. Eiklar mit Salz zu steifem Schnee schlagen."},
+      {"t": "Dotter, Milch, Mehl, Zucker und Vanillezucker glatt rühren. Schnee vorsichtig unterheben."},
+      {"t": "Butter in einer großen Pfanne schmelzen, Teig eingießen, Rosinen darüberstreuen und bei mittlerer Hitze stocken lassen.", "min": 5},
+      {"t": "Teig vierteln, wenden und mit zwei Gabeln in Stücke reißen. Noch kurz weiterbraten.", "min": 3},
+      {"t": "Mit Staubzucker bestreuen und kurz karamellisieren lassen. Mit Zwetschkenröster servieren."}
+    ],
+    "tipp": "Ein Schuss Mineralwasser im Teig macht ihn noch flaumiger."
+  },
+  {
+    "id": "cookies",
+    "titel": "Chocolate Chip Cookies",
+    "kurz": "Am Rand knusprig, in der Mitte weich. Der Teig ist in 10 Minuten fertig.",
+    "kat": ["kekse"],
+    "schnell": true,
+    "zeit": 30,
+    "stufe": 1,
+    "form": {"typ": "stueck", "wert": 16, "name": "Cookies"},
+    "bild": "cookies",
+    "zutaten": [
+      [125, "g", "Butter (weich)"],
+      [100, "g", "brauner Zucker"],
+      [50, "g", "Zucker"],
+      [1, "", "Ei"],
+      [1, "Pkg", "Vanillezucker"],
+      [220, "g", "Mehl (glatt)"],
+      [0.5, "TL", "Natron"],
+      [1, "Prise", "Salz"],
+      [150, "g", "Schokostückchen"]
+    ],
+    "schritte": [
+      {"t": "Backrohr auf 180 °C Ober-/Unterhitze vorheizen, zwei Bleche mit Backpapier belegen."},
+      {"t": "Butter mit beiden Zuckersorten cremig rühren, Ei und Vanillezucker einrühren."},
+      {"t": "Mehl, Natron und Salz kurz unterrühren, dann die Schokostückchen unterheben."},
+      {"t": "Mit einem Esslöffel Kugeln formen und mit Abstand aufs Blech setzen, leicht flach drücken."},
+      {"t": "Backen, bis die Ränder goldbraun sind. Die Mitte darf noch weich aussehen.", "min": 11},
+      {"t": "Auf dem Blech 5 Minuten fest werden lassen, dann auf ein Gitter heben.", "min": 5}
+    ],
+    "tipp": "Teig 30 Minuten kühlen, dann laufen die Cookies weniger auseinander."
+  },
+  {
+    "id": "zitronenkuchen",
+    "titel": "Saftiger Zitronenkuchen",
+    "kurz": "Lemon Drizzle Cake mit Zitronensirup, der beim Auskühlen einzieht.",
+    "kat": ["kuchen"],
+    "schnell": false,
+    "zeit": 70,
+    "stufe": 1,
+    "form": {"typ": "kasten", "wert": 30},
+    "bild": "zitronenkuchen",
+    "zutaten": [
+      [200, "g", "Butter (weich)"],
+      [200, "g", "Zucker"],
+      [4, "", "Eier"],
+      [2, "", "Bio-Zitronen"],
+      [220, "g", "Mehl (glatt)"],
+      [2, "TL", "Backpulver"],
+      [80, "ml", "Milch"],
+      [80, "g", "Staubzucker für den Sirup"]
+    ],
+    "schritte": [
+      {"t": "Backrohr auf 170 °C Ober-/Unterhitze vorheizen, Kastenform mit Backpapier auslegen."},
+      {"t": "Butter und Zucker hell und cremig schlagen, Eier einzeln einrühren. Zitronenschale abreiben und dazugeben."},
+      {"t": "Mehl mit Backpulver mischen und abwechselnd mit der Milch unterrühren."},
+      {"t": "Teig in die Form füllen und backen. Stäbchenprobe machen.", "min": 50},
+      {"t": "Zitronensaft mit Staubzucker verrühren. Den warmen Kuchen mit einem Holzspieß einstechen und den Sirup darüberträufeln."},
+      {"t": "In der Form auskühlen lassen, damit der Sirup schön einzieht.", "min": 20}
+    ],
+    "tipp": "Am nächsten Tag ist er noch saftiger."
+  },
+  {
+    "id": "cheesecake",
+    "titel": "Himbeer-Cheesecake",
+    "kurz": "Cremig, mit Keksboden und frischen Himbeeren. Am besten am Vortag backen.",
+    "kat": ["torten"],
+    "schnell": false,
+    "zeit": 90,
+    "stufe": 2,
+    "form": {"typ": "rund", "wert": 24},
+    "bild": "cheesecake",
+    "zutaten": [
+      [200, "g", "Butterkekse"],
+      [90, "g", "Butter (geschmolzen)"],
+      [600, "g", "Frischkäse"],
+      [250, "g", "Topfen (20 %)"],
+      [150, "g", "Zucker"],
+      [3, "", "Eier"],
+      [1, "EL", "Speisestärke"],
+      [1, "Pkg", "Vanillezucker"],
+      [250, "g", "Himbeeren"]
+    ],
+    "schritte": [
+      {"t": "Backrohr auf 160 °C Ober-/Unterhitze vorheizen. Boden der Springform mit Backpapier einspannen."},
+      {"t": "Kekse fein zerbröseln, mit der geschmolzenen Butter mischen und als Boden fest in die Form drücken."},
+      {"t": "Frischkäse, Topfen, Zucker, Vanillezucker und Stärke glatt rühren. Eier nur kurz einrühren, nicht schaumig schlagen."},
+      {"t": "Creme auf den Boden gießen und backen, bis der Rand fest ist und die Mitte noch leicht wackelt.", "min": 55},
+      {"t": "Im ausgeschalteten Rohr bei leicht geöffneter Tür abkühlen lassen.", "min": 60},
+      {"t": "Über Nacht kühlen und vor dem Servieren mit Himbeeren belegen."}
+    ],
+    "tipp": "Messer vor jedem Schnitt in heißes Wasser tauchen, dann werden die Stücke ganz glatt."
+  },
+  {
+    "id": "bananenbrot",
+    "titel": "Bananenbrot ohne Zucker",
+    "kurz": "Süß nur durch reife Bananen. Perfekt für die Jausenbox.",
+    "kat": ["kuchen", "fruehstueck"],
+    "schnell": false,
+    "zeit": 65,
+    "stufe": 1,
+    "form": {"typ": "kasten", "wert": 25},
+    "bild": "bananenbrot",
+    "zutaten": [
+      [3, "", "sehr reife Bananen"],
+      [2, "", "Eier"],
+      [60, "ml", "Rapsöl"],
+      [100, "ml", "Milch"],
+      [250, "g", "Dinkelvollkornmehl"],
+      [2, "TL", "Backpulver"],
+      [1, "TL", "Zimt"],
+      [60, "g", "Walnüsse (gehackt)"]
+    ],
+    "schritte": [
+      {"t": "Backrohr auf 175 °C Ober-/Unterhitze vorheizen, Kastenform auslegen."},
+      {"t": "Bananen mit einer Gabel zerdrücken, mit Eiern, Öl und Milch verrühren."},
+      {"t": "Mehl, Backpulver und Zimt dazugeben und nur kurz verrühren. Nüsse unterheben."},
+      {"t": "In die Form füllen und backen, bis ein Stäbchen sauber herauskommt.", "min": 45},
+      {"t": "10 Minuten in der Form ruhen lassen, dann auf ein Gitter stürzen.", "min": 10}
+    ],
+    "tipp": "Je brauner die Bananen, desto süßer das Brot."
+  },
+  {
+    "id": "pavlova",
+    "titel": "Pavlova mit Beeren",
+    "kurz": "Außen knusprig, innen wie Marshmallow. Sieht nach viel aus, ist aber einfach.",
+    "kat": ["torten"],
+    "schnell": false,
+    "zeit": 150,
+    "stufe": 2,
+    "form": {"typ": "rund", "wert": 22},
+    "bild": "pavlova",
+    "zutaten": [
+      [4, "", "Eiklar"],
+      [220, "g", "Feinkristallzucker"],
+      [1, "TL", "Speisestärke"],
+      [1, "TL", "Zitronensaft"],
+      [250, "ml", "Schlagobers"],
+      [400, "g", "gemischte Beeren"]
+    ],
+    "schritte": [
+      {"t": "Backrohr auf 120 °C Ober-/Unterhitze vorheizen. Auf Backpapier einen Kreis in Formgröße aufmalen."},
+      {"t": "Eiklar steif schlagen, Zucker löffelweise einrieseln lassen und weiterschlagen, bis die Masse glänzt.", "min": 8},
+      {"t": "Stärke und Zitronensaft unterheben. Masse im Kreis aufstreichen, Rand etwas höher."},
+      {"t": "Backen, danach im ausgeschalteten Rohr komplett auskühlen lassen.", "min": 75},
+      {"t": "Obers steif schlagen, auf die Pavlova streichen und mit Beeren belegen. Gleich servieren."}
+    ],
+    "tipp": "Schüssel und Schneebesen müssen fettfrei sein, sonst wird der Schnee nicht steif."
+  },
+  {
+    "id": "brownies",
+    "titel": "Brownies mit Ribiseln",
+    "kurz": "Saftig, schokoladig und ein bisschen säuerlich durch frische Ribiseln.",
+    "kat": ["kuchen"],
+    "schnell": true,
+    "zeit": 40,
+    "stufe": 1,
+    "form": {"typ": "eckig", "wert": "20x30"},
+    "bild": "brownies",
+    "zutaten": [
+      [200, "g", "Zartbitterschokolade"],
+      [150, "g", "Butter"],
+      [200, "g", "Zucker"],
+      [3, "", "Eier"],
+      [100, "g", "Mehl (glatt)"],
+      [2, "EL", "Kakao"],
+      [1, "Prise", "Salz"],
+      [100, "g", "Ribiseln"]
+    ],
+    "schritte": [
+      {"t": "Backrohr auf 180 °C Ober-/Unterhitze vorheizen, Form mit Backpapier auslegen."},
+      {"t": "Schokolade und Butter bei kleiner Hitze schmelzen, kurz abkühlen lassen."},
+      {"t": "Zucker und Eier einrühren, dann Mehl, Kakao und Salz unterrühren."},
+      {"t": "Teig in die Form füllen, Ribiseln darüberstreuen."},
+      {"t": "Backen. Die Mitte soll noch leicht feucht sein.", "min": 22},
+      {"t": "Ganz auskühlen lassen, erst dann schneiden.", "min": 30}
+    ],
+    "tipp": "Statt Ribiseln gehen auch Himbeeren oder Kirschen."
+  },
+  {
+    "id": "erdbeerkuchen",
+    "titel": "Erdbeer-Kastenkuchen",
+    "kurz": "Rührkuchen mit Erdbeeren im Teig und einer dünnen Zuckerglasur.",
+    "kat": ["kuchen"],
+    "schnell": false,
+    "zeit": 75,
+    "stufe": 1,
+    "form": {"typ": "kasten", "wert": 25},
+    "bild": "erdbeerkuchen",
+    "zutaten": [
+      [150, "g", "Butter (weich)"],
+      [140, "g", "Zucker"],
+      [3, "", "Eier"],
+      [200, "g", "Mehl (glatt)"],
+      [1.5, "TL", "Backpulver"],
+      [100, "g", "Joghurt"],
+      [250, "g", "Erdbeeren"],
+      [100, "g", "Staubzucker"],
+      [2, "EL", "Zitronensaft"]
+    ],
+    "schritte": [
+      {"t": "Backrohr auf 170 °C Ober-/Unterhitze vorheizen, Kastenform auslegen."},
+      {"t": "Butter mit Zucker cremig rühren, Eier einzeln einrühren, dann das Joghurt."},
+      {"t": "Mehl und Backpulver unterrühren. Erdbeeren klein schneiden, in etwas Mehl wälzen und unterheben."},
+      {"t": "Backen, Stäbchenprobe machen.", "min": 55},
+      {"t": "Auskühlen lassen. Staubzucker mit Zitronensaft verrühren, darüberziehen und mit Erdbeeren belegen."}
+    ],
+    "tipp": "Das Wälzen in Mehl verhindert, dass die Erdbeeren absinken."
+  },
+  {
+    "id": "waffeln",
+    "titel": "Knusprige Waffeln",
+    "kurz": "Schnell gerührt, außen knusprig. Mit Beeren und Staubzucker.",
+    "kat": ["fruehstueck"],
+    "schnell": true,
+    "zeit": 20,
+    "stufe": 1,
+    "form": {"typ": "stueck", "wert": 8, "name": "Waffeln"},
+    "bild": "waffeln",
+    "zutaten": [
+      [125, "g", "Butter (geschmolzen)"],
+      [2, "", "Eier"],
+      [50, "g", "Zucker"],
+      [1, "Pkg", "Vanillezucker"],
+      [250, "g", "Mehl (glatt)"],
+      [1, "TL", "Backpulver"],
+      [300, "ml", "Milch"],
+      [200, "g", "Beeren zum Servieren"]
+    ],
+    "schritte": [
+      {"t": "Waffeleisen vorheizen."},
+      {"t": "Butter, Eier, Zucker und Vanillezucker verrühren."},
+      {"t": "Mehl und Backpulver abwechselnd mit der Milch einrühren, bis der Teig glatt ist."},
+      {"t": "Je eine Schöpfkelle Teig ins Eisen geben und goldbraun backen.", "min": 3},
+      {"t": "Mit Beeren und Staubzucker servieren."}
+    ],
+    "tipp": "Fertige Waffeln auf einem Gitter ablegen, dann bleiben sie knusprig."
+  },
+  {
+    "id": "focaccia",
+    "titel": "Focaccia mit Paradeisern",
+    "kurz": "Luftiges Blechbrot mit Rosmarin. Der Teig macht die meiste Arbeit allein.",
+    "kat": ["brot"],
+    "schnell": false,
+    "zeit": 180,
+    "stufe": 2,
+    "form": {"typ": "eckig", "wert": "30x40"},
+    "bild": "focaccia",
+    "zutaten": [
+      [500, "g", "Mehl (glatt)"],
+      [400, "ml", "lauwarmes Wasser"],
+      [7, "g", "Trockengerm"],
+      [10, "g", "Salz"],
+      [6, "EL", "Olivenöl"],
+      [200, "g", "Cocktailparadeiser"],
+      [2, "Zweige", "Rosmarin"],
+      [1, "TL", "grobes Meersalz"]
+    ],
+    "schritte": [
+      {"t": "Mehl, Wasser, Germ und Salz zu einem weichen Teig verrühren. 2 EL Öl dazugeben."},
+      {"t": "Zugedeckt gehen lassen, dabei zweimal dehnen und falten.", "min": 90},
+      {"t": "Blech mit 2 EL Öl einfetten, Teig darauf verteilen und nochmals gehen lassen.", "min": 30},
+      {"t": "Backrohr auf 230 °C vorheizen. Mit geölten Fingern tiefe Mulden drücken, Paradeiser, Rosmarin und Meersalz darauf."},
+      {"t": "Mit dem restlichen Öl beträufeln und goldbraun backen.", "min": 22}
+    ],
+    "tipp": "Je feuchter der Teig, desto größer die Löcher."
+  },
+  {
+    "id": "cupcakes",
+    "titel": "Pastell-Cupcakes",
+    "kurz": "Vanille-Cupcakes mit Frischkäse-Frosting in drei Pastellfarben.",
+    "kat": ["kekse"],
+    "schnell": false,
+    "zeit": 60,
+    "stufe": 2,
+    "form": {"typ": "stueck", "wert": 12, "name": "Cupcakes"},
+    "bild": "cupcakes",
+    "zutaten": [
+      [125, "g", "Butter (weich)"],
+      [125, "g", "Zucker"],
+      [2, "", "Eier"],
+      [1, "Pkg", "Vanillezucker"],
+      [180, "g", "Mehl (glatt)"],
+      [1.5, "TL", "Backpulver"],
+      [100, "ml", "Milch"],
+      [200, "g", "Frischkäse"],
+      [80, "g", "Butter für das Frosting"],
+      [150, "g", "Staubzucker"],
+      [3, "Tropfen", "Lebensmittelfarbe"]
+    ],
+    "schritte": [
+      {"t": "Backrohr auf 175 °C vorheizen, Muffinblech mit Förmchen auslegen."},
+      {"t": "Butter, Zucker und Vanillezucker cremig rühren, Eier einrühren. Mehl, Backpulver und Milch abwechselnd unterrühren."},
+      {"t": "Förmchen zu zwei Dritteln füllen und backen.", "min": 20},
+      {"t": "Ganz auskühlen lassen.", "min": 30},
+      {"t": "Weiche Butter mit Staubzucker aufschlagen, kalten Frischkäse kurz unterrühren. Dritteln und einfärben."},
+      {"t": "Mit dem Spritzbeutel Tupfen aufspritzen."}
+    ],
+    "tipp": "Frischkäse direkt aus dem Kühlschrank verwenden, dann bleibt das Frosting standfest."
+  },
+  {
+    "id": "gugelhupf",
+    "titel": "Omas Rührgugelhupf",
+    "kurz": "Der Gugelhupf, der immer gelingt. Mit Staubzucker und einer Tasse Kaffee.",
+    "kat": ["kuchen"],
+    "schnell": false,
+    "zeit": 75,
+    "stufe": 1,
+    "form": {"typ": "rund", "wert": 22, "name": "Gugelhupfform"},
+    "bild": "gugelhupf",
+    "zutaten": [
+      [250, "g", "Butter (weich)"],
+      [200, "g", "Zucker"],
+      [5, "", "Eier"],
+      [1, "Pkg", "Vanillezucker"],
+      [1, "", "Bio-Zitrone (Schale)"],
+      [300, "g", "Mehl (glatt)"],
+      [1, "Pkg", "Backpulver"],
+      [125, "ml", "Milch"],
+      [2, "EL", "Kakao (für Marmor)"]
+    ],
+    "schritte": [
+      {"t": "Backrohr auf 170 °C vorheizen, Gugelhupfform gut fetten und bemehlen."},
+      {"t": "Butter, Zucker, Vanillezucker und Zitronenschale schaumig rühren, Eier einzeln einrühren."},
+      {"t": "Mehl und Backpulver abwechselnd mit der Milch unterrühren."},
+      {"t": "Ein Drittel des Teigs mit Kakao verrühren. Hell und dunkel abwechselnd einfüllen und mit einer Gabel durchziehen."},
+      {"t": "Backen, Stäbchenprobe machen.", "min": 55},
+      {"t": "10 Minuten in der Form ruhen lassen, dann stürzen.", "min": 10}
+    ],
+    "tipp": "Kakao weglassen, dann ist es ein heller Gugelhupf."
+  },
+  {
+    "id": "zimtschnecken",
+    "titel": "Zimtschnecken mit Frosting",
+    "kurz": "Flaumiger Germteig, viel Zimt und ein Frischkäse-Frosting.",
+    "kat": ["brot", "fruehstueck"],
+    "schnell": false,
+    "zeit": 150,
+    "stufe": 2,
+    "form": {"typ": "stueck", "wert": 12, "name": "Schnecken"},
+    "bild": "zimtschnecken",
+    "zutaten": [
+      [500, "g", "Mehl (glatt)"],
+      [250, "ml", "lauwarme Milch"],
+      [7, "g", "Trockengerm"],
+      [60, "g", "Zucker"],
+      [1, "", "Ei"],
+      [80, "g", "Butter (weich)"],
+      [1, "Prise", "Salz"],
+      [80, "g", "Butter für die Füllung"],
+      [100, "g", "brauner Zucker"],
+      [2, "EL", "Zimt"],
+      [100, "g", "Frischkäse"],
+      [60, "g", "Staubzucker"]
+    ],
+    "schritte": [
+      {"t": "Mehl, Milch, Germ, Zucker, Ei, Butter und Salz zu einem glatten Teig kneten.", "min": 8},
+      {"t": "Zugedeckt an einem warmen Ort gehen lassen, bis er doppelt so groß ist.", "min": 60},
+      {"t": "Teig rechteckig ausrollen, mit weicher Butter bestreichen und mit Zucker und Zimt bestreuen."},
+      {"t": "Von der langen Seite her einrollen, in 12 Stücke schneiden und in eine Form setzen. Nochmals gehen lassen.", "min": 30},
+      {"t": "Bei 180 °C goldbraun backen.", "min": 22},
+      {"t": "Frischkäse mit Staubzucker verrühren und auf die warmen Schnecken streichen."}
+    ],
+    "tipp": "Mit Zahnseide schneiden, dann werden die Schnecken nicht zerdrückt."
+  },
+  {
+    "id": "nakedcake",
+    "titel": "Beeren-Naked-Cake",
+    "kurz": "Drei Böden, Mascarpone-Creme und Beeren. Die Torte für Geburtstage.",
+    "kat": ["torten"],
+    "schnell": false,
+    "zeit": 120,
+    "stufe": 3,
+    "form": {"typ": "rund", "wert": 20},
+    "bild": "nakedcake",
+    "zutaten": [
+      [6, "", "Eier"],
+      [200, "g", "Zucker"],
+      [200, "g", "Mehl (glatt)"],
+      [1, "TL", "Backpulver"],
+      [500, "g", "Mascarpone"],
+      [250, "ml", "Schlagobers"],
+      [80, "g", "Staubzucker"],
+      [1, "Pkg", "Vanillezucker"],
+      [500, "g", "gemischte Beeren"],
+      [3, "EL", "Beerenmarmelade"]
+    ],
+    "schritte": [
+      {"t": "Backrohr auf 170 °C vorheizen, Boden der Springform auslegen."},
+      {"t": "Eier mit Zucker sehr dick und hell aufschlagen.", "min": 8},
+      {"t": "Mehl und Backpulver darübersieben und vorsichtig unterheben. In die Form füllen und backen.", "min": 35},
+      {"t": "Biskuit ganz auskühlen lassen und zweimal waagrecht durchschneiden.", "min": 60},
+      {"t": "Mascarpone mit Staubzucker und Vanillezucker glatt rühren, steif geschlagenes Obers unterheben."},
+      {"t": "Böden mit Marmelade, Creme und Beeren schichten. Außen nur dünn einstreichen, damit der Biskuit durchschaut."},
+      {"t": "Oben mit Beeren und essbaren Blüten dekorieren und kühl stellen."}
+    ],
+    "tipp": "Biskuit am Vortag backen, dann lässt er sich leichter schneiden."
+  }
+]
