@@ -38,6 +38,15 @@ if (empty($_SESSION['babsi_ok'])) {
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#f4efe4">
 <title>Babsis Hoarstüberl · Entwurf</title>
+<meta name="description" content="Entwurf der neuen Webseite für Babsis Hoarstüberl in Aspang-Markt.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Babsis Hoarstüberl · Entwurf">
+<meta property="og:description" content="Entwurf der neuen Webseite, gebaut von Tim Kofler.">
+<meta property="og:url" content="https://tim-kofler.at/demo/babsi/">
+<meta property="og:image" content="https://tim-kofler.at/demo/babsi/assets/img/og-2.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="<?= $basis ?>assets/gate.css?v=1">
 </head>
 <body>

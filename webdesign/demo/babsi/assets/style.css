@@ -172,7 +172,7 @@ h1 em,h2 em{font-family:var(--italic);font-weight:500;color:var(--sage-d)}
 .foot__in{display:grid;gap:14px;justify-items:start}
 .brand--foot{margin:0 0 6px}
 .foot__addr,.foot__links,.foot__fine{margin:0;color:var(--muted);font-size:14px}
-.foot__addr a{text-decoration:none;font-weight:600;color:var(--ink)}
+.foot__addr a{text-decoration:none;font-weight:600;color:var(--ink);white-space:nowrap}
 .foot__links{display:flex;gap:18px}
 .foot__fine{max-width:60em;font-size:12.5px}
 .foot__tk{display:inline-flex;align-items:center;gap:10px;margin-top:10px;color:var(--muted);font-size:13px;text-decoration:none}
@@ -180,6 +180,10 @@ h1 em,h2 em{font-family:var(--italic);font-weight:500;color:var(--sage-d)}
 
 /* Anruf-Leiste am Handy */
 .callbar{display:none}
+
+/* Hinweis beim Tippen auf die Platzhalter-Nummer */
+.demo-tip{position:fixed;left:50%;top:84px;z-index:60;width:min(420px,100% - 32px);margin:0;padding:14px 18px;border-radius:14px;background:var(--paper);color:var(--ink);font-size:14px;box-shadow:0 18px 40px -16px rgba(30,40,26,.45),inset 0 0 0 1px var(--line);opacity:0;transform:translate(-50%,-8px);transition:opacity .2s ease,transform .25s var(--ease);pointer-events:none}
+.demo-tip.is-on{opacity:1;transform:translate(-50%,0)}
 
 /* Einblenden */
 .js .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
