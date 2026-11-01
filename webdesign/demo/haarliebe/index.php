@@ -13,10 +13,10 @@
 <link rel="preload" href="assets/fonts/allura.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/img/hero-700.webp" as="image" media="(max-width: 800px)">
 <link rel="preload" href="assets/img/hero.webp" as="image" media="(min-width: 801px)">
-<link rel="stylesheet" href="assets/style.css?v=1">
+<link rel="stylesheet" href="assets/style.css?v=2">
 <link rel="stylesheet" href="assets/buchung.css?v=1">
 <script src="assets/early.js?v=1"></script>
-<script src="assets/app.js?v=1" defer></script>
+<script src="assets/app.js?v=2" defer></script>
 <script type="module" src="assets/termin.js?v=1"></script>
 <script type="application/ld+json">
 {
@@ -189,12 +189,9 @@
               <stop offset=".28" class="st-mid" stop-color="#d9c19a"/>
               <stop offset="1" class="st-end" stop-color="#f4e6cf"/>
             </linearGradient>
-            <linearGradient id="shine" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0" stop-color="#fff" stop-opacity="0"/>
-              <stop offset=".5" stop-color="#fff" stop-opacity=".55"/>
-              <stop offset="1" stop-color="#fff" stop-opacity="0"/>
-            </linearGradient>
           </defs>
+          <rect x="-40" y="-40" width="500" height="620" fill="url(#hair)"/>
+          <rect x="-40" y="-40" width="500" height="620" fill="#5a3a2c" fill-opacity=".22"/>
           <g class="strands__hair" fill="none" stroke="url(#hair)" stroke-linecap="round">
             <path d="M-20 -20 C -25 120, 60 200, 20 300 S -56 450, -8 560" stroke-width="33" stroke-opacity="0.83"/>
             <path d="M9 -20 C 14 120, 77 200, 43 300 S -6 450, 43 560" stroke-width="28" stroke-opacity="0.75"/>
@@ -214,7 +211,6 @@
             <path d="M411 -20 C 418 120, 500 200, 456 300 S 398 450, 428 560" stroke-width="33" stroke-opacity="0.82"/>
             <path d="M440 -20 C 421 120, 508 200, 474 300 S 414 450, 450 560" stroke-width="29" stroke-opacity="0.83"/>
           </g>
-          <rect class="strands__shine" x="-200" y="0" width="160" height="520" fill="url(#shine)"/>
         </svg>
       </div>
     </div>

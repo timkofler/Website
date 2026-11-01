@@ -147,14 +147,12 @@ p{margin:0 0 1em}
 .tone-info h3{font-size:34px;margin-bottom:8px}
 .tone-info p{color:var(--mut);min-height:3.4em}
 .strands{position:relative;aspect-ratio:420/520;border-radius:999px 999px var(--r) var(--r);overflow:hidden;background:radial-gradient(120% 80% at 50% 10%,#fff 0%,#f3e2db 60%,#e9cfc5 100%);box-shadow:0 50px 90px -50px rgba(90,50,45,.5)}
-.strands svg{width:100%;height:100%;display:block}
-.strands__hair path{transition:stroke 1s}
-.strands__hair stop,.strands stop{transition:stop-color 1s}
-.strands__hair{animation:wehen 7s ease-in-out infinite alternate;transform-origin:50% 0}
-@keyframes wehen{from{transform:skewX(-2deg)}to{transform:skewX(2.5deg)}}
-.strands__shine{animation:glanz 6s 1s ease-in-out infinite}
-.strands.is-shine .strands__shine{animation:glanz 1.4s ease-out,glanz 6s 1.6s ease-in-out infinite}
-@keyframes glanz{from{transform:translateX(0) skewX(-12deg)}to{transform:translateX(820px) skewX(-12deg)}}
+.strands svg{position:absolute;inset:-4% -6%;width:112%;height:108%;display:block;will-change:transform;transform:translateZ(0);animation:wehen 8s ease-in-out infinite alternate}
+.strands stop{transition:stop-color 1s}
+.strands::after{content:"";position:absolute;top:0;bottom:0;left:0;width:40%;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.45),rgba(255,255,255,0));transform:translate3d(-120%,0,0) skewX(-12deg);will-change:transform;animation:glanz 7s 1s ease-in-out infinite;pointer-events:none}
+.strands.is-shine::after{animation:glanz 1.4s ease-out,glanz 7s 1.6s ease-in-out infinite}
+@keyframes wehen{from{transform:translate3d(-2%,0,0)}to{transform:translate3d(2%,0,0)}}
+@keyframes glanz{0%{transform:translate3d(-120%,0,0) skewX(-12deg)}60%,100%{transform:translate3d(320%,0,0) skewX(-12deg)}}
 
 /* Über mich */
 .about{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(36px,7vw,110px);align-items:center}
@@ -276,6 +274,5 @@ blockquote{margin:0 0 22px;font:400 clamp(22px,2.2vw,28px)/1.4 var(--serif);colo
 }
 html{overflow-x:hidden}
 main,.foot{overflow-x:clip}
-.strands__hair path{mix-blend-mode:multiply}
 .sec{overflow-x:clip}
 @media (max-width:800px){.about__wash{right:-6%;width:60%}}
