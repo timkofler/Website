@@ -130,13 +130,13 @@
   function kb(b) { return b > 1048576 ? (b / 1048576).toFixed(1).replace('.', ',') + ' MB' : Math.round(b / 1024) + ' KB'; }
   $('[data-foto-in]').addEventListener('change', function () {
     var f = this.files && this.files[0]; if (!f) return;
-    var img = new Image(), url = URL.createObjectURL(f);
+    var img = new Image(), leser = new FileReader();
     img.onload = function () {
       var max = 1200, s = Math.min(1, max / Math.max(img.width, img.height));
       var c = document.createElement('canvas'); c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
       c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
       var d = c.toDataURL('image/webp', 0.72); if (d.indexOf('image/webp') === -1) d = c.toDataURL('image/jpeg', 0.75);
-      foto = d; URL.revokeObjectURL(url);
+      foto = d;
       var neu = Math.round((d.length - d.indexOf(',') - 1) * 0.75);
       $('[data-foto-bild]').src = d; $('[data-foto-bild]').hidden = false; $('[data-foto]').classList.add('hat');
       var info = $('[data-foto-info]'); info.hidden = false;
@@ -144,7 +144,10 @@
       vorschau();
     };
     img.onerror = function () { toast('Dieses Foto kann der Browser nicht öffnen.'); };
-    img.src = url;
+    /* als data:-Adresse lesen, blob: erlaubt die Sicherheitsregel der Seite nicht */
+    leser.onload = function () { img.src = leser.result; };
+    leser.onerror = img.onerror;
+    leser.readAsDataURL(f);
   });
 
   /* ---------- Vorschau ---------- */
