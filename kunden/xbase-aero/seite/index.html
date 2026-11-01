@@ -944,7 +944,7 @@ a.map:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(111,208,255,.5)
 .att__drop:hover,.att__drop.is-over{border-color:var(--blue);background:rgba(10,108,240,.06)}
 .att__drop.is-over{box-shadow:0 0 0 4px rgba(10,108,240,.12)}
 .att__drop:focus-within{border-style:solid;border-color:var(--blue);background:#fff;box-shadow:0 0 0 4px rgba(10,108,240,.12)}
-.form .att__drop input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;padding:0;border:0;box-shadow:none}
+.form .att__drop input{position:absolute;inset:0;z-index:2;width:100%;height:100%;opacity:0;cursor:pointer;padding:0;border:0;box-shadow:none}.att__ico,.att__t{pointer-events:none}
 .att__ico{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--grad);color:#fff;box-shadow:0 10px 22px -12px rgba(10,108,240,.9);transition:transform .3s}
 .att__drop:hover .att__ico,.att__drop.is-over .att__ico{transform:translateY(-2px) rotate(-8deg)}
 .att__ico svg{width:22px;height:22px}

@@ -4,7 +4,7 @@
 <meta name="theme-color" content="#f3f7fc">
 <link rel="preload" href="../assets/fonts/outfit.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../assets/news-admin.css?v=3">
+<link rel="stylesheet" href="../assets/news-admin.css?v=4">
 </head>
 <body>
 <div class="demo-bar"><span class="tagd">Demo</span>Nothing is saved online. Your test posts stay in this browser only.</div>
