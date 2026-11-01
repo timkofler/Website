@@ -44,7 +44,7 @@ PAKETE = [
     dict(cls="price", tag="", name="Sicher", preis=19,
          lead="Für alle, die einfach wollen, dass die Seite sicher läuft.",
          ticks=["Sicherheits-Updates und laufende Kontrolle", "Monatliche Sicherung deiner Seite",
-                "Ausfall-Wächter: ich merke es zuerst", "Hilfe bei Domain, Webspace und E-Mail"],
+                "Ausfall-Wächter: ich sehe Ausfälle vor dir", "Hilfe bei Domain, Webspace und E-Mail"],
          note="Änderungen an der Seite nach Aufwand.",
          paket="Betreuung Sicher (19 € / Monat)", btn="Sicher anfragen", hot=False),
     dict(cls="price price--hi", tag="Empfohlen", name="Sorglos", preis=29,
