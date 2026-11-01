@@ -32,6 +32,7 @@
     { id: "capricciosa", cat: "pizza", n: "Capricciosa", d: "Kochschinken, Champignons, Artischocken, Oliven, Fior di Latte.", p: 1450, img: "p-capricciosa", opt: "pizza" },
     { id: "stagioni", cat: "pizza", n: "Quattro Stagioni", d: "Vier Jahreszeiten, vier Viertel: Salami, Pilze, Schinken und vier Käse.", p: 1490, img: "p-quattro", opt: "pizza" },
     { id: "crudo", cat: "pizza", n: "Crudo e Rucola", d: "Prosciutto di Parma 24 Monate, Rucola, gehobelter Grana, nach dem Backen belegt.", p: 1590, img: "p-rucola-2", opt: "pizza" },
+    { id: "wunsch", cat: "pizza", n: "Pizza nach Wunsch", d: "Sie belegen, wir backen: Sauce, Käse und Beläge selbst wählen und zusehen, wie alles auf dem Teig landet.", p: 890, img: "wunsch-m", tags: ["wz"], wz: true },
     { id: "carbonara", cat: "pasta", n: "Spaghetti Carbonara", d: "Guanciale, Eigelb, Pecorino Romano, schwarzer Pfeffer. Ohne Sahne, Ehrensache.", p: 1450, img: "a-carbonara", tags: ["top"], opt: "pasta" },
     { id: "tartufo", cat: "pasta", n: "Tagliatelle al Tartufo", d: "Hausgemachte Tagliatelle, Butter, Parmigiano und frisch gehobelter Trüffel.", p: 2190, img: "a-tartufo", tags: ["veg"], opt: "pasta" },
     { id: "lasagne", cat: "pasta", n: "Lasagne della Nonna", d: "Sechs Stunden geschmortes Ragù, Béchamel, im Steinofen gratiniert.", p: 1490, img: "a-lasagne", opt: "pasta" },
@@ -55,11 +56,25 @@
     pasta: [["parm", "Extra Parmigiano, 24 Monate", 150], ["gf", "Glutenfreie Pasta", 200], ["peperoncino", "Extra Peperoncino", 0]]
   };
   var EXN = {}; Object.keys(EXTRAS).forEach(function (k) { EXTRAS[k].forEach(function (e) { EXN[e[0]] = e; }); });
+  // Pizza nach Wunsch: Teig mit Sauce und Käse als Grundpreis, Beläge kosten extra.
+  // c: Farbe für den Punkt am Knopf, nach: kommt erst nach dem Backen auf die Pizza.
+  var WZ = {
+    sauce: [["pomodoro", "Pomodoro", 0, "San-Marzano-Tomaten", "#b8321f"], ["bianca", "Bianca", 0, "Ricotta, Knoblauch, Olivenöl", "#efe4cc"]],
+    kaese: [["fior", "Fior di Latte", 0, "aus Agerola", "#f6f0e2"], ["bufala", "Büffelmozzarella", 250, "DOP aus Kampanien", "#ffffff"], ["ohne", "Ohne Käse", 0, "", ""]],
+    top: [
+      ["salami", "Salame Napoli", 200, "", "#a3302a"], ["cotto", "Kochschinken", 200, "", "#e6a197"], ["funghi", "Champignons", 150, "", "#cdb592"],
+      ["olive", "Oliven", 100, "Taggiasca", "#2a2420"], ["peperoni", "Paprika", 120, "rot und gelb", "#d8432a"], ["cipolla", "Rote Zwiebel", 80, "", "#a0577f"],
+      ["pomodorini", "Kirschtomaten", 120, "", "#d23a2a"], ["basilico", "Basilikum", 0, "", "#3b7d2e"],
+      ["crudo", "Prosciutto di Parma", 350, "nach dem Backen", "#c45a5c", 1], ["rucola", "Rucola", 100, "nach dem Backen", "#5b8f32", 1]
+    ]
+  };
+  ["sauce", "kaese", "top"].forEach(function (g) { WZ[g].forEach(function (e) { EXN["w-" + e[0]] = ["w-" + e[0], e[1], e[2]]; }); });
   var TAGS = {
     veg: '<span class="tag tag--veg"><svg><use href="#i-blatt"/></svg>Veggie</span>',
     chili: '<span class="tag tag--chili"><svg><use href="#i-chili"/></svg>Scharf</span>',
     top: '<span class="tag tag--top"><svg><use href="#i-krone"/></svg>Empfehlung</span>',
-    secret: '<span class="tag tag--secret"><svg><use href="#i-schloss"/></svg>Nur für Freunde</span>'
+    secret: '<span class="tag tag--secret"><svg><use href="#i-schloss"/></svg>Nur für Freunde</span>',
+    wz: '<span class="tag tag--secret">Selbst belegen</span>'
   };
 
   var ZONES = [
@@ -109,8 +124,9 @@
       ? '<span class="dish-i__m"><img src="' + IMG + m.img + '.webp" alt="" width="480" height="480" loading="lazy"><span class="dish-i__add" aria-hidden="true"><svg><use href="#i-plus"/></svg></span><span class="dish-i__q" data-q></span></span>'
       : '<span class="dish-i__m dish-i__m--none"><span class="dish-i__add" aria-hidden="true"><svg><use href="#i-plus"/></svg></span><span class="dish-i__q" data-q></span></span>';
     var from = m.opt === "pizza" ? "<small>Famiglia " + eur(m.p + SIZES[1][3]) + "</small>" : "";
-    return '<li id="d-' + m.id + '"><button type="button" class="dish-i' + (m.secret ? " dish-i--secret" : "") + '" data-id="' + m.id + '" aria-label="' + esc(m.n) + ", " + eur(m.p) + (m.opt ? ", anpassen und hinzufügen" : ", hinzufügen") + '">' +
-      '<span class="dish-i__t"><span class="dish-i__n">' + esc(m.n) + (tags ? '<span class="tags">' + tags + "</span>" : "") + '</span><span class="dish-i__d">' + esc(m.d) + '</span><span class="dish-i__p">' + eur(m.p) + from + "</span></span>" +
+    var lbl = m.wz ? ", ab " + eur(m.p) + ", selbst belegen" : ", " + eur(m.p) + (m.opt ? ", anpassen und hinzufügen" : ", hinzufügen");
+    return '<li id="d-' + m.id + '"><button type="button" class="dish-i' + (m.secret ? " dish-i--secret" : "") + '" data-id="' + m.id + '" aria-label="' + esc(m.n) + lbl + '">' +
+      '<span class="dish-i__t"><span class="dish-i__n">' + esc(m.n) + (tags ? '<span class="tags">' + tags + "</span>" : "") + '</span><span class="dish-i__d">' + esc(m.d) + '</span><span class="dish-i__p">' + (m.wz ? "ab " : "") + eur(m.p) + from + "</span></span>" +
       media + "</button></li>";
   }
   function renderMenu() {
@@ -144,7 +160,8 @@
   menuEl.addEventListener("click", function (e) {
     var b = e.target.closest(".dish-i"); if (!b) return;
     var m = BY[b.getAttribute("data-id")];
-    if (m.opt) openDish(m);
+    if (m.wz) { $("#wunsch").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" }); setTimeout(function () { var f = $("#wzCtl input"); if (f) f.focus({ preventScroll: true }); }, reduce ? 0 : 600); }
+    else if (m.opt) openDish(m);
     else { add({ id: m.id, size: "", ex: [], note: "", q: 1 }); }
   });
   qEl.addEventListener("input", renderMenu);
@@ -220,6 +237,7 @@
     var b = $("#cartBtn"); b.classList.remove("is-bump"); void b.offsetWidth; b.classList.add("is-bump");
     toast((it.q > 1 ? it.q + " × " : "") + BY[it.id].n + " im Warenkorb");
   }
+  window.Proibito = { WZ: WZ };
   var cartEl = $("#cart"), listEl = $("#cartList");
   function whereHTML() {
     if (st.mode === "abholen") return "Abholung am Musterplatz 12 · fertig in ca. <b>20 Min.</b>";
@@ -234,7 +252,7 @@
     listEl.innerHTML = st.items.map(function (it, i) {
       var m = BY[it.id], o = [];
       if (it.size === "famiglia") o.push("Famiglia Ø 40 cm");
-      (it.ex || []).forEach(function (x) { if (EXN[x]) o.push("+ " + EXN[x][1]); });
+      (it.ex || []).forEach(function (x) { if (EXN[x]) o.push((m.wz ? "" : "+ ") + EXN[x][1]); });
       if (it.note) o.push("„" + esc(it.note) + "“");
       return '<li class="ci"><p class="ci__n">' + esc(m.n) + '</p><p class="ci__p">' + eur(unit(it) * it.q) + "</p>" + (o.length ? '<p class="ci__o">' + o.join(" · ") + "</p>" : "") +
         '<div class="ci__q"><button type="button" class="ibtn" data-i="' + i + '" data-d="-1" aria-label="' + esc(m.n) + ' eins weniger"><svg><use href="#i-minus"/></svg></button><output>' + it.q + '</output><button type="button" class="ibtn" data-i="' + i + '" data-d="1" aria-label="' + esc(m.n) + ' eins mehr"><svg><use href="#i-plus"/></svg></button></div></li>';
@@ -321,6 +339,69 @@
   scrim.addEventListener("click", closeCart);
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeCart(); });
   desk.addEventListener && desk.addEventListener("change", function () { closeCart(); });
+
+  /* ---------- Pizza nach Wunsch ---------- */
+  // Bedienung und Preis leben hier, damit es auch ohne 3D (2D-Fassung) dieselbe Bestellung gibt.
+  // pizza3d.js hört auf "proibito:wz" und legt die Zutaten sichtbar auf den Teig; mit window.ProibitoOfen backt es vor dem Warenkorb.
+  (function () {
+    var root = $("#wunsch"); if (!root) return;
+    var ctl = $("#wzCtl"), go = $("#wzGo"), busy = false;
+    var fresh = function () { return { size: "classico", sauce: "pomodoro", kaese: "fior", top: [] }; };
+    var wz = fresh();
+    function chip(type, name, e, free) {
+      var dot = e[4] ? '<span class="wzc__d" style="--c:' + e[4] + '"></span>' : '<span class="wzc__d wzc__d--none"></span>';
+      var sub = [e[2] ? "+ " + eur(e[2]) : free ? "gratis" : "", e[3]].filter(Boolean).join(" · ");
+      return '<label class="wzc"><input type="' + type + '" name="' + name + '" value="' + e[0] + '">' + dot +
+        '<span class="wzc__n">' + esc(e[1]) + (sub ? "<small>" + esc(sub) + "</small>" : "") + "</span>" +
+        '<svg class="wzc__k" aria-hidden="true"><use href="#i-haken"/></svg></label>';
+    }
+    $("#wzSize").innerHTML = [["classico", "Classico", 0, "Ø 30 cm", ""], ["famiglia", "Famiglia", SIZES[1][3], "Ø 40 cm", ""]].map(function (e) { return chip("radio", "wzs", e).replace('<span class="wzc__d wzc__d--none"></span>', ""); }).join("");
+    $("#wzSauce").innerHTML = WZ.sauce.map(function (e) { return chip("radio", "wzsa", e); }).join("");
+    $("#wzKaese").innerHTML = WZ.kaese.map(function (e) { return chip("radio", "wzk", e); }).join("");
+    $("#wzTop").innerHTML = WZ.top.map(function (e) { return chip("checkbox", "wzt", e, true); }).join("");
+    function exOf(w) {
+      var ex = ["w-" + w.sauce, "w-" + w.kaese];
+      WZ.top.forEach(function (e) { if (w.top.indexOf(e[0]) > -1) ex.push("w-" + e[0]); });
+      return ex;
+    }
+    function item() { return { id: "wunsch", size: wz.size === "famiglia" ? "famiglia" : "", ex: exOf(wz), note: "", q: 1 }; }
+    function copy() { return JSON.parse(JSON.stringify(wz)); }
+    var oven = function () { return window.ProibitoOfen && window.ProibitoOfen.ready() ? window.ProibitoOfen : null; };
+    function ui() {
+      $$("input", ctl).forEach(function (i) {
+        var v = i.value;
+        i.checked = i.name === "wzs" ? wz.size === v : i.name === "wzsa" ? wz.sauce === v : i.name === "wzk" ? wz.kaese === v : wz.top.indexOf(v) > -1;
+      });
+      var p = eur(unit(item()));
+      $("#wzPrice").textContent = p;
+      $("#wzList").textContent = exOf(wz).map(function (x) { return EXN[x][1]; }).join(" · ");
+      go.innerHTML = busy ? "Im Ofen …" : (oven() ? '<svg><use href="#i-flamme"/></svg>In den Ofen · ' : "In den Warenkorb · ") + p;
+    }
+    function emit() { document.dispatchEvent(new CustomEvent("proibito:wz", { detail: copy() })); }
+    ctl.addEventListener("change", function (e) {
+      var i = e.target; if (!i.name) return;
+      if (i.name === "wzs") wz.size = i.value;
+      else if (i.name === "wzsa") wz.sauce = i.value;
+      else if (i.name === "wzk") wz.kaese = i.value;
+      else {
+        var k = wz.top.indexOf(i.value);
+        if (i.checked && k < 0) wz.top.push(i.value); else if (!i.checked && k > -1) wz.top.splice(k, 1);
+      }
+      ui(); emit();
+    });
+    function lock(on) { busy = on; root.classList.toggle("is-baking", on); $$("fieldset", ctl).forEach(function (f) { f.disabled = on; }); go.disabled = on; ui(); }
+    go.addEventListener("click", function () {
+      if (busy) return;
+      var it = item(), o = oven();
+      function done() { lock(false); add(it); wz = fresh(); ui(); emit(); }
+      if (!o) { done(); return; }
+      lock(true);
+      o.bake(copy(), done);
+    });
+    window.Proibito.wz = copy;
+    document.addEventListener("proibito:ofen", ui);
+    ui();
+  })();
 
   /* ---------- Startbild: Lieferort ---------- */
   var addrSel = $("#addrZone");

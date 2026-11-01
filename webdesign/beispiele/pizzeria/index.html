@@ -10,7 +10,7 @@
 <link rel="preload" href="/beispiele/pizzeria/bilder/hero-m-800.webp" as="image" media="(max-width:759px)" fetchpriority="high">
 <link rel="preload" href="/beispiele/pizzeria/bilder/hero-1800.webp" as="image" media="(min-width:760px)" fetchpriority="high">
 <link rel="stylesheet" href="/beispiele/friseur/gemeinsam/umschalter.css?v=3">
-<link rel="stylesheet" href="/beispiele/pizzeria/style.css?v=17ee6a2e">
+<link rel="stylesheet" href="/beispiele/pizzeria/style.css?v=c28b9849">
 </head><body>
 <div class="tk-demo-bar"><a href="/beispiele/#gasthaus"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
 <span class="tk-demo-bar__note">Beispiel-Entwurf 2 von tim-kofler.at · erfundener Betrieb, Musteradresse</span>
@@ -80,6 +80,7 @@
     </header>
     <div class="order__grid">
       <div class="order__main">
+       <div class="order__menu">
         <div class="obar" id="obar">
           <div class="obar__row">
             <div class="mode" role="radiogroup" aria-label="Lieferung oder Abholung">
@@ -93,6 +94,32 @@
         <div id="menu" class="menu" aria-live="polite"></div>
         <p class="menu__none" id="menuNone" hidden>Dazu haben wir nichts auf der Karte. Vielleicht unter einem anderen Namen?</p>
         <p class="menu__note">Alle Pizzen Ø 30&nbsp;cm, auf Wunsch als Famiglia mit Ø 40&nbsp;cm. Allergene auf Anfrage beim Personal.</p>
+       </div>
+
+        <section class="wz" id="wunsch" aria-labelledby="wzH">
+          <header class="wz__h">
+            <p class="eyebrow"><span>Pizza nach Wunsch</span></p>
+            <h3 class="wz__t" id="wzH">Sie belegen, <i>wir backen.</i></h3>
+            <p class="wz__p">Teig mit 48 Stunden Ruhe, Sauce und Käse nach Wahl, dazu die Beläge, die Sie mögen. Danach geht die Pizza 90&nbsp;Sekunden in den Steinofen.</p>
+          </header>
+          <div class="wz__grid">
+            <div class="wz__stage" id="wzStage">
+              <img class="wz__fb" src="/beispiele/pizzeria/bilder/wunsch-800.webp" srcset="/beispiele/pizzeria/bilder/wunsch-480.webp 480w, /beispiele/pizzeria/bilder/wunsch-800.webp 800w" sizes="(min-width:1000px) 400px, 92vw" alt="Gebackene Pizza mit Salami, Champignons, Oliven und Basilikum auf einer Holzschaufel" width="800" height="800" loading="lazy">
+              <p class="wz__price" aria-hidden="true" id="wzPrice">8,90 €</p>
+              <div class="wz__scene" id="wzScene" hidden><p class="wz__cap" id="wzCap" aria-live="polite"></p><button type="button" class="wz__skip" id="wzSkip">Überspringen</button></div>
+            </div>
+            <div class="wz__ctl" id="wzCtl">
+              <fieldset class="wz__set"><legend>Größe</legend><div class="wz__opts wz__opts--2" id="wzSize"></div></fieldset>
+              <fieldset class="wz__set"><legend>Sauce</legend><div class="wz__opts wz__opts--2" id="wzSauce"></div></fieldset>
+              <fieldset class="wz__set"><legend>Käse</legend><div class="wz__opts wz__opts--3" id="wzKaese"></div></fieldset>
+              <fieldset class="wz__set"><legend>Beläge</legend><div class="wz__opts wz__opts--2" id="wzTop"></div></fieldset>
+              <div class="wz__foot">
+                <p class="wz__list" id="wzList">Pomodoro · Fior di Latte</p>
+                <button type="button" class="btn btn--gold btn--wide wz__go" id="wzGo">In den Warenkorb</button>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
 
       <aside class="cart" id="cart" aria-labelledby="cartH" tabindex="-1">
@@ -301,5 +328,6 @@
 
 <script src="/beispiele/_shared/demo.js?v=29766291" defer></script>
 <script src="/beispiele/gasthaus/umschalter.js?v=2" defer></script>
-<script src="/beispiele/pizzeria/app.js?v=3" defer></script>
+<script src="/beispiele/pizzeria/app.js?v=20e2ecff" defer></script>
+<script type="module" src="/beispiele/pizzeria/pizza3d.js?v=a9372b12"></script>
 </body></html>
