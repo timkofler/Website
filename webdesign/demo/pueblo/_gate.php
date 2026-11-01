@@ -38,6 +38,15 @@ if (empty($_SESSION['pueblo_ok'])) {
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#07060b">
 <title>Pueblo Eventlocation · Entwurf</title>
+<meta name="description" content="Entwurf der neuen Webseite für die Pueblo Eventlocation in St. Pölten.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Pueblo Eventlocation · Entwurf">
+<meta property="og:description" content="Entwurf der neuen Webseite, gebaut von Tim Kofler.">
+<meta property="og:url" content="https://tim-kofler.at/demo/pueblo/">
+<meta property="og:image" content="https://tim-kofler.at/demo/pueblo/assets/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="<?= $basis ?>assets/gate.css?v=1">
 </head>
 <body>
