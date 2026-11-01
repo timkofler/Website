@@ -29,7 +29,7 @@ $ld = [
 <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/img/nakedcake-hoch.webp" as="image">
-<link rel="stylesheet" href="assets/style.css?v=1">
+<link rel="stylesheet" href="assets/style.css?v=2">
 <script type="application/ld+json"><?= json_encode($ld, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
@@ -164,6 +164,15 @@ $ld = [
       <li><b>Einkaufsliste</b><span>Ein Tipp, und die Zutaten landen gesammelt auf deiner Liste.</span></li>
       <li><b>Backmodus</b><span>Große Schrift, Schritt für Schritt, mit Timer. Der Bildschirm bleibt an.</span></li>
     </ul>
+
+    <div class="selbst">
+      <div>
+        <p class="kicker">Dein Bereich, Conny</p>
+        <h3>Neues Rezept? In zwei Minuten eingetragen.</h3>
+        <p>Foto, Zutaten, Schritte, direkt vom Handy. Oder einfach deinen Instagram-Text einfügen, der Rest wird automatisch aufgeteilt.</p>
+      </div>
+      <a class="btn" href="rezept-eintragen.php">Rezept eintragen <svg><use href="#i-pfeil"/></svg></a>
+    </div>
   </div>
 </section>
 
@@ -264,7 +273,7 @@ $ld = [
 <footer class="fuss">
   <div class="wrap fuss__in">
     <a class="logo logo--fuss" href="#top"><img src="assets/img/logo.svg" alt="" width="40" height="40" loading="lazy"><span><small>Backen mit</small>Mrs. West</span></a>
-    <nav aria-label="Fußzeile"><a href="#rezepte">Rezepte</a><a href="#backbuch">Backbuch</a><a href="#ueber">Über mich</a><a href="#kontakt">Kooperationen</a></nav>
+    <nav aria-label="Fußzeile"><a href="#rezepte">Rezepte</a><a href="#backbuch">Backbuch</a><a href="#ueber">Über mich</a><a href="#kontakt">Kooperationen</a><a href="rezept-eintragen.php">Rezept eintragen</a></nav>
     <div class="demo-note">
       <span>Impressum · Datenschutz</span>
       <span class="tempo"><svg><use href="#i-blitz"/></svg><span>Diese Startseite lädt am Handy rund <b>0,4 MB</b>. Die jetzige Seite: 73,7 MB.</span></span>
@@ -342,6 +351,6 @@ $ld = [
 <div class="toast" data-toast role="status" aria-live="polite"></div>
 
 <script id="rezeptDaten" type="application/json"><?= json_encode($rezepte, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
-<script src="assets/app.js?v=1" defer></script>
+<script src="assets/app.js?v=2" defer></script>
 </body>
 </html>
