@@ -1,0 +1,21 @@
+@font-face{font-family:"UnifrakturMaguntia";src:url(fonts/fraktur.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Oswald";src:url(fonts/oswald.woff2) format("woff2");font-weight:400 700;font-display:swap}
+@font-face{font-family:"Barlow";src:url(fonts/barlow-400.woff2) format("woff2");font-weight:400;font-display:swap}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:#0b0908 radial-gradient(90% 60% at 50% 110%,rgba(196,22,28,.35) 0%,rgba(255,106,26,.08) 45%,transparent 70%);color:#efe7dc;font:400 16px/1.6 "Barlow",system-ui,sans-serif;display:grid;place-items:center;min-height:100vh;min-height:100svh;padding:24px 16px}
+.gate{width:100%;max-width:360px;text-align:center}
+.gate__mark{display:grid;justify-items:center;gap:8px;margin:0 auto 26px}
+.gate__mark span{font:400 62px/1 "UnifrakturMaguntia",serif;text-shadow:0 0 28px rgba(255,90,30,.45)}
+.gate__mark small{font:600 12px/1 "Oswald",sans-serif;letter-spacing:.5em;padding-left:.5em;color:#ff7a2a}
+p{color:#a8998a;margin:0 0 24px}
+form{display:grid;gap:10px;text-align:left}
+label{font:600 12px/1 "Oswald",sans-serif;letter-spacing:.22em;text-transform:uppercase;color:#ff7a2a}
+input{width:100%;min-height:52px;border-radius:6px;border:1px solid #3a2c25;background:#16110f;color:#efe7dc;font:500 17px "Barlow",sans-serif;padding:0 18px}
+input:focus{outline:2px solid #ff7a2a;outline-offset:2px}
+button{min-height:54px;border:0;border-radius:6px;background:linear-gradient(180deg,#d4231f,#9c0f12);color:#fff;font:600 16px "Oswald",sans-serif;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;margin-top:8px;box-shadow:0 10px 30px -10px rgba(212,35,31,.7)}
+button:hover{filter:brightness(1.1)}
+button:active{transform:scale(.98)}
+.gate__err{color:#ff8a6a;margin:2px 0 0;font-size:14px}
+.gate__tk{display:inline-flex;align-items:center;gap:10px;margin-top:34px;color:#a8998a;font-size:13px;text-decoration:none}
+.gate__tk img{height:14px;width:auto}
