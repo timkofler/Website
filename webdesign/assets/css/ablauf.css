@@ -186,9 +186,12 @@ section[id], .ab-step { scroll-margin-top: 80px; }
   .ab-table td { font-size: .95rem; }
   .ab-table th { padding-right: 14px; }
 }
-@media (max-width: 420px) {
-  .ab-table tr { display: grid; }
-  .ab-table td { text-align: left; padding-top: 0; border-top: 0; }
+@media (max-width: 600px) {
+  .ab-table tr { display: grid; gap: 8px; padding: 16px 0; border-top: 1px solid var(--line); }
+  .ab-table tr:first-child { border-top: 0; padding-top: 0; }
+  .ab-table th, .ab-table td { padding: 0; border-top: 0; }
+  .ab-table th { padding-right: 0; }
+  .ab-table td { text-align: left; }
   .ab-table__link { margin-left: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
