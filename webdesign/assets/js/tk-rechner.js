@@ -243,6 +243,12 @@
     render();
   }
 
+  // Betreuungs-Pakete schließen sich gegenseitig aus: Ein Haken nimmt den anderen Paketen der Gruppe den Haken weg.
+  root.addEventListener("change", function (e) {
+    var t = e.target, g = t && t.getAttribute ? t.getAttribute("data-calc-group") : null;
+    if (!g || !t.checked) return;
+    monthly.forEach(function (cb) { if (cb !== t && cb.getAttribute("data-calc-group") === g) cb.checked = false; });
+  });
   root.addEventListener("input", render);
   root.addEventListener("change", render);
   if (goBtn) goBtn.addEventListener("click", sendToForm);

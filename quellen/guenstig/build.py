@@ -81,7 +81,7 @@ FAQ = [
     ("Ist eine billige Webseite automatisch schlecht?",
      "Nein. Eine Webseite für einen kleinen Betrieb braucht keine 5.000 €. Wichtig ist, dass sie am Handy gut funktioniert, schnell lädt, bei Google gefunden wird und Besucher leicht Kontakt aufnehmen können. Genau das ist bei jedem Paket dabei."),
     ("Welche laufenden Kosten kommen dazu?",
-     "Nur Domain und Webspace auf deinen Namen, je nach Anbieter etwa 5 bis 10 € im Monat. Ich empfehle ALL-INKL.COM ab 4,95 € im Monat, inklusive .at-Domain und eigener E-Mail-Adressen. Die Betreuung durch mich ist freiwillig und kostet ab 29 € im Monat, monatlich kündbar."),
+     "Nur Domain und Webspace auf deinen Namen, je nach Anbieter etwa 5 bis 10 € im Monat. Ich empfehle ALL-INKL.COM ab 4,95 € im Monat, inklusive .at-Domain und eigener E-Mail-Adressen. Die Betreuung durch mich ist freiwillig und kostet ab 19 € im Monat, monatlich kündbar."),
     ("Was bedeutet Referenzkunde?",
      "Ich baue gerade meine Referenzen auf. Für eine begrenzte Zahl von Kunden erstelle ich eine einfache Seite ab 290 €. Dafür darf ich die Seite als Referenz zeigen und im Footer deiner Seite steht ein kleiner Hinweis auf meine Arbeit."),
     ("Kann ich mir vorher ansehen, wie meine Seite aussehen würde?",

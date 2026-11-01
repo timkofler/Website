@@ -91,7 +91,7 @@ def head(title, desc, url, og_title, og_desc, ld, extra_css=""):
   <link rel="preload" href="/assets/fonts/unbounded.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/style.css?v=32ea7356">
-  <link rel="stylesheet" href="/assets/css/tk.css?v=e44306fa">
+  <link rel="stylesheet" href="/assets/css/tk.css?v=a15b1cd1">
   <link rel="stylesheet" href="/assets/css/entwurf.css?v=8537253d">
   <link rel="stylesheet" href="/assets/css/gruender.css?v=b13c5ff3">
   <link rel="stylesheet" href="/assets/css/branchen.css?v={CSS_V}">
@@ -154,7 +154,7 @@ FUSS = """
 <script src="/assets/js/main.js?v=b9d9c64d"></script>
 <script src="/assets/js/forms.js?v=e27fc2c5"></script>
 <script src="/assets/js/tk-fx.js?v=2ddc83c0"></script>
-<script src="/assets/js/tk-ui.js?v=375fb562"></script>
+<script src="/assets/js/tk-ui.js?v=89318598"></script>
 </body>
 </html>
 """
@@ -370,7 +370,7 @@ def seite(b, alle):
         <a href="#anfrage" class="btn">Anfragen {PFEIL}</a>
       </aside>
     </div>
-    <div class="tk-abo__once tk-once--prices gr-once"><span class="tk-abo__once-ic" aria-hidden="true">{HAKEN}</span><p><strong>Die Seite gehört dir.</strong> Monatlich zahlst du nur deinen Webspace beim Anbieter (ca. 5–10&nbsp;€, inklusive Domain und E-Mail). Die Betreuung durch mich ab 29&nbsp;€ im Monat ist freiwillig und monatlich kündbar.</p></div>
+    <div class="tk-abo__once tk-once--prices gr-once"><span class="tk-abo__once-ic" aria-hidden="true">{HAKEN}</span><p><strong>Die Seite gehört dir.</strong> Monatlich zahlst du nur deinen Webspace beim Anbieter (ca. 5–10&nbsp;€, inklusive Domain und E-Mail). Die Betreuung durch mich ab 19&nbsp;€ im Monat ist freiwillig und monatlich kündbar.</p></div>
   </div>
 </section>
 

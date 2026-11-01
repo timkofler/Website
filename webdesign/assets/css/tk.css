@@ -600,6 +600,11 @@ html.js .tk-apps:not(.is-visible) .tk-feat li { opacity: 0; transform: translate
 
 /* Extras als anklickbare Karten */
 .tk-calc__extras { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.tk-calc__extras--3 { grid-template-columns: repeat(3, 1fr); }
+.tk-calc__extras--3 .tk-calc__opt em { grid-column: 2; white-space: normal; padding-top: 2px; }
+.tk-calc__block--one { grid-template-columns: 1fr; }
+.tk-calc__more { margin: 12px 0 0; font-size: .85rem; }
+.tk-calc__more a { color: var(--hot-2); text-decoration: underline; text-underline-offset: 3px; }
 .tk-calc__opt { position: relative; display: grid; grid-template-columns: 22px 1fr auto; gap: 12px; align-items: start; padding: 13px 14px; border: 1px solid var(--line-2); border-radius: 14px; background: var(--bg-2); cursor: pointer; transition: border-color .25s, background .25s, transform .25s; min-height: 64px; }
 .tk-calc__opt:hover { border-color: rgba(255,90,31,.55); }
 .tk-calc__opt:has(input:checked) { border-color: var(--hot); background: linear-gradient(135deg, rgba(255,90,31,.16), rgba(255,178,63,.05)); }
