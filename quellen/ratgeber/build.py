@@ -173,8 +173,8 @@ def bauen(a):
 
 
 UE_TITLE = "Ratgeber Webseite: Kosten, Impressum, Google & mehr | Tim Kofler"
-UE_DESC = ("Ehrliche Antworten rund um die eigene Webseite: Was sie kostet, was ins Impressum gehört, "
-           "wie man bei Google gefunden wird und ob man einen Cookie-Banner braucht. Für Betriebe und Vereine in Österreich.")
+UE_DESC = ("Ehrliche Antworten rund um die eigene Webseite: Kosten, Impressum, Google-Profil, Cookie-Banner "
+           "und mehr. Für Betriebe und Vereine in Österreich.")
 
 
 def uebersicht():
