@@ -43,7 +43,7 @@ if (empty($_SESSION['babsi_ok'])) {
 <meta property="og:title" content="Babsis Hoarstüberl · Entwurf">
 <meta property="og:description" content="Entwurf der neuen Webseite, gebaut von Tim Kofler.">
 <meta property="og:url" content="https://tim-kofler.at/demo/babsi/">
-<meta property="og:image" content="https://tim-kofler.at/demo/babsi/assets/img/og.jpg">
+<meta property="og:image" content="https://tim-kofler.at/demo/babsi/assets/img/og-2.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
