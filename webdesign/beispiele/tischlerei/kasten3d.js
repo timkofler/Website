@@ -1,6 +1,6 @@
 // Fertigung in 3D: Das Sideboard setzt sich beim Scrollen Brett für Brett zusammen.
 // Ersetzt die SVG-Explosionszeichnung nur, wenn WebGL da ist und keine reduzierte Bewegung gewünscht ist.
-import { reduce, mobile, webglOk, whenNear, loadThree, stage, woodTexture, blobTexture, dragRotate } from "/beispiele/_shared/stage3d.js?v=1";
+import { reduce, mobile, webglOk, whenNear, loadThree, stage, woodTexture, blobTexture, dragRotate } from "/beispiele/_shared/stage3d.js?v=2";
 
 var build = document.getElementById("fertigung"), art = build && build.querySelector(".bart");
 if (art && !reduce && webglOk()) whenNear(build, function () { loadThree().then(init).catch(function () {}); });

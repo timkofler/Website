@@ -1,6 +1,6 @@
 // "Wie wirkt Ihre Farbe im Raum?" in 3D: ein Wohnzimmer zum Umsehen. Die Farbfelder (app.js) schicken
 // das Ereignis "tk-paint"; die neue Farbe rollt wie mit der Walze über die Wand. Dazu Tag/Abend und Akzentwand.
-import { reduce, mobile, webglOk, whenNear, loadThree, stage, woodTexture, blobTexture, dragRotate } from "/beispiele/_shared/stage3d.js?v=1";
+import { reduce, mobile, webglOk, whenNear, loadThree, stage, woodTexture, blobTexture, dragRotate } from "/beispiele/_shared/stage3d.js?v=2";
 
 var svg = document.getElementById("room"), box = svg && svg.parentNode;
 if (box && webglOk()) whenNear(box, function () { loadThree().then(init).catch(function () {}); });

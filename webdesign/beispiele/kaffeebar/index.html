@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="/beispiele/friseur/gemeinsam/umschalter.css?v=3">
 <link rel="stylesheet" href="/beispiele/_shared/demo.css">
 <link rel="preload" href="/beispiele/_shared/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/beispiele/kaffeebar/style.css?v=r0stk1a7">
+<link rel="stylesheet" href="/beispiele/kaffeebar/style.css?v=1793fcdd">
 </head><body>
 <div class="tk-demo-bar"><a href="/#beispiele"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
 <span class="tk-demo-bar__note">Beispiel-Entwurf von tim-kofler.at · erfundener Betrieb, Musteradresse</span>
@@ -101,42 +101,42 @@
         <i class="tabs__ink" aria-hidden="true"></i>
       </div>
     </div>
-    <ul class="rows" role="tabpanel" id="t-kaffee" aria-labelledby="tb-kaffee">
-      <li class="row" data-id="espresso" data-price="2.60" data-img="espresso"><b>Espresso</b><span>Kurz, dicht, haselnussige Crema. Unsere Hausmischung.</span><em>€ 2,60</em><button type="button" data-add="espresso" aria-label="Espresso hinzufügen">＋</button></li>
-      <li class="row" data-id="doppio" data-price="3.40" data-img="espresso"><b>Doppio</b><span>Zwei Schuss für lange Tage.</span><em>€ 3,40</em><button type="button" data-add="doppio" aria-label="Doppio hinzufügen">＋</button></li>
-      <li class="row" data-id="verlaengerter" data-price="3.60" data-img="becher"><b>Verlängerter</b><span>Espresso mit heißem Wasser, wie in Wien.</span><em>€ 3,60</em><button type="button" data-add="verlaengerter" aria-label="Verlängerter hinzufügen">＋</button></li>
-      <li class="row" data-id="melange" data-price="4.20" data-img="melange"><b>Melange</b><span>Halb Kaffee, halb Milch, viel Schaum.</span><em>€ 4,20</em><button type="button" data-add="melange" aria-label="Melange hinzufügen">＋</button></li>
-      <li class="row" data-id="cappuccino" data-price="4.20" data-img="melange"><b>Cappuccino</b><span>Feiner Milchschaum, Latte-Art inklusive.</span><em>€ 4,20</em><button type="button" data-add="cappuccino" aria-label="Cappuccino hinzufügen">＋</button></li>
-      <li class="row" data-id="flatwhite" data-price="4.60" data-img="melange"><b>Flat White <i class="mono pill">Beliebt</i></b><span>Doppelter Espresso, samtige Milch, wenig Schaum.</span><em>€ 4,60</em><button type="button" data-add="flatwhite" aria-label="Flat White hinzufügen">＋</button></li>
-      <li class="row" data-id="filter" data-price="3.90" data-img="becher"><b>Filter des Tages</b><span>Handgebrüht, wechselnde Bohne. Frag uns, was heute läuft.</span><em>€ 3,90</em><button type="button" data-add="filter" aria-label="Filter des Tages hinzufügen">＋</button></li>
-    </ul>
-    <ul class="rows" role="tabpanel" id="t-kalt" aria-labelledby="tb-kalt" hidden>
-      <li class="row" data-id="eiskaffee" data-price="4.90" data-img="eiskaffee"><b>Eiskaffee <i class="mono pill">Sommer</i></b><span>Cold Brew, Milch, Eis. Ohne Schlagobers-Turm.</span><em>€ 4,90</em><button type="button" data-add="eiskaffee" aria-label="Eiskaffee hinzufügen">＋</button></li>
-      <li class="row" data-id="coldbrew" data-price="4.40" data-img="eiskaffee"><b>Cold Brew</b><span>18 Stunden kalt gezogen, mild und schokoladig.</span><em>€ 4,40</em><button type="button" data-add="coldbrew" aria-label="Cold Brew hinzufügen">＋</button></li>
-      <li class="row" data-id="tonic" data-price="4.80" data-img="eiskaffee"><b>Espresso Tonic</b><span>Tonic, Eis, Orangenzeste, Espresso obendrauf.</span><em>€ 4,80</em><button type="button" data-add="tonic" aria-label="Espresso Tonic hinzufügen">＋</button></li>
-      <li class="row" data-id="icedlatte" data-price="4.60" data-img="eiskaffee"><b>Iced Latte</b><span>Doppelter Espresso über kalter Milch.</span><em>€ 4,60</em><button type="button" data-add="icedlatte" aria-label="Iced Latte hinzufügen">＋</button></li>
-      <li class="row" data-id="matcha-iced" data-price="4.80" data-img="matcha"><b>Iced Matcha</b><span>Zeremonie-Matcha, Hafermilch, Eis.</span><em>€ 4,80</em><button type="button" data-add="matcha-iced" aria-label="Iced Matcha hinzufügen">＋</button></li>
-    </ul>
-    <ul class="rows" role="tabpanel" id="t-ohne" aria-labelledby="tb-ohne" hidden>
-      <li class="row" data-id="matcha" data-price="4.60" data-img="matcha"><b>Matcha Latte <i class="mono pill">Vegan möglich</i></b><span>Warm, cremig, leicht grasig.</span><em>€ 4,60</em><button type="button" data-add="matcha" aria-label="Matcha Latte hinzufügen">＋</button></li>
-      <li class="row" data-id="chai" data-price="4.40" data-img="becher"><b>Chai Latte</b><span>Selbst gekochter Gewürzsud, nicht aus dem Pulver.</span><em>€ 4,40</em><button type="button" data-add="chai" aria-label="Chai Latte hinzufügen">＋</button></li>
-      <li class="row" data-id="schoko" data-price="4.20" data-img="becher"><b>Heiße Schokolade</b><span>70 % Kakao, auf Wunsch mit Hafermilch.</span><em>€ 4,20</em><button type="button" data-add="schoko" aria-label="Heiße Schokolade hinzufügen">＋</button></li>
-      <li class="row" data-id="tee" data-price="3.20" data-img="becher"><b>Kräutertee</b><span>Kräuter von einem Hof bei Musterstadt.</span><em>€ 3,20</em><button type="button" data-add="tee" aria-label="Kräutertee hinzufügen">＋</button></li>
-      <li class="row" data-id="limo" data-price="3.90"><b>Hauslimonade</b><span>Holunder oder Zitrone-Minze, wenig Zucker.</span><em>€ 3,90</em><button type="button" data-add="limo" aria-label="Hauslimonade hinzufügen">＋</button></li>
-    </ul>
-    <ul class="rows" role="tabpanel" id="t-suess" aria-labelledby="tb-suess" hidden>
-      <li class="row" data-id="zimt" data-price="3.60"><b>Zimtschnecke <i class="mono pill">Frisch 9 Uhr</i></b><span>Jeden Morgen frisch aus dem Ofen.</span><em>€ 3,60</em><button type="button" data-add="zimt" aria-label="Zimtschnecke hinzufügen">＋</button></li>
-      <li class="row" data-id="mohn" data-price="3.90"><b>Mohnkuchen</b><span>Waldviertler Graumohn, saftig.</span><em>€ 3,90</em><button type="button" data-add="mohn" aria-label="Mohnkuchen hinzufügen">＋</button></li>
-      <li class="row" data-id="strudel" data-price="4.20"><b>Topfenstrudel</b><span>Nach Omas Rezept, warm serviert.</span><em>€ 4,20</em><button type="button" data-add="strudel" aria-label="Topfenstrudel hinzufügen">＋</button></li>
-      <li class="row" data-id="bananenbrot" data-price="3.40"><b>Bananenbrot</b><span>Vegan, mit Walnüssen.</span><em>€ 3,40</em><button type="button" data-add="bananenbrot" aria-label="Bananenbrot hinzufügen">＋</button></li>
-      <li class="row" data-id="croissant" data-price="2.80"><b>Buttercroissant</b><span>Vom Bäcker ums Eck, knusprig.</span><em>€ 2,80</em><button type="button" data-add="croissant" aria-label="Buttercroissant hinzufügen">＋</button></li>
-    </ul>
-    <ul class="rows" role="tabpanel" id="t-bohnen" aria-labelledby="tb-bohnen" hidden>
-      <li class="row" data-id="haus" data-price="14.90" data-img="bohnen"><b>Hausröstung</b><span>250 g · Schokolade, Haselnuss · für Siebträger und Vollautomat.</span><em>€ 14,90</em><button type="button" data-add="haus" aria-label="Hausröstung hinzufügen">＋</button></li>
-      <li class="row" data-id="mostviertel" data-price="15.90" data-img="bohnen"><b>Espresso Mostviertel</b><span>250 g · dunkel, kräftig, wenig Säure.</span><em>€ 15,90</em><button type="button" data-add="mostviertel" aria-label="Espresso Mostviertel hinzufügen">＋</button></li>
-      <li class="row" data-id="hell" data-price="13.90" data-img="bohnen"><b>Filter hell <i class="mono pill">Neu</i></b><span>250 g · Beeren, Blüten · für Handfilter und French Press.</span><em>€ 13,90</em><button type="button" data-add="hell" aria-label="Filter hell hinzufügen">＋</button></li>
-      <li class="row" data-id="decaf" data-price="14.50" data-img="bohnen"><b>Entkoffeiniert</b><span>250 g · schonend mit Wasser entkoffeiniert.</span><em>€ 14,50</em><button type="button" data-add="decaf" aria-label="Entkoffeiniert hinzufügen">＋</button></li>
-    </ul>
+    <div class="rows" role="tabpanel" id="t-kaffee" aria-labelledby="tb-kaffee">
+      <div class="row" data-id="espresso" data-price="2.60" data-img="espresso"><b>Espresso</b><span>Kurz, dicht, haselnussige Crema. Unsere Hausmischung.</span><em>€ 2,60</em><button type="button" data-add="espresso" aria-label="Espresso hinzufügen">＋</button></div>
+      <div class="row" data-id="doppio" data-price="3.40" data-img="espresso"><b>Doppio</b><span>Zwei Schuss für lange Tage.</span><em>€ 3,40</em><button type="button" data-add="doppio" aria-label="Doppio hinzufügen">＋</button></div>
+      <div class="row" data-id="verlaengerter" data-price="3.60" data-img="becher"><b>Verlängerter</b><span>Espresso mit heißem Wasser, wie in Wien.</span><em>€ 3,60</em><button type="button" data-add="verlaengerter" aria-label="Verlängerter hinzufügen">＋</button></div>
+      <div class="row" data-id="melange" data-price="4.20" data-img="melange"><b>Melange</b><span>Halb Kaffee, halb Milch, viel Schaum.</span><em>€ 4,20</em><button type="button" data-add="melange" aria-label="Melange hinzufügen">＋</button></div>
+      <div class="row" data-id="cappuccino" data-price="4.20" data-img="melange"><b>Cappuccino</b><span>Feiner Milchschaum, Latte-Art inklusive.</span><em>€ 4,20</em><button type="button" data-add="cappuccino" aria-label="Cappuccino hinzufügen">＋</button></div>
+      <div class="row" data-id="flatwhite" data-price="4.60" data-img="melange"><b>Flat White <i class="mono pill">Beliebt</i></b><span>Doppelter Espresso, samtige Milch, wenig Schaum.</span><em>€ 4,60</em><button type="button" data-add="flatwhite" aria-label="Flat White hinzufügen">＋</button></div>
+      <div class="row" data-id="filter" data-price="3.90" data-img="becher"><b>Filter des Tages</b><span>Handgebrüht, wechselnde Bohne. Frag uns, was heute läuft.</span><em>€ 3,90</em><button type="button" data-add="filter" aria-label="Filter des Tages hinzufügen">＋</button></div>
+    </div>
+    <div class="rows" role="tabpanel" id="t-kalt" aria-labelledby="tb-kalt" hidden>
+      <div class="row" data-id="eiskaffee" data-price="4.90" data-img="eiskaffee"><b>Eiskaffee <i class="mono pill">Sommer</i></b><span>Cold Brew, Milch, Eis. Ohne Schlagobers-Turm.</span><em>€ 4,90</em><button type="button" data-add="eiskaffee" aria-label="Eiskaffee hinzufügen">＋</button></div>
+      <div class="row" data-id="coldbrew" data-price="4.40" data-img="eiskaffee"><b>Cold Brew</b><span>18 Stunden kalt gezogen, mild und schokoladig.</span><em>€ 4,40</em><button type="button" data-add="coldbrew" aria-label="Cold Brew hinzufügen">＋</button></div>
+      <div class="row" data-id="tonic" data-price="4.80" data-img="eiskaffee"><b>Espresso Tonic</b><span>Tonic, Eis, Orangenzeste, Espresso obendrauf.</span><em>€ 4,80</em><button type="button" data-add="tonic" aria-label="Espresso Tonic hinzufügen">＋</button></div>
+      <div class="row" data-id="icedlatte" data-price="4.60" data-img="eiskaffee"><b>Iced Latte</b><span>Doppelter Espresso über kalter Milch.</span><em>€ 4,60</em><button type="button" data-add="icedlatte" aria-label="Iced Latte hinzufügen">＋</button></div>
+      <div class="row" data-id="matcha-iced" data-price="4.80" data-img="matcha"><b>Iced Matcha</b><span>Zeremonie-Matcha, Hafermilch, Eis.</span><em>€ 4,80</em><button type="button" data-add="matcha-iced" aria-label="Iced Matcha hinzufügen">＋</button></div>
+    </div>
+    <div class="rows" role="tabpanel" id="t-ohne" aria-labelledby="tb-ohne" hidden>
+      <div class="row" data-id="matcha" data-price="4.60" data-img="matcha"><b>Matcha Latte <i class="mono pill">Vegan möglich</i></b><span>Warm, cremig, leicht grasig.</span><em>€ 4,60</em><button type="button" data-add="matcha" aria-label="Matcha Latte hinzufügen">＋</button></div>
+      <div class="row" data-id="chai" data-price="4.40" data-img="becher"><b>Chai Latte</b><span>Selbst gekochter Gewürzsud, nicht aus dem Pulver.</span><em>€ 4,40</em><button type="button" data-add="chai" aria-label="Chai Latte hinzufügen">＋</button></div>
+      <div class="row" data-id="schoko" data-price="4.20" data-img="becher"><b>Heiße Schokolade</b><span>70 % Kakao, auf Wunsch mit Hafermilch.</span><em>€ 4,20</em><button type="button" data-add="schoko" aria-label="Heiße Schokolade hinzufügen">＋</button></div>
+      <div class="row" data-id="tee" data-price="3.20" data-img="becher"><b>Kräutertee</b><span>Kräuter von einem Hof bei Musterstadt.</span><em>€ 3,20</em><button type="button" data-add="tee" aria-label="Kräutertee hinzufügen">＋</button></div>
+      <div class="row" data-id="limo" data-price="3.90"><b>Hauslimonade</b><span>Holunder oder Zitrone-Minze, wenig Zucker.</span><em>€ 3,90</em><button type="button" data-add="limo" aria-label="Hauslimonade hinzufügen">＋</button></div>
+    </div>
+    <div class="rows" role="tabpanel" id="t-suess" aria-labelledby="tb-suess" hidden>
+      <div class="row" data-id="zimt" data-price="3.60"><b>Zimtschnecke <i class="mono pill">Frisch 9 Uhr</i></b><span>Jeden Morgen frisch aus dem Ofen.</span><em>€ 3,60</em><button type="button" data-add="zimt" aria-label="Zimtschnecke hinzufügen">＋</button></div>
+      <div class="row" data-id="mohn" data-price="3.90"><b>Mohnkuchen</b><span>Waldviertler Graumohn, saftig.</span><em>€ 3,90</em><button type="button" data-add="mohn" aria-label="Mohnkuchen hinzufügen">＋</button></div>
+      <div class="row" data-id="strudel" data-price="4.20"><b>Topfenstrudel</b><span>Nach Omas Rezept, warm serviert.</span><em>€ 4,20</em><button type="button" data-add="strudel" aria-label="Topfenstrudel hinzufügen">＋</button></div>
+      <div class="row" data-id="bananenbrot" data-price="3.40"><b>Bananenbrot</b><span>Vegan, mit Walnüssen.</span><em>€ 3,40</em><button type="button" data-add="bananenbrot" aria-label="Bananenbrot hinzufügen">＋</button></div>
+      <div class="row" data-id="croissant" data-price="2.80"><b>Buttercroissant</b><span>Vom Bäcker ums Eck, knusprig.</span><em>€ 2,80</em><button type="button" data-add="croissant" aria-label="Buttercroissant hinzufügen">＋</button></div>
+    </div>
+    <div class="rows" role="tabpanel" id="t-bohnen" aria-labelledby="tb-bohnen" hidden>
+      <div class="row" data-id="haus" data-price="14.90" data-img="bohnen"><b>Hausröstung</b><span>250 g · Schokolade, Haselnuss · für Siebträger und Vollautomat.</span><em>€ 14,90</em><button type="button" data-add="haus" aria-label="Hausröstung hinzufügen">＋</button></div>
+      <div class="row" data-id="mostviertel" data-price="15.90" data-img="bohnen"><b>Espresso Mostviertel</b><span>250 g · dunkel, kräftig, wenig Säure.</span><em>€ 15,90</em><button type="button" data-add="mostviertel" aria-label="Espresso Mostviertel hinzufügen">＋</button></div>
+      <div class="row" data-id="hell" data-price="13.90" data-img="bohnen"><b>Filter hell <i class="mono pill">Neu</i></b><span>250 g · Beeren, Blüten · für Handfilter und French Press.</span><em>€ 13,90</em><button type="button" data-add="hell" aria-label="Filter hell hinzufügen">＋</button></div>
+      <div class="row" data-id="decaf" data-price="14.50" data-img="bohnen"><b>Entkoffeiniert</b><span>250 g · schonend mit Wasser entkoffeiniert.</span><em>€ 14,50</em><button type="button" data-add="decaf" aria-label="Entkoffeiniert hinzufügen">＋</button></div>
+    </div>
     <p class="mono full__note">Alle Milchgetränke auch mit Hafer- oder Mandelmilch (+ € 0,40). Allergene auf Nachfrage.</p>
   </div>
   <div class="peek" id="peek" aria-hidden="true"><img alt="" width="300" height="400"></div>
@@ -352,5 +352,5 @@
 </dialog>
 
 <script src="/beispiele/_shared/demo.js?v=29766291" defer></script>
-<script type="module" src="/beispiele/kaffeebar/app.js?v=6"></script>
+<script type="module" src="/beispiele/kaffeebar/app.js?v=9399fac8"></script>
 <script src="/beispiele/_shared/kaffee-umschalter.js?v=1" defer></script></body></html>

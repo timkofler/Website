@@ -1,7 +1,7 @@
 // Lot & Linie – das Drahtgitter-Haus in 3D. Oben baut es sich beim Scrollen auf (Grundriss, Wände, Fenster, Dach),
 // im Hausplaner zeichnet es sich bei jeder Änderung neu. Linien wachsen im Shader von ihrem Startpunkt zum Ende,
 // frisch gezeichnete Linien leuchten kurz blau. Ohne WebGL zeichnet app.js dieselben Linien in 2D.
-import { reduce, mobile, webglOk, whenNear, loadThree, stage, dragRotate, blobTexture } from "/beispiele/_shared/stage3d.js?v=1";
+import { reduce, mobile, webglOk, whenNear, loadThree, stage, dragRotate, blobTexture } from "/beispiele/_shared/stage3d.js?v=2";
 
 var H = window.LLHaus;
 var COL = { ink: 0x1b1d21, acc: 0x2f5bd3, glass: 0x4a6fc9, tree: 0x6f8a6a };
@@ -139,7 +139,7 @@ function hero(THREE) {
 
 // ---------- Hausplaner: zeichnet sich bei jeder Änderung neu ----------
 var phost = document.getElementById("plan3d");
-if (phost && webglOk()) {
+if (phost && webglOk(true)) {
   whenNear(phost, function () { loadThree().then(function (T) { planner(T); }).catch(function () {}); });
 }
 

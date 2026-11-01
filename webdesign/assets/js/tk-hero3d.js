@@ -26,10 +26,15 @@ function lowEnd() {
   var c = navigator.connection || {};
   return !!(c.saveData || /(^|-)(2g|3g)$/.test(c.effectiveType || "") || (navigator.deviceMemory && navigator.deviceMemory < 4));
 }
-function still() { root.classList.add("tk-3d-still"); }
+// Standbild sofort laden (nicht erst "lazy"), es ist dann das größte Bild oben auf der Seite
+function still() {
+  root.classList.add("tk-3d-still");
+  var im = stageEl && stageEl.querySelector(".tk-hero__still");
+  if (im) { im.fetchPriority = "high"; im.loading = "eager"; }
+}
 
 if (!hero || !stageEl) { /* andere Seite */ }
-else if (reduce || lowEnd() || !webglOk()) still();
+else if (window.tkHero3d === false || (window.tkHero3d !== true && (reduce || lowEnd() || !webglOk()))) still();
 else {
   root.classList.add("tk-3d");
   var go = function () {

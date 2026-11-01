@@ -143,6 +143,28 @@
     }
   }
 
+  // Startseite: schon hier entscheiden, ob die 3D-Plakette läuft. Ohne Grafikchip (Software-WebGL), bei "Bewegung reduzieren",
+  // Datensparmodus oder wenig Speicher sitzt die Klasse tk-3d-still sofort und das Standbild lädt gleich mit der Seite.
+  // Das Ergebnis liest tk-hero3d.js aus window.tkHero3d (keine zweite Prüfung).
+  if (document.querySelector('meta[name="tk-hero-3d"]')) {
+    var ok3d = false;
+    try {
+      var c = navigator.connection || {};
+      var low = c.saveData || /(^|-)(2g|3g)$/.test(c.effectiveType || "") || (navigator.deviceMemory && navigator.deviceMemory < 4);
+      var red = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!low && !red) {
+        var cv = document.createElement("canvas"), gl = window.WebGLRenderingContext && (cv.getContext("webgl2") || cv.getContext("webgl"));
+        if (gl) {
+          var ext = gl.getExtension("WEBGL_debug_renderer_info"), rn = ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER);
+          ok3d = !/swiftshader|llvmpipe|softpipe|software|basic render/i.test(String(rn || ""));
+          var lose = gl.getExtension("WEBGL_lose_context"); if (lose) lose.loseContext();
+        }
+      }
+    } catch (e) { ok3d = false; }
+    window.tkHero3d = ok3d;
+    if (!ok3d) root.classList.add("tk-3d-still");
+  }
+
   function mount() { switcher(); footLogo(); topBtn(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount);
   else mount();

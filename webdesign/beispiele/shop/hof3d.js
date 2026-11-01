@@ -2,10 +2,10 @@
 // (Hofladen, Mostkeller, Saftpresse, Brennerei, Bienenstand, Streuobstwiese, Versand). Zahlen, Stecknadeln und Infokarte
 // kommen aus app.js über das Ereignis "bk:hof"; ein Tippen auf ein Gebäude meldet "bk:pick" zurück.
 // Alles ist aus einfachen Grundformen gebaut, keine fremden Modelle oder Bilder.
-import { reduce, mobile, webglOk, whenNear, loadThree, stage, dragRotate } from "/beispiele/_shared/stage3d.js?v=1";
+import { reduce, mobile, webglOk, whenNear, loadThree, stage, dragRotate } from "/beispiele/_shared/stage3d.js?v=2";
 
 var hof = document.getElementById("hof"), wrap = document.getElementById("hofStage");
-if (hof && wrap && webglOk() && !reduce) whenNear(wrap, function () { loadThree().then(init).catch(fail); });
+if (hof && wrap && webglOk(true) && !reduce) whenNear(wrap, function () { loadThree().then(init).catch(fail); });
 
 function fail() { var b = hof.querySelector('[data-view="2d"]'); hof.classList.add("no3d"); if (b) b.click(); }
 function cl(v, a, b) { return v < a ? a : v > b ? b : v; }

@@ -1,7 +1,7 @@
 // Haus im Querschnitt für die Website von "Haustechnik Kofler": ein Einfamilienhaus mit Keller, wie ein
 // Architekturmodell aufgeschnitten. Strom, Wasser, Heizung, Photovoltaik und Abwasser leuchten nacheinander
 // auf; die Legende zeigt einen Bereich einzeln, Ziehen dreht das Haus.
-import { reduce, mobile, webglOk, whenNear, loadThree, stage, dragRotate, rng } from "/beispiele/_shared/stage3d.js?v=1";
+import { reduce, mobile, webglOk, whenNear, loadThree, stage, dragRotate, rng } from "/beispiele/_shared/stage3d.js?v=2";
 
 var host = document.getElementById("haus3d"), sec = host && host.closest("section");
 if (host && webglOk()) whenNear(host, function () {

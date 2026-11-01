@@ -765,7 +765,7 @@ svg{flex:none}
 .credit b{font-weight:700;color:var(--p-mu)}
 .credit svg{width:18px;height:9.2px;color:var(--p-ink)}
 .desk__foot{display:flex;justify-content:flex-end;padding:7px 14px;border-top:1px solid var(--line);background:color-mix(in srgb,var(--card2) 50%,var(--card))}
-.desk__foot .credit{margin:0;font-size:11.5px;color:var(--mu2)}
+.desk__foot .credit{margin:0;font-size:11.5px;color:var(--mu2);opacity:1}
 .desk__foot .credit b{color:var(--mu)}
 .desk__foot .credit svg{width:22px;height:11.2px;color:var(--ink)}
 .site__ft{display:flex;justify-content:space-between;gap:8px;white-space:nowrap;padding:7px 14px;border-top:1px solid #eef1f6;font-size:10px;color:#94a3b8}

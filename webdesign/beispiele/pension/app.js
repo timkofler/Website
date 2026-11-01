@@ -115,7 +115,7 @@
   var DOW = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
   function monthHTML(y, m) {
     var first = new Date(y, m, 1), off = (first.getDay() + 6) % 7, days = new Date(y, m + 1, 0).getDate();
-    var h = '<div class="month"><h4>' + MON[m] + " " + y + '</h4><div class="days">' + DOW.map(function (d) { return '<span class="dow">' + d + "</span>"; }).join("");
+    var h = '<div class="month"><h3>' + MON[m] + " " + y + '</h3><div class="days">' + DOW.map(function (d) { return '<span class="dow">' + d + "</span>"; }).join("");
     for (var i = 0; i < off; i++) h += "<span></span>";
     var picking = st.a && !st.b;
     for (var dd = 1; dd <= days; dd++) {
@@ -131,7 +131,7 @@
       if (st.a && +d === +st.a) cls += " start";
       if (st.b && +d === +st.b) cls += " end";
       if (st.a && st.b && d > st.a && d < st.b) cls += " in";
-      h += '<button type="button" class="' + cls + '" data-k="' + +d + '" aria-label="' + lab + '"' + (st.a && +d === +st.a || st.b && +d === +st.b ? ' aria-pressed="true"' : "") + (dis ? " disabled" : "") + ">" + dd + "</button>";
+      h += '<button type="button" class="' + cls + '" data-k="' + +d + '" aria-label="' + lab + '"' + (st.a && +d === +st.a || st.b && +d === +st.b ? ' aria-pressed="true"' : "") + (dis ? " disabled" : "") + (cls.indexOf(" nope") > -1 ? ' aria-disabled="true"' : "") + ">" + dd + "</button>";
     }
     return h + "</div></div>";
   }
@@ -219,7 +219,8 @@
     if (r.fr && st.board === "ohne") st.board = "fr";
     boardEl.innerHTML = opts.map(function (o) { return '<button type="button" data-b="' + o[0] + '" aria-pressed="' + (st.board === o[0]) + '">' + o[1] + "</button>"; }).join("");
     dog.disabled = !r.dog; dog.checked = st.dog;
-    dog.closest(".row").style.opacity = r.dog ? 1 : .45;
+    // Ohne Hund im Zimmer: Schalter blass, Text nur grau (statt die ganze Zeile durchsichtig, sonst zu wenig Kontrast)
+    var dRow = dog.closest(".row"); dRow.querySelector(".sw").style.opacity = r.dog ? 1 : .45; dRow.firstElementChild.style.color = r.dog ? "" : "var(--mut)";
     var p = calcPrice();
     $("#calc").innerHTML = p ? p.rows.map(function (x) { return "<div" + (x[2] ? ' class="disc"' : "") + "><span>" + x[0] + "</span><span>" + (x[1] < 0 ? "− " + eur(-x[1]) : eur(x[1])) + "</span></div>"; }).join("") : '<div><span>Wähle Anreise und Abreise im Kalender.</span></div>';
     $("#total").textContent = p ? eur(p.tot) : "–";

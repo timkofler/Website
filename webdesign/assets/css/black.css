@@ -449,7 +449,7 @@ html.tk-ed-anim body, html.tk-ed-anim body * { transition: background-color .4s 
 .xf__hd { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 15px 26px; background: linear-gradient(180deg, #1d1d21, #151518); border-bottom: 1px solid rgba(255,90,31,.25); color: #bdbdc4; font: 400 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
 .xf__hd b { font-weight: 500; color: #3ddc97; display: inline-flex; align-items: center; gap: 8px; }
 .xf__hd b::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #3ddc97; box-shadow: 0 0 10px #3ddc97; }
-.xf__gratis { font-style: normal; color: #fff; background: #ff5a1f; padding: 7px 11px 6px; border-radius: 999px; font-weight: 600; letter-spacing: .12em; box-shadow: 0 6px 18px -6px rgba(255,90,31,.7); }
+.xf__gratis { font-style: normal; color: #0b0b0b; background: #ff5a1f; padding: 7px 11px 6px; border-radius: 999px; font-weight: 600; letter-spacing: .12em; box-shadow: 0 6px 18px -6px rgba(255,90,31,.7); }
 .anf.tk-xf .xf__hd { grid-column: 1 / -1; }
 .xf { border-radius: 22px; overflow: hidden; border: 1px solid rgba(255,255,255,.1); background: linear-gradient(180deg, #141416, #0e0e10); box-shadow: 0 30px 60px -30px rgba(0,0,0,.8); }
 html.tk-black .xf > .form { border: 0; border-radius: 0; background: none; padding: 26px; gap: 12px; }

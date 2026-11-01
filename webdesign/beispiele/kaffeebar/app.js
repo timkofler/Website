@@ -1,7 +1,7 @@
 // röstklang: weiches Scrollen, ein gemeinsamer Takt für alle Scroll-Effekte, 3D im Hero und bei den Bohnen,
 // Karte mit Reitern, waagrechte Rösterei-Strecke, Gästestimmen, Standorte mit Live-Status und ein Bestellfenster.
 // Alles, was am Scrollen hängt, gleitet seinem Ziel nach (statt bei jedem Mausrad-Ruck zu springen).
-import { reduce, mobile, webglOk, whenNear, loadThree, stage } from "/beispiele/_shared/stage3d.js";
+import { reduce, mobile, webglOk, whenNear, loadThree, stage } from "/beispiele/_shared/stage3d.js?v=2";
 
 document.documentElement.classList.add("rz");
 var fine = !!(window.matchMedia && matchMedia("(pointer: fine)").matches) && !mobile;

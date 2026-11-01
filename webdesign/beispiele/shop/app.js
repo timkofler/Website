@@ -1058,7 +1058,7 @@
     var name = X("hof"), sub = X("hofS");
     $("#hofPins").innerHTML = all.map(function (x) {
       var id = x.st.id;
-      return '<button type="button" class="pin' + (id === hofSel ? " is-on" : "") + (x.d.warn ? " is-" + x.d.warn : "") + '" data-hof="' + id + '" aria-pressed="' + (id === hofSel) + '"><svg aria-hidden="true"><use href="#' + x.st.ic + '"/></svg><span class="pin__t"><span class="pin__n">' + esc(name[id]) + "</span><small>" + esc(x.d.pin) + "</small></span></button>";
+      return '<button type="button" class="pin' + (id === hofSel ? " is-on" : "") + (x.d.warn ? " is-" + x.d.warn : "") + '" data-hof="' + id + '" aria-label="' + esc(name[id] + ": " + x.d.pin) + '" aria-pressed="' + (id === hofSel) + '"><svg aria-hidden="true"><use href="#' + x.st.ic + '"/></svg><span class="pin__t"><span class="pin__n">' + esc(name[id]) + "</span><small>" + esc(x.d.pin) + "</small></span></button>";
     }).join("");
     $("#hofTiles").innerHTML = all.map(function (x) {
       var id = x.st.id;

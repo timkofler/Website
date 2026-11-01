@@ -93,7 +93,7 @@ section{position:relative}
 /* Laufband */
 .ticker{border-block:1px solid var(--line);overflow:hidden;padding:20px 0;background:var(--bg2)}
 .ticker__t{display:flex;gap:44px;width:max-content;animation:tick 38s linear infinite}
-.ticker span{font:700 clamp(22px,3vw,34px)/1 var(--hd);white-space:nowrap;color:#6e5c58;display:inline-flex;align-items:center;gap:44px}
+.ticker span{font:700 clamp(22px,3vw,34px)/1 var(--hd);white-space:nowrap;color:#75625e;display:inline-flex;align-items:center;gap:44px}
 .ticker span:nth-child(odd){color:var(--tx)}
 .ticker span::after{content:"✦";color:var(--ro);font-size:.6em}
 @keyframes tick{to{transform:translateX(-50%)}}
@@ -275,7 +275,7 @@ section{position:relative}
 /* Footer */
 .foot{padding:90px 0 40px;border-top:1px solid var(--line);margin-top:clamp(80px,10vw,130px)}
 .foot__big{font:800 clamp(48px,11vw,170px)/.9 var(--hd);letter-spacing:-.05em;color:#2a201f}
-.foot__big i{font-style:normal;color:var(--ro)}
+.foot__big i{font-style:normal;color:var(--ro)}.foot__big::before{content:attr(data-t)}
 .foot__row{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:40px;color:var(--mu);font-size:14px;line-height:1.8}
 .foot__row strong{color:var(--tx)}
 .foot__demo{margin-top:30px;padding-top:24px;border-top:1px solid var(--line);color:var(--ro);font-weight:600;font-size:14px}
@@ -685,7 +685,7 @@ section{position:relative}
 
 <footer class="foot">
   <div class="wrap">
-    <div class="foot__big" aria-hidden="true">HAARWERK<i>.</i></div>
+    <div class="foot__big" aria-hidden="true" data-t="HAARWERK"><i>.</i></div>
     <div class="foot__row">
       <div><strong>Haarwerk Studio</strong><br>Musterstraße 1, 3280 Musterort<br>Telefon 0000 / 567 89 · hallo@haarwerk.example</div>
       <div>Di–Fr 9:00–18:30 · Do bis 20:00<br>Sa 8:00–13:00</div>

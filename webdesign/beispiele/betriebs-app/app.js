@@ -8,8 +8,10 @@
   var clamp = function (v, a, b) { return Math.max(a, Math.min(b, v)); };
   var lerp = function (a, b, t) { return a + (b - a) * t; };
   var ease = function (t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
-  var eur = function (n) { return Math.round(n).toLocaleString("de-DE") + " €"; };
-  var eur2 = function (n) { return n.toLocaleString("de-DE", { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }) + " €"; };
+  // Zahlenformat einmal anlegen (toLocaleString baut es sonst bei jedem Aufruf neu, das bremst am Handy)
+  var NF0 = new Intl.NumberFormat("de-DE", { maximumFractionDigits: 0 }), NF2 = new Intl.NumberFormat("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  var eur = function (n) { return NF0.format(Math.round(n)) + " €"; };
+  var eur2 = function (n) { return (n % 1 ? NF2 : NF0).format(n) + " €"; };
   var pad = function (n) { return (n < 10 ? "0" : "") + n; };
   var esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
   var ico = function (id) { return '<svg aria-hidden="true"><use href="#' + id + '"/></svg>'; };
@@ -55,7 +57,9 @@
   var setBar = function () { if (bar) document.documentElement.style.setProperty("--bar", bar.offsetHeight + "px"); };
   setBar(); addEventListener("resize", setBar);
   var hero = $(".hero"), stage = $("[data-stage]"), hphone = $("[data-hero-phone]"), slotsEl = $("[data-slots]");
-  var wins = [], slots = [], geo = null, lastP = -1, narrow = false;
+  var wins = [], slots = [], geo = null, lastP = -1, narrow = false, heroTop = 0, heroSpan = 0, sY = scrollY;
+  // Scroll-Stand beim Scroll-Ereignis merken: dort ist das Layout frisch, im Animationsbild würde scrollY ein Neu-Layout erzwingen
+  addEventListener("scroll", function () { sY = scrollY; }, { passive: true });
   if (hero && stage) {
     APPS.concat(EXTRA).forEach(function (a, i) {
       var s = document.createElement("div");
@@ -83,13 +87,14 @@
         var sy = clamp(p[1] * sr.height, wh / 2 + 14, sr.height - wh / 2 - 8);
         return { sx: sx, sy: sy, r: p[2], ex: ends[i].x, ey: ends[i].y, k: ends[i].w / ww, w: ww, h: wh };
       });
+      // Lage des Kopfbereichs einmal merken, damit progress() beim Scrollen nichts mehr ausmessen muss (sonst Layout in jedem Bild)
+      var hr = hero.getBoundingClientRect(); sY = scrollY; heroTop = hr.top + sY; heroSpan = hero.offsetHeight - innerHeight;
       lastP = -1; frame();
     };
 
     var progress = function () {
       if (reduce) return 1;
-      var r = hero.getBoundingClientRect(), span = hero.offsetHeight - innerHeight;
-      return span > 0 ? clamp(-r.top / span, 0, 1) : 1;
+      return heroSpan > 0 ? clamp((sY - heroTop) / heroSpan, 0, 1) : 1;
     };
 
     var t0 = performance.now(), visible = true;
