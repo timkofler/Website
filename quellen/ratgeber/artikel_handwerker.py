@@ -10,8 +10,8 @@ H1_TEXT = "Webseite für Handwerker: Was muss drauf?"
 H1 = 'Webseite für Handwerker: <span class="lime">Was muss drauf?</span>'
 LEAD = ("Ob Tischlerei, Malerbetrieb oder Installateur: Wer heute einen Handwerker sucht, schaut zuerst "
         "auf Google. Diese Checkliste zeigt, was auf eine gute Handwerker-Seite gehört, damit daraus Aufträge werden.")
-DATUM = "2026-11-02"
-DATUM_TEXT = "2. November 2026"
+DATUM = "2026-11-01"
+DATUM_TEXT = "1. November 2026"
 LESEZEIT = 5
 END_H2 = 'Wie sähe deine Seite aus? <span class="lime">Gratis-Entwurf in 48 Stunden.</span>'
 
