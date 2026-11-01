@@ -18,6 +18,14 @@ name: Webseite veröffentlichen
 on:
   push:
     branches: [main]
+    # Änderungen nur an tim-kofler.at (webdesign/) oder an nicht veröffentlichten Ordnern lösen hier keinen
+    # Upload aus – die haben ihren eigenen Workflow bzw. landen nie auf dem Webspace.
+    paths-ignore:
+      - "webdesign/**"
+      - "kunden/**"
+      - "quellen/**"
+      - ".github/workflows/deploy-tim-kofler.yml"
+      - ".github/scripts/**"
   workflow_dispatch:
 
 concurrency:
