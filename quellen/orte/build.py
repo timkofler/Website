@@ -138,7 +138,7 @@ def seite(o, alle, branchen):
         <a href="#anfrage" class="btn">Anfragen {P}</a>
       </aside>
     </div>
-    <div class="tk-abo__once tk-once--prices gr-once"><span class="tk-abo__once-ic" aria-hidden="true">{H}</span><p><strong>Die Seite gehört dir.</strong> Monatlich zahlst du nur deinen Webspace beim Anbieter (ca. 5–10&nbsp;€, inklusive Domain und E-Mail). Die Betreuung durch mich ab 29&nbsp;€ im Monat ist freiwillig und monatlich kündbar.</p></div>
+    <div class="tk-abo__once tk-once--prices gr-once"><span class="tk-abo__once-ic" aria-hidden="true">{H}</span><p><strong>Die Seite gehört dir.</strong> Monatlich zahlst du nur deinen Webspace beim Anbieter (ca. 5–10&nbsp;€, inklusive Domain und E-Mail). Die Betreuung durch mich ab 19&nbsp;€ im Monat ist freiwillig und monatlich kündbar.</p></div>
   </div>
 </section>
 

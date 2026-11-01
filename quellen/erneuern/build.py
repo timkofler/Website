@@ -39,7 +39,7 @@ FAQ = [
     ("Was kostet das Erneuern?",
      "Gleich viel wie eine neue Seite: Start ab 590 € (bis zu 3 Unterseiten), Business ab 1.190 € (bis zu 8 Unterseiten). Texte und Fotos von der alten Seite übernehmen und die Weiterleitungen sind inklusive. Als Kleinunternehmer verrechne ich keine Umsatzsteuer."),
     ("Was heißt „alte Webseite übernehmen“?",
-     "Für Betriebe, deren Webdesigner nicht mehr erreichbar ist: Ich prüfe deine bestehende Seite, sichere alle Zugänge und eine Kopie, bringe sie auf deinen eigenen Webspace, wenn sie noch woanders liegt, und mache die nötigen Sicherheits-Updates. Fixpreis 190 €. Danach kannst du die Betreuung ab 29 € im Monat dazunehmen, musst aber nicht."),
+     "Für Betriebe, deren Webdesigner nicht mehr erreichbar ist: Ich prüfe deine bestehende Seite, sichere alle Zugänge und eine Kopie, bringe sie auf deinen eigenen Webspace, wenn sie noch woanders liegt, und mache die nötigen Sicherheits-Updates. Fixpreis 190 €. Danach kannst du die Betreuung ab 19 € im Monat dazunehmen, musst aber nicht."),
     ("Meine alte Seite ist mit WordPress, Wix oder Jimdo gebaut. Geht das?",
      "Ja. Beim Erneuern ist egal, womit die alte Seite gebaut ist, ich übernehme die Inhalte und programmiere die neue Seite selbst. Beim Übernehmen schaue ich mir die Seite vorher kostenlos an und sage dir ehrlich, ob sich das noch lohnt oder ob Erneuern die bessere Wahl ist."),
     ("Ist meine Seite in der Zwischenzeit offline?",
@@ -105,7 +105,7 @@ def seite():
     preise = "\n".join([
         preis("", "Übernehmen", "190", False, "Deine Seite passt noch, aber keiner kümmert sich darum.",
               ["Seite und Zugänge prüfen", "Kopie und Zugangsdaten sichern", "Umzug auf deinen eigenen Webspace", "Nötige Sicherheits-Updates"],
-              "Danach auf Wunsch Betreuung ab 29&nbsp;€ im Monat, monatlich kündbar.", "Alte Webseite übernehmen (190 €)"),
+              "Danach auf Wunsch Betreuung ab 19&nbsp;€ im Monat, monatlich kündbar.", "Alte Webseite übernehmen (190 €)"),
         preis("", "Erneuern Start", "590", True, "Neue Seite statt der alten, mit bis zu 3 Unterseiten.",
               ["Inhalte und Fotos übernehmen", "Weiterleitungen für Google", "Domain und E-Mail bleiben", "Gratis-Entwurf vorab"],
               "Gleicher Preis wie eine neue Seite, der Umzug ist inklusive.", "Erneuern: Start (ab 590 €)"),
