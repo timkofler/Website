@@ -1,7 +1,7 @@
 // Birnstoff: eine 3D-Dose fährt die ganze Seite mit. Im Verkauf wechselt Wischen die Sorte (die Farbe läuft von unten in die Dose),
 // dann taucht sie in Most ein und kommt in neuer Farbe heraus, Rauch zieht drüber und darunter wird sie zur goldenen Reserve.
 // Alles hängt an einem rAF-Takt; die Lage der Dose wird zwischen Haltepunkten entlang der Scrollstrecke weich übergeblendet.
-import { reduce, mobile, webglOk, loadThree } from "/beispiele/_shared/stage3d.js";
+import { reduce, mobile, webglOk, loadThree } from "/beispiele/_shared/stage3d.js?v=2";
 
 document.documentElement.classList.add("cx");
 var fine = !!(window.matchMedia && matchMedia("(pointer: fine)").matches) && !mobile;

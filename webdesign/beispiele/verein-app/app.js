@@ -312,10 +312,16 @@
     drawQR();
   }
   // QR-Zahlschein im Stil von tim-kofler.at (tk-qr.js): runde Punkte, oranger Kern, Vereinslogo in der Mitte
-  var qrTxt = "", qrImg = null;
+  var qrTxt = "", qrImg = null, qrSeen = !("IntersectionObserver" in window), qrWait = false;
+  // Erst zeichnen, wenn der Zahlschein zu sehen ist: der QR-Code kostet am Handy spürbar Rechenzeit beim Laden der Seite
+  if (!qrSeen && $("[data-m-qr]")) new IntersectionObserver(function (es) {
+    qrSeen = es[es.length - 1].isIntersecting;
+    if (qrSeen && qrWait) { qrWait = false; drawQR(); }
+  }).observe($("[data-m-qr]"));
   function drawQR() {
     var cv = $("[data-m-qr]"), B = S.brand;
     if (!cv || !B || !qrTxt || !window.qrcode || !window.tkQR) return;
+    if (!qrSeen) { qrWait = true; return; }
     var logo;
     if (B && B.type === "bild" && B.img) {
       if (!qrImg || qrImg.getAttribute("src") !== B.img) { qrImg = new Image(); qrImg.onload = drawQR; qrImg.src = B.img; }
@@ -1270,8 +1276,10 @@
     var last = pts[pts.length - 1];
     el.innerHTML = '<path class="a" d="' + d + "L" + w + " " + h + "L0 " + h + 'Z"/><path class="l" d="' + d + '"/><circle cx="' + last[0] + '" cy="' + last[1].toFixed(1) + '" r="3"/>';
     var l = el.querySelector(".l");
-    if (draw && !reduce && l.getTotalLength) {
-      var len = Math.ceil(l.getTotalLength()); l.style.strokeDasharray = len; l.style.setProperty("--len", len); l.classList.add("draw");
+    if (draw && !reduce) {
+      // Länge selbst ausrechnen (nur gerade Stücke) statt getTotalLength(): das erzwang beim Laden ein Neu-Layout der ganzen Seite
+      var len = 0; for (var j = 1; j < pts.length; j++) len += Math.hypot(pts[j][0] - pts[j - 1][0], pts[j][1] - pts[j - 1][1]);
+      len = Math.ceil(len); l.style.strokeDasharray = len; l.style.setProperty("--len", len); l.classList.add("draw");
     }
   }
   var sparkDrawn = {};

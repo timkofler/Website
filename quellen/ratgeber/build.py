@@ -204,6 +204,7 @@ def uebersicht():
 
 <section class="section section--line rg-section">
   <div class="container">
+    <h2 class="sr-only">Alle Artikel</h2>
     <ul class="rg-karten rg-karten--alle">
 {karten(ARTIKEL)}
     </ul>

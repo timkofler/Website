@@ -127,6 +127,7 @@ html.tk-white .footer__pill { background: #fff; border-color: rgba(28,20,12,.12)
 
 /* ---------- Beispiel-Karussell ---------- */
 html.tk-white .tk-car__item figcaption b { color: #8a8278; }
+html.tk-white .tk-car__item:not(.is-center) figcaption b, html.tk-white .tk-car__item:not(.is-center) figcaption span { color: #706a62; }
 html.tk-white .tk-car__item.is-center figcaption b { color: #16130f; }
 html.tk-white .tk-car__item figcaption .tk-vers__tag { color: #4a443d; }
 html.tk-white .tk-vers__tag i { background: rgba(28,20,12,.22); }

@@ -4,9 +4,23 @@
 export const reduce = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
 export const mobile = !!(window.matchMedia && matchMedia("(max-width: 760px), (pointer: coarse)").matches);
 
-export function webglOk() {
-  try { var c = document.createElement("canvas"); return !!(window.WebGLRenderingContext && (c.getContext("webgl2") || c.getContext("webgl"))); }
-  catch (e) { return false; }
+// Ohne Grafikchip rechnet der Browser WebGL in Software (SwiftShader, llvmpipe): dann blockiert die 3D-Szene die Seite
+// sekundenlang, deshalb bleibt dort wie auf der Startseite die 2D-Fassung stehen. Das Ergebnis wird einmal gemerkt.
+// Wer keine 2D-Fassung hat (Grundriss beim Baumeister, Hof im Shop), ruft webglOk(true) und bekommt WebGL auch in Software.
+var glOk = null, glAny = false;
+export function webglOk(soft) {
+  if (glOk === null) check();
+  return soft ? glAny : glOk;
+}
+function check() {
+  try {
+    var c = document.createElement("canvas"), gl = window.WebGLRenderingContext && (c.getContext("webgl2") || c.getContext("webgl"));
+    if (!gl) { glOk = false; return; }
+    glAny = true;
+    var ext = gl.getExtension("WEBGL_debug_renderer_info"), r = ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER);
+    glOk = !/swiftshader|llvmpipe|softpipe|software|basic render/i.test(String(r || ""));
+    var lose = gl.getExtension("WEBGL_lose_context"); if (lose) lose.loseContext();
+  } catch (e) { glOk = false; }
 }
 
 // Ruft cb einmal auf, sobald el bis auf margin an den sichtbaren Bereich herankommt.

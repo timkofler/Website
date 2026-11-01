@@ -1,6 +1,6 @@
 // 360°-Rundgang durch Gaststube und Schank. Startet erst auf Knopfdruck (spart Daten am Handy),
 // lädt Three.js und die Panoramen lokal vom eigenen Server. Ziehen = umsehen, Mausrad/zwei Finger = zoomen.
-import { reduce, mobile, webglOk, loadThree, stage } from "/beispiele/_shared/stage3d.js?v=1";
+import { reduce, mobile, webglOk, loadThree, stage } from "/beispiele/_shared/stage3d.js?v=2";
 
 var box = document.getElementById("pano");
 var BASE = "/beispiele/gasthaus/rundgang/";

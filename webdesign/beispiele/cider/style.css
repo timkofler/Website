@@ -3,7 +3,7 @@
 @font-face{font-family:"Outfit";src:url(/beispiele/_shared/fonts/outfit.woff2) format("woff2");font-weight:100 900;font-display:swap}
 @font-face{font-family:"Bricolage";src:url(/beispiele/_shared/fonts/bricolage.woff2) format("woff2");font-weight:200 800;font-display:swap}
 @font-face{font-family:"Playfair";src:url(/beispiele/_shared/fonts/playfair-700.woff2) format("woff2");font-weight:700;font-display:swap}
-:root{--bar:45px;--bg:#050604;--txt:#f1f4ea;--mut:#a7ae9c;--dim:#6f7667;--lime:#d4f53c;--gold:#f3c56a;--amber:#f3b549;--line:rgba(255,255,255,.1);--c:var(--lime);
+:root{--bar:45px;--bg:#050604;--txt:#f1f4ea;--mut:#a7ae9c;--dim:#737b6b;--lime:#d4f53c;--gold:#f3c56a;--amber:#f3b549;--line:rgba(255,255,255,.1);--c:var(--lime);
   --disp:"Unbounded","Arial Black",system-ui,sans-serif;--sans:"Outfit",system-ui,-apple-system,"Segoe UI",sans-serif;--serif:"Playfair",Georgia,serif;
   --pad:clamp(20px,4.4vw,64px);--ease:cubic-bezier(.2,.75,.15,1);--vh:calc(100svh - var(--bar))}
 *,*::before,*::after{box-sizing:border-box}

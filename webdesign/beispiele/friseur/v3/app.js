@@ -2,7 +2,7 @@
 // Maus oder Finger kämmt. Schnitt: das Haar fällt glatt, eine Schere schneidet eine exakte Linie, die Spitzen fallen.
 // Farbe: die neue Farbe läuft vom Ansatz in die Spitzen. Styling: glatt, Wellen, Locken. Danach Preise, Team, Buchung.
 // Alles hängt an einem rAF-Takt; die Werte gleiten gedämpft zu Zielwerten, die sich aus der Scrolllage ergeben.
-import { reduce, mobile, webglOk, loadThree } from "/beispiele/_shared/stage3d.js";
+import { reduce, mobile, webglOk, loadThree } from "/beispiele/_shared/stage3d.js?v=2";
 import { fillLive, isOpen } from "/beispiele/friseur/gemeinsam/buchung.js?v=1";
 
 var root = document.documentElement;
@@ -146,7 +146,7 @@ addEventListener("touchstart", function (e) { var t = e.touches[0]; ptr.px = t.c
 addEventListener("touchmove", function (e) { var t = e.touches[0]; setPtr(t.clientX, t.clientY); }, { passive: true });
 
 // ---------- 3D ----------
-if (!nogl) loadThree().then(function (THREE) { return import("/beispiele/friseur/v3/haar.js?v=2").then(function (m) { start(THREE, m.haar); }); }).catch(function (e) { console.warn(e); root.classList.add("nogl"); });
+if (!nogl) loadThree().then(function (THREE) { return import("/beispiele/friseur/v3/haar.js?v=8a67eca4").then(function (m) { start(THREE, m.haar); }); }).catch(function (e) { console.warn(e); root.classList.add("nogl"); });
 
 function start(THREE, haar) {
   var host = $("#gl");

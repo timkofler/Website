@@ -27,8 +27,8 @@ button,input,select,textarea{font:inherit;color:inherit}
 .btn:hover svg{transform:translateX(4px)}
 .btn--f{background:var(--forest);color:#fff;box-shadow:0 14px 30px -18px rgba(31,58,46,.9)}
 .btn--f:hover{background:var(--forest2);transform:translateY(-2px)}
-.btn--z{background:var(--zirbe);color:#fff;box-shadow:0 14px 30px -16px rgba(181,128,74,.9)}
-.btn--z:hover{background:#a8743f;transform:translateY(-2px)}
+.btn--z{background:#986c3e;color:#fff;box-shadow:0 14px 30px -16px rgba(181,128,74,.9)}
+.btn--z:hover{background:#8a6036;transform:translateY(-2px)}
 .btn--l{border:1.5px solid var(--line);background:transparent;color:var(--ink)}
 .btn--l:hover{border-color:var(--ink)}
 
@@ -113,7 +113,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .room__f .btn{min-height:46px;font-size:15px;flex:1}
 
 /* Buchung */
-.book{background:var(--paper2)}
+.book{background:var(--paper2)}#buchen .k,#buchen .h2 em{color:#845d36}.area .k{color:#c29669}
 .book__grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);grid-template-areas:"cal sum" "form sum";gap:24px;margin-top:clamp(32px,4vw,48px);align-items:start}
 .book__grid>.panel:first-child{grid-area:cal}
 #formPanel{grid-area:form}
@@ -132,7 +132,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .cal__nav button:disabled{opacity:.35;cursor:default}
 .cal__nav svg{width:18px;height:18px}
 .cal__months{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px;margin-top:14px}
-.month h4{font:600 15px/1 var(--sans);margin-bottom:10px;text-align:center}
+.month h3{font:600 15px/1 var(--sans);margin-bottom:10px;text-align:center}
 .days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px}
 .days .dow{font:700 11px/1 var(--sans);color:var(--mut);text-align:center;padding:6px 0;letter-spacing:.06em}
 .day{position:relative;aspect-ratio:1;border:0;border-radius:10px;background:transparent;font-weight:600;font-size:14px;cursor:pointer;display:grid;place-items:center;color:var(--ink);transition:background .15s,color .15s}
@@ -228,7 +228,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .tl__bar:focus-visible{outline:2px solid #f0c58f;outline-offset:4px;border-radius:6px}
 .tl__knob{position:absolute;top:50%;left:var(--k,0%);width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(240,197,143,.35),0 4px 12px rgba(0,0,0,.35);transition:transform .2s}
 .tl__bar:hover .tl__knob,.tl__bar.is-drag .tl__knob{transform:scale(1.2)}
-.tl__hint{display:block;margin-top:12px;font:600 10.5px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:rgba(243,239,230,.55);transition:opacity .5s}
+.tl__hint{display:block;margin-top:12px;font:600 10.5px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:rgba(243,239,230,.62);transition:opacity .5s}
 .tl__card.is-used .tl__hint{opacity:0}
 .tl__bar i{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.18);overflow:hidden;position:relative}
 .tl__bar i b{position:absolute;inset:0;background:#f0c58f;transform:scaleX(0);transform-origin:left}
@@ -310,7 +310,7 @@ footer{background:#14201a;color:#d6dbd3;padding:56px 0 34px;font-size:15px}
 .foot{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px}
 footer .logo b{color:#fff}
 footer .logo small{color:#9aa69c}
-footer h4{font:700 12px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:#f0c58f;margin-bottom:12px}
+footer h3{font:700 12px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:#f0c58f;margin-bottom:12px}
 footer a{text-decoration:none}
 footer a:hover{text-decoration:underline}
 .demo-note{margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between;font-size:13px}

@@ -50,7 +50,9 @@
   }
 
   function onColor(hex) {
-    return 1.05 / (lum(hex) + 0.05) >= 3 ? "#ffffff" : "#0b0b0b";
+    // Die Schrift mit dem besseren Kontrast nehmen (bei Orange ist das dunkel, wie beim „Neu“-Schild im Kopf)
+    var l = lum(hex), weiss = 1.05 / (l + 0.05), dunkel = (l + 0.05) / (lum("#0b0b0b") + 0.05);
+    return weiss >= dunkel ? "#ffffff" : "#0b0b0b";
   }
 
   var eigen = $("[data-ew-eigen]"), eigenRadio = $("[data-ew-eigen-radio]"), farbname = $("[data-ew-farbname]");
