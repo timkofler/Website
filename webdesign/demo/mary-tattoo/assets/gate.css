@@ -1,0 +1,21 @@
+@font-face{font-family:"Syne";src:url(fonts/syne.woff2) format("woff2");font-weight:500 800;font-display:swap}
+@font-face{font-family:"Manrope";src:url(fonts/manrope.woff2) format("woff2");font-weight:400 700;font-display:swap}
+@font-face{font-family:"Delafield";src:url(fonts/script.woff2) format("woff2");font-display:swap}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:#0f0e0d radial-gradient(rgba(241,235,225,.08) 1px,transparent 1.4px) 0 0/14px 14px;color:#f1ebe1;font:400 16px/1.6 "Manrope",system-ui,sans-serif;display:grid;place-items:center;min-height:100vh;min-height:100svh;padding:24px 16px}
+.gate{width:100%;max-width:360px;text-align:center;background:rgba(15,14,13,.86);padding:28px 22px;border-radius:24px;box-shadow:0 0 0 1px rgba(241,235,225,.08)}
+.gate__mark{display:grid;justify-items:center;gap:6px;margin:0 auto 22px}
+.gate__mark span{font:400 74px/1 "Delafield",cursive;color:#3cc4b4}
+.gate__mark small{font:700 11px/1 "Syne",sans-serif;letter-spacing:.3em;padding-left:.3em;color:#f1ebe1}
+p{color:#b9b0a4;margin:0 0 22px}
+form{display:grid;gap:10px;text-align:left}
+label{font:700 11px/1 "Syne",sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#3cc4b4}
+input{width:100%;min-height:52px;border-radius:14px;border:1px solid #3a3530;background:#181614;color:#f1ebe1;font:500 17px "Manrope",sans-serif;padding:0 18px}
+input:focus{outline:2px solid #3cc4b4;outline-offset:2px}
+button{min-height:54px;border:0;border-radius:14px;background:#3cc4b4;color:#0f0e0d;font:700 15px "Syne",sans-serif;letter-spacing:.04em;cursor:pointer;margin-top:8px;transition:background .2s}
+button:hover{background:#5fd6c8}
+button:active{transform:scale(.98)}
+.gate__err{color:#ff8a8a;margin:2px 0 0;font-size:14px}
+.gate__tk{display:inline-flex;align-items:center;gap:10px;margin-top:30px;color:#b9b0a4;font-size:13px;text-decoration:none}
+.gate__tk img{height:14px;width:auto}
