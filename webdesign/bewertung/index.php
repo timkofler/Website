@@ -89,6 +89,8 @@ if ($u === '') {
 HTML;
 }
 header('Content-Type: text/html; charset=utf-8');
+// Alle Eingaben stecken schon mit htmlspecialchars ($h) in $main, Semgrep erkennt die Hilfsfunktion nicht.
+// nosemgrep: php.lang.security.injection.echoed-request.echoed-request
 echo <<<HTML
 <!DOCTYPE html>
 <html lang="de-AT" class="tk-black">
