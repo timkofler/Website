@@ -42,6 +42,7 @@
     h_2d: "Overview", h_hint: "Drag to turn · tap a building", h_demo: "Send a test order",
     i1: "Post shipping labels", i2: "Till in the farm shop", i3: "Accounting (CSV, BMD)", i4: "Newsletter", i5: "Google Shopping", i6: "Stock synced with the till",
     f_addr: "Eder family · Hofweg 7 · 3251 Musterdorf · Mostviertel", f_demo: "Fictional farm shop, all data are examples. No orders are accepted and no payments are made.",
+    nav_kat: "Catalogue", k_kick: "Seasonal catalogue", k_h: "Leaf through autumn and Advent", k_sub: "Our printed farm catalogue, now to flip through. One product per page, straight into your basket.",
     f_ship: "Shipping & payment", f_agb: "Terms", f_wr: "Withdrawal", f_imp: "Imprint", f_ds: "Privacy", f_tk: "Shop by Tim Kofler – Webdesign",
     cart_h: "Your basket", vc_l: "Gift card or discount code", vc_p: "Discount code", vc_btn: "Apply", vc_try: "Try:", to_co: "Checkout",
     add: "Add to basket", fits: "Goes well with", co_h: "Checkout", st1: "Address", st2: "Shipping", st3: "Payment", st4: "Review",
@@ -527,6 +528,7 @@
     return b.join("");
   }
   function renderGrid() {
+    document.dispatchEvent(new CustomEvent("bk:shop"));
     var a = list();
     $("#count").textContent = X("items")(a.length);
     if (!a.length) { grid.innerHTML = '<p class="empty">' + (lang === "en" ? "Nothing found. Try “honey” or “perry”." : "Nichts gefunden. Probier „Honig“ oder „Most“.") + "</p>"; return; }
@@ -582,6 +584,17 @@
     save(); fly(from); setTimeout(function () { renderCart(); bump(); }, reduce ? 0 : 650);
     toast(L(p.n) + " " + X("added"));
   }
+
+  // Schnittstelle für den Blätterkatalog (katalog.js): Produktdaten in der aktuellen Sprache und "In den Korb"
+  window.BKshop = {
+    lang: function () { return lang; },
+    art: function (k) { return art(k); },
+    info: function (id) {
+      var p = byId[id]; if (!p) return null; var v = p.v[0];
+      return { name: L(p.n), sub: L(p.s), desc: L(p.d), c: p.c, art: p.art, badge: p.badge || "", stock: p.stock, priceTxt: fmt(v.p), varName: L(v.n), unit: unitTxt(p, v) };
+    },
+    add: function (id, from) { var p = byId[id]; if (!p || p.stock === 0 || p.gift) return false; addItem(p, p.v[0].id, 1, from); return true; }
+  };
 
   /* ---------- Produktdetail ---------- */
   var dProd = $("#prod"), cur = null, curQ = 1;
