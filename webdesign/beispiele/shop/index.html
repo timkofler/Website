@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="/beispiele/friseur/gemeinsam/umschalter.css?v=3">
 <link rel="preload" href="/beispiele/_shared/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/beispiele/_shared/fonts/outfit.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/beispiele/shop/style.css?v=2e7ca95c">
+<link rel="stylesheet" href="/beispiele/shop/style.css?v=49145807">
 <script src="/beispiele/shop/theme.js?v=1"></script>
 </head><body>
 <div class="tk-demo-bar"><a href="/beispiele/#shop"><img src="/beispiele/_shared/tk-logo-2.svg" alt="tim-kofler.at" width="34" height="17"><span>Zurück</span></a>
@@ -80,7 +80,7 @@
       <span class="logo__t"><b>Birnkammer</b><small data-t="logo_sub">Hofladen · Mostviertel</small></span>
     </a>
     <nav class="top__nav" aria-label="Hauptmenü">
-      <a href="#shop" data-t="nav_shop">Shop</a><a href="#abo" data-t="nav_abo">Most-Abo</a><a href="#gutschein" data-t="nav_gift">Gutscheine</a><a href="#versand" data-t="nav_ship">Versand</a><a href="#verwaltung" data-t="nav_admin">Für den Hof</a>
+      <a href="#shop" data-t="nav_shop">Shop</a><a href="#katalog" data-t="nav_kat">Katalog</a><a href="#abo" data-t="nav_abo">Most-Abo</a><a href="#gutschein" data-t="nav_gift">Gutscheine</a><a href="#versand" data-t="nav_ship">Versand</a><a href="#verwaltung" data-t="nav_admin">Für den Hof</a>
     </nav>
     <div class="top__act">
       <label class="srch"><svg aria-hidden="true"><use href="#i-such"/></svg><span class="sr" data-t="search_l">Im Shop suchen</span><input id="q" type="search" placeholder="Suchen …" data-tp="search_p" autocomplete="off"></label>
@@ -133,6 +133,25 @@
   <p class="count" id="count" aria-live="polite"></p>
   <div class="grid" id="grid"></div>
   <noscript><p class="count">Der Beispiel-Shop braucht JavaScript.</p></noscript>
+</section>
+
+<section class="sec kat" id="katalog" aria-labelledby="katH">
+  <div class="sec__head">
+    <div><p class="kick" data-t="k_kick">Saisonkatalog</p><h2 id="katH" data-t="k_h">Herbst und Advent zum Durchblättern</h2></div>
+    <p class="sec__sub" data-t="k_sub">Unser gedruckter Hofkatalog, jetzt zum Umblättern. Jede Seite ein Produkt, direkt in den Korb.</p>
+  </div>
+  <div class="kat__wrap">
+    <div class="kat__book" tabindex="0" aria-roledescription="Katalog" aria-label="Katalog zum Umblättern. Mit den Pfeiltasten links und rechts blättern.">
+      <div class="kat__gl" aria-hidden="true"></div>
+      <ol class="kat__pages" aria-label="Katalogseiten"></ol>
+    </div>
+    <div class="kat__ctl">
+      <button class="kat__nav" type="button" id="katPrev" aria-label="Vorige Seite" disabled><svg aria-hidden="true"><use href="#i-zurueck"/></svg></button>
+      <div class="kat__info"><p class="kat__num" id="katNum" aria-live="polite">Umschlag</p><span class="kat__bar" aria-hidden="true"><i id="katBar"></i></span></div>
+      <button class="kat__nav" type="button" id="katNext" aria-label="Nächste Seite"><svg aria-hidden="true"><use href="#i-pfeil"/></svg></button>
+    </div>
+    <p class="kat__hint" id="katHint">Seitenrand anklicken, ziehen oder die Pfeiltasten nehmen.</p>
+  </div>
 </section>
 
 <section class="sec" id="abo" aria-labelledby="aboH">
@@ -427,6 +446,7 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="/beispiele/_shared/demo.js" defer></script>
-<script src="/beispiele/shop/app.js?v=9effc6d4" defer></script>
+<script src="/beispiele/shop/app.js?v=236ce9b3" defer></script>
 <script type="module" src="/beispiele/shop/hof3d.js?v=32345ca9"></script>
+<script type="module" src="/beispiele/shop/katalog.js?v=fe1f5fc2"></script>
 <script src="/beispiele/_shared/birnen-umschalter.js?v=1" defer></script></body></html>

@@ -38,19 +38,19 @@
   else if (first === "white") loadWhite();
   apply(first);
 
-  // Umschalter im Kopf: zwei Felder „Black | White“, am Handy ein runder Knopf mit Sonne/Mond
+  // Umschalter im Kopf: ein Lichtschalter (Kippschalter) statt Sonne/Mond (Tim 1.11.2026)
   function switcher() {
     var head = document.querySelector(".header__inner");
     if (!head || head.querySelector(".tk-ed") || !hasWhite) return;
     var b = document.createElement("button");
     b.type = "button"; b.className = "tk-ed";
-    b.innerHTML = '<span class="tk-ed__o tk-ed__b"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><em>Black</em></span>' +
-      '<span class="tk-ed__o tk-ed__w"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg><em>White</em></span>';
+    // Lichtschalter: Wippe unten = Licht aus (Black), Wippe oben = Licht an (White)
+    b.innerHTML = '<span class="tk-ed__plate" aria-hidden="true"><span class="tk-ed__lever"></span><i class="tk-ed__led"></i></span>';
     function label() {
       var w = root.classList.contains("tk-white");
       b.setAttribute("aria-pressed", w ? "true" : "false");
-      b.setAttribute("aria-label", w ? "Zur Black Edition wechseln" : "Zur White Edition wechseln");
-      b.title = w ? "Black Edition" : "White Edition";
+      b.setAttribute("aria-label", w ? "Licht aus: zur Black Edition wechseln" : "Licht an: zur White Edition wechseln");
+      b.title = w ? "Licht aus" : "Licht an";
     }
     // Schon beim Zeigen/Antippen vorladen, damit der Wechsel sofort sitzt
     ["pointerenter", "touchstart", "focus"].forEach(function (ev) { b.addEventListener(ev, function () { loadWhite(); }, { passive: true, once: true }); });
@@ -165,7 +165,25 @@
     if (!ok3d) root.classList.add("tk-3d-still");
   }
 
-  function mount() { switcher(); footLogo(); topBtn(); }
+  // Lesebalken (1.11.2026): dünne orange Linie ganz oben zeigt, wie weit man auf der Seite ist. Nicht im Kundenportal,
+  // nur auf Seiten, die deutlich länger als ein Bildschirm sind. Bewegt wird nur transform (scaleX).
+  function readBar() {
+    if (document.body.classList.contains("kp") || document.querySelector(".tk-prog")) return;
+    var bar = document.createElement("div"), ticking = false;
+    bar.className = "tk-prog"; bar.setAttribute("aria-hidden", "true");
+    document.body.appendChild(bar);
+    function upd() {
+      ticking = false;
+      var h = document.documentElement.scrollHeight - innerHeight;
+      bar.classList.toggle("is-on", h > innerHeight * 1.5);
+      bar.style.transform = "scaleX(" + (h > 0 ? Math.min(1, Math.max(0, scrollY / h)) : 0).toFixed(4) + ")";
+    }
+    addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(upd); } }, { passive: true });
+    addEventListener("resize", upd, { passive: true });
+    upd();
+  }
+
+  function mount() { switcher(); footLogo(); topBtn(); readBar(); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount);
   else mount();
 })();

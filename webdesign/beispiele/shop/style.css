@@ -746,3 +746,95 @@ h3{font-size:18px;font-weight:600;line-height:1.3}
 }
 .hof.is-3d:not(.has3d) .hof__stage::after{content:"";position:absolute;left:50%;top:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;border:3px solid var(--line2);border-top-color:var(--gold);animation:hofspin 1s linear infinite}
 @keyframes hofspin{to{transform:rotate(360deg)}}
+
+/* Saisonkatalog zum Umblättern (katalog.js, mit WebGL katalog3d.js).
+   Ohne WebGL oder bei "weniger Bewegung" sind die Listeneinträge selbst die Seiten und wechseln mit Überblenden.
+   Mit WebGL zeichnet die Leinwand das Buch; von den Einträgen bleiben nur die echten Knöpfe sichtbar. */
+.kat__wrap{display:grid;justify-items:center;gap:16px;padding-top:34px}
+.kat__book{position:relative;width:min(100%,1040px,max(620px,calc((100svh - 330px) * 200 / 138)));aspect-ratio:200/138;touch-action:pan-y;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;border-radius:6px;outline-offset:12px}
+.kat__gl{position:absolute;inset:-16% -6%;z-index:0;pointer-events:none}
+.kat__gl canvas{display:block;width:100%;height:100%}
+.kat__pages{position:absolute;inset:0;z-index:1}
+.kat__pg{position:absolute;top:0;left:50%;width:50%;height:100%;display:flex;flex-direction:column;gap:2%;padding:6.5% 7.5% 5.5%;overflow:hidden;color:#2a1d12;
+  background:linear-gradient(90deg,rgba(90,56,22,.2),rgba(90,56,22,0) 8%),linear-gradient(165deg,#fbf6ec,#f2e8d7);border-radius:2px 8px 8px 2px;
+  box-shadow:0 34px 50px -30px rgba(0,0,0,.8);opacity:0;pointer-events:none;transition:opacity .4s ease,transform .6s var(--ease)}
+.kat__pg.is-l{left:0;border-radius:8px 2px 2px 8px;background:linear-gradient(270deg,rgba(90,56,22,.2),rgba(90,56,22,0) 8%),linear-gradient(195deg,#fbf6ec,#f2e8d7)}
+.kat__pg.is-l,.kat__pg.is-r{opacity:1;pointer-events:auto}
+.kat__book.is-front .kat__pg.is-r{transform:translateX(-50%)}
+.kat__book.is-back .kat__pg.is-l{transform:translateX(50%)}
+.kat__book.is-single .kat__pg{left:0;width:100%}
+.kat__art{flex:1 1 auto;min-height:0;display:grid;place-items:center;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--c,#f2b54a) 36%,transparent),transparent 78%)}
+.kat__art .art{width:auto;height:100%;max-width:62%;fill:#000;stroke:none}
+.kat__txt{display:grid;gap:4px;align-content:start}
+.kat__k{display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#98530b}
+.kat__k::before{content:"";width:6px;height:6px;border-radius:50%;background:#f2b54a}
+.kat__n{font:600 clamp(20px,2.3vw,27px)/1.12 var(--serif);letter-spacing:-.01em}
+.kat__s{font-size:14px;font-weight:500;color:#4e3c2b}
+.kat__d{font-size:13.5px;line-height:1.5;color:#5b4734;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.kat__buy{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:12px;border-top:1px solid rgba(42,29,18,.16)}
+.kat__p{display:grid;line-height:1.2}
+.kat__p b{font:600 22px/1.1 var(--serif)}
+.kat__p small{font-size:12px;color:#6d5a47}
+.kat__no{position:absolute;top:4.6%;right:7.5%;font:italic 500 15px var(--serif)}
+.kat__pg.is-l .kat__no{right:auto;left:7.5%}
+.kat__add{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border:0;border-radius:999px;font-weight:600;font-size:14.5px;white-space:nowrap;text-decoration:none;
+  background:linear-gradient(135deg,#ffd98a 0%,#f2b54a 45%,#e2892c 100%);color:#2a1606;box-shadow:0 10px 22px -12px rgba(160,90,20,.9),inset 0 1px 0 rgba(255,255,255,.55);transition:transform .2s var(--ease),opacity .25s ease}
+.kat__add svg{font-size:18px}
+.kat__add:disabled{opacity:.5;cursor:not-allowed}
+.kat__add:active:not(:disabled){transform:scale(.97)}
+.kat__add.is-ok{animation:pop .5s var(--ease)}
+.kat__add:focus-visible{outline:2px solid #2a1d12;outline-offset:3px}
+/* Umschlag und Rückseite */
+.kat__pg--cover,.kat__pg--back{color:#ecc57a;background:radial-gradient(90% 70% at 45% 35%,rgba(120,72,30,.5),transparent 70%),#24170f}
+.kat__cov{flex:1;display:grid;place-content:center;justify-items:center;gap:10px;text-align:center;border:1px solid rgba(236,197,122,.7);outline:1px solid rgba(236,197,122,.35);outline-offset:-7px;border-radius:2px}
+.kat__em{width:23%;height:auto;stroke:none}
+.kat__ck,.kat__cl{font-size:11.5px;font-weight:500;letter-spacing:.24em;text-transform:uppercase}
+.kat__cb{font:600 clamp(30px,4.6vw,52px)/1 var(--serif);letter-spacing:-.02em}
+.kat__ct,.kat__cf{font:italic 400 18px/1.3 var(--serif)}
+.kat__cov--back .kat__cb{font-size:26px}
+.kat__cov--back .kat__cl{letter-spacing:.04em;text-transform:none;font-size:13px}
+.kat__cov--back .kat__em{width:13%}
+.kat__cf{margin-top:14px;font-size:14px}
+/* Vorwort und Bestellseite */
+.kat__h{font:italic 400 clamp(26px,3vw,36px)/1.1 var(--serif);margin:6% 0 6px}
+.kat__pg--outro .kat__h{font-style:normal;font-weight:600}
+.kat__pg--intro .kat__d,.kat__pg--outro .kat__d{-webkit-line-clamp:9}
+.kat__sig{font:italic 400 18px var(--serif);color:#98530b;margin:6px 0 18px}
+.kat__toc li{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid rgba(42,29,18,.14);font-size:14px}
+.kat__toc b{font:italic 500 15px var(--serif)}
+.kat__rows{display:grid;gap:14px;margin-top:14px}
+.kat__rows li{display:grid;font-size:13.5px;color:#5b4734}
+.kat__rows b{font-size:14.5px;color:#2a1d12}
+.kat__pg--outro .kat__buy{margin-top:auto}
+.kat__pg--outro .kat__p small{font:italic 400 13px var(--serif)}
+/* WebGL: die Leinwand zeigt die Seiten, die Einträge liegen unsichtbar darüber (Text für Screenreader, echte Knöpfe) */
+.kat--gl .kat__pg{opacity:1;background:none;box-shadow:none;border-radius:0;padding:0;transform:none;transition:none;pointer-events:none;display:block}
+.kat--gl .kat__pg:not(.is-l):not(.is-r){display:none}
+.kat--gl .kat__pg>*{opacity:0}
+.kat--gl .kat__pg .kat__buy{opacity:1;position:absolute;right:var(--br);bottom:var(--bb);padding:0;border:0}
+.kat--gl .kat__buy .kat__p{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.kat--gl .kat__add{min-height:var(--bh);pointer-events:auto}
+.kat--gl .kat__art{position:absolute;left:var(--ax);top:var(--ay);width:var(--aw);height:var(--ah)}
+.kat__book.is-turning .kat__add{opacity:0;pointer-events:none}
+/* Steuerung unter dem Buch */
+.kat__ctl{display:flex;align-items:center;gap:16px;width:min(100%,520px);margin-top:clamp(14px,4vw,40px)}
+.kat__nav{display:grid;place-items:center;width:48px;height:48px;padding:0;border-radius:50%;border:1px solid var(--line2);background:var(--field);color:var(--ink);font-size:20px;flex:none;transition:transform .2s var(--ease),opacity .2s ease}
+.kat__nav:disabled{opacity:.35;cursor:default}
+.kat__nav:active:not(:disabled){transform:scale(.97)}
+.kat__info{flex:1;display:grid;gap:9px;text-align:center}
+.kat__num{font-size:14px;color:var(--mu);font-variant-numeric:tabular-nums}
+.kat__bar{display:block;height:2px;border-radius:2px;background:var(--line2);overflow:hidden}
+.kat__bar i{display:block;height:100%;background:var(--gold);transform-origin:0 50%;transform:scaleX(0);transition:transform .6s var(--ease)}
+.kat__hint{font-size:13px;color:var(--mu2);text-align:center}
+@media (hover:hover) and (pointer:fine){
+  .kat__book.is-hot{cursor:pointer}
+  .kat__add:hover:not(:disabled){transform:translateY(-1px)}
+  .kat__nav:hover:not(:disabled){transform:translateY(-1px)}
+  .kat__add:active:not(:disabled),.kat__nav:active:not(:disabled){transform:scale(.97)}
+}
+@media (max-width:759px){
+  .kat__book{width:min(100%,440px);aspect-ratio:100/148}
+  .kat__wrap{padding-top:22px}
+  .kat__pg{padding:7% 7.5% 6%}
+}
+@media (prefers-reduced-motion:reduce){.kat__pg{transition:opacity .3s ease}.kat__bar i{transition:none}}

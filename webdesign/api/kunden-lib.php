@@ -1316,9 +1316,9 @@ function kp_page(string $title, string $body, string $nav = ''): void
   <link rel="manifest" href="/site.webmanifest">
   <link rel="stylesheet" href="/assets/css/style.css?v=70c64693">
   <link rel="stylesheet" href="/assets/css/tk.css?v=4f0353c3">
-  <link rel="stylesheet" href="/assets/css/black.css?v=f153d819">
-  <script src="/assets/js/tk-black.js?v=add20d6a"></script>
-  <link rel="stylesheet" href="/assets/css/portal.css?v=a2221748">
+  <link rel="stylesheet" href="/assets/css/black.css?v=4ffdb14f">
+  <script src="/assets/js/tk-black.js?v=44ad03b1"></script>
+  <link rel="stylesheet" href="/assets/css/portal.css?v=f4cc332d">
 </head>
 <body class="kp">
 <header class="header">
@@ -1344,6 +1344,7 @@ function kp_page(string $title, string $body, string $nav = ''): void
   </div>
 </footer>
 <script src="/assets/js/portal.js?v=ad271026"></script>
+<script src="/assets/js/kp-glas.js?v=a2c12d18"></script>
 </body>
 </html>
 HTML;

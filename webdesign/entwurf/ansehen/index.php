@@ -114,6 +114,8 @@ if (!$d) {
 HTML;
 }
 header('Content-Type: text/html; charset=utf-8');
+// Alle Eingaben stecken schon mit htmlspecialchars ($h) in $main, Semgrep erkennt die Hilfsfunktion nicht.
+// nosemgrep: php.lang.security.injection.echoed-request.echoed-request
 echo <<<HTML
 <!DOCTYPE html>
 <html lang="de-AT" class="tk-black">
@@ -130,9 +132,9 @@ echo <<<HTML
   <link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/style.css?v=70c64693">
   <link rel="stylesheet" href="/assets/css/tk.css?v=4f0353c3">
-  <link rel="stylesheet" href="/assets/css/black.css?v=f153d819">
-  <meta name="tk-white-css" content="/assets/css/white.css?v=0be82886">
-  <script src="/assets/js/tk-black.js?v=add20d6a"></script>
+  <link rel="stylesheet" href="/assets/css/black.css?v=4ffdb14f">
+  <meta name="tk-white-css" content="/assets/css/white.css?v=f77f3e6d">
+  <script src="/assets/js/tk-black.js?v=44ad03b1"></script>
   <link rel="stylesheet" href="/assets/css/ansicht.css?v=1">
 </head>
 <body class="an-page">

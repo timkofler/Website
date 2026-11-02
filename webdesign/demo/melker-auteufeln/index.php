@@ -33,9 +33,10 @@ $h = static fn (string $s): string => htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
 <link rel="preload" href="assets/fonts/alegreya-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/img/feuer-800.webp" as="image" media="(max-width: 800px)">
 <link rel="preload" href="assets/img/feuer.webp" as="image" media="(min-width: 801px)">
-<link rel="stylesheet" href="assets/style.css?v=1">
-<script>document.documentElement.classList.add("js");</script>
+<link rel="stylesheet" href="assets/style.css?v=2">
+<script src="assets/js-an.js?v=1"></script>
 <script src="assets/app.js?v=1" defer></script>
+<script src="assets/funken.js?v=1" defer></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -197,6 +198,14 @@ $h = static fn (string $s): string => htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
       </ol>
       <p class="tafel__fuss">Ihr wollt uns auch bei euch haben? <a href="#mitmachen">Showlauf anfragen</a></p>
     </div>
+  </section>
+
+  <!-- Krampuskopf aus Funken -->
+  <section class="funken" aria-label="Krampuskopf aus Funken">
+    <div class="funken__buehne" id="funken">
+      <img class="funken__bild" src="assets/img/funken.webp" alt="Krampuskopf mit langen Hörnern, gezeichnet aus tausenden glühenden Funken" width="1200" height="1400" loading="lazy" decoding="async">
+    </div>
+    <p class="funken__hinweis" id="funken-hinweis" hidden></p>
   </section>
 
   <!-- Verein -->

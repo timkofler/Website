@@ -496,6 +496,62 @@ body.has-bar .foot{padding-bottom:110px}
 .where-sel{max-width:180px;height:30px;margin:0 2px;padding:0 22px 0 4px;border:0;border-bottom:1px solid var(--gold);border-radius:0;background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23c9a45c' stroke-width='1.5'/%3E%3C/svg%3E") right 4px center/10px no-repeat;color:var(--gold2);font-weight:700;font-size:14px;-webkit-appearance:none;appearance:none;cursor:pointer}
 .where-sel option{background:var(--bg2);color:var(--ink)}
 
+/* Pizza nach Wunsch: 3D-Bühne mit Bedienung. Steht am Ende der Karte, neben dem Warenkorb (PC),
+   damit man den Karton dort ankommen sieht. Am Handy klebt die Bühne oben, die Knöpfe laufen darunter. */
+.order__menu{position:relative}
+.wz{--ez:cubic-bezier(.23,1,.32,1);position:relative;margin-top:64px;border:1px solid var(--line);border-radius:24px;background:radial-gradient(80% 40% at 50% 0%,rgba(201,164,92,.1),transparent 70%),linear-gradient(180deg,#17140f,var(--bg2) 50%);container-type:inline-size}
+.wz::before,.wz::after{content:"";position:absolute;z-index:3;width:9px;height:9px;background:var(--gold);transform:rotate(45deg)}
+.wz::before{top:-5px;left:30px}.wz::after{bottom:-5px;right:30px}
+.wz__h{padding:30px 22px 4px}
+.wz__t{margin-top:14px;font:500 clamp(30px,4.2vw,44px)/1.06 var(--serif);font-variation-settings:"opsz" 18}
+.wz__t i{font-style:italic;background:var(--goldg);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.04em}
+.wz__p{margin-top:12px;max-width:540px;color:var(--mu);font-size:15px}
+.wz__stage{position:sticky;top:calc(var(--bar) + var(--nav) - 1px);z-index:2;height:min(340px,46svh);margin-top:16px;overflow:hidden;border-block:1px solid var(--line2);background:radial-gradient(58% 52% at 50% 50%,rgba(201,164,92,.14),transparent 72%),#110f0c;touch-action:pan-y}
+.wz__fb{width:100%;height:100%;object-fit:contain;padding:10px}
+.wz .s3d{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y;opacity:0;transition:opacity .6s var(--ez);cursor:grab}
+.wz .s3d.is-drag{cursor:grabbing}
+.wz.has-3d .s3d{opacity:1}
+.wz.has-3d .wz__fb{display:none}
+.wz__price{position:absolute;top:12px;right:12px;z-index:2;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:rgba(12,11,10,.72);color:var(--gold2);font:600 18px/1 var(--serif);font-variation-settings:"opsz" 18;pointer-events:none}
+.wz__scene{position:absolute;inset:0;z-index:3;pointer-events:none}
+.wz__cap{position:absolute;left:14px;top:14px;max-width:calc(100% - 150px);color:var(--gold2);font:400 13px/1.3 var(--thin);font-weight:700;letter-spacing:.22em;text-transform:uppercase;text-shadow:0 1px 10px rgba(0,0,0,.9);animation:wzIn .5s var(--ez)}
+.wz__skip{position:absolute;right:12px;bottom:12px;min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--line);background:rgba(12,11,10,.78);color:var(--gold2);font:700 12.5px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;pointer-events:auto;transition:transform .16s var(--ez)}
+.wz__skip:active{transform:scale(.97)}
+.wz.is-baking .wz__price{opacity:0}
+@keyframes wzIn{from{opacity:0;transform:translateY(6px)}}
+.wz__ctl{display:grid;gap:20px;padding:20px 18px 24px}
+.wz__set legend{margin-bottom:10px;color:var(--gold);font:400 12px/1 var(--thin);font-weight:700;letter-spacing:.2em;text-transform:uppercase}
+.wz__set:disabled{opacity:.5}
+.wz__opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.wz__opts--3 .wzc:last-child{grid-column:1 / -1;min-height:48px}
+.wzc{position:relative;display:flex;align-items:center;gap:10px;min-height:56px;padding:8px 12px;border-radius:14px;border:1px solid var(--line2);background:var(--bg);cursor:pointer;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;transition:transform .16s var(--ez)}
+.wzc:active{transform:scale(.97)}
+.wzc input{position:absolute;opacity:0;pointer-events:none}
+.wzc__d{flex:none;width:20px;height:20px;border-radius:50%;background:var(--c);box-shadow:inset 0 -3px 6px rgba(0,0,0,.28),inset 0 0 0 1px rgba(255,255,255,.14)}
+.wzc__d--none{background:transparent;box-shadow:inset 0 0 0 1.5px var(--mu2);background-image:linear-gradient(135deg,transparent 45%,var(--mu2) 45% 55%,transparent 55%)}
+.wzc__n{flex:1;min-width:0;font-size:14.5px;font-weight:600;line-height:1.25}
+.wzc__n small{display:block;margin-top:2px;color:var(--mu2);font-size:12px;font-weight:500}
+.wzc__k{position:absolute;top:-7px;right:-7px;width:22px;height:22px;padding:4px;border-radius:50%;background:#d8b46c;color:#1a1206;stroke-width:2.8;box-shadow:0 0 0 3px var(--bg2);opacity:0;transform:scale(.4);transition:opacity .18s var(--ez),transform .32s var(--ez)}
+.wzc:has(input:checked){border-color:var(--gold);background:rgba(201,164,92,.09)}
+.wzc:has(input:checked) .wzc__n small{color:var(--gold2)}
+.wzc:has(input:checked) .wzc__k{opacity:1;transform:none}
+.wzc:has(input:focus-visible){outline:2px solid var(--gold2);outline-offset:2px}
+.wz__foot{display:grid;gap:12px;padding-top:14px;border-top:1px solid var(--line2)}
+.wz__list{color:var(--mu);font-size:13.5px;line-height:1.5}
+.wz__go:active:not(:disabled){transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){
+  .wzc:hover{border-color:var(--line)}
+  .wz__skip:hover{border-color:var(--gold)}
+}
+@container (min-width:660px){
+  .wz__grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);align-items:start}
+  .wz__stage{top:calc(var(--bar) + var(--nav) + 18px);height:min(520px,calc(100svh - var(--bar) - var(--nav) - 40px));margin:18px 0 24px 22px;border:1px solid var(--line2);border-radius:18px}
+  .wz__ctl{padding:18px 22px 26px}
+}
+@media (prefers-reduced-motion:reduce){
+  .wzc,.wzc__k,.wz .s3d,.wz__cap{transition:none;animation:none}
+}
+
 /* Entwurfs-Umschalter: über der Warenkorb-Leiste, bei offenem Warenkorb weg */
 body:has(#cartBar:not([hidden])) .tkv{bottom:calc(86px + env(safe-area-inset-bottom))}
 body:has(.cart.is-open) .tkv{display:none}
